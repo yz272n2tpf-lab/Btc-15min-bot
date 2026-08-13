@@ -85,3 +85,68 @@ test_valid["five_min_signal"] = test_valid["five_min_change"] > 0
 test_valid["all_agree"] = (test_valid["sma_signal"] == test_valid["momentum_signal"]) & (test_valid["sma_signal"] == test_valid["five_min_signal"])
 agreement_accuracy = (test_valid.loc[test_valid["all_agree"], "sma_signal"] == test_valid.loc[test_valid["all_agree"], "outcome"]).mean()
 print("All-three agreement accuracy:", agreement_accuracy)
+# Predictive 15-minute features
+model_data = training_data.copy()
+
+model_data["return_1"] = model_data["Close"].pct_change(1)
+model_data["return_3"] = model_data["Close"].pct_change(3)
+model_data["return_5"] = model_data["Close"].pct_change(5)
+
+model_data["sma_5"] = model_data["Close"].rolling(5).mean()
+model_data["sma_20"] = model_data["Close"].rolling(20).mean()
+
+model_data["sma_distance"] = (
+    model_data["Close"] / model_data["sma_20"] - 1
+)
+
+model_data["trend_5_20"] = (
+    model_data["sma_5"] / model_data["sma_20"] - 1
+)
+
+model_data["volatility_10"] = (
+    model_data["return_1"].rolling(10).std()
+)
+
+model_data = model_data.dropna()
+
+print("Predictive feature rows:", len(model_data))
+print("Features ready")
+feature_columns = [
+    "return_1",
+    "return_3",
+    "return_5",
+    "sma_distance",
+    "trend_5_20",
+    "volatility_10"
+]
+
+X = model_data[feature_columns]
+y = model_data["outcome"]
+
+split = int(len(model_data) * 0.8)
+
+X_train = X.iloc[:split]
+X_test = X.iloc[split:]
+y_train = y.iloc[:split]
+y_test = y.iloc[split:]
+
+print("Model train rows:", len(X_train))
+print("Model test rows:", len(X_test))
+print("Target balance:", y_test.mean())
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+
+model = RandomForestClassifier(
+    n_estimators=300,
+    max_depth=6,
+    random_state=42,
+    class_weight="balanced"
+)
+
+model.fit(X_train, y_train)
+
+pred = model.predict(X_test)
+
+model_accuracy = accuracy_score(y_test, pred)
+
+print("Model accuracy:", model_accuracy)
