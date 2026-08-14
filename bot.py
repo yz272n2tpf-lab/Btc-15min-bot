@@ -1,3 +1,4 @@
+from sklearn.model_selection import TimeSeriesSplit
 timeframes = ["15m", "10m", "5m", "4m", "3m", "1m", "45s", "30s", "15s", "10s", "5s"]
 print(timeframes)
 roles = {"15m": "trend", "10m": "trend", "5m": "decision", "4m": "momentum", "3m": "momentum", "1m": "trigger", "45s": "short", "30s": "short", "15s": "short", "10s": "short", "5s": "short"}
@@ -103,32 +104,34 @@ model_data["trend_5_20"] = (
     model_data["sma_5"] / model_data["sma_20"] - 1
 )
 
-model_data["volatility_10"] = (
-    model_data["return_1"].rolling(10).std()
+model_data["acceleration"] = (
+    model_data["return_1"] - model_data["return_3"] / 3
 )
 
-model_data = model_data.dropna()
+model_data["volatility"] = model_data["return_1"].rolling(6).std()
+model_data["momentum_3"] = model_data["Close"].pct_change(3)
+    
 
-print("Predictive feature rows:", len(model_data))
-print("Features ready")
+
 feature_columns = [
     "return_1",
     "return_3",
     "return_5",
     "sma_distance",
+"acceleration",
     "trend_5_20",
-    "volatility_10"
-]
-
+    "volatility",
+    "momentum_3",
+] 
 X = model_data[feature_columns]
 y = model_data["outcome"]
+tscv = TimeSeriesSplit(n_splits=5)
 
-split = int(len(model_data) * 0.8)
-
-X_train = X.iloc[:split]
-X_test = X.iloc[split:]
-y_train = y.iloc[:split]
-y_test = y.iloc[split:]
+for train_idx, test_idx in tscv.split(X):
+    X_train = X.iloc[train_idx]
+    X_test = X.iloc[test_idx]
+    y_train = y.iloc[train_idx]
+    y_test = y.iloc[test_idx]
 
 print("Model train rows:", len(X_train))
 print("Model test rows:", len(X_test))
@@ -137,8 +140,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
 model = RandomForestClassifier(
-    n_estimators=300,
-    max_depth=6,
+    n_estimators=1200,
+    max_depth=8,
     random_state=42,
     class_weight="balanced"
 )
@@ -150,3 +153,20 @@ pred = model.predict(X_test)
 model_accuracy = accuracy_score(y_test, pred)
 
 print("Model accuracy:", model_accuracy)
+probabilities = model.predict_proba(X_test)
+
+confidence = probabilities.max(axis=1)
+
+high_confidence = confidence >= 0.70
+
+high_conf_accuracy = (
+    pred[high_confidence] == y_test.iloc[high_confidence]
+).mean()
+
+print("High-confidence trades:", high_confidence.sum())
+print("High-confidence accuracy:", high_conf_accuracy)
+for threshold in [0.55, 0.60, 0.65, 0.69, 0.70, 0.75, 0.80]:
+    mask = confidence >= threshold
+    if mask.sum() > 0:
+        acc = (pred[mask] == y_test.iloc[mask]).mean()
+        print(f"Threshold {threshold}: {mask.sum()} trades, accuracy {acc:.3f}")
