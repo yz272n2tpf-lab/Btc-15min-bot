@@ -50,42 +50,9 @@ training_data["outcome"] = training_data["future_close"] > training_data["Close"
 training_data = training_data.dropna(subset=["future_close"])
 print("UP outcomes:", training_data["outcome"].sum())
 print("DOWN outcomes:", (~training_data["outcome"]).sum())
-split_index = int(len(training_data) * 0.8)
-train_data = training_data.iloc[:split_index]
-test_data = training_data.iloc[split_index:]
-baseline_up = train_data["outcome"].mean()
-baseline_accuracy = max(baseline_up, 1 - baseline_up)
-print("Baseline accuracy:", baseline_accuracy)
-train_data["SMA20"] = train_data["Close"].rolling(20).mean()
-test_data["SMA20"] = test_data["Close"].rolling(20).mean()
-test_valid = test_data.dropna(subset=["SMA20"]).copy()
-test_valid["prediction"] = test_valid["Close"] > test_valid["SMA20"]
-sma_accuracy = (test_valid["prediction"] == test_valid["outcome"]).mean()
-print("SMA20 test accuracy:", sma_accuracy)
-test_valid["momentum_prediction"] = test_valid["Close"].diff() > 0
-momentum_accuracy = (test_valid["momentum_prediction"] == test_valid["outcome"]).mean()
-print("Momentum test accuracy:", momentum_accuracy)
-test_valid["five_min_prediction"] = test_valid["Close"] > test_valid["Close"].shift(5)
-five_min_accuracy = (test_valid["five_min_prediction"] == test_valid["outcome"]).mean()
-print("5-minute momentum accuracy:", five_min_accuracy)
-data_5m = btc.history(period="60d", interval="5m")
-print("5-minute rows:", len(data_5m))
-data_5m["five_min_change"] = data_5m["Close"].diff().shift(1)
-print("5-minute data ready:", len(data_5m))
-five_min_features = data_5m[["five_min_change"]].copy()
-print("5-minute feature ready")
-training_data = training_data.sort_index()
-test_data["five_min_change"] = five_min_features["five_min_change"].reindex(test_data.index, method="ffill")
-test_valid["five_min_change"] = test_data["five_min_change"].reindex(test_valid.index)
-test_valid["five_min_signal"] = test_valid["five_min_change"] > 0
-five_min_aligned_accuracy = (test_valid["five_min_signal"] == test_valid["outcome"]).mean()
-print("Aligned 5-minute accuracy:", five_min_aligned_accuracy)
-test_valid["sma_signal"] = test_valid["Close"] > test_valid["SMA20"]
-test_valid["momentum_signal"] = test_valid["Close"].diff() > 0
-test_valid["five_min_signal"] = test_valid["five_min_change"] > 0
-test_valid["all_agree"] = (test_valid["sma_signal"] == test_valid["momentum_signal"]) & (test_valid["sma_signal"] == test_valid["five_min_signal"])
-agreement_accuracy = (test_valid.loc[test_valid["all_agree"], "sma_signal"] == test_valid.loc[test_valid["all_agree"], "outcome"]).mean()
-print("All-three agreement accuracy:", agreement_accuracy)
+
+
+
 # Predictive 15-minute features
 model_data = training_data.copy()
 
@@ -123,15 +90,20 @@ feature_columns = [
     "volatility",
     "momentum_3",
 ] 
-X = model_data[feature_columns]
-y = model_data["outcome"]
-tscv = TimeSeriesSplit(n_splits=5)
+model_data = model_data.dropna(
+    subset=feature_columns + ["outcome"]
+).copy()
 
-for train_idx, test_idx in tscv.split(X):
-    X_train = X.iloc[train_idx]
-    X_test = X.iloc[test_idx]
-    y_train = y.iloc[train_idx]
-    y_test = y.iloc[test_idx]
+split_index = int(len(model_data) * 0.8)
+
+train_data = model_data.iloc[:split_index]
+test_data = model_data.iloc[split_index:]
+
+X_train = train_data[feature_columns]
+y_train = train_data["outcome"]
+
+X_test = test_data[feature_columns]
+y_test = test_data["outcome"]
 
 print("Model train rows:", len(X_train))
 print("Model test rows:", len(X_test))
