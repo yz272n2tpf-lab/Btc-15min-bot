@@ -16,6 +16,11 @@ from sklearn.linear_model import LogisticRegression
 import time
 import csv
 from datetime import datetime, timezone, timedelta
+import json
+import math
+import signal
+import threading
+from collections import deque
 import os
 import sys
 import traceback
@@ -74,6 +79,18 @@ sys.excepthook = _btc15_safe_excepthook
 
 KALSHI_BASE_URL = "https://api.elections.kalshi.com"
 COINBASE_TICKER = "https://api.exchange.coinbase.com/products/BTC-USD/ticker"
+
+# Restored original BTC15 scalp runtime support block
+POLL_SECONDS = 5
+MAX_HISTORY_SECONDS = 240
+EVENT_HORIZON_SECONDS = 180
+CHEAP_EVENT_CEILING = 0.45
+EVENT_SAMPLE_SPACING_SECONDS = 15
+STOP_LOSS = 0.10
+TARGETS = [0.08, 0.10, 0.15, 0.20]
+SNAPSHOT_LOG = Path("kalshi_scalp_shadow_snapshots_v1.csv")
+EVENT_LOG = Path("kalshi_scalp_shadow_events_v1.csv")
+STATE_FILE = Path("kalshi_scalp_shadow_state_v1.json")
 
 running = True
 history = deque()
