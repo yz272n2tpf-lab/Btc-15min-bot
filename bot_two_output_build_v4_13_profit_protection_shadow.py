@@ -19,7 +19,7 @@ from datetime import datetime, timezone, timedelta
 KALSHI_KEY_ID = (__import__("os").getenv("KALSHI_KEY_ID") or Path.home().joinpath(".kalshi/key_id").read_text()).strip()
 KALSHI_PRIVATE_KEY_PATH = Path.home() / ".kalshi" / "private_key.pem"
 kalshi_private_key = serialization.load_pem_private_key(
-    base64.b64decode(__import__("os").getenv("KALSHI_PRIVATE_KEY_B64")) if __import__("os").getenv("KALSHI_PRIVATE_KEY_B64") else KALSHI_PRIVATE_KEY_PATH.read_bytes(),
+    base64.b64decode(__import__("os").getenv("KALSHI_PRIVATE_KEY_B64")) if __import__("os").getenv("KALSHI_PRIVATE_KEY_B64") else (base64.b64decode(__import__("os").getenv("KALSHI_PRIVATE_KEY_B64")) if __import__("os").getenv("KALSHI_PRIVATE_KEY_B64") else KALSHI_(base64.b64decode(__import__("os").getenv("KALSHI_PRIVATE_KEY_B64")) if __import__("os").getenv("KALSHI_PRIVATE_KEY_B64") else PRIVATE_KEY_PATH.read_bytes())),
             password=None,
 
 )
@@ -1838,7 +1838,7 @@ STATE_FILE = Path("kalshi_scalp_shadow_state_v1.json")
 KEY_ID = (__import__("base64").b64decode(__import__("os").getenv("KALSHI_PRIVATE_KEY_B64")).decode("utf-8") if __import__("os").getenv("KALSHI_PRIVATE_KEY_B64") else Path.home().joinpath(".kalshi/key_id").read_text())
 PRIVATE_KEY_PATH = Path.home() / ".kalshi" / "private_key.pem"
 PRIVATE_KEY = serialization.load_pem_private_key(
-    PRIVATE_KEY_PATH.read_bytes(), password=None
+    (base64.b64decode(__import__("os").getenv("KALSHI_PRIVATE_KEY_B64")) if __import__("os").getenv("KALSHI_PRIVATE_KEY_B64") else PRIVATE_KEY_PATH.read_bytes()), password=None
 )
 
 KALSHI_BASE_URL = "https://api.elections.kalshi.com"
