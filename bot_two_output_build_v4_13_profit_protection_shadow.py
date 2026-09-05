@@ -91,6 +91,48 @@ def kalshi_headers(method, path):
     }
 
 
+# === RAILWAY VERIFIED-CREDENTIAL DIAGNOSTIC V14 START ===
+def _railway_verified_credential_diagnostic_v14():
+    import hashlib as _hashlib_v14
+    try:
+        _env_id_hash = _hashlib_v14.sha256(
+            str(KALSHI_KEY_ID).strip().encode("utf-8")
+        ).hexdigest()
+
+        _pub_der = kalshi_private_key.public_key().public_bytes(
+            serialization.Encoding.DER,
+            serialization.PublicFormat.SubjectPublicKeyInfo,
+        )
+        _env_pub_hash = _hashlib_v14.sha256(_pub_der).hexdigest()
+
+        print("RAILWAY KEY-ID MATCH LOCAL VERIFIED:", _env_id_hash == "8238be7e814c30485ac414e32eed5f307e1a4fa7d07e7b3cdfac60a40bcf3192")
+        print("RAILWAY PRIVATE-KEY MATCH LOCAL VERIFIED:", _env_pub_hash == "d0c4f0aacd24d4e3eef1576e3ca9f21397258d33bd23fe6da214a962c543b09e")
+
+        _base = "https://external-api.kalshi.com"
+
+        _balance_path = "/trade-api/v2/portfolio/balance"
+        _rb = requests.get(
+            _base + _balance_path,
+            headers=kalshi_headers("GET", _balance_path),
+            timeout=8,
+        )
+        print("RAILWAY AUTH BALANCE HTTP:", _rb.status_code)
+
+        _brti_path = "/trade-api/v2/cfbenchmarks/values"
+        _rr = requests.get(
+            _base + _brti_path,
+            headers=kalshi_headers("GET", _brti_path),
+            params={"id": "BRTI", "maxResolution": "PER_SECOND"},
+            timeout=8,
+        )
+        print("RAILWAY AUTH BRTI HTTP:", _rr.status_code)
+
+    except Exception as _exc_v14:
+        print("RAILWAY AUTH DIAGNOSTIC ERROR:", type(_exc_v14).__name__)
+
+_railway_verified_credential_diagnostic_v14()
+# === RAILWAY VERIFIED-CREDENTIAL DIAGNOSTIC V14 END ===
+
 def kalshi_get(path, params=None):
     response = requests.get(
         KALSHI_BASE_URL + path,
