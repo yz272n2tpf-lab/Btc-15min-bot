@@ -647,6 +647,317 @@ print("Both UP and DOWN evaluated independently")
 print("NO ORDERS — SHADOW DATA ONLY")
 
 # =====================================================================
+# === RESTORED TARGET-AWARE FAIR-VALUE ENTRY ENGINE START ===
+# This restores the Kalshi-target-aware probability path that was previously
+# validated/shadow-tested for entry value. It is separate from the strict
+# FINAL CALL gate below and NEVER places orders.
+#
+# Key distinction:
+#   old current_confidence = general 15-minute direction model confidence
+#   fair_preferred         = calibrated probability of the ACTIVE Kalshi
+#                            contract settling on the preferred side vs target
+#
+# EARLY OPPORTUNITY uses fair value + ACTUAL Kalshi ask. FINAL CALL remains
+# fail-closed on the existing strict gate until separately revalidated.
+
+_fair_ready = False
+_fair_error_text = None
+_fair_up = None
+_fair_down = None
+_fair_preferred_side = None
+_fair_preferred = None
+_fair_flip_prob = None
+_fair_stay_prob = None
+_fair_raw_flip = None
+_fair_up_ask = None
+_fair_down_ask = None
+_fair_preferred_ask = None
+_fair_edge = None
+_fair_current_side = None
+_fair_distance_target = None
+_fair_dist_over_range5 = None
+_fair_calibration_contracts = 0
+_fair_calibration_snapshots = 0
+
+try:
+    _fair_cal = _v3_cal.copy()
+
+    # Use the same 35-day BTC history base as the standalone fair-value
+    # monitor that was validated successfully. Merge in the bot's freshest
+    # 1-minute rows so live calculations stay current without requiring a
+    # second fetch path.
+    _fair_cache_path = Path("btc_35d_live_cache.csv")
+    if _fair_cache_path.exists():
+        _fair_cached = pd.read_csv(
+            _fair_cache_path,
+            index_col="Datetime",
+            parse_dates=True,
+        )
+        if _fair_cached.index.tz is None:
+            _fair_cached.index = _fair_cached.index.tz_localize("UTC")
+        else:
+            _fair_cached.index = _fair_cached.index.tz_convert("UTC")
+
+        _fair_live_rows = data_1m.copy()
+        if _fair_live_rows.index.tz is None:
+            _fair_live_rows.index = _fair_live_rows.index.tz_localize("UTC")
+        else:
+            _fair_live_rows.index = _fair_live_rows.index.tz_convert("UTC")
+
+        _fair_btc = pd.concat([_fair_cached, _fair_live_rows])
+        _fair_btc = (
+            _fair_btc[~_fair_btc.index.duplicated(keep="last")]
+            .sort_index()
+        )
+        _fair_cutoff = pd.Timestamp(datetime.now(timezone.utc)) - pd.Timedelta(days=35)
+        _fair_btc = _fair_btc[_fair_btc.index >= _fair_cutoff]
+    else:
+        _fair_btc = data_1m.copy()
+
+    if _fair_btc.index.tz is None:
+        _fair_btc.index = _fair_btc.index.tz_localize('UTC')
+    else:
+        _fair_btc.index = _fair_btc.index.tz_convert('UTC')
+
+    for _c in ['Open','High','Low','Close','Volume']:
+        if _c in _fair_btc.columns:
+            _fair_btc[_c] = pd.to_numeric(_fair_btc[_c], errors='coerce')
+
+    _fair_months = {m:i+1 for i,m in enumerate(
+        ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC']
+    )}
+
+    def _fair_parse_contract_times(_ticker):
+        _m = re.search(
+            r'KXBTC15M-(\d{2})([A-Z]{3})(\d{2})(\d{2})(\d{2})-',
+            str(_ticker).upper(),
+        )
+        if not _m:
+            return pd.NaT, pd.NaT
+        _yy, _mon, _dd, _hh, _mm = _m.groups()
+        _wall = pd.Timestamp(
+            year=2000+int(_yy), month=_fair_months[_mon], day=int(_dd),
+            hour=int(_hh), minute=int(_mm),
+        )
+        _close = _wall.tz_localize(ZoneInfo('America/New_York')).tz_convert('UTC')
+        return _close-pd.Timedelta(minutes=15), _close
+
+    def _fair_price_at_or_before(_df, _ts):
+        _i = _df.index.searchsorted(_ts, side='right') - 1
+        if _i < 0:
+            return np.nan, pd.NaT
+        _ti = _df.index[_i]
+        if _ts - _ti > pd.Timedelta(minutes=2):
+            return np.nan, pd.NaT
+        return float(_df.iloc[_i]['Close']), _ti
+
+    def _fair_build_snapshot(_df, _start, _target, _final_side=None, _elapsed=None, _cut=None):
+        if _cut is None:
+            _cut = _start + pd.Timedelta(minutes=float(_elapsed))
+        _elapsed_actual = (_cut-_start).total_seconds()/60.0
+        _pstart, _tstart = _fair_price_at_or_before(_df, _start)
+        _vals = [
+            _fair_price_at_or_before(_df, _cut-pd.Timedelta(minutes=_m))
+            for _m in [0,1,2,3,5]
+        ]
+        if pd.isna(_pstart) or any(pd.isna(_v[0]) for _v in _vals):
+            return None
+        _p0,_p1,_p2,_p3,_p5 = [_v[0] for _v in _vals]
+        _w = _df.loc[(_df.index > _cut-pd.Timedelta(minutes=5)) & (_df.index <= _cut)]
+        if len(_w) < 3:
+            return None
+        _closes = _w['Close'].dropna()
+        if len(_closes) < 2:
+            return None
+        _latest_used = max([_tstart] + [_v[1] for _v in _vals] + [_w.index.max()])
+        if _latest_used > _cut:
+            raise RuntimeError('FAIR ENGINE FUTURE DATA DETECTED')
+
+        _current_side = int(_p0 >= _target)
+        _dist = _p0-_target
+        _abs_dist = abs(_dist)
+        _remaining = max(0.0, 15.0-_elapsed_actual)
+        _sign = 1.0 if _current_side == 1 else -1.0
+        _move1 = _p0-_p1
+        _move2 = _p0-_p2
+        _move3 = _p0-_p3
+        _move5 = _p0-_p5
+        _range5 = float(_w['High'].max()-_w['Low'].min())
+
+        _row = {
+            'elapsed': float(_elapsed_actual),
+            'remaining': float(_remaining),
+            'current_side': int(_current_side),
+            'dist_target': float(_dist),
+            'abs_dist_target': float(_abs_dist),
+            'dist_target_pct': float(_dist/_target),
+            'move_from_start': float(_p0-_pstart),
+            'move_from_start_pct': float((_p0-_pstart)/_pstart),
+            'move1': float(_move1), 'move2': float(_move2),
+            'move3': float(_move3), 'move5': float(_move5),
+            'support1': float(_move1*_sign), 'support2': float(_move2*_sign),
+            'support3': float(_move3*_sign), 'support5': float(_move5*_sign),
+            'range5': float(_range5),
+            'vol5': float(_closes.pct_change().std(ddof=0)),
+            'dist_per_min_remaining': float(_abs_dist/max(_remaining,0.25)),
+            'dist_over_range5': float(_abs_dist/max(_range5,1.0)),
+            'current_coinbase_close': float(_p0),
+        }
+        if _final_side is not None:
+            _row['final_side'] = int(_final_side)
+            _row['flip'] = int(int(_final_side) != _current_side)
+        return _row
+
+    _fair_features = [
+        'elapsed','remaining','current_side',
+        'dist_target','abs_dist_target','dist_target_pct',
+        'move_from_start','move_from_start_pct',
+        'move1','move2','move3','move5',
+        'support1','support2','support3','support5',
+        'range5','vol5','dist_per_min_remaining','dist_over_range5',
+    ]
+
+    _fair_pairs = _fair_cal['ticker'].map(_fair_parse_contract_times)
+    _fair_cal['start'] = [_x[0] for _x in _fair_pairs]
+    _fair_cal['close'] = [_x[1] for _x in _fair_pairs]
+    _fair_cal['target_brti'] = pd.to_numeric(_fair_cal['target_brti'], errors='coerce')
+    _fair_cal['final_brti'] = pd.to_numeric(_fair_cal['final_brti'], errors='coerce')
+    _fair_cal['final_side'] = (
+        _fair_cal['result'].astype(str).str.lower().map({'yes':1,'no':0})
+    )
+    _fair_cal = _fair_cal.dropna(
+        subset=['start','close','target_brti','final_brti','final_side']
+    ).sort_values('start').reset_index(drop=True)
+
+    _fair_hist_rows = []
+    for _, _r in _fair_cal.iterrows():
+        for _elapsed in range(1,15):
+            _s = _fair_build_snapshot(
+                _fair_btc, _r['start'], float(_r['target_brti']),
+                _final_side=int(_r['final_side']), _elapsed=_elapsed,
+            )
+            if _s is not None:
+                _s['ticker'] = _r['ticker']
+                _s['start'] = _r['start']
+                _fair_hist_rows.append(_s)
+
+    _fair_hist = pd.DataFrame(_fair_hist_rows)
+    if _fair_hist.empty:
+        raise RuntimeError('No historical fair-value feature rows available')
+
+    _fair_coverage = _fair_hist.groupby('ticker')['elapsed'].nunique()
+    _fair_keep = _fair_coverage[_fair_coverage >= 10].index
+    _fair_hist = _fair_hist[_fair_hist['ticker'].isin(_fair_keep)].copy()
+    _fair_contracts = (
+        _fair_hist[['ticker','start']].drop_duplicates('ticker')
+        .sort_values('start').reset_index(drop=True)
+    )
+    # V4.6: exact chronology used by the offline tournament winner.
+    # First 50% = RF model training.
+    # Next 20%  = sigmoid probability calibration.
+    # Final 30% was reserved for validation + untouched holdout and therefore
+    # remains excluded from fitting so live behavior matches the tested model.
+    _fair_model_end = int(len(_fair_contracts)*0.50)
+    _fair_calib_end = int(len(_fair_contracts)*0.70)
+    if (
+        _fair_model_end <= 0
+        or _fair_calib_end <= _fair_model_end
+        or _fair_calib_end >= len(_fair_contracts)
+    ):
+        raise RuntimeError('Not enough contracts for tournament chronology split')
+
+    _fair_model_contracts = _fair_contracts.iloc[:_fair_model_end]
+    _fair_calib_contracts = _fair_contracts.iloc[_fair_model_end:_fair_calib_end]
+    if _fair_model_contracts['start'].max() >= _fair_calib_contracts['start'].min():
+        raise RuntimeError('FAIR ENGINE TRAIN/CALIBRATION CHRONOLOGY FAILURE')
+
+    _fair_model_ticks = set(_fair_model_contracts['ticker'])
+    _fair_calib_ticks = set(_fair_calib_contracts['ticker'])
+    _fair_train = _fair_hist[_fair_hist['ticker'].isin(_fair_model_ticks)].copy()
+    _fair_calibrate = _fair_hist[_fair_hist['ticker'].isin(_fair_calib_ticks)].copy()
+
+    if len(_fair_calib_contracts) < 20:
+        raise RuntimeError('FAIR ENGINE SAFETY FAILURE: fewer than 20 calibration contracts in current BTC cache')
+
+    _fair_rf = RandomForestClassifier(
+        n_estimators=900, max_depth=9, min_samples_leaf=12,
+        class_weight='balanced', random_state=42, n_jobs=-1,
+    )
+    _fair_rf.fit(_fair_train[_fair_features], _fair_train['flip'])
+    _fair_calib_raw = _fair_rf.predict_proba(_fair_calibrate[_fair_features])[:,1]
+
+    _fair_sigmoid = LogisticRegression(
+        solver='lbfgs', C=1.0, max_iter=1000, random_state=42,
+    )
+    _fair_sigmoid.fit(
+        _fair_calib_raw.reshape(-1,1), _fair_calibrate['flip'].astype(int)
+    )
+
+    _fair_live_start = pd.Timestamp(_strict_active_open)
+    if _fair_live_start.tzinfo is None:
+        _fair_live_start = _fair_live_start.tz_localize('UTC')
+    else:
+        _fair_live_start = _fair_live_start.tz_convert('UTC')
+    _fair_now = pd.Timestamp(datetime.now(timezone.utc))
+    _fair_live = _fair_build_snapshot(
+        _fair_btc, _fair_live_start, float(_audit_target), _cut=_fair_now,
+    )
+    if _fair_live is None:
+        raise RuntimeError('Not enough current 1-minute BTC data for fair probability')
+
+    _fair_live_frame = pd.DataFrame([_fair_live])
+    _fair_raw_flip = float(_fair_rf.predict_proba(_fair_live_frame[_fair_features])[0,1])
+    _fair_flip_prob = float(
+        _fair_sigmoid.predict_proba(np.array([[_fair_raw_flip]]))[0,1]
+    )
+    _fair_flip_prob = float(np.clip(_fair_flip_prob, 0.001, 0.999))
+    _fair_stay_prob = 1.0-_fair_flip_prob
+    _fair_current_side = int(_fair_live['current_side'])
+    _fair_distance_target = float(_fair_live['dist_target'])
+    _fair_dist_over_range5 = float(_fair_live['dist_over_range5'])
+
+    if _fair_current_side == 1:
+        _fair_up = _fair_stay_prob
+        _fair_down = _fair_flip_prob
+    else:
+        _fair_up = _fair_flip_prob
+        _fair_down = _fair_stay_prob
+
+    _fair_preferred_side = 'UP' if _fair_up >= _fair_down else 'DOWN'
+    _fair_preferred = max(_fair_up, _fair_down)
+    _fair_up_ask = float(_audit_up_ask) if _audit_up_ask is not None else None
+    _fair_down_ask = float(_audit_down_ask) if _audit_down_ask is not None else None
+    _fair_preferred_ask = _fair_up_ask if _fair_preferred_side == 'UP' else _fair_down_ask
+    _fair_edge = (
+        _fair_preferred-_fair_preferred_ask
+        if _fair_preferred_ask is not None else None
+    )
+    _fair_calibration_contracts = len(_fair_calib_contracts)
+    _fair_calibration_snapshots = len(_fair_calibrate)
+    _fair_ready = True
+
+except Exception as _fair_error:
+    _fair_ready = False
+    _fair_error_text = str(_fair_error)
+
+print('\n--- TARGET-AWARE FAIR-VALUE ENTRY ENGINE ---')
+print('READY:', 'YES' if _fair_ready else 'NO')
+print('BTC HISTORY SOURCE:', '35-DAY CACHE + FRESH 1M' if Path("btc_35d_live_cache.csv").exists() else 'CURRENT BOT 1M HISTORY ONLY')
+if _fair_ready:
+    print('FAIR UP:', f'{_fair_up:.1%}')
+    print('FAIR DOWN:', f'{_fair_down:.1%}')
+    print('PREFERRED SIDE:', _fair_preferred_side)
+    print('PREFERRED FAIR:', f'{_fair_preferred:.1%}')
+    print('UP ASK:', f'{_fair_up_ask:.0%}' if _fair_up_ask is not None else 'UNKNOWN')
+    print('DOWN ASK:', f'{_fair_down_ask:.0%}' if _fair_down_ask is not None else 'UNKNOWN')
+    print('PREFERRED-SIDE EDGE:', f'{_fair_edge:+.1%}' if _fair_edge is not None else 'UNKNOWN')
+    print('DISTANCE FROM KALSHI TARGET:', f'${_fair_distance_target:+.2f}')
+    print('DISTANCE / RECENT 5M RANGE:', f'{_fair_dist_over_range5:.2f}x')
+    print('CALIBRATION:', f'{_fair_calibration_contracts} contracts / {_fair_calibration_snapshots} snapshots')
+else:
+    print('FAIR-VALUE NOTE:', _fair_error_text or 'Unavailable')
+# === RESTORED TARGET-AWARE FAIR-VALUE ENTRY ENGINE END ===
+
 # V4.8.4 EARLY-CONFIDENCE SHADOW LOGGER — LIVE + ROLLOVER FIX
 # =====================================================================
 # Observation only. FINAL, Tier-1 ENTRY and true-scalp logic are unchanged.
