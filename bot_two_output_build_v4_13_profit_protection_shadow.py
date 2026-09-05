@@ -242,7 +242,7 @@ def extract_target(market):
 # =====================================================================
 
 BRTI_KALSHI_BASE_URL = "https://external-api.kalshi.com"
-BRTI_PATH = "/trade-api/v2/cfbenchmarks/latest_values"
+BRTI_PATH = "/trade-api/v2/cfbenchmarks/values"
 BRTI_PARAMS = {"id": "BRTI", "maxResolution": "PER_SECOND"}
 BRTI_POLL_SECONDS = 1.0
 BRTI_MAX_AGE_SECONDS = 5.0
@@ -270,27 +270,39 @@ if not BRTI_PARITY_LOG.exists():
 def _parse_direct_brti_response(obj):
     # Kalshi wraps the raw CF Benchmarks response in {"data": ...}.
     data = obj.get("data", obj) if isinstance(obj, dict) else {}
-    payload = data.get("payload", data) if isinstance(data, dict) else {}
+    payload = data.get("payload") if isinstance(data, dict) else None
 
-    latest = {}
+    # Documented /values response: payload is an array of published values
+    # in ascending timestamp order. Use the newest valid item.
+    if isinstance(payload, list):
+        for item in reversed(payload):
+            if not isinstance(item, dict):
+                continue
+            try:
+                value = float(item["value"])
+                time_ms = int(item["time"])
+                return value, time_ms / 1000.0
+            except Exception:
+                continue
+        return None
+
+    # Backward-compatible fallback for the older latest_values shape.
     if isinstance(payload, dict):
         latest = (
             payload.get("latest_values")
             or payload.get("latestValues")
             or {}
         )
+        item = latest.get("BRTI") if isinstance(latest, dict) else None
+        if isinstance(item, dict):
+            try:
+                value = float(item["value"])
+                time_ms = int(item["time"])
+                return value, time_ms / 1000.0
+            except Exception:
+                return None
 
-    item = latest.get("BRTI") if isinstance(latest, dict) else None
-    if not isinstance(item, dict):
-        return None
-
-    try:
-        value = float(item["value"])
-        time_ms = int(item["time"])
-    except Exception:
-        return None
-
-    return value, time_ms / 1000.0
+    return None
 
 def _fetch_direct_brti_once():
     r = requests.get(
@@ -302,7 +314,7 @@ def _fetch_direct_brti_once():
     r.raise_for_status()
     parsed = _parse_direct_brti_response(r.json())
     if parsed is None:
-        raise RuntimeError("BRTI response missing payload.latest_values.BRTI")
+        raise RuntimeError("BRTI response missing usable /values payload")
     return parsed
 
 def _brti_poller():
