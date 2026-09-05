@@ -20,9 +20,57 @@ import os
 import sys
 import traceback
 
-KALSHI_KEY_ID = (__import__("os").getenv("KALSHI_KEY_ID") or Path.home().joinpath(".kalshi/key_id").read_text()).strip()
+KALSHI_KEY_ID = (
+    os.getenv("KALSHI_KEY_ID")
+    or Path.home().joinpath(".kalshi/key_id").read_text()
+).strip()
+KEY_ID = KALSHI_KEY_ID
+
+KALSHI_PRIVATE_KEY_PATH = Path.home() / ".kalshi" / "private_key.pem"
 PRIVATE_KEY_PATH = KALSHI_PRIVATE_KEY_PATH
+
+_KALSHI_PRIVATE_KEY_B64 = os.getenv("KALSHI_PRIVATE_KEY_B64")
+_KALSHI_PRIVATE_KEY_BYTES = (
+    base64.b64decode(_KALSHI_PRIVATE_KEY_B64)
+    if _KALSHI_PRIVATE_KEY_B64
+    else KALSHI_PRIVATE_KEY_PATH.read_bytes()
+)
+
+kalshi_private_key = serialization.load_pem_private_key(
+    _KALSHI_PRIVATE_KEY_BYTES,
+    password=None,
+)
 PRIVATE_KEY = kalshi_private_key
+
+def _btc15_redact(value):
+    out = str(value)
+    secrets = [
+        os.getenv("KALSHI_KEY_ID"),
+        os.getenv("KALSHI_PRIVATE_KEY_B64"),
+    ]
+    try:
+        if _KALSHI_PRIVATE_KEY_B64:
+            secrets.append(
+                base64.b64decode(_KALSHI_PRIVATE_KEY_B64).decode(
+                    "utf-8", errors="ignore"
+                )
+            )
+    except Exception:
+        pass
+    for secret in secrets:
+        if secret:
+            out = out.replace(secret, "[REDACTED_KALSHI_SECRET]")
+            out = out.replace(repr(secret), "[REDACTED_KALSHI_SECRET]")
+    return out
+
+def _btc15_safe_excepthook(exc_type, exc, tb):
+    sys.stderr.write(
+        _btc15_redact(
+            "".join(traceback.format_exception(exc_type, exc, tb))
+        )
+    )
+
+sys.excepthook = _btc15_safe_excepthook
 
 KALSHI_BASE_URL = "https://api.elections.kalshi.com"
 COINBASE_TICKER = "https://api.exchange.coinbase.com/products/BTC-USD/ticker"
