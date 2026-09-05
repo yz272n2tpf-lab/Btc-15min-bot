@@ -16,7 +16,7 @@ from sklearn.linear_model import LogisticRegression
 import time
 import csv
 from datetime import datetime, timezone, timedelta
-KALSHI_KEY_ID = Path.home().joinpath(".kalshi/key_id").read_text().strip()
+KALSHI_KEY_ID = (__import__("os").getenv("KALSHI_KEY_ID") or Path.home().joinpath(".kalshi/key_id").read_text()).strip()
 KALSHI_PRIVATE_KEY_PATH = Path.home() / ".kalshi" / "private_key.pem"
 kalshi_private_key = serialization.load_pem_private_key(
     KALSHI_PRIVATE_KEY_PATH.read_bytes(),
@@ -1835,7 +1835,7 @@ SNAPSHOT_LOG = Path("kalshi_scalp_shadow_snapshots_v1.csv")
 EVENT_LOG = Path("kalshi_scalp_shadow_events_v1.csv")
 STATE_FILE = Path("kalshi_scalp_shadow_state_v1.json")
 
-KEY_ID = Path.home().joinpath(".kalshi/key_id").read_text().strip()
+KEY_ID = (__import__("base64").b64decode(__import__("os").getenv("KALSHI_PRIVATE_KEY_B64")).decode("utf-8") if __import__("os").getenv("KALSHI_PRIVATE_KEY_B64") else Path.home().joinpath(".kalshi/key_id").read_text())
 PRIVATE_KEY_PATH = Path.home() / ".kalshi" / "private_key.pem"
 PRIVATE_KEY = serialization.load_pem_private_key(
     PRIVATE_KEY_PATH.read_bytes(), password=None
