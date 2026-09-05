@@ -20,7 +20,7 @@ import os
 import sys
 import traceback
 
-KALSHI_KEY_ID = KALSHI_KEY_ID
+KALSHI_KEY_ID = (__import__("os").getenv("KALSHI_KEY_ID") or Path.home().joinpath(".kalshi/key_id").read_text()).strip()
 PRIVATE_KEY_PATH = KALSHI_PRIVATE_KEY_PATH
 PRIVATE_KEY = kalshi_private_key
 
