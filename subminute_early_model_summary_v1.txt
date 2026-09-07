@@ -1,0 +1,31 @@
+==============================================================================
+SUB-MINUTE EARLY-ENTRY RESULTS
+==============================================================================
+Settled contracts: 57 | train 34 | validation 11 | untouched holdout 12
+Rows in cheap 4-10m / <=50c candidate universe: 3,914
+
+BEST VALIDATION-SELECTED CONFIGURATION
+RANDOM_FOREST / CORE / threshold 0.825
+validation: 100.0% | calls 1 | coverage 9.1% | avg ask 35.0c | avg time 9.69m
+untouched holdout: 50.0% | calls 2 | coverage 16.7% | avg ask 34.0c | median ask 34.0c | <=40c 100.0% | 20-40c 100.0% | avg time 8.49m
+
+ACCEPTANCE
+validation target met: FAIL
+holdout accuracy >=90%: FAIL
+holdout calls >=10: FAIL
+holdout avg ask <=40c: PASS
+holdout avg time >=6m: PASS
+OVERALL: NOT READY
+
+TOP CONFIGURATIONS
+- RANDOM_FOREST / CORE | hold 50.0%, 2 calls, 34.0c, 8.49m | NO
+- EXTRA_TREES / CORE | hold 50.0%, 2 calls, 37.5c, 8.24m | NO
+
+INTEGRITY
+- Official Kalshi settlement result is the truth.
+- Whole contracts are split chronologically; snapshots never cross splits.
+- Actual Kalshi asks are used as entry prices.
+- Threshold/model selection uses validation only.
+- Holdout is report-only.
+- No new live test required for this run.
+- No orders; bot.py unchanged.

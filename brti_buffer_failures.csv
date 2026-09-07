@@ -1,0 +1,2 @@
+fold,row_index,training_bias,target_brti,final_brti,target_cb_hl2,final_cb_hl2,estimated_brti_final,adjusted_gap,actual_gap,distance_outside_10,ticker
+60->70%,407,-5.3296284634759035,68163.46,68161.11,68237.515,68169.01999999999,68174.34962846346,10.889628463453846,-2.3500000000058208,0.889628463453846,KXBTC15M-26AUG191530-30

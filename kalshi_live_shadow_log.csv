@@ -1,0 +1,2 @@
+timestamp_utc,ticker,open_utc,close_utc,elapsed_min,remaining_min,target,up_bid,up_ask,down_bid,down_ask
+2026-08-23T13:17:34.739345+00:00,KXBTC15M-26AUG230930-30,2026-08-23T13:15:00+00:00,2026-08-23T13:30:00+00:00,2.578989083333333,12.421010916666667,77314.13,0.54,0.55,0.45,0.46

@@ -1,0 +1,64 @@
+{
+  "lock_name": "BTC15_CORE_PRODUCTION_CANDIDATE_LOCK_V1",
+  "created_utc": "2026-09-05T01:30:57.369228+00:00",
+  "core_bot": "bot_two_output_build_v4_13_profit_protection_shadow.py",
+  "status": "production candidate; not yet production-ready",
+  "included_modules": [
+    "Frozen FINAL",
+    "Frozen primary true scalp",
+    "Profit-protection shadow",
+    "Direct BRTI authority / parity data",
+    "Unified 5-second logging"
+  ],
+  "excluded_modules": [
+    "Rejected early-settlement prediction models",
+    "Rejected secondary scalp/gap filler",
+    "Rejected chop/reversal gap detector",
+    "Rejected 45-second FINAL guardrail"
+  ],
+  "next_gate": "Kalshi-app parity across consecutive live contracts",
+  "signal_only": true,
+  "orders_intended": false,
+  "files": [
+    {
+      "name": "bot_two_output_build_v4_13_profit_protection_shadow.py",
+      "bytes": 138662,
+      "sha256": "f189743a700ab56f297ec175f7b8f97faa91cba3a28a9f1b1e5d8f072077caaf"
+    },
+    {
+      "name": "score_v4_13_forward_run.py",
+      "bytes": 5977,
+      "sha256": "7e83b05e62ed8693f85a8084750c66076dc25f4770bb2fb22d9c932bf5211142"
+    },
+    {
+      "name": "score_union_coverage_gap_audit_v1.py",
+      "bytes": 11800,
+      "sha256": "0f021c1092bd03a74e69a75192d4ec0613699d486e1c61067fe5d222a9a15eec"
+    },
+    {
+      "name": "kalshi_true_scalp_forward_shadow_v1.csv",
+      "bytes": 24177,
+      "sha256": "bc471d07fc13557f327d987b83e57160a69ce9c892253f456e0e842ed9bc951e"
+    },
+    {
+      "name": "kalshi_profit_protection_forward_shadow_v1.csv",
+      "bytes": 9183,
+      "sha256": "7b8a5f982bcd2518d3129420c590a6eae9ac41bb60e5d06192b3a8eca37fa345"
+    },
+    {
+      "name": "kalshi_subminute_unified_v1_1.csv",
+      "bytes": 13966293,
+      "sha256": "dd6eb79481da960fa16f3c26c5669de11c50becc04d6733b723aa1b8851ecbdb"
+    },
+    {
+      "name": "union_coverage_gap_audit_v1_contracts.csv",
+      "bytes": 8471,
+      "sha256": "da9c3b502c4b55b87a7cd58cbe9c67d5f376085a307322cb222b4edbb4e69a1f"
+    },
+    {
+      "name": "union_coverage_gap_audit_v1_gaps.csv",
+      "bytes": 1199,
+      "sha256": "d09ed62ce52ec9bf455b0e66bd5f4ff0a85097040fd63b79fbc6f0037d44c6a1"
+    }
+  ]
+}

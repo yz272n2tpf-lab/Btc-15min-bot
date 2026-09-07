@@ -1,0 +1,52 @@
+==============================================================================
+UNION COVERAGE OPTIMIZER V1.2 SUMMARY
+==============================================================================
+
+LOCKED TIER-1 ENTRY
+Validation coverage: 16/99 (16.2%)
+Holdout coverage: 22/100 (22.0%)
+
+SECONDARY ENTRY WINNER — selected on validation only
+ask_max: 0.6
+fair_min: 0.6
+edge_min: 0.05
+min_tl: 2.0
+max_tl: 12.0
+min_gap: 75.0
+min_ratio: 0.5
+Validation: accuracy 100.0% | calls 9 | avg ask 55.3c | avg time left 10.11m
+Holdout: accuracy 82.4% | calls 17 | avg ask 52.5c | avg time left 8.71m
+
+SCALP WINNER — selected on validation only
+ask_max: 0.7
+fair_min: 0.52
+edge_min: 0.0
+min_tl: 3.0
+max_tl: 10.0
+min_gap: 50.0
+profit_target: 0.08
+stop_loss: 0.1
+horizon: 5
+Validation: win rate 100.0% | calls 42 | avg ask 60.3c | avg time left 9.10m
+Holdout: win rate 96.8% | calls 31 | avg ask 62.2c | avg time left 8.42m
+
+UNION ACTIONABLE COVERAGE
+Validation: 67/99 (67.7%)
+Untouched holdout: 70/100 (70.0%)
+
+INTEGRITY
+- Loaded V1.1 processed cache; no feature/model rebuild
+- Locked Tier-1 unchanged
+- Secondary selected on validation only
+- Scalp selected on validation only
+- Actual ask entry / actual future bid exit
+- Spread included
+- Stop before target chronology
+- Holdout report-only
+- No orders; bot.py unchanged
+
+FILES WRITTEN
+union_secondary_entry_results_v1_2.csv
+union_scalp_results_v1_2.csv
+union_coverage_holdout_detail_v1_2.csv
+union_coverage_optimizer_v1_2_summary.txt

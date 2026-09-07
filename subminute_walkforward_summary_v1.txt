@@ -1,0 +1,31 @@
+==============================================================================
+SUB-MINUTE WALK-FORWARD DEVELOPMENT RESULTS
+==============================================================================
+Contracts: 57 | folds: 6 | minimum calls required: 12
+
+BEST WALK-FORWARD CONFIGURATION
+LOGISTIC / CORE / threshold 0.750
+accuracy 60.0% | calls 20 | coverage 54.1%
+avg ask 39.0c | median ask 39.0c | <=40c 55.0% | 20-40c 55.0%
+avg time left 7.33m | median 7.60m
+
+PRELIMINARY DEVELOPMENT CHECK
+accuracy >=90%: FAIL
+calls >=12: PASS
+avg ask <=40c: PASS
+avg time >=6m: PASS
+OVERALL: NO STABLE SUB-MINUTE CANDIDATE YET
+
+TOP 6 WALK-FORWARD CONFIGURATIONS
+- LOGISTIC / CORE / p>=0.750 | 60.0% | 20 calls | 39.0c | 7.33m
+- RANDOM_FOREST / CORE / p>=0.600 | 54.5% | 22 calls | 34.7c | 8.27m
+- RANDOM_FOREST / CORE / p>=0.575 | 54.5% | 22 calls | 35.3c | 8.70m
+- LOGISTIC / CORE / p>=0.625 | 54.5% | 22 calls | 37.4c | 7.73m
+- LOGISTIC / CORE / p>=0.600 | 54.5% | 22 calls | 37.4c | 8.04m
+- LOGISTIC / CORE / p>=0.650 | 54.5% | 22 calls | 37.4c | 7.71m
+
+INTERPRETATION
+- This is development evidence only; the 57 contracts have already been inspected in earlier analyses.
+- A passing candidate must be frozen before any future contracts are used to judge it.
+- Future validation should piggyback on required parity/scalp runs; no standalone long collection is required.
+- No orders; bot.py unchanged.

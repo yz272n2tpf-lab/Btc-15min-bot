@@ -1,0 +1,39 @@
+==============================================================================
+ENTRY TOURNAMENT V3 SUMMARY
+==============================================================================
+
+WINNER — SELECTED ON VALIDATION ONLY
+ask_max: 0.45
+fair_min: 0.75
+edge_min: 0.08
+min_tl: 2.0
+max_tl: 10.0
+min_gap: 25.0
+min_ratio: 0.0
+persistence: 1
+strengthening: False
+side_agree: False
+
+Validation: accuracy 100.0% | calls 16/99 (16.2%) | avg ask 35.7c | avg time left 5.31m
+
+UNTOUCHED HOLDOUT
+Accuracy 90.9% | calls 22/100 (22.0%) | avg ask 31.9c | median ask 34.0c
+Avg time left 6.09m | median time left 6.00m | avg fair 83.5% | avg edge 51.6%
+
+INTEGRITY
+- Actual Kalshi 1-minute historical YES bid/ask
+- Official settlement labels
+- Chronological 50/20/15/15 split
+- Winner chosen without holdout
+- First qualifying entry per contract
+- No orders; bot.py unchanged
+
+NOTE: Historical Kalshi candles are 1-minute resolution.
+Sub-minute timing must still be smoke-tested live.
+
+FILES WRITTEN
+kalshi_kxbtc15m_1m_candles_cache.csv
+entry_tournament_v3_all_results.csv
+entry_tournament_v3_winner_validation_calls.csv
+entry_tournament_v3_winner_holdout_calls.csv
+entry_tournament_v3_summary.txt

@@ -1,0 +1,1080 @@
+=== ONBOARDING LADDER INTEGRATION MAP ===
+Purpose: map the exact safe insertion points for the validated live ladder.
+bot.py changed: NO
+Scalp logic changed: NO
+Orders placed: NO
+
+Total bot.py lines: 1190
+
+=== CLOCK ALIGNMENT CHECK ===
+Kalshi-clock related code found: YES
+Matching lines: [54, 79, 458, 577, 592, 595, 635, 640, 641, 645, 701, 702, 777, 778]
+
+==============================================================================
+CLOCK CONTEXT AROUND LINE 54
+==============================================================================
+  42: 
+  43: 
+  44: def kalshi_get(path, params=None):
+  45:     response = requests.get(
+  46:         KALSHI_BASE_URL + path,
+  47:         headers=kalshi_headers("GET", path),
+  48:         params=params,
+  49:         timeout=10,
+  50:     )
+  51:     response.raise_for_status()
+  52:     return response.json()
+  53:              
+  54: def get_kalshi_btc_markets():
+  55:     data = kalshi_get(
+  56:         "/trade-api/v2/markets",
+  57:         params={
+  58:             "status": "open",
+  59:                     "series_ticker": "KXBTC15M",
+  60:             "limit": 1000,
+  61:         },
+  62:     )
+  63: 
+  64:     markets = data.get("markets", [])
+  65: 
+  66:     btc_markets = []
+  67:     for market in markets:
+  68:         text = " ".join(
+  69:             str(market.get(key, ""))
+  70:             for key in ["ticker", "title", "subtitle", "event_ticker"]
+  71:         ).upper()
+  72: 
+  73:         if "BTC" in text or "BITCOIN" in text:
+  74:             btc_markets.append(market)
+  75: 
+  76:     return btc_markets
+
+==============================================================================
+CLOCK CONTEXT AROUND LINE 79
+==============================================================================
+  67:     for market in markets:
+  68:         text = " ".join(
+  69:             str(market.get(key, ""))
+  70:             for key in ["ticker", "title", "subtitle", "event_ticker"]
+  71:         ).upper()
+  72: 
+  73:         if "BTC" in text or "BITCOIN" in text:
+  74:             btc_markets.append(market)
+  75: 
+  76:     return btc_markets
+  77: 
+  78: def get_live_kalshi_snapshot():
+  79:     markets = get_kalshi_btc_markets()
+  80:     if not markets:
+  81:         return None
+  82: 
+  83:     market = markets[0]
+  84: 
+  85:     return {
+  86:         "ticker": market.get("ticker"),
+  87:         "close_time": market.get("close_time"),
+  88:         "up_bid": market.get("yes_bid_dollars"),
+  89:         "up_ask": market.get("yes_ask_dollars"),
+  90:         "down_bid": market.get("no_bid_dollars"),
+  91:         "down_ask": market.get("no_ask_dollars"),
+  92:     }
+  93: def coinbase_history(days, granularity):
+  94:     url = "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+  95:     end = datetime.now(timezone.utc)
+  96:     start = end - timedelta(days=days)
+  97: 
+  98:     rows = []
+  99:     batch_seconds = granularity * 300
+ 100:     batch_start = start
+ 101: 
+
+==============================================================================
+CLOCK CONTEXT AROUND LINE 458
+==============================================================================
+ 446:     _v3_cal = pd.read_csv("brti_calibration_results.csv")
+ 447: 
+ 448:     _v3_errors = pd.concat(
+ 449:         [
+ 450:             _v3_cal["target_cb_hl2"] - _v3_cal["target_brti"],
+ 451:             _v3_cal["final_cb_hl2"] - _v3_cal["final_brti"],
+ 452:         ],
+ 453:         ignore_index=True,
+ 454:     )
+ 455: 
+ 456:     _v3_brti_bias = float(_v3_errors.mean())
+ 457: 
+ 458:     _v3_markets = get_kalshi_btc_markets()
+ 459:     _v3_now = datetime.now(timezone.utc)
+ 460:     _v3_active = []
+ 461: 
+ 462:     for _v3_market in _v3_markets:
+ 463:         _v3_ticker = str(_v3_market.get("ticker", ""))
+ 464: 
+ 465:         if not _v3_ticker.startswith("KXBTC15M"):
+ 466:             continue
+ 467: 
+ 468:         _v3_open_raw = _v3_market.get("open_time")
+ 469:         _v3_close_raw = _v3_market.get("close_time")
+ 470: 
+ 471:         if not _v3_open_raw or not _v3_close_raw:
+ 472:             continue
+ 473: 
+ 474:         try:
+ 475:             _v3_open = datetime.fromisoformat(
+ 476:                 str(_v3_open_raw).replace("Z", "+00:00")
+ 477:             )
+ 478:             _v3_close = datetime.fromisoformat(
+ 479:                 str(_v3_close_raw).replace("Z", "+00:00")
+ 480:             )
+
+==============================================================================
+CLOCK CONTEXT AROUND LINE 577
+==============================================================================
+ 565: print("V3 safety status:", _v3_status)
+ 566: 
+ 567: if "_v3_error_text" in globals():
+ 568:     print("V3 safety note:", _v3_error_text)
+ 569: 
+ 570: # === V3 BRTI/KALSHI SAFETY GATE END ===
+ 571: 
+ 572: # === STRICT 15M + V3 COMBINED READY START ===
+ 573: # Final 15-minute signal gate.
+ 574: # Signal-only: NEVER places orders.
+ 575: 
+ 576: _strict_model_ready = False
+ 577: _strict_elapsed_minute = None
+ 578: _strict_distance = None
+ 579: _strict_agreement = 0
+ 580: _strict_conf_change = None
+ 581: _final_15m_ready = False
+ 582: _model_15m_direction = "UP" if bool(current_prediction) else "DOWN"
+ 583: 
+ 584: # Final-outcome direction must be Kalshi-target-aware.
+ 585: if _v3_brti_direction in ("UP", "DOWN"):
+ 586:     _final_15m_direction = _v3_brti_direction
+ 587: else:
+ 588:     _final_15m_direction = _model_15m_direction
+ 589: 
+ 590: 
+ 591: try:
+ 592:     # Use the ACTUAL active Kalshi contract clock.
+ 593:     _strict_now_ts = pd.Timestamp(datetime.now(timezone.utc))
+ 594: 
+ 595:     _strict_kalshi_markets = get_kalshi_btc_markets()
+ 596:     _strict_active_market = None
+ 597:     _strict_active_close = None
+ 598: 
+ 599:     for _strict_market in _strict_kalshi_markets:
+
+==============================================================================
+CLOCK CONTEXT AROUND LINE 592
+==============================================================================
+ 580: _strict_conf_change = None
+ 581: _final_15m_ready = False
+ 582: _model_15m_direction = "UP" if bool(current_prediction) else "DOWN"
+ 583: 
+ 584: # Final-outcome direction must be Kalshi-target-aware.
+ 585: if _v3_brti_direction in ("UP", "DOWN"):
+ 586:     _final_15m_direction = _v3_brti_direction
+ 587: else:
+ 588:     _final_15m_direction = _model_15m_direction
+ 589: 
+ 590: 
+ 591: try:
+ 592:     # Use the ACTUAL active Kalshi contract clock.
+ 593:     _strict_now_ts = pd.Timestamp(datetime.now(timezone.utc))
+ 594: 
+ 595:     _strict_kalshi_markets = get_kalshi_btc_markets()
+ 596:     _strict_active_market = None
+ 597:     _strict_active_close = None
+ 598: 
+ 599:     for _strict_market in _strict_kalshi_markets:
+ 600:         _strict_ticker = str(_strict_market.get("ticker", ""))
+ 601: 
+ 602:         if not _strict_ticker.startswith("KXBTC15M"):
+ 603:             continue
+ 604: 
+ 605:         _strict_open_raw = _strict_market.get("open_time")
+ 606:         _strict_close_raw = _strict_market.get("close_time")
+ 607: 
+ 608:         if not _strict_open_raw or not _strict_close_raw:
+ 609:             continue
+ 610: 
+ 611:         try:
+ 612:             _strict_open_ts = pd.Timestamp(_strict_open_raw)
+ 613:             _strict_close_ts = pd.Timestamp(_strict_close_raw)
+ 614: 
+
+=== LIVE 15-MIN MODEL MAP ===
+Matching lines: [421, 423, 425, 426, 428, 429, 518, 576, 582, 681, 698, 700, 703, 713, 719, 774, 801, 802]
+
+==============================================================================
+LIVE MODEL CONTEXT AROUND LINE 421
+==============================================================================
+ 411: live_valid = live_data.dropna(
+ 412:     subset=feature_columns
+ 413: ).copy()
+ 414: print("LIVE VALID ROWS:", len(live_valid))
+ 415: print("LIVE COLUMNS:", list(live_valid.columns))
+ 416: 
+ 417: if live_valid.empty:
+ 418:     print("Not enough data for live prediction.")
+ 419: else:
+ 420:     current_features = live_valid.loc[[live_valid.index[-1]], feature_columns]
+ 421:     current_prediction = model.predict(current_features)[0]
+ 422:     current_probabilities = model.predict_proba(current_features)[0]
+ 423:     current_confidence = current_probabilities.max()
+ 424: 
+ 425:     print("Current 15-minute prediction:",
+ 426:           "UP" if current_prediction else "DOWN")
+ 427: 
+ 428:     print("Current 15-minute confidence:",
+ 429:           round(current_confidence, 3))
+ 430: 
+ 431: 
+ 432: # === V3 BRTI/KALSHI SAFETY GATE START ===
+ 433: # Validated target-safety layer.
+ 434: # Signal-only. This block NEVER places orders.
+ 435: 
+ 436: V3_BRTI_BUFFER_DOLLARS = 11.0
+ 437: _v3_brti_gate_ready = False
+ 438: _v3_brti_agrees = False
+ 439: _v3_inside_wait_zone = True
+ 440: _v3_adjusted_gap = None
+ 441: _v3_brti_direction = "UNKNOWN"
+ 442: _v3_target = None
+ 443: _v3_status = "WAIT"
+ 444: 
+ 445: try:
+
+==============================================================================
+LIVE MODEL CONTEXT AROUND LINE 423
+==============================================================================
+ 413: ).copy()
+ 414: print("LIVE VALID ROWS:", len(live_valid))
+ 415: print("LIVE COLUMNS:", list(live_valid.columns))
+ 416: 
+ 417: if live_valid.empty:
+ 418:     print("Not enough data for live prediction.")
+ 419: else:
+ 420:     current_features = live_valid.loc[[live_valid.index[-1]], feature_columns]
+ 421:     current_prediction = model.predict(current_features)[0]
+ 422:     current_probabilities = model.predict_proba(current_features)[0]
+ 423:     current_confidence = current_probabilities.max()
+ 424: 
+ 425:     print("Current 15-minute prediction:",
+ 426:           "UP" if current_prediction else "DOWN")
+ 427: 
+ 428:     print("Current 15-minute confidence:",
+ 429:           round(current_confidence, 3))
+ 430: 
+ 431: 
+ 432: # === V3 BRTI/KALSHI SAFETY GATE START ===
+ 433: # Validated target-safety layer.
+ 434: # Signal-only. This block NEVER places orders.
+ 435: 
+ 436: V3_BRTI_BUFFER_DOLLARS = 11.0
+ 437: _v3_brti_gate_ready = False
+ 438: _v3_brti_agrees = False
+ 439: _v3_inside_wait_zone = True
+ 440: _v3_adjusted_gap = None
+ 441: _v3_brti_direction = "UNKNOWN"
+ 442: _v3_target = None
+ 443: _v3_status = "WAIT"
+ 444: 
+ 445: try:
+ 446:     _v3_cal = pd.read_csv("brti_calibration_results.csv")
+ 447: 
+
+==============================================================================
+LIVE MODEL CONTEXT AROUND LINE 425
+==============================================================================
+ 415: print("LIVE COLUMNS:", list(live_valid.columns))
+ 416: 
+ 417: if live_valid.empty:
+ 418:     print("Not enough data for live prediction.")
+ 419: else:
+ 420:     current_features = live_valid.loc[[live_valid.index[-1]], feature_columns]
+ 421:     current_prediction = model.predict(current_features)[0]
+ 422:     current_probabilities = model.predict_proba(current_features)[0]
+ 423:     current_confidence = current_probabilities.max()
+ 424: 
+ 425:     print("Current 15-minute prediction:",
+ 426:           "UP" if current_prediction else "DOWN")
+ 427: 
+ 428:     print("Current 15-minute confidence:",
+ 429:           round(current_confidence, 3))
+ 430: 
+ 431: 
+ 432: # === V3 BRTI/KALSHI SAFETY GATE START ===
+ 433: # Validated target-safety layer.
+ 434: # Signal-only. This block NEVER places orders.
+ 435: 
+ 436: V3_BRTI_BUFFER_DOLLARS = 11.0
+ 437: _v3_brti_gate_ready = False
+ 438: _v3_brti_agrees = False
+ 439: _v3_inside_wait_zone = True
+ 440: _v3_adjusted_gap = None
+ 441: _v3_brti_direction = "UNKNOWN"
+ 442: _v3_target = None
+ 443: _v3_status = "WAIT"
+ 444: 
+ 445: try:
+ 446:     _v3_cal = pd.read_csv("brti_calibration_results.csv")
+ 447: 
+ 448:     _v3_errors = pd.concat(
+ 449:         [
+
+==============================================================================
+LIVE MODEL CONTEXT AROUND LINE 426
+==============================================================================
+ 416: 
+ 417: if live_valid.empty:
+ 418:     print("Not enough data for live prediction.")
+ 419: else:
+ 420:     current_features = live_valid.loc[[live_valid.index[-1]], feature_columns]
+ 421:     current_prediction = model.predict(current_features)[0]
+ 422:     current_probabilities = model.predict_proba(current_features)[0]
+ 423:     current_confidence = current_probabilities.max()
+ 424: 
+ 425:     print("Current 15-minute prediction:",
+ 426:           "UP" if current_prediction else "DOWN")
+ 427: 
+ 428:     print("Current 15-minute confidence:",
+ 429:           round(current_confidence, 3))
+ 430: 
+ 431: 
+ 432: # === V3 BRTI/KALSHI SAFETY GATE START ===
+ 433: # Validated target-safety layer.
+ 434: # Signal-only. This block NEVER places orders.
+ 435: 
+ 436: V3_BRTI_BUFFER_DOLLARS = 11.0
+ 437: _v3_brti_gate_ready = False
+ 438: _v3_brti_agrees = False
+ 439: _v3_inside_wait_zone = True
+ 440: _v3_adjusted_gap = None
+ 441: _v3_brti_direction = "UNKNOWN"
+ 442: _v3_target = None
+ 443: _v3_status = "WAIT"
+ 444: 
+ 445: try:
+ 446:     _v3_cal = pd.read_csv("brti_calibration_results.csv")
+ 447: 
+ 448:     _v3_errors = pd.concat(
+ 449:         [
+ 450:             _v3_cal["target_cb_hl2"] - _v3_cal["target_brti"],
+
+==============================================================================
+LIVE MODEL CONTEXT AROUND LINE 428
+==============================================================================
+ 418:     print("Not enough data for live prediction.")
+ 419: else:
+ 420:     current_features = live_valid.loc[[live_valid.index[-1]], feature_columns]
+ 421:     current_prediction = model.predict(current_features)[0]
+ 422:     current_probabilities = model.predict_proba(current_features)[0]
+ 423:     current_confidence = current_probabilities.max()
+ 424: 
+ 425:     print("Current 15-minute prediction:",
+ 426:           "UP" if current_prediction else "DOWN")
+ 427: 
+ 428:     print("Current 15-minute confidence:",
+ 429:           round(current_confidence, 3))
+ 430: 
+ 431: 
+ 432: # === V3 BRTI/KALSHI SAFETY GATE START ===
+ 433: # Validated target-safety layer.
+ 434: # Signal-only. This block NEVER places orders.
+ 435: 
+ 436: V3_BRTI_BUFFER_DOLLARS = 11.0
+ 437: _v3_brti_gate_ready = False
+ 438: _v3_brti_agrees = False
+ 439: _v3_inside_wait_zone = True
+ 440: _v3_adjusted_gap = None
+ 441: _v3_brti_direction = "UNKNOWN"
+ 442: _v3_target = None
+ 443: _v3_status = "WAIT"
+ 444: 
+ 445: try:
+ 446:     _v3_cal = pd.read_csv("brti_calibration_results.csv")
+ 447: 
+ 448:     _v3_errors = pd.concat(
+ 449:         [
+ 450:             _v3_cal["target_cb_hl2"] - _v3_cal["target_brti"],
+ 451:             _v3_cal["final_cb_hl2"] - _v3_cal["final_brti"],
+ 452:         ],
+
+==============================================================================
+LIVE MODEL CONTEXT AROUND LINE 429
+==============================================================================
+ 419: else:
+ 420:     current_features = live_valid.loc[[live_valid.index[-1]], feature_columns]
+ 421:     current_prediction = model.predict(current_features)[0]
+ 422:     current_probabilities = model.predict_proba(current_features)[0]
+ 423:     current_confidence = current_probabilities.max()
+ 424: 
+ 425:     print("Current 15-minute prediction:",
+ 426:           "UP" if current_prediction else "DOWN")
+ 427: 
+ 428:     print("Current 15-minute confidence:",
+ 429:           round(current_confidence, 3))
+ 430: 
+ 431: 
+ 432: # === V3 BRTI/KALSHI SAFETY GATE START ===
+ 433: # Validated target-safety layer.
+ 434: # Signal-only. This block NEVER places orders.
+ 435: 
+ 436: V3_BRTI_BUFFER_DOLLARS = 11.0
+ 437: _v3_brti_gate_ready = False
+ 438: _v3_brti_agrees = False
+ 439: _v3_inside_wait_zone = True
+ 440: _v3_adjusted_gap = None
+ 441: _v3_brti_direction = "UNKNOWN"
+ 442: _v3_target = None
+ 443: _v3_status = "WAIT"
+ 444: 
+ 445: try:
+ 446:     _v3_cal = pd.read_csv("brti_calibration_results.csv")
+ 447: 
+ 448:     _v3_errors = pd.concat(
+ 449:         [
+ 450:             _v3_cal["target_cb_hl2"] - _v3_cal["target_brti"],
+ 451:             _v3_cal["final_cb_hl2"] - _v3_cal["final_brti"],
+ 452:         ],
+ 453:         ignore_index=True,
+
+=== KALSHI / BRTI LIVE MAP ===
+Matching lines: [432, 436, 437, 438, 441, 446, 450, 451, 456, 502, 505, 507, 511, 513, 515, 521, 522, 525, 527, 530, 531, 537, 540, 541, 543, 547, 552, 558, 559, 562, 563, 570, 585, 586, 596, 630, 633, 637, 714, 727, 747, 753, 758, 760, 805, 806, 1185, 1186, 1187, 1188]
+
+==============================================================================
+KALSHI/BRTI CONTEXT AROUND LINE 432
+==============================================================================
+ 422:     current_probabilities = model.predict_proba(current_features)[0]
+ 423:     current_confidence = current_probabilities.max()
+ 424: 
+ 425:     print("Current 15-minute prediction:",
+ 426:           "UP" if current_prediction else "DOWN")
+ 427: 
+ 428:     print("Current 15-minute confidence:",
+ 429:           round(current_confidence, 3))
+ 430: 
+ 431: 
+ 432: # === V3 BRTI/KALSHI SAFETY GATE START ===
+ 433: # Validated target-safety layer.
+ 434: # Signal-only. This block NEVER places orders.
+ 435: 
+ 436: V3_BRTI_BUFFER_DOLLARS = 11.0
+ 437: _v3_brti_gate_ready = False
+ 438: _v3_brti_agrees = False
+ 439: _v3_inside_wait_zone = True
+ 440: _v3_adjusted_gap = None
+ 441: _v3_brti_direction = "UNKNOWN"
+ 442: _v3_target = None
+ 443: _v3_status = "WAIT"
+ 444: 
+ 445: try:
+ 446:     _v3_cal = pd.read_csv("brti_calibration_results.csv")
+ 447: 
+ 448:     _v3_errors = pd.concat(
+ 449:         [
+ 450:             _v3_cal["target_cb_hl2"] - _v3_cal["target_brti"],
+ 451:             _v3_cal["final_cb_hl2"] - _v3_cal["final_brti"],
+ 452:         ],
+ 453:         ignore_index=True,
+ 454:     )
+ 455: 
+ 456:     _v3_brti_bias = float(_v3_errors.mean())
+ 457: 
+
+==============================================================================
+KALSHI/BRTI CONTEXT AROUND LINE 502
+==============================================================================
+ 492:             _v3_target = float(_v3_market.get("floor_strike"))
+ 493:         except (TypeError, ValueError):
+ 494:             _v3_target = None
+ 495: 
+ 496:         _v3_latest_row = data_1m.iloc[-1]
+ 497:         _v3_coinbase_hl2 = (
+ 498:             float(_v3_latest_row["High"])
+ 499:             + float(_v3_latest_row["Low"])
+ 500:         ) / 2.0
+ 501: 
+ 502:         _v3_estimated_brti = _v3_coinbase_hl2 - _v3_brti_bias
+ 503: 
+ 504:         if _v3_target is not None:
+ 505:             _v3_adjusted_gap = _v3_estimated_brti - _v3_target
+ 506:             _v3_inside_wait_zone = (
+ 507:                 abs(_v3_adjusted_gap) <= V3_BRTI_BUFFER_DOLLARS
+ 508:             )
+ 509: 
+ 510:             if _v3_adjusted_gap > 0:
+ 511:                 _v3_brti_direction = "UP"
+ 512:             elif _v3_adjusted_gap < 0:
+ 513:                 _v3_brti_direction = "DOWN"
+ 514:             else:
+ 515:                 _v3_brti_direction = "FLAT"
+ 516: 
+ 517:             _v3_model_direction = (
+ 518:                 "UP" if bool(current_prediction) else "DOWN"
+ 519:             )
+ 520: 
+ 521:             _v3_brti_agrees = (
+ 522:                 _v3_brti_direction == _v3_model_direction
+ 523:             )
+ 524: 
+ 525:             _v3_brti_gate_ready = (
+ 526:                 (not _v3_inside_wait_zone)
+ 527:                 and _v3_brti_agrees
+
+==============================================================================
+KALSHI/BRTI CONTEXT AROUND LINE 530
+==============================================================================
+ 520: 
+ 521:             _v3_brti_agrees = (
+ 522:                 _v3_brti_direction == _v3_model_direction
+ 523:             )
+ 524: 
+ 525:             _v3_brti_gate_ready = (
+ 526:                 (not _v3_inside_wait_zone)
+ 527:                 and _v3_brti_agrees
+ 528:             )
+ 529: 
+ 530:     if _v3_brti_gate_ready:
+ 531:         _v3_status = "BRTI GATE READY"
+ 532:     else:
+ 533:         _v3_status = "WAIT"
+ 534: 
+ 535: except Exception as _v3_error:
+ 536:     _v3_status = "WAIT"
+ 537:     _v3_brti_gate_ready = False
+ 538:     _v3_error_text = str(_v3_error)
+ 539: 
+ 540: print("\n--- V3 BRTI / KALSHI SAFETY GATE ---")
+ 541: print("Validated BRTI buffer: +/-$11.00")
+ 542: print(
+ 543:     "Kalshi target:",
+ 544:     f"${_v3_target:,.2f}" if _v3_target is not None else "UNKNOWN",
+ 545: )
+ 546: print(
+ 547:     "Adjusted BRTI gap:",
+ 548:     f"${_v3_adjusted_gap:+.2f}"
+ 549:     if _v3_adjusted_gap is not None
+ 550:     else "UNKNOWN",
+ 551: )
+ 552: print("BRTI direction:", _v3_brti_direction)
+ 553: print(
+ 554:     "Inside +/-$11 WAIT zone:",
+ 555:     "YES" if _v3_inside_wait_zone else "NO",
+
+==============================================================================
+KALSHI/BRTI CONTEXT AROUND LINE 558
+==============================================================================
+ 548:     f"${_v3_adjusted_gap:+.2f}"
+ 549:     if _v3_adjusted_gap is not None
+ 550:     else "UNKNOWN",
+ 551: )
+ 552: print("BRTI direction:", _v3_brti_direction)
+ 553: print(
+ 554:     "Inside +/-$11 WAIT zone:",
+ 555:     "YES" if _v3_inside_wait_zone else "NO",
+ 556: )
+ 557: print(
+ 558:     "BRTI agrees with 15-min model:",
+ 559:     "YES" if _v3_brti_agrees else "NO",
+ 560: )
+ 561: print(
+ 562:     "BRTI gate ready:",
+ 563:     "YES" if _v3_brti_gate_ready else "NO",
+ 564: )
+ 565: print("V3 safety status:", _v3_status)
+ 566: 
+ 567: if "_v3_error_text" in globals():
+ 568:     print("V3 safety note:", _v3_error_text)
+ 569: 
+ 570: # === V3 BRTI/KALSHI SAFETY GATE END ===
+ 571: 
+ 572: # === STRICT 15M + V3 COMBINED READY START ===
+ 573: # Final 15-minute signal gate.
+ 574: # Signal-only: NEVER places orders.
+ 575: 
+ 576: _strict_model_ready = False
+ 577: _strict_elapsed_minute = None
+ 578: _strict_distance = None
+ 579: _strict_agreement = 0
+ 580: _strict_conf_change = None
+ 581: _final_15m_ready = False
+ 582: _model_15m_direction = "UP" if bool(current_prediction) else "DOWN"
+ 583: 
+
+==============================================================================
+KALSHI/BRTI CONTEXT AROUND LINE 585
+==============================================================================
+ 575: 
+ 576: _strict_model_ready = False
+ 577: _strict_elapsed_minute = None
+ 578: _strict_distance = None
+ 579: _strict_agreement = 0
+ 580: _strict_conf_change = None
+ 581: _final_15m_ready = False
+ 582: _model_15m_direction = "UP" if bool(current_prediction) else "DOWN"
+ 583: 
+ 584: # Final-outcome direction must be Kalshi-target-aware.
+ 585: if _v3_brti_direction in ("UP", "DOWN"):
+ 586:     _final_15m_direction = _v3_brti_direction
+ 587: else:
+ 588:     _final_15m_direction = _model_15m_direction
+ 589: 
+ 590: 
+ 591: try:
+ 592:     # Use the ACTUAL active Kalshi contract clock.
+ 593:     _strict_now_ts = pd.Timestamp(datetime.now(timezone.utc))
+ 594: 
+ 595:     _strict_kalshi_markets = get_kalshi_btc_markets()
+ 596:     _strict_active_market = None
+ 597:     _strict_active_close = None
+ 598: 
+ 599:     for _strict_market in _strict_kalshi_markets:
+ 600:         _strict_ticker = str(_strict_market.get("ticker", ""))
+ 601: 
+ 602:         if not _strict_ticker.startswith("KXBTC15M"):
+ 603:             continue
+ 604: 
+ 605:         _strict_open_raw = _strict_market.get("open_time")
+ 606:         _strict_close_raw = _strict_market.get("close_time")
+ 607: 
+ 608:         if not _strict_open_raw or not _strict_close_raw:
+ 609:             continue
+ 610: 
+
+=== CURRENT FINAL-GATE MAP ===
+Matching lines: [761, 765, 767, 768, 805, 810, 813, 815]
+
+==============================================================================
+FINAL-GATE CONTEXT AROUND LINE 761
+==============================================================================
+ 743:     print("KALSHI TICKER:", _audit_ticker)
+ 744:     print("KALSHI OPEN:", _audit_open)
+ 745:     print("KALSHI CLOSE:", _audit_close)
+ 746:     print(
+ 747:         "KALSHI TARGET:",
+ 748:         f"${_audit_target:,.2f}" if _audit_target is not None else "UNKNOWN",
+ 749:     )
+ 750:     print("UP BID/ASK:", _audit_up_bid, "/", _audit_up_ask)
+ 751:     print("DOWN BID/ASK:", _audit_down_bid, "/", _audit_down_ask)
+ 752:     print(
+ 753:         "BRTI-ADJUSTED GAP:",
+ 754:         f"${_v3_adjusted_gap:+.2f}"
+ 755:         if _v3_adjusted_gap is not None
+ 756:         else "UNKNOWN",
+ 757:     )
+ 758:     print("BRTI TARGET SIDE:", _v3_brti_direction)
+ 759:     print("MODEL SIDE:", _model_15m_direction)
+ 760:     print("EXPECTED FINAL SOURCE: BRTI/KALSHI TARGET SIDE")
+ 761:     print("EXPECTED FINAL OUTCOME:", _final_15m_direction)
+ 762: 
+ 763: except Exception as _audit_error:
+ 764:     print("CONTRACT AUDIT ERROR:", str(_audit_error))
+ 765:     print("EXPECTED FINAL OUTCOME remains fail-closed.")
+ 766: 
+ 767: print("\n--- STRICT 15-MIN + V3 FINAL GATE ---")
+ 768: print("EXPECTED FINAL OUTCOME:", _final_15m_direction)
+ 769: print("MODEL LEAN:", _model_15m_direction)
+ 770: print(
+ 771:     "MODEL CONFIRMS FINAL OUTCOME:",
+ 772:     "YES" if _model_15m_direction == _final_15m_direction else "NO",
+ 773: )
+ 774: print("Model confidence:", f"{float(current_confidence):.1%}")
+ 775: print(
+ 776:     "Elapsed contract minute:",
+ 777:     f"{_strict_elapsed_minute:.2f}"
+ 778:     if _strict_elapsed_minute is not None
+ 779:     else "UNKNOWN",
+ 780: )
+ 781: print(
+ 782:     "BTC distance from 15m start:",
+ 783:     f"{_strict_distance:.3%}"
+ 784:     if _strict_distance is not None
+ 785:     else "UNKNOWN",
+ 786: )
+ 787: print("Directional agreement:", f"{_strict_agreement}/3")
+ 788: print(
+ 789:     "Confidence strengthening:",
+ 790:     "YES"
+ 791:     if _strict_conf_change is not None and _strict_conf_change >= 0
+ 792:     else "NO",
+ 793: )
+ 794: print(
+ 795:     "Confidence change:",
+ 796:     f"{_strict_conf_change:+.4f}"
+
+==============================================================================
+FINAL-GATE CONTEXT AROUND LINE 805
+==============================================================================
+ 787: print("Directional agreement:", f"{_strict_agreement}/3")
+ 788: print(
+ 789:     "Confidence strengthening:",
+ 790:     "YES"
+ 791:     if _strict_conf_change is not None and _strict_conf_change >= 0
+ 792:     else "NO",
+ 793: )
+ 794: print(
+ 795:     "Confidence change:",
+ 796:     f"{_strict_conf_change:+.4f}"
+ 797:     if _strict_conf_change is not None
+ 798:     else "UNKNOWN",
+ 799: )
+ 800: print(
+ 801:     "STRICT MODEL READY:",
+ 802:     "YES" if _strict_model_ready else "NO",
+ 803: )
+ 804: print(
+ 805:     "BRTI/KALSHI GATE READY:",
+ 806:     "YES" if bool(_v3_brti_gate_ready) else "NO",
+ 807: )
+ 808: 
+ 809: if _final_15m_ready:
+ 810:     print("ENTRY STATUS: READY")
+ 811:     print("ENTRY SIDE:", _final_15m_direction)
+ 812: else:
+ 813:     print("ENTRY STATUS: WAIT")
+ 814: 
+ 815: print("EXPECTED FINAL OUTCOME:", _final_15m_direction)
+ 816: print("MODEL LEAN:", _model_15m_direction)
+ 817: 
+ 818: if "_strict_error_text" in globals():
+ 819:     print("Strict-gate safety note:", _strict_error_text)
+ 820: 
+ 821: # === STRICT 15M + V3 COMBINED READY END ===
+ 822: 
+ 823: 
+ 824:     # ==========================================
+ 825: # INTRAPERIOD SCALP SIGNAL
+ 826: # ==========================================
+ 827: 
+ 828: print("\n--- SCALP SIGNAL ---")
+ 829: print("1-minute move:", one_minute_change)
+ 830: print("5-minute move:", five_minute_change)
+ 831: print("Momentum change:", momentum_change)
+ 832: scalp_score = 0
+ 833: 
+ 834: if one_minute_change > 0:
+ 835:     scalp_score += 1
+ 836: else:
+ 837:     scalp_score -= 1
+ 838: 
+ 839: if momentum_change > 0:
+ 840:     scalp_score += 1
+
+=== SCALP BOUNDARY MAP ===
+Matching lines: [825, 828, 849, 857, 865, 995]
+
+==============================================================================
+FIRST SCALP SECTION CONTEXT
+==============================================================================
+ 810:     print("ENTRY STATUS: READY")
+ 811:     print("ENTRY SIDE:", _final_15m_direction)
+ 812: else:
+ 813:     print("ENTRY STATUS: WAIT")
+ 814: 
+ 815: print("EXPECTED FINAL OUTCOME:", _final_15m_direction)
+ 816: print("MODEL LEAN:", _model_15m_direction)
+ 817: 
+ 818: if "_strict_error_text" in globals():
+ 819:     print("Strict-gate safety note:", _strict_error_text)
+ 820: 
+ 821: # === STRICT 15M + V3 COMBINED READY END ===
+ 822: 
+ 823: 
+ 824:     # ==========================================
+ 825: # INTRAPERIOD SCALP SIGNAL
+ 826: # ==========================================
+ 827: 
+ 828: print("\n--- SCALP SIGNAL ---")
+ 829: print("1-minute move:", one_minute_change)
+ 830: print("5-minute move:", five_minute_change)
+ 831: print("Momentum change:", momentum_change)
+ 832: scalp_score = 0
+ 833: 
+ 834: if one_minute_change > 0:
+ 835:     scalp_score += 1
+ 836: else:
+ 837:     scalp_score -= 1
+ 838: 
+ 839: if momentum_change > 0:
+ 840:     scalp_score += 1
+ 841: else:
+ 842:     scalp_score -= 1
+ 843: 
+ 844: if five_minute_change > 0:
+ 845:     scalp_score += 1
+ 846: else:
+ 847:     scalp_score -= 1
+ 848: 
+ 849: print("Scalp score:", scalp_score)
+ 850: if scalp_score >= 3:
+ 851:     scalp_signal = "BUY UP"
+ 852: elif scalp_score <= -3:
+ 853:     scalp_signal = "BUY DOWN"
+ 854: else:
+ 855:     scalp_signal = "WAIT"
+ 856: 
+ 857: print("Scalp signal:", scalp_signal)
+ 858: reversal_signal = "NONE"
+ 859: 
+ 860: if five_minute_change < 0 and momentum_change > 0:
+ 861:     reversal_signal = "POSSIBLE UP REVERSAL"
+ 862: elif five_minute_change > 0 and momentum_change < 0:
+ 863:     reversal_signal = "POSSIBLE DOWN REVERSAL"
+ 864: 
+ 865: print("Reversal watch:", reversal_signal)
+ 866: # ==========================================
+ 867: # SCALP BACKTEST
+ 868: # ==========================================
+ 869: 
+ 870: print("\n--- SCALP BACKTEST ---")
+
+=== STATE / SAME-CONTRACT MEMORY MAP ===
+Potential state/history lines: [93, 133, 151, 152, 153, 154, 163, 168, 169, 170, 174, 258, 312, 592, 638, 644, 654, 659, 660, 661, 724, 764, 776, 876, 879, 1006, 1008, 1009, 1013, 1014, 1017, 1018, 1028, 1029, 1038, 1044, 1064, 1065, 1069, 1070, 1073, 1079, 1084, 1104, 1105, 1114, 1119]
+
+=== INTEGRATION READINESS SUMMARY ===
+Corrected Kalshi active-contract clock present: PASS
+Live 15-minute prediction/confidence found: PASS
+Kalshi/BRTI live data found: PASS
+Current strict/final gate found: PASS
+Scalp section identifiable: PASS
+
+VALIDATED LADDER TO INTEGRATE LATER:
+1) RAW FORECAST: always-visible live UP/DOWN probability.
+2) MINUTE-8 QUALIFIED: minute 7 & 8 directions agree AND both confidence >= 85%.
+3) MINUTE-11 FINAL LOCK: (minute 9 & 11 agree AND both >=85%) OR minute-11 confidence >=90%.
+4) Keep Kalshi/BRTI contract target and odds visible beside the signal.
+5) Do not alter scalp logic.
+6) Do not add order-placement code.
+
+=== FINAL 220 LINES FOR EXACT INSERTION REVIEW ===
+==============================================================================
+FINAL 220 LINES OF CURRENT bot.py
+==============================================================================
+ 971: scalp_bt["max_up_move_3m"] = (
+ 972:     scalp_bt["future_high_3m"] - scalp_bt["Close"]
+ 973: )
+ 974: 
+ 975: scalp_bt["max_down_move_3m"] = (
+ 976:     scalp_bt["Close"] - scalp_bt["future_low_3m"]
+ 977: )
+ 978: up_3m_moves = scalp_bt.loc[up_mask, "max_up_move_3m"]
+ 979: down_3m_moves = scalp_bt.loc[down_mask, "max_down_move_3m"]
+ 980: 
+ 981: print("BUY UP avg best move next 3m:", up_3m_moves.mean())
+ 982: print("BUY UP median best move next 3m:", up_3m_moves.median())
+ 983: 
+ 984: print("BUY DOWN avg best move next 3m:", down_3m_moves.mean())
+ 985: print("BUY DOWN median best move next 3m:", down_3m_moves.median())
+ 986: for target in [10, 15, 20, 25, 30]:
+ 987:     up_hit_rate = (up_3m_moves >= target).mean()
+ 988:     down_hit_rate = (down_3m_moves >= target).mean()
+ 989: 
+ 990:     print(
+ 991:         f"${target} target -> "
+ 992:         f"BUY UP: {up_hit_rate:.3f} | "
+ 993:         f"BUY DOWN: {down_hit_rate:.3f}"
+ 994:     )
+ 995:     print("\n--- SCALP SCORE STRENGTH ---")
+ 996: 
+ 997: for score_threshold in [1, 2, 3]:
+ 998:     strong_up = scalp_bt["scalp_score"] >= score_threshold
+ 999:     strong_down = scalp_bt["scalp_score"] <= -score_threshold
+1000: 
+1001:     print(
+1002:         f"Score {score_threshold}+ | "
+1003:         f"UP signals: {strong_up.sum()} | "
+1004:         f"DOWN signals: {strong_down.sum()}"
+1005:     )
+1006:     scalp_bt["contract_start_time"] = scalp_bt.index.floor("15min")
+1007: 
+1008: scalp_bt["contract_start_price"] = (
+1009:     scalp_bt.groupby("contract_start_time")["Open"]
+1010:     .transform("first")
+1011: )
+1012: 
+1013: scalp_bt["move_from_contract_start"] = (
+1014:     scalp_bt["Close"] - scalp_bt["contract_start_price"]
+1015: )
+1016: 
+1017: scalp_bt["minute_in_contract"] = (
+1018:     (scalp_bt.index - scalp_bt["contract_start_time"])
+1019:     .dt.total_seconds() / 60
+1020: )
+1021: 
+1022: 
+1023: 
+1024: print("\n--- DISTANCE x TIME TEST ---")
+1025: 
+1026: for minute_start, minute_end in [(0, 5), (5, 10), (10, 15)]:
+1027:     time_mask = (
+1028:         (scalp_bt["minute_in_contract"] >= minute_start) &
+1029:         (scalp_bt["minute_in_contract"] < minute_end)
+1030:     )
+1031: 
+1032:     print(f"\nMinutes {minute_start}-{minute_end}:")
+1033: 
+1034:     for distance in [20, 30, 40, 50]:
+1035:         up_setup = (
+1036:             time_mask &
+1037:             (scalp_bt["scalp_score"] >= 3) &
+1038:             (scalp_bt["move_from_contract_start"] <= -distance)
+1039:         )
+1040: 
+1041:         down_setup = (
+1042:             time_mask &
+1043:             (scalp_bt["scalp_score"] <= -3) &
+1044:             (scalp_bt["move_from_contract_start"] >= distance)
+1045:         )
+1046: 
+1047:         up_hits = (
+1048:             scalp_bt.loc[up_setup, "future_high_3m"] -
+1049:             scalp_bt.loc[up_setup, "Close"]
+1050:         ) >= 10
+1051: 
+1052:         down_hits = (
+1053:             scalp_bt.loc[down_setup, "Close"] -
+1054:             scalp_bt.loc[down_setup, "future_low_3m"]
+1055:         ) >= 10
+1056: 
+1057:         print(
+1058:             f"${distance} | "
+1059:             f"UP {up_setup.sum()} @ {up_hits.mean():.3f} | "
+1060:             f"DOWN {down_setup.sum()} @ {down_hits.mean():.3f}"
+1061:         )
+1062: 
+1063: print(
+1064:     "Contract-start distance sample:",
+1065:     scalp_bt["move_from_contract_start"].tail()
+1066: )
+1067: 
+1068: 
+1069: scalp_bt["minute_in_contract"] = (
+1070:     (scalp_bt.index - scalp_bt["contract_start_time"])
+1071:     .dt.total_seconds() / 60
+1072: )
+1073: print("\n--- CONTRACT DISTANCE TEST ---")
+1074: 
+1075: 
+1076: for distance in [10, 20, 30, 40, 50]:
+1077:     up_setup = (
+1078:         (scalp_bt["scalp_score"] >= 3) &
+1079:         (scalp_bt["move_from_contract_start"] <= -distance)
+1080:     )
+1081: 
+1082:     down_setup = (
+1083:         (scalp_bt["scalp_score"] <= -3) &
+1084:         (scalp_bt["move_from_contract_start"] >= distance)
+1085:     )
+1086: 
+1087:     up_hits = (
+1088:         scalp_bt.loc[up_setup, "future_high_3m"] -
+1089:         scalp_bt.loc[up_setup, "Close"]
+1090:     ) >= 10
+1091: 
+1092:     down_hits = (
+1093:         scalp_bt.loc[down_setup, "Close"] -
+1094:         scalp_bt.loc[down_setup, "future_low_3m"]
+1095:     ) >= 10
+1096: 
+1097:     print(
+1098:         f"${distance} distance | "
+1099:         f"UP: {up_setup.sum()} signals, {up_hits.mean():.3f} hit rate | "
+1100:         f"DOWN: {down_setup.sum()} signals, {down_hits.mean():.3f} hit rate"
+1101:     )
+1102:     for minute_start, minute_end in [(0, 5), (5, 10), (10, 15)]:
+1103:         time_mask = (
+1104:                     (scalp_bt["minute_in_contract"] >= minute_start) &
+1105:                     (scalp_bt["minute_in_contract"] < minute_end)
+1106:                     )
+1107:         print(f"\nMinutes {minute_start}-{minute_end}:")
+1108:         for distance in [20, 30, 40, 50]:
+1109: 
+1110:                     up_setup = (
+1111:                                       time_mask &
+1112:                                       (scalp_bt["scalp_score"] >= 3) &
+1113: 
+1114:                                              (scalp_bt["move_from_contract_start"] <= -distance)
+1115:                                              )
+1116:                     down_setup = (
+1117:                         time_mask &
+1118:                         (scalp_bt["scalp_score"] <= -3) &
+1119:                         (scalp_bt["move_from_contract_start"] >= distance)
+1120:                         )
+1121:                     up_hits = (
+1122: 
+1123: scalp_bt.loc[up_setup, "future_high_3m"] -
+1124: scalp_bt.loc[up_setup, "Close"]
+1125: ) >= 10
+1126:                     down_hits = (
+1127:                         scalp_bt.loc[down_setup, "Close"] -
+1128:                         scalp_bt.loc[down_setup, "future_low_3m"]
+1129:                         ) >= 10
+1130:                     print(
+1131:                         f"${distance} | "
+1132:                         f"UP {up_setup.sum()} @ {up_hits.mean():.3f} | "
+1133:                         f"DOWN {down_setup.sum()} @ {down_hits.mean():.3f}"
+1134:                         )
+1135:                     
+1136: 
+1137:                     
+1138: print("\n--- KALSHI MARKET TEST ---")
+1139: _market_data = kalshi_get(
+1140:     "/trade-api/v2/markets",
+1141:     params={
+1142:         "status": "open",
+1143:         "series_ticker": "KXBTC15M",
+1144:         "limit": 1000,
+1145:     },
+1146: )
+1147: 
+1148: 
+1149: _exact_matches = []
+1150: 
+1151: for _market in _market_data.get("markets", []):
+1152:     _ticker = str(_market.get("ticker", ""))
+1153:     _event_ticker = str(_market.get("event_ticker", ""))
+1154:     _title = str(_market.get("title", ""))
+1155:     _subtitle = str(_market.get("subtitle", ""))
+1156: 
+1157:     _search_text = " ".join([
+1158:         _ticker,
+1159:         _event_ticker,
+1160:         _title,
+1161:         _subtitle,
+1162:     ]).upper()
+1163: 
+1164:     if (
+1165:         ("BTC" in _search_text or "BITCOIN" in _search_text)
+1166:         and (
+1167:             "15 MIN" in _search_text
+1168:             or "15-MIN" in _search_text
+1169:             or "15MIN" in _search_text
+1170:             or "UP OR DOWN" in _search_text
+1171:         )
+1172:     ):
+1173:         _exact_matches.append(_market)
+1174: 
+1175: print("MATCHES FOUND:", len(_exact_matches))
+1176: print()
+1177: 
+1178: for _market in _exact_matches:
+1179:     print("TICKER:", _market.get("ticker"))
+1180:     print("EVENT TICKER:", _market.get("event_ticker"))
+1181:     print("TITLE:", _market.get("title"))
+1182:     print("SUBTITLE:", _market.get("subtitle"))
+1183:     print("OPEN TIME:", _market.get("open_time"))
+1184:     print("CLOSE TIME:", _market.get("close_time"))
+1185:     print("YES BID:", _market.get("yes_bid_dollars"))
+1186: print("YES ASK:", _market.get("yes_ask_dollars"))
+1187: print("NO BID:", _market.get("no_bid_dollars"))
+1188: print("NO ASK:", _market.get("no_ask_dollars"))
+1189: print("-" * 60)
+1190:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+
+=== MAP COMPLETE ===
+No files modified.
+NEXT: use this output to build a surgical integration patch against the CURRENT bot.py.

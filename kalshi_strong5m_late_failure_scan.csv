@@ -1,0 +1,17 @@
+candidate,flagged,misses_caught,total_misses,good_winners_flagged,kept,kept_accuracy_pct
+5->4m distance drop >= $50,1,1,1,0,5,100.0
+5->3m distance drop >= $75,1,1,1,0,5,100.0
+5->3m distance drop >= $100,1,1,1,0,5,100.0
+5->2m distance drop >= $100,1,1,1,0,5,100.0
+5->2m distance drop >= $150,1,1,1,0,5,100.0
+5->4m fair drop >= 5pt,1,1,1,0,5,100.0
+5->3m fair drop >= 10pt,1,1,1,0,5,100.0
+5->3m fair drop >= 15pt,1,1,1,0,5,100.0
+minimum support 5m->2m <= $50,1,1,1,0,5,100.0
+minimum support 5m->2m <= $75,2,1,1,1,4,100.0
+5->4m distance drop >= $75,0,0,1,0,6,83.33333333333334
+5->4m fair drop >= 10pt,0,0,1,0,6,83.33333333333334
+5->2m fair drop >= 15pt,0,0,1,0,6,83.33333333333334
+5->2m fair drop >= 20pt,0,0,1,0,6,83.33333333333334
+minimum support 5m->2m <= $25,0,0,1,0,6,83.33333333333334
+minimum support 5m->2m <= $0,0,0,1,0,6,83.33333333333334

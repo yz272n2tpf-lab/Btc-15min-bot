@@ -1,0 +1,3 @@
+ticker,correct,call_side,initial_fair,collapse_min,collapse_remaining_min,collapse_distance_gain,collapse_fair_gain,best_distance_after,best_fair_after,distance_recovery_after_collapse,fair_recovery_after_collapse,reclaimed_positive_distance,reclaimed_positive_fair,reclaimed_5pt_fair,reclaimed_10pt_fair,first_positive_distance_min,first_positive_fair_min,first_5pt_fair_min,first_10pt_fair_min
+KXBTC15M-26AUG250945-45,True,UP,0.8018867924528301,11.5199845,0.0292811166666666,-237.6399999999994,-0.694743935309973,,,,,False,False,False,False,,,,
+KXBTC15M-26AUG270615-15,False,UP,0.8018867924528301,8.94317875,0.8572883833333333,-130.74000000000524,-0.6925117924528301,,,,,False,False,False,False,,,,

@@ -1,0 +1,14 @@
+{
+  "rule_name": "FROZEN_3M_SIGNED_DISTANCE_GUARD",
+  "version": 1,
+  "evaluation_point": "approximately 3 minutes remaining",
+  "signed_distance_threshold_dollars": 75.0,
+  "warning_condition": "original-call signed distance <= 75.0",
+  "action": "research warning/downgrade only",
+  "truth_label": "official Kalshi settlement only",
+  "notes": [
+    "Do not tune this threshold using forward results.",
+    "Do not install as a live rule until forward validation is complete.",
+    "This is a late safety/reversal layer, not the primary early final-call trigger."
+  ]
+}

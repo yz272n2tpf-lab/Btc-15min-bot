@@ -1,0 +1,28 @@
+========================================================================
+BATCH TOURNAMENT SUMMARY
+========================================================================
+
+FINAL — VALIDATION WINNER
+fair_min: 0.9
+max_time_left: 8.0
+early_boundary: 6.0
+early_gap: 75.0
+late_gap: 50.0
+min_support: 0.0
+min_dist_range: 1.0
+Validation: accuracy 100.0% | calls 50/99 (50.5%) | avg time left 5.18m
+
+FINAL — UNTOUCHED HOLDOUT
+Accuracy 97.9% | calls 47/100 (47.0%) | avg time left 4.64m | median time left 5.00m
+Calls with >=5m left: 55.3%
+
+ENTRY — ACTUAL LIVE KALSHI ASKS
+Compatible logged contracts: 30 | officially settled in calibration file: 0
+Not enough officially settled compatible live-entry rows for a ranked result yet.
+
+FILES WRITTEN
+batch_tournament_final_results.csv
+batch_tournament_entry_results.csv
+batch_tournament_summary.txt
+
+RULE: Winner selected on validation only. Holdout is report-only; do not tune against it.

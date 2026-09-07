@@ -1,0 +1,95 @@
+rule,flagged,mistakes_caught,good_flagged,clean_n,clean_accuracy
+30s distance_drop >= $30,1,1,0,15,1.0
+30s distance_drop >= $40,1,1,0,15,1.0
+30s distance_drop >= $50,1,1,0,15,1.0
+60s distance_drop >= $30,1,1,0,15,1.0
+60s distance_drop >= $40,1,1,0,15,1.0
+60s distance_drop >= $50,1,1,0,15,1.0
+90s distance_drop >= $30,1,1,0,15,1.0
+90s distance_drop >= $40,1,1,0,15,1.0
+2m distance_drop >= $30,1,1,0,15,1.0
+2m distance_drop >= $40,1,1,0,15,1.0
+3m distance_drop >= $20,1,1,0,15,1.0
+3m distance_drop >= $30,1,1,0,15,1.0
+3m distance_drop >= $40,1,1,0,15,1.0
+3m distance_drop >= $50,1,1,0,15,1.0
+30s fair_drop >= 5%,1,1,0,15,1.0
+30s fair_drop >= 7%,1,1,0,15,1.0
+30s fair_drop >= 10%,1,1,0,15,1.0
+60s fair_drop >= 5%,1,1,0,15,1.0
+60s fair_drop >= 7%,1,1,0,15,1.0
+60s fair_drop >= 10%,1,1,0,15,1.0
+90s fair_drop >= 5%,1,1,0,15,1.0
+90s fair_drop >= 7%,1,1,0,15,1.0
+90s fair_drop >= 10%,1,1,0,15,1.0
+2m fair_drop >= 5%,1,1,0,15,1.0
+2m fair_drop >= 7%,1,1,0,15,1.0
+2m fair_drop >= 10%,1,1,0,15,1.0
+3m fair_drop >= 2%,1,1,0,15,1.0
+3m fair_drop >= 3%,1,1,0,15,1.0
+3m fair_drop >= 5%,1,1,0,15,1.0
+3m fair_drop >= 7%,1,1,0,15,1.0
+3m fair_drop >= 10%,1,1,0,15,1.0
+90s ask_change <= -3%,1,1,0,15,1.0
+90s ask_change <= -5%,1,1,0,15,1.0
+90s ask_change <= -8%,1,1,0,15,1.0
+90s ask_change <= -10%,1,1,0,15,1.0
+90s ask_change <= -15%,1,1,0,15,1.0
+2m ask_change <= -3%,1,1,0,15,1.0
+2m ask_change <= -5%,1,1,0,15,1.0
+2m ask_change <= -8%,1,1,0,15,1.0
+2m ask_change <= -10%,1,1,0,15,1.0
+2m ask_change <= -15%,1,1,0,15,1.0
+3m ask_change <= -3%,1,1,0,15,1.0
+3m ask_change <= -5%,1,1,0,15,1.0
+3m ask_change <= -8%,1,1,0,15,1.0
+30s distance_drop >= $10,2,1,1,14,1.0
+30s distance_drop >= $20,2,1,1,14,1.0
+60s distance_drop >= $10,2,1,1,14,1.0
+60s distance_drop >= $20,2,1,1,14,1.0
+90s distance_drop >= $10,2,1,1,14,1.0
+90s distance_drop >= $20,2,1,1,14,1.0
+2m distance_drop >= $10,2,1,1,14,1.0
+2m distance_drop >= $20,2,1,1,14,1.0
+3m distance_drop >= $10,2,1,1,14,1.0
+30s fair_drop >= 2%,2,1,1,14,1.0
+30s fair_drop >= 3%,2,1,1,14,1.0
+60s fair_drop >= 2%,2,1,1,14,1.0
+60s fair_drop >= 3%,2,1,1,14,1.0
+90s fair_drop >= 2%,2,1,1,14,1.0
+90s fair_drop >= 3%,2,1,1,14,1.0
+2m fair_drop >= 2%,2,1,1,14,1.0
+2m fair_drop >= 3%,2,1,1,14,1.0
+initial remaining 10-11m,2,1,1,14,1.0
+abs(initial_distance) $100-$150,9,1,8,7,1.0
+30s distance_drop >= $60,0,0,0,16,0.9375
+30s distance_drop >= $75,0,0,0,16,0.9375
+60s distance_drop >= $60,0,0,0,16,0.9375
+60s distance_drop >= $75,0,0,0,16,0.9375
+90s distance_drop >= $50,0,0,0,16,0.9375
+90s distance_drop >= $60,0,0,0,16,0.9375
+90s distance_drop >= $75,0,0,0,16,0.9375
+2m distance_drop >= $50,0,0,0,16,0.9375
+2m distance_drop >= $60,0,0,0,16,0.9375
+2m distance_drop >= $75,0,0,0,16,0.9375
+3m distance_drop >= $60,0,0,0,16,0.9375
+3m distance_drop >= $75,0,0,0,16,0.9375
+30s ask_change <= -3%,0,0,0,16,0.9375
+30s ask_change <= -5%,0,0,0,16,0.9375
+30s ask_change <= -8%,0,0,0,16,0.9375
+30s ask_change <= -10%,0,0,0,16,0.9375
+30s ask_change <= -15%,0,0,0,16,0.9375
+60s ask_change <= -3%,0,0,0,16,0.9375
+60s ask_change <= -5%,0,0,0,16,0.9375
+60s ask_change <= -8%,0,0,0,16,0.9375
+60s ask_change <= -10%,0,0,0,16,0.9375
+60s ask_change <= -15%,0,0,0,16,0.9375
+3m ask_change <= -10%,0,0,0,16,0.9375
+3m ask_change <= -15%,0,0,0,16,0.9375
+abs(initial_distance) $0-$50,0,0,0,16,0.9375
+abs(initial_distance) $250-$9999,0,0,0,16,0.9375
+abs(initial_distance) $50-$100,1,0,1,15,0.9333333333333333
+initial remaining 8-9m,3,0,3,13,0.9230769230769231
+initial remaining 11-12m,5,0,5,11,0.9090909090909091
+abs(initial_distance) $150-$250,6,0,6,10,0.9
+initial remaining 9-10m,6,0,6,10,0.9

@@ -1,0 +1,30 @@
+==============================================================================
+EARLY-ENTRY 1-MINUTE FEASIBILITY FRONTIER
+==============================================================================
+
+SELECTED OLD-DEVELOPMENT CONFIGURATION
+model: RANDOM_FOREST
+pool: CHEAP50_BROAD
+threshold: 0.50
+No old-holdout configuration cleared 90%; strongest honest fallback.
+
+OLD VALIDATION: accuracy 88.9% | calls 9 | coverage 22.5% | avg ask 36.8c | avg time left 6.89m
+OLD HOLDOUT: accuracy 80.0% | calls 10 | coverage 25.0% | avg ask 36.5c | avg time left 7.50m
+FRESH 250 REPORT: accuracy 75.6% | calls 41 | coverage 16.4% | avg ask 39.0c | avg time left 6.20m
+
+FRESH FRONTIER — REPORT ONLY
+Best accuracy with >=15 fresh calls: 75.6% | RANDOM_FOREST / CHEAP50_BROAD | calls 41 | avg ask 39.0c | time 6.20m
+No configuration with >=15 fresh calls reached 90% accuracy.
+No configuration with >=15 fresh calls reached 93% accuracy.
+
+DECISION
+1-MINUTE EARLY ENTRY: CEILING NOT GOOD ENOUGH
+Do not keep threshold-tuning the 1-minute architecture. Move early entry to sub-minute information: 5s/15s/30s momentum, direct BRTI, live Kalshi price persistence/lead-lag, and reversal structure.
+
+INTEGRITY
+- Fresh 250 contracts never used for model fitting.
+- Fresh 250 contracts never used for threshold selection.
+- Candidate pools fixed before fresh scoring.
+- Actual Kalshi asks used throughout.
+- Multiple distinct model families compared.
+- No orders; bot.py unchanged.

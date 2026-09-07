@@ -1,0 +1,1 @@
+collector_timestamp_utc,source_timestamp_utc,contract,record_type,final_side,final_fair,minutes_left,btc_price,btc_gap,range5,dist_over_range5,brti_ready,brti_side,brti_gap,reversal_state,up_bid,up_ask,down_bid,down_ask

@@ -1,0 +1,13 @@
+{
+  "purpose": "Forward validation of earlier warning candidate",
+  "checkpoint_minutes_remaining": 5.0,
+  "signed_distance_warning_threshold_usd": 75.0,
+  "cohort": "Layer A CLEAN qualifying calls",
+  "truth_label": "Official Kalshi settlement only",
+  "snapshot_method": "nearest snapshot to 5.0 minutes remaining using the same precursor-audit method",
+  "research_only": true,
+  "bot_py_changed": false,
+  "scalp_logic_changed": false,
+  "orders_enabled": false,
+  "threshold_frozen": true
+}

@@ -1,0 +1,32 @@
+============================================================================
+EARLY-PERSISTENCE META-MODEL V1 RESULTS
+============================================================================
+Selected meta threshold: 0.60
+No validation threshold met full target; best honest fallback.
+
+OLD VALIDATION WINNER
+accuracy 100.0% | calls 2 | avg ask 47.0c | avg time left 7.00m
+
+OLD UNTOUCHED HOLDOUT
+accuracy 66.7% | calls 6 | avg ask 36.2c | median ask 39.0c | <=40c 50.0% | 20-40c 33.3% | avg time left 7.83m
+
+FRESH 250-CONTRACT REPORT-ONLY TEST
+accuracy 78.9% | calls 19 | coverage 7.6%
+avg ask 36.8c | median ask 41.0c | <=40c 47.4% | 20-40c 36.8%
+avg time left 6.21m | median 6.00m
+
+FRESH ACCEPTANCE
+fresh accuracy >=93%: FAIL
+fresh calls >=15: PASS
+fresh avg ask <=40c: PASS
+fresh avg time left >=6m: PASS
+OVERALL: NOT READY
+
+INTEGRITY
+- Fresh 250 contracts are never used for training or threshold selection.
+- Base fair model remains the preserved target-aware RF+sigmoid.
+- Meta-model is trained only on old priced candidate snapshots.
+- Meta threshold is selected only on old chronological validation.
+- Fresh block is revealed once at the end.
+- Actual Kalshi asks are part of both development and fresh scoring.
+- No orders; bot.py unchanged.

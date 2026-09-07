@@ -1,0 +1,47 @@
+============================================================================
+FRESH OUT-OF-SAMPLE RESULTS
+============================================================================
+Fresh contracts available: 250
+Fresh period: 2026-08-30 23:15:00+00:00 -> 2026-09-02 13:45:00+00:00
+
+EARLY_P40_NEW
+------------------------------------------------------------
+accuracy: 83.3% | calls: 12 | coverage: 4.8%
+avg ask: 30.4c | median ask: 32.0c | <=40c: 100.0% | 20-40c: 91.7%
+avg time left: 6.42m | median: 6.00m
+
+EARLY_P45_PROVISIONAL
+------------------------------------------------------------
+accuracy: 75.0% | calls: 20 | coverage: 8.0%
+avg ask: 35.4c | median ask: 39.0c | <=40c: 60.0% | 20-40c: 55.0%
+avg time left: 7.00m | median: 6.50m
+
+LOCKED_TIER1
+------------------------------------------------------------
+accuracy: 81.2% | calls: 32 | coverage: 12.8%
+avg ask: 31.0c | median ask: 36.5c | <=40c: 68.8% | 20-40c: 46.9%
+avg time left: 5.22m | median: 4.50m
+
+LOCKED_FINAL_BASELINE
+------------------------------------------------------------
+accuracy: 99.2% | calls: 133 | coverage: 53.2%
+avg time left: 5.04m | median: 5.00m
+calls with >=5m left: 63.2%
+
+============================================================================
+EARLY_P40_NEW ACCEPTANCE CHECK
+============================================================================
+accuracy >=93%: FAIL
+calls >=15: FAIL
+avg ask <=40c: PASS
+avg time left >=6m: PASS
+OVERALL: NOT READY
+
+INTEGRITY
+- Fresh markets occur after the old 663-contract dataset.
+- Official Kalshi result=yes/no is the fresh truth.
+- Actual Kalshi 1-minute bid/ask candles are used.
+- Fresh contracts are not used to train/calibrate the model.
+- Rules are fixed before fresh scoring; no threshold search here.
+- Direct live BRTI authority is a separate live safety gate.
+- No orders; bot.py unchanged.

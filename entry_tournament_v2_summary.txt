@@ -1,0 +1,32 @@
+============================================================================
+ENTRY TOURNAMENT V2 SUMMARY
+============================================================================
+
+WINNER — SELECTED ON DEVELOPMENT ONLY
+ask_max: 0.45
+fair_min: 0.6
+edge_min: 0.08
+min_time_left: 2.0
+min_gap: 0.0
+persistence: 1
+strengthening_required: False
+
+Development: accuracy 66.7% | calls 3/23 (13.0%) | avg ask 40.3c | avg time left 6.89m
+
+UNTOUCHED CHRONOLOGICAL HOLDOUT
+Accuracy 0.0% | calls 1/11 (9.1%) | avg ask 40.0c | median ask 40.0c
+Avg time left 14.17m | median time left 14.17m | <=30c entries 0.0%
+Avg fair 66.1% | avg edge 26.1%
+
+INTEGRITY
+- Official Kalshi settlement only
+- Actual logged Kalshi asks only
+- First qualifying entry per contract
+- Winner chosen without seeing holdout
+- No orders; bot.py unchanged
+
+FILES WRITTEN
+kalshi_logged_contract_official_results.csv
+entry_tournament_v2_all_results.csv
+entry_tournament_v2_winner_holdout_calls.csv
+entry_tournament_v2_summary.txt

@@ -1,0 +1,15 @@
+ACCEPTED UNION SCORECARD V1
+
+UNTOUCHED HOLDOUT
+Contracts: 100
+Tier-1 entry: 22 (22.0%)
+Locked FINAL: 44 (44.0%)
+Strong scalp: 45 (45.0%)
+Strong scalp wins: 44/45 (97.8%)
+ACCEPTED UNION: 88/100 (88.0%)
+
+Excluded:
+- Secondary directional winner (82.4% holdout) — REJECTED
+
+This is a coverage scorecard only.
+It does not retune any threshold and does not use holdout for selection.

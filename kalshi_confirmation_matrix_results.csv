@@ -1,0 +1,276 @@
+minute,distance_threshold,fair_mode,fair_threshold,warned,misses_caught,total_misses,good_flagged,kept,kept_accuracy,rule,catch_all,capture_rate
+4,10,AND,0.0,4,2,2,2,28,1.0,4m dist_gain < +$10 AND fair_gain < 0.000,True,1.0
+4,15,AND,0.0,4,2,2,2,28,1.0,4m dist_gain < +$15 AND fair_gain < 0.000,True,1.0
+4,20,AND,0.0,4,2,2,2,28,1.0,4m dist_gain < +$20 AND fair_gain < 0.000,True,1.0
+4,25,AND,0.0,4,2,2,2,28,1.0,4m dist_gain < +$25 AND fair_gain < 0.000,True,1.0
+4,30,AND,0.0,4,2,2,2,28,1.0,4m dist_gain < +$30 AND fair_gain < 0.000,True,1.0
+5,10,AND,0.0,6,2,2,4,26,1.0,5m dist_gain < +$10 AND fair_gain < 0.000,True,1.0
+5,15,AND,0.0,6,2,2,4,26,1.0,5m dist_gain < +$15 AND fair_gain < 0.000,True,1.0
+5,20,AND,0.0,6,2,2,4,26,1.0,5m dist_gain < +$20 AND fair_gain < 0.000,True,1.0
+5,25,AND,0.0,6,2,2,4,26,1.0,5m dist_gain < +$25 AND fair_gain < 0.000,True,1.0
+5,30,AND,0.0,6,2,2,4,26,1.0,5m dist_gain < +$30 AND fair_gain < 0.000,True,1.0
+6,10,AND,0.0,6,2,2,4,26,1.0,6m dist_gain < +$10 AND fair_gain < 0.000,True,1.0
+6,15,AND,0.0,6,2,2,4,26,1.0,6m dist_gain < +$15 AND fair_gain < 0.000,True,1.0
+6,20,AND,0.0,6,2,2,4,26,1.0,6m dist_gain < +$20 AND fair_gain < 0.000,True,1.0
+6,25,AND,0.0,6,2,2,4,26,1.0,6m dist_gain < +$25 AND fair_gain < 0.000,True,1.0
+6,30,AND,0.0,6,2,2,4,26,1.0,6m dist_gain < +$30 AND fair_gain < 0.000,True,1.0
+6,10,AND,0.025,7,2,2,5,25,1.0,6m dist_gain < +$10 AND fair_gain < 0.025,True,1.0
+6,15,AND,0.025,7,2,2,5,25,1.0,6m dist_gain < +$15 AND fair_gain < 0.025,True,1.0
+6,20,AND,0.025,7,2,2,5,25,1.0,6m dist_gain < +$20 AND fair_gain < 0.025,True,1.0
+6,25,AND,0.025,7,2,2,5,25,1.0,6m dist_gain < +$25 AND fair_gain < 0.025,True,1.0
+6,30,AND,0.025,7,2,2,5,25,1.0,6m dist_gain < +$30 AND fair_gain < 0.025,True,1.0
+4,10,AND,0.025,8,2,2,6,24,1.0,4m dist_gain < +$10 AND fair_gain < 0.025,True,1.0
+4,15,AND,0.025,8,2,2,6,24,1.0,4m dist_gain < +$15 AND fair_gain < 0.025,True,1.0
+4,20,AND,0.025,8,2,2,6,24,1.0,4m dist_gain < +$20 AND fair_gain < 0.025,True,1.0
+4,25,AND,0.025,8,2,2,6,24,1.0,4m dist_gain < +$25 AND fair_gain < 0.025,True,1.0
+4,30,AND,0.025,8,2,2,6,24,1.0,4m dist_gain < +$30 AND fair_gain < 0.025,True,1.0
+6,10,AND,0.05,8,2,2,6,24,1.0,6m dist_gain < +$10 AND fair_gain < 0.050,True,1.0
+6,15,AND,0.05,8,2,2,6,24,1.0,6m dist_gain < +$15 AND fair_gain < 0.050,True,1.0
+6,20,AND,0.05,8,2,2,6,24,1.0,6m dist_gain < +$20 AND fair_gain < 0.050,True,1.0
+6,25,AND,0.05,8,2,2,6,24,1.0,6m dist_gain < +$25 AND fair_gain < 0.050,True,1.0
+6,30,AND,0.05,8,2,2,6,24,1.0,6m dist_gain < +$30 AND fair_gain < 0.050,True,1.0
+4,10,AND,0.05,9,2,2,7,23,1.0,4m dist_gain < +$10 AND fair_gain < 0.050,True,1.0
+4,10,AND,0.075,9,2,2,7,23,1.0,4m dist_gain < +$10 AND fair_gain < 0.075,True,1.0
+4,10,AND,0.1,9,2,2,7,23,1.0,4m dist_gain < +$10 AND fair_gain < 0.100,True,1.0
+4,15,AND,0.05,9,2,2,7,23,1.0,4m dist_gain < +$15 AND fair_gain < 0.050,True,1.0
+4,15,AND,0.075,9,2,2,7,23,1.0,4m dist_gain < +$15 AND fair_gain < 0.075,True,1.0
+4,15,AND,0.1,9,2,2,7,23,1.0,4m dist_gain < +$15 AND fair_gain < 0.100,True,1.0
+5,10,AND,0.025,9,2,2,7,23,1.0,5m dist_gain < +$10 AND fair_gain < 0.025,True,1.0
+5,15,AND,0.025,9,2,2,7,23,1.0,5m dist_gain < +$15 AND fair_gain < 0.025,True,1.0
+5,20,AND,0.025,9,2,2,7,23,1.0,5m dist_gain < +$20 AND fair_gain < 0.025,True,1.0
+5,25,AND,0.025,9,2,2,7,23,1.0,5m dist_gain < +$25 AND fair_gain < 0.025,True,1.0
+5,30,AND,0.025,9,2,2,7,23,1.0,5m dist_gain < +$30 AND fair_gain < 0.025,True,1.0
+4,20,AND,0.05,10,2,2,8,22,1.0,4m dist_gain < +$20 AND fair_gain < 0.050,True,1.0
+4,20,AND,0.075,10,2,2,8,22,1.0,4m dist_gain < +$20 AND fair_gain < 0.075,True,1.0
+4,20,AND,0.1,10,2,2,8,22,1.0,4m dist_gain < +$20 AND fair_gain < 0.100,True,1.0
+4,25,AND,0.05,10,2,2,8,22,1.0,4m dist_gain < +$25 AND fair_gain < 0.050,True,1.0
+4,25,AND,0.075,10,2,2,8,22,1.0,4m dist_gain < +$25 AND fair_gain < 0.075,True,1.0
+4,25,AND,0.1,10,2,2,8,22,1.0,4m dist_gain < +$25 AND fair_gain < 0.100,True,1.0
+4,30,AND,0.05,10,2,2,8,22,1.0,4m dist_gain < +$30 AND fair_gain < 0.050,True,1.0
+4,30,AND,0.075,10,2,2,8,22,1.0,4m dist_gain < +$30 AND fair_gain < 0.075,True,1.0
+4,30,AND,0.1,10,2,2,8,22,1.0,4m dist_gain < +$30 AND fair_gain < 0.100,True,1.0
+5,10,AND,0.05,10,2,2,8,22,1.0,5m dist_gain < +$10 AND fair_gain < 0.050,True,1.0
+5,10,AND,0.075,10,2,2,8,22,1.0,5m dist_gain < +$10 AND fair_gain < 0.075,True,1.0
+5,15,AND,0.05,10,2,2,8,22,1.0,5m dist_gain < +$15 AND fair_gain < 0.050,True,1.0
+5,15,AND,0.075,10,2,2,8,22,1.0,5m dist_gain < +$15 AND fair_gain < 0.075,True,1.0
+5,20,AND,0.05,10,2,2,8,22,1.0,5m dist_gain < +$20 AND fair_gain < 0.050,True,1.0
+5,20,AND,0.075,10,2,2,8,22,1.0,5m dist_gain < +$20 AND fair_gain < 0.075,True,1.0
+5,25,AND,0.05,10,2,2,8,22,1.0,5m dist_gain < +$25 AND fair_gain < 0.050,True,1.0
+5,25,AND,0.075,10,2,2,8,22,1.0,5m dist_gain < +$25 AND fair_gain < 0.075,True,1.0
+5,30,AND,0.05,10,2,2,8,22,1.0,5m dist_gain < +$30 AND fair_gain < 0.050,True,1.0
+5,30,AND,0.075,10,2,2,8,22,1.0,5m dist_gain < +$30 AND fair_gain < 0.075,True,1.0
+6,10,AND,0.075,10,2,2,8,22,1.0,6m dist_gain < +$10 AND fair_gain < 0.075,True,1.0
+6,10,AND,0.1,10,2,2,8,22,1.0,6m dist_gain < +$10 AND fair_gain < 0.100,True,1.0
+6,15,AND,0.075,10,2,2,8,22,1.0,6m dist_gain < +$15 AND fair_gain < 0.075,True,1.0
+6,15,AND,0.1,10,2,2,8,22,1.0,6m dist_gain < +$15 AND fair_gain < 0.100,True,1.0
+6,20,AND,0.075,10,2,2,8,22,1.0,6m dist_gain < +$20 AND fair_gain < 0.075,True,1.0
+6,20,AND,0.1,10,2,2,8,22,1.0,6m dist_gain < +$20 AND fair_gain < 0.100,True,1.0
+6,25,AND,0.075,10,2,2,8,22,1.0,6m dist_gain < +$25 AND fair_gain < 0.075,True,1.0
+6,30,AND,0.075,10,2,2,8,22,1.0,6m dist_gain < +$30 AND fair_gain < 0.075,True,1.0
+4,10,NONE,,11,2,2,9,21,1.0,4m distance_gain < +$10,True,1.0
+4,10,OR,0.0,11,2,2,9,21,1.0,4m dist_gain < +$10 OR fair_gain < 0.000,True,1.0
+6,25,AND,0.1,11,2,2,9,21,1.0,6m dist_gain < +$25 AND fair_gain < 0.100,True,1.0
+6,30,AND,0.1,11,2,2,9,21,1.0,6m dist_gain < +$30 AND fair_gain < 0.100,True,1.0
+4,10,OR,0.025,12,2,2,10,20,1.0,4m dist_gain < +$10 OR fair_gain < 0.025,True,1.0
+4,15,NONE,,12,2,2,10,20,1.0,4m distance_gain < +$15,True,1.0
+4,15,OR,0.0,12,2,2,10,20,1.0,4m dist_gain < +$15 OR fair_gain < 0.000,True,1.0
+5,10,AND,0.1,12,2,2,10,20,1.0,5m dist_gain < +$10 AND fair_gain < 0.100,True,1.0
+5,15,AND,0.1,12,2,2,10,20,1.0,5m dist_gain < +$15 AND fair_gain < 0.100,True,1.0
+5,20,AND,0.1,12,2,2,10,20,1.0,5m dist_gain < +$20 AND fair_gain < 0.100,True,1.0
+5,25,AND,0.1,12,2,2,10,20,1.0,5m dist_gain < +$25 AND fair_gain < 0.100,True,1.0
+5,30,AND,0.1,12,2,2,10,20,1.0,5m dist_gain < +$30 AND fair_gain < 0.100,True,1.0
+4,10,OR,0.05,13,2,2,11,19,1.0,4m dist_gain < +$10 OR fair_gain < 0.050,True,1.0
+4,15,OR,0.025,13,2,2,11,19,1.0,4m dist_gain < +$15 OR fair_gain < 0.025,True,1.0
+6,10,NONE,,13,2,2,11,19,1.0,6m distance_gain < +$10,True,1.0
+6,10,OR,0.0,13,2,2,11,19,1.0,6m dist_gain < +$10 OR fair_gain < 0.000,True,1.0
+6,10,OR,0.025,13,2,2,11,19,1.0,6m dist_gain < +$10 OR fair_gain < 0.025,True,1.0
+6,10,OR,0.05,13,2,2,11,19,1.0,6m dist_gain < +$10 OR fair_gain < 0.050,True,1.0
+6,15,NONE,,13,2,2,11,19,1.0,6m distance_gain < +$15,True,1.0
+6,15,OR,0.0,13,2,2,11,19,1.0,6m dist_gain < +$15 OR fair_gain < 0.000,True,1.0
+6,15,OR,0.025,13,2,2,11,19,1.0,6m dist_gain < +$15 OR fair_gain < 0.025,True,1.0
+6,15,OR,0.05,13,2,2,11,19,1.0,6m dist_gain < +$15 OR fair_gain < 0.050,True,1.0
+2,10,NONE,,14,2,2,12,18,1.0,2m distance_gain < +$10,True,1.0
+2,10,AND,0.1,14,2,2,12,18,1.0,2m dist_gain < +$10 AND fair_gain < 0.100,True,1.0
+2,15,NONE,,14,2,2,12,18,1.0,2m distance_gain < +$15,True,1.0
+2,15,AND,0.1,14,2,2,12,18,1.0,2m dist_gain < +$15 AND fair_gain < 0.100,True,1.0
+2,20,NONE,,14,2,2,12,18,1.0,2m distance_gain < +$20,True,1.0
+2,20,AND,0.1,14,2,2,12,18,1.0,2m dist_gain < +$20 AND fair_gain < 0.100,True,1.0
+2,25,NONE,,14,2,2,12,18,1.0,2m distance_gain < +$25,True,1.0
+2,25,AND,0.1,14,2,2,12,18,1.0,2m dist_gain < +$25 AND fair_gain < 0.100,True,1.0
+2,30,AND,0.1,14,2,2,12,18,1.0,2m dist_gain < +$30 AND fair_gain < 0.100,True,1.0
+3,10,NONE,,14,2,2,12,18,1.0,3m distance_gain < +$10,True,1.0
+3,10,OR,0.0,14,2,2,12,18,1.0,3m dist_gain < +$10 OR fair_gain < 0.000,True,1.0
+3,15,NONE,,14,2,2,12,18,1.0,3m distance_gain < +$15,True,1.0
+3,15,OR,0.0,14,2,2,12,18,1.0,3m dist_gain < +$15 OR fair_gain < 0.000,True,1.0
+3,20,NONE,,14,2,2,12,18,1.0,3m distance_gain < +$20,True,1.0
+3,20,OR,0.0,14,2,2,12,18,1.0,3m dist_gain < +$20 OR fair_gain < 0.000,True,1.0
+4,10,OR,0.075,14,2,2,12,18,1.0,4m dist_gain < +$10 OR fair_gain < 0.075,True,1.0
+4,15,OR,0.05,14,2,2,12,18,1.0,4m dist_gain < +$15 OR fair_gain < 0.050,True,1.0
+6,10,OR,0.075,14,2,2,12,18,1.0,6m dist_gain < +$10 OR fair_gain < 0.075,True,1.0
+6,15,OR,0.075,14,2,2,12,18,1.0,6m dist_gain < +$15 OR fair_gain < 0.075,True,1.0
+2,10,OR,0.0,15,2,2,13,17,1.0,2m dist_gain < +$10 OR fair_gain < 0.000,True,1.0
+2,15,OR,0.0,15,2,2,13,17,1.0,2m dist_gain < +$15 OR fair_gain < 0.000,True,1.0
+2,20,OR,0.0,15,2,2,13,17,1.0,2m dist_gain < +$20 OR fair_gain < 0.000,True,1.0
+2,25,OR,0.0,15,2,2,13,17,1.0,2m dist_gain < +$25 OR fair_gain < 0.000,True,1.0
+2,30,NONE,,15,2,2,13,17,1.0,2m distance_gain < +$30,True,1.0
+3,10,OR,0.025,15,2,2,13,17,1.0,3m dist_gain < +$10 OR fair_gain < 0.025,True,1.0
+3,10,OR,0.05,15,2,2,13,17,1.0,3m dist_gain < +$10 OR fair_gain < 0.050,True,1.0
+3,15,OR,0.025,15,2,2,13,17,1.0,3m dist_gain < +$15 OR fair_gain < 0.025,True,1.0
+3,15,OR,0.05,15,2,2,13,17,1.0,3m dist_gain < +$15 OR fair_gain < 0.050,True,1.0
+3,20,OR,0.025,15,2,2,13,17,1.0,3m dist_gain < +$20 OR fair_gain < 0.025,True,1.0
+3,20,OR,0.05,15,2,2,13,17,1.0,3m dist_gain < +$20 OR fair_gain < 0.050,True,1.0
+3,25,NONE,,15,2,2,13,17,1.0,3m distance_gain < +$25,True,1.0
+3,25,OR,0.0,15,2,2,13,17,1.0,3m dist_gain < +$25 OR fair_gain < 0.000,True,1.0
+4,15,OR,0.075,15,2,2,13,17,1.0,4m dist_gain < +$15 OR fair_gain < 0.075,True,1.0
+6,10,OR,0.1,15,2,2,13,17,1.0,6m dist_gain < +$10 OR fair_gain < 0.100,True,1.0
+6,15,OR,0.1,15,2,2,13,17,1.0,6m dist_gain < +$15 OR fair_gain < 0.100,True,1.0
+6,20,NONE,,15,2,2,13,17,1.0,6m distance_gain < +$20,True,1.0
+6,20,OR,0.0,15,2,2,13,17,1.0,6m dist_gain < +$20 OR fair_gain < 0.000,True,1.0
+6,20,OR,0.025,15,2,2,13,17,1.0,6m dist_gain < +$20 OR fair_gain < 0.025,True,1.0
+6,20,OR,0.05,15,2,2,13,17,1.0,6m dist_gain < +$20 OR fair_gain < 0.050,True,1.0
+2,10,OR,0.025,16,2,2,14,16,1.0,2m dist_gain < +$10 OR fair_gain < 0.025,True,1.0
+2,15,OR,0.025,16,2,2,14,16,1.0,2m dist_gain < +$15 OR fair_gain < 0.025,True,1.0
+2,20,OR,0.025,16,2,2,14,16,1.0,2m dist_gain < +$20 OR fair_gain < 0.025,True,1.0
+2,25,OR,0.025,16,2,2,14,16,1.0,2m dist_gain < +$25 OR fair_gain < 0.025,True,1.0
+2,30,OR,0.0,16,2,2,14,16,1.0,2m dist_gain < +$30 OR fair_gain < 0.000,True,1.0
+3,25,OR,0.025,16,2,2,14,16,1.0,3m dist_gain < +$25 OR fair_gain < 0.025,True,1.0
+3,25,OR,0.05,16,2,2,14,16,1.0,3m dist_gain < +$25 OR fair_gain < 0.050,True,1.0
+4,10,OR,0.1,16,2,2,14,16,1.0,4m dist_gain < +$10 OR fair_gain < 0.100,True,1.0
+4,20,NONE,,16,2,2,14,16,1.0,4m distance_gain < +$20,True,1.0
+4,20,OR,0.0,16,2,2,14,16,1.0,4m dist_gain < +$20 OR fair_gain < 0.000,True,1.0
+5,10,NONE,,16,2,2,14,16,1.0,5m distance_gain < +$10,True,1.0
+5,10,OR,0.0,16,2,2,14,16,1.0,5m dist_gain < +$10 OR fair_gain < 0.000,True,1.0
+5,10,OR,0.025,16,2,2,14,16,1.0,5m dist_gain < +$10 OR fair_gain < 0.025,True,1.0
+5,10,OR,0.05,16,2,2,14,16,1.0,5m dist_gain < +$10 OR fair_gain < 0.050,True,1.0
+6,20,OR,0.075,16,2,2,14,16,1.0,6m dist_gain < +$20 OR fair_gain < 0.075,True,1.0
+6,25,NONE,,16,2,2,14,16,1.0,6m distance_gain < +$25,True,1.0
+6,25,OR,0.0,16,2,2,14,16,1.0,6m dist_gain < +$25 OR fair_gain < 0.000,True,1.0
+6,25,OR,0.025,16,2,2,14,16,1.0,6m dist_gain < +$25 OR fair_gain < 0.025,True,1.0
+6,25,OR,0.05,16,2,2,14,16,1.0,6m dist_gain < +$25 OR fair_gain < 0.050,True,1.0
+2,30,OR,0.025,17,2,2,15,15,1.0,2m dist_gain < +$30 OR fair_gain < 0.025,True,1.0
+3,10,OR,0.075,17,2,2,15,15,1.0,3m dist_gain < +$10 OR fair_gain < 0.075,True,1.0
+3,15,OR,0.075,17,2,2,15,15,1.0,3m dist_gain < +$15 OR fair_gain < 0.075,True,1.0
+3,20,OR,0.075,17,2,2,15,15,1.0,3m dist_gain < +$20 OR fair_gain < 0.075,True,1.0
+3,30,NONE,,17,2,2,15,15,1.0,3m distance_gain < +$30,True,1.0
+3,30,OR,0.0,17,2,2,15,15,1.0,3m dist_gain < +$30 OR fair_gain < 0.000,True,1.0
+4,15,OR,0.1,17,2,2,15,15,1.0,4m dist_gain < +$15 OR fair_gain < 0.100,True,1.0
+4,20,OR,0.025,17,2,2,15,15,1.0,4m dist_gain < +$20 OR fair_gain < 0.025,True,1.0
+4,20,OR,0.05,17,2,2,15,15,1.0,4m dist_gain < +$20 OR fair_gain < 0.050,True,1.0
+5,10,OR,0.075,17,2,2,15,15,1.0,5m dist_gain < +$10 OR fair_gain < 0.075,True,1.0
+6,20,OR,0.1,17,2,2,15,15,1.0,6m dist_gain < +$20 OR fair_gain < 0.100,True,1.0
+6,25,OR,0.075,17,2,2,15,15,1.0,6m dist_gain < +$25 OR fair_gain < 0.075,True,1.0
+6,25,OR,0.1,17,2,2,15,15,1.0,6m dist_gain < +$25 OR fair_gain < 0.100,True,1.0
+2,10,OR,0.05,18,2,2,16,14,1.0,2m dist_gain < +$10 OR fair_gain < 0.050,True,1.0
+2,15,OR,0.05,18,2,2,16,14,1.0,2m dist_gain < +$15 OR fair_gain < 0.050,True,1.0
+2,20,OR,0.05,18,2,2,16,14,1.0,2m dist_gain < +$20 OR fair_gain < 0.050,True,1.0
+2,25,OR,0.05,18,2,2,16,14,1.0,2m dist_gain < +$25 OR fair_gain < 0.050,True,1.0
+3,10,OR,0.1,18,2,2,16,14,1.0,3m dist_gain < +$10 OR fair_gain < 0.100,True,1.0
+3,15,OR,0.1,18,2,2,16,14,1.0,3m dist_gain < +$15 OR fair_gain < 0.100,True,1.0
+3,20,OR,0.1,18,2,2,16,14,1.0,3m dist_gain < +$20 OR fair_gain < 0.100,True,1.0
+3,25,OR,0.075,18,2,2,16,14,1.0,3m dist_gain < +$25 OR fair_gain < 0.075,True,1.0
+3,30,OR,0.025,18,2,2,16,14,1.0,3m dist_gain < +$30 OR fair_gain < 0.025,True,1.0
+3,30,OR,0.05,18,2,2,16,14,1.0,3m dist_gain < +$30 OR fair_gain < 0.050,True,1.0
+4,20,OR,0.075,18,2,2,16,14,1.0,4m dist_gain < +$20 OR fair_gain < 0.075,True,1.0
+4,25,NONE,,18,2,2,16,14,1.0,4m distance_gain < +$25,True,1.0
+4,25,OR,0.0,18,2,2,16,14,1.0,4m dist_gain < +$25 OR fair_gain < 0.000,True,1.0
+5,10,OR,0.1,18,2,2,16,14,1.0,5m dist_gain < +$10 OR fair_gain < 0.100,True,1.0
+5,15,NONE,,18,2,2,16,14,1.0,5m distance_gain < +$15,True,1.0
+5,15,OR,0.0,18,2,2,16,14,1.0,5m dist_gain < +$15 OR fair_gain < 0.000,True,1.0
+5,15,OR,0.025,18,2,2,16,14,1.0,5m dist_gain < +$15 OR fair_gain < 0.025,True,1.0
+5,15,OR,0.05,18,2,2,16,14,1.0,5m dist_gain < +$15 OR fair_gain < 0.050,True,1.0
+5,20,NONE,,18,2,2,16,14,1.0,5m distance_gain < +$20,True,1.0
+5,20,OR,0.0,18,2,2,16,14,1.0,5m dist_gain < +$20 OR fair_gain < 0.000,True,1.0
+5,20,OR,0.025,18,2,2,16,14,1.0,5m dist_gain < +$20 OR fair_gain < 0.025,True,1.0
+5,20,OR,0.05,18,2,2,16,14,1.0,5m dist_gain < +$20 OR fair_gain < 0.050,True,1.0
+5,25,NONE,,18,2,2,16,14,1.0,5m distance_gain < +$25,True,1.0
+5,25,OR,0.0,18,2,2,16,14,1.0,5m dist_gain < +$25 OR fair_gain < 0.000,True,1.0
+5,25,OR,0.025,18,2,2,16,14,1.0,5m dist_gain < +$25 OR fair_gain < 0.025,True,1.0
+5,25,OR,0.05,18,2,2,16,14,1.0,5m dist_gain < +$25 OR fair_gain < 0.050,True,1.0
+5,30,NONE,,18,2,2,16,14,1.0,5m distance_gain < +$30,True,1.0
+5,30,OR,0.0,18,2,2,16,14,1.0,5m dist_gain < +$30 OR fair_gain < 0.000,True,1.0
+5,30,OR,0.025,18,2,2,16,14,1.0,5m dist_gain < +$30 OR fair_gain < 0.025,True,1.0
+5,30,OR,0.05,18,2,2,16,14,1.0,5m dist_gain < +$30 OR fair_gain < 0.050,True,1.0
+6,30,NONE,,18,2,2,16,14,1.0,6m distance_gain < +$30,True,1.0
+6,30,OR,0.0,18,2,2,16,14,1.0,6m dist_gain < +$30 OR fair_gain < 0.000,True,1.0
+6,30,OR,0.025,18,2,2,16,14,1.0,6m dist_gain < +$30 OR fair_gain < 0.025,True,1.0
+6,30,OR,0.05,18,2,2,16,14,1.0,6m dist_gain < +$30 OR fair_gain < 0.050,True,1.0
+2,10,OR,0.075,19,2,2,17,13,1.0,2m dist_gain < +$10 OR fair_gain < 0.075,True,1.0
+2,15,OR,0.075,19,2,2,17,13,1.0,2m dist_gain < +$15 OR fair_gain < 0.075,True,1.0
+2,20,OR,0.075,19,2,2,17,13,1.0,2m dist_gain < +$20 OR fair_gain < 0.075,True,1.0
+2,25,OR,0.075,19,2,2,17,13,1.0,2m dist_gain < +$25 OR fair_gain < 0.075,True,1.0
+2,30,OR,0.05,19,2,2,17,13,1.0,2m dist_gain < +$30 OR fair_gain < 0.050,True,1.0
+3,25,OR,0.1,19,2,2,17,13,1.0,3m dist_gain < +$25 OR fair_gain < 0.100,True,1.0
+3,30,OR,0.075,19,2,2,17,13,1.0,3m dist_gain < +$30 OR fair_gain < 0.075,True,1.0
+4,25,OR,0.025,19,2,2,17,13,1.0,4m dist_gain < +$25 OR fair_gain < 0.025,True,1.0
+4,25,OR,0.05,19,2,2,17,13,1.0,4m dist_gain < +$25 OR fair_gain < 0.050,True,1.0
+4,30,NONE,,19,2,2,17,13,1.0,4m distance_gain < +$30,True,1.0
+4,30,OR,0.0,19,2,2,17,13,1.0,4m dist_gain < +$30 OR fair_gain < 0.000,True,1.0
+5,15,OR,0.075,19,2,2,17,13,1.0,5m dist_gain < +$15 OR fair_gain < 0.075,True,1.0
+5,20,OR,0.075,19,2,2,17,13,1.0,5m dist_gain < +$20 OR fair_gain < 0.075,True,1.0
+5,25,OR,0.075,19,2,2,17,13,1.0,5m dist_gain < +$25 OR fair_gain < 0.075,True,1.0
+5,30,OR,0.075,19,2,2,17,13,1.0,5m dist_gain < +$30 OR fair_gain < 0.075,True,1.0
+6,30,OR,0.075,19,2,2,17,13,1.0,6m dist_gain < +$30 OR fair_gain < 0.075,True,1.0
+6,30,OR,0.1,19,2,2,17,13,1.0,6m dist_gain < +$30 OR fair_gain < 0.100,True,1.0
+2,10,OR,0.1,20,2,2,18,12,1.0,2m dist_gain < +$10 OR fair_gain < 0.100,True,1.0
+2,15,OR,0.1,20,2,2,18,12,1.0,2m dist_gain < +$15 OR fair_gain < 0.100,True,1.0
+2,20,OR,0.1,20,2,2,18,12,1.0,2m dist_gain < +$20 OR fair_gain < 0.100,True,1.0
+2,25,OR,0.1,20,2,2,18,12,1.0,2m dist_gain < +$25 OR fair_gain < 0.100,True,1.0
+2,30,OR,0.075,20,2,2,18,12,1.0,2m dist_gain < +$30 OR fair_gain < 0.075,True,1.0
+3,30,OR,0.1,20,2,2,18,12,1.0,3m dist_gain < +$30 OR fair_gain < 0.100,True,1.0
+4,20,OR,0.1,20,2,2,18,12,1.0,4m dist_gain < +$20 OR fair_gain < 0.100,True,1.0
+4,25,OR,0.075,20,2,2,18,12,1.0,4m dist_gain < +$25 OR fair_gain < 0.075,True,1.0
+4,30,OR,0.025,20,2,2,18,12,1.0,4m dist_gain < +$30 OR fair_gain < 0.025,True,1.0
+4,30,OR,0.05,20,2,2,18,12,1.0,4m dist_gain < +$30 OR fair_gain < 0.050,True,1.0
+5,15,OR,0.1,20,2,2,18,12,1.0,5m dist_gain < +$15 OR fair_gain < 0.100,True,1.0
+5,20,OR,0.1,20,2,2,18,12,1.0,5m dist_gain < +$20 OR fair_gain < 0.100,True,1.0
+5,25,OR,0.1,20,2,2,18,12,1.0,5m dist_gain < +$25 OR fair_gain < 0.100,True,1.0
+5,30,OR,0.1,20,2,2,18,12,1.0,5m dist_gain < +$30 OR fair_gain < 0.100,True,1.0
+2,30,OR,0.1,21,2,2,19,11,1.0,2m dist_gain < +$30 OR fair_gain < 0.100,True,1.0
+4,30,OR,0.075,21,2,2,19,11,1.0,4m dist_gain < +$30 OR fair_gain < 0.075,True,1.0
+4,25,OR,0.1,22,2,2,20,10,1.0,4m dist_gain < +$25 OR fair_gain < 0.100,True,1.0
+4,30,OR,0.1,23,2,2,21,9,1.0,4m dist_gain < +$30 OR fair_gain < 0.100,True,1.0
+2,10,AND,0.0,4,1,2,3,28,0.9642857142857143,2m dist_gain < +$10 AND fair_gain < 0.000,False,0.5
+2,15,AND,0.0,4,1,2,3,28,0.9642857142857143,2m dist_gain < +$15 AND fair_gain < 0.000,False,0.5
+2,20,AND,0.0,4,1,2,3,28,0.9642857142857143,2m dist_gain < +$20 AND fair_gain < 0.000,False,0.5
+2,25,AND,0.0,4,1,2,3,28,0.9642857142857143,2m dist_gain < +$25 AND fair_gain < 0.000,False,0.5
+2,30,AND,0.0,4,1,2,3,28,0.9642857142857143,2m dist_gain < +$30 AND fair_gain < 0.000,False,0.5
+3,10,AND,0.0,4,1,2,3,28,0.9642857142857143,3m dist_gain < +$10 AND fair_gain < 0.000,False,0.5
+3,15,AND,0.0,4,1,2,3,28,0.9642857142857143,3m dist_gain < +$15 AND fair_gain < 0.000,False,0.5
+3,20,AND,0.0,4,1,2,3,28,0.9642857142857143,3m dist_gain < +$20 AND fair_gain < 0.000,False,0.5
+3,25,AND,0.0,4,1,2,3,28,0.9642857142857143,3m dist_gain < +$25 AND fair_gain < 0.000,False,0.5
+3,30,AND,0.0,4,1,2,3,28,0.9642857142857143,3m dist_gain < +$30 AND fair_gain < 0.000,False,0.5
+3,10,AND,0.025,5,1,2,4,27,0.9629629629629629,3m dist_gain < +$10 AND fair_gain < 0.025,False,0.5
+3,15,AND,0.025,5,1,2,4,27,0.9629629629629629,3m dist_gain < +$15 AND fair_gain < 0.025,False,0.5
+3,20,AND,0.025,5,1,2,4,27,0.9629629629629629,3m dist_gain < +$20 AND fair_gain < 0.025,False,0.5
+3,25,AND,0.025,5,1,2,4,27,0.9629629629629629,3m dist_gain < +$25 AND fair_gain < 0.025,False,0.5
+3,30,AND,0.025,5,1,2,4,27,0.9629629629629629,3m dist_gain < +$30 AND fair_gain < 0.025,False,0.5
+3,10,AND,0.05,7,1,2,6,25,0.96,3m dist_gain < +$10 AND fair_gain < 0.050,False,0.5
+3,15,AND,0.05,7,1,2,6,25,0.96,3m dist_gain < +$15 AND fair_gain < 0.050,False,0.5
+3,20,AND,0.05,7,1,2,6,25,0.96,3m dist_gain < +$20 AND fair_gain < 0.050,False,0.5
+3,25,AND,0.05,7,1,2,6,25,0.96,3m dist_gain < +$25 AND fair_gain < 0.050,False,0.5
+3,30,AND,0.05,7,1,2,6,25,0.96,3m dist_gain < +$30 AND fair_gain < 0.050,False,0.5
+2,10,AND,0.025,8,1,2,7,24,0.9583333333333334,2m dist_gain < +$10 AND fair_gain < 0.025,False,0.5
+2,15,AND,0.025,8,1,2,7,24,0.9583333333333334,2m dist_gain < +$15 AND fair_gain < 0.025,False,0.5
+2,20,AND,0.025,8,1,2,7,24,0.9583333333333334,2m dist_gain < +$20 AND fair_gain < 0.025,False,0.5
+2,25,AND,0.025,8,1,2,7,24,0.9583333333333334,2m dist_gain < +$25 AND fair_gain < 0.025,False,0.5
+2,30,AND,0.025,8,1,2,7,24,0.9583333333333334,2m dist_gain < +$30 AND fair_gain < 0.025,False,0.5
+3,10,AND,0.075,8,1,2,7,24,0.9583333333333334,3m dist_gain < +$10 AND fair_gain < 0.075,False,0.5
+3,15,AND,0.075,8,1,2,7,24,0.9583333333333334,3m dist_gain < +$15 AND fair_gain < 0.075,False,0.5
+3,20,AND,0.075,8,1,2,7,24,0.9583333333333334,3m dist_gain < +$20 AND fair_gain < 0.075,False,0.5
+3,25,AND,0.075,8,1,2,7,24,0.9583333333333334,3m dist_gain < +$25 AND fair_gain < 0.075,False,0.5
+2,10,AND,0.05,9,1,2,8,23,0.9565217391304348,2m dist_gain < +$10 AND fair_gain < 0.050,False,0.5
+2,15,AND,0.05,9,1,2,8,23,0.9565217391304348,2m dist_gain < +$15 AND fair_gain < 0.050,False,0.5
+2,20,AND,0.05,9,1,2,8,23,0.9565217391304348,2m dist_gain < +$20 AND fair_gain < 0.050,False,0.5
+2,25,AND,0.05,9,1,2,8,23,0.9565217391304348,2m dist_gain < +$25 AND fair_gain < 0.050,False,0.5
+2,30,AND,0.05,9,1,2,8,23,0.9565217391304348,2m dist_gain < +$30 AND fair_gain < 0.050,False,0.5
+3,30,AND,0.075,9,1,2,8,23,0.9565217391304348,3m dist_gain < +$30 AND fair_gain < 0.075,False,0.5
+2,10,AND,0.075,10,1,2,9,22,0.9545454545454546,2m dist_gain < +$10 AND fair_gain < 0.075,False,0.5
+2,15,AND,0.075,10,1,2,9,22,0.9545454545454546,2m dist_gain < +$15 AND fair_gain < 0.075,False,0.5
+2,20,AND,0.075,10,1,2,9,22,0.9545454545454546,2m dist_gain < +$20 AND fair_gain < 0.075,False,0.5
+2,25,AND,0.075,10,1,2,9,22,0.9545454545454546,2m dist_gain < +$25 AND fair_gain < 0.075,False,0.5
+2,30,AND,0.075,10,1,2,9,22,0.9545454545454546,2m dist_gain < +$30 AND fair_gain < 0.075,False,0.5
+3,10,AND,0.1,11,1,2,10,21,0.9523809523809523,3m dist_gain < +$10 AND fair_gain < 0.100,False,0.5
+3,15,AND,0.1,11,1,2,10,21,0.9523809523809523,3m dist_gain < +$15 AND fair_gain < 0.100,False,0.5
+3,20,AND,0.1,11,1,2,10,21,0.9523809523809523,3m dist_gain < +$20 AND fair_gain < 0.100,False,0.5
+3,25,AND,0.1,11,1,2,10,21,0.9523809523809523,3m dist_gain < +$25 AND fair_gain < 0.100,False,0.5
+3,30,AND,0.1,12,1,2,11,20,0.95,3m dist_gain < +$30 AND fair_gain < 0.100,False,0.5

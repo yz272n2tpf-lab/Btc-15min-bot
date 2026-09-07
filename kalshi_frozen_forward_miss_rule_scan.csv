@@ -1,0 +1,15 @@
+rule,n,acc,clean_n,clean_acc,mistakes_caught,good_flagged
+initial_fair >= 0.80,17,0.8235294117647058,,,,
+initial_fair >= 0.82,11,0.8181818181818182,,,,
+initial_fair >= 0.85,11,0.8181818181818182,,,,
+initial_fair >= 0.88,11,0.8181818181818182,,,,
+initial_fair >= 0.90,3,1.0,,,,
+8-9 min left,4,1.0,,,,
+9-10 min left,2,0.5,,,,
+10-11 min left,8,0.75,,,,
+11-12 min left,3,1.0,,,,
+3m deterioration >= $50,5,0.6,12.0,0.9166666666666666,2.0,3.0
+3m deterioration >= $75,2,0.5,15.0,0.8666666666666667,1.0,1.0
+3m deterioration >= $100,1,0.0,16.0,0.875,1.0,0.0
+3m deterioration >= $125,0,,17.0,0.8235294117647058,0.0,0.0
+3m deterioration >= $150,0,,17.0,0.8235294117647058,0.0,0.0

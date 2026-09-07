@@ -1,0 +1,2 @@
+contract,timestamp_utc,time_left_min,target_gap_dollars,fair_ready,fair_preferred_side,fair_preferred,preferred_kalshi_ask,fair_edge_vs_ask,source_file,dist_over_range5,fair_ready_bool,official_result,settled,same_side_streak,fair_edge_strengthening,correct
+KXBTC15M-26SEP021830-30,2026-09-02 22:16:07.337916+00:00,14.17423975,1.0100000000093132,True,UP,0.6611383314114196,0.4,0.2611383314114196,kalshi_two_output_live_log_v4_6.csv,0.0161781194939803,True,DOWN,True,1,False,False

@@ -1,0 +1,8 @@
+{
+  "saved_utc": "2026-09-05T11:43:22.390937+00:00",
+  "snapshot_log": "kalshi_scalp_shadow_snapshots_v1.csv",
+  "event_log": "kalshi_scalp_shadow_events_v1.csv",
+  "pending_events": 6,
+  "poll_seconds": 5,
+  "event_horizon_seconds": 180
+}
