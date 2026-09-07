@@ -1,20 +1,24 @@
 #!/usr/bin/env python3
 """
-BTC15 KALSHI-APP / BRTI PARITY SHADOW V1
+BTC15 KALSHI-APP / BRTI PARITY SHADOW V2
 
-Purpose:
-- Independently query the live Kalshi KXBTC15M market and direct BRTI.
-- Compare those authoritative values with the bot's persistent unified 5-second log.
-- Record contract, clock, target, quote, and BRTI parity.
-- Shadow/read-only only. No bot thresholds changed. No orders.
+Fixes V1's schema mismatch:
+- unified log is side-row based, so V2 reconstructs UP/DOWN quotes from
+  side + side_bid + side_ask across the newest contract snapshot.
+- direct BRTI comparison can fall back to the bot's persistent
+  kalshi_direct_brti_parity_v1.csv when BRTI fields are not present
+  on the unified row.
 
-This is a plumbing / production-candidate validation collector, NOT a trading signal.
+READ-ONLY:
+- no bot logic edits
+- no trading threshold changes
+- no orders
 """
+
 from pathlib import Path
 from datetime import datetime, timezone
 import base64
 import csv
-import json
 import math
 import os
 import sys
@@ -26,6 +30,7 @@ from cryptography.hazmat.primitives.asymmetric import padding
 
 DATA_ROOT = Path("/data") if Path("/data").exists() else Path(".")
 UNIFIED = DATA_ROOT / "kalshi_subminute_unified_v1_1.csv"
+BRTI_LOG = DATA_ROOT / "kalshi_direct_brti_parity_v1.csv"
 OUT = DATA_ROOT / "kalshi_app_parity_shadow_v1.csv"
 
 BASE = "https://external-api.kalshi.com"
@@ -34,14 +39,15 @@ BRTI_PATH = "/trade-api/v2/cfbenchmarks/values"
 
 POLL_SECONDS = 15
 
-# Pre-declared audit tolerances. These are plumbing tolerances, not trading thresholds.
+# Plumbing tolerances only; NOT trading thresholds.
 SOURCE_MAX_AGE_SEC = 12.0
 QUOTE_MAX_AGE_SEC = 6.0
 CLOCK_TOLERANCE_SEC = 10.0
 TARGET_TOLERANCE_DOLLARS = 1.00
-QUOTE_TOLERANCE = 0.06          # 6 cents; snapshot/API are not atomic.
+QUOTE_TOLERANCE = 0.06
 BRTI_TIME_TOLERANCE_SEC = 6.0
 BRTI_VALUE_TOLERANCE_DOLLARS = 2.00
+SNAPSHOT_JOIN_TOLERANCE_SEC = 2.0
 
 FIELDS = [
     "audit_timestamp_utc","source_timestamp_utc","source_age_sec",
@@ -98,16 +104,20 @@ def first(r, names):
             return r.get(k)
     return ""
 
+def all_rows(path):
+    if not path.exists():
+        return []
+    with path.open(newline="", encoding="utf-8-sig", errors="ignore") as f:
+        return list(csv.DictReader(f))
+
 def load_private_key():
     kid = os.getenv("KALSHI_KEY_ID","").strip()
     b64 = os.getenv("KALSHI_PRIVATE_KEY_B64","").strip()
-
     if kid and b64:
         raw = base64.b64decode(b64)
         key = serialization.load_pem_private_key(raw, password=None)
         return kid, key
 
-    # Local fallback only; Railway normally uses env vars.
     kid_path = Path.home()/".kalshi"/"key_id"
     key_path = Path.home()/".kalshi"/"private_key.pem"
     if kid_path.exists() and key_path.exists():
@@ -140,7 +150,7 @@ def auth_headers(method, path):
         "KALSHI-ACCESS-SIGNATURE": base64.b64encode(sig).decode("utf-8"),
         "KALSHI-ACCESS-TIMESTAMP": ts,
         "Accept": "application/json",
-        "User-Agent": "BTC15-parity-shadow/1.0",
+        "User-Agent": "BTC15-parity-shadow/2.0",
     }
 
 def kalshi_get(path, params=None):
@@ -156,11 +166,7 @@ def kalshi_get(path, params=None):
 def active_market():
     obj = kalshi_get(
         MARKETS_PATH,
-        {
-            "status":"open",
-            "series_ticker":"KXBTC15M",
-            "limit":1000,
-        },
+        {"status":"open","series_ticker":"KXBTC15M","limit":1000},
     )
     now = now_utc()
     active = []
@@ -178,10 +184,7 @@ def active_market():
     return active[0][1]
 
 def direct_brti_payload():
-    obj = kalshi_get(
-        BRTI_PATH,
-        {"id":"BRTI","maxResolution":"PER_SECOND"},
-    )
+    obj = kalshi_get(BRTI_PATH, {"id":"BRTI","maxResolution":"PER_SECOND"})
     data = obj.get("data", obj) if isinstance(obj,dict) else {}
     payload = data.get("payload") if isinstance(data,dict) else None
     if not isinstance(payload,list):
@@ -198,19 +201,6 @@ def direct_brti_payload():
             continue
     return out
 
-def latest_unified_row():
-    if not UNIFIED.exists():
-        return None
-    last = None
-    last_ts = None
-    with UNIFIED.open(newline="", encoding="utf-8-sig", errors="ignore") as f:
-        for r in csv.DictReader(f):
-            t = parse_dt(r.get("timestamp_utc"))
-            if t is not None and (last_ts is None or t >= last_ts):
-                last_ts = t
-                last = r
-    return last
-
 def market_target(m):
     for k in ["floor_strike","cap_strike","strike","target","settlement_value"]:
         v = num(m.get(k))
@@ -219,8 +209,6 @@ def market_target(m):
     return math.nan
 
 def qv(m, side_name, level):
-    # Prefer *_dollars, but accept old numeric integer-cent fields if necessary.
-    keys = []
     if side_name == "UP" and level == "bid":
         keys = ["yes_bid_dollars","yes_bid"]
     elif side_name == "UP":
@@ -234,12 +222,125 @@ def qv(m, side_name, level):
         v /= 100.0
     return v
 
-def nearest_brti(payload, source_ts):
+def latest_unified_snapshot():
+    """
+    Return one synthetic snapshot built from all side-rows near the newest
+    timestamp for the newest contract.
+    """
+    rows = all_rows(UNIFIED)
+    timed = []
+    for r in rows:
+        t = parse_dt(r.get("timestamp_utc"))
+        c = str(r.get("contract","")).strip()
+        if t and c:
+            timed.append((t,c,r))
+    if not timed:
+        return None
+
+    latest_t, latest_c, latest_r = max(timed, key=lambda x:x[0])
+    near = [
+        r for t,c,r in timed
+        if c == latest_c
+        and abs((t-latest_t).total_seconds()) <= SNAPSHOT_JOIN_TOLERANCE_SEC
+    ]
+
+    snap = dict(latest_r)
+
+    # First prefer explicit wide columns if they exist.
+    for k in ["up_bid","up_ask","down_bid","down_ask","yes_bid","yes_ask","no_bid","no_ask"]:
+        for r in reversed(near):
+            if str(r.get(k,"")).strip() != "":
+                snap[k] = r.get(k)
+                break
+
+    # Reconstruct wide quotes from side-row schema.
+    for r in near:
+        sd = side(r.get("side"))
+        bid = first(r,["side_bid"])
+        ask = first(r,["side_ask"])
+        if sd == "UP":
+            if str(bid).strip() != "":
+                snap["up_bid"] = bid
+            if str(ask).strip() != "":
+                snap["up_ask"] = ask
+        elif sd == "DOWN":
+            if str(bid).strip() != "":
+                snap["down_bid"] = bid
+            if str(ask).strip() != "":
+                snap["down_ask"] = ask
+
+    # Carry BRTI fields from any side-row if present.
+    for k in ["brti_gap","brti_side","brti_ready","ready"]:
+        if str(snap.get(k,"")).strip() == "":
+            for r in reversed(near):
+                if str(r.get(k,"")).strip() != "":
+                    snap[k] = r.get(k)
+                    break
+
+    snap["_source_timestamp"] = latest_t
+    snap["_snapshot_rows"] = len(near)
+    return snap
+
+def nearest_api_brti(payload, source_ts):
     if not payload or source_ts is None:
         return None, math.nan, math.nan
     t,val = min(payload, key=lambda z: abs((z[0]-source_ts).total_seconds()))
     d = abs((t-source_ts).total_seconds())
     return t,val,d
+
+def nearest_logged_brti(source_ts, api_target, unified_snap):
+    """
+    Prefer BRTI carried in unified. If absent, adaptively read the bot's
+    persistent direct-BRTI parity log.
+    Returns (value, side, gap, time_delta).
+    """
+    ugap = num(first(unified_snap,["brti_gap"]))
+    uside = side(first(unified_snap,["brti_side"]))
+    if math.isfinite(ugap) and math.isfinite(api_target):
+        uval = api_target + ugap
+        return uval, (uside or ("UP" if ugap >= 0 else "DOWN")), ugap, 0.0
+
+    rows = all_rows(BRTI_LOG)
+    if not rows or source_ts is None:
+        return math.nan, "", math.nan, math.nan
+
+    time_names = [
+        "timestamp_utc","source_timestamp_utc","time_utc","timestamp",
+        "observed_utc","collector_timestamp_utc"
+    ]
+    value_names = [
+        "brti_value","brti_price","direct_brti","direct_brti_value",
+        "value","price","benchmark_value"
+    ]
+    gap_names = ["brti_gap","gap","distance","target_gap"]
+    side_names = ["brti_side","side","benchmark_side"]
+
+    candidates = []
+    for r in rows:
+        t = parse_dt(first(r,time_names))
+        if not t:
+            continue
+        d = abs((t-source_ts).total_seconds())
+        candidates.append((d,t,r))
+    if not candidates:
+        return math.nan, "", math.nan, math.nan
+
+    d,_,r = min(candidates, key=lambda z:z[0])
+
+    val = num(first(r,value_names))
+    gap = num(first(r,gap_names))
+    sd = side(first(r,side_names))
+
+    if not math.isfinite(val) and math.isfinite(gap) and math.isfinite(api_target):
+        val = api_target + gap
+    if not math.isfinite(gap) and math.isfinite(val) and math.isfinite(api_target):
+        gap = val - api_target
+    if not sd and math.isfinite(gap):
+        sd = "UP" if gap >= 0 else "DOWN"
+    if not sd and math.isfinite(val) and math.isfinite(api_target):
+        sd = "UP" if val >= api_target else "DOWN"
+
+    return val, sd, gap, d
 
 def append(rec):
     new = not OUT.exists()
@@ -287,13 +388,13 @@ def one_audit():
         print("PARITY WAIT | no active KXBTC15M contract", flush=True)
         return
 
-    r = latest_unified_row()
+    r = latest_unified_snapshot()
     if r is None:
         print("PARITY WAIT | unified log missing/empty", flush=True)
         return
 
     audit_ts = now_utc()
-    source_ts = parse_dt(r.get("timestamp_utc"))
+    source_ts = r.get("_source_timestamp") or parse_dt(r.get("timestamp_utc"))
     unified_contract = str(r.get("contract","")).strip()
     api_contract = str(m.get("ticker","")).strip()
 
@@ -331,10 +432,12 @@ def one_audit():
     lupa = prob(first(r,["up_ask","yes_ask"]))
     ldnb = prob(first(r,["down_bid","no_bid"]))
     ldna = prob(first(r,["down_ask","no_ask"]))
+
     aupb = qv(m,"UP","bid")
     aupa = qv(m,"UP","ask")
     adnb = qv(m,"DOWN","bid")
     adna = qv(m,"DOWN","ask")
+
     quote_deltas = [
         finite_delta(lupb,aupb),
         finite_delta(lupa,aupa),
@@ -350,20 +453,21 @@ def one_audit():
     )
     quote_match = quote_scorable and quote_max_delta <= QUOTE_TOLERANCE
 
-    brti_payload = direct_brti_payload()
-    _, api_brti, brti_time_delta = nearest_brti(brti_payload,source_ts)
-    brti_gap = num(first(r,["brti_gap"]))
-    logged_brti_side = side(first(r,["brti_side"]))
-    logged_brti_value = (
-        api_target + brti_gap
-        if math.isfinite(api_target) and math.isfinite(brti_gap)
-        else math.nan
+    api_payload = direct_brti_payload()
+    _, api_brti, api_brti_time_delta = nearest_api_brti(api_payload,source_ts)
+    logged_brti, logged_brti_side, logged_brti_gap, logged_brti_time_delta = (
+        nearest_logged_brti(source_ts,api_target,r)
     )
+    brti_time_delta = max(
+        x for x in [api_brti_time_delta,logged_brti_time_delta]
+        if math.isfinite(x)
+    ) if any(math.isfinite(x) for x in [api_brti_time_delta,logged_brti_time_delta]) else math.nan
+
     api_brti_side = (
         "UP" if math.isfinite(api_brti) and math.isfinite(api_target) and api_brti >= api_target
         else ("DOWN" if math.isfinite(api_brti) and math.isfinite(api_target) else "")
     )
-    brti_value_delta = finite_delta(logged_brti_value,api_brti)
+    brti_value_delta = finite_delta(logged_brti,api_brti)
     brti_match = (
         math.isfinite(brti_time_delta)
         and brti_time_delta <= BRTI_TIME_TOLERANCE_SEC
@@ -380,6 +484,7 @@ def one_audit():
         and quote_scorable
         and math.isfinite(brti_time_delta)
         and brti_time_delta <= BRTI_TIME_TOLERANCE_SEC
+        and math.isfinite(brti_value_delta)
     )
 
     if not row_scorable:
@@ -395,7 +500,8 @@ def one_audit():
     if row_scorable and not target_match: notes.append("TARGET")
     if quote_scorable and not quote_match: notes.append("QUOTES")
     if row_scorable and not brti_match: notes.append("BRTI")
-    if not quote_scorable: notes.append("QUOTE_LAG")
+    if not quote_scorable: notes.append("QUOTE_MISSING_OR_STALE")
+    if not math.isfinite(logged_brti): notes.append("BOT_BRTI_MISSING")
     if not row_scorable: notes.append("NOT_SCORABLE")
 
     rec = {
@@ -424,9 +530,9 @@ def one_audit():
         "quote_max_delta":round(quote_max_delta,6) if math.isfinite(quote_max_delta) else "",
         "quote_scorable":quote_scorable,
         "quote_match":quote_match,
-        "logged_brti_gap":round(brti_gap,4) if math.isfinite(brti_gap) else "",
+        "logged_brti_gap":round(logged_brti_gap,4) if math.isfinite(logged_brti_gap) else "",
         "logged_brti_side":logged_brti_side,
-        "logged_brti_value_inferred":round(logged_brti_value,4) if math.isfinite(logged_brti_value) else "",
+        "logged_brti_value_inferred":round(logged_brti,4) if math.isfinite(logged_brti) else "",
         "api_brti_value_near_source":round(api_brti,4) if math.isfinite(api_brti) else "",
         "api_brti_side_near_source":api_brti_side,
         "brti_time_delta_sec":round(brti_time_delta,3) if math.isfinite(brti_time_delta) else "",
@@ -439,27 +545,50 @@ def one_audit():
     append(rec)
     update_summary(api_contract,status)
 
+    qtxt = f"{quote_max_delta*100:.1f}c" if math.isfinite(quote_max_delta) else "N/A"
+    btxt = f"${brti_value_delta:.2f}" if math.isfinite(brti_value_delta) else "N/A"
     print(
         f"PARITY {status} | {api_contract} | age {source_age:.1f}s | "
         f"clock Δ{clock_delta:.1f}s | target Δ${target_delta:.2f} | "
-        f"quotes Δ{quote_max_delta*100:.1f}c | "
-        f"BRTI Δ${brti_value_delta:.2f} @ {brti_time_delta:.1f}s"
+        f"quotes Δ{qtxt} | BRTI Δ{btxt} @ "
+        f"{brti_time_delta:.1f}s | joined {r.get('_snapshot_rows',0)} row(s)"
         + (f" | {rec['notes']}" if rec["notes"] else ""),
         flush=True,
     )
 
+def self_test():
+    snap = latest_unified_snapshot()
+    print("KALSHI PARITY SHADOW V2 SELF-TEST")
+    if snap is None:
+        print("Unified local sample: not present — compile/schema fallback test only.")
+    else:
+        vals = {
+            "up_bid":prob(first(snap,["up_bid","yes_bid"])),
+            "up_ask":prob(first(snap,["up_ask","yes_ask"])),
+            "down_bid":prob(first(snap,["down_bid","no_bid"])),
+            "down_ask":prob(first(snap,["down_ask","no_ask"])),
+        }
+        n = sum(math.isfinite(v) for v in vals.values())
+        print("Newest contract:", snap.get("contract",""))
+        print("Joined side rows:", snap.get("_snapshot_rows",0))
+        print("Reconstructed quote fields:", n, "/ 4")
+        print("Quotes:", vals)
+        if n < 2:
+            raise SystemExit("SELF-TEST FAIL: could not reconstruct at least two quote fields.")
+    print("SELF-TEST: PASS")
+    print("No network request made. No orders.")
+    return 0
+
 def main():
     if "--self-test" in sys.argv:
-        print("KALSHI PARITY SHADOW SELF-TEST: PASS")
-        print("No network request made.")
-        print("No orders.")
-        return 0
+        return self_test()
 
     print("="*84, flush=True)
-    print("BTC15 KALSHI-APP / BRTI PARITY SHADOW V1: STARTING", flush=True)
-    print(f"Source: {UNIFIED}", flush=True)
+    print("BTC15 KALSHI-APP / BRTI PARITY SHADOW V2: STARTING", flush=True)
+    print(f"Unified source: {UNIFIED}", flush=True)
+    print(f"Bot BRTI source: {BRTI_LOG}", flush=True)
     print(f"Output: {OUT}", flush=True)
-    print("Checks: contract + clock + target + live quotes + direct BRTI", flush=True)
+    print("Fix: side-row quote reconstruction + persistent bot-BRTI fallback", flush=True)
     print("Read-only. Existing bot unchanged. NO ORDERS.", flush=True)
     print("="*84, flush=True)
 
@@ -473,6 +602,8 @@ def main():
         except Exception as e:
             print(f"PARITY WARNING | {type(e).__name__}: {e}", flush=True)
         time.sleep(POLL_SECONDS)
+
+    return 0
 
 if __name__ == "__main__":
     raise SystemExit(main())
