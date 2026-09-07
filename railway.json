@@ -1,7 +1,7 @@
 {
   "$schema": "https://railway.com/railway.schema.json",
   "deploy": {
-    "startCommand": "python -u bot_two_output_build_v4_13_profit_protection_shadow.py",
+    "startCommand": "python -u btc15_run_with_rescue_v2_shadow_v1.py",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }
