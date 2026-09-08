@@ -6,6 +6,7 @@ Fixes display behavior only:
 - stop chart opacity flashing on freshness transitions
 - redraw chart without first erasing the visible SVG
 - preserve existing FINAL qualification logic; add clearer 90%+ pending wording
+- keep a backend-qualified FINAL visibly qualified through brief parity/freshness flicker
 
 No trading, scoring, Kalshi, or order logic is changed.
 """
@@ -40,7 +41,7 @@ def patch_html(path: Path) -> list[str]:
         text = text.replace(old2, new2)
         changes.append("chart-unavailable-opacity")
 
-    # 2) Do not blank the SVG before rebuilding. Draw new nodes over the old frame, then remove old nodes atomically-ish at end.
+    # 2) Do not blank the SVG before rebuilding. Draw new nodes over the old frame, then remove old nodes at end.
     old3 = "svg.setAttribute('viewBox',`0 0 ${w} ${h}`);svg.textContent='';"
     new3 = "const oldChartNodes=Array.from(svg.childNodes);svg.setAttribute('viewBox',`0 0 ${w} ${h}`);"
     if old3 in text:
@@ -72,6 +73,21 @@ def patch_html(path: Path) -> list[str]:
     if old6 in text:
         text = text.replace(old6, new6)
         changes.append("final-90-pending-label")
+
+    # 5) Once the backend has truly qualified FINAL on a fresh same-contract frame, keep that UI state
+    # latched for the remainder of that contract. Brief parity/freshness flicker must not visually turn
+    # a qualified FINAL back into WATCH. This is display-only; the backend gate itself is unchanged.
+    latch_anchor = "let lastBrtiDisplay=null; let lastChartSignature=null;"
+    latch_new = "let lastBrtiDisplay=null; let lastChartSignature=null; let latchedFinal=null;"
+    if latch_anchor in text:
+        text = text.replace(latch_anchor, latch_new, 1)
+        changes.append("final-latch-state")
+
+    apply_old = "function applyState(d,drawChart=true){ const usable=usableFrame(d); // Keep raw qualification diagnostics but never present stale data as action. d={...d,final:{...d.final,ready:usable && freshBrti(d) && d.final?.ready===true}, early:{...d.early,ready:usable && d.early?.ready===true}, scalp:{...d.scalp,ready:usable && d.scalp?.ready===true}};"
+    apply_new = "function applyState(d,drawChart=true){ const usable=usableFrame(d); const rawFinalReady=d.final?.ready===true; if(latchedFinal&&latchedFinal.contract!==d.contract)latchedFinal=null; if(usable&&freshBrti(d)&&rawFinalReady){latchedFinal={contract:d.contract,side:(d.final?.side||d.market?.preferred_side||'').toUpperCase(),confidence:N(d.final?.confidence)};} const finalLatched=Boolean(latchedFinal&&latchedFinal.contract===d.contract); // Keep raw qualification diagnostics but never invent a FINAL. A previously fresh backend-qualified FINAL may remain displayed through transient parity/freshness flicker. d={...d,final:{...d.final,ready:(usable && freshBrti(d) && rawFinalReady)||finalLatched,side:finalLatched?(d.final?.side||latchedFinal.side):d.final?.side,confidence:finalLatched&& !Number.isFinite(N(d.final?.confidence))?latchedFinal.confidence:d.final?.confidence}, early:{...d.early,ready:usable && d.early?.ready===true}, scalp:{...d.scalp,ready:usable && d.scalp?.ready===true}};"
+    if apply_old in text:
+        text = text.replace(apply_old, apply_new, 1)
+        changes.append("final-qualified-latch")
 
     if "</head>" in text:
         text = text.replace("</head>", CSS + f"\n<!-- {MARKER} -->\n</head>", 1)
