@@ -1,0 +1,102 @@
+#!/usr/bin/env python3
+"""Targeted UI render fix for BTC 15m dashboard.
+
+Fixes display behavior only:
+- keep BRTI price a stable fixed color
+- stop chart opacity flashing on freshness transitions
+- redraw chart without first erasing the visible SVG
+- preserve existing FINAL qualification logic; add clearer 90%+ pending wording
+
+No trading, scoring, Kalshi, or order logic is changed.
+"""
+from pathlib import Path
+import os
+import sys
+
+MARKER = "BTC15_RENDER_FIX_V1"
+
+CSS = r'''<style id="btc15-render-fix-v1">
+#btcPrice { color:#f3f5f7 !important; opacity:1 !important; text-shadow:none !important; }
+.chart-card > svg { opacity:1 !important; visibility:visible !important; transition:none !important; animation:none !important; }
+</style>'''
+
+
+def patch_html(path: Path) -> list[str]:
+    text = path.read_text(encoding="utf-8", errors="replace")
+    changes = []
+    if MARKER in text:
+        return ["already-present"]
+
+    # 1) Never dim the chart based on transient source freshness. Keep stale state in dataset/text only.
+    old = "if(chart){chart.style.opacity=current?'1':'.4';chart.dataset.stale=current?'false':'true';}"
+    new = "if(chart){chart.style.opacity='1';chart.dataset.stale=current?'false':'true';}"
+    if old in text:
+        text = text.replace(old, new)
+        changes.append("chart-opacity")
+
+    old2 = "const chart=document.querySelector('.chart-card > svg');if(chart){chart.style.opacity='.4';chart.dataset.stale='true';}"
+    new2 = "const chart=document.querySelector('.chart-card > svg');if(chart){chart.style.opacity='1';chart.dataset.stale='true';}"
+    if old2 in text:
+        text = text.replace(old2, new2)
+        changes.append("chart-unavailable-opacity")
+
+    # 2) Do not blank the SVG before rebuilding. Draw new nodes over the old frame, then remove old nodes atomically-ish at end.
+    old3 = "svg.setAttribute('viewBox',`0 0 ${w} ${h}`);svg.textContent='';"
+    new3 = "const oldChartNodes=Array.from(svg.childNodes);svg.setAttribute('viewBox',`0 0 ${w} ${h}`);"
+    if old3 in text:
+        text = text.replace(old3, new3)
+        changes.append("chart-no-preclear")
+
+    old4 = "if(!pts.length){add('text',{x:12,y:28,fill:'#9eafbf','font-size':12},'BRTI history unavailable — no substitute price');return;}"
+    new4 = "if(!pts.length){add('text',{x:12,y:28,fill:'#9eafbf','font-size':12},'BRTI history unavailable — no substitute price');oldChartNodes.forEach(n=>n.remove());return;}"
+    if old4 in text:
+        text = text.replace(old4, new4)
+        changes.append("chart-empty-cleanup")
+
+    old5 = "svg.onpointermove=event=>{"
+    new5 = "oldChartNodes.forEach(n=>n.remove());svg.onpointermove=event=>{"
+    if old5 in text:
+        text = text.replace(old5, new5, 1)
+        changes.append("chart-postdraw-swap")
+
+    # 3) Price is always visually stable. State/freshness stays in the nearby label, not the number color.
+    price_hook = "function renderBrtiDisplay(d,forcedUnavailable=false){ const price=$('btcPrice'), gap=$('btcGap');"
+    price_new = "function renderBrtiDisplay(d,forcedUnavailable=false){ const price=$('btcPrice'), gap=$('btcGap'); if(price){price.style.setProperty('color','#f3f5f7','important');price.style.setProperty('opacity','1','important');}"
+    if price_hook in text:
+        text = text.replace(price_hook, price_new)
+        changes.append("price-fixed-color")
+
+    # 4) If probability itself is >=90 but the frozen FINAL gate is not yet qualified, say exactly that.
+    old6 = "setText('finalActionSub',f.ready?`${pref} FINAL qualified · ${fmtPct(conf,1)}`:`Continuous ${pref||'direction'} probability · FINAL not qualified`);"
+    new6 = "setText('finalActionSub',f.ready?`${pref} FINAL qualified · ${fmtPct(conf,1)}`:(Number.isFinite(conf)&&conf>=0.90?`${pref} probability ${fmtPct(conf,1)} · FINAL gate still pending`:`Continuous ${pref||'direction'} probability · FINAL not qualified`));"
+    if old6 in text:
+        text = text.replace(old6, new6)
+        changes.append("final-90-pending-label")
+
+    if "</head>" in text:
+        text = text.replace("</head>", CSS + f"\n<!-- {MARKER} -->\n</head>", 1)
+    else:
+        text = CSS + f"\n<!-- {MARKER} -->\n" + text
+
+    path.write_text(text, encoding="utf-8")
+    return changes
+
+
+def main() -> int:
+    import BTC15_INSTALL_LIVE_DASHBOARD_V13 as installer
+    d = installer.install()
+    html = d / "BTC_Kalshi_App_Live_v13.html"
+    if not html.exists():
+        raise SystemExit(f"dashboard html missing: {html}")
+    changes = patch_html(html)
+    print("RENDER FIX V1 | " + ",".join(changes))
+
+    wrapper = d / "BTC15_RUN_FULL_VALIDATION_WITH_DASHBOARD_V1.py"
+    if "--self-test" in sys.argv:
+        import subprocess
+        return subprocess.run([sys.executable, str(wrapper), "--self-test"]).returncode
+    os.execv(sys.executable, [sys.executable, "-u", str(wrapper)])
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
