@@ -19,7 +19,7 @@ import json
 import math
 import re
 import statistics
-from collections import Counter, defaultdict
+from collections import Counter
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Iterable
@@ -32,9 +32,12 @@ CANDIDATE = re.compile(
 )
 RESULT = re.compile(
     r"LEAD_V(?P<ver>5|6) RESULT \| (?P<grade>[^|]+?) \| (?P<ticker>[^|]+?) \| "
-    r"(?P<side>UP|DOWN) \| entry (?P<entry>[-+0-9.]+) \| max_exec_gain (?P<gain>[-+0-9.]+) "
+    r"(?P<side>UP|DOWN) \|(?: zone (?P<zone>[^|]+?) \| style (?P<style>[^|]+?) \|)? "
+    r"entry (?P<entry>[-+0-9.]+) \| max_exec_gain (?P<gain>[-+0-9.]+) "
     r"\| adverse (?P<adverse>[-+0-9.]+) \| hit10 (?P<hit10>True|False) "
-    r"\| to_exec\+5c (?P<t5>[^ |]+) \| to_exec\+10c (?P<t10>[^ |]+) \| kalshi_reprice\+5c (?P<repr>[^ |]+)"
+    r"(?:\| hit20 (?P<hit20>True|False) )?\| to_exec\+5c (?P<t5>[^ |]+) "
+    r"\| to_exec\+10c (?P<t10>[^ |]+) (?:\| to_exec\+20c (?P<t20>[^ |]+) )?"
+    r"\| kalshi_reprice\+5c (?P<repr>[^ |]+)"
 )
 HEARTBEAT = re.compile(
     r"LEAD_V(?P<ver>5|6) HEARTBEAT \| (?P<ticker>[^|]+?) \| .*? BRTI (?P<brti>[^ |]+)"
@@ -117,6 +120,7 @@ def audit_lock(root: Path, lock_path: Path) -> dict[str, Any]:
 
     v6_path = root / "scalp_lead_shadow_v6.py"
     const_rows = []
+    scoring_rows = []
     if v6_path.exists():
         actual_constants = parse_literal_constants(v6_path)
         for name, expected in lock.get("v6_frozen_constants", {}).items():
@@ -124,15 +128,20 @@ def audit_lock(root: Path, lock_path: Path) -> dict[str, Any]:
             match = actual == expected
             const_rows.append({"name": name, "expected": expected, "actual": actual, "match": match})
             ok = ok and match
+        for name, expected in lock.get("research_scoring_only_constants", {}).items():
+            actual = actual_constants.get(name)
+            scoring_rows.append({"name": name, "expected": expected, "actual": actual, "match": actual == expected})
     else:
         ok = False
 
     return {
         "lock_name": lock.get("lock_name"),
-        "base_main_commit": lock.get("base_main_commit"),
+        "deployment_source_branch": lock.get("deployment_source_branch"),
+        "deployment_source_commit": lock.get("deployment_source_commit"),
         "source_identity_ok": ok,
         "collector_checks": checks,
         "constant_checks": const_rows,
+        "research_scoring_checks": scoring_rows,
     }
 
 
@@ -163,9 +172,11 @@ def audit_logs(paths: list[Path]) -> dict[str, Any]:
         m = RESULT.search(line)
         if m:
             d = m.groupdict()
-            for k in ("entry", "gain", "adverse", "t5", "t10", "repr"):
-                d[k] = fnum(d[k])
-            d["hit10"] = d["hit10"] == "True"; d["ts"] = ts; d["source"] = str(path)
+            for k in ("entry", "gain", "adverse", "t5", "t10", "t20", "repr"):
+                d[k] = fnum(d.get(k))
+            d["hit10"] = d.get("hit10") == "True"
+            d["hit20"] = d.get("hit20") == "True" if d.get("hit20") is not None else d["t20"] is not None
+            d["ts"] = ts; d["source"] = str(path)
             results.append(d); continue
         m = HEARTBEAT.search(line)
         if m:
@@ -183,6 +194,10 @@ def audit_logs(paths: list[Path]) -> dict[str, Any]:
         rs = [x for x in results if x["ver"] == ver and x["grade"].strip() == grade]
         hit5 = sum(x["t5"] is not None for x in rs)
         hit10 = sum(bool(x["hit10"]) for x in rs)
+        hit20 = sum(bool(x["hit20"]) for x in rs)
+        burst10 = sum(x["t10"] is not None and x["t10"] <= 30.0 for x in rs)
+        expand10 = sum(x["t10"] is not None and x["t10"] <= 120.0 for x in rs)
+        expand20 = sum(x["t20"] is not None and x["t20"] <= 180.0 for x in rs)
         repr5 = sum(x["repr"] is not None for x in rs)
         key = f"V{ver}:{grade}"
         by_grade[key] = {
@@ -191,14 +206,20 @@ def audit_logs(paths: list[Path]) -> dict[str, Any]:
             "resolution_ratio_pct": pct(len(rs), len(cs)),
             "exec_plus_5c_hit_pct": pct(hit5, len(rs)),
             "exec_plus_10c_hit_pct": pct(hit10, len(rs)),
+            "burst_plus_10c_within_30s_pct": pct(burst10, len(rs)),
+            "expansion_plus_10c_within_120s_pct": pct(expand10, len(rs)),
+            "exec_plus_20c_hit_pct": pct(hit20, len(rs)),
+            "expansion_plus_20c_within_180s_pct": pct(expand20, len(rs)),
             "ask_plus_5c_reprice_pct": pct(repr5, len(rs)),
             "avg_max_exec_gain": mean(x["gain"] for x in rs),
             "avg_adverse": mean(x["adverse"] for x in rs),
             "median_to_exec_plus_5c_sec": median(x["t5"] for x in rs),
             "median_to_exec_plus_10c_sec": median(x["t10"] for x in rs),
+            "median_to_exec_plus_20c_sec": median(x["t20"] for x in rs),
             "median_signal_lead_to_ask_plus_5c_sec": median(x["repr"] for x in rs),
             "preferred_zone_candidates": sum((x.get("zone") or "").strip() == "PREFERRED_7_30C" for x in cs),
             "high_price_strong_candidates": sum((x.get("zone") or "").strip() == "HIGH_PRICE_STRONG" for x in cs),
+            "result_styles": dict(Counter((x.get("style") or "LEGACY").strip() for x in rs)),
         }
 
     hb_by_ver: dict[str, Any] = {}
@@ -228,9 +249,10 @@ def audit_logs(paths: list[Path]) -> dict[str, Any]:
         "heartbeat_health": hb_by_ver,
         "warning_types": dict(Counter(f"V{x['ver']}:{x['kind'].strip()}" for x in warnings)),
         "notes": [
-            "Resolution ratio can be below 100% if the exported log ends before the 90-second result horizon.",
+            "Resolution ratio can be below 100% if the exported log ends before the 180-second V6 result horizon.",
             "Heartbeat gap checks require Railway timestamps to be present in the exported text.",
             "Signal lead to ask +5c is measured from candidate emission to the collector's observed +5c ask repricing.",
+            "The auditor accepts both legacy V5 RESULT lines and current V6 RESULT lines with zone/style/+20c fields.",
         ],
     }
 
@@ -239,10 +261,13 @@ def render_text(report: dict[str, Any]) -> str:
     lines = ["BTC15 V5/V6 RESEARCH CHECKPOINT", "=" * 34]
     lk = report["lock"]
     lines.append(f"SOURCE LOCK: {'PASS' if lk['source_identity_ok'] else 'FAIL'}")
+    lines.append(f"  deployed source: {lk.get('deployment_source_branch')} @ {lk.get('deployment_source_commit')}")
     for x in lk["collector_checks"]:
         lines.append(f"  {x['path']}: {'MATCH' if x['match'] else 'DRIFT/MISSING'}")
     bad_const = [x["name"] for x in lk["constant_checks"] if not x["match"]]
     lines.append("  V6 frozen constants: " + ("MATCH" if not bad_const else "DRIFT " + ",".join(bad_const)))
+    for x in lk.get("research_scoring_checks", []):
+        lines.append(f"  scoring-only {x['name']}: {x['actual']} ({'MATCH' if x['match'] else 'CHANGED'})")
 
     lg = report["logs"]
     lines.append("")
@@ -254,8 +279,9 @@ def render_text(report: dict[str, Any]) -> str:
         lines.append(
             f"  {key}: n={x['resolved_results']}/{x['candidates']} "
             f"+5c={x['exec_plus_5c_hit_pct']}% +10c={x['exec_plus_10c_hit_pct']}% "
-            f"avg_gain={x['avg_max_exec_gain']} avg_adverse={x['avg_adverse']} "
-            f"median_reprice_lead={x['median_signal_lead_to_ask_plus_5c_sec']}s"
+            f"burst10={x['burst_plus_10c_within_30s_pct']}% expand10={x['expansion_plus_10c_within_120s_pct']}% "
+            f"+20c={x['exec_plus_20c_hit_pct']}% avg_gain={x['avg_max_exec_gain']} "
+            f"avg_adverse={x['avg_adverse']} median_reprice_lead={x['median_signal_lead_to_ask_plus_5c_sec']}s"
         )
     for key, x in lg["heartbeat_health"].items():
         lines.append(
