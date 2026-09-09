@@ -7,6 +7,7 @@ Builds on V5 but adds:
 - clean-data requirement for V6 qualification (BRTI 5s + 15s present)
 - rejection of <=0.02 near-dead contracts
 - stronger 30s structure guard on higher-priced entries
+- automatic V5-vs-V6 outcome scoring and per-contract summaries
 
 V5 remains the baseline. Production is untouched.
 """
@@ -31,6 +32,8 @@ V6_HIGH_ACCEL = 10.0
 V6_HIGH_BTC30 = 0.0
 
 v6_proto = defaultdict(deque)
+score = defaultdict(lambda: {'n':0,'hit5':0,'hit10':0,'fast10':0,'gain_sum':0.0,'adverse_sum':0.0})
+last_ticker = None
 
 def v6_quality(row, side, f):
     ask = row[side.lower() + '_ask']
@@ -67,7 +70,6 @@ def v6_confirm(row, side, f):
         q.popleft()
 
     # Never let stale good confirmations survive a degraded/rejected sample.
-    # This guarantees the current sample itself must be valid for qualification.
     if not ok:
         q.clear()
         return False, zone
@@ -81,21 +83,67 @@ def add_v6(row, side, f, grade, zone):
         return
     last[k] = row['ts']
     p = side.lower(); ask = row[p + '_ask']; bid = row[p + '_bid']
-    pending.append({'ticker':row['ticker'],'side':side,'grade':grade,'ts':row['ts'],'entry':ask,'max':bid,'min':bid,'x5':None,'x10':None,'ask5_ts':None})
+    pending.append({'ticker':row['ticker'],'side':side,'grade':grade,'zone':zone,'ts':row['ts'],'entry':ask,'max':bid,'min':bid,'x5':None,'x10':None,'ask5_ts':None})
     def fmt(v): return 'N/A' if v is None else ('%+.2f' % v)
     print('LEAD_V6 CANDIDATE | %s | %s | %s | zone %s | ask %.3f | btc5 %+.2f | btc15 %+.2f | btc30 %s | accel %+.2f | brti5 %s | brti15 %s | ask5 %+.3f | ask15 %+.3f | left %.0fs' % (
         grade,row['ticker'],side,zone,ask,f['btc5'],f['btc15'],fmt(f['btc30']),f['accel'],fmt(f['brti5']),fmt(f['brti15']),f['ask5'],f['ask15'],row['left']), flush=True)
 
-print('SCALP LEAD SHADOW V6 START | V5 baseline + price-zone/data-quality filter | NO ORDERS', flush=True)
+def score_result(e, gain, adverse, t5, t10):
+    s = score[e['grade']]
+    s['n'] += 1
+    if t5 is not None: s['hit5'] += 1
+    if t10 is not None:
+        s['hit10'] += 1
+        if t10 <= 30.0: s['fast10'] += 1
+    s['gain_sum'] += gain
+    s['adverse_sum'] += adverse
+
+def print_score(prefix='LEAD_V6 SCORE'):
+    for grade in ('V5_BASELINE','V6_QUALIFIED'):
+        s = score[grade]
+        if not s['n']:
+            print('%s | %s | n 0' % (prefix, grade), flush=True)
+            continue
+        n = s['n']
+        print('%s | %s | n %d | hit5 %.1f%% | hit10 %.1f%% | fast10<=30s %.1f%% | avg_gain %+.3f | avg_adverse %+.3f' % (
+            prefix, grade, n, 100*s['hit5']/n, 100*s['hit10']/n, 100*s['fast10']/n,
+            s['gain_sum']/n, s['adverse_sum']/n), flush=True)
+
+def resolve_v6(row):
+    done=[]
+    for e in pending:
+        if e['ticker'] != row['ticker']:
+            done.append(e); continue
+        p=e['side'].lower(); bid=row[p+'_bid']; ask=row[p+'_ask']
+        if bid is not None:
+            e['max']=max(e['max'],bid); e['min']=min(e['min'],bid); g=bid-e['entry']
+            if g>=.05 and e['x5'] is None: e['x5']=row['ts']
+            if g>=.10 and e['x10'] is None: e['x10']=row['ts']
+        if ask is not None and ask-e['entry']>=.05 and e['ask5_ts'] is None: e['ask5_ts']=row['ts']
+        if row['ts']-e['ts']>=HORIZON or row['left']<=0: done.append(e)
+    for e in done:
+        if e in pending: pending.remove(e)
+        t5=None if e['x5'] is None else round(e['x5']-e['ts'],1)
+        t10=None if e['x10'] is None else round(e['x10']-e['ts'],1)
+        ar=None if e['ask5_ts'] is None else round(e['ask5_ts']-e['ts'],1)
+        gain=e['max']-e['entry']; adverse=e['min']-e['entry']
+        score_result(e,gain,adverse,t5,t10)
+        print('LEAD_V6 RESULT | %s | %s | %s | zone %s | entry %.3f | max_exec_gain %+.3f | adverse %+.3f | hit10 %s | to_exec+5c %s | to_exec+10c %s | kalshi_reprice+5c %s' % (
+            e['grade'],e['ticker'],e['side'],e.get('zone','N/A'),e['entry'],gain,adverse,e['x10'] is not None,t5,t10,ar), flush=True)
+
+print('SCALP LEAD SHADOW V6 START | V5 baseline + price-zone/data-quality filter + autoscore | NO ORDERS', flush=True)
 while True:
     t = time.time()
     try:
         row = snap()
         if row:
+            if last_ticker is not None and row['ticker'] != last_ticker:
+                print_score('LEAD_V6 CONTRACT_SUMMARY')
+            last_ticker = row['ticker']
             hist.append(row)
             while hist and hist[0]['ts'] < row['ts'] - KEEP:
                 hist.popleft()
-            resolve(row)
+            resolve_v6(row)
             for side in ('UP','DOWN'):
                 f = features(row, side)
                 if not f or not f['broad']:
