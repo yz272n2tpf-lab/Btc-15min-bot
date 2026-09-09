@@ -1,0 +1,38 @@
+{
+  "lock_name": "V6_FORWARD_TEST_LOCK_V1",
+  "purpose": "Research-only provenance lock for the active V5/V6 scalp lead-time forward test. This file does not alter signal logic or runtime behavior.",
+  "base_main_commit": "79d96d1249c68ee05b1f013497d3acef7bc5044f",
+  "signal_only": true,
+  "orders_intended": false,
+  "production_untouched": true,
+  "collectors": [
+    {
+      "path": "scalp_lead_shadow_v5.py",
+      "github_blob_sha": "4e648045c8c741c252228c5a43d9ad8930e0c107",
+      "role": "V5 baseline / comparison collector"
+    },
+    {
+      "path": "scalp_lead_shadow_v6.py",
+      "github_blob_sha": "16239c92e1d7b6e8515ed791cda1903804400d0a",
+      "role": "Frozen V6 qualification collector"
+    }
+  ],
+  "v6_frozen_constants": {
+    "V6_MIN_ASK": 0.07,
+    "V6_PREFERRED_MAX": 0.30,
+    "V6_MAX_ASK": 0.45,
+    "V6_CONFIRM_WINDOW": 4.0,
+    "V6_CONFIRM_COUNT": 2,
+    "V6_HIGH_BTC5": 20.0,
+    "V6_HIGH_BTC15": 25.0,
+    "V6_HIGH_BRTI5": 15.0,
+    "V6_HIGH_BRTI15": 5.0,
+    "V6_HIGH_ACCEL": 10.0,
+    "V6_HIGH_BTC30": 0.0
+  },
+  "notes": [
+    "Use this lock to prove the evaluated V6 thresholds did not drift during a forward-test period.",
+    "The checkpoint auditor verifies Git blob identity and frozen constants without importing or executing either collector.",
+    "Keep this research tooling off the deployment branch until the active test is complete."
+  ]
+}
