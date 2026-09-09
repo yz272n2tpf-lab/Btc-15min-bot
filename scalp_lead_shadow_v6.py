@@ -65,8 +65,14 @@ def v6_confirm(row, side, f):
     now = row['ts']
     while q and q[0] < now - V6_CONFIRM_WINDOW:
         q.popleft()
-    if ok:
-        q.append(now)
+
+    # Never let stale good confirmations survive a degraded/rejected sample.
+    # This guarantees the current sample itself must be valid for qualification.
+    if not ok:
+        q.clear()
+        return False, zone
+
+    q.append(now)
     return len(q) >= V6_CONFIRM_COUNT, zone
 
 def add_v6(row, side, f, grade, zone):
