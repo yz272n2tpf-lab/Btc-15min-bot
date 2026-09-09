@@ -1,0 +1,4 @@
+[deploy]
+startCommand = "python scalp_lead_shadow_v6.py"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
