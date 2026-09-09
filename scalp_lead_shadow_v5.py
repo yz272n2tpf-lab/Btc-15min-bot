@@ -154,6 +154,6 @@ while True:
                 if proto_confirm(row,side,f):add(row,side,f,'V5_QUALIFIED')
             if int(row['ts'])%30==0:
                 bv='N/A' if row['brti'] is None else ('%.2f'%row['brti'])
-                print('LEAD_V5 HEARTBEAT | %s | %.2fm | BTC %.2f | BRTI %s | UP %.3f | DOWN %.3f | pending %d'%(row['ticker'],row['left']/60,row['btc'],bv,row['brti'],row['up_ask'],row['down_ask'],len(pending)),flush=True)
+                print('LEAD_V5 HEARTBEAT | %s | %.2fm | BTC %.2f | BRTI %s | UP %.3f | DOWN %.3f | pending %d'%(row['ticker'],row['left']/60,row['btc'],bv,row['up_ask'],row['down_ask'],len(pending)),flush=True)
     except Exception as e:print('LEAD_V5 WARNING | %s: %s'%(type(e).__name__,e),flush=True)
     time.sleep(max(.05,POLL-(time.time()-t)))
