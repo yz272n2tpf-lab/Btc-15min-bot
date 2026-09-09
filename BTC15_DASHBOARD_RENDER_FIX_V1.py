@@ -3,8 +3,10 @@
 
 Fixes display behavior only:
 - keep BRTI price a stable fixed color
+- show positive BTC gap green and negative BTC gap red
 - stop chart opacity flashing on freshness transitions
 - redraw chart without first erasing the visible SVG
+- keep FINAL reasoning height stable as wording changes
 - preserve existing FINAL qualification logic; add clearer 90%+ pending wording
 - keep a backend-qualified FINAL visibly qualified through brief parity/freshness flicker
 
@@ -14,12 +16,48 @@ from pathlib import Path
 import os
 import sys
 
-MARKER = "BTC15_RENDER_FIX_V1"
+MARKER = "BTC15_RENDER_FIX_V2"
 
-CSS = r'''<style id="btc15-render-fix-v1">
+CSS = r'''<style id="btc15-render-fix-v2">
 #btcPrice { color:#f3f5f7 !important; opacity:1 !important; text-shadow:none !important; }
 .chart-card > svg { opacity:1 !important; visibility:visible !important; transition:none !important; animation:none !important; }
+/* Reserve a stable reasoning area so FINAL OUTCOME does not bounce when wording changes. */
+#finalReason {
+  min-height:4.2em !important;
+  height:4.2em !important;
+  line-height:1.4em !important;
+  overflow:hidden !important;
+  display:-webkit-box !important;
+  -webkit-line-clamp:3 !important;
+  -webkit-box-orient:vertical !important;
+}
+#finalActionSub { min-height:2.8em !important; }
 </style>'''
+
+GAP_SCRIPT = r'''<script id="btc15-gap-color-v2">
+(function(){
+  function paintGap(){
+    const el=document.getElementById('btcGap');
+    if(!el) return;
+    const t=(el.textContent||'').trim();
+    const neg=/^-|\u2193|\u2198|\u2212|\$-/.test(t) || /-\$/.test(t);
+    const pos=/^\+|\u2191|\u2197|\$\+/.test(t) || /\+\$/.test(t);
+    if(neg){
+      el.style.setProperty('color','#ff4d67','important');
+    }else if(pos){
+      el.style.setProperty('color','#35d07f','important');
+    }
+  }
+  function boot(){
+    const el=document.getElementById('btcGap');
+    if(!el){setTimeout(boot,500);return;}
+    paintGap();
+    new MutationObserver(paintGap).observe(el,{subtree:true,characterData:true,childList:true});
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot,{once:true});
+  else boot();
+})();
+</script>'''
 
 
 def patch_html(path: Path) -> list[str]:
@@ -28,6 +66,7 @@ def patch_html(path: Path) -> list[str]:
     if MARKER in text:
         return ["already-present"]
 
+    # Remove prior render-fix marker only from marker detection context; keep prior injected CSS harmlessly overridden.
     # 1) Never dim the chart based on transient source freshness. Keep stale state in dataset/text only.
     old = "if(chart){chart.style.opacity=current?'1':'.4';chart.dataset.stale=current?'false':'true';}"
     new = "if(chart){chart.style.opacity='1';chart.dataset.stale=current?'false':'true';}"
@@ -89,10 +128,11 @@ def patch_html(path: Path) -> list[str]:
         text = text.replace(apply_old, apply_new, 1)
         changes.append("final-qualified-latch")
 
+    # 6) Inject stable FINAL layout and directional gap coloring.
     if "</head>" in text:
-        text = text.replace("</head>", CSS + f"\n<!-- {MARKER} -->\n</head>", 1)
+        text = text.replace("</head>", CSS + "\n" + GAP_SCRIPT + f"\n<!-- {MARKER} -->\n</head>", 1)
     else:
-        text = CSS + f"\n<!-- {MARKER} -->\n" + text
+        text = CSS + "\n" + GAP_SCRIPT + f"\n<!-- {MARKER} -->\n" + text
 
     path.write_text(text, encoding="utf-8")
     return changes
@@ -105,7 +145,7 @@ def main() -> int:
     if not html.exists():
         raise SystemExit(f"dashboard html missing: {html}")
     changes = patch_html(html)
-    print("RENDER FIX V1 | " + ",".join(changes))
+    print("RENDER FIX V2 | " + ",".join(changes))
 
     wrapper = d / "BTC15_RUN_FULL_VALIDATION_WITH_DASHBOARD_V1.py"
     if "--self-test" in sys.argv:
