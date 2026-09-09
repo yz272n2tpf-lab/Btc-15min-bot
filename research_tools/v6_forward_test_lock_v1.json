@@ -1,7 +1,8 @@
 {
   "lock_name": "V6_FORWARD_TEST_LOCK_V1",
   "purpose": "Research-only provenance lock for the active V5/V6 scalp lead-time forward test. This file does not alter signal logic or runtime behavior.",
-  "base_main_commit": "79d96d1249c68ee05b1f013497d3acef7bc5044f",
+  "deployment_source_branch": "scalp-lead-research-v3",
+  "deployment_source_commit": "773bbb737089408375403d98e764e278b0bda742",
   "signal_only": true,
   "orders_intended": false,
   "production_untouched": true,
@@ -13,8 +14,8 @@
     },
     {
       "path": "scalp_lead_shadow_v6.py",
-      "github_blob_sha": "16239c92e1d7b6e8515ed791cda1903804400d0a",
-      "role": "Frozen V6 qualification collector"
+      "github_blob_sha": "f909e09db02c8ae08ba5ad1b6c802e887d1eba19",
+      "role": "Frozen V6 qualification collector with resilient BRTI transport and burst/expansion outcome scoring"
     }
   ],
   "v6_frozen_constants": {
@@ -30,9 +31,14 @@
     "V6_HIGH_ACCEL": 10.0,
     "V6_HIGH_BTC30": 0.0
   },
+  "research_scoring_only_constants": {
+    "HORIZON": 180
+  },
   "notes": [
-    "Use this lock to prove the evaluated V6 thresholds did not drift during a forward-test period.",
+    "The Railway scalp-lead-v6 service is sourced from scalp-lead-research-v3, not main; this lock intentionally fingerprints that deployed research branch.",
+    "Use this lock to prove the evaluated V6 qualification thresholds did not drift during the forward-test period.",
+    "The 180-second horizon expands outcome observation only; it does not change V6 qualification thresholds.",
     "The checkpoint auditor verifies Git blob identity and frozen constants without importing or executing either collector.",
-    "Keep this research tooling off the deployment branch until the active test is complete."
+    "Keep this research tooling off the deployment source branch until the active test is complete."
   ]
 }
