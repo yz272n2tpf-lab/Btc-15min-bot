@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """Targeted UI render fix for BTC 15m dashboard.
 
-Display-only fixes:
-- keep BRTI price stable white
+Fixes display behavior only:
+- keep BRTI price a stable fixed color
 - show positive BTC gap green and negative BTC gap red
-- stop chart opacity flashing
-- redraw chart without blanking visible SVG first
-- keep FINAL reasoning area height stable
-- preserve existing FINAL qualification logic and latch qualified FINAL display
+- stop chart opacity flashing on freshness transitions
+- redraw chart without first erasing the visible SVG
+- keep FINAL reasoning height stable as wording changes
+- preserve existing FINAL qualification logic; add clearer 90%+ pending wording
+- keep a backend-qualified FINAL visibly qualified through brief parity/freshness flicker
 
 No trading, scoring, Kalshi, or order logic is changed.
 """
@@ -15,11 +16,12 @@ from pathlib import Path
 import os
 import sys
 
-MARKER = "BTC15_RENDER_FIX_V3"
+MARKER = "BTC15_RENDER_FIX_V2"
 
-CSS = r'''<style id="btc15-render-fix-v3">
+CSS = r'''<style id="btc15-render-fix-v2">
 #btcPrice { color:#f3f5f7 !important; opacity:1 !important; text-shadow:none !important; }
 .chart-card > svg { opacity:1 !important; visibility:visible !important; transition:none !important; animation:none !important; }
+/* Reserve a stable reasoning area so FINAL OUTCOME does not bounce when wording changes. */
 #finalReason {
   min-height:4.2em !important;
   height:4.2em !important;
@@ -32,14 +34,14 @@ CSS = r'''<style id="btc15-render-fix-v3">
 #finalActionSub { min-height:2.8em !important; }
 </style>'''
 
-GAP_SCRIPT = r'''<script id="btc15-gap-color-v3">
+GAP_SCRIPT = r'''<script id="btc15-gap-color-v2">
 (function(){
   function paintGap(){
     const el=document.getElementById('btcGap');
     if(!el) return;
     const t=(el.textContent||'').trim();
-    const neg=/[-\u2212]/.test(t);
-    const pos=!neg && /\d/.test(t) && (/[+\u2191\u2197]/.test(t) || parseFloat(t.replace(/[^0-9.]/g,''))>0);
+    const neg=/^-|\u2193|\u2198|\u2212|\$-/.test(t) || /-\$/.test(t);
+    const pos=/^\+|\u2191|\u2197|\$\+/.test(t) || /\+\$/.test(t);
     if(neg){
       el.style.setProperty('color','#ff4d67','important');
     }else if(pos){
@@ -48,9 +50,9 @@ GAP_SCRIPT = r'''<script id="btc15-gap-color-v3">
   }
   function boot(){
     const el=document.getElementById('btcGap');
-    if(!el){setTimeout(boot,250);return;}
+    if(!el){setTimeout(boot,500);return;}
     paintGap();
-    setInterval(paintGap,200);
+    new MutationObserver(paintGap).observe(el,{subtree:true,characterData:true,childList:true});
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot,{once:true});
   else boot();
@@ -64,6 +66,8 @@ def patch_html(path: Path) -> list[str]:
     if MARKER in text:
         return ["already-present"]
 
+    # Remove prior render-fix marker only from marker detection context; keep prior injected CSS harmlessly overridden.
+    # 1) Never dim the chart based on transient source freshness. Keep stale state in dataset/text only.
     old = "if(chart){chart.style.opacity=current?'1':'.4';chart.dataset.stale=current?'false':'true';}"
     new = "if(chart){chart.style.opacity='1';chart.dataset.stale=current?'false':'true';}"
     if old in text:
@@ -76,6 +80,7 @@ def patch_html(path: Path) -> list[str]:
         text = text.replace(old2, new2)
         changes.append("chart-unavailable-opacity")
 
+    # 2) Do not blank the SVG before rebuilding. Draw new nodes over the old frame, then remove old nodes at end.
     old3 = "svg.setAttribute('viewBox',`0 0 ${w} ${h}`);svg.textContent='';"
     new3 = "const oldChartNodes=Array.from(svg.childNodes);svg.setAttribute('viewBox',`0 0 ${w} ${h}`);"
     if old3 in text:
@@ -94,18 +99,23 @@ def patch_html(path: Path) -> list[str]:
         text = text.replace(old5, new5, 1)
         changes.append("chart-postdraw-swap")
 
+    # 3) Price is always visually stable. State/freshness stays in the nearby label, not the number color.
     price_hook = "function renderBrtiDisplay(d,forcedUnavailable=false){ const price=$('btcPrice'), gap=$('btcGap');"
     price_new = "function renderBrtiDisplay(d,forcedUnavailable=false){ const price=$('btcPrice'), gap=$('btcGap'); if(price){price.style.setProperty('color','#f3f5f7','important');price.style.setProperty('opacity','1','important');}"
     if price_hook in text:
         text = text.replace(price_hook, price_new)
         changes.append("price-fixed-color")
 
+    # 4) If probability itself is >=90 but the frozen FINAL gate is not yet qualified, say exactly that.
     old6 = "setText('finalActionSub',f.ready?`${pref} FINAL qualified · ${fmtPct(conf,1)}`:`Continuous ${pref||'direction'} probability · FINAL not qualified`);"
     new6 = "setText('finalActionSub',f.ready?`${pref} FINAL qualified · ${fmtPct(conf,1)}`:(Number.isFinite(conf)&&conf>=0.90?`${pref} probability ${fmtPct(conf,1)} · FINAL gate still pending`:`Continuous ${pref||'direction'} probability · FINAL not qualified`));"
     if old6 in text:
         text = text.replace(old6, new6)
         changes.append("final-90-pending-label")
 
+    # 5) Once the backend has truly qualified FINAL on a fresh same-contract frame, keep that UI state
+    # latched for the remainder of that contract. Brief parity/freshness flicker must not visually turn
+    # a qualified FINAL back into WATCH. This is display-only; the backend gate itself is unchanged.
     latch_anchor = "let lastBrtiDisplay=null; let lastChartSignature=null;"
     latch_new = "let lastBrtiDisplay=null; let lastChartSignature=null; let latchedFinal=null;"
     if latch_anchor in text:
@@ -113,11 +123,12 @@ def patch_html(path: Path) -> list[str]:
         changes.append("final-latch-state")
 
     apply_old = "function applyState(d,drawChart=true){ const usable=usableFrame(d); // Keep raw qualification diagnostics but never present stale data as action. d={...d,final:{...d.final,ready:usable && freshBrti(d) && d.final?.ready===true}, early:{...d.early,ready:usable && d.early?.ready===true}, scalp:{...d.scalp,ready:usable && d.scalp?.ready===true}};"
-    apply_new = "function applyState(d,drawChart=true){ const usable=usableFrame(d); const rawFinalReady=d.final?.ready===true; if(latchedFinal&&latchedFinal.contract!==d.contract)latchedFinal=null; if(usable&&freshBrti(d)&&rawFinalReady){latchedFinal={contract:d.contract,side:(d.final?.side||d.market?.preferred_side||'').toUpperCase(),confidence:N(d.final?.confidence)};} const finalLatched=Boolean(latchedFinal&&latchedFinal.contract===d.contract); d={...d,final:{...d.final,ready:(usable && freshBrti(d) && rawFinalReady)||finalLatched,side:finalLatched?(d.final?.side||latchedFinal.side):d.final?.side,confidence:finalLatched&& !Number.isFinite(N(d.final?.confidence))?latchedFinal.confidence:d.final?.confidence}, early:{...d.early,ready:usable && d.early?.ready===true}, scalp:{...d.scalp,ready:usable && d.scalp?.ready===true}};"
+    apply_new = "function applyState(d,drawChart=true){ const usable=usableFrame(d); const rawFinalReady=d.final?.ready===true; if(latchedFinal&&latchedFinal.contract!==d.contract)latchedFinal=null; if(usable&&freshBrti(d)&&rawFinalReady){latchedFinal={contract:d.contract,side:(d.final?.side||d.market?.preferred_side||'').toUpperCase(),confidence:N(d.final?.confidence)};} const finalLatched=Boolean(latchedFinal&&latchedFinal.contract===d.contract); // Keep raw qualification diagnostics but never invent a FINAL. A previously fresh backend-qualified FINAL may remain displayed through transient parity/freshness flicker. d={...d,final:{...d.final,ready:(usable && freshBrti(d) && rawFinalReady)||finalLatched,side:finalLatched?(d.final?.side||latchedFinal.side):d.final?.side,confidence:finalLatched&& !Number.isFinite(N(d.final?.confidence))?latchedFinal.confidence:d.final?.confidence}, early:{...d.early,ready:usable && d.early?.ready===true}, scalp:{...d.scalp,ready:usable && d.scalp?.ready===true}};"
     if apply_old in text:
         text = text.replace(apply_old, apply_new, 1)
         changes.append("final-qualified-latch")
 
+    # 6) Inject stable FINAL layout and directional gap coloring.
     if "</head>" in text:
         text = text.replace("</head>", CSS + "\n" + GAP_SCRIPT + f"\n<!-- {MARKER} -->\n</head>", 1)
     else:
@@ -134,7 +145,7 @@ def main() -> int:
     if not html.exists():
         raise SystemExit(f"dashboard html missing: {html}")
     changes = patch_html(html)
-    print("RENDER FIX V3 | " + ",".join(changes))
+    print("RENDER FIX V2 | " + ",".join(changes))
 
     wrapper = d / "BTC15_RUN_FULL_VALIDATION_WITH_DASHBOARD_V1.py"
     if "--self-test" in sys.argv:
