@@ -1,0 +1,19 @@
+{
+  "snapshot_name": "V6_RUNTIME_20260910T0010ET",
+  "purpose": "Read-only provenance capture for the active V6 forward test; contains no credentials or variable values.",
+  "service_name": "scalp-lead-v6",
+  "source_repo": "yz272n2tpf-lab/Btc-15min-bot",
+  "expected_repo": "yz272n2tpf-lab/Btc-15min-bot",
+  "source_branch": "scalp-lead-research-v3",
+  "deployment_id": "393a32ce-ddb6-4c25-a16a-d78aae3383b7",
+  "deployment_commit": "b496ec2c07d80d090dc4f6aa0d3b08af974a6993",
+  "deployment_status": "SUCCESS",
+  "start_command": "python scalp_lead_shadow_v6.py",
+  "collector_path": "scalp_lead_shadow_v6.py",
+  "collector_github_blob_sha": "f909e09db02c8ae08ba5ad1b6c802e887d1eba19",
+  "locked_collector_github_blob_sha": "f909e09db02c8ae08ba5ad1b6c802e887d1eba19",
+  "locked_deployment_commit": "773bbb737089408375403d98e764e278b0bda742",
+  "commit_drift_explanation": "The branch tip advanced by one commit that added brti_resilience_shadow_v2.py. The deployed V6 collector blob remains byte-identical to the frozen lock.",
+  "production_mutation_performed": false,
+  "credentials_or_variables_read": false
+}
