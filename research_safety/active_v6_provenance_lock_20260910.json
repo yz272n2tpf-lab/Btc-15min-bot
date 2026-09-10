@@ -1,0 +1,23 @@
+{
+  "captured_at_utc": "2026-09-10T06:10:50Z",
+  "purpose": "Read-only provenance lock for the active V6 research test",
+  "railway": {
+    "project_id": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+    "environment_id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+    "service_id": "ea6e520b-fa94-49bb-abf9-094817ae3d6b",
+    "source_branch": "scalp-lead-research-v3",
+    "deployment_id": "393a32ce-ddb6-4c25-a16a-d78aae3383b7",
+    "deployment_status": "SUCCESS",
+    "source_commit": "b496ec2c07d80d090dc4f6aa0d3b08af974a6993",
+    "start_command": "python scalp_lead_shadow_v6.py"
+  },
+  "frozen_collector": {
+    "path": "scalp_lead_shadow_v6.py",
+    "git_blob_sha": "f909e09db02c8ae08ba5ad1b6c802e887d1eba19"
+  },
+  "guard_policy": {
+    "research_work_must_not_use_active_source_branch": true,
+    "collector_blob_must_match_lock": true,
+    "start_command_must_match_lock": true
+  }
+}
