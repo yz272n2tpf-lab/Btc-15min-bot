@@ -102,6 +102,7 @@ def main():
             ra = r.headers.get('Retry-After')
             if ra:
                 retry_after[str(ra)] += 1
+            print('BRTI_HTTP_ERROR | status=%s | retry_after=%s' % (r.status_code, ra or 'NONE'), flush=True)
         r.raise_for_status()
         v = parse_value(r.json())
         if v is None:
