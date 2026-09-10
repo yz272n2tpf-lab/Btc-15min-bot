@@ -2,7 +2,7 @@
 """Research-only BRTI resilience guard.
 
 Purpose:
-- improve BRTI transport reliability without weakening V6 qualification
+- improve BRTI transport reliability without weakening V6/V7 qualification
 - distinguish transport failure from true missing/invalid BRTI data
 - keep a tiny diagnostic last-known-good cache that is NEVER used to qualify a signal
 - support an optional secondary verifier callback for endpoint cross-checking
@@ -26,6 +26,8 @@ class BrtiSample:
     verifier_status: str
     last_good_value: Optional[float]
     last_good_age_s: Optional[float]
+    last_error_type: Optional[str] = None
+    last_error_text: Optional[str] = None
 
     @property
     def clean_for_qualification(self) -> bool:
@@ -52,6 +54,10 @@ class BrtiResilienceGuard:
             'recovered_by_retry': 0,
             'primary_missing': 0,
             'primary_error': 0,
+            'error_timeout': 0,
+            'error_http': 0,
+            'error_connection': 0,
+            'error_other': 0,
             'verifier_ok': 0,
             'verifier_disagree': 0,
             'verifier_missing': 0,
@@ -65,6 +71,19 @@ class BrtiResilienceGuard:
         except (TypeError, ValueError):
             return False
         return x > 0.0
+
+    @staticmethod
+    def _classify_exception(exc: Exception) -> str:
+        """Classify transport errors without importing the caller's HTTP library."""
+        name = exc.__class__.__name__.lower()
+        text = str(exc).lower()
+        if 'timeout' in name or 'timed out' in text or 'timeout' in text:
+            return 'timeout'
+        if 'http' in name or 'status code' in text or '503' in text or '502' in text or '429' in text:
+            return 'http'
+        if 'connection' in name or 'connect' in text or 'dns' in text or 'name resolution' in text:
+            return 'connection'
+        return 'other'
 
     def _cache_state(self, now: float) -> Tuple[Optional[float], Optional[float]]:
         if self.last_good_value is None or self.last_good_ts is None:
@@ -89,6 +108,8 @@ class BrtiResilienceGuard:
         status = 'PRIMARY_MISSING'
         attempts = 0
         saw_exception = False
+        last_error_type: Optional[str] = None
+        last_error_text: Optional[str] = None
 
         for attempt in range(self.retries):
             attempts = attempt + 1
@@ -103,8 +124,10 @@ class BrtiResilienceGuard:
                     if attempt > 0:
                         self.counters['recovered_by_retry'] += 1
                     break
-            except Exception:
+            except Exception as exc:
                 saw_exception = True
+                last_error_type = self._classify_exception(exc)
+                last_error_text = str(exc)[:160]
 
             if attempt < self.retries - 1:
                 delay = self.backoff_s[min(attempt, len(self.backoff_s) - 1)] if self.backoff_s else 0.0
@@ -115,6 +138,7 @@ class BrtiResilienceGuard:
             if saw_exception:
                 status = 'PRIMARY_ERROR'
                 self.counters['primary_error'] += 1
+                self.counters['error_' + (last_error_type or 'other')] += 1
             else:
                 self.counters['primary_missing'] += 1
 
@@ -150,6 +174,8 @@ class BrtiResilienceGuard:
             verifier_status=verifier_status,
             last_good_value=cached_value,
             last_good_age_s=cached_age,
+            last_error_type=last_error_type,
+            last_error_text=last_error_text,
         )
 
     def compact_stats(self) -> str:
@@ -157,10 +183,12 @@ class BrtiResilienceGuard:
         n = max(1, c['samples'])
         return (
             'BRTI_RESILIENCE | samples=%d | primary_ok=%d (%.1f%%) | retry_recovered=%d | '
-            'missing=%d | errors=%d | verifier_ok=%d | verifier_disagree=%d | diag_cache=%d'
+            'missing=%d | errors=%d | timeout=%d | http=%d | connection=%d | other=%d | '
+            'verifier_ok=%d | verifier_disagree=%d | diag_cache=%d'
             % (
                 c['samples'], c['primary_ok'], 100.0 * c['primary_ok'] / n,
                 c['recovered_by_retry'], c['primary_missing'], c['primary_error'],
+                c['error_timeout'], c['error_http'], c['error_connection'], c['error_other'],
                 c['verifier_ok'], c['verifier_disagree'], c['diagnostic_cache_available'],
             )
         )
@@ -170,7 +198,7 @@ class BrtiResilienceGuard:
 
 
 def qualification_value(sample: BrtiSample) -> Optional[float]:
-    """Return only data that is safe for V6 qualification.
+    """Return only data that is safe for V6/V7 qualification.
 
     This intentionally refuses cached values and verifier-only values.
     """
@@ -205,8 +233,18 @@ def _self_test() -> None:
     s3 = g.fetch(lambda: None, now=110.0)
     assert s3.last_good_value is None
 
+    # Failure classification is diagnostic only and must never qualify.
+    g2 = BrtiResilienceGuard(retries=1, backoff_s=())
+    def _timeout():
+        raise TimeoutError('timed out')
+    s4 = g2.fetch(_timeout, now=200.0)
+    assert not s4.clean_for_qualification
+    assert s4.last_error_type == 'timeout'
+    assert g2.counters['error_timeout'] == 1
+
     print('BRTI_RESILIENCE_SELF_TEST | PASS')
     print(g.compact_stats())
+    print(g2.compact_stats())
 
 
 if __name__ == '__main__':
