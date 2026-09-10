@@ -1,0 +1,32 @@
+{
+  "observation": "V6_CONTRACT_ATTRIBUTION_BOUNDARY_20260910",
+  "scope": "research reporting only",
+  "production_behavior_changed": false,
+  "qualification_thresholds_changed": false,
+  "finding": "A pending V6 result can resolve after its ticker's CONTRACT_SUMMARY is emitted. The late result is then present in the following contract's in-memory per-contract score bucket, causing adjacent per-contract summary counts to be off by one even though RESULT ticker identity and cumulative totals remain intact.",
+  "evidence": [
+    {
+      "ticker": "KXBTC15M-26SEP092345-45",
+      "reported_contract_summary_v6_n": 3,
+      "reconstructed_v6_results_for_ticker": 4,
+      "late_result": "UP entry 0.140 style EXPANSION hit10 True",
+      "late_result_timestamp_utc": "2026-09-10T03:45:41.031842161Z"
+    },
+    {
+      "ticker": "KXBTC15M-26SEP100000-00",
+      "reported_contract_summary_v6_n": 2,
+      "reconstructed_v6_results_for_ticker": 1,
+      "explanation": "The prior ticker's late result leaked into the new per-contract score bucket before the next summary."
+    }
+  ],
+  "research_handling": "For contract-level analysis, reconstruct counts from each V6 RESULT line's own ticker instead of trusting per-contract summary n when a boundary mismatch is flagged.",
+  "cumulative_checkpoint_after_0000_contract": {
+    "v6_n": 24,
+    "hit5_pct": 87.5,
+    "hit10_pct": 70.8,
+    "burst10_within_30s_pct": 41.7,
+    "hit20_pct": 33.3,
+    "avg_gain": 0.179,
+    "avg_adverse": -0.066
+  }
+}
