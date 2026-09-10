@@ -1,23 +1,28 @@
 #!/usr/bin/env python3
-"""One-command V7 research report: parse logs, score lanes, apply optional gate."""
+"""One-command V7 research report: parse logs, score lanes, audit evidence, apply optional gate."""
 from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
 
+from v7_evidence_decomposition_v1 import build_decomposition
 from v7_split_scorecard_v1 import build_scorecard
 from v7_freeze_gate_v1 import evaluate
+
 
 def build_final_report(log_text, policy=None):
     scorecard = build_scorecard(log_text)
     gate = evaluate(scorecard, policy)
+    evidence = build_decomposition(log_text)
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "collector_identity": "LEAD_V7",
         "scorecard": scorecard,
+        "evidence_decomposition": evidence,
         "freeze_gate": gate,
         "production_promotion": "NOT_PERFORMED",
     }
+
 
 def main(argv=None):
     p = argparse.ArgumentParser()
@@ -34,6 +39,7 @@ def main(argv=None):
     else:
         print(rendered, end="")
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())
