@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-09-10T08:09:48Z",
+  "purpose": "Read-only lock of the 11 frozen V6 qualification constants during the active research test",
+  "source_branch": "scalp-lead-research-v3",
+  "collector_path": "scalp_lead_shadow_v6.py",
+  "collector_git_blob_sha": "f909e09db02c8ae08ba5ad1b6c802e887d1eba19",
+  "qualification_constants": {
+    "V6_MIN_ASK": 0.07,
+    "V6_PREFERRED_MAX": 0.30,
+    "V6_MAX_ASK": 0.45,
+    "V6_CONFIRM_WINDOW": 4.0,
+    "V6_CONFIRM_COUNT": 2,
+    "V6_HIGH_BTC5": 20.0,
+    "V6_HIGH_BTC15": 25.0,
+    "V6_HIGH_BRTI5": 15.0,
+    "V6_HIGH_BRTI15": 5.0,
+    "V6_HIGH_ACCEL": 10.0,
+    "V6_HIGH_BTC30": 0.0
+  }
+}
