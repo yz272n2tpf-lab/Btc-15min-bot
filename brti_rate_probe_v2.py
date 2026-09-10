@@ -39,7 +39,7 @@ def parse_value(obj):
     walk(obj); return vals[-1] if vals else None
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--seconds',type=int,default=180); ap.add_argument('--interval',type=float,default=1.25); ap.add_argument('--timeout',type=float,default=1.5)
+    ap=argparse.ArgumentParser(); ap.add_argument('--seconds',type=int,default=180); ap.add_argument('--interval',type=float,default=2.25); ap.add_argument('--timeout',type=float,default=1.5)
     a=ap.parse_args(); kid,key=load_auth(); s=requests.Session(); status=Counter(); lat=[]; valid=0; invalid=0; started=time.time(); end=started+a.seconds
     while time.time()<end:
         t0=time.monotonic()
