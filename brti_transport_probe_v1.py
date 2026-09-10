@@ -4,13 +4,14 @@
 Research-only. NO ORDERS. Does not touch scalp thresholds or production behavior.
 Runs only where existing Kalshi/BRTI auth env vars are already present (e.g. Railway).
 Measures primary request success, retry recovery, timeout/http/connection/other failures,
-invalid payloads, and latency without importing the full scalp collector.
+HTTP status codes, invalid payloads, and latency without importing the full scalp collector.
 """
 
 import os
 import time
 import base64
 import argparse
+from collections import Counter
 from statistics import mean, median
 
 import requests
@@ -81,6 +82,8 @@ def main():
     latencies = []
     invalid_payloads = 0
     values = 0
+    http_status = Counter()
+    retry_after = Counter()
     started = time.time()
     end_at = started + max(1, args.seconds)
 
@@ -94,6 +97,11 @@ def main():
             timeout=args.timeout,
         )
         latencies.append((time.monotonic() - t0) * 1000.0)
+        http_status[str(r.status_code)] += 1
+        if r.status_code >= 400:
+            ra = r.headers.get('Retry-After')
+            if ra:
+                retry_after[str(ra)] += 1
         r.raise_for_status()
         v = parse_value(r.json())
         if v is None:
@@ -112,7 +120,6 @@ def main():
 
     c = guard.snapshot()
     samples = max(1, c['samples'])
-    reqs = max(1, len(latencies))
     ordered = sorted(latencies)
     p95 = ordered[min(len(ordered)-1, int(0.95 * (len(ordered)-1)))] if ordered else 0.0
 
@@ -122,7 +129,9 @@ def main():
     print(f'clean={c["primary_ok"]} clean_rate={100*c["primary_ok"]/samples:.2f}%')
     print(f'retry_recovered={c["recovered_by_retry"]}')
     print(f'missing={c["primary_missing"]} errors={c["primary_error"]}')
-    print(f'timeout={c.get("timeout_error",0)} http={c.get("http_error",0)} connection={c.get("connection_error",0)} other={c.get("other_error",0)}')
+    print(f'timeout={c.get("error_timeout",0)} http={c.get("error_http",0)} connection={c.get("error_connection",0)} other={c.get("error_other",0)}')
+    print(f'http_statuses={dict(sorted(http_status.items()))}')
+    print(f'retry_after={dict(sorted(retry_after.items()))}')
     print(f'invalid_payloads={invalid_payloads}')
     print(f'requests={len(latencies)}')
     if latencies:
