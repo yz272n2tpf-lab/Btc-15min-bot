@@ -10,9 +10,9 @@ LEAD_V7 CONTRACT_SUMMARY | A | MOM n=1 | REV n=0 | BRTI BRTI_RESILIENCE | sample
 
 
 class FinalReportEvidenceTests(unittest.TestCase):
-    def test_final_report_includes_decomposition_and_never_promotes(self):
+    def test_final_report_includes_decomposition_independence_and_never_promotes(self):
         report = build_final_report(LOG, None)
-        self.assertEqual(report["schema_version"], 2)
+        self.assertEqual(report["schema_version"], 3)
         self.assertEqual(report["production_promotion"], "NOT_PERFORMED")
         evidence = report["evidence_decomposition"]
         self.assertEqual(evidence["result_count"], 1)
@@ -20,6 +20,10 @@ class FinalReportEvidenceTests(unittest.TestCase):
             evidence["lanes"]["MOMENTUM_EXPANSION"]["overall"]["expansion_1_3m_pct"],
             100.0,
         )
+        independence = report["contract_independence"]["lanes"]["MOMENTUM_EXPANSION"]
+        self.assertEqual(independence["samples"], 1)
+        self.assertEqual(independence["unique_contracts"], 1)
+        self.assertEqual(independence["concentration_warning"], "SINGLE_CONTRACT_ONLY")
         self.assertEqual(report["freeze_gate"]["lanes"]["MOMENTUM_EXPANSION"]["decision"], "MORE_DATA")
 
 
