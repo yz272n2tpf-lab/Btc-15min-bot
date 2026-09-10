@@ -52,7 +52,7 @@ def main():
                 else: valid+=1
         except requests.Timeout: status['TIMEOUT']+=1
         except requests.ConnectionError: status['CONNECTION']+=1
-        except Exception as e: status['OTHER']+=1
+        except Exception: status['OTHER']+=1
         elapsed=time.monotonic()-t0; sleep_for=a.interval-elapsed
         if sleep_for>0: time.sleep(sleep_for)
     total=sum(status.values()) or 1; ordered=sorted(lat); p95=ordered[min(len(ordered)-1,int(.95*(len(ordered)-1)))] if ordered else 0
