@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "collector": "LEAD_V7",
+  "research_only": true,
+  "orders_enabled": false,
+  "repository": "yz272n2tpf-lab/Btc-15min-bot",
+  "source_branch": "scalp-lead-research-v3",
+  "source_branch_commit": "9fe683df8dfbf9f1d0525522b88f101a28635a5b",
+  "collector_path": "scalp_lead_split_v7.py",
+  "collector_blob_sha": "da240cc53883fbe6fe6162b2471132ae64faef19",
+  "railway_project_id": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+  "railway_environment_id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+  "railway_service_id": "ea6e520b-fa94-49bb-abf9-094817ae3d6b",
+  "railway_service_name": "scalp-lead-v6",
+  "railway_deployment_id": "0bc26e99-e234-4124-bc96-f96bd8cebfce",
+  "start_command": "python scalp_lead_split_v7.py",
+  "observed_utc": "2026-09-10T18:08:30Z",
+  "lock_purpose": "Prevent V6/V7 or later collector evidence from being mixed during research scoring."
+}
