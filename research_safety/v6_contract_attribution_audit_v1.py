@@ -2,10 +2,10 @@
 """Read-only V6 contract attribution auditor.
 
 Reconstructs per-contract RESULT counts from the contract ticker embedded in each
-RESULT line, independent of when summary/reset logging happens.  It also flags
+RESULT line, independent of when summary/reset logging happens. It also flags
 (1) results emitted after their contract summary and (2) MIDCONTRACT counters
 that are already non-zero before matching embedded RESULT lines exist for the
-new contract.  Both patterns are useful for detecting cross-contract reporting
+new contract. Both patterns are useful for detecting cross-contract reporting
 carryover without changing collector behavior.
 """
 from __future__ import annotations
@@ -23,11 +23,11 @@ RESULT_RE = re.compile(
 )
 SUMMARY_RE = re.compile(
     r"^LEAD_V6 CONTRACT_SUMMARY \| (?P<contract>[^| ]+) \| "
-    r"V5 n=(?P<v5>\d+) .*? \| V6 n=(?P<v6>\d+)"
+    r"V5 n=(?P<v5>\d+).*?\| V6 n=(?P<v6>\d+)"
 )
 MID_RE = re.compile(
     r"^LEAD_V6 MIDCONTRACT \| (?P<contract>[^| ]+) \| "
-    r"V5 n=(?P<v5>\d+) .*? \| V6 n=(?P<v6>\d+)"
+    r"V5 n=(?P<v5>\d+).*?\| V6 n=(?P<v6>\d+)"
 )
 
 
@@ -104,7 +104,10 @@ def audit_messages(messages: Iterable[str]) -> dict:
         match = SUMMARY_RE.match(message)
         if match:
             contract = match.group("contract")
-            reported = {"V5_BASELINE": int(match.group("v5")), "V6_QUALIFIED": int(match.group("v6"))}
+            reported = {
+                "V5_BASELINE": int(match.group("v5")),
+                "V6_QUALIFIED": int(match.group("v6")),
+            }
             summaries.append(
                 {
                     "contract": contract,
@@ -119,7 +122,10 @@ def audit_messages(messages: Iterable[str]) -> dict:
         match = MID_RE.match(message)
         if match:
             contract = match.group("contract")
-            reported = {"V5_BASELINE": int(match.group("v5")), "V6_QUALIFIED": int(match.group("v6"))}
+            reported = {
+                "V5_BASELINE": int(match.group("v5")),
+                "V6_QUALIFIED": int(match.group("v6")),
+            }
             obs = observed[contract]
             excess = {
                 stage: reported[stage] - obs[stage]
@@ -138,7 +144,10 @@ def audit_messages(messages: Iterable[str]) -> dict:
                 )
 
     reconstructed = {
-        contract: {"v5_results": counts["V5_BASELINE"], "v6_results": counts["V6_QUALIFIED"]}
+        contract: {
+            "v5_results": counts["V5_BASELINE"],
+            "v6_results": counts["V6_QUALIFIED"],
+        }
         for contract, counts in sorted(observed.items())
         if counts["V5_BASELINE"] or counts["V6_QUALIFIED"]
     }
