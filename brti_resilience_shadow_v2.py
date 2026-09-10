@@ -31,8 +31,6 @@ class BrtiSample:
 
     @property
     def clean_for_qualification(self) -> bool:
-        # Important safety invariant: only a fresh primary success is clean.
-        # Cached values and verifier-only values are diagnostic evidence only.
         return self.status == 'PRIMARY_OK' and self.value is not None
 
 
@@ -74,12 +72,11 @@ class BrtiResilienceGuard:
 
     @staticmethod
     def _classify_exception(exc: Exception) -> str:
-        """Classify transport errors without importing the caller's HTTP library."""
         name = exc.__class__.__name__.lower()
         text = str(exc).lower()
         if 'timeout' in name or 'timed out' in text or 'timeout' in text:
             return 'timeout'
-        if 'http' in name or 'status code' in text or '503' in text or '502' in text or '429' in text:
+        if 'http' in name or 'status code' in text or '503' in text or '502' in text or '429' in text or '401' in text or '403' in text:
             return 'http'
         if 'connection' in name or 'connect' in text or 'dns' in text or 'name resolution' in text:
             return 'connection'
@@ -151,11 +148,9 @@ class BrtiResilienceGuard:
                     verifier_value = float(vv)
                     verifier_status = 'VERIFIER_OK'
                     self.counters['verifier_ok'] += 1
-                    if primary_value is not None:
-                        # Cross-check only; disagreement is diagnostic and never substitutes for primary.
-                        if abs(verifier_value - primary_value) > 25.0:
-                            verifier_status = 'VERIFIER_DISAGREE'
-                            self.counters['verifier_disagree'] += 1
+                    if primary_value is not None and abs(verifier_value - primary_value) > 25.0:
+                        verifier_status = 'VERIFIER_DISAGREE'
+                        self.counters['verifier_disagree'] += 1
                 else:
                     verifier_status = 'VERIFIER_MISSING'
                     self.counters['verifier_missing'] += 1
@@ -198,22 +193,16 @@ class BrtiResilienceGuard:
 
 
 def qualification_value(sample: BrtiSample) -> Optional[float]:
-    """Return only data that is safe for V6/V7 qualification.
-
-    This intentionally refuses cached values and verifier-only values.
-    """
     return sample.value if sample.clean_for_qualification else None
 
 
 def diagnostic_dict(sample: BrtiSample) -> Dict[str, Any]:
-    """JSON/log friendly diagnostic payload."""
     d = asdict(sample)
     d['clean_for_qualification'] = sample.clean_for_qualification
     return d
 
 
 def _self_test() -> None:
-    # Retry recovery should become clean qualification data.
     seq = iter([None, None, 78000.25])
     g = BrtiResilienceGuard(retries=4, backoff_s=(0, 0, 0))
     s = g.fetch(lambda: next(seq), now=100.0)
@@ -222,18 +211,15 @@ def _self_test() -> None:
     assert qualification_value(s) == 78000.25
     assert g.counters['recovered_by_retry'] == 1
 
-    # Total primary failure must NEVER qualify from cache or verifier.
     s2 = g.fetch(lambda: None, verifier_fetch=lambda: 78001.0, now=101.0)
     assert not s2.clean_for_qualification
     assert qualification_value(s2) is None
     assert s2.last_good_value == 78000.25
     assert s2.verifier_value == 78001.0
 
-    # Expired diagnostic cache disappears.
     s3 = g.fetch(lambda: None, now=110.0)
     assert s3.last_good_value is None
 
-    # Failure classification is diagnostic only and must never qualify.
     g2 = BrtiResilienceGuard(retries=1, backoff_s=())
     def _timeout():
         raise TimeoutError('timed out')
