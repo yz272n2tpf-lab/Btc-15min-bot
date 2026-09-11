@@ -12,6 +12,23 @@ def result(lane, ticker, entry, gain, adverse, t10, style="EXPANSION"):
     )
 
 
+def candidate(ticker, entry=.290, left=674):
+    return (
+        f"LEAD_V7 CANDIDATE | lane MOMENTUM_EXPANSION | {ticker} | UP "
+        f"| zone MOMENTUM_PREFERRED_7_30C | ask {entry:.3f} "
+        f"| btc5 +25.00 | btc15 +20.00 | btc30 +12.00 | accel +18.00 "
+        f"| brti5 +26.00 | brti15 +24.00 | ask5 +0.000 | ask15 +0.000 "
+        f"| left {left}s"
+    )
+
+
+def heartbeat(ticker, left_minutes=10.50, up=.320, down=.690):
+    return (
+        f"LEAD_V7 HEARTBEAT | {ticker} | {left_minutes:.2f}m | BTC 77000.00 "
+        f"| BRTI 77001.00 | UP {up:.3f} | DOWN {down:.3f} | pending 1"
+    )
+
+
 class UnifiedFinalReportTests(unittest.TestCase):
     def test_valid_current_unified_report_passes(self):
         lines = [
@@ -20,16 +37,39 @@ class UnifiedFinalReportTests(unittest.TestCase):
         ]
         report = build_report(lines)
         self.assertEqual(report["preflight"], "PASS")
-        self.assertEqual(report["schema"], "unified-scalp-final-report-v3")
+        self.assertEqual(report["schema"], "unified-scalp-final-report-v4")
         self.assertEqual(report["current_architecture"], "ONE_UNIFIED_SCALP_EXPANSION_ENGINE")
         self.assertEqual(report["scorecard"]["unified_results"], 1)
         self.assertEqual(report["scorecard"]["legacy_reversal_research_only"], 1)
         self.assertEqual(report["contract_balance_audit"]["unified_results"], 1)
         self.assertEqual(report["contract_balance_audit"]["legacy_reversal_research_only"], 1)
+        self.assertEqual(report["trap_signature_audit"]["unified_results"], 1)
+        self.assertEqual(report["heartbeat_path_audit"]["unified_results"], 1)
+        self.assertEqual(report["diagnostic_coverage"]["trap_signature_pairing"], "PARTIAL_DATA")
+        self.assertEqual(report["diagnostic_coverage"]["heartbeat_path_pairing"], "PARTIAL_DATA")
+        self.assertFalse(report["diagnostic_coverage"]["pairing_is_qualification_gate"])
         self.assertEqual(report["decisions"]["separate_ultra_cheap_graduation_path"], "REJECT")
         self.assertEqual(report["decisions"]["signal_count_only_zone_tightening"], "REJECT")
         self.assertEqual(report["decisions"]["adverse_trap_tightening"], "MORE_DATA")
+        self.assertEqual(report["decisions"]["feature_signature_threshold_change"], "MORE_DATA")
+        self.assertEqual(report["decisions"]["heartbeat_path_trap_tightening"], "MORE_DATA")
         self.assertEqual(report["production_promotion"], "NOT_PERFORMED")
+
+    def test_full_path_diagnostics_are_integrated_without_becoming_qualification_gate(self):
+        lines = [
+            candidate("T1", .290, 674),
+            heartbeat("T1", 10.50, .320, .690),
+            result("MOMENTUM_EXPANSION", "T1", .29, .20, -.01, "51.0"),
+        ]
+        report = build_report(lines)
+        self.assertEqual(report["preflight"], "PASS")
+        self.assertEqual(report["diagnostic_coverage"]["trap_signature_pairing"], "COMPLETE")
+        self.assertEqual(report["diagnostic_coverage"]["heartbeat_path_pairing"], "COMPLETE")
+        self.assertEqual(report["trap_signature_audit"]["matched_results"], 1)
+        self.assertEqual(report["heartbeat_path_audit"]["matched_results"], 1)
+        self.assertFalse(report["trap_signature_audit"]["threshold_change_performed"])
+        self.assertTrue(report["heartbeat_path_audit"]["heartbeat_path_is_coarse_lower_bound"])
+        self.assertEqual(report["decisions"]["qualification_threshold_change"], "MORE_DATA")
 
     def test_rough_winner_rejects_aggregate_adverse_only_tightening(self):
         lines = [
@@ -60,7 +100,7 @@ class UnifiedFinalReportTests(unittest.TestCase):
         self.assertEqual(report["decisions"]["signal_count_only_zone_tightening"], "REJECT")
         self.assertEqual(report["decisions"]["zone_specific_threshold_change"], "MORE_DATA")
 
-    def test_unknown_lane_fails_closed(self):
+    def test_unknown_lane_fails_closed_across_integrated_audits(self):
         report = build_report([
             result("UNKNOWN_EXPERIMENT", "T1", .20, .20, -.01, "20.0")
         ])
@@ -69,6 +109,8 @@ class UnifiedFinalReportTests(unittest.TestCase):
         self.assertFalse(report["checks"]["adverse_no_unknown_lane"])
         self.assertFalse(report["checks"]["overlap_no_unknown_lane"])
         self.assertFalse(report["checks"]["balance_no_unknown_lane"])
+        self.assertFalse(report["checks"]["trap_no_unknown_lane"])
+        self.assertFalse(report["checks"]["heartbeat_no_unknown_lane"])
 
     def test_empty_report_still_preserves_architecture(self):
         report = build_report([])
@@ -77,6 +119,8 @@ class UnifiedFinalReportTests(unittest.TestCase):
         self.assertEqual(report["decisions"]["qualification_threshold_change"], "MORE_DATA")
         self.assertEqual(report["decisions"]["aggregate_adverse_only_tightening"], "MORE_DATA")
         self.assertEqual(report["decisions"]["zone_specific_threshold_change"], "MORE_DATA")
+        self.assertEqual(report["diagnostic_coverage"]["trap_signature_pairing"], "COMPLETE")
+        self.assertEqual(report["diagnostic_coverage"]["heartbeat_path_pairing"], "COMPLETE")
 
     @patch("unified_scalp_final_report_v1.audit_adverse_lines")
     def test_count_disagreement_fails_closed(self, mock_audit):
