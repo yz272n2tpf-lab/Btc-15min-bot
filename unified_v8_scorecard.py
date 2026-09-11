@@ -10,7 +10,6 @@ Usage:
 """
 from __future__ import annotations
 import re, sys, statistics
-from collections import defaultdict
 
 RESULT = re.compile(
     r"UNIFIED_V8 RESULT \| (?P<ticker>[^|]+) \| (?P<side>UP|DOWN) \| zone (?P<zone>[^|]+) \| style (?P<style>[^|]+) \| entry (?P<entry>[0-9.]+) \| max_gain (?P<gain>[+-][0-9.]+) \| adverse (?P<adv>[+-][0-9.]+) \| to\+5c (?P<t5>[^|]+) \| to\+10c (?P<t10>[^|]+) \| to\+20c (?P<t20>[^|\n]+)"
@@ -35,8 +34,6 @@ def decision(rows):
     adv=[r['adv'] for r in rows]
     bad=sum(a <= -0.15 for a in adv)/n
     avg_adv=sum(adv)/n
-    # Research gate: intentionally conservative. This is not the final-outcome
-    # 93-95% target; it is a scalp expansion-quality gate.
     if h5 >= .85 and h10 >= .70 and bad <= .10 and avg_adv >= -.08:
         return "FREEZE_CANDIDATE", "strong expansion precision with controlled adverse movement"
     if h5 >= .70 and h10 >= .50 and bad <= .20:
@@ -66,7 +63,12 @@ def show(label, rows):
     if not s:
         print(f"{label}: n=0")
         return
-    print(f"{label}: n={s['n']} | +5c {p(s['hit5'])} | +10c {p(s['hit10'])} | +20c {p(s['hit20'])} | <=30s +10c {p(s['burst10'])} | <=120s +10c {p(s['expand10'])} | avgGain {cents(s['avg_gain'])} | avgAdv {cents(s['avg_adv'])} | badAdv<=-15c {p(s['bad15'])} | medianEntry {100*s['median_entry']:.1f}c | medianTo+10c {('N/A' if s['median_t10'] is None else f'{s['median_t10']:.1f}s')}")
+    med_t10='N/A' if s['median_t10'] is None else f"{s['median_t10']:.1f}s"
+    print(
+        f"{label}: n={s['n']} | +5c {p(s['hit5'])} | +10c {p(s['hit10'])} | +20c {p(s['hit20'])} | "
+        f"<=30s +10c {p(s['burst10'])} | <=120s +10c {p(s['expand10'])} | avgGain {cents(s['avg_gain'])} | "
+        f"avgAdv {cents(s['avg_adv'])} | badAdv<=-15c {p(s['bad15'])} | medianEntry {100*s['median_entry']:.1f}c | medianTo+10c {med_t10}"
+    )
 
 def main():
     src=sys.stdin.read() if len(sys.argv)<2 or sys.argv[1]=='-' else open(sys.argv[1],encoding='utf-8').read()
