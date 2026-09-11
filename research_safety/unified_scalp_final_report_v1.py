@@ -3,9 +3,9 @@
 
 Consumes archived/live collector text, treats RESULT rows as scoring authority,
 keeps legacy ultra-cheap reversal observations audit-only, combines unified
-price/speed scoring with adverse-path ordering and outcome-overlap diagnostics,
-and fails closed on any architecture invariant breach. This file cannot place
-trades or promote production.
+price/speed scoring with adverse-path ordering, outcome-overlap, and
+contract-balance diagnostics, and fails closed on any architecture invariant
+breach. This file cannot place trades or promote production.
 """
 from __future__ import annotations
 
@@ -15,6 +15,7 @@ import sys
 from pathlib import Path
 
 from unified_scalp_adverse_path_audit_v1 import audit_lines as audit_adverse_lines
+from unified_scalp_contract_balance_audit_v1 import audit_lines as audit_contract_balance_lines
 from unified_scalp_outcome_overlap_audit_v1 import audit_lines as audit_overlap_lines
 from unified_scalp_result_scorecard_v1 import score_lines
 
@@ -23,6 +24,7 @@ def build_report(lines: list[str]) -> dict:
     score = score_lines(lines)
     adverse = audit_adverse_lines(lines)
     overlap = audit_overlap_lines(lines)
+    balance = audit_contract_balance_lines(lines)
 
     checks = {
         "score_research_only": score.get("research_only") is True,
@@ -40,31 +42,42 @@ def build_report(lines: list[str]) -> dict:
         "overlap_thresholds_unchanged": overlap.get("qualification_thresholds_changed") is False,
         "overlap_no_cheap_override": overlap.get("cheap_price_evidence_override") is False,
         "overlap_no_unknown_lane": overlap.get("unknown_lane_results") == 0,
+        "balance_research_only": balance.get("research_only") is True,
+        "balance_signal_only": balance.get("signal_only") is True,
+        "balance_promotion_locked": balance.get("production_promotion") == "NOT_PERFORMED",
+        "balance_thresholds_unchanged": balance.get("qualification_thresholds_changed") is False,
+        "balance_no_cheap_override": balance.get("cheap_price_evidence_override") is False,
+        "balance_price_bands_diagnostic_only": balance.get("price_bands_are_diagnostic_only") is True,
+        "balance_no_unknown_lane": balance.get("unknown_lane_results") == 0,
         "legacy_counts_agree": (
             score.get("legacy_reversal_research_only")
             == adverse.get("legacy_reversal_research_only")
             == overlap.get("legacy_reversal_research_only")
+            == balance.get("legacy_reversal_research_only")
         ),
         "unified_counts_agree": (
             score.get("unified_results")
             == adverse.get("unified_results")
             == overlap.get("unified_results")
+            == balance.get("unified_results")
         ),
         "unified_path_keep": (
             score.get("architecture", {}).get("unified_scalp_expansion_path") == "KEEP"
             and adverse.get("decision", {}).get("unified_scalp_expansion_path") == "KEEP"
             and overlap.get("decision", {}).get("unified_scalp_expansion_path") == "KEEP"
+            and balance.get("decision", {}).get("unified_scalp_expansion_path") == "KEEP"
         ),
         "separate_cheap_path_rejected": (
             score.get("architecture", {}).get("separate_ultra_cheap_graduation_path") == "REJECT"
             and adverse.get("decision", {}).get("separate_ultra_cheap_graduation_path") == "REJECT"
             and overlap.get("decision", {}).get("separate_ultra_cheap_graduation_path") == "REJECT"
+            and balance.get("decision", {}).get("separate_ultra_cheap_graduation_path") == "REJECT"
         ),
     }
     preflight = "PASS" if all(checks.values()) else "FAIL"
 
     return {
-        "schema": "unified-scalp-final-report-v2",
+        "schema": "unified-scalp-final-report-v3",
         "current_architecture": "ONE_UNIFIED_SCALP_EXPANSION_ENGINE",
         "research_only": True,
         "signal_only": True,
@@ -74,6 +87,7 @@ def build_report(lines: list[str]) -> dict:
         "scorecard": score,
         "adverse_path_audit": adverse,
         "outcome_overlap_audit": overlap,
+        "contract_balance_audit": balance,
         "decisions": {
             "unified_scalp_expansion_engine": "KEEP",
             "separate_ultra_cheap_graduation_path": "REJECT",
@@ -88,6 +102,15 @@ def build_report(lines: list[str]) -> dict:
             ),
             "adverse_trap_tightening": adverse.get("decision", {}).get(
                 "adverse_trap_tightening", "MORE_DATA"
+            ),
+            "signal_count_only_zone_tightening": balance.get("decision", {}).get(
+                "signal_count_only_zone_tightening", "REJECT"
+            ),
+            "zone_specific_threshold_change": balance.get("decision", {}).get(
+                "zone_specific_threshold_change", "MORE_DATA"
+            ),
+            "evidence_weighting": balance.get("decision", {}).get(
+                "evidence_weighting", "USE_CONTRACT_BALANCED_ALONGSIDE_RAW"
             ),
         },
     }
