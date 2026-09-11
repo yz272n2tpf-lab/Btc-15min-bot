@@ -13,6 +13,16 @@ LEAD_V7 REJECTS | {'MOM_BRTI_DEGRADED': 1}
 LEAD_V7 CONTRACT_SUMMARY | B | MOM n=0 | REV n=0 | BRTI BRTI_RESILIENCE | samples=20 | primary_ok=16 (80.0%) | retry_recovered=5 | missing=0 | errors=4 | verifier_ok=0 | verifier_disagree=0 | diag_cache=8
 """
 
+ENRICHED = """
+LEAD_V7 HEARTBEAT | C | 1.0m | BTC 1 | BRTI N/A | UP 0.5 | DOWN 0.5 | pending 0
+LEAD_V7 CONTRACT_SUMMARY | C | MOM n=0 | REV n=0 | BRTI BRTI_RESILIENCE | samples=6941 | primary_ok=6804 (98.0%) | retry_recovered=2715 | missing=0 | errors=137 | timeout=0 | http=137 | connection=0 | other=0 | verifier_ok=0 | verifier_disagree=0 | diag_cache=6926
+"""
+
+MISMATCH = """
+LEAD_V7 CONTRACT_SUMMARY | D | MOM n=0 | REV n=0 | BRTI BRTI_RESILIENCE | samples=10 | primary_ok=6 (60.0%) | retry_recovered=1 | missing=0 | errors=4 | timeout=1 | http=1 | connection=0 | other=0 | verifier_ok=0 | verifier_disagree=0 | diag_cache=9
+"""
+
+
 class BrtiAuditTests(unittest.TestCase):
     def test_contract_streak_and_availability(self):
         r = audit(LOG)
@@ -46,6 +56,30 @@ class BrtiAuditTests(unittest.TestCase):
         r = audit(LOG)
         self.assertTrue(r["research_only"])
         self.assertFalse(r["production_mutation"])
+
+    def test_legacy_stats_remain_backward_compatible(self):
+        latest = audit(LOG)["latest_resilience"]
+        self.assertFalse(latest["transport_breakdown_observed"])
+        self.assertEqual(latest["timeout"], 0)
+        self.assertEqual(latest["http"], 0)
+        self.assertEqual(latest["connection"], 0)
+        self.assertEqual(latest["other"], 0)
+
+    def test_enriched_transport_breakdown_is_parsed_and_classified(self):
+        r = audit(ENRICHED)
+        latest = r["latest_resilience"]
+        self.assertTrue(latest["transport_breakdown_observed"])
+        self.assertEqual(latest["errors"], 137)
+        self.assertEqual(latest["http"], 137)
+        self.assertEqual(latest["timeout"], 0)
+        self.assertIn("PRIMARY_HTTP_ERRORS_PRESENT", r["failure_classes"])
+        self.assertNotIn("TRANSPORT_BREAKDOWN_MISMATCH", r["failure_classes"])
+        self.assertIn("HEARTBEAT_VS_CUMULATIVE_MISSING_DIVERGENCE", r["failure_classes"])
+
+    def test_transport_breakdown_mismatch_is_explicit(self):
+        r = audit(MISMATCH)
+        self.assertIn("TRANSPORT_BREAKDOWN_MISMATCH", r["failure_classes"])
+
 
 if __name__ == "__main__":
     unittest.main()
