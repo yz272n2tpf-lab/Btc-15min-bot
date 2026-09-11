@@ -3,11 +3,10 @@
 
 Consumes archived/live collector text, treats RESULT rows as scoring authority,
 keeps legacy ultra-cheap reversal observations audit-only, combines unified
-price/speed scoring with adverse-path ordering diagnostics, and fails closed on
-any architecture invariant breach. This file cannot place trades or promote
-production.
+price/speed scoring with adverse-path ordering and outcome-overlap diagnostics,
+and fails closed on any architecture invariant breach. This file cannot place
+trades or promote production.
 """
-
 from __future__ import annotations
 
 import argparse
@@ -15,13 +14,15 @@ import json
 import sys
 from pathlib import Path
 
-from unified_scalp_adverse_path_audit_v1 import audit_lines
+from unified_scalp_adverse_path_audit_v1 import audit_lines as audit_adverse_lines
+from unified_scalp_outcome_overlap_audit_v1 import audit_lines as audit_overlap_lines
 from unified_scalp_result_scorecard_v1 import score_lines
 
 
 def build_report(lines: list[str]) -> dict:
     score = score_lines(lines)
-    adverse = audit_lines(lines)
+    adverse = audit_adverse_lines(lines)
+    overlap = audit_overlap_lines(lines)
 
     checks = {
         "score_research_only": score.get("research_only") is True,
@@ -33,24 +34,37 @@ def build_report(lines: list[str]) -> dict:
         "adverse_signal_only": adverse.get("signal_only") is True,
         "adverse_promotion_locked": adverse.get("production_promotion") == "NOT_PERFORMED",
         "adverse_no_unknown_lane": adverse.get("unknown_lane_results") == 0,
+        "overlap_research_only": overlap.get("research_only") is True,
+        "overlap_signal_only": overlap.get("signal_only") is True,
+        "overlap_promotion_locked": overlap.get("production_promotion") == "NOT_PERFORMED",
+        "overlap_thresholds_unchanged": overlap.get("qualification_thresholds_changed") is False,
+        "overlap_no_cheap_override": overlap.get("cheap_price_evidence_override") is False,
+        "overlap_no_unknown_lane": overlap.get("unknown_lane_results") == 0,
         "legacy_counts_agree": (
             score.get("legacy_reversal_research_only")
             == adverse.get("legacy_reversal_research_only")
+            == overlap.get("legacy_reversal_research_only")
         ),
-        "unified_counts_agree": score.get("unified_results") == adverse.get("unified_results"),
+        "unified_counts_agree": (
+            score.get("unified_results")
+            == adverse.get("unified_results")
+            == overlap.get("unified_results")
+        ),
         "unified_path_keep": (
             score.get("architecture", {}).get("unified_scalp_expansion_path") == "KEEP"
             and adverse.get("decision", {}).get("unified_scalp_expansion_path") == "KEEP"
+            and overlap.get("decision", {}).get("unified_scalp_expansion_path") == "KEEP"
         ),
         "separate_cheap_path_rejected": (
             score.get("architecture", {}).get("separate_ultra_cheap_graduation_path") == "REJECT"
             and adverse.get("decision", {}).get("separate_ultra_cheap_graduation_path") == "REJECT"
+            and overlap.get("decision", {}).get("separate_ultra_cheap_graduation_path") == "REJECT"
         ),
     }
     preflight = "PASS" if all(checks.values()) else "FAIL"
 
     return {
-        "schema": "unified-scalp-final-report-v1",
+        "schema": "unified-scalp-final-report-v2",
         "current_architecture": "ONE_UNIFIED_SCALP_EXPANSION_ENGINE",
         "research_only": True,
         "signal_only": True,
@@ -59,11 +73,18 @@ def build_report(lines: list[str]) -> dict:
         "checks": checks,
         "scorecard": score,
         "adverse_path_audit": adverse,
+        "outcome_overlap_audit": overlap,
         "decisions": {
             "unified_scalp_expansion_engine": "KEEP",
             "separate_ultra_cheap_graduation_path": "REJECT",
             "qualification_threshold_change": score.get("architecture", {}).get(
                 "qualification_threshold_change", "MORE_DATA"
+            ),
+            "aggregate_adverse_only_tightening": overlap.get("decision", {}).get(
+                "aggregate_adverse_only_tightening", "MORE_DATA"
+            ),
+            "path_ordered_trap_tightening": overlap.get("decision", {}).get(
+                "path_ordered_trap_tightening", "MORE_DATA"
             ),
             "adverse_trap_tightening": adverse.get("decision", {}).get(
                 "adverse_trap_tightening", "MORE_DATA"
