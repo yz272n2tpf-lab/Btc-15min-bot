@@ -20,12 +20,27 @@ class UnifiedFinalReportTests(unittest.TestCase):
         ]
         report = build_report(lines)
         self.assertEqual(report["preflight"], "PASS")
+        self.assertEqual(report["schema"], "unified-scalp-final-report-v2")
         self.assertEqual(report["current_architecture"], "ONE_UNIFIED_SCALP_EXPANSION_ENGINE")
         self.assertEqual(report["scorecard"]["unified_results"], 1)
         self.assertEqual(report["scorecard"]["legacy_reversal_research_only"], 1)
         self.assertEqual(report["decisions"]["separate_ultra_cheap_graduation_path"], "REJECT")
         self.assertEqual(report["decisions"]["adverse_trap_tightening"], "MORE_DATA")
         self.assertEqual(report["production_promotion"], "NOT_PERFORMED")
+
+    def test_rough_winner_rejects_aggregate_adverse_only_tightening(self):
+        lines = [
+            result("MOMENTUM_EXPANSION", "WIN", .25, .11, -.12, "50.0"),
+            result("MOMENTUM_EXPANSION", "FAIL", .098, .032, -.009, "None", style="NO_EXPANSION"),
+        ]
+        report = build_report(lines)
+        self.assertEqual(report["preflight"], "PASS")
+        self.assertEqual(
+            report["outcome_overlap_audit"]["aggregate_adverse_gate_assessment"],
+            "NON_SEPARATING_COUNTEREXAMPLES_PRESENT",
+        )
+        self.assertEqual(report["decisions"]["aggregate_adverse_only_tightening"], "REJECT")
+        self.assertEqual(report["decisions"]["path_ordered_trap_tightening"], "MORE_DATA")
 
     def test_unknown_lane_fails_closed(self):
         report = build_report([
@@ -34,14 +49,16 @@ class UnifiedFinalReportTests(unittest.TestCase):
         self.assertEqual(report["preflight"], "FAIL")
         self.assertFalse(report["checks"]["score_no_unknown_lane"])
         self.assertFalse(report["checks"]["adverse_no_unknown_lane"])
+        self.assertFalse(report["checks"]["overlap_no_unknown_lane"])
 
     def test_empty_report_still_preserves_architecture(self):
         report = build_report([])
         self.assertEqual(report["preflight"], "PASS")
         self.assertEqual(report["decisions"]["unified_scalp_expansion_engine"], "KEEP")
         self.assertEqual(report["decisions"]["qualification_threshold_change"], "MORE_DATA")
+        self.assertEqual(report["decisions"]["aggregate_adverse_only_tightening"], "MORE_DATA")
 
-    @patch("unified_scalp_final_report_v1.audit_lines")
+    @patch("unified_scalp_final_report_v1.audit_adverse_lines")
     def test_count_disagreement_fails_closed(self, mock_audit):
         mock_audit.return_value = {
             "research_only": True,
