@@ -107,11 +107,14 @@ while True:
     try:
         row=snap()
         if row:
+            # Resolve first so any still-pending entries from the just-finished
+            # ticker are scored into that ticker's contract bucket before the
+            # rollover summary is printed and the bucket is cleared.
+            resolve(row)
             if last_ticker is not None and row['ticker']!=last_ticker:
                 summary('UNIFIED_V8 CONTRACT_SUMMARY',last_ticker,score_contract);summary('UNIFIED_V8 CUMULATIVE',last_ticker,score_total);score_contract.clear();rejects.clear()
             last_ticker=row['ticker'];hist.append(row)
             while hist and hist[0]['ts']<row['ts']-KEEP:hist.popleft()
-            resolve(row)
             for side in ('UP','DOWN'):
                 f=features(row,side)
                 if not f:continue
