@@ -24,8 +24,10 @@ STATS_RE = re.compile(
     r"LEAD_V7 (?:MIDCONTRACT|CONTRACT_SUMMARY|CUMULATIVE) \| (?P<ticker>[^|]+?) .*?"
     r"BRTI BRTI_RESILIENCE \| samples=(?P<samples>\d+) \| primary_ok=(?P<primary_ok>\d+) "
     r"\((?P<primary_pct>\d+(?:\.\d+)?)%\) \| retry_recovered=(?P<retry>\d+) \| "
-    r"missing=(?P<missing>\d+) \| errors=(?P<errors>\d+) \| verifier_ok=(?P<verifier_ok>\d+) \| "
-    r"verifier_disagree=(?P<verifier_disagree>\d+) \| diag_cache=(?P<diag_cache>\d+)"
+    r"missing=(?P<missing>\d+) \| errors=(?P<errors>\d+) \| "
+    r"(?:timeout=(?P<timeout>\d+) \| http=(?P<http>\d+) \| connection=(?P<connection>\d+) \| other=(?P<other>\d+) \| )?"
+    r"verifier_ok=(?P<verifier_ok>\d+) \| verifier_disagree=(?P<verifier_disagree>\d+) \| "
+    r"diag_cache=(?P<diag_cache>\d+)"
 )
 MID_RE = re.compile(r"LEAD_V7 MIDCONTRACT \| (?P<ticker>[^|]+?) \|")
 REJECT_RE = re.compile(r"LEAD_V7 REJECTS \| (?P<body>\{.*\})")
@@ -58,6 +60,7 @@ def parse(text: str) -> dict:
         m = STATS_RE.search(line)
         if m:
             d = m.groupdict()
+            transport_breakdown_observed = d["timeout"] is not None
             snap = {
                 "ticker": d["ticker"].strip(),
                 "samples": int(d["samples"]),
@@ -66,12 +69,18 @@ def parse(text: str) -> dict:
                 "retry_recovered": int(d["retry"]),
                 "missing": int(d["missing"]),
                 "errors": int(d["errors"]),
+                "timeout": int(d["timeout"] or 0),
+                "http": int(d["http"] or 0),
+                "connection": int(d["connection"] or 0),
+                "other": int(d["other"] or 0),
+                "transport_breakdown_observed": transport_breakdown_observed,
                 "verifier_ok": int(d["verifier_ok"]),
                 "verifier_disagree": int(d["verifier_disagree"]),
                 "diag_cache": int(d["diag_cache"]),
             }
             key = tuple(snap[k] for k in (
                 "samples", "primary_ok", "retry_recovered", "missing", "errors",
+                "timeout", "http", "connection", "other", "transport_breakdown_observed",
                 "verifier_ok", "verifier_disagree", "diag_cache"
             ))
             if key not in snapshot_seen:
@@ -135,6 +144,18 @@ def audit(text: str) -> dict:
             classes.append("MISSING_AFTER_RESILIENCE")
         if overall["na_count"] > 0 and latest["missing"] == 0:
             classes.append("HEARTBEAT_VS_CUMULATIVE_MISSING_DIVERGENCE")
+        if latest["transport_breakdown_observed"]:
+            if latest["timeout"] > 0:
+                classes.append("PRIMARY_TIMEOUT_ERRORS_PRESENT")
+            if latest["http"] > 0:
+                classes.append("PRIMARY_HTTP_ERRORS_PRESENT")
+            if latest["connection"] > 0:
+                classes.append("PRIMARY_CONNECTION_ERRORS_PRESENT")
+            if latest["other"] > 0:
+                classes.append("PRIMARY_OTHER_ERRORS_PRESENT")
+            transport_total = latest["timeout"] + latest["http"] + latest["connection"] + latest["other"]
+            if transport_total != latest["errors"]:
+                classes.append("TRANSPORT_BREAKDOWN_MISMATCH")
         if latest["samples"] > 0 and latest["verifier_ok"] == 0 and latest["verifier_disagree"] == 0:
             classes.append("VERIFIER_ACTIVITY_UNOBSERVED")
     else:
@@ -148,7 +169,7 @@ def audit(text: str) -> dict:
         }
 
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "collector_identity": "LEAD_V7",
         "overall_heartbeats": overall,
         "contracts": contracts,
