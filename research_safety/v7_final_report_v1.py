@@ -10,6 +10,7 @@ from v7_brti_reliability_audit_v1 import audit as audit_brti
 from v7_contract_independence_audit_v1 import build_independence_audit
 from v7_data_quality_incident_audit_v1 import audit_incidents
 from v7_evidence_decomposition_v1 import build_decomposition
+from v7_final_report_preflight_v1 import assert_report_safe
 from v7_split_scorecard_v1 import build_scorecard
 from v7_freeze_gate_v1 import evaluate
 from v7_summary_staleness_audit_v1 import audit as audit_summary_staleness
@@ -24,7 +25,7 @@ def build_final_report(log_text, policy=None):
     data_quality_incidents = audit_incidents(log_text)
     summary_staleness = audit_summary_staleness(log_text)
     report = {
-        "schema_version": 6,
+        "schema_version": 7,
         "collector_identity": "LEAD_V7",
         "result_source_authority": {
             "scoring_source": "RESULT_STREAM",
@@ -41,6 +42,7 @@ def build_final_report(log_text, policy=None):
         "production_promotion": "NOT_PERFORMED",
     }
     report["architecture_decision"] = synthesize_architecture(report)
+    report["validation_preflight"] = assert_report_safe(report)
     return report
 
 
