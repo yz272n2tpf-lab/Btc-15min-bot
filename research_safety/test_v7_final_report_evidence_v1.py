@@ -16,7 +16,7 @@ LEAD_V7 CONTRACT_SUMMARY | A | MOM n=1 | REV n=0 | BRTI BRTI_RESILIENCE | sample
 class FinalReportEvidenceTests(unittest.TestCase):
     def test_final_report_includes_all_research_audits_and_never_promotes(self):
         report = build_final_report(LOG, None)
-        self.assertEqual(report["schema_version"], 5)
+        self.assertEqual(report["schema_version"], 6)
         self.assertEqual(report["production_promotion"], "NOT_PERFORMED")
         self.assertEqual(report["result_source_authority"]["scoring_source"], "RESULT_STREAM")
         self.assertEqual(report["result_source_authority"]["contract_summary_role"], "ADVISORY_ONLY")
@@ -36,6 +36,9 @@ class FinalReportEvidenceTests(unittest.TestCase):
         self.assertIn("COMPOUND_DATA_QUALITY_INCIDENT", incidents["incident_classes"])
         self.assertEqual(report["summary_staleness"]["status"], "CLEAN")
         self.assertEqual(report["freeze_gate"]["lanes"]["MOMENTUM_EXPANSION"]["decision"], "MORE_DATA")
+        architecture = report["architecture_decision"]
+        self.assertEqual(architecture["overall_architecture_status"], "MORE_DATA")
+        self.assertEqual(architecture["production_promotion"], "NOT_PERFORMED")
 
 
 if __name__ == "__main__":
