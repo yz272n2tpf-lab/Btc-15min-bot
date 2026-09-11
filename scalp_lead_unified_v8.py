@@ -22,14 +22,16 @@ def brti(): return qualification_value(_brti_guard.fetch(_primary_brti_once))
 MIN_ASK=0.03; MAX_ASK=0.45
 # Entry zones are diagnostic labels only. They never change qualification.
 ZONES=((0.07,'ULTRA_3_7C'),(0.15,'CHEAP_7_15C'),(0.30,'VALUE_15_30C'),(0.451,'HIGH_30_45C'))
-# One evidence floor for every 3c-45c entry. These are the prior 30-45c
-# quality floors, so fixing the lower-price shortcut does not loosen the
-# established high-zone standard.
-BASE_FLOORS={'btc5':20.0,'btc15':25.0,'brti5':15.0,'brti15':5.0,'accel':10.0,'btc30':0.0}
+# One evidence gate for every 3c-45c entry. CORE preserves the prior high-zone
+# quality floor. SURGE is a price-neutral compensation shape: slightly less
+# 15s BTC persistence is allowed only when short impulse, BRTI confirmation and
+# acceleration are materially stronger. Neither path contains entry price.
+CORE_FLOORS={'btc5':20.0,'btc15':25.0,'brti5':15.0,'brti15':5.0,'accel':10.0,'btc30':0.0}
+SURGE_FLOORS={'btc5':25.0,'btc15':22.0,'brti5':25.0,'brti15':15.0,'accel':18.0,'btc30':0.0}
 CONFIRM_WINDOW=4.0; CONFIRM_COUNT=2
 confirm=defaultdict(deque); pending=[]; last_signal={}; rejects=defaultdict(int)
-score_total=defaultdict(lambda:{'n':0,'hit5':0,'hit10':0,'burst10':0,'expand10':0,'hit20':0,'gain_sum':0.0,'adverse_sum':0.0,'pre10_adverse_sum':0.0,'quality_sum':0.0})
-score_contract=defaultdict(lambda:{'n':0,'hit5':0,'hit10':0,'burst10':0,'expand10':0,'hit20':0,'gain_sum':0.0,'adverse_sum':0.0,'pre10_adverse_sum':0.0,'quality_sum':0.0})
+score_total=defaultdict(lambda:{'n':0,'hit5':0,'hit10':0,'burst10':0,'expand10':0,'hit20':0,'gain_sum':0.0,'adverse_sum':0.0,'pre10_adverse_sum':0.0,'quality_sum':0.0,'core':0,'surge':0})
+score_contract=defaultdict(lambda:{'n':0,'hit5':0,'hit10':0,'burst10':0,'expand10':0,'hit20':0,'gain_sum':0.0,'adverse_sum':0.0,'pre10_adverse_sum':0.0,'quality_sum':0.0,'core':0,'surge':0})
 last_ticker=None; last_stats_ts=0.0
 
 def _fresh(f): return f.get('brti5') is not None and f.get('brti15') is not None
@@ -38,9 +40,20 @@ def _zone(ask):
         if ask<ceiling:return name
     return None
 
-def setup_quality(f):
-    """Weakest-link evidence ratio. 1.00 means every unified floor is met."""
-    return min(float(f[k])/v for k,v in BASE_FLOORS.items() if v>0)
+def _floor_ratio(f,floors):
+    vals=[]
+    for k,v in floors.items():
+        x=f.get(k)
+        if x is None:return float('-inf')
+        if v>0:vals.append(float(x)/v)
+        elif x<v:return float('-inf')
+    return min(vals) if vals else float('-inf')
+
+def evidence_route(f):
+    core=_floor_ratio(f,CORE_FLOORS); surge=_floor_ratio(f,SURGE_FLOORS)
+    if core>=1.0:return 'CORE',core
+    if surge>=1.0:return 'SURGE',surge
+    return None,max(core,surge)
 
 def unified_quality(row,side,f):
     ask=row[side.lower()+'_ask']
@@ -49,24 +62,27 @@ def unified_quality(row,side,f):
     if not f.get('v4') or not f.get('structure_ok'):return False,'BASE_NOT_READY'
     name=_zone(ask)
     if not name:return False,'ZONE_MISSING'
-    strong=all(f.get(k) is not None and f[k]>=floor for k,floor in BASE_FLOORS.items())
-    if not strong:return False,'EVIDENCE_'+name
+    route,_=evidence_route(f)
+    if route is None:return False,'EVIDENCE_'+name
     return True,'UNIFIED_'+name
 
 def _self_test_unified_gate():
-    # Prove at startup that price does not change the evidence standard and
-    # that sub-7c entries are eligible when they meet the same quality floor.
-    base={'btc5':20.0,'btc15':25.0,'brti5':15.0,'brti15':5.0,'accel':10.0,'btc30':0.0,'v4':True,'structure_ok':True}
+    # Prove at startup that price does not change the evidence standard, that
+    # sub-7c entries can qualify, and that no cheap-price shortcut exists.
+    core={'btc5':20.0,'btc15':25.0,'brti5':15.0,'brti15':5.0,'accel':10.0,'btc30':0.0,'v4':True,'structure_ok':True}
+    surge={'btc5':29.24,'btc15':23.03,'brti5':31.21,'brti15':20.48,'accel':21.56,'btc30':0.82,'v4':True,'structure_ok':True}
+    weak=dict(core); weak['btc15']=21.99
     for ask in (0.031,0.050,0.080,0.200,0.440):
-        ok,label=unified_quality({'up_ask':ask},'UP',base)
-        assert ok and label.startswith('UNIFIED_'),(ask,label)
-        weak=dict(base); weak['btc15']=24.99
+        for f in (core,surge):
+            ok,label=unified_quality({'up_ask':ask},'UP',f)
+            assert ok and label.startswith('UNIFIED_'),(ask,label)
         ok2,label2=unified_quality({'up_ask':ask},'UP',weak)
         assert not ok2 and label2.startswith('EVIDENCE_'),(ask,label2)
     for ask in (0.029,0.451):
-        ok,label=unified_quality({'up_ask':ask},'UP',base)
+        ok,label=unified_quality({'up_ask':ask},'UP',core)
         assert not ok and label=='PRICE_OUTSIDE_3_45C',(ask,label)
-    assert abs(setup_quality(base)-1.0)<1e-9
+    assert evidence_route(core)[0]=='CORE'
+    assert evidence_route(surge)[0]=='SURGE'
 
 _self_test_unified_gate()
 
@@ -81,10 +97,11 @@ def add_candidate(row,side,f,zone):
     if row['ts']-last_signal.get(k,0)<20:return
     p=side.lower(); ask=row[p+'_ask']; bid=row[p+'_bid']
     if ask is None or bid is None:return
-    q=setup_quality(f)
+    route,q=evidence_route(f)
+    if route is None:return
     last_signal[k]=row['ts']
-    pending.append({'ticker':row['ticker'],'side':side,'zone':zone,'ts':row['ts'],'left':row['left'],'entry':ask,'max':bid,'min':bid,'pre10_min':bid,'x5':None,'x10':None,'x20':None,'quality':q,'btc5':f['btc5'],'btc15':f['btc15'],'btc30':f.get('btc30'),'accel':f['accel'],'brti5':f['brti5'],'brti15':f['brti15']})
-    print('UNIFIED_V8 CANDIDATE | %s | %s | zone %s | ask %.3f | quality %.2f | btc5 %+.2f | btc15 %+.2f | btc30 %+.2f | accel %+.2f | brti5 %+.2f | brti15 %+.2f | left %.0fs'%(row['ticker'],side,zone,ask,q,f['btc5'],f['btc15'],f['btc30'],f['accel'],f['brti5'],f['brti15'],row['left']),flush=True)
+    pending.append({'ticker':row['ticker'],'side':side,'zone':zone,'ts':row['ts'],'left':row['left'],'entry':ask,'max':bid,'min':bid,'pre10_min':bid,'x5':None,'x10':None,'x20':None,'quality':q,'setup':route,'btc5':f['btc5'],'btc15':f['btc15'],'btc30':f.get('btc30'),'accel':f['accel'],'brti5':f['brti5'],'brti15':f['brti15']})
+    print('UNIFIED_V8 CANDIDATE | %s | %s | zone %s | setup %s | ask %.3f | quality %.2f | btc5 %+.2f | btc15 %+.2f | btc30 %+.2f | accel %+.2f | brti5 %+.2f | brti15 %+.2f | left %.0fs'%(row['ticker'],side,zone,route,ask,q,f['btc5'],f['btc15'],f['btc30'],f['accel'],f['brti5'],f['brti15'],row['left']),flush=True)
 
 def _bump(bucket,e,gain,adv,pre10_adv,t5,t10,t20):
     s=bucket[e['zone']]; s['n']+=1
@@ -94,6 +111,8 @@ def _bump(bucket,e,gain,adv,pre10_adv,t5,t10,t20):
         if t10<=30:s['burst10']+=1
         if t10<=120:s['expand10']+=1
     if t20 is not None:s['hit20']+=1
+    if e['setup']=='CORE':s['core']+=1
+    elif e['setup']=='SURGE':s['surge']+=1
     s['gain_sum']+=gain;s['adverse_sum']+=adv;s['pre10_adverse_sum']+=pre10_adv;s['quality_sum']+=e['quality']
 
 def resolve(row):
@@ -114,11 +133,11 @@ def resolve(row):
         t5,t10,t20=ts(e['x5']),ts(e['x10']),ts(e['x20']);gain=e['max']-e['entry'];adv=e['min']-e['entry'];pre10_adv=e['pre10_min']-e['entry']
         _bump(score_total,e,gain,adv,pre10_adv,t5,t10,t20);_bump(score_contract,e,gain,adv,pre10_adv,t5,t10,t20)
         style='BURST' if t10 is not None and t10<=30 else ('EXPANSION' if t10 is not None else 'NO_EXPANSION')
-        print('UNIFIED_V8 RESULT | %s | %s | zone %s | style %s | entry %.3f | quality %.2f | max_gain %+.3f | adverse %+.3f | pre10_adverse %+.3f | to+5c %s | to+10c %s | to+20c %s'%(e['ticker'],e['side'],e['zone'],style,e['entry'],e['quality'],gain,adv,pre10_adv,t5,t10,t20),flush=True)
+        print('UNIFIED_V8 RESULT | %s | %s | zone %s | setup %s | style %s | entry %.3f | quality %.2f | max_gain %+.3f | adverse %+.3f | pre10_adverse %+.3f | to+5c %s | to+10c %s | to+20c %s'%(e['ticker'],e['side'],e['zone'],e['setup'],style,e['entry'],e['quality'],gain,adv,pre10_adv,t5,t10,t20),flush=True)
 
 def fmt(s):
     if not s['n']:return 'n=0'
-    n=s['n'];return 'n=%d hit5=%.1f%% hit10=%.1f%% burst10=%.1f%% expand10=%.1f%% hit20=%.1f%% avgGain=%+.3f avgAdv=%+.3f avgPre10Adv=%+.3f avgQ=%.2f'%(n,100*s['hit5']/n,100*s['hit10']/n,100*s['burst10']/n,100*s['expand10']/n,100*s['hit20']/n,s['gain_sum']/n,s['adverse_sum']/n,s['pre10_adverse_sum']/n,s['quality_sum']/n)
+    n=s['n'];return 'n=%d hit5=%.1f%% hit10=%.1f%% burst10=%.1f%% expand10=%.1f%% hit20=%.1f%% core=%d surge=%d avgGain=%+.3f avgAdv=%+.3f avgPre10Adv=%+.3f avgQ=%.2f'%(n,100*s['hit5']/n,100*s['hit10']/n,100*s['burst10']/n,100*s['expand10']/n,100*s['hit20']/n,s['core'],s['surge'],s['gain_sum']/n,s['adverse_sum']/n,s['pre10_adverse_sum']/n,s['quality_sum']/n)
 def summary(prefix,ticker,bucket):
     parts=['%s=%s'%(z,fmt(bucket['UNIFIED_'+z])) for _,z in ZONES]
     print('%s | %s | %s | BRTI %s'%(prefix,ticker,' | '.join(parts),_brti_guard.compact_stats()),flush=True)
