@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""One-command V7 research report with fail-closed evidence and summary-integrity audits."""
+"""One-command V7 research report with fail-closed evidence and architecture synthesis."""
 from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
 
+from v7_architecture_decision_v1 import synthesize as synthesize_architecture
 from v7_brti_reliability_audit_v1 import audit as audit_brti
 from v7_contract_independence_audit_v1 import build_independence_audit
 from v7_data_quality_incident_audit_v1 import audit_incidents
@@ -22,8 +23,8 @@ def build_final_report(log_text, policy=None):
     brti_reliability = audit_brti(log_text)
     data_quality_incidents = audit_incidents(log_text)
     summary_staleness = audit_summary_staleness(log_text)
-    return {
-        "schema_version": 5,
+    report = {
+        "schema_version": 6,
         "collector_identity": "LEAD_V7",
         "result_source_authority": {
             "scoring_source": "RESULT_STREAM",
@@ -39,6 +40,8 @@ def build_final_report(log_text, policy=None):
         "freeze_gate": gate,
         "production_promotion": "NOT_PERFORMED",
     }
+    report["architecture_decision"] = synthesize_architecture(report)
+    return report
 
 
 def main(argv=None):
