@@ -1,0 +1,1 @@
+Legacy scalp research collectors parked on 2026-09-11 so the single unified scalp/expansion shadow is the only active research collector on scalp-lead-research-v3. This file is a deployment trigger only; it contains no runtime logic.
