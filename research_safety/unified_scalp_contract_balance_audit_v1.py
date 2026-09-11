@@ -39,9 +39,9 @@ def diagnostic_price_band(entry: float) -> str:
         return "3_7c"
     if 0.07 <= entry < 0.15:
         return "7_15c"
-    if 0.15 <= entry <= 0.30:
+    if 0.15 <= entry < 0.30:
         return "15_30c"
-    if 0.30 < entry <= 0.45:
+    if 0.30 <= entry <= 0.45:
         return "30_45c"
     return "outside_3_45c"
 
