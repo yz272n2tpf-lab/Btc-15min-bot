@@ -1,17 +1,16 @@
 #!/usr/bin/env python3
 """V8.1 surgical sub-30 scalp research. SIGNAL ONLY. NO ORDERS.
 
-Protects the validated 30-45c V8 CORE/SURGE gate byte-for-byte in spirit and
-changes only sub-30 qualification. 7-15c current CORE is rejected. 3-7c and
-15-30c require a stronger SUB30_STRONG route plus early-enough time remaining.
-This is a shadow collector; production/final/early ladders are untouched.
+Protects the validated 30-45c V8 CORE/SURGE gate and changes only sub-30
+qualification. 7-15c current CORE is rejected. 3-7c and 15-30c require a
+stronger SUB30_STRONG route plus early-enough time remaining.
 """
 _src=open('scalp_lead_unified_v8.py','r',encoding='utf-8').read()
-_prefix=_src.split("_self_test_unified_gate()",1)[0]
+# Cut before the self-test definition, not before its call. Splitting on the
+# call left the function header/body in the prefix and could strand syntax.
+_prefix=_src.split("def _self_test_unified_gate():",1)[0]
 exec(compile(_prefix,'scalp_lead_unified_v8.py','exec'),globals())
 
-# Surgical rules inferred from forward V8: protect 30-45; reject current 7-15;
-# demand materially stronger persistence/impulse for 3-7 and 15-30.
 SUB30_MIN_LEFT=240.0
 SUB30_FLOORS={'btc5':30.0,'btc15':40.0,'brti5':25.0,'brti15':20.0,'accel':18.0,'btc30':10.0}
 CONFIRM_WINDOW=5.0; CONFIRM_COUNT=3
@@ -28,7 +27,7 @@ def v81_quality(row,side,f):
     zone=_zone(ask)
     if zone=='HIGH_30_45C':
         route,q=evidence_route(f)
-        return (route is not None, 'PROTECTED_HIGH' if route else 'EVIDENCE_HIGH_30_45C', route)
+        return (route is not None,'PROTECTED_HIGH' if route else 'EVIDENCE_HIGH_30_45C',route)
     if zone=='CHEAP_7_15C':return False,'REJECT_7_15C_CURRENT_GATE',None
     if row['left']<SUB30_MIN_LEFT:return False,'SUB30_TOO_LATE',None
     q=_floor_ratio(f,SUB30_FLOORS)
@@ -36,7 +35,6 @@ def v81_quality(row,side,f):
     return True,'TIGHT_'+zone,'SUB30_STRONG'
 
 def confirmed81(row,side,route,ok):
-    # Protected high keeps V8's original 2 confirmations/4s. Sub30 gets 3/5s.
     k=(row['ticker'],side,route or 'NONE');q=confirm[k];now=row['ts']
     win=4.0 if route in ('CORE','SURGE') else CONFIRM_WINDOW
     need=2 if route in ('CORE','SURGE') else CONFIRM_COUNT
