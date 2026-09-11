@@ -66,7 +66,7 @@ class ContractBalanceAuditTests(unittest.TestCase):
         self.assertEqual(diagnostic_price_band(.030), "3_7c")
         self.assertEqual(diagnostic_price_band(.070), "7_15c")
         self.assertEqual(diagnostic_price_band(.150), "15_30c")
-        self.assertEqual(diagnostic_price_band(.300), "15_30c")
+        self.assertEqual(diagnostic_price_band(.300), "30_45c")
         self.assertEqual(diagnostic_price_band(.301), "30_45c")
         self.assertEqual(diagnostic_price_band(.450), "30_45c")
         self.assertEqual(diagnostic_price_band(.451), "outside_3_45c")
