@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""One-command V7 research report: score lanes, audit evidence/independence/data quality, apply optional gate."""
+"""One-command V7 research report with fail-closed evidence and summary-integrity audits."""
 from __future__ import annotations
 import argparse
 import json
@@ -11,6 +11,7 @@ from v7_data_quality_incident_audit_v1 import audit_incidents
 from v7_evidence_decomposition_v1 import build_decomposition
 from v7_split_scorecard_v1 import build_scorecard
 from v7_freeze_gate_v1 import evaluate
+from v7_summary_staleness_audit_v1 import audit as audit_summary_staleness
 
 
 def build_final_report(log_text, policy=None):
@@ -20,14 +21,21 @@ def build_final_report(log_text, policy=None):
     independence = build_independence_audit(log_text)
     brti_reliability = audit_brti(log_text)
     data_quality_incidents = audit_incidents(log_text)
+    summary_staleness = audit_summary_staleness(log_text)
     return {
-        "schema_version": 4,
+        "schema_version": 5,
         "collector_identity": "LEAD_V7",
+        "result_source_authority": {
+            "scoring_source": "RESULT_STREAM",
+            "contract_summary_role": "ADVISORY_ONLY",
+            "reason": "RESULT records can arrive after CONTRACT_SUMMARY and are reconstructed by ticker.",
+        },
         "scorecard": scorecard,
         "evidence_decomposition": evidence,
         "contract_independence": independence,
         "brti_reliability": brti_reliability,
         "data_quality_incidents": data_quality_incidents,
+        "summary_staleness": summary_staleness,
         "freeze_gate": gate,
         "production_promotion": "NOT_PERFORMED",
     }
