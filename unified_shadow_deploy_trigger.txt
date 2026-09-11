@@ -1,0 +1,3 @@
+Unified scalp/expansion shadow deployment trigger.
+Research-only. Signal-only. No orders.
+Purpose: force Railway to rebuild the current price-neutral unified V8 shadow after correcting the research service start command.
