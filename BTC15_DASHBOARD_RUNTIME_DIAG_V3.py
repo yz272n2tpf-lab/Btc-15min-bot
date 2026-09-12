@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Targeted runtime diagnostics for dashboard state mapping and chart/price rendering.
-No trading/scoring/order logic changes.
+"""Targeted runtime diagnostics for dashboard state mapping and scalp/chart rendering.
+No trading/scoring/order logic changes. Diagnostic branch only.
 """
 from pathlib import Path
 import os,re,sys
@@ -12,6 +12,16 @@ TERMS=[
     "setText('finalConfidence'",
     "setText('finalSide'",
     "setText('finalReason'",
+    "setText('scalp",
+    "scalpAction",
+    "scalpSide",
+    "scalpEntry",
+    "scalpExit",
+    "SCALP OPPORTUNITY",
+    "SCALP",
+    "d.scalp",
+    "earlyAction",
+    "EARLY OPPORTUNITY",
     "livePrice",
     "brti_value",
     "price-block",
@@ -19,7 +29,7 @@ TERMS=[
     "svg.textContent=''",
 ]
 
-def excerpt(text,term,radius=1500):
+def excerpt(text,term,radius=2200):
     i=text.find(term)
     if i<0:
         i=text.lower().find(term.lower())
