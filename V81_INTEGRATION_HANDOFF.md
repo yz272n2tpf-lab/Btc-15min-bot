@@ -1,7 +1,7 @@
 # V8.1 30-45c Integration Handoff
 
 ## Purpose
-Persistent source of truth for the graduated 30-45c scalp integration. Read this before any future scalp/dashboard integration work so paths, services, source branches, safety boundaries, and next steps are not rediscovered from scratch.
+Persistent source of truth for the graduated 30-45c scalp integration. Read this before any future scalp/dashboard integration work so paths, services, source branches, safety boundaries, visual-layout rules, and next steps are not rediscovered from scratch.
 
 ## Frozen research decision
 - Graduated lane: 30-45c only
@@ -26,8 +26,8 @@ Persistent source of truth for the graduated 30-45c scalp integration. Read this
 - v81_30_45_live_hook.py
 - BTC15_V81_30_45_DASHBOARD_CANDIDATE_V1.py
 
-## Live architecture — completed 2026-09-12
-The locked V8.1 research collector prints candidates/results to stdout and does not persist a dedicated dashboard CSV. Therefore the final production architecture uses a separate read-only HTTP feed instead of inventing a file path or modifying the frozen research collector.
+## Live architecture — backend completed 2026-09-12
+The locked V8.1 research collector prints candidates/results to stdout and does not persist a dedicated dashboard CSV. Therefore the production architecture uses a separate read-only HTTP feed instead of inventing a file path or modifying the frozen research collector.
 
 ### Graduated scalp feed
 - Railway service: `v81-30-45-live-feed-v2`
@@ -56,27 +56,35 @@ Feed only publishes a live candidate when:
 - frozen freshness/structure gates pass
 - two confirmations occur inside 4 seconds
 
-### Dashboard production integration
+## Production dashboard and visual lock
 - Production Railway service: `Btc-15min-bot`
 - Service ID: `ab28dca6-7bea-4956-bdb9-dbb7b4c74635`
 - Production branch: `main`
 - Start command: `python -u BTC15_DASHBOARD_RENDER_FIX_V1.py`
 - Production domain: `btc-15min-bot-production.up.railway.app`
-- Integration source branch used for validation: `v81-dashboard-live-card-20260912`
-- Integration commit promoted to main: `6111ef585348d968c2d5c2c72aa529b1662c73df`
-- Production deployment after promotion: `e9554283-3736-4f25-b18e-36241fd39edd` — SUCCESS
 
-The live dashboard patch adds a separate `Scalp Opportunity · V8.1` card. It polls the graduated feed every second and fails closed if any payload invariant is missing. It does not replace or own Final Outcome or Early Opportunity.
+### Visual integration correction — 2026-09-12
+A temporary V8.1 card was initially injected with fixed positioning. User visual review correctly identified that it floated over the app and violated the already-locked dashboard aesthetics. That approach is rejected.
 
-### Validation service
-- Railway service: `v81-dashboard-live-card-validation`
-- Service ID: `80e36da7-15aa-447e-9b08-fad61d193d11`
-- Validation deployment: `5aeb6837-8e96-497c-839d-82f5257bf914` — SUCCESS
-- Required pass markers observed:
-  - `BTC15 FULL VALIDATION + DASHBOARD SELF-TEST: PASS`
-  - `Read-only dashboard: YES`
-  - `Orders enabled by dashboard: NO`
-  - `V81 DASHBOARD CARD SELFTEST PASS | 30-45 ONLY | MANUAL ONLY | NO ORDERS`
+Production now enforces a UI lock:
+- no floating V8.1 overlay
+- no fixed-position V8.1 card
+- no fourth standalone ladder/card added to the locked dashboard
+- existing three-ladder visual structure is authoritative
+- future graduated-lane data must be mapped into the existing ladder presentation rather than changing the layout
+- backend V8.1 feed remains live and untouched
+
+Current production render patch explicitly removes any persisted V8.1 injected script/style and hides any leftover `#v81ScalpCard`. Its self-test requires no V8.1 overlay and preservation of the existing dashboard layout.
+
+### Existing dashboard aesthetics are frozen
+Do not change without explicit user approval:
+- card locations / overall hierarchy
+- three-ladder structure
+- scroll behavior
+- desktop/iPad/iPhone layout behavior
+- fonts, sizes, spacing, colors, or card geometry merely to accommodate a new backend module
+
+Integration means supplying the existing visual system with new validated data, not creating a new UI system.
 
 ## Live dashboard wiring discovered in Codespaces
 Repository working directory: `/workspaces/Btc-15min-bot`
@@ -93,8 +101,6 @@ Production HTML patcher/start entry: `BTC15_DASHBOARD_RENDER_FIX_V1.py`
 - parity
 - position_protection
 - safety
-
-The final V8.1 integration is deliberately UI/feed isolated rather than rewriting these namespaces.
 
 ## Safety invariants
 Existing dashboard safety must remain:
@@ -115,10 +121,11 @@ Earlier isolated validation services repeatedly received stale/wrong source snap
 
 ## Current status
 - 30-45c qualification logic: FROZEN / GRADUATED
-- Live feed: DEPLOYED / SUCCESS
-- Dashboard candidate self-test: PASS
-- Production dashboard promotion: DEPLOYED / SUCCESS
-- Remaining final confirmation: visual check on the user-facing app that the V8.1 card renders as WAIT or a valid live signal and that the existing Final/Early cards remain visually intact.
+- V8.1 live backend feed: DEPLOYED / SUCCESS
+- Signal-only / no-orders boundary: LOCKED
+- Floating overlay approach: REJECTED / REMOVED
+- Production dashboard layout: RESTORED / UI-LOCKED
+- Next integration target: map V8.1 30-45c outputs into the existing locked scalp/reversal ladder structure, with no aesthetic changes
 
 ## Future integration template
 For every new module/lane:
@@ -126,16 +133,20 @@ For every new module/lane:
 2. Record exact source branch/file/service ownership.
 3. Define a typed/fail-closed payload boundary.
 4. Preserve signal-only/no-orders explicitly.
-5. Build regression/release guards.
-6. Validate on an isolated service/source before promotion.
-7. Record exact deployment/commit IDs and runtime pass markers here (or in the module handoff).
-8. Promote only after validation passes.
-9. Perform one user-facing visual confirmation.
-10. Lock the completed handoff before beginning the next module.
+5. Identify the EXISTING visual destination before writing UI code.
+6. Do not add a new card/overlay if an existing locked component owns that function.
+7. Build regression/release guards.
+8. Validate on an isolated service/source before promotion.
+9. Verify desktop/iPad/iPhone behavior without changing frozen aesthetics.
+10. Record exact deployment/commit IDs and runtime pass markers.
+11. Promote only after validation passes.
+12. Perform one user-facing visual confirmation.
+13. Lock the completed handoff before beginning the next module.
 
 ## Anti-loop rule
-Before asking the user to search for any filename, path, service, branch, or runtime artifact:
+Before asking the user to search for any filename, path, service, branch, runtime artifact, or UI location:
 1. Read this handoff first.
 2. Inspect GitHub/Railway metadata and logs through connected tools.
-3. Ask the user for a terminal command only when a genuinely new runtime-only detail cannot be retrieved any other way.
-4. When a manual step is unavoidable, consolidate it into one short command/action whenever possible.
+3. Reuse the known live dashboard/state architecture above.
+4. Ask the user for a terminal command only when a genuinely new runtime-only detail cannot be retrieved any other way.
+5. When a manual step is unavoidable, consolidate it into one short command/action whenever possible.
