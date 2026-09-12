@@ -1,0 +1,2 @@
+V81_GATE_DIAG_V1
+Read-only diagnostics only. No signal thresholds changed. No orders.
