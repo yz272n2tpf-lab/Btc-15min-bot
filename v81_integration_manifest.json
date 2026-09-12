@@ -1,0 +1,47 @@
+{
+  "engine": "V8.1 scalp ladder",
+  "mode": "signal-only",
+  "orders_allowed": false,
+  "graduation_source": "3-hour immutable forward test",
+  "lanes": {
+    "3_7c": {
+      "status_before_test": "candidate",
+      "required_route": "SUB30_STRONG",
+      "min_seconds_left": 240,
+      "ui_label": "Ultra-cheap scalp"
+    },
+    "7_15c": {
+      "status_before_test": "rejected",
+      "reason": "current gate underperformed",
+      "ui_label": "No signal"
+    },
+    "15_30c": {
+      "status_before_test": "candidate",
+      "required_route": "SUB30_STRONG",
+      "min_seconds_left": 240,
+      "ui_label": "Value scalp"
+    },
+    "30_45c": {
+      "status_before_test": "protected",
+      "required_routes": ["CORE", "SURGE"],
+      "ui_label": "Protected scalp"
+    }
+  },
+  "required_dashboard_fields": [
+    "side",
+    "entry_price",
+    "lane",
+    "route",
+    "time_left",
+    "signal_strength",
+    "exit_or_profit_guidance"
+  ],
+  "integration_guardrails": [
+    "Do not alter Final Outcome logic",
+    "Do not alter Early Opportunity logic",
+    "Do not alter BRTI transport",
+    "Do not alter Kalshi contract timing/alignment",
+    "Do not enable automatic order placement",
+    "Do not merge any lane that fails post-test graduation criteria"
+  ]
+}
