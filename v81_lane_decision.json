@@ -1,0 +1,19 @@
+{
+  "test_id": "v81-immutable-20260911",
+  "runtime_integrity_required": true,
+  "brti_health_required": true,
+  "signal_only_required": true,
+  "lanes": {
+    "3-7c": {"decision": "PENDING", "reason": "await forward-test evidence", "integration_enabled": false},
+    "7-15c": {"decision": "REJECTED_BY_DESIGN", "reason": "V8.1 intentionally rejects current 7-15c gate", "integration_enabled": false},
+    "15-30c": {"decision": "PENDING", "reason": "await forward-test evidence", "integration_enabled": false},
+    "30-45c": {"decision": "PENDING", "reason": "verify protected lane remains healthy", "integration_enabled": false}
+  },
+  "non_negotiables": [
+    "NO_ORDERS",
+    "preserve_BRTI_transport",
+    "preserve_Kalshi_15m_alignment",
+    "preserve_Final_Outcome_logic",
+    "preserve_Early_Opportunity_logic"
+  ]
+}
