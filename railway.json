@@ -1,7 +1,8 @@
 {
   "$schema": "https://railway.com/railway.schema.json",
   "deploy": {
-    "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 10
+    "startCommand": "python -u BTC15_DASHBOARD_INLINE_SCALP_V1.py --self-test",
+    "restartPolicyType": "NEVER",
+    "restartPolicyMaxRetries": 0
   }
 }
