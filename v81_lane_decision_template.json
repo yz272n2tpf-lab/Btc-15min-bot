@@ -1,0 +1,19 @@
+{
+  "version": "V8.1",
+  "signal_only": true,
+  "orders_enabled": false,
+  "lanes": {
+    "3_7c": {"status": "PENDING", "action": null, "notes": "Await forward-test evidence"},
+    "7_15c": {"status": "REJECTED_BY_DESIGN", "action": "KEEP_DISABLED", "notes": "V8.1 intentionally emits no 7-15c signals"},
+    "15_30c": {"status": "PENDING", "action": null, "notes": "Graduate only if hit/adverse goals pass"},
+    "30_45c": {"status": "PROTECTED_PENDING_VERIFY", "action": null, "notes": "Preserve CORE/SURGE behavior unless forward test disproves it"}
+  },
+  "non_negotiables": [
+    "signal-only; no order placement",
+    "Kalshi 15-minute contract alignment unchanged",
+    "BRTI transport unchanged",
+    "Final Outcome logic unchanged",
+    "Early Opportunity logic unchanged",
+    "manual execution only"
+  ]
+}
