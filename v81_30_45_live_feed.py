@@ -10,7 +10,7 @@ V8.1 gate logic is unchanged. This revision adds diagnostic-only visibility:
 
 No threshold, route, confirmation, timing, or trading rule is changed.
 """
-import json, os, threading, time, sys
+import json, os, threading, time, sys, math
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from collections import defaultdict, deque
 
@@ -36,7 +36,7 @@ active=None
 
 class Handler(BaseHTTPRequestHandler):
     def _send(self, code, payload):
-        body=json.dumps(payload,separators=(',',':')).encode()
+        body=json.dumps(payload,separators=(',',':'),allow_nan=False).encode()
         self.send_response(code)
         self.send_header('Content-Type','application/json')
         self.send_header('Cache-Control','no-store')
@@ -58,6 +58,8 @@ class Handler(BaseHTTPRequestHandler):
 def _r(v,d=4):
     try:
         x=float(v)
+        if not math.isfinite(x):
+            return None
         return round(x,d)
     except Exception:
         return None
@@ -108,7 +110,6 @@ def _primary_reason(diags):
     inside=[d for d in diags if d.get('in_30_45_band')]
     if not inside:
         return 'NO_SIDE_IN_30_45C'
-    # Prefer the in-band side closest to qualifying evidence.
     inside.sort(key=lambda d:(d.get('evidence_ratio') is not None,d.get('evidence_ratio') or -999),reverse=True)
     d=inside[0]
     return f"{d['side']}:{d['reason']}"
@@ -223,7 +224,7 @@ def loop():
                     reason=_primary_reason(diagnostics)
                     publish_wait(row['ticker'],row['left'],diagnostics,reason)
                     if int(row['ts'])%30==0:
-                        print('V81 GATE DIAG | %s | %s | %s'%(row['ticker'],reason,json.dumps(diagnostics,separators=(',',':'))),flush=True)
+                        print('V81 GATE DIAG | %s | %s | %s'%(row['ticker'],reason,json.dumps(diagnostics,separators=(',',':'),allow_nan=False)),flush=True)
         except Exception as e:
             print('V81 FEED WARNING | %s: %s'%(type(e).__name__,e),flush=True)
         time.sleep(max(.05,POLL-(time.time()-t)))
@@ -244,7 +245,10 @@ def self_test():
     d3=_diagnose_side(row,'DOWN',core)
     assert d3['reason']=='PRICE_OUTSIDE_30_45C'
     assert _primary_reason([d,d3]).startswith('UP:')
-    print('V81 GATE DIAG SELFTEST PASS | LOCKED 30-45 CORE/SURGE GATE UNCHANGED | NO ORDERS')
+    payload={'x':_r(float('-inf'))}
+    assert payload['x'] is None
+    json.dumps(payload,allow_nan=False)
+    print('V81 GATE DIAG SELFTEST PASS | LOCKED 30-45 CORE/SURGE GATE UNCHANGED | STRICT JSON | NO ORDERS')
     return 0
 
 def main():
