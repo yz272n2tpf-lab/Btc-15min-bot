@@ -1,0 +1,34 @@
+{
+  "evidence_source": {
+    "service": "v81-final-isolated-test",
+    "deployment": "54584897-569f-4e65-965a-048f1beaa6b1",
+    "collector": "scalp_lead_sub30_v8_1_locked.py",
+    "mode": "forward_shadow_signal_only"
+  },
+  "lanes": {
+    "30_45c": {
+      "decision": "GRADUATE_PROTECT",
+      "enabled_for_integration_candidate": true,
+      "qualification_route": ["CORE", "SURGE"],
+      "freeze_gate": true,
+      "evidence": {"n": 10, "hit5_pct": 100.0, "hit10_pct": 100.0, "hit20_pct": 70.0, "avg_max_gain_cents": 27.7, "avg_adverse_cents": -2.0},
+      "notes": "Do not retune qualification logic during integration. Preserve tested behavior."
+    },
+    "15_30c": {
+      "decision": "HOLD_MORE_SAMPLE",
+      "enabled_for_integration_candidate": false,
+      "continue_shadow": true,
+      "evidence": {"n": 2, "hit5_pct": 100.0, "hit10_pct": 100.0, "hit20_pct": 50.0, "avg_max_gain_cents": 19.5, "avg_adverse_cents": -1.5}
+    },
+    "7_15c": {"decision": "REJECTED_BY_V81_DESIGN", "enabled_for_integration_candidate": false, "continue_shadow": false},
+    "3_7c": {"decision": "INSUFFICIENT_SAMPLE", "enabled_for_integration_candidate": false, "continue_shadow": true}
+  },
+  "non_negotiables": {
+    "signal_only": true,
+    "automatic_orders": false,
+    "preserve_final_outcome": true,
+    "preserve_early_opportunity": true,
+    "preserve_brti": true,
+    "preserve_kalshi_15m_alignment": true
+  }
+}
