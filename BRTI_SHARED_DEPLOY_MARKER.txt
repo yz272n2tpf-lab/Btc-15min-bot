@@ -1,0 +1,1 @@
+Isolated shared BRTI feed deployment marker. Default PARKED. ZERO UPSTREAM POLLING. NO ORDERS.
