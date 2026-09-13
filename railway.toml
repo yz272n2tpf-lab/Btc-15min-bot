@@ -2,5 +2,5 @@
 builder = "railpack"
 
 [deploy]
-startCommand = "python -u scalp_move_shadow_v1.py"
+startCommand = '''/bin/sh -c 'if [ -z "$KALSHI_KEY_ID" ] || [ -z "$KALSHI_PRIVATE_KEY_B64" ]; then echo "SCALP MOVE WAITING FOR VARIABLES | NO ORDERS"; sleep 31536000; else exec python -u scalp_move_shadow_v1.py; fi' '''
 restartPolicyType = "never"
