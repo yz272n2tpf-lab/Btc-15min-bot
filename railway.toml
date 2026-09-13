@@ -1,3 +1,4 @@
+# Isolated generalized scalp shadow service only.
 [build]
 builder = "railpack"
 
