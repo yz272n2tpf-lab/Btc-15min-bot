@@ -1,0 +1,7 @@
+# Disposable V8.1 diagnostics copy using shared BRTI only.
+[build]
+builder = "railpack"
+
+[deploy]
+startCommand = '''/bin/sh -c 'if [ -z "$BRTI_SHARED_URL" ]; then echo "V81 SHARED BRTI CONSUMER PARKED | URL MISSING | NO DIRECT FALLBACK | NO ORDERS"; sleep 31536000; else exec python -u v81_live_diag_shared_brti_shadow_v1.py; fi' '''
+restartPolicyType = "never"
