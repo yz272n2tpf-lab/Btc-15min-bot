@@ -1,0 +1,6 @@
+[build]
+builder = "railpack"
+
+[deploy]
+startCommand = "python -u scalp_move_shadow_v1.py"
+restartPolicyType = "never"
