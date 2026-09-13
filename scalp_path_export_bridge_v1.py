@@ -3,7 +3,7 @@
 BTC15 Generalized Scalp PATH Export Bridge V1
 
 LIVE-MUTATION PREP ONLY — DO NOT DEPLOY WITHOUT EXPLICIT AUTHORIZATION.
-
+# PATH_EXPORT_DEPLOY_TRIGGER_20260913
 Purpose:
 - Keep the exact Full-Time V2 collector running unchanged.
 - Add a read-only HTTP research surface in the SAME generalized shadow service.
