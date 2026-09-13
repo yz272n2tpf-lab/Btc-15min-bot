@@ -1,7 +1,7 @@
-# Isolated generalized scalp shadow service only.
+# Isolated shared BRTI infrastructure service only.
 [build]
 builder = "railpack"
 
 [deploy]
-startCommand = '''/bin/sh -c 'if [ -z "$KALSHI_KEY_ID" ] || [ -z "$KALSHI_PRIVATE_KEY_B64" ]; then echo "SCALP MOVE WAITING FOR VARIABLES | NO ORDERS"; sleep 31536000; else exec python -u scalp_move_shadow_v1.py; fi' '''
+startCommand = "python -u brti_shared_feed_guarded_launcher_v1.py"
 restartPolicyType = "never"
