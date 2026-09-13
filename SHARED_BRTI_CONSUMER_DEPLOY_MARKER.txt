@@ -1,0 +1,1 @@
+Disposable shared-BRTI diagnostics consumer. No direct fallback. NO ORDERS.
