@@ -1,0 +1,2 @@
+Safe isolated research redeploy trigger.
+No strategy changes. No orders. Protected primary/EARLY/FINAL unchanged.
