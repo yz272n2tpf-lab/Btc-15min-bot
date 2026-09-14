@@ -33,7 +33,6 @@ import csv
 import io
 import os
 import threading
-import time
 from collections import OrderedDict
 from datetime import datetime, timezone
 from pathlib import Path
@@ -112,12 +111,19 @@ class LiveEventCache:
         self._inode = None
         self._initialized = False
 
+    def _drop_contract_locked(self, contract: str):
+        self._by_contract.pop(contract, None)
+        stale = [cid for cid, c in self._candidate_contract.items() if c == contract]
+        for cid in stale:
+            self._candidate_contract.pop(cid, None)
+
     def _prune_locked(self):
+        protected = _contract(self._latest_snapshot or {})
         while len(self._by_contract) > self.max_recent_contracts:
-            old_contract, _ = self._by_contract.popitem(last=False)
-            stale = [cid for cid, c in self._candidate_contract.items() if c == old_contract]
-            for cid in stale:
-                self._candidate_contract.pop(cid, None)
+            victim = next((c for c in self._by_contract.keys() if c != protected), None)
+            if victim is None:
+                break
+            self._drop_contract_locked(victim)
 
     def _route_contract_locked(self, row: Mapping[str, Any]) -> str:
         contract = _contract(row)
@@ -147,13 +153,11 @@ class LiveEventCache:
         if contract:
             bucket = self._by_contract.setdefault(contract, [])
             bucket.append(r)
-            # OrderedDict order tracks recent file activity, which safely keeps
-            # neighboring rollover contracts even if a late PATH/RESULT arrives.
             self._by_contract.move_to_end(contract)
             self._prune_locked()
 
     def initialize(self) -> int:
-        """Read the current tape once, then become append-only."""
+        """Read the current tape once, excluding any incomplete final CSV line."""
         with self._lock:
             self._reset_locked()
             if not self.path.exists():
@@ -162,15 +166,25 @@ class LiveEventCache:
 
             st = self.path.stat()
             self._inode = (int(st.st_dev), int(st.st_ino))
+            raw = self.path.read_bytes()
+            self._offset = len(raw)
+            if raw and not raw.endswith(b"\n"):
+                if b"\n" in raw:
+                    complete, self._partial = raw.rsplit(b"\n", 1)
+                    raw = complete + b"\n"
+                else:
+                    self._partial = raw
+                    raw = b""
+
             count = 0
-            with self.path.open("r", newline="", encoding="utf-8", errors="replace") as f:
-                reader = csv.DictReader(f)
+            if raw:
+                text = raw.decode("utf-8", errors="replace")
+                reader = csv.DictReader(io.StringIO(text))
                 self._fieldnames = list(reader.fieldnames or [])
-                for row in reader:
-                    self._ingest_locked(row)
+                for r in reader:
+                    self._ingest_locked(r)
                     count += 1
-            self._offset = self.path.stat().st_size
-            self._partial = b""
+
             self._initialized = True
             self.full_load_rows = count
             self.rebuilds += 1
@@ -182,11 +196,10 @@ class LiveEventCache:
         text = payload.decode("utf-8", errors="replace")
         reader = csv.DictReader(io.StringIO(text), fieldnames=self._fieldnames)
         count = 0
-        for row in reader:
-            # A repeated header can occur after a replace/rotation race. Skip it.
-            if str(row.get(self._fieldnames[0]) or "") == self._fieldnames[0]:
+        for r in reader:
+            if str(r.get(self._fieldnames[0]) or "") == self._fieldnames[0]:
                 continue
-            self._ingest_locked(row)
+            self._ingest_locked(r)
             count += 1
         self.appended_rows += count
         return count
@@ -197,8 +210,6 @@ class LiveEventCache:
             if not self._initialized:
                 return self.initialize()
             if not self.path.exists():
-                # Keep the previous in-memory slice; freshness will naturally
-                # expire in V4. Do not fabricate new events.
                 return 0
 
             st = self.path.stat()
@@ -215,16 +226,14 @@ class LiveEventCache:
             with self.path.open("rb") as f:
                 f.seek(self._offset)
                 new = f.read()
-            self._offset = st.st_size
+            self._offset += len(new)
             data = self._partial + new
             if not data:
                 return 0
-
             if b"\n" not in data:
                 self._partial = data
                 return 0
-            complete, tail = data.rsplit(b"\n", 1)
-            self._partial = tail
+            complete, self._partial = data.rsplit(b"\n", 1)
             return self._parse_complete_bytes_locked(complete + b"\n")
 
     def state_rows(self) -> list[dict[str, str]]:
@@ -239,16 +248,9 @@ class LiveEventCache:
                 contract = ""
 
             rows = list(self._by_contract.get(contract, ())) if contract else []
-
-            # V4 freshness is based on the newest source event of any type. Keep
-            # one newest event even when it belongs to a neighboring contract.
             newest = self._latest_any
-            if newest is not None and all(id(x) != id(newest) for x in rows):
-                # Equality, not object identity, is what matters because rows are
-                # copied from CSV dictionaries.
-                if newest not in rows:
-                    rows.append(dict(newest))
-
+            if newest is not None and newest not in rows:
+                rows.append(dict(newest))
             if snapshot is not None and snapshot not in rows:
                 rows.append(dict(snapshot))
             return [dict(r) for r in rows]
