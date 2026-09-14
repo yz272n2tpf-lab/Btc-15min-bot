@@ -65,6 +65,22 @@ class ScalpIntegrationStateBridgeV3Tests(unittest.TestCase):
         self.assertTrue(x["pullback_detected"])
         self.assertTrue(x["exit_triggered"])
 
+    def test_exit_remains_latched_after_later_recovery(self):
+        rows=[
+            snap(), cand(),
+            path(.05,elapsed=5,ts="2026-09-14T13:00:10Z"),
+            path(.11,elapsed=10,ts="2026-09-14T13:00:15Z"),
+            path(.06,peak=.11,elapsed=15,ts="2026-09-14T13:00:20Z"),
+            path(.15,peak=.15,elapsed=20,ts="2026-09-14T13:00:25Z"),
+            path(.18,peak=.18,elapsed=25,ts="2026-09-14T13:00:30Z"),
+        ]
+        x=build_state(rows)
+        self.assertEqual(x["state"],"EXIT")
+        self.assertEqual(x["management_message"],"EXIT / PROTECT PROFITS NOW")
+        self.assertAlmostEqual(x["peak_exec_gain"],.11)
+        self.assertAlmostEqual(x["exec_gain"],.06)
+        self.assertAlmostEqual(x["giveback_from_peak"],.05)
+
     def test_high_entry_price_remains_eligible(self):
         x=build_state([snap(),cand(ask=.95)])
         self.assertEqual(x["state"],"ACTIVE")
