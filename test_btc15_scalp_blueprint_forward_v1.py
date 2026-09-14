@@ -71,5 +71,6 @@ class BlueprintForwardTests(unittest.TestCase):
         self.assertGreaterEqual(m.MIN_REVIEW_OPPORTUNITIES, 1)
 
 
+# Deployment trigger: run the user-confirmed full scalp blueprint forward validation.
 if __name__ == "__main__":
     unittest.main()
