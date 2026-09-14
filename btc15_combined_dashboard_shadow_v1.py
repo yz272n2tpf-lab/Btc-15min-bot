@@ -22,7 +22,7 @@ from urllib.parse import urlparse
 
 import requests
 
-from BTC15_DASHBOARD_COMBINED_SCALP_UI_V1 import build_dashboard
+from BTC15_DASHBOARD_COMBINED_SCALP_UI_V2 import build_dashboard
 from btc15_main_protected_state_adapter_v1 import protected_main_summary
 
 PORT = int(os.environ.get("PORT", "8080"))
@@ -38,6 +38,7 @@ def _read_dashboard() -> tuple[Path, bytes]:
     rendered = html.read_bytes()
     required = (
         b'BTC15_COMBINED_SCALP_UI_V1',
+        b'BTC15_COMBINED_SCALP_UI_V2',
         b'btc15-combined-scalp-script',
         b'renderCombinedScalpInline',
         b'COUNTERTREND_SCALP',
@@ -104,7 +105,7 @@ def build_shadow_status(main_state, combined_state) -> dict:
     )
 
     safety_envelope = bool(
-        combined_state.get("version") == "BTC15_COMBINED_STATE_BRIDGE_V3"
+        combined_state.get("version") in {"BTC15_COMBINED_STATE_BRIDGE_V3", "BTC15_COMBINED_STATE_BRIDGE_V4"}
         and combined_state.get("manual_execution_only") is True
         and combined_state.get("orders") is False
         and combined_state.get("order_action") is None
@@ -128,6 +129,7 @@ def build_shadow_status(main_state, combined_state) -> dict:
     return {
         "ok": True,
         "version": VERSION,
+        "combined_bridge_version": combined_state.get("version"),
         "shadow_only": True,
         "orders": False,
         "contract": protected.get("contract"),
@@ -146,6 +148,7 @@ def build_shadow_status(main_state, combined_state) -> dict:
         "scalp_block_reason": combined_state.get("scalp_block_reason"),
         "context_labels": combined_state.get("context_labels") or [],
         "management": combined_state.get("scalp_management_message"),
+        "bridge_response_build_ms": combined_state.get("bridge_response_build_ms"),
         "all_safety_checks_pass": bool(contract_match and safety_envelope and actionable_scalp_guarded),
     }
 
@@ -168,12 +171,15 @@ def live_preflight() -> dict | None:
         delta = status.get("cross_fetch_timer_delta_sec")
         delta_text = "—" if delta is None else f"{float(delta):.1f}s"
         labels = ",".join(status.get("context_labels") or []) or "-"
+        build_ms = status.get("bridge_response_build_ms")
+        build_text = "—" if build_ms is None else f"{float(build_ms):.1f}ms"
         print(
             "SHADOW LIVE PREFLIGHT | "
-            f"contract={status.get('contract')} | contract_match={status.get('contract_match')} | "
+            f"bridge={status.get('combined_bridge_version')} | contract={status.get('contract')} | "
+            f"contract_match={status.get('contract_match')} | "
             f"EARLY_preserved={status.get('early_preserved')} | FINAL_preserved={status.get('final_preserved')} | "
             f"canonical_clock={status.get('canonical_clock_present')} | cross_fetch_delta={delta_text} | "
-            f"safety={status.get('safety_envelope')} | SCALP={status.get('scalp_state')} | "
+            f"bridge_build={build_text} | safety={status.get('safety_envelope')} | SCALP={status.get('scalp_state')} | "
             f"guarded={status.get('actionable_scalp_guarded')} | fresh={status.get('scalp_source_fresh')} | "
             f"aligned={status.get('scalp_contract_aligned')} | block={status.get('scalp_block_reason') or '-'} | "
             f"labels={labels} | management={status.get('management')} | "
@@ -263,6 +269,7 @@ class Handler(BaseHTTPRequestHandler):
                 "main_state_proxy": True,
                 "combined_state_probe": True,
                 "generalized_scalp_ui": True,
+                "accepted_combined_bridges": ["V3", "V4"],
             })
             return
 
@@ -281,7 +288,7 @@ def main() -> int:
     path, rendered = load_dashboard()
     print(
         f"{VERSION} START | port {PORT} | existing V13 layout | generalized SCALP card | "
-        "OFF-PRODUCTION | SIGNAL ONLY | NO ORDERS",
+        "V3+V4 BRIDGE COMPAT | OFF-PRODUCTION | SIGNAL ONLY | NO ORDERS",
         flush=True,
     )
     print(f"SHADOW DASHBOARD BUILT | {path} | bytes={len(rendered)}", flush=True)
