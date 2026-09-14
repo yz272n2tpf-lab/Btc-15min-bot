@@ -159,6 +159,37 @@ def _fetch_json(url: str):
     return data
 
 
+def live_preflight() -> dict | None:
+    """One read-only live check at startup. Failure never invents actionability."""
+    try:
+        combined = _fetch_json(COMBINED_STATE_URL)
+        main = _fetch_json(MAIN_STATE_URL)
+        status = build_shadow_status(main, combined)
+        delta = status.get("cross_fetch_timer_delta_sec")
+        delta_text = "—" if delta is None else f"{float(delta):.1f}s"
+        labels = ",".join(status.get("context_labels") or []) or "-"
+        print(
+            "SHADOW LIVE PREFLIGHT | "
+            f"contract={status.get('contract')} | contract_match={status.get('contract_match')} | "
+            f"EARLY_preserved={status.get('early_preserved')} | FINAL_preserved={status.get('final_preserved')} | "
+            f"canonical_clock={status.get('canonical_clock_present')} | cross_fetch_delta={delta_text} | "
+            f"safety={status.get('safety_envelope')} | SCALP={status.get('scalp_state')} | "
+            f"guarded={status.get('actionable_scalp_guarded')} | fresh={status.get('scalp_source_fresh')} | "
+            f"aligned={status.get('scalp_contract_aligned')} | block={status.get('scalp_block_reason') or '-'} | "
+            f"labels={labels} | management={status.get('management')} | "
+            f"safety_pass={status.get('all_safety_checks_pass')} | NO ORDERS",
+            flush=True,
+        )
+        return status
+    except Exception as exc:
+        print(
+            f"SHADOW LIVE PREFLIGHT WARNING | {type(exc).__name__}: {exc} | "
+            "FAIL CLOSED | SHADOW ONLY | NO ORDERS",
+            flush=True,
+        )
+        return None
+
+
 class Handler(BaseHTTPRequestHandler):
     server_version = "BTC15CombinedDashboardShadow/1.0"
 
@@ -254,6 +285,7 @@ def main() -> int:
         flush=True,
     )
     print(f"SHADOW DASHBOARD BUILT | {path} | bytes={len(rendered)}", flush=True)
+    live_preflight()
     ThreadingHTTPServer(("0.0.0.0", PORT), Handler).serve_forever()
     return 0
 
