@@ -113,6 +113,19 @@ class ProtectedModuleAdapterTests(unittest.TestCase):
         self.assertEqual(s.state, "EXIT")
         self.assertAlmostEqual(s.exec_gain, 0.17)
 
+    def test_exit_latches_even_if_market_later_recovers(self):
+        rows = [
+            path(0.05, elapsed=5),
+            path(0.11, elapsed=10),
+            path(0.06, peak=0.11, elapsed=15),  # frozen EXIT trigger
+            path(0.15, peak=0.15, elapsed=20),  # later recovery must not resurrect
+            path(0.18, peak=0.18, elapsed=25),
+        ]
+        s = scalp_state_from_events(BASE_CANDIDATE, rows)
+        self.assertEqual(s.state, "EXIT")
+        self.assertAlmostEqual(s.peak_exec_gain, 0.11)
+        self.assertAlmostEqual(s.exec_gain, 0.06)
+
     def test_dashboard_payload_keeps_countertrend_scalp_visible(self):
         payload = compose_dashboard_payload(
             BASE_SNAPSHOT,
