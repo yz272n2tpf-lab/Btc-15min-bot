@@ -22,7 +22,9 @@ We are NOT promoting the failed PRE-WATCH/handoff EARLY extension.
 
 Current active objective:
 
-Build and validate a side-effect-free integration layer that keeps protected EARLY, protected FINAL, and locked generalized SCALP independent, calculates union actionable coverage without double counting, makes horizon conflicts visible, preserves exact contract timing, and remains SIGNAL ONLY / NO ORDERS.
+Wire the already-tested side-effect-free integration composer around the protected EARLY, protected FINAL, and locked generalized SCALP outputs without rewriting those modules. Preserve exact contract timing, explicit horizon conflicts, union actionability without double counting, and SIGNAL ONLY / NO ORDERS behavior.
+
+The upcoming integrated smoke must explicitly verify the user-critical SCALP management path: an ACTIVE scalp that runs in profit must surface PROTECT / EXIT guidance early enough to avoid silently giving back a large winning move. This is a management/presentation validation requirement, not a retune of the frozen SCALP entry rule.
 
 ---
 
@@ -176,6 +178,8 @@ Decision:
 
 Decision freeze: `BTC15_EARLY_LADDER_DECISION_20260914.md`.
 
+A future stricter/higher-confidence EARLY research layer may be tested separately after current integration/management validation, but it must not alter the protected Tier-1 anchor and must use a new pre-frozen validation design rather than recycling the failed PRE-WATCH thresholds.
+
 ---
 
 ## COMBINED INTEGRATION CONTRACT — FROZEN
@@ -194,14 +198,31 @@ Core rules:
 - No numeric flip/reversal-risk percentage until separately calibrated.
 - Manual execution only. No orders.
 
-Pure side-effect-free integration composer added:
+Pure side-effect-free integration composer:
 
 - `btc15_signal_integration_v1.py`
 - `test_btc15_signal_integration_v1.py`
 
-The first offline unit-test pass covered 9 integration invariants and passed 9/9 before commit, including module precedence, conflict visibility, union counting, no scalp price gating, mandatory side on actionable states, and absence of order/numeric-flip-risk output.
+Offline integration validation now has two completed layers:
 
-This composer does not qualify signals itself. It only combines already-evaluated protected module states so integration cannot silently change trading logic.
+1. **Unit invariants: 9/9 PASS.**
+2. **Deterministic combined fixture scorecard: PASS.**
+   - 15 fixtures
+   - 45 module-preservation comparisons
+   - 14/15 fixture scenarios actionable by construction
+   - union counted once per contract
+   - conflict labels and display precedence preserved
+   - no scalp price gate invented
+   - no order field
+   - no unvalidated numeric flip-risk output
+
+Important: `14/15` is a synthetic fixture-composition count, **not empirical live union coverage.** Real union coverage is not claimed until protected module outputs are wired on a common contract timeline.
+
+Fixture result freeze/report: `BTC15_COMBINED_SYSTEM_FIXTURE_RESULT_V1.md`.
+
+The fixture run used Railway only as an execution host. Both test processes exited 0, then the same deployment returned to the read-only scalp collector and emitted a healthy live heartbeat with `NO ORDERS`.
+
+Status: **PURE COMPOSER / OFFLINE INTEGRATION SEMANTICS PASSED.**
 
 ---
 
@@ -252,21 +273,26 @@ ONLY for final confirmation after the integrated system is stable, or when expli
 
 ## NEXT MILESTONES
 
-1. Finish pure integration/state-composition layer and its offline invariants.
-2. Build an offline combined-system fixture/scorecard that verifies module outputs remain unchanged and union coverage is counted correctly.
-3. Wire the composer around existing protected module outputs without rewriting those modules.
-4. Run a 20–30 minute integrated live smoke test for feed/timer/state-transition correctness.
+1. **DONE:** pure integration/state-composition layer + offline invariants.
+2. **DONE:** deterministic combined-system fixture/scorecard proving module preservation and union-count correctness.
+3. **ACTIVE:** wire the composer around existing protected module outputs without rewriting those modules.
+4. Run a 20–30 minute integrated live smoke test for feed/timer/state-transition correctness, explicitly including:
+   - FINAL transition before clock zero
+   - exact 15-minute contract alignment
+   - SCALP ACTIVE -> PROTECT -> EXIT presentation/timing
+   - conflict labels
 5. Validate dashboard-facing contract payload: FINAL, EARLY, SCALP, price/timing, conflict label, protect/exit, and reasons for PASS.
-6. Build/validate any still-missing exit guidance without inventing unvalidated EARLY/FINAL exit rules.
+6. Build/validate any still-missing exit-warning timing/presentation without inventing unvalidated EARLY/FINAL exit rules or retuning frozen SCALP qualification.
 7. Produce combined full-system scorecard:
    - FINAL accuracy + coverage
    - Tier-1 EARLY accuracy + coverage + ask + timing
    - SCALP coverage + executable move + managed outcome
-   - UNION actionable coverage
+   - UNION actionable coverage on a common contract universe
    - state/conflict behavior
    - exit/protection behavior
-8. One longer confirmation run ONLY after the integrated system is stable.
-9. Dashboard/app integration only after trading logic and state semantics are locked.
+8. Optionally test a separately frozen higher-confidence EARLY research layer while preserving Tier-1 unchanged.
+9. One longer confirmation run ONLY after the integrated system is stable.
+10. Dashboard/app integration only after trading logic and state semantics are locked.
 
 ---
 
