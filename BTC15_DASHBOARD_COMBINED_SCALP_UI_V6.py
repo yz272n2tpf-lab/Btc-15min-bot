@@ -25,17 +25,19 @@ NEW_ROW = "<div class=\"csc-row\"><span>Contract time left</span><strong>${mainC
 def patch_main_timer_display(path: Path) -> list[str]:
     text = path.read_text(encoding="utf-8", errors="replace")
     changes = []
-    if OLD_LEFT in text:
-        text = text.replace(OLD_LEFT, NEW_LEFT, 1)
-        changes.append("main-timer-dom-read")
-    elif NEW_LEFT not in text:
-        raise RuntimeError("clean SCALP left-time declaration not found; refusing unsafe patch")
+    if NEW_LEFT not in text:
+        if OLD_LEFT in text:
+            text = text.replace(OLD_LEFT, NEW_LEFT, 1)
+            changes.append("main-timer-dom-read")
+        else:
+            raise RuntimeError("clean SCALP left-time declaration not found; refusing unsafe patch")
 
-    if OLD_ROW in text:
-        text = text.replace(OLD_ROW, NEW_ROW, 1)
-        changes.append("main-timer-display-authority")
-    elif NEW_ROW not in text:
-        raise RuntimeError("clean SCALP contract-time row not found; refusing unsafe patch")
+    if NEW_ROW not in text:
+        if OLD_ROW in text:
+            text = text.replace(OLD_ROW, NEW_ROW, 1)
+            changes.append("main-timer-display-authority")
+        else:
+            raise RuntimeError("clean SCALP contract-time row not found; refusing unsafe patch")
 
     if MARKER not in text:
         text = text.replace("</body>", f"<!-- {MARKER} -->\n</body>", 1) if "</body>" in text else text + f"\n<!-- {MARKER} -->\n"
@@ -54,7 +56,10 @@ def main() -> int:
     rendered = html.read_text(encoding="utf-8", errors="replace")
     print("COMBINED SCALP UI V6 | MAIN TIMER DISPLAY AUTHORITY | CLEAN PANEL | SHADOW ONLY | NO ORDERS")
     if "--self-test" in sys.argv:
-        assert NEW_LEFT in rendered and OLD_LEFT not in rendered
+        # OLD_LEFT is intentionally a prefix of NEW_LEFT, so testing raw absence
+        # would always fail even when the patch is correct. Verify the complete
+        # replacement marker instead and ensure the row no longer uses secs(left).
+        assert NEW_LEFT in rendered
         assert NEW_ROW in rendered and OLD_ROW not in rendered
         assert MARKER in rendered
         assert "CONTRACT TIMER" in rendered
