@@ -17,6 +17,8 @@ Important:
 - SCALP management remains +5c arm / 4c giveback.
 - PROTECT is a presentation state once the validated +5c arm has fired.
 - EXIT is the validated 4c giveback trigger from running executable peak.
+- Once EXIT triggers, it is latched for that primary signal; recovery later in
+  the same path cannot resurrect an already-exited trade.
 - No price eligibility filter is introduced for SCALP.
 - No order-placement code exists.
 """
@@ -142,7 +144,7 @@ def _path_for_candidate(
         elapsed = _float(row.get("elapsed_sec"))
         if elapsed is not None:
             return (0, elapsed)
-        return (1, float(len(rows)))
+        return (1, 0.0)
 
     return sorted(rows, key=key)
 
@@ -156,8 +158,12 @@ def scalp_state_from_events(
 
     ACTIVE: frozen challenger qualified, +5c arm not yet reached.
     PROTECT: +5c arm reached; profit protection is now visibly armed.
-    EXIT: running executable peak has given back >=4c after arming.
+    EXIT: first chronological >=4c giveback after arming. EXIT latches.
     PASS: no frozen qualified challenger.
+
+    Chronology intentionally matches the frozen forward scorer: after EXIT, a
+    later market recovery cannot turn the same primary signal back into an
+    active/protect state unless a separately validated re-entry path is added.
     """
     if not candidate:
         return ScalpState("PASS").normalized()
@@ -184,33 +190,37 @@ def scalp_state_from_events(
         ).normalized()
 
     rows = _path_for_candidate(candidate, path_rows)
-    gains: list[float] = []
-    explicit_peaks: list[float] = []
+    running_peak: float | None = None
+    armed = False
+    last_gain: float | None = None
+    exit_gain: float | None = None
+    exit_peak: float | None = None
+
     for row in rows:
-        g = _float(row.get("exec_gain"))
-        p = _float(row.get("peak_exec_gain"))
-        if g is not None:
-            gains.append(g)
-        if p is not None:
-            explicit_peaks.append(p)
+        gain = _float(row.get("exec_gain"))
+        if gain is None:
+            continue
+        last_gain = gain
+        running_peak = gain if running_peak is None else max(running_peak, gain)
+        armed = armed or running_peak >= SCALP_ARM_GAIN
 
-    current_gain = gains[-1] if gains else None
-    peak_gain = None
-    if gains or explicit_peaks:
-        peak_gain = max(gains + explicit_peaks)
+        if armed and running_peak - gain >= (SCALP_GIVEBACK - 1e-12):
+            exit_gain = gain
+            exit_peak = running_peak
+            break
 
-    state = "ACTIVE"
-    if peak_gain is not None and peak_gain >= SCALP_ARM_GAIN:
-        if current_gain is not None and (peak_gain - current_gain) >= (SCALP_GIVEBACK - 1e-12):
-            state = "EXIT"
-        else:
-            # This is deliberately an early warning/presentation state, not a
-            # new exit threshold. The validated management arm has fired.
-            state = "PROTECT"
+    if exit_gain is not None:
+        state = "EXIT"
+        display_gain = exit_gain
+        peak_gain = exit_peak
+    else:
+        state = "PROTECT" if armed else "ACTIVE"
+        display_gain = last_gain
+        peak_gain = running_peak
 
     current_bid = None
-    if entry_ask is not None and current_gain is not None:
-        current_bid = min(1.0, max(0.0, entry_ask + current_gain))
+    if entry_ask is not None and display_gain is not None:
+        current_bid = min(1.0, max(0.0, entry_ask + display_gain))
 
     return ScalpState(
         state=state,
@@ -218,7 +228,7 @@ def scalp_state_from_events(
         entry_ask=entry_ask,
         current_bid=current_bid,
         peak_exec_gain=peak_gain,
-        exec_gain=current_gain,
+        exec_gain=display_gain,
         seconds_left=seconds_left,
     ).normalized()
 
