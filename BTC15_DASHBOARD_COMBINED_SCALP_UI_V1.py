@@ -7,29 +7,31 @@ DISPLAY / INTEGRATION ONLY | SIGNAL ONLY | NO ORDERS
 Purpose:
 - Preserve the locked production dashboard layout.
 - Leave protected EARLY and FINAL rendering under the existing main service.
-- Replace only the existing SCALP / REVERSAL card's legacy V8.1 feed with the
+- Replace only the existing SCALP / REVERSAL card's legacy feed with the
   proven `/combined-state` generalized scalp output.
 - Surface COUNTERTREND_SCALP / MIXED_HORIZONS labels inside that existing card.
 - Show ACTIVE -> PROTECT -> EXIT management without inventing a new threshold.
 - Fail closed on feed loss, contract mismatch, or invalid safety envelope.
 
-This file is prepared and self-tested on the research branch before any main
-production dashboard deployment.
+This research-branch patch is deliberately self-contained: it anchors to the
+existing production dashboard render statement and does not require the newer
+main-branch V8.1 inline helper module to exist on this older research branch.
 """
 from pathlib import Path
 import os
 import sys
 
 import BTC15_DASHBOARD_RENDER_FIX_V1 as base_fix
-import BTC15_DASHBOARD_INLINE_SCALP_V1 as v1
 
 MARKER = "BTC15_COMBINED_SCALP_UI_V1"
 FEED_URL = "https://scalp-move-shadow-v1-production.up.railway.app/combined-state"
 
-COMBINED_HOOK = (
-    v1.SCALP_ANCHOR
-    + " if(typeof renderCombinedScalpInline==='function')renderCombinedScalpInline(d);"
+SCALP_ANCHOR = (
+    "setFlow('scalpFlow',sc.ready?`${scalpSide} strong-scalp gate QUALIFIES · diagnostic only`:"
+    "'Watching frozen strong-scalp gate',sc.ready?'good':'warn');"
 )
+LEGACY_V81_HOOK = SCALP_ANCHOR + " if(typeof renderV81ScalpInline==='function')renderV81ScalpInline(d);"
+COMBINED_HOOK = SCALP_ANCHOR + " if(typeof renderCombinedScalpInline==='function')renderCombinedScalpInline(d);"
 
 COMBINED_JS = r'''<script id="btc15-combined-scalp-script">
 (()=>{
@@ -173,13 +175,12 @@ def patch_combined(path: Path) -> list[str]:
     text = path.read_text(encoding='utf-8', errors='replace')
     changes=[]
 
-    # Keep the existing in-layout hook position but remove the legacy V8.1 renderer.
-    if v1.SCALP_HOOK in text:
-        text=text.replace(v1.SCALP_HOOK,COMBINED_HOOK,1);changes.append('combined-scalp-hook')
+    if LEGACY_V81_HOOK in text:
+        text=text.replace(LEGACY_V81_HOOK,COMBINED_HOOK,1);changes.append('combined-scalp-hook')
     elif COMBINED_HOOK not in text:
-        if v1.SCALP_ANCHOR not in text:
+        if SCALP_ANCHOR not in text:
             raise RuntimeError('existing scalp render anchor not found; refusing unsafe patch')
-        text=text.replace(v1.SCALP_ANCHOR,COMBINED_HOOK,1);changes.append('combined-scalp-hook')
+        text=text.replace(SCALP_ANCHOR,COMBINED_HOOK,1);changes.append('combined-scalp-hook')
 
     text,removed=_remove_script(text,'v81-inline-scalp-script')
     if removed:changes.append('legacy-v81-script-removed')
@@ -201,7 +202,6 @@ def build_dashboard() -> Path:
     html=d/'BTC_Kalshi_App_Live_v13.html'
     if not html.exists():raise RuntimeError(f'dashboard html missing: {html}')
     base_fix.patch_html(html)
-    v1.patch_inline(html)
     patch_combined(html)
     return html
 
