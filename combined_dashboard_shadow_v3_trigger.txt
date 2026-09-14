@@ -1,0 +1,3 @@
+deploy clean generalized scalp shadow UI V3
+signal only
+no orders
