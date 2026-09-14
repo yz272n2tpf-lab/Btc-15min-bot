@@ -24,10 +24,12 @@ def main_state(contract="KXBTC15M-X"):
 
 
 def scalp_rows(contract="KXBTC15M-X"):
+    # Future fixture timestamps keep V4's operational freshness gate open without
+    # changing or mocking that gate.
     return [
-        {"record_type":"SNAPSHOT","timestamp_utc":"2026-09-14T17:00:00Z","contract":contract,"seconds_left":"300"},
-        {"record_type":"CANDIDATE","timestamp_utc":"2026-09-14T17:00:01Z","contract":contract,"candidate_id":"c1","side":"UP","seconds_left":"300","entry_ask":"0.30","btc30":"20"},
-        {"record_type":"PATH","timestamp_utc":"2026-09-14T17:00:02Z","contract":contract,"candidate_id":"c1","elapsed_sec":"1","exec_gain":"0.03"},
+        {"record_type":"SNAPSHOT","timestamp_utc":"2099-09-14T17:00:00Z","contract":contract,"seconds_left":"300"},
+        {"record_type":"CANDIDATE","timestamp_utc":"2099-09-14T17:00:01Z","contract":contract,"candidate_id":"c1","side":"UP","seconds_left":"300","entry_ask":"0.30","btc30":"20"},
+        {"record_type":"PATH","timestamp_utc":"2099-09-14T17:00:02Z","contract":contract,"candidate_id":"c1","elapsed_sec":"1","exec_gain":"0.03"},
     ]
 
 
