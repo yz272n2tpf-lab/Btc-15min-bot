@@ -27,6 +27,8 @@ from BTC15_DASHBOARD_COMBINED_SCALP_UI_V1 import build_dashboard
 PORT = int(os.environ.get("PORT", "8080"))
 MAIN_STATE_URL = "https://btc-15min-bot-production.up.railway.app/dashboard_state.json"
 VERSION = "BTC15_COMBINED_DASHBOARD_SHADOW_V1"
+DASHBOARD_PATH: Path | None = None
+DASHBOARD_BYTES = b""
 
 
 def _read_dashboard() -> tuple[Path, bytes]:
@@ -47,7 +49,10 @@ def _read_dashboard() -> tuple[Path, bytes]:
     return html, rendered
 
 
-DASHBOARD_PATH, DASHBOARD_BYTES = _read_dashboard()
+def load_dashboard() -> tuple[Path, bytes]:
+    global DASHBOARD_PATH, DASHBOARD_BYTES
+    DASHBOARD_PATH, DASHBOARD_BYTES = _read_dashboard()
+    return DASHBOARD_PATH, DASHBOARD_BYTES
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -74,6 +79,8 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         path = urlparse(self.path).path
         if path in {"/", "/index.html", "/BTC_Kalshi_App_Live_v13.html"}:
+            if not DASHBOARD_BYTES:
+                return self._json(503, {"ok": False, "orders": False, "error": "dashboard_not_ready"})
             self._headers(200, "text/html; charset=utf-8", len(DASHBOARD_BYTES))
             self.wfile.write(DASHBOARD_BYTES)
             return
@@ -98,11 +105,11 @@ class Handler(BaseHTTPRequestHandler):
 
         if path == "/health":
             self._json(200, {
-                "ok": True,
+                "ok": bool(DASHBOARD_BYTES),
                 "version": VERSION,
                 "shadow_only": True,
                 "orders": False,
-                "dashboard_path": DASHBOARD_PATH.name,
+                "dashboard_path": DASHBOARD_PATH.name if DASHBOARD_PATH else None,
                 "main_state_proxy": True,
                 "generalized_scalp_ui": True,
             })
@@ -120,12 +127,13 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def main() -> int:
+    path, rendered = load_dashboard()
     print(
         f"{VERSION} START | port {PORT} | existing V13 layout | generalized SCALP card | "
         "OFF-PRODUCTION | SIGNAL ONLY | NO ORDERS",
         flush=True,
     )
-    print(f"SHADOW DASHBOARD BUILT | {DASHBOARD_PATH} | bytes={len(DASHBOARD_BYTES)}", flush=True)
+    print(f"SHADOW DASHBOARD BUILT | {path} | bytes={len(rendered)}", flush=True)
     ThreadingHTTPServer(("0.0.0.0", PORT), Handler).serve_forever()
     return 0
 
