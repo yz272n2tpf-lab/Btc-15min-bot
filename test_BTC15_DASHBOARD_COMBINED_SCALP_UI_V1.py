@@ -3,15 +3,16 @@ import tempfile
 import unittest
 from pathlib import Path
 
-import BTC15_DASHBOARD_INLINE_SCALP_V1 as v1
-from BTC15_DASHBOARD_COMBINED_SCALP_UI_V1 import patch_combined, FEED_URL
+from BTC15_DASHBOARD_COMBINED_SCALP_UI_V1 import (
+    patch_combined, FEED_URL, SCALP_ANCHOR, LEGACY_V81_HOOK,
+)
 
 
 class CombinedScalpUiV1Tests(unittest.TestCase):
     def test_patch_replaces_legacy_hook_and_script(self):
         html=(
             '<html><body>'
-            + v1.SCALP_HOOK
+            + LEGACY_V81_HOOK
             + '<script id="v81-inline-scalp-script">window.old=true;</script>'
             + '</body></html>'
         )
@@ -28,7 +29,7 @@ class CombinedScalpUiV1Tests(unittest.TestCase):
         self.assertIn(FEED_URL,out)
 
     def test_patch_is_idempotent_about_combined_script(self):
-        html='<html><body>'+v1.SCALP_ANCHOR+'</body></html>'
+        html='<html><body>'+SCALP_ANCHOR+'</body></html>'
         with tempfile.TemporaryDirectory() as td:
             p=Path(td)/'x.html';p.write_text(html,encoding='utf-8')
             patch_combined(p);patch_combined(p)
@@ -37,7 +38,7 @@ class CombinedScalpUiV1Tests(unittest.TestCase):
         self.assertEqual(out.count('renderCombinedScalpInline(d)'),1)
 
     def test_safety_strings_present(self):
-        html='<html><body>'+v1.SCALP_ANCHOR+'</body></html>'
+        html='<html><body>'+SCALP_ANCHOR+'</body></html>'
         with tempfile.TemporaryDirectory() as td:
             p=Path(td)/'x.html';p.write_text(html,encoding='utf-8')
             patch_combined(p);out=p.read_text(encoding='utf-8')
