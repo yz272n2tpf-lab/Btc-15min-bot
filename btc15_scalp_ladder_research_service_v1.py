@@ -6,14 +6,14 @@ ISOLATED RESEARCH ONLY | READ ONLY | SIGNAL ONLY | NO ORDERS
 
 Downloads one immutable snapshot of the existing generalized scalp event CSV
 from the read-only PATH export bridge, runs the pre-frozen multi-opportunity /
-failed-primary scorer, and serves only the resulting research artifacts.
+failed-primary scorer, then applies the separately pre-frozen VALIDATION-only
+selector. REPORT_ONLY is confirmation only.
 
 This service never writes to the live collector, never changes strategy rules,
 and never places or manages orders.
 """
 from __future__ import annotations
 
-import csv
 import hashlib
 import json
 import os
@@ -27,6 +27,7 @@ from urllib.parse import urlparse
 import requests
 
 import BTC15_SCALP_LADDER_RESEARCH_V1 as research
+import BTC15_SCALP_LADDER_SELECTOR_V1 as selector
 
 VERSION = "BTC15_SCALP_LADDER_RESEARCH_SERVICE_V1"
 PORT = int(os.environ.get("PORT", "8080"))
@@ -41,6 +42,7 @@ SNAPSHOT_CSV = SNAPSHOT_DIR / "scalp_move_shadow_v1_events.csv"
 REPORT_TXT = SNAPSHOT_DIR / "scalp_ladder_research_v1.txt"
 OPPS_CSV = SNAPSHOT_DIR / "scalp_ladder_research_v1_opportunities.csv"
 FAILED_CSV = SNAPSHOT_DIR / "scalp_failed_primary_grid_v1.csv"
+SELECTION_JSON = SNAPSHOT_DIR / "scalp_ladder_selection_v1.json"
 
 STATE: dict = {
     "ok": False,
@@ -67,6 +69,47 @@ def fetch_snapshot() -> bytes:
     return raw
 
 
+def build_selection(opps: list[dict], failed: list[dict]) -> dict:
+    opp_result = {}
+    for idx, name in ((2, "secondary"), (3, "tertiary")):
+        val = [r for r in opps if r.get("split") == "VALIDATION" and int(r.get("opportunity_index") or 0) == idx]
+        rep = [r for r in opps if r.get("split") == "REPORT_ONLY" and int(r.get("opportunity_index") or 0) == idx]
+        vm = selector.opportunity_metrics(val)
+        rm = selector.opportunity_metrics(rep)
+        opp_result[name] = {
+            "rule": f"first frozen-qualified opportunity #{idx} after prior protected EXIT",
+            "validation": vm,
+            "validation_viable": selector.opportunity_viable(vm),
+            "report_only": rm,
+            "report_only_confirmation_only": True,
+            "requires_20_new_forward": True,
+            "actionable_now": False,
+        }
+
+    val_failed = [r for r in failed if r.get("split") == "VALIDATION"]
+    rep_failed = [r for r in failed if r.get("split") == "REPORT_ONLY"]
+    chosen, all_cells = selector.select_failed(val_failed)
+    rep_same = selector.matching_failed(rep_failed, chosen)
+    report_confirmation = selector.failed_cell_metrics(rep_same) if chosen else None
+
+    return {
+        "version": "BTC15_SCALP_LADDER_SELECTOR_V1",
+        "research_only": True,
+        "orders": False,
+        "protected_primary_changed": False,
+        "report_only_used_for_selection": False,
+        "opportunities": opp_result,
+        "failed_primary": {
+            "validation_selected_cell": chosen,
+            "validation_cells": all_cells,
+            "report_only_same_cell_confirmation": report_confirmation,
+            "requires_freeze_before_forward": chosen is not None,
+            "requires_20_new_forward": chosen is not None,
+            "actionable_now": False,
+        },
+    }
+
+
 def run_research(raw: bytes) -> dict:
     SNAPSHOT_CSV.write_bytes(raw)
     rows = research.read_rows(SNAPSHOT_CSV)
@@ -87,6 +130,9 @@ def run_research(raw: bytes) -> dict:
     research.write_csv(FAILED_CSV, failed)
     report = research.summary_text(opps, failed)
     REPORT_TXT.write_text(report, encoding="utf-8")
+
+    selection = build_selection(opps, failed)
+    SELECTION_JSON.write_text(json.dumps(selection, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
     per_split = {}
     for split in ("VALIDATION", "REPORT_ONLY"):
@@ -110,6 +156,7 @@ def run_research(raw: bytes) -> dict:
         "opportunity_rows": len(opps),
         "failed_grid_rows": len(failed),
         "split_counts": per_split,
+        "selection": selection,
         "protected_primary_changed": False,
         "secondary_actionable": False,
         "failed_primary_cut_actionable": False,
@@ -130,6 +177,8 @@ def load_once() -> None:
             flush=True,
         )
         print(REPORT_TXT.read_text(encoding="utf-8"), flush=True)
+        print("SCALP LADDER VALIDATION-ONLY SELECTION", flush=True)
+        print(SELECTION_JSON.read_text(encoding="utf-8"), flush=True)
     except Exception as exc:
         STATE = {
             "ok": False,
@@ -165,6 +214,8 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(200 if STATE.get("ok") else 503, STATE)
         if path == "/report.txt" and REPORT_TXT.exists():
             return self._send(200, "text/plain; charset=utf-8", REPORT_TXT.read_bytes())
+        if path == "/selection.json" and SELECTION_JSON.exists():
+            return self._send(200, "application/json", SELECTION_JSON.read_bytes())
         if path == "/opportunities.csv" and OPPS_CSV.exists():
             return self._send(200, "text/csv; charset=utf-8", OPPS_CSV.read_bytes())
         if path == "/failed-grid.csv" and FAILED_CSV.exists():
