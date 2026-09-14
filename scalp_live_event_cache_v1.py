@@ -211,10 +211,14 @@ class LiveEventCache:
                 return self.initialize()
             if not self.path.exists():
                 return 0
+            # If the cache started before the collector created its CSV, perform
+            # the one-time normal initialization as soon as the file appears.
+            if self._inode is None:
+                return self.initialize()
 
             st = self.path.stat()
             inode = (int(st.st_dev), int(st.st_ino))
-            if self._inode is not None and inode != self._inode:
+            if inode != self._inode:
                 self.initialize()
                 return self.full_load_rows
             if st.st_size < self._offset:
