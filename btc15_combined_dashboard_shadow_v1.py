@@ -23,9 +23,11 @@ from urllib.parse import urlparse
 import requests
 
 from BTC15_DASHBOARD_COMBINED_SCALP_UI_V1 import build_dashboard
+from btc15_main_protected_state_adapter_v1 import protected_main_summary
 
 PORT = int(os.environ.get("PORT", "8080"))
 MAIN_STATE_URL = "https://btc-15min-bot-production.up.railway.app/dashboard_state.json"
+COMBINED_STATE_URL = "https://scalp-move-shadow-v1-production.up.railway.app/combined-state"
 VERSION = "BTC15_COMBINED_DASHBOARD_SHADOW_V1"
 DASHBOARD_PATH: Path | None = None
 DASHBOARD_BYTES = b""
@@ -53,6 +55,108 @@ def load_dashboard() -> tuple[Path, bytes]:
     global DASHBOARD_PATH, DASHBOARD_BYTES
     DASHBOARD_PATH, DASHBOARD_BYTES = _read_dashboard()
     return DASHBOARD_PATH, DASHBOARD_BYTES
+
+
+def _float(v):
+    if v is None or isinstance(v, bool):
+        return None
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return None
+
+
+def _same_num(a, b, tol=1e-9):
+    aa, bb = _float(a), _float(b)
+    if aa is None or bb is None:
+        return aa is None and bb is None
+    return abs(aa - bb) <= tol
+
+
+def build_shadow_status(main_state, combined_state) -> dict:
+    """Pure live acceptance summary; no signal thresholds are changed here."""
+    protected = protected_main_summary(main_state)
+    ce = combined_state.get("early") or {}
+    cf = combined_state.get("final") or {}
+    cs = combined_state.get("scalp") or {}
+
+    early = protected["early"]
+    final = protected["final"]
+    early_preserved = bool(
+        ce.get("state") == early.state
+        and ce.get("side") == early.side
+        and _same_num(ce.get("ask"), early.ask)
+        and _same_num(ce.get("fair"), early.fair)
+        and _same_num(ce.get("edge"), early.edge)
+    )
+    final_preserved = bool(
+        cf.get("state") == final.state
+        and cf.get("side") == final.side
+        and _same_num(cf.get("fair"), final.fair)
+    )
+
+    main_left = _float(protected.get("seconds_left"))
+    combined_left = _float(combined_state.get("canonical_seconds_left"))
+    cross_fetch_timer_delta = (
+        abs(main_left - combined_left)
+        if main_left is not None and combined_left is not None
+        else None
+    )
+
+    safety_envelope = bool(
+        combined_state.get("version") == "BTC15_COMBINED_STATE_BRIDGE_V3"
+        and combined_state.get("manual_execution_only") is True
+        and combined_state.get("orders") is False
+        and combined_state.get("order_action") is None
+        and combined_state.get("numeric_flip_risk_validated") is False
+    )
+    scalp_state = str(cs.get("state") or "PASS").upper()
+    scalp_actionable = scalp_state in {"ACTIVE", "PROTECT", "EXIT"}
+    actionable_scalp_guarded = bool(
+        not scalp_actionable
+        or (
+            combined_state.get("scalp_contract_aligned") is True
+            and combined_state.get("scalp_source_fresh") is True
+            and combined_state.get("scalp_integration_ready") is True
+        )
+    )
+    contract_match = bool(
+        protected.get("contract")
+        and protected.get("contract") == combined_state.get("contract")
+    )
+
+    return {
+        "ok": True,
+        "version": VERSION,
+        "shadow_only": True,
+        "orders": False,
+        "contract": protected.get("contract"),
+        "combined_contract": combined_state.get("contract"),
+        "contract_match": contract_match,
+        "early_preserved": early_preserved,
+        "final_preserved": final_preserved,
+        "canonical_clock_present": main_left is not None and combined_left is not None,
+        "cross_fetch_timer_delta_sec": cross_fetch_timer_delta,
+        "safety_envelope": safety_envelope,
+        "scalp_state": scalp_state,
+        "scalp_actionable": scalp_actionable,
+        "actionable_scalp_guarded": actionable_scalp_guarded,
+        "scalp_source_fresh": combined_state.get("scalp_source_fresh") is True,
+        "scalp_contract_aligned": combined_state.get("scalp_contract_aligned") is True,
+        "scalp_block_reason": combined_state.get("scalp_block_reason"),
+        "context_labels": combined_state.get("context_labels") or [],
+        "management": combined_state.get("scalp_management_message"),
+        "all_safety_checks_pass": bool(contract_match and safety_envelope and actionable_scalp_guarded),
+    }
+
+
+def _fetch_json(url: str):
+    r = requests.get(url, timeout=3.0, headers={"Cache-Control": "no-cache"})
+    r.raise_for_status()
+    data = r.json()
+    if not isinstance(data, dict):
+        raise ValueError("upstream JSON is not an object")
+    return data
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -90,7 +194,6 @@ class Handler(BaseHTTPRequestHandler):
                 r = requests.get(MAIN_STATE_URL, timeout=3.0, headers={"Cache-Control": "no-cache"})
                 r.raise_for_status()
                 raw = r.content
-                # Validate JSON before relaying so malformed upstream data fails closed.
                 json.loads(raw.decode("utf-8"))
                 self._headers(200, "application/json", len(raw))
                 self.wfile.write(raw)
@@ -103,6 +206,22 @@ class Handler(BaseHTTPRequestHandler):
                 })
             return
 
+        if path == "/shadow-status":
+            try:
+                combined = _fetch_json(COMBINED_STATE_URL)
+                main = _fetch_json(MAIN_STATE_URL)
+                self._json(200, build_shadow_status(main, combined))
+            except Exception as exc:
+                self._json(503, {
+                    "ok": False,
+                    "version": VERSION,
+                    "shadow_only": True,
+                    "orders": False,
+                    "all_safety_checks_pass": False,
+                    "error": f"shadow_status_unavailable:{type(exc).__name__}",
+                })
+            return
+
         if path == "/health":
             self._json(200, {
                 "ok": bool(DASHBOARD_BYTES),
@@ -111,6 +230,7 @@ class Handler(BaseHTTPRequestHandler):
                 "orders": False,
                 "dashboard_path": DASHBOARD_PATH.name if DASHBOARD_PATH else None,
                 "main_state_proxy": True,
+                "combined_state_probe": True,
                 "generalized_scalp_ui": True,
             })
             return
