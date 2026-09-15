@@ -6,8 +6,9 @@ RESEARCH / SHADOW ONLY | SIGNAL ONLY | NO ORDERS
 
 Reads the existing generalized scalp event export and compares the current
 protected serial ladder with a research-only ENDED_UNARMED lifecycle projection.
-It also runs meaningful-move coverage, the btc30 tightening tournament, and the
-fixed failed-prearm reset tournament.
+It also runs meaningful-move coverage, the btc30 tightening tournament, the
+fixed failed-prearm reset tournament, protection-path audit, and the conservative
+blueprint review gate.
 
 This service does NOT create a stop-loss or sell rule. Existing +5c arm / 4c
 giveback protection is untouched. Kalshi entry price and seconds-left remain
@@ -26,15 +27,22 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any
 from urllib.parse import urlparse
 
+import BTC15_SCALP_BLUEPRINT_COVERAGE_AUDIT_V1 as coverage_audit
+import BTC15_SCALP_BLUEPRINT_REVIEW_GATE_V1 as review_gate
 import BTC15_SCALP_FAILED_PREARM_RESET_TOURNAMENT_V1 as reset_tournament
 import BTC15_SCALP_MEANINGFUL_MOVE_COVERAGE_V1 as meaningful
+import BTC15_SCALP_PROTECTION_AUDIT_V1 as protection_audit
 import BTC15_SCALP_TRIGGER_TIGHTENING_RESEARCH_V1 as tightening
 import BTC15_SCALP_UNARMED_TERMINAL_HANDOFF_AUDIT_V1 as handoff
 import btc15_scalp_blueprint_forward_v1 as forward
 
-VERSION = "BTC15_SCALP_UNARMED_LIVE_TAPE_VALIDATOR_V1_4"
+VERSION = "BTC15_SCALP_UNARMED_LIVE_TAPE_VALIDATOR_V1_5"
 PORT = int(os.environ.get("PORT", "8080"))
 POLL_SEC = max(20, int(os.environ.get("SCALP_UNARMED_LIVE_POLL_SEC", "45")))
+
+# Deliberately hard-failed until the user visually accepts the integrated timer.
+# This service is not allowed to infer visual acceptance from backend telemetry.
+TIMER_VISUAL_ACCEPTED = False
 
 LOCK = threading.Lock()
 STATE: dict[str, Any] = {
@@ -85,12 +93,19 @@ def _compact_reset_grid(reset: dict[str, Any]) -> dict[str, dict[str, Any]]:
     return compact
 
 
-def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, Any]:
+def summarize(
+    rows: list[dict[str, Any]],
+    source_sha256: str = "",
+    forward_summary: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     baseline = forward.build_serial_opportunities(rows)
     projected = handoff.audit(rows)
     moves = meaningful.audit(rows)
+    coverage = coverage_audit.audit(rows)
+    protection = protection_audit.audit(rows)
     tight = tightening.audit(rows)
     reset = reset_tournament.audit(rows)
+    fwd = forward_summary or forward.build_summary(rows, source_sha256)
 
     baseline_n = len(baseline)
     projected_n = int(projected.get("projected_completed_serial_opportunities") or 0)
@@ -117,7 +132,7 @@ def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, 
         and projected_n >= baseline_n
     )
 
-    return {
+    summary: dict[str, Any] = {
         "ok": True,
         "version": VERSION,
         "status": "OBSERVING_LIVE_TAPE",
@@ -156,6 +171,39 @@ def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, 
         "projected_unarmed_lifecycle_10c_capture_rate": moves.get("projected_unarmed_lifecycle_10c_capture_rate"),
         "projected_additional_10c_captured": moves.get("projected_additional_10c_captured"),
         "meaningful_10c_by_classification": moves.get("meaningful_10c_by_classification") or {},
+        "coverage_audit": {
+            "qualified_forward_candidates": coverage.get("qualified_forward_candidates"),
+            "selected_serial_scalps": coverage.get("selected_serial_scalps"),
+            "max_serial_index": coverage.get("max_serial_index"),
+            "post_exit_reset_selection_rate": coverage.get("post_exit_reset_selection_rate"),
+            "post_exit_missed_qualified": coverage.get("post_exit_missed_qualified"),
+            "failed_prearm_blocked_candidates": coverage.get("failed_prearm_blocked_candidates"),
+            "classification_counts": coverage.get("classification_counts") or {},
+            "orders": False,
+        },
+        "protection_audit": {
+            "selected_serial_records": protection.get("selected_serial_records"),
+            "armed_records": protection.get("armed_records"),
+            "protected_exit_records": protection.get("protected_exit_records"),
+            "first_crossing_ok_rate": protection.get("first_crossing_ok_rate"),
+            "positive_exit_rate": protection.get("positive_exit_rate"),
+            "median_exit_gain": protection.get("median_exit_gain"),
+            "median_peak_at_exit": protection.get("median_peak_at_exit"),
+            "median_giveback_at_exit": protection.get("median_giveback_at_exit"),
+            "rule_changed": protection.get("rule_changed"),
+            "orders": False,
+        },
+        "forward_audit": {
+            "status": fwd.get("status"),
+            "observed_contracts": fwd.get("observed_contracts_with_completed_serial_opportunity"),
+            "completed_serial_opportunities": fwd.get("completed_serial_opportunities"),
+            "meaningful_10c_rate": fwd.get("meaningful_10c_rate"),
+            "max_opportunities_in_one_contract": fwd.get("max_opportunities_in_one_contract"),
+            "failed_primary": fwd.get("failed_primary") or {},
+            "timer_audit": fwd.get("timer_audit") or {},
+            "review_gate": fwd.get("review_gate") or {},
+            "orders": False,
+        },
         "tightening_records_n": tight.get("records_n"),
         "tightening_development_n": tight.get("development_n"),
         "tightening_holdout_n": tight.get("holdout_n"),
@@ -192,10 +240,28 @@ def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, 
         ),
     }
 
+    review = review_gate.compose_review(
+        fwd,
+        coverage,
+        protection,
+        summary,
+        timer_visual_accepted=TIMER_VISUAL_ACCEPTED,
+    )
+    summary["blueprint_review"] = review
+    summary["blueprint_review_status"] = review.get("status")
+    summary["blueprint_review_blockers"] = review.get("blockers") or []
+    summary["blueprint_review_items"] = review.get("review_items") or []
+    return summary
+
 
 def cycle() -> dict[str, Any]:
     rows, sha = forward.fetch_csv_rows()
-    summary = summarize(rows, sha)
+    # Build a fresh local backend-timer evidence series for this consolidated
+    # reviewer. It starts at zero after deploy by design rather than borrowing
+    # unverifiable historical counts from another service.
+    forward.poll_timer_status()
+    fwd = forward.build_summary(rows, sha)
+    summary = summarize(rows, sha, fwd)
     with LOCK:
         STATE.clear()
         STATE.update(summary)
@@ -251,6 +317,26 @@ def cycle() -> dict[str, Any]:
         "DESCRIPTIVE ONLY | NO RULE SELECTED | NO ORDERS",
         flush=True,
     )
+
+    pa = summary.get("protection_audit") or {}
+    ta = (summary.get("forward_audit") or {}).get("timer_audit") or {}
+    blockers = summary.get("blueprint_review_blockers") or []
+    print(
+        "SCALP BLUEPRINT CONSOLIDATED REVIEW | "
+        f"status={summary.get('blueprint_review_status')} | "
+        f"forward_opps={(summary.get('forward_audit') or {}).get('completed_serial_opportunities')} | "
+        f"forward_+10={_fmt((summary.get('forward_audit') or {}).get('meaningful_10c_rate'))} | "
+        f"protected_exits={pa.get('protected_exit_records')} | "
+        f"first_4c_crossing={_fmt(pa.get('first_crossing_ok_rate'))} | "
+        f"timer_valid={ta.get('samples_valid')}/{ta.get('samples_total')} | "
+        f"timer_contract_match={_fmt(ta.get('contract_match_rate'))} | "
+        f"timer_canonical={_fmt(ta.get('canonical_clock_rate'))} | "
+        f"timer_within5={_fmt(ta.get('within_5s_rate'))} | "
+        f"visual_accepted={TIMER_VISUAL_ACCEPTED} | "
+        f"blockers={','.join(str(x) for x in blockers) if blockers else 'NONE'} | "
+        "RESEARCH REVIEW ONLY | NO AUTO-FREEZE | NO ORDERS",
+        flush=True,
+    )
     return summary
 
 
@@ -277,7 +363,7 @@ def worker() -> None:
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = "BTC15ScalpUnarmedLiveTape/1.4"
+    server_version = "BTC15ScalpUnarmedLiveTape/1.5"
 
     def log_message(self, fmt, *args):
         return
