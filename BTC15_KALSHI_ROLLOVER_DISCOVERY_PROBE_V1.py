@@ -7,7 +7,7 @@ READ ONLY | DIAGNOSTIC ONLY | SIGNAL ONLY | NO ORDERS
 Purpose
 -------
 Measure whether the next scheduled KXBTC15M contract is directly fetchable and
-quoted before it appears in the production-style broad market search:
+ACTIVE+QUOTED before it appears in the production-style broad market search:
 
   GET /trade-api/v2/markets?status=open&series_ticker=KXBTC15M&limit=1000
 
@@ -22,7 +22,7 @@ from __future__ import annotations
 
 import threading
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from typing import Any
 from zoneinfo import ZoneInfo
@@ -46,6 +46,16 @@ def _now() -> datetime:
 
 def _iso(d: datetime) -> str:
     return d.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
+
+
+def _parse_dt(v: Any) -> datetime | None:
+    try:
+        d = datetime.fromisoformat(str(v).replace("Z", "+00:00"))
+        if d.tzinfo is None:
+            d = d.replace(tzinfo=timezone.utc)
+        return d.astimezone(timezone.utc)
+    except Exception:
+        return None
 
 
 def _floor_quarter(d: datetime) -> datetime:
@@ -95,16 +105,17 @@ def _quotes_valid(market: dict[str, Any]) -> bool:
 
 
 def _market_active(market: dict[str, Any], now: datetime) -> bool:
-    try:
-        op = datetime.fromisoformat(str(market.get("open_time")).replace("Z", "+00:00"))
-        cl = datetime.fromisoformat(str(market.get("close_time")).replace("Z", "+00:00"))
-        if op.tzinfo is None:
-            op = op.replace(tzinfo=timezone.utc)
-        if cl.tzinfo is None:
-            cl = cl.replace(tzinfo=timezone.utc)
-        return op.astimezone(timezone.utc) <= now.astimezone(timezone.utc) < cl.astimezone(timezone.utc)
-    except Exception:
-        return False
+    op = _parse_dt(market.get("open_time"))
+    cl = _parse_dt(market.get("close_time"))
+    return bool(op and cl and op <= now.astimezone(timezone.utc) < cl)
+
+
+def _clock_matches(exact: dict[str, Any], boundary: datetime) -> bool:
+    op = _parse_dt(exact.get("open_time"))
+    cl = _parse_dt(exact.get("close_time"))
+    expected_open = boundary.astimezone(timezone.utc)
+    expected_close = expected_open + timedelta(minutes=15)
+    return bool(op == expected_open and cl == expected_close)
 
 
 def broad_open_search(target_ticker: str, now: datetime) -> dict[str, Any]:
@@ -133,7 +144,7 @@ def broad_open_search(target_ticker: str, now: datetime) -> dict[str, Any]:
 def exact_market_fetch(target_ticker: str, now: datetime) -> dict[str, Any]:
     out: dict[str, Any] = {
         "http": None, "exists": False, "status": None, "active": False,
-        "quotes_valid": False, "open_time": None, "close_time": None,
+        "quotes_valid": False, "clock_match": False, "open_time": None, "close_time": None,
         "yes_bid": None, "yes_ask": None, "no_bid": None, "no_ask": None,
         "error": None,
     }
@@ -174,19 +185,29 @@ class BoundaryEvidence:
     first_exact_exists_offset: float | None = None
     first_exact_active_offset: float | None = None
     first_exact_quoted_offset: float | None = None
+    first_exact_active_quoted_offset: float | None = None
     first_broad_includes_offset: float | None = None
     first_broad_active_offset: float | None = None
+    direct_clock_match_all: bool = True
+    wrong_clock_seen: bool = False
     samples: int = 0
     summary_printed: bool = False
 
     def update(self, offset: float, broad: dict[str, Any], exact: dict[str, Any]) -> None:
         self.samples += 1
+        boundary = _parse_dt(self.boundary_utc)
+        clock_ok = bool(boundary and exact.get("exists") and _clock_matches(exact, boundary))
+        if exact.get("exists"):
+            if not clock_ok:
+                self.direct_clock_match_all = False
+                self.wrong_clock_seen = True
         def first(attr: str, condition: bool):
             if condition and getattr(self, attr) is None:
                 setattr(self, attr, round(offset, 3))
         first("first_exact_exists_offset", bool(exact.get("exists")))
         first("first_exact_active_offset", bool(exact.get("active")))
         first("first_exact_quoted_offset", bool(exact.get("quotes_valid")))
+        first("first_exact_active_quoted_offset", bool(exact.get("active") and exact.get("quotes_valid") and clock_ok))
         first("first_broad_includes_offset", bool(broad.get("includes_target")))
         first("first_broad_active_offset", bool(broad.get("active_target")))
 
@@ -204,6 +225,7 @@ def probe_once(now: datetime | None = None) -> dict[str, Any] | None:
     ticker = ticker_for_boundary(boundary)
     broad = broad_open_search(ticker, now)
     exact = exact_market_fetch(ticker, now)
+    exact["clock_match"] = bool(exact.get("exists") and _clock_matches(exact, boundary))
     key = _iso(boundary)
     with LOCK:
         ev = EVIDENCE.setdefault(key, BoundaryEvidence(key, ticker))
@@ -220,7 +242,8 @@ def _log_sample(row: dict[str, Any]) -> None:
         "ROLLOVER PROBE | "
         f"boundary={row['boundary']} | offset={row['offset_sec']:+.1f}s | target={row['ticker']} | "
         f"broad_http={b.get('http')} includes={b.get('includes_target')} active={b.get('active_target')} count={b.get('count')} | "
-        f"exact_http={e.get('http')} exists={e.get('exists')} status={e.get('status')} active={e.get('active')} quotes={e.get('quotes_valid')} | "
+        f"exact_http={e.get('http')} exists={e.get('exists')} status={e.get('status')} active={e.get('active')} "
+        f"quotes={e.get('quotes_valid')} clock={e.get('clock_match')} | "
         f"yes={e.get('yes_bid')}/{e.get('yes_ask')} no={e.get('no_bid')}/{e.get('no_ask')} | "
         "READ ONLY | NO ORDERS",
         flush=True,
@@ -231,15 +254,17 @@ def _maybe_log_summaries(now: datetime) -> None:
     with LOCK:
         items = list(EVIDENCE.values())
     for ev in items:
-        boundary = datetime.fromisoformat(ev.boundary_utc.replace("Z", "+00:00"))
-        if ev.summary_printed or (now - boundary).total_seconds() < POST_WINDOW_SEC:
+        boundary = _parse_dt(ev.boundary_utc)
+        if boundary is None or ev.summary_printed or (now - boundary).total_seconds() < POST_WINDOW_SEC:
             continue
         print(
             "ROLLOVER PROBE SUMMARY | "
             f"boundary={ev.boundary_utc} | target={ev.ticker} | samples={ev.samples} | "
             f"exact_exists={ev.first_exact_exists_offset} | exact_active={ev.first_exact_active_offset} | "
-            f"exact_quoted={ev.first_exact_quoted_offset} | broad_includes={ev.first_broad_includes_offset} | "
-            f"broad_active={ev.first_broad_active_offset} | READ ONLY | NO ORDERS",
+            f"exact_quoted={ev.first_exact_quoted_offset} | exact_active_quoted={ev.first_exact_active_quoted_offset} | "
+            f"clock_all={ev.direct_clock_match_all} wrong_clock={ev.wrong_clock_seen} | "
+            f"broad_includes={ev.first_broad_includes_offset} | broad_active={ev.first_broad_active_offset} | "
+            "READ ONLY | NO ORDERS",
             flush=True,
         )
         with LOCK:
