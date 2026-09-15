@@ -5,6 +5,7 @@ from BTC15_DASHBOARD_COMBINED_SCALP_UI_V7 import build_dashboard
 
 # Replace only the shadow dashboard builder. HTTP proxy, safety status, write
 # rejection, protected-main adapter, and all trading logic remain in V1.
+# V7 deploy trigger: scoped CONTRACT TIMER + REMAINING DOM authority.
 base.build_dashboard = build_dashboard
 
 
