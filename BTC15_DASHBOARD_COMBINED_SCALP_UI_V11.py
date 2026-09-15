@@ -46,8 +46,18 @@ CSS = """<style id=\"btc15-scalp-v11-clarity-style\">\n#combinedScalpClean .csc-
 def patch_v11(path: Path) -> list[str]:
     text = path.read_text(encoding="utf-8", errors="replace")
     changes = []
+
+    # V10's generated page contains both the legacy combined-script feed and the
+    # clean-panel feed. V11 must point every read-only scalp consumer at V6 so
+    # no hidden script keeps polling the old V5 endpoint.
+    feed_count = text.count(OLD_FEED)
+    if feed_count:
+        text = text.replace(OLD_FEED, NEW_FEED)
+        changes.append(f"use-v6-display-bridge-x{feed_count}")
+    elif NEW_FEED not in text:
+        raise RuntimeError("V5/V6 combined feed URL not found; refusing unsafe patch")
+
     for old, new, label in (
-        (OLD_FEED, NEW_FEED, "use-v6-display-bridge"),
         (OLD_VALID, NEW_VALID, "accept-v6-display-safety-envelope"),
         (OLD_USABLE, NEW_USABLE, "derive-completed-display-memory"),
         (OLD_SIDE, NEW_SIDE, "persist-completed-scalp-heading"),
