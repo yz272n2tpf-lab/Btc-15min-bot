@@ -19,7 +19,8 @@ MIN_ACCEL = 1 + unknown
         self.assertNotIn("MIN_ACCEL", out)
 
     def test_no_order_or_mutation_semantics_exist(self):
-        src = open(m.__file__, "r", encoding="utf-8").read()
+        with open(m.__file__, "r", encoding="utf-8") as fh:
+            src = fh.read()
         self.assertNotIn("place_order", src)
         self.assertNotIn("create_order", src)
         self.assertNotIn("cancel_order", src)
