@@ -1,5 +1,5 @@
-SCALP coverage + protection audit trigger.
+SCALP fresh-forward BTC30-missing recovery trigger.
 
 Research only. Signal only. No orders.
 
-Trigger: full research regression suite plus descriptive BTC30-missing coverage audit. The audit measures completed raw collector candidates that the frozen V5 adapter rejects only because btc30 is missing while side and >=120s timing are otherwise valid. It reports +5/+10/+20 outcomes, first-minute frequency, and price bands as telemetry only. This is hypothesis generation only; no V5 rule, production logic, protection threshold, price filter, or order behavior changes.
+Frozen cutoff: 2026-09-15T14:16:00Z. One hypothesis only: if a raw frozen collector candidate has valid side, >=120 seconds left, and btc30 is missing, allow it into the research serial projection; when btc30 is present, the current >=15 requirement remains unchanged. Existing +5 arm, 4c giveback, ENDED_UNARMED, armed/no-exit blocking, V5/V6/V12, production, and price-telemetry-only behavior remain unchanged. Passing the predeclared gate earns manual review only and never auto-promotes.
