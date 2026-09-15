@@ -1,7 +1,7 @@
 {
   "$schema": "https://railway.com/railway.schema.json",
   "deploy": {
-    "startCommand": "python -u BTC15_DIRECT_BRTI_OFFICIAL_TRUTH_REFRESH_V1.py",
+    "startCommand": "python -u BTC15_DASHBOARD_RUNTIME_DIAG_V3.py --self-test",
     "restartPolicyType": "NEVER",
     "restartPolicyMaxRetries": 0
   }
