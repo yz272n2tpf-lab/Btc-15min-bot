@@ -11,6 +11,9 @@ This service reads the existing generalized scalp event export and compares:
    armed as ENDED_UNARMED (informational terminal only), then resumes scanning
    for the next frozen-qualified scalp.
 
+It also decomposes observed 10c+ moves into selected, overlap, blocked-by-unarmed,
+and true post-exit miss classes so coverage and signal precision are not confused.
+
 It does NOT create a stop-loss or sell rule. The existing +5c arm / 4c giveback
 profit-protection thresholds are untouched. Kalshi entry price remains telemetry
 only and is never used as an entry/suppression filter.
@@ -26,6 +29,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any
 from urllib.parse import urlparse
 
+import BTC15_SCALP_MEANINGFUL_MOVE_COVERAGE_V1 as meaningful
 import BTC15_SCALP_UNARMED_TERMINAL_HANDOFF_AUDIT_V1 as handoff
 import btc15_scalp_blueprint_forward_v1 as forward
 
@@ -47,6 +51,7 @@ STATE: dict[str, Any] = {
 def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, Any]:
     baseline = forward.build_serial_opportunities(rows)
     projected = handoff.audit(rows)
+    moves = meaningful.audit(rows)
 
     baseline_n = len(baseline)
     projected_n = int(projected.get("projected_completed_serial_opportunities") or 0)
@@ -75,6 +80,20 @@ def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, 
         "post_unarmed_later_plus20_rate": None if not completed_handoffs else plus20_handoffs / completed_handoffs,
         "recovered_handoffs": projected.get("recovered_handoffs") or [],
         "ended_unarmed_records": projected.get("ended_unarmed_records") or [],
+        "completed_meaningful_10c_candidates": moves.get("completed_meaningful_10c_candidates"),
+        "selected_meaningful_10c": moves.get("selected_meaningful_10c"),
+        "selected_sub10": moves.get("selected_sub10"),
+        "selected_10c_precision": moves.get("selected_10c_precision"),
+        "overlap_meaningful_10c": moves.get("overlap_meaningful_10c"),
+        "blocked_prearm_meaningful_10c": moves.get("blocked_prearm_meaningful_10c"),
+        "true_post_exit_missed_meaningful_10c": moves.get("true_post_exit_missed_meaningful_10c"),
+        "serial_addressable_meaningful_10c": moves.get("serial_addressable_meaningful_10c"),
+        "baseline_serial_captured_meaningful_10c": moves.get("baseline_serial_captured_meaningful_10c"),
+        "baseline_serial_10c_capture_rate": moves.get("baseline_serial_10c_capture_rate"),
+        "projected_unarmed_lifecycle_captured_meaningful_10c": moves.get("projected_unarmed_lifecycle_captured_meaningful_10c"),
+        "projected_unarmed_lifecycle_10c_capture_rate": moves.get("projected_unarmed_lifecycle_10c_capture_rate"),
+        "projected_additional_10c_captured": moves.get("projected_additional_10c_captured"),
+        "meaningful_10c_by_classification": moves.get("meaningful_10c_by_classification") or {},
         "protected_thresholds_changed": False,
         "stop_loss_rule_selected": False,
         "ended_unarmed_is_actionable_exit": False,
@@ -86,7 +105,7 @@ def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, 
         "orders": False,
         "note": (
             "ENDED_UNARMED is a lifecycle/reset projection after collector RESULT, "
-            "not a trade exit. Live strategy remains unchanged."
+            "not a trade exit. 10c coverage is descriptive only. Live strategy remains unchanged."
         ),
     }
 
@@ -105,6 +124,10 @@ def cycle() -> dict[str, Any]:
         f"ended_unarmed={summary['ended_unarmed_n']} | "
         f"handoff_completed={summary['post_unarmed_later_completed_n']} | "
         f"handoff_+10={summary['post_unarmed_later_plus10_n']} | "
+        f"all_+10={summary['completed_meaningful_10c_candidates']} | "
+        f"selected_+10={summary['selected_meaningful_10c']} | "
+        f"blocked_+10={summary['blocked_prearm_meaningful_10c']} | "
+        f"true_missed_+10={summary['true_post_exit_missed_meaningful_10c']} | "
         "RESEARCH ONLY | NO ORDERS",
         flush=True,
     )
