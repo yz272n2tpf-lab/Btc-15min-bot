@@ -10,7 +10,9 @@ EARLY, FINAL, Kalshi quotes and the canonical clock. Generalized SCALP is read
 by the injected UI from the separate read-only combined-state bridge.
 
 This service never places orders, never accepts order actions, and does not
-change protected trading thresholds.
+change protected trading thresholds. V5 serial lifecycle metadata is accepted
+only when ENDED_UNARMED remains non-actionable and armed/no-exit reset remains
+disabled.
 """
 from __future__ import annotations
 
@@ -29,6 +31,11 @@ PORT = int(os.environ.get("PORT", "8080"))
 MAIN_STATE_URL = "https://btc-15min-bot-production.up.railway.app/dashboard_state.json"
 COMBINED_STATE_URL = "https://scalp-move-shadow-v1-production.up.railway.app/combined-state"
 VERSION = "BTC15_COMBINED_DASHBOARD_SHADOW_V1"
+ACCEPTED_COMBINED_BRIDGES = {
+    "BTC15_COMBINED_STATE_BRIDGE_V3",
+    "BTC15_COMBINED_STATE_BRIDGE_V4",
+    "BTC15_COMBINED_STATE_BRIDGE_V5",
+}
 DASHBOARD_PATH: Path | None = None
 DASHBOARD_BYTES = b""
 
@@ -104,12 +111,21 @@ def build_shadow_status(main_state, combined_state) -> dict:
         else None
     )
 
+    bridge_version = combined_state.get("version")
+    serial_lifecycle_safe = bool(
+        bridge_version != "BTC15_COMBINED_STATE_BRIDGE_V5"
+        or (
+            combined_state.get("scalp_ended_unarmed_is_actionable_exit") is False
+            and combined_state.get("scalp_armed_no_exit_reset_allowed") is False
+        )
+    )
     safety_envelope = bool(
-        combined_state.get("version") in {"BTC15_COMBINED_STATE_BRIDGE_V3", "BTC15_COMBINED_STATE_BRIDGE_V4"}
+        bridge_version in ACCEPTED_COMBINED_BRIDGES
         and combined_state.get("manual_execution_only") is True
         and combined_state.get("orders") is False
         and combined_state.get("order_action") is None
         and combined_state.get("numeric_flip_risk_validated") is False
+        and serial_lifecycle_safe
     )
     scalp_state = str(cs.get("state") or "PASS").upper()
     scalp_actionable = scalp_state in {"ACTIVE", "PROTECT", "EXIT"}
@@ -129,7 +145,7 @@ def build_shadow_status(main_state, combined_state) -> dict:
     return {
         "ok": True,
         "version": VERSION,
-        "combined_bridge_version": combined_state.get("version"),
+        "combined_bridge_version": bridge_version,
         "shadow_only": True,
         "orders": False,
         "contract": protected.get("contract"),
@@ -140,6 +156,7 @@ def build_shadow_status(main_state, combined_state) -> dict:
         "canonical_clock_present": main_left is not None and combined_left is not None,
         "cross_fetch_timer_delta_sec": cross_fetch_timer_delta,
         "safety_envelope": safety_envelope,
+        "serial_lifecycle_safe": serial_lifecycle_safe,
         "scalp_state": scalp_state,
         "scalp_actionable": scalp_actionable,
         "actionable_scalp_guarded": actionable_scalp_guarded,
@@ -148,6 +165,14 @@ def build_shadow_status(main_state, combined_state) -> dict:
         "scalp_block_reason": combined_state.get("scalp_block_reason"),
         "context_labels": combined_state.get("context_labels") or [],
         "management": combined_state.get("scalp_management_message"),
+        "scalp_opportunity_index": combined_state.get("scalp_opportunity_index"),
+        "scalp_serial_opportunities_completed": combined_state.get("scalp_serial_opportunities_completed"),
+        "scalp_scanning_for_next": combined_state.get("scalp_scanning_for_next"),
+        "scalp_last_terminal_state": combined_state.get("scalp_last_terminal_state"),
+        "scalp_last_terminal_actionable_exit": combined_state.get("scalp_last_terminal_actionable_exit"),
+        "scalp_ended_unarmed_count": combined_state.get("scalp_ended_unarmed_count"),
+        "scalp_ended_unarmed_is_actionable_exit": combined_state.get("scalp_ended_unarmed_is_actionable_exit"),
+        "scalp_armed_no_exit_reset_allowed": combined_state.get("scalp_armed_no_exit_reset_allowed"),
         "bridge_response_build_ms": combined_state.get("bridge_response_build_ms"),
         "all_safety_checks_pass": bool(contract_match and safety_envelope and actionable_scalp_guarded),
     }
@@ -179,7 +204,9 @@ def live_preflight() -> dict | None:
             f"contract_match={status.get('contract_match')} | "
             f"EARLY_preserved={status.get('early_preserved')} | FINAL_preserved={status.get('final_preserved')} | "
             f"canonical_clock={status.get('canonical_clock_present')} | cross_fetch_delta={delta_text} | "
-            f"bridge_build={build_text} | safety={status.get('safety_envelope')} | SCALP={status.get('scalp_state')} | "
+            f"bridge_build={build_text} | safety={status.get('safety_envelope')} | "
+            f"serial_safe={status.get('serial_lifecycle_safe')} | SCALP={status.get('scalp_state')} | "
+            f"opp={status.get('scalp_opportunity_index')} | last_terminal={status.get('scalp_last_terminal_state') or '-'} | "
             f"guarded={status.get('actionable_scalp_guarded')} | fresh={status.get('scalp_source_fresh')} | "
             f"aligned={status.get('scalp_contract_aligned')} | block={status.get('scalp_block_reason') or '-'} | "
             f"labels={labels} | management={status.get('management')} | "
@@ -269,7 +296,7 @@ class Handler(BaseHTTPRequestHandler):
                 "main_state_proxy": True,
                 "combined_state_probe": True,
                 "generalized_scalp_ui": True,
-                "accepted_combined_bridges": ["V3", "V4"],
+                "accepted_combined_bridges": ["V3", "V4", "V5"],
             })
             return
 
@@ -288,7 +315,7 @@ def main() -> int:
     path, rendered = load_dashboard()
     print(
         f"{VERSION} START | port {PORT} | existing V13 layout | generalized SCALP card | "
-        "V3+V4 BRIDGE COMPAT | OFF-PRODUCTION | SIGNAL ONLY | NO ORDERS",
+        "V3+V4+V5 BRIDGE COMPAT | OFF-PRODUCTION | SIGNAL ONLY | NO ORDERS",
         flush=True,
     )
     print(f"SHADOW DASHBOARD BUILT | {path} | bytes={len(rendered)}", flush=True)
