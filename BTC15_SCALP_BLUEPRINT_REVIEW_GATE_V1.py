@@ -4,25 +4,21 @@ BTC15 final SCALP blueprint review gate V1.
 
 RESEARCH REVIEW ONLY | SIGNAL ONLY | NO ORDERS
 
-This does NOT tune or promote trading rules. It turns the live forward-validator
-summary into an explicit readiness checklist so we cannot accidentally call the
-scalp ladder "done" just because one attractive statistic appears.
+Consumes the live forward-validator schema and, when available, the separate
+coverage and protection audits. It never tunes, promotes, freezes, or places
+orders. Its job is to make unresolved gaps explicit before the SCALP ladder can
+be called finished.
 
-The gate deliberately separates:
-1) collection/readiness requirements (objective), from
-2) performance/freeze decisions (must be reviewed after enough untouched data).
-
-User-confirmed blueprint anchors preserved here:
-- scan the whole 15-minute contract;
-- after a completed scalp EXIT, reset and allow the next qualified scalp;
+User-confirmed anchors preserved:
+- full 15-minute scan;
+- after a completed protected EXIT, reset and allow the next qualified scalp;
 - no artificial scalp-count cap;
 - 10c+ is the meaningful-move reporting target;
-- Kalshi entry price is telemetry, not a trigger or suppression gate;
-- low-price opportunities must not be suppressed;
-- high-price bands are audited before any possible future cutoff;
-- failed pre-arm scalps are audited, not given an invented stop;
+- Kalshi entry price is telemetry only, not a trigger/suppression gate;
+- +5c arms protection and 4c giveback from running executable peak exits;
+- failed pre-arm behavior must be resolved before final freeze;
 - manual execution only / no orders;
-- timer/contract alignment must be verified, including a visual check.
+- timer/contract alignment requires backend evidence plus a visual match.
 """
 from __future__ import annotations
 
@@ -45,38 +41,112 @@ def _num(v: Any) -> float | None:
         return None
 
 
-def evaluate(summary: Mapping[str, Any]) -> dict[str, Any]:
-    total = int(summary.get("opportunity_count") or summary.get("opportunities") or 0)
-    max_idx = int(summary.get("max_opportunity_index") or 0)
-    timer = summary.get("timer") or summary.get("timer_summary") or {}
-    valid_timer = int(timer.get("samples_valid") or 0)
+def _int(v: Any) -> int:
+    try:
+        return int(v or 0)
+    except (TypeError, ValueError):
+        return 0
+
+
+def compose_review(
+    forward: Mapping[str, Any],
+    coverage: Mapping[str, Any] | None = None,
+    protection: Mapping[str, Any] | None = None,
+    *,
+    timer_visual_accepted: bool = False,
+) -> dict[str, Any]:
+    """Combine read-only evidence into one conservative review state."""
+    coverage = coverage or {}
+    protection = protection or {}
+
+    total = _int(forward.get("completed_serial_opportunities"))
+    max_idx = _int(forward.get("max_opportunities_in_one_contract"))
+    timer = forward.get("timer_audit") or {}
+    valid_timer = _int(timer.get("samples_valid"))
+    total_timer = _int(timer.get("samples_total"))
     contract_rate = _num(timer.get("contract_match_rate"))
     canonical_rate = _num(timer.get("canonical_clock_rate"))
     within5 = _num(timer.get("within_5s_rate"))
-    bands = summary.get("price_bands") or {}
+    bands = forward.get("entry_price_bands") or {}
+    blueprint = forward.get("blueprint") or {}
+    failed = forward.get("failed_primary") or {}
+    review_gate = forward.get("review_gate") or {}
 
-    structural = {
-        "forward_sample_at_least_20": total >= MIN_FORWARD_OPPORTUNITIES,
-        "serial_reset_observed": max_idx >= 2,
-        "third_or_later_scalp_observed": max_idx >= 3,
-        "signal_only_no_orders": summary.get("orders") is False,
-        "manual_execution_only": summary.get("manual_execution_only") is True,
-        "entry_price_is_not_gate": summary.get("entry_price_is_telemetry_only") is True,
-        "failed_prearm_is_audit_only": summary.get("failed_primary_cut_actionable") is not True,
-    }
+    blockers: list[str] = []
+    review_items: list[str] = []
 
-    timer_checks = {
-        "enough_valid_timer_samples": valid_timer >= MIN_TIMER_VALID_SAMPLES,
-        "contract_match_all_valid_samples": contract_rate == 1.0 if contract_rate is not None else False,
-        "canonical_clock_all_valid_samples": canonical_rate == 1.0 if canonical_rate is not None else False,
-        "backend_timer_within_5s_all_valid_samples": within5 == 1.0 if within5 is not None else False,
-        "visual_timer_check_still_required": True,
-    }
+    forward_ready = (
+        str(forward.get("status") or "").upper() == "READY_FOR_REVIEW"
+        and review_gate.get("met") is True
+        and total >= MIN_FORWARD_OPPORTUNITIES
+    )
+    if not forward_ready:
+        blockers.append("FORWARD_SAMPLE_NOT_READY")
+    if max_idx < 2:
+        blockers.append("MULTI_SCALP_RESET_NOT_OBSERVED")
 
-    high_price = {}
+    # Coverage audit is optional while collecting, but once provided it becomes
+    # a hard structural check.
+    true_misses = _int(coverage.get("post_exit_missed_qualified"))
+    if coverage and true_misses > 0:
+        blockers.append("POST_EXIT_QUALIFIED_SCALP_MISSED")
+
+    failed_primary_n = _int(failed.get("completed_failed_primary_n"))
+    failed_blocked = _int(coverage.get("failed_prearm_blocked_candidates"))
+    if failed_primary_n > 0 or failed_blocked > 0:
+        blockers.append("FAILED_PREARM_CLOSE_RESET_RULE_UNRESOLVED")
+
+    protected_n = _int(protection.get("protected_exit_records"))
+    crossing_rate = _num(protection.get("first_crossing_ok_rate"))
+    if protection:
+        if protected_n <= 0:
+            blockers.append("NO_PROTECTED_EXIT_EVIDENCE")
+        elif crossing_rate is None or crossing_rate < 1.0 - 1e-12:
+            blockers.append("PROTECTION_FIRST_4C_CROSSING_MISMATCH")
+    else:
+        review_items.append("PROTECTION_AUDIT_NOT_ATTACHED")
+
+    if valid_timer < MIN_TIMER_VALID_SAMPLES:
+        blockers.append("INSUFFICIENT_VALID_TIMER_SAMPLES")
+    if contract_rate is not None and contract_rate < 1.0 - 1e-12:
+        blockers.append("BACKEND_CONTRACT_MATCH_NOT_PERFECT")
+    if canonical_rate is not None and canonical_rate < 1.0 - 1e-12:
+        blockers.append("CANONICAL_CLOCK_NOT_ALWAYS_PRESENT")
+    if within5 is not None and within5 < 1.0 - 1e-12:
+        review_items.append("BACKEND_TIMER_NOT_WITHIN_5S_ON_EVERY_VALID_SAMPLE")
+    if not timer_visual_accepted:
+        blockers.append("TIMER_VISUAL_ACCEPTANCE_PENDING")
+
+    if (
+        blueprint.get("entry_price_filter_applied") is True
+        or blueprint.get("price_zone_trigger") is True
+        or blueprint.get("high_price_cutoff_selected") is True
+    ):
+        blockers.append("UNAPPROVED_PRICE_SUPPRESSION_PRESENT")
+
+    # The current forward summary itself must stay inside the safety envelope.
+    if forward.get("orders") is not False or forward.get("manual_execution_only") is not True:
+        blockers.append("SIGNAL_ONLY_SAFETY_ENVELOPE_BROKEN")
+    if coverage and coverage.get("orders") is not False:
+        blockers.append("COVERAGE_AUDIT_ORDER_FLAG_INVALID")
+    if protection and protection.get("orders") is not False:
+        blockers.append("PROTECTION_AUDIT_ORDER_FLAG_INVALID")
+
+    ten_rate = _num(forward.get("meaningful_10c_rate"))
+    if ten_rate is None:
+        review_items.append("TEN_CENT_TARGET_RATE_UNAVAILABLE")
+    elif ten_rate < 1.0 - 1e-12:
+        review_items.append("TEN_CENT_TARGET_NOT_HIT_BY_EVERY_SELECTED_SCALP")
+    # We deliberately do NOT invent a required 10c hit-rate threshold here.
+    review_items.append("TEN_CENT_ACCEPTANCE_PERCENTAGE_NOT_YET_FROZEN")
+
+    if total_timer and valid_timer < total_timer:
+        review_items.append("BACKEND_TIMER_SAMPLES_INCLUDE_FETCH_FAILURES")
+
+    high_price: dict[str, dict[str, Any]] = {}
     for band in ("70-80c", "80c+"):
         x = bands.get(band) or {}
-        n = int(x.get("n") or 0)
+        n = _int(x.get("n"))
         high_price[band] = {
             "n": n,
             "plus10_rate": x.get("plus10_rate"),
@@ -86,33 +156,43 @@ def evaluate(summary: Mapping[str, Any]) -> dict[str, Any]:
             "price_is_telemetry_only": True,
         }
 
-    collection_ready = all(structural.values()) and timer_checks["enough_valid_timer_samples"]
-    # Never auto-freeze. Performance and UI wording remain explicit review items.
+    ready_for_manual_freeze_review = len(blockers) == 0
+    status = "READY_FOR_MANUAL_FREEZE_REVIEW" if ready_for_manual_freeze_review else "NOT_READY_TO_FREEZE"
+
     return {
         "version": VERSION,
         "research_only": True,
         "orders": False,
-        "collection_ready_for_full_review": collection_ready,
-        "auto_freeze_allowed": False,
-        "structural_checks": structural,
-        "timer_checks": timer_checks,
+        "manual_execution_only": True,
+        "status": status,
+        "completed_serial_opportunities": total,
+        "max_opportunities_in_one_contract": max_idx,
+        "meaningful_10c_rate": ten_rate,
+        "post_exit_missed_qualified": true_misses,
+        "failed_prearm_completed": failed_primary_n,
+        "failed_prearm_blocked_candidates": failed_blocked,
+        "protected_exit_records": protected_n,
+        "first_crossing_ok_rate": crossing_rate,
+        "timer_valid_samples": valid_timer,
+        "timer_total_samples": total_timer,
+        "timer_visual_accepted": bool(timer_visual_accepted),
         "high_price_audit": high_price,
-        "performance_review_required": {
-            "10c_plus_capture_quality": True,
-            "serial_scalp_2_plus_quality": True,
-            "failed_prearm_resolution": True,
-            "profit_protection_behavior": True,
-            "low_price_opportunities_not_suppressed": True,
-            "high_price_cutoff_not_assumed": True,
-            "plain_language_dashboard_verbiage": True,
-            "visual_timer_match": True,
-        },
+        "blockers": blockers,
+        "review_items": review_items,
+        "ready_for_manual_freeze_review": ready_for_manual_freeze_review,
+        "auto_freeze_allowed": False,
+        "price_is_telemetry_only_required": True,
     }
+
+
+def evaluate(summary: Mapping[str, Any]) -> dict[str, Any]:
+    """Backward-compatible single-summary evaluation for the live forward schema."""
+    return compose_review(summary)
 
 
 def main() -> int:
     if len(sys.argv) != 2:
-        print("usage: BTC15_SCALP_BLUEPRINT_REVIEW_GATE_V1.py <summary.json>", file=sys.stderr)
+        print("usage: BTC15_SCALP_BLUEPRINT_REVIEW_GATE_V1.py <forward-summary.json>", file=sys.stderr)
         return 2
     with open(sys.argv[1], "r", encoding="utf-8") as f:
         summary = json.load(f)
