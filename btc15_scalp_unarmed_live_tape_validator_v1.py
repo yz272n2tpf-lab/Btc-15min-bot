@@ -13,6 +13,8 @@ This service reads the existing generalized scalp event export and compares:
 
 It also decomposes observed 10c+ moves into selected, overlap, blocked-by-unarmed,
 and true post-exit miss classes so coverage and signal precision are not confused.
+It now also runs the research-only btc30 tightening tournament on the projected
+serial lifecycle. Price and seconds-left remain telemetry only.
 
 It does NOT create a stop-loss or sell rule. The existing +5c arm / 4c giveback
 profit-protection thresholds are untouched. Kalshi entry price remains telemetry
@@ -30,6 +32,7 @@ from typing import Any
 from urllib.parse import urlparse
 
 import BTC15_SCALP_MEANINGFUL_MOVE_COVERAGE_V1 as meaningful
+import BTC15_SCALP_TRIGGER_TIGHTENING_RESEARCH_V1 as tightening
 import BTC15_SCALP_UNARMED_TERMINAL_HANDOFF_AUDIT_V1 as handoff
 import btc15_scalp_blueprint_forward_v1 as forward
 
@@ -52,6 +55,7 @@ def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, 
     baseline = forward.build_serial_opportunities(rows)
     projected = handoff.audit(rows)
     moves = meaningful.audit(rows)
+    tight = tightening.audit(rows)
 
     baseline_n = len(baseline)
     projected_n = int(projected.get("projected_completed_serial_opportunities") or 0)
@@ -94,18 +98,29 @@ def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, 
         "projected_unarmed_lifecycle_10c_capture_rate": moves.get("projected_unarmed_lifecycle_10c_capture_rate"),
         "projected_additional_10c_captured": moves.get("projected_additional_10c_captured"),
         "meaningful_10c_by_classification": moves.get("meaningful_10c_by_classification") or {},
+        "tightening_records_n": tight.get("records_n"),
+        "tightening_development_n": tight.get("development_n"),
+        "tightening_holdout_n": tight.get("holdout_n"),
+        "tightening_development_nominee_btc30_min": tight.get("development_nominee_btc30_min"),
+        "tightening_development_nominee": tight.get("development_nominee"),
+        "tightening_holdout_baseline": tight.get("holdout_baseline"),
+        "tightening_holdout_nominee": tight.get("holdout_nominee"),
+        "tightening_holdout_review_ready": tight.get("holdout_review_ready"),
+        "tightening_auto_promote_allowed": False,
         "protected_thresholds_changed": False,
         "stop_loss_rule_selected": False,
         "ended_unarmed_is_actionable_exit": False,
         "entry_price_filter_applied": False,
         "price_is_telemetry_only": True,
+        "fixed_time_window_applied": False,
+        "seconds_left_is_telemetry_only": True,
         "auto_promote_allowed": False,
         "research_only": True,
         "manual_execution_only": True,
         "orders": False,
         "note": (
-            "ENDED_UNARMED is a lifecycle/reset projection after collector RESULT, "
-            "not a trade exit. 10c coverage is descriptive only. Live strategy remains unchanged."
+            "ENDED_UNARMED is a lifecycle/reset projection after collector RESULT, not a trade exit. "
+            "10c coverage and btc30 tightening are research only; no rule is auto-promoted."
         ),
     }
 
@@ -128,6 +143,8 @@ def cycle() -> dict[str, Any]:
         f"selected_+10={summary['selected_meaningful_10c']} | "
         f"blocked_+10={summary['blocked_prearm_meaningful_10c']} | "
         f"true_missed_+10={summary['true_post_exit_missed_meaningful_10c']} | "
+        f"tighten_nominee={summary['tightening_development_nominee_btc30_min']} | "
+        f"tighten_holdout_ready={summary['tightening_holdout_review_ready']} | "
         "RESEARCH ONLY | NO ORDERS",
         flush=True,
     )
