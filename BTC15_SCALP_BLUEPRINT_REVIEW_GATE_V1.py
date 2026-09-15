@@ -22,9 +22,11 @@ User-confirmed anchors preserved:
 
 A completed never-armed scalp may satisfy the failed-prearm lifecycle requirement
 ONLY through explicit ENDED_UNARMED evidence proving that it is informational,
-non-actionable, does not alter protection/entry rules, leaves no armed scalp
-without a validated exit, and preserves serial scanning. No stop-loss or early
-loss-cut is selected by this gate.
+non-actionable, does not alter protection/entry rules, and preserves serial
+scanning. A scalp that armed +5c without the frozen 4c giveback EXIT is a
+protected winner state: it must remain blocking and must never be reclassified
+as ENDED_UNARMED merely to create another scalp. No stop-loss or early loss-cut
+is selected by this gate.
 """
 from __future__ import annotations
 
@@ -32,7 +34,7 @@ import json
 import sys
 from typing import Any, Mapping
 
-VERSION = "BTC15_SCALP_BLUEPRINT_REVIEW_GATE_V1_1"
+VERSION = "BTC15_SCALP_BLUEPRINT_REVIEW_GATE_V1_2"
 MIN_FORWARD_OPPORTUNITIES = 20
 MIN_TIMER_VALID_SAMPLES = 20
 MIN_PRICE_BAND_SAMPLE_FOR_CUTOFF_RESEARCH = 20
@@ -55,7 +57,7 @@ def _int(v: Any) -> int:
 
 
 def _ended_unarmed_resolution(lifecycle: Mapping[str, Any] | None) -> tuple[bool, list[str]]:
-    """Conservatively validate evidence that the failed-prearm state can reset."""
+    """Conservatively validate evidence that only never-armed RESULTs can reset."""
     if not lifecycle:
         return False, ["LIFECYCLE_EVIDENCE_NOT_ATTACHED"]
 
@@ -74,17 +76,18 @@ def _ended_unarmed_resolution(lifecycle: Mapping[str, Any] | None) -> tuple[bool
         reasons.append("ENTRY_PRICE_FILTER_MUST_REMAIN_OFF")
     if lifecycle.get("lifecycle_reset_review_ready") is not True:
         reasons.append("LIFECYCLE_RESET_REVIEW_NOT_READY")
+    if lifecycle.get("armed_no_validated_exit_preserved_blocking") is not True:
+        reasons.append("ARMED_NO_EXIT_MUST_REMAIN_PROTECTED_BLOCKING")
+    if _int(lifecycle.get("armed_no_validated_exit_reclassified_as_ended_unarmed_n")) != 0:
+        reasons.append("ARMED_NO_EXIT_WAS_RECLASSIFIED_AS_ENDED_UNARMED")
 
     ended_n = _int(lifecycle.get("ended_unarmed_n"))
-    armed_unresolved = _int(lifecycle.get("armed_no_validated_exit_n"))
     baseline_n = _int(lifecycle.get("baseline_completed_serial_opportunities"))
     projected_n = _int(lifecycle.get("projected_completed_serial_opportunities"))
     true_missed_raw = lifecycle.get("true_post_exit_missed_meaningful_10c")
 
     if ended_n <= 0:
         reasons.append("NO_ENDED_UNARMED_EVIDENCE")
-    if armed_unresolved > 0:
-        reasons.append("ARMED_NO_VALIDATED_EXIT_REMAINS")
     if baseline_n <= 0:
         reasons.append("LIFECYCLE_BASELINE_SAMPLE_MISSING")
     if projected_n < baseline_n:
@@ -135,8 +138,6 @@ def compose_review(
     if max_idx < 2:
         blockers.append("MULTI_SCALP_RESET_NOT_OBSERVED")
 
-    # Coverage audit is optional while collecting, but once provided it becomes
-    # a hard structural check.
     true_misses = _int(coverage.get("post_exit_missed_qualified"))
     if coverage and true_misses > 0:
         blockers.append("POST_EXIT_QUALIFIED_SCALP_MISSED")
@@ -150,6 +151,8 @@ def compose_review(
         lifecycle_resolved, lifecycle_checks = _ended_unarmed_resolution(lifecycle)
         if lifecycle_resolved:
             review_items.append("FAILED_PREARM_LIFECYCLE_RESOLVED_BY_ENDED_UNARMED")
+            if _int((lifecycle or {}).get("armed_no_validated_exit_n")) > 0:
+                review_items.append("ARMED_NO_EXIT_WINNERS_REMAIN_PROTECTED")
         else:
             blockers.append("FAILED_PREARM_CLOSE_RESET_RULE_UNRESOLVED")
     elif lifecycle:
@@ -183,7 +186,6 @@ def compose_review(
     ):
         blockers.append("UNAPPROVED_PRICE_SUPPRESSION_PRESENT")
 
-    # The current forward summary itself must stay inside the safety envelope.
     if forward.get("orders") is not False or forward.get("manual_execution_only") is not True:
         blockers.append("SIGNAL_ONLY_SAFETY_ENVELOPE_BROKEN")
     if coverage and coverage.get("orders") is not False:
@@ -198,7 +200,6 @@ def compose_review(
         review_items.append("TEN_CENT_TARGET_RATE_UNAVAILABLE")
     elif ten_rate < 1.0 - 1e-12:
         review_items.append("TEN_CENT_TARGET_NOT_HIT_BY_EVERY_SELECTED_SCALP")
-    # We deliberately do NOT invent a required 10c hit-rate threshold here.
     review_items.append("TEN_CENT_ACCEPTANCE_PERCENTAGE_NOT_YET_FROZEN")
 
     if total_timer and valid_timer < total_timer:
@@ -236,6 +237,7 @@ def compose_review(
         "failed_prearm_lifecycle_checks": lifecycle_checks,
         "lifecycle_ended_unarmed_n": _int((lifecycle or {}).get("ended_unarmed_n")),
         "lifecycle_armed_no_validated_exit_n": _int((lifecycle or {}).get("armed_no_validated_exit_n")),
+        "lifecycle_armed_no_exit_preserved_blocking": (lifecycle or {}).get("armed_no_validated_exit_preserved_blocking"),
         "protected_exit_records": protected_n,
         "first_crossing_ok_rate": crossing_rate,
         "timer_valid_samples": valid_timer,
@@ -248,12 +250,12 @@ def compose_review(
         "auto_freeze_allowed": False,
         "price_is_telemetry_only_required": True,
         "ended_unarmed_must_remain_nonactionable": True,
+        "armed_no_exit_must_remain_protected": True,
         "stop_loss_rule_required": False,
     }
 
 
 def evaluate(summary: Mapping[str, Any]) -> dict[str, Any]:
-    """Backward-compatible single-summary evaluation for the live forward schema."""
     return compose_review(summary)
 
 
