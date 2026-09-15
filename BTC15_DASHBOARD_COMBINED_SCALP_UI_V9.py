@@ -19,6 +19,7 @@ import sys
 import BTC15_DASHBOARD_COMBINED_SCALP_UI_V8 as v8
 
 MARKER = "BTC15_COMBINED_SCALP_UI_V9_SINGLE_VISIBLE_CONTRACT_TIMER"
+DEPLOY_TRIGGER = "2026-09-14T22:39-04:00"
 OLD_ROW = '<div class="csc-row"><span>Contract time left</span><strong>${mainClock||secs(left)}</strong></div>'
 
 
