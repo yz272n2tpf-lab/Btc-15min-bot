@@ -89,3 +89,5 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+# deployment trigger: user-facing no-position tracking semantics
