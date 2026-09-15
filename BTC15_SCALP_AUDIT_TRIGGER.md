@@ -2,4 +2,4 @@ SCALP coverage + protection audit trigger.
 
 Research only. Signal only. No orders.
 
-Trigger: integrated coverage + protection + failed-prearm + review-gate + meaningful-10c coverage + ENDED_UNARMED lifecycle + exact +10c accounting + serial runtime lifecycle projection + trigger-tightening research + candidate feature inventory + frozen collector source/constant mapping + predeclared normalized-momentum development/holdout + sub-10c outcome taxonomy + never-armed pre-entry failure profile audit suite.
+Trigger: full research regression suite plus fresh-forward 15-second cross-source parity observer. Fresh cutoff 2026-09-15T04:51:00Z. Current V5/V10 shadow and production behavior remain unchanged.
