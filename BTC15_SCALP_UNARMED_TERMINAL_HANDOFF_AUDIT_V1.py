@@ -43,7 +43,7 @@ from typing import Any, Mapping
 import BTC15_SCALP_LADDER_RESEARCH_V1 as research
 import btc15_scalp_blueprint_forward_v1 as forward
 
-VERSION = "BTC15_SCALP_UNARMED_TERMINAL_HANDOFF_AUDIT_V1"
+VERSION = "BTC15_SCALP_UNARMED_TERMINAL_HANDOFF_AUDIT_V1_1"
 
 
 def _result_times(rows: list[Mapping[str, Any]]) -> dict[str, datetime]:
@@ -189,6 +189,7 @@ def audit(rows: list[Mapping[str, Any]]) -> dict[str, Any]:
     completed_handoffs = [x for x in recovered_handoffs if x["to_completed"]]
     plus10_handoffs = [x for x in completed_handoffs if x["to_plus10"]]
     plus20_handoffs = [x for x in completed_handoffs if x["to_plus20"]]
+    armed_no_validated_exit = [x for x in projected if x.get("terminal_kind") == "ARMED_NO_VALIDATED_EXIT"]
 
     return {
         "version": VERSION,
@@ -202,6 +203,8 @@ def audit(rows: list[Mapping[str, Any]]) -> dict[str, Any]:
         "projected_completed_serial_opportunities": len(projected),
         "ended_unarmed_n": len(unarmed_terminals),
         "ended_unarmed_records": unarmed_terminals,
+        "armed_no_validated_exit_n": len(armed_no_validated_exit),
+        "armed_no_validated_exit_records": armed_no_validated_exit,
         "post_unarmed_later_qualified_n": len(recovered_handoffs),
         "post_unarmed_later_completed_n": len(completed_handoffs),
         "post_unarmed_later_plus10_n": len(plus10_handoffs),
