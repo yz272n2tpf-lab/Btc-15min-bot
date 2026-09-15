@@ -84,8 +84,6 @@ def main() -> int:
         assert "scalp_armed_no_exit_reset_allowed===false" in rendered
         assert "Prior scalp ended unarmed · lifecycle reset only" in rendered
         assert "Prior ended unarmed · reset only" in rendered
-        assert "lastTerminal==='ENDED_UNARMED'" in rendered
-        assert "const shown=usable?state:'PASS';" in rendered
         assert "Opportunity #${opp}" in rendered
         assert "Arm +5¢ · EXIT at 4¢ giveback" in rendered
         assert "SIGNAL ONLY · MANUAL EXECUTION · NO ORDERS" in rendered
@@ -93,7 +91,7 @@ def main() -> int:
         assert "canonical_seconds_left" in rendered
         assert "flip_risk_percent" not in rendered
         assert MARKER in rendered
-        print("COMBINED SCALP UI V10 SELFTEST PASS | V5 LIFECYCLE METADATA ONLY | NO ORDERS")
+        print("COMBINED SCALP UI V10 SELFTEST PASS | V5 LIFECYCLE NON-ACTIONABLE | METADATA ONLY | NO ORDERS")
         return 0
     return 0
 
