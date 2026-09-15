@@ -11,7 +11,9 @@ fixed failed-prearm reset tournament.
 
 This service does NOT create a stop-loss or sell rule. Existing +5c arm / 4c
 giveback protection is untouched. Kalshi entry price and seconds-left remain
-telemetry only. No strategy rule is auto-promoted.
+telemetry only. No strategy rule is auto-promoted. Armed scalps that never reach
+the frozen giveback EXIT remain protected/blocking and are never reset by the
+ENDED_UNARMED lifecycle path.
 """
 from __future__ import annotations
 
@@ -30,7 +32,7 @@ import BTC15_SCALP_TRIGGER_TIGHTENING_RESEARCH_V1 as tightening
 import BTC15_SCALP_UNARMED_TERMINAL_HANDOFF_AUDIT_V1 as handoff
 import btc15_scalp_blueprint_forward_v1 as forward
 
-VERSION = "BTC15_SCALP_UNARMED_LIVE_TAPE_VALIDATOR_V1_3"
+VERSION = "BTC15_SCALP_UNARMED_LIVE_TAPE_VALIDATOR_V1_4"
 PORT = int(os.environ.get("PORT", "8080"))
 POLL_SEC = max(20, int(os.environ.get("SCALP_UNARMED_LIVE_POLL_SEC", "45")))
 
@@ -98,6 +100,8 @@ def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, 
     plus20_handoffs = int(projected.get("post_unarmed_later_plus20_n") or 0)
     ended_unarmed_n = int(projected.get("ended_unarmed_n") or 0)
     armed_unresolved_n = int(projected.get("armed_no_validated_exit_n") or 0)
+    armed_preserved = projected.get("armed_no_validated_exit_preserved_blocking") is True
+    armed_reclassified_n = int(projected.get("armed_no_validated_exit_reclassified_as_ended_unarmed_n") or 0)
 
     dev_base = dict(tight.get("development_baseline") or {})
     dev_nom = dict(tight.get("development_nominee") or {})
@@ -106,7 +110,8 @@ def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, 
     true_missed = moves.get("true_post_exit_missed_meaningful_10c")
     lifecycle_review_ready = bool(
         ended_unarmed_n > 0
-        and armed_unresolved_n == 0
+        and armed_preserved
+        and armed_reclassified_n == 0
         and true_missed is not None
         and int(true_missed) == 0
         and projected_n >= baseline_n
@@ -127,6 +132,8 @@ def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, 
         "ended_unarmed_records": projected.get("ended_unarmed_records") or [],
         "armed_no_validated_exit_n": armed_unresolved_n,
         "armed_no_validated_exit_records": projected.get("armed_no_validated_exit_records") or [],
+        "armed_no_validated_exit_preserved_blocking": armed_preserved,
+        "armed_no_validated_exit_reclassified_as_ended_unarmed_n": armed_reclassified_n,
         "post_unarmed_later_qualified_n": int(projected.get("post_unarmed_later_qualified_n") or 0),
         "post_unarmed_later_completed_n": completed_handoffs,
         "post_unarmed_later_plus10_n": plus10_handoffs,
@@ -180,7 +187,8 @@ def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, 
         "orders": False,
         "note": (
             "ENDED_UNARMED is a lifecycle/reset projection after collector RESULT, not a trade exit. "
-            "btc30 tightening and failed-prearm reset rules are descriptive research only; no rule is auto-promoted."
+            "Armed/no-exit scalps remain protected and blocking. btc30 tightening and failed-prearm "
+            "reset rules are descriptive research only; no rule is auto-promoted."
         ),
     }
 
@@ -199,6 +207,8 @@ def cycle() -> dict[str, Any]:
         f"additional={summary['projected_additional_serial_opportunities']} | "
         f"ended_unarmed={summary['ended_unarmed_n']} | "
         f"armed_no_exit={summary['armed_no_validated_exit_n']} | "
+        f"armed_preserved={summary['armed_no_validated_exit_preserved_blocking']} | "
+        f"armed_reclassified={summary['armed_no_validated_exit_reclassified_as_ended_unarmed_n']} | "
         f"handoff_completed={summary['post_unarmed_later_completed_n']} | "
         f"handoff_+10={summary['post_unarmed_later_plus10_n']} | "
         f"all_+10={summary['completed_meaningful_10c_candidates']} | "
@@ -267,7 +277,7 @@ def worker() -> None:
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = "BTC15ScalpUnarmedLiveTape/1.3"
+    server_version = "BTC15ScalpUnarmedLiveTape/1.4"
 
     def log_message(self, fmt, *args):
         return
