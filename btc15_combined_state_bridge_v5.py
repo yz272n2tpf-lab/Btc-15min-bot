@@ -58,6 +58,7 @@ def build_scalp_state() -> dict:
 
 
 def _attach_serial_metadata(out: dict, scalp: dict) -> dict:
+    out["scalp_lifecycle_metadata_only"] = True
     out["scalp_serial_bridge_version"] = scalp.get("serial_bridge_version")
     out["scalp_opportunity_index"] = scalp.get("opportunity_index")
     out["scalp_serial_opportunities_completed"] = scalp.get("serial_opportunities_completed")
@@ -178,6 +179,7 @@ def observer_loop():
                     f"opp={out.get('scalp_opportunity_index')} | completed={out.get('scalp_serial_opportunities_completed')} | "
                     f"last_terminal={out.get('scalp_last_terminal_state') or '-'} | "
                     f"scan_next={out.get('scalp_scanning_for_next')} | "
+                    f"lifecycle_meta={out.get('scalp_lifecycle_metadata_only')} | "
                     f"fresh={out.get('scalp_source_fresh')} | aligned={out.get('scalp_contract_aligned')} | "
                     f"cache_rows={out.get('scalp_cache_state_rows')} | build={latency_ms:.1f}ms | "
                     f"management={out.get('scalp_management_message')} | NO ORDERS",
