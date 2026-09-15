@@ -6,8 +6,9 @@ READ-ONLY SOURCE INSPECTION | RESEARCH ONLY | NO ORDERS
 
 Decodes the immutable packaged scalp_move_shadow_v1.py implementation without
 executing it, then prints only source lines that define/reference a small,
-predeclared set of existing candidate-strength fields. This is used to verify
-field semantics before any holdout research is designed.
+predeclared set of existing candidate-strength fields plus a few fixed nearby
+source windows. This verifies field semantics before any holdout research is
+designed.
 """
 from __future__ import annotations
 
@@ -20,7 +21,7 @@ import re
 from pathlib import Path
 from typing import Iterable
 
-VERSION = "BTC15_SCALP_COLLECTOR_FIELD_SOURCE_MAP_V1"
+VERSION = "BTC15_SCALP_COLLECTOR_FIELD_SOURCE_MAP_V1_1"
 BASE = Path(__file__).with_name("scalp_move_shadow_v1.py")
 EXPECTED_SHA256 = "3fdb2ef60f184e1ce2cef306c1db2a9de03b3e7b1a27c32b6bfffabb2cf60c48"
 FIELDS = (
@@ -33,6 +34,14 @@ FIELDS = (
     "brti15",
     "confirm_count",
     "recent_btc_range60",
+)
+# Fixed read-only context windows around feature construction, event access, and
+# confirmation-count persistence. These windows are descriptive source evidence,
+# not executable logic and not strategy selection.
+CONTEXT_WINDOWS = (
+    (320, 390),
+    (430, 460),
+    (530, 595),
 )
 
 
@@ -79,13 +88,31 @@ def map_source(source: str, fields: Iterable[str] = FIELDS, max_matches: int = 8
     }
 
 
+def context_window(source: str, start: int, end: int) -> list[dict[str, object]]:
+    lines = source.splitlines()
+    lo = max(1, int(start))
+    hi = min(len(lines), int(end))
+    return [
+        {"line": i, "source": lines[i - 1].rstrip()}
+        for i in range(lo, hi + 1)
+    ]
+
+
 def main() -> int:
-    out = map_source(decode_frozen_source())
+    source = decode_frozen_source()
+    out = map_source(source)
     for field in FIELDS:
         matches = out["fields"].get(field) or []
         print(
             f"SCALP FIELD SOURCE | field={field} | "
             f"matches={json.dumps(matches, separators=(',', ':'))} | "
+            "READ ONLY | NO RULE SELECTED | NO ORDERS",
+            flush=True,
+        )
+    for start, end in CONTEXT_WINDOWS:
+        print(
+            f"SCALP FIELD CONTEXT | lines={start}-{end} | "
+            f"source={json.dumps(context_window(source, start, end), separators=(',', ':'))} | "
             "READ ONLY | NO RULE SELECTED | NO ORDERS",
             flush=True,
         )
