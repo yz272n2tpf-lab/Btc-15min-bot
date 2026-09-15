@@ -1,7 +1,7 @@
 {
   "$schema": "https://railway.com/railway.schema.json",
   "deploy": {
-    "startCommand": "python -u BTC15_DIRECT_BRTI_TAPE_INVENTORY_V1.py",
+    "startCommand": "python -u BTC15_DIRECT_BRTI_OFFICIAL_TRUTH_JOIN_AUDIT_V1.py",
     "restartPolicyType": "NEVER",
     "restartPolicyMaxRetries": 0
   }
