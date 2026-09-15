@@ -10,6 +10,7 @@ PASS / ACTIVE / PROTECT / EXIT. ENDED_UNARMED is displayed only as prior
 lifecycle context, explicitly labeled reset-only / non-actionable.
 
 Browser-side V5 acceptance is fail-closed unless:
+- scalp_lifecycle_metadata_only === true
 - scalp_ended_unarmed_is_actionable_exit === false
 - scalp_armed_no_exit_reset_allowed === false
 
@@ -24,7 +25,7 @@ import BTC15_DASHBOARD_COMBINED_SCALP_UI_V9 as v9
 MARKER = "BTC15_COMBINED_SCALP_UI_V10_SERIAL_LIFECYCLE"
 
 OLD_VALID = "const valid=d=>d&&['BTC15_COMBINED_STATE_BRIDGE_V3','BTC15_COMBINED_STATE_BRIDGE_V4'].includes(d.version)&&d.manual_execution_only===true&&d.orders===false&&d.order_action===null&&d.numeric_flip_risk_validated===false&&d.contract;"
-NEW_VALID = "const valid=d=>d&&['BTC15_COMBINED_STATE_BRIDGE_V3','BTC15_COMBINED_STATE_BRIDGE_V4','BTC15_COMBINED_STATE_BRIDGE_V5'].includes(d.version)&&d.manual_execution_only===true&&d.orders===false&&d.order_action===null&&d.numeric_flip_risk_validated===false&&d.contract&&(d.version!=='BTC15_COMBINED_STATE_BRIDGE_V5'||(d.scalp_ended_unarmed_is_actionable_exit===false&&d.scalp_armed_no_exit_reset_allowed===false));"
+NEW_VALID = "const valid=d=>d&&['BTC15_COMBINED_STATE_BRIDGE_V3','BTC15_COMBINED_STATE_BRIDGE_V4','BTC15_COMBINED_STATE_BRIDGE_V5'].includes(d.version)&&d.manual_execution_only===true&&d.orders===false&&d.order_action===null&&d.numeric_flip_risk_validated===false&&d.contract&&(d.version!=='BTC15_COMBINED_STATE_BRIDGE_V5'||(d.scalp_lifecycle_metadata_only===true&&d.scalp_ended_unarmed_is_actionable_exit===false&&d.scalp_armed_no_exit_reset_allowed===false));"
 
 OLD_USABLE = "const usable=fresh&&same&&env;"
 NEW_USABLE = "const usable=fresh&&same&&env; const opp=usable?Math.max(1,Number(d?.scalp_opportunity_index||1)):1; const lastTerminal=usable?String(d?.scalp_last_terminal_state||'').toUpperCase():''; const scanNext=!!(usable&&d?.scalp_scanning_for_next===true); const lifeNote=lastTerminal==='ENDED_UNARMED'?'Prior scalp ended unarmed · lifecycle reset only':lastTerminal==='EXIT'?'Prior scalp completed protected EXIT':scanNext?'Scanning for next qualified scalp':'';"
@@ -78,19 +79,21 @@ def main() -> int:
         assert NEW_REASON in rendered and OLD_REASON not in rendered
         assert GRID_WITH_LIFECYCLE in rendered
         assert "BTC15_COMBINED_STATE_BRIDGE_V5" in rendered
+        assert "scalp_lifecycle_metadata_only===true" in rendered
         assert "scalp_ended_unarmed_is_actionable_exit===false" in rendered
         assert "scalp_armed_no_exit_reset_allowed===false" in rendered
         assert "Prior scalp ended unarmed · lifecycle reset only" in rendered
         assert "Prior ended unarmed · reset only" in rendered
+        assert "lastTerminal==='ENDED_UNARMED'" in rendered
+        assert "const shown=usable?state:'PASS';" in rendered
         assert "Opportunity #${opp}" in rendered
-        assert "['PASS','ACTIVE','PROTECT','EXIT']" not in rendered or "ENDED_UNARMED" not in "['PASS','ACTIVE','PROTECT','EXIT']"
         assert "Arm +5¢ · EXIT at 4¢ giveback" in rendered
         assert "SIGNAL ONLY · MANUAL EXECUTION · NO ORDERS" in rendered
         assert '<span>Contract time left</span>' not in rendered
         assert "canonical_seconds_left" in rendered
         assert "flip_risk_percent" not in rendered
         assert MARKER in rendered
-        print("COMBINED SCALP UI V10 SELFTEST PASS | V5 LIFECYCLE NON-ACTIONABLE | NO ORDERS")
+        print("COMBINED SCALP UI V10 SELFTEST PASS | V5 LIFECYCLE METADATA ONLY | NO ORDERS")
         return 0
     return 0
 
