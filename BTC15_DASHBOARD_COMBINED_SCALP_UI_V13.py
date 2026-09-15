@@ -114,9 +114,13 @@ def main() -> int:
         assert "+5¢ ARM · EXIT AFTER 4¢ GIVEBACK" in rendered
         assert "WAIT · DATA NOT FRESH" in rendered
         assert "WAIT · SYNCING CONTRACT" in rendered
-        assert "ENDED_UNARMED" not in rendered
-        assert "ENDED UNARMED" not in rendered
-        assert "ended unarmed" not in rendered
+        # User-facing lifecycle jargon is removed, but the hidden invariant/state
+        # token must remain because V13 is presentation-only.
+        assert " ENDED UNARMED · SCANNING " not in rendered
+        assert " ended unarmed · reset only " not in rendered
+        assert "Prior scalp ended unarmed · lifecycle reset only" not in rendered
+        assert "Prior ended unarmed · reset only" not in rendered
+        assert "scalp_ended_unarmed_is_actionable_exit===false" in rendered
         assert "BTC15_COMBINED_STATE_BRIDGE_V6" in rendered
         assert "scalp_entry_price_filter_applied===false" in rendered
         assert "scalp_entry_guidance_is_display_only===true" in rendered
