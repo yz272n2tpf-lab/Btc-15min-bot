@@ -2,6 +2,7 @@
 import unittest
 
 import BTC15_SCALP_BLUEPRINT_REVIEW_GATE_V1 as g
+import BTC15_SCALP_UNARMED_TERMINAL_HANDOFF_AUDIT_V1 as terminal_audit
 
 
 class ReviewGateTests(unittest.TestCase):
@@ -97,6 +98,73 @@ class ReviewGateTests(unittest.TestCase):
         self.assertAlmostEqual(out["meaningful_10c_rate"], .76)
         self.assertIn("TEN_CENT_TARGET_NOT_HIT_BY_EVERY_SELECTED_SCALP", out["review_items"])
         self.assertIn("TEN_CENT_ACCEPTANCE_PERCENTAGE_NOT_YET_FROZEN", out["review_items"])
+
+
+class UnarmedTerminalLifecycleTests(unittest.TestCase):
+    CONTRACT = "KXBTC15M-26SEP150000-00"
+
+    def candidate(self, ts, cid, ask="0.31", side="UP"):
+        return {
+            "record_type": "CANDIDATE", "timestamp_utc": ts,
+            "candidate_id": cid, "contract": self.CONTRACT,
+            "entry_ask": ask, "side": side, "seconds_left": "600", "btc30": "20",
+        }
+
+    def path(self, ts, cid, gain, elapsed):
+        return {
+            "record_type": "PATH", "timestamp_utc": ts,
+            "candidate_id": cid, "contract": self.CONTRACT,
+            "exec_gain": str(gain), "elapsed_sec": str(elapsed),
+        }
+
+    def result(self, ts, cid):
+        return {
+            "record_type": "RESULT", "timestamp_utc": ts,
+            "candidate_id": cid, "contract": self.CONTRACT,
+        }
+
+    def test_completed_unarmed_is_nonactionable_terminal_and_can_handoff(self):
+        rows = [
+            self.candidate("2026-09-15T00:00:00Z", "a"),
+            self.path("2026-09-15T00:00:20Z", "a", 0.02, 20),
+            self.result("2026-09-15T00:01:00Z", "a"),
+            self.candidate("2026-09-15T00:01:10Z", "b", ask="0.86", side="DOWN"),
+            self.path("2026-09-15T00:01:20Z", "b", 0.11, 10),
+            self.path("2026-09-15T00:01:30Z", "b", 0.06, 20),
+            self.result("2026-09-15T00:02:00Z", "b"),
+        ]
+        out = terminal_audit.audit(rows)
+        self.assertEqual(out["ended_unarmed_n"], 1)
+        self.assertEqual(out["post_unarmed_later_qualified_n"], 1)
+        self.assertEqual(out["post_unarmed_later_plus10_n"], 1)
+        self.assertAlmostEqual(out["recovered_handoffs"][0]["to_entry_ask"], .86)
+        self.assertFalse(out["ended_unarmed_is_actionable_exit"])
+        self.assertFalse(out["entry_price_filter_applied"])
+        self.assertFalse(out["orders"])
+
+    def test_incomplete_candidate_does_not_invent_terminal(self):
+        rows = [
+            self.candidate("2026-09-15T00:00:00Z", "a"),
+            self.path("2026-09-15T00:00:20Z", "a", -0.12, 20),
+            self.candidate("2026-09-15T00:00:30Z", "b"),
+            self.path("2026-09-15T00:00:40Z", "b", 0.20, 10),
+            self.result("2026-09-15T00:01:00Z", "b"),
+        ]
+        out = terminal_audit.audit(rows)
+        self.assertEqual(out["ended_unarmed_n"], 0)
+        self.assertEqual(out["projected_completed_serial_opportunities"], 0)
+
+    def test_protected_exit_path_is_not_reclassified(self):
+        rows = [
+            self.candidate("2026-09-15T00:00:00Z", "a"),
+            self.path("2026-09-15T00:00:10Z", "a", 0.06, 10),
+            self.path("2026-09-15T00:00:20Z", "a", 0.01, 20),
+            self.result("2026-09-15T00:00:40Z", "a"),
+        ]
+        out = terminal_audit.audit(rows)
+        self.assertEqual(out["projected_ladder"][0]["terminal_kind"], "PROTECTED_EXIT")
+        self.assertEqual(out["ended_unarmed_n"], 0)
+        self.assertFalse(out["protected_thresholds_changed"])
 
 
 if __name__ == "__main__":
