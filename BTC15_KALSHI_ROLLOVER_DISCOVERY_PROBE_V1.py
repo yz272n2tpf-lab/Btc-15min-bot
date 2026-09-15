@@ -6,7 +6,7 @@ READ ONLY | DIAGNOSTIC ONLY | SIGNAL ONLY | NO ORDERS
 
 Purpose
 -------
-Measure whether the next scheduled KXBTC15M contract is directly fetchable and
+Measure whether the exact scheduled KXBTC15M contract is directly fetchable and
 ACTIVE+QUOTED before it appears in the production-style broad market search:
 
   GET /trade-api/v2/markets?status=open&series_ticker=KXBTC15M&limit=1000
@@ -15,8 +15,8 @@ versus:
 
   GET /trade-api/v2/markets/{exact_next_ticker}
 
-The probe runs only near 15-minute boundaries and never changes qualification,
-contract ownership, signal thresholds, dashboard state, or production behavior.
+ACTIVE+QUOTED evidence is accepted only when ticker identity, open/close clock,
+active window, and all four bid/ask fields are valid.
 """
 from __future__ import annotations
 
@@ -64,7 +64,6 @@ def _floor_quarter(d: datetime) -> datetime:
 
 
 def boundary_context(now: datetime) -> tuple[datetime, float] | None:
-    """Return relevant rollover boundary and signed seconds from it."""
     now = now.astimezone(timezone.utc)
     floor = _floor_quarter(now)
     after = (now - floor).total_seconds()
@@ -78,7 +77,6 @@ def boundary_context(now: datetime) -> tuple[datetime, float] | None:
 
 
 def ticker_for_boundary(boundary_utc: datetime) -> str:
-    """Target contract starts at boundary and closes 15m later."""
     close_local = (boundary_utc + timedelta(minutes=15)).astimezone(NY)
     mon = MONTHS[close_local.month - 1]
     minute = close_local.minute
@@ -97,11 +95,10 @@ def _valid_price(v: Any) -> bool:
 
 
 def _quotes_valid(market: dict[str, Any]) -> bool:
-    vals = [
+    return all(_valid_price(v) for v in (
         market.get("yes_bid_dollars"), market.get("yes_ask_dollars"),
         market.get("no_bid_dollars"), market.get("no_ask_dollars"),
-    ]
-    return all(_valid_price(v) for v in vals)
+    ))
 
 
 def _market_active(market: dict[str, Any], now: datetime) -> bool:
@@ -114,8 +111,7 @@ def _clock_matches(exact: dict[str, Any], boundary: datetime) -> bool:
     op = _parse_dt(exact.get("open_time"))
     cl = _parse_dt(exact.get("close_time"))
     expected_open = boundary.astimezone(timezone.utc)
-    expected_close = expected_open + timedelta(minutes=15)
-    return bool(op == expected_open and cl == expected_close)
+    return bool(op == expected_open and cl == expected_open + timedelta(minutes=15))
 
 
 def broad_open_search(target_ticker: str, now: datetime) -> dict[str, Any]:
@@ -143,8 +139,9 @@ def broad_open_search(target_ticker: str, now: datetime) -> dict[str, Any]:
 
 def exact_market_fetch(target_ticker: str, now: datetime) -> dict[str, Any]:
     out: dict[str, Any] = {
-        "http": None, "exists": False, "status": None, "active": False,
-        "quotes_valid": False, "clock_match": False, "open_time": None, "close_time": None,
+        "http": None, "exists": False, "returned_ticker": None, "identity_match": False,
+        "status": None, "active": False, "quotes_valid": False, "clock_match": False,
+        "open_time": None, "close_time": None,
         "yes_bid": None, "yes_ask": None, "no_bid": None, "no_ask": None,
         "error": None,
     }
@@ -161,8 +158,11 @@ def exact_market_fetch(target_ticker: str, now: datetime) -> dict[str, Any]:
         market = d.get("market") if isinstance(d.get("market"), dict) else d
         if not isinstance(market, dict):
             return out
+        returned = str(market.get("ticker") or "")
         out.update({
             "exists": True,
+            "returned_ticker": returned,
+            "identity_match": returned == target_ticker,
             "status": market.get("status"),
             "active": _market_active(market, now),
             "quotes_valid": _quotes_valid(market),
@@ -189,7 +189,9 @@ class BoundaryEvidence:
     first_broad_includes_offset: float | None = None
     first_broad_active_offset: float | None = None
     direct_clock_match_all: bool = True
+    direct_identity_match_all: bool = True
     wrong_clock_seen: bool = False
+    wrong_identity_seen: bool = False
     samples: int = 0
     summary_printed: bool = False
 
@@ -197,17 +199,25 @@ class BoundaryEvidence:
         self.samples += 1
         boundary = _parse_dt(self.boundary_utc)
         clock_ok = bool(boundary and exact.get("exists") and _clock_matches(exact, boundary))
-        if exact.get("exists"):
-            if not clock_ok:
-                self.direct_clock_match_all = False
-                self.wrong_clock_seen = True
+        identity_ok = bool(exact.get("exists") and exact.get("identity_match") is True)
+        if exact.get("exists") and not clock_ok:
+            self.direct_clock_match_all = False
+            self.wrong_clock_seen = True
+        if exact.get("exists") and not identity_ok:
+            self.direct_identity_match_all = False
+            self.wrong_identity_seen = True
+
         def first(attr: str, condition: bool):
             if condition and getattr(self, attr) is None:
                 setattr(self, attr, round(offset, 3))
+
         first("first_exact_exists_offset", bool(exact.get("exists")))
-        first("first_exact_active_offset", bool(exact.get("active")))
-        first("first_exact_quoted_offset", bool(exact.get("quotes_valid")))
-        first("first_exact_active_quoted_offset", bool(exact.get("active") and exact.get("quotes_valid") and clock_ok))
+        first("first_exact_active_offset", bool(exact.get("active") and identity_ok and clock_ok))
+        first("first_exact_quoted_offset", bool(exact.get("quotes_valid") and identity_ok and clock_ok))
+        first(
+            "first_exact_active_quoted_offset",
+            bool(exact.get("active") and exact.get("quotes_valid") and identity_ok and clock_ok),
+        )
         first("first_broad_includes_offset", bool(broad.get("includes_target")))
         first("first_broad_active_offset", bool(broad.get("active_target")))
 
@@ -230,10 +240,7 @@ def probe_once(now: datetime | None = None) -> dict[str, Any] | None:
     with LOCK:
         ev = EVIDENCE.setdefault(key, BoundaryEvidence(key, ticker))
         ev.update(offset, broad, exact)
-    return {
-        "at": _iso(now), "boundary": key, "offset_sec": round(offset, 3),
-        "ticker": ticker, "broad": broad, "exact": exact,
-    }
+    return {"at": _iso(now), "boundary": key, "offset_sec": round(offset, 3), "ticker": ticker, "broad": broad, "exact": exact}
 
 
 def _log_sample(row: dict[str, Any]) -> None:
@@ -242,10 +249,9 @@ def _log_sample(row: dict[str, Any]) -> None:
         "ROLLOVER PROBE | "
         f"boundary={row['boundary']} | offset={row['offset_sec']:+.1f}s | target={row['ticker']} | "
         f"broad_http={b.get('http')} includes={b.get('includes_target')} active={b.get('active_target')} count={b.get('count')} | "
-        f"exact_http={e.get('http')} exists={e.get('exists')} status={e.get('status')} active={e.get('active')} "
-        f"quotes={e.get('quotes_valid')} clock={e.get('clock_match')} | "
-        f"yes={e.get('yes_bid')}/{e.get('yes_ask')} no={e.get('no_bid')}/{e.get('no_ask')} | "
-        "READ ONLY | NO ORDERS",
+        f"exact_http={e.get('http')} exists={e.get('exists')} returned={e.get('returned_ticker')} identity={e.get('identity_match')} "
+        f"status={e.get('status')} active={e.get('active')} quotes={e.get('quotes_valid')} clock={e.get('clock_match')} | "
+        f"yes={e.get('yes_bid')}/{e.get('yes_ask')} no={e.get('no_bid')}/{e.get('no_ask')} | READ ONLY | NO ORDERS",
         flush=True,
     )
 
@@ -262,9 +268,9 @@ def _maybe_log_summaries(now: datetime) -> None:
             f"boundary={ev.boundary_utc} | target={ev.ticker} | samples={ev.samples} | "
             f"exact_exists={ev.first_exact_exists_offset} | exact_active={ev.first_exact_active_offset} | "
             f"exact_quoted={ev.first_exact_quoted_offset} | exact_active_quoted={ev.first_exact_active_quoted_offset} | "
+            f"identity_all={ev.direct_identity_match_all} wrong_identity={ev.wrong_identity_seen} | "
             f"clock_all={ev.direct_clock_match_all} wrong_clock={ev.wrong_clock_seen} | "
-            f"broad_includes={ev.first_broad_includes_offset} | broad_active={ev.first_broad_active_offset} | "
-            "READ ONLY | NO ORDERS",
+            f"broad_includes={ev.first_broad_includes_offset} | broad_active={ev.first_broad_active_offset} | READ ONLY | NO ORDERS",
             flush=True,
         )
         with LOCK:
