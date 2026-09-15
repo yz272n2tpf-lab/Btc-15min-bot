@@ -5,55 +5,98 @@ import BTC15_SCALP_BLUEPRINT_REVIEW_GATE_V1 as g
 
 
 class ReviewGateTests(unittest.TestCase):
-    def base(self):
+    def forward(self):
         return {
-            "opportunity_count": 20,
-            "max_opportunity_index": 3,
+            "status": "READY_FOR_REVIEW",
+            "completed_serial_opportunities": 25,
+            "max_opportunities_in_one_contract": 4,
+            "meaningful_10c_rate": .76,
             "orders": False,
             "manual_execution_only": True,
-            "entry_price_is_telemetry_only": True,
-            "failed_primary_cut_actionable": False,
-            "timer_summary": {
-                "samples_valid": 20,
+            "review_gate": {"met": True},
+            "blueprint": {
+                "entry_price_filter_applied": False,
+                "price_zone_trigger": False,
+                "high_price_cutoff_selected": False,
+                "orders": False,
+            },
+            "failed_primary": {"completed_failed_primary_n": 0},
+            "timer_audit": {
+                "samples_valid": 200,
+                "samples_total": 220,
                 "contract_match_rate": 1.0,
                 "canonical_clock_rate": 1.0,
-                "within_5s_rate": 1.0,
+                "within_5s_rate": .95,
             },
-            "price_bands": {
+            "entry_price_bands": {
                 "70-80c": {"n": 5, "plus10_rate": .8, "plus20_rate": .4, "median_peak_gain": .16},
                 "80c+": {"n": 2, "plus10_rate": .5, "plus20_rate": 0.0, "median_peak_gain": .10},
             },
         }
 
-    def test_ready_never_auto_freezes(self):
-        out = g.evaluate(self.base())
-        self.assertTrue(out["collection_ready_for_full_review"])
+    def coverage(self):
+        return {
+            "orders": False,
+            "post_exit_missed_qualified": 0,
+            "failed_prearm_blocked_candidates": 0,
+        }
+
+    def protection(self):
+        return {
+            "orders": False,
+            "protected_exit_records": 20,
+            "first_crossing_ok_rate": 1.0,
+        }
+
+    def test_actual_forward_schema_is_understood(self):
+        out = g.compose_review(
+            self.forward(), self.coverage(), self.protection(),
+            timer_visual_accepted=True,
+        )
+        self.assertEqual(out["completed_serial_opportunities"], 25)
+        self.assertEqual(out["max_opportunities_in_one_contract"], 4)
+        self.assertNotIn("FORWARD_SAMPLE_NOT_READY", out["blockers"])
+        self.assertNotIn("MULTI_SCALP_RESET_NOT_OBSERVED", out["blockers"])
         self.assertFalse(out["auto_freeze_allowed"])
-        self.assertFalse(out["high_price_audit"]["70-80c"]["enough_sample_to_even_discuss_cutoff"])
 
-    def test_under_20_waits(self):
-        x = self.base(); x["opportunity_count"] = 19
-        out = g.evaluate(x)
-        self.assertFalse(out["collection_ready_for_full_review"])
-        self.assertFalse(out["structural_checks"]["forward_sample_at_least_20"])
+    def test_failed_prearm_is_hard_freeze_blocker(self):
+        f = self.forward(); f["failed_primary"] = {"completed_failed_primary_n": 2}
+        c = self.coverage(); c["failed_prearm_blocked_candidates"] = 3
+        out = g.compose_review(f, c, self.protection(), timer_visual_accepted=True)
+        self.assertIn("FAILED_PREARM_CLOSE_RESET_RULE_UNRESOLVED", out["blockers"])
+        self.assertEqual(out["status"], "NOT_READY_TO_FREEZE")
 
-    def test_requires_serial_reset_proof(self):
-        x = self.base(); x["max_opportunity_index"] = 1
-        out = g.evaluate(x)
-        self.assertFalse(out["collection_ready_for_full_review"])
-        self.assertFalse(out["structural_checks"]["serial_reset_observed"])
+    def test_true_post_exit_miss_is_hard_blocker(self):
+        c = self.coverage(); c["post_exit_missed_qualified"] = 1
+        out = g.compose_review(self.forward(), c, self.protection(), timer_visual_accepted=True)
+        self.assertIn("POST_EXIT_QUALIFIED_SCALP_MISSED", out["blockers"])
 
-    def test_high_price_never_becomes_gate_automatically(self):
-        x = self.base(); x["price_bands"]["80c+"]["n"] = 50
-        out = g.evaluate(x)
+    def test_protection_must_hit_first_observed_four_cent_crossing(self):
+        p = self.protection(); p["first_crossing_ok_rate"] = .95
+        out = g.compose_review(self.forward(), self.coverage(), p, timer_visual_accepted=True)
+        self.assertIn("PROTECTION_FIRST_4C_CROSSING_MISMATCH", out["blockers"])
+
+    def test_visual_timer_acceptance_remains_required(self):
+        out = g.compose_review(self.forward(), self.coverage(), self.protection())
+        self.assertIn("TIMER_VISUAL_ACCEPTANCE_PENDING", out["blockers"])
+
+    def test_high_price_sample_never_auto_becomes_filter(self):
+        f = self.forward(); f["entry_price_bands"]["80c+"]["n"] = 50
+        out = g.compose_review(f, self.coverage(), self.protection(), timer_visual_accepted=True)
         self.assertTrue(out["high_price_audit"]["80c+"]["enough_sample_to_even_discuss_cutoff"])
         self.assertTrue(out["high_price_audit"]["80c+"]["price_is_telemetry_only"])
         self.assertFalse(out["auto_freeze_allowed"])
 
-    def test_timer_alignment_is_required(self):
-        x = self.base(); x["timer_summary"]["within_5s_rate"] = .95
-        out = g.evaluate(x)
-        self.assertFalse(out["timer_checks"]["backend_timer_within_5s_all_valid_samples"])
+    def test_unapproved_price_suppression_blocks_review(self):
+        f = self.forward(); f["blueprint"]["entry_price_filter_applied"] = True
+        out = g.compose_review(f, self.coverage(), self.protection(), timer_visual_accepted=True)
+        self.assertIn("UNAPPROVED_PRICE_SUPPRESSION_PRESENT", out["blockers"])
+
+    def test_ten_cent_rate_is_reported_without_invented_threshold(self):
+        out = g.compose_review(self.forward(), self.coverage(), self.protection(), timer_visual_accepted=True)
+        self.assertAlmostEqual(out["meaningful_10c_rate"], .76)
+        self.assertIn("TEN_CENT_TARGET_NOT_HIT_BY_EVERY_SELECTED_SCALP", out["review_items"])
+        self.assertIn("TEN_CENT_ACCEPTANCE_PERCENTAGE_NOT_YET_FROZEN", out["review_items"])
 
 
 if __name__ == "__main__":
