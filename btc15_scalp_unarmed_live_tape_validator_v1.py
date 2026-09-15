@@ -6,7 +6,8 @@ RESEARCH / SHADOW ONLY | SIGNAL ONLY | NO ORDERS
 
 Reads the existing generalized scalp event export and compares the current
 protected serial ladder with a research-only ENDED_UNARMED lifecycle projection.
-It also runs meaningful-move coverage and the btc30 tightening tournament.
+It also runs meaningful-move coverage, the btc30 tightening tournament, and the
+fixed failed-prearm reset tournament.
 
 This service does NOT create a stop-loss or sell rule. Existing +5c arm / 4c
 giveback protection is untouched. Kalshi entry price and seconds-left remain
@@ -23,12 +24,13 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any
 from urllib.parse import urlparse
 
+import BTC15_SCALP_FAILED_PREARM_RESET_TOURNAMENT_V1 as reset_tournament
 import BTC15_SCALP_MEANINGFUL_MOVE_COVERAGE_V1 as meaningful
 import BTC15_SCALP_TRIGGER_TIGHTENING_RESEARCH_V1 as tightening
 import BTC15_SCALP_UNARMED_TERMINAL_HANDOFF_AUDIT_V1 as handoff
 import btc15_scalp_blueprint_forward_v1 as forward
 
-VERSION = "BTC15_SCALP_UNARMED_LIVE_TAPE_VALIDATOR_V1_1"
+VERSION = "BTC15_SCALP_UNARMED_LIVE_TAPE_VALIDATOR_V1_2"
 PORT = int(os.environ.get("PORT", "8080"))
 POLL_SEC = max(20, int(os.environ.get("SCALP_UNARMED_LIVE_POLL_SEC", "45")))
 
@@ -64,11 +66,29 @@ def _tightening_decision(tight: dict[str, Any]) -> str:
     return "HOLDOUT_REJECTS_NOMINEE"
 
 
+def _compact_reset_grid(reset: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    compact: dict[str, dict[str, Any]] = {}
+    for rule, raw in (reset.get("grid") or {}).items():
+        cell = dict(raw or {})
+        compact[str(rule)] = {
+            "triggered": int(cell.get("triggered_before_arm_n") or 0),
+            "false_abort_n": int(cell.get("original_later_recovers_plus5_n") or 0),
+            "false_abort_rate": cell.get("false_abort_recovery_rate"),
+            "later_available": int(cell.get("later_candidate_available_n") or 0),
+            "later_completed": int(cell.get("later_candidate_completed_n") or 0),
+            "later_plus10": int(cell.get("later_candidate_plus10_n") or 0),
+            "later_plus10_rate": cell.get("later_candidate_plus10_rate"),
+            "avg_release_gain": cell.get("avg_release_gain"),
+        }
+    return compact
+
+
 def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, Any]:
     baseline = forward.build_serial_opportunities(rows)
     projected = handoff.audit(rows)
     moves = meaningful.audit(rows)
     tight = tightening.audit(rows)
+    reset = reset_tournament.audit(rows)
 
     baseline_n = len(baseline)
     projected_n = int(projected.get("projected_completed_serial_opportunities") or 0)
@@ -135,6 +155,12 @@ def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, 
         "tightening_holdout_supports_nominee": bool(tight.get("holdout_supports_nominee")),
         "tightening_decision": _tightening_decision(tight),
         "tightening_auto_promote_allowed": False,
+        "prearm_reset_completed_primary_n": int(reset.get("completed_primary_n") or 0),
+        "prearm_reset_failed_primary_n": int(reset.get("failed_prearm_primary_n") or 0),
+        "prearm_reset_failed_primary_candidate_ids": reset.get("failed_primary_candidate_ids") or [],
+        "prearm_reset_grid": _compact_reset_grid(reset),
+        "prearm_reset_rule_selected": False,
+        "prearm_reset_auto_promote_allowed": False,
         "protected_thresholds_changed": False,
         "stop_loss_rule_selected": False,
         "ended_unarmed_is_actionable_exit": False,
@@ -148,7 +174,7 @@ def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, 
         "orders": False,
         "note": (
             "ENDED_UNARMED is a lifecycle/reset projection after collector RESULT, not a trade exit. "
-            "10c coverage and btc30 tightening are research only; no rule is auto-promoted."
+            "btc30 tightening and failed-prearm reset rules are descriptive research only; no rule is auto-promoted."
         ),
     }
 
@@ -199,6 +225,15 @@ def cycle() -> dict[str, Any]:
         "RESEARCH ONLY | NO AUTO-PROMOTE | NO ORDERS",
         flush=True,
     )
+
+    print(
+        "SCALP PREARM RESET GRID | "
+        f"completed_primaries={summary['prearm_reset_completed_primary_n']} | "
+        f"failed_primaries={summary['prearm_reset_failed_primary_n']} | "
+        f"grid={json.dumps(summary['prearm_reset_grid'], separators=(',', ':'))} | "
+        "DESCRIPTIVE ONLY | NO RULE SELECTED | NO ORDERS",
+        flush=True,
+    )
     return summary
 
 
@@ -225,7 +260,7 @@ def worker() -> None:
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = "BTC15ScalpUnarmedLiveTape/1.1"
+    server_version = "BTC15ScalpUnarmedLiveTape/1.2"
 
     def log_message(self, fmt, *args):
         return
