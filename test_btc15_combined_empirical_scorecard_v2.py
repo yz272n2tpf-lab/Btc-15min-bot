@@ -134,10 +134,11 @@ class CombinedEmpiricalScorecardV2Tests(unittest.TestCase):
         self.assertTrue(s["union_counts_each_contract_once"])
         self.assertTrue(s["serial_scalps_preserved_separately"])
 
-    def test_packed_dashboard_state_contract_discovery_source_is_auditable(self):
-        src = source_audit.decoded_source()
-        self.assertIn("NO ACTIVE KXBTC15M CONTRACT", src)
-        self.assertIn("KXBTC15M", src)
+    def test_packed_dashboard_source_ownership_is_auditable(self):
+        a = source_audit.audit()
+        self.assertIn(source_audit.STATE_TARGET, a["payload_names"])
+        self.assertIn(source_audit.RUNNER_TARGET, a["payload_names"])
+        self.assertTrue(a["state_builder_is_file_tail_adapter"])
         source_audit.print_audit()
 
 
