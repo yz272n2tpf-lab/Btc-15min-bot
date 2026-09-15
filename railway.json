@@ -1,7 +1,7 @@
 {
   "$schema": "https://railway.com/railway.schema.json",
   "deploy": {
-    "startCommand": "python -u kalshi_flip_probability_calibration_validation.py",
+    "startCommand": "python -u BTC15_FLIP_RISK_CALIBRATION_GATE_V1.py",
     "restartPolicyType": "NEVER",
     "restartPolicyMaxRetries": 0
   }
