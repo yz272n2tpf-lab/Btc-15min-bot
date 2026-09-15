@@ -5,9 +5,9 @@ BTC15 final SCALP blueprint review gate V1.
 RESEARCH REVIEW ONLY | SIGNAL ONLY | NO ORDERS
 
 Consumes the live forward-validator schema and, when available, the separate
-coverage and protection audits. It never tunes, promotes, freezes, or places
-orders. Its job is to make unresolved gaps explicit before the SCALP ladder can
-be called finished.
+coverage, protection, and ENDED_UNARMED lifecycle audits. It never tunes,
+promotes, freezes, or places orders. Its job is to make unresolved gaps explicit
+before the SCALP ladder can be called finished.
 
 User-confirmed anchors preserved:
 - full 15-minute scan;
@@ -19,6 +19,12 @@ User-confirmed anchors preserved:
 - failed pre-arm behavior must be resolved before final freeze;
 - manual execution only / no orders;
 - timer/contract alignment requires backend evidence plus a visual match.
+
+A completed never-armed scalp may satisfy the failed-prearm lifecycle requirement
+ONLY through explicit ENDED_UNARMED evidence proving that it is informational,
+non-actionable, does not alter protection/entry rules, leaves no armed scalp
+without a validated exit, and preserves serial scanning. No stop-loss or early
+loss-cut is selected by this gate.
 """
 from __future__ import annotations
 
@@ -26,7 +32,7 @@ import json
 import sys
 from typing import Any, Mapping
 
-VERSION = "BTC15_SCALP_BLUEPRINT_REVIEW_GATE_V1"
+VERSION = "BTC15_SCALP_BLUEPRINT_REVIEW_GATE_V1_1"
 MIN_FORWARD_OPPORTUNITIES = 20
 MIN_TIMER_VALID_SAMPLES = 20
 MIN_PRICE_BAND_SAMPLE_FOR_CUTOFF_RESEARCH = 20
@@ -48,10 +54,54 @@ def _int(v: Any) -> int:
         return 0
 
 
+def _ended_unarmed_resolution(lifecycle: Mapping[str, Any] | None) -> tuple[bool, list[str]]:
+    """Conservatively validate evidence that the failed-prearm state can reset."""
+    if not lifecycle:
+        return False, ["LIFECYCLE_EVIDENCE_NOT_ATTACHED"]
+
+    reasons: list[str] = []
+    if lifecycle.get("orders") is not False:
+        reasons.append("LIFECYCLE_ORDER_FLAG_INVALID")
+    if lifecycle.get("manual_execution_only") is not True:
+        reasons.append("LIFECYCLE_MANUAL_EXECUTION_FLAG_INVALID")
+    if lifecycle.get("ended_unarmed_is_actionable_exit") is not False:
+        reasons.append("ENDED_UNARMED_MUST_NOT_BE_ACTIONABLE_EXIT")
+    if lifecycle.get("stop_loss_rule_selected") is not False:
+        reasons.append("STOP_LOSS_RULE_MUST_REMAIN_UNSELECTED")
+    if lifecycle.get("protected_thresholds_changed") is not False:
+        reasons.append("PROTECTED_THRESHOLDS_MUST_REMAIN_FROZEN")
+    if lifecycle.get("entry_price_filter_applied") is not False:
+        reasons.append("ENTRY_PRICE_FILTER_MUST_REMAIN_OFF")
+    if lifecycle.get("lifecycle_reset_review_ready") is not True:
+        reasons.append("LIFECYCLE_RESET_REVIEW_NOT_READY")
+
+    ended_n = _int(lifecycle.get("ended_unarmed_n"))
+    armed_unresolved = _int(lifecycle.get("armed_no_validated_exit_n"))
+    baseline_n = _int(lifecycle.get("baseline_completed_serial_opportunities"))
+    projected_n = _int(lifecycle.get("projected_completed_serial_opportunities"))
+    true_missed_raw = lifecycle.get("true_post_exit_missed_meaningful_10c")
+
+    if ended_n <= 0:
+        reasons.append("NO_ENDED_UNARMED_EVIDENCE")
+    if armed_unresolved > 0:
+        reasons.append("ARMED_NO_VALIDATED_EXIT_REMAINS")
+    if baseline_n <= 0:
+        reasons.append("LIFECYCLE_BASELINE_SAMPLE_MISSING")
+    if projected_n < baseline_n:
+        reasons.append("LIFECYCLE_PROJECTION_LOSES_SERIAL_OPPORTUNITIES")
+    if true_missed_raw is None:
+        reasons.append("LIFECYCLE_TRUE_MISS_EVIDENCE_MISSING")
+    elif _int(true_missed_raw) != 0:
+        reasons.append("LIFECYCLE_TRUE_POST_EXIT_MISS_PRESENT")
+
+    return len(reasons) == 0, reasons
+
+
 def compose_review(
     forward: Mapping[str, Any],
     coverage: Mapping[str, Any] | None = None,
     protection: Mapping[str, Any] | None = None,
+    lifecycle: Mapping[str, Any] | None = None,
     *,
     timer_visual_accepted: bool = False,
 ) -> dict[str, Any]:
@@ -93,8 +143,17 @@ def compose_review(
 
     failed_primary_n = _int(failed.get("completed_failed_primary_n"))
     failed_blocked = _int(coverage.get("failed_prearm_blocked_candidates"))
-    if failed_primary_n > 0 or failed_blocked > 0:
-        blockers.append("FAILED_PREARM_CLOSE_RESET_RULE_UNRESOLVED")
+    failed_gap_observed = failed_primary_n > 0 or failed_blocked > 0
+    lifecycle_resolved = False
+    lifecycle_checks: list[str] = []
+    if failed_gap_observed:
+        lifecycle_resolved, lifecycle_checks = _ended_unarmed_resolution(lifecycle)
+        if lifecycle_resolved:
+            review_items.append("FAILED_PREARM_LIFECYCLE_RESOLVED_BY_ENDED_UNARMED")
+        else:
+            blockers.append("FAILED_PREARM_CLOSE_RESET_RULE_UNRESOLVED")
+    elif lifecycle:
+        lifecycle_resolved, lifecycle_checks = _ended_unarmed_resolution(lifecycle)
 
     protected_n = _int(protection.get("protected_exit_records"))
     crossing_rate = _num(protection.get("first_crossing_ok_rate"))
@@ -131,6 +190,8 @@ def compose_review(
         blockers.append("COVERAGE_AUDIT_ORDER_FLAG_INVALID")
     if protection and protection.get("orders") is not False:
         blockers.append("PROTECTION_AUDIT_ORDER_FLAG_INVALID")
+    if lifecycle and lifecycle.get("orders") is not False:
+        blockers.append("LIFECYCLE_AUDIT_ORDER_FLAG_INVALID")
 
     ten_rate = _num(forward.get("meaningful_10c_rate"))
     if ten_rate is None:
@@ -171,6 +232,10 @@ def compose_review(
         "post_exit_missed_qualified": true_misses,
         "failed_prearm_completed": failed_primary_n,
         "failed_prearm_blocked_candidates": failed_blocked,
+        "failed_prearm_lifecycle_resolved": lifecycle_resolved,
+        "failed_prearm_lifecycle_checks": lifecycle_checks,
+        "lifecycle_ended_unarmed_n": _int((lifecycle or {}).get("ended_unarmed_n")),
+        "lifecycle_armed_no_validated_exit_n": _int((lifecycle or {}).get("armed_no_validated_exit_n")),
         "protected_exit_records": protected_n,
         "first_crossing_ok_rate": crossing_rate,
         "timer_valid_samples": valid_timer,
@@ -182,6 +247,8 @@ def compose_review(
         "ready_for_manual_freeze_review": ready_for_manual_freeze_review,
         "auto_freeze_allowed": False,
         "price_is_telemetry_only_required": True,
+        "ended_unarmed_must_remain_nonactionable": True,
+        "stop_loss_rule_required": False,
     }
 
 
