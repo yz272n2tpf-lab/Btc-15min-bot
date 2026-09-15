@@ -30,8 +30,7 @@ The existing +5c arm / first 4c giveback EXIT remains untouched.
 """
 from __future__ import annotations
 
-from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any, Mapping
 
 import BTC15_SCALP_LADDER_RESEARCH_V1 as research
@@ -144,6 +143,15 @@ def analyze_records(records: list[Mapping[str, Any]]) -> dict[str, Any]:
         and holdout_nominee is not None
         and int(holdout_nominee.get("n") or 0) >= MIN_HOLDOUT_N
     )
+    holdout_supports_nominee = bool(
+        holdout_review_ready
+        and holdout_nominee is not None
+        and holdout_baseline.get("plus10_rate") is not None
+        and holdout_nominee.get("plus10_rate") is not None
+        and float(holdout_nominee["plus10_rate"]) > float(holdout_baseline["plus10_rate"])
+        and holdout_nominee.get("plus10_winner_retention") is not None
+        and float(holdout_nominee["plus10_winner_retention"]) >= DEV_WINNER_RETENTION_MIN
+    )
 
     return {
         "version": VERSION,
@@ -160,16 +168,18 @@ def analyze_records(records: list[Mapping[str, Any]]) -> dict[str, Any]:
         "development_n": len(dev),
         "holdout_n": len(hold),
         "development_thresholds": dev_rows,
+        "development_baseline": baseline,
         "development_nominee_btc30_min": nominee_threshold,
         "development_nominee": nominee,
         "holdout_baseline": holdout_baseline,
         "holdout_nominee": holdout_nominee,
         "holdout_review_ready": holdout_review_ready,
+        "holdout_supports_nominee": holdout_supports_nominee,
         "auto_promote_allowed": False,
         "actionable_now": False,
         "note": (
-            "A nominee only earns HOLDOUT review. Do not promote it unless fresh holdout "
-            "evidence improves 10c precision without materially sacrificing real 10c opportunities."
+            "A nominee only earns HOLDOUT review. Even holdout support is research evidence, "
+            "not permission to promote the threshold into the live strategy."
         ),
     }
 
