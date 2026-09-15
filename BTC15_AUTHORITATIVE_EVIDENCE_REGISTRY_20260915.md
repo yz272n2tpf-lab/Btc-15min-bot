@@ -61,6 +61,9 @@ single misleading score.
 - Fresh cutoff: 2026-09-15T20:00:00Z.
 - Review gate: >=30 eligibility-complete contracts and >=12 officially settled
   protected FINAL locks.
+- Latest checked checkpoint: 6 eligibility-complete contracts, 5 locks, 4
+  settled locks, 4/4 correct; fresh FINAL-only coverage 0.800; avg lock timing
+  ~4.62m; 0/4 settled locks at <=50c; watchdog restarts=0.
 - Report separately: directional accuracy, FINAL-only coverage, timing,
   locked-side Kalshi ask, <=50c economics, excluded-late count.
 - No auto-promotion.
@@ -104,14 +107,67 @@ single misleading score.
   EARLY→FINAL handoffs, and >=12 officially settled protected FINAL locks.
 - First protected EARLY and first protected FINAL are immutable once recorded;
   later side changes are measured as flips, never rewritten.
+- Latest checked checkpoint: 3 eligibility-complete contracts, 0 protected EARLY
+  calls, 3 FINAL locks, 0 real handoffs, 2 settled FINAL locks, 2/2 correct.
+  This is a tiny sample and is not a conclusion; no missing EARLY is backfilled.
 - Report EARLY/FINAL/union/dual coverage, handoff time, side agreement/flip,
   EARLY price quality, FINAL locked-side price, same-side price change, and
   official FINAL accuracy separately.
 - Test-fixture log lines before `Ran 10 tests ... OK` are non-live. Authoritative
   live evidence begins only after the runtime `START` line.
-- First live heartbeat after startup was healthy with zero restarts and a clean
-  zero-sample state.
 - No threshold changes, no auto-promotion, no orders.
+
+## Numeric Flip Risk evidence
+
+### Coinbase-based historical calibrated model
+- Status: **HISTORICAL CALIBRATION PASS / LIVE PARITY FAIL**
+- Historical chronological calibration was strong, but live feature parity was
+  only 7/20 because production authority is direct BRTI rather than Coinbase
+  1m OHLCV.
+- Decision: never substitute live BRTI values into the old Coinbase model.
+- Numeric Flip Risk remained hidden.
+
+### Direct-BRTI V1 historical model
+- Status: **REJECTED / CLOSED ON ITS OOS COHORT**
+- Decision note: `BTC15_DIRECT_BRTI_FLIP_RISK_MODEL_DECISION_20260915.md`, commit
+  `3fd013a6222f4e0afd7204046876358934ee65ce`.
+- 44 OOS contracts / 387 snapshots.
+- raw Brier 0.171614; calibrated Brier 0.171113; null Brier 0.189041;
+  Brier skill +9.48%; 2/3 blocks improved/tied; reliability Spearman 0.90.
+- Decisive failures: weighted calibration error 8.88pp (>5pp), worst populated
+  bin error 15.83pp (>10pp), and stated `stay >=90%` cohort actual stay 89.39%
+  (<90%).
+- Interpretation: predictive ranking exists, but the V1 probability mapping is
+  not trustworthy enough to display as numeric risk.
+- Do not tune V1 on the same 44-contract OOS cohort.
+
+### Direct-BRTI future V2 isotonic shadow
+- Status: **AUTHORITATIVE FUTURE-ONLY CALIBRATION SHADOW / COLLECTING**
+- V2 freeze: `BTC15_DIRECT_BRTI_FLIP_RISK_FORWARD_V2_FREEZE_20260915.md`, commit
+  `53e5104baa0ab31db796e24d2198d469bd4cfe39`.
+- V2 collector: `BTC15_DIRECT_BRTI_FLIP_RISK_FORWARD_V2.py`, commit
+  `a40405e960629be02b0382baf8b589185c10ea78`.
+- V2 tests: `test_BTC15_DIRECT_BRTI_FLIP_RISK_FORWARD_V2.py`, commit
+  `346b30bf17f9d50ed3a90d578701d6652781804b`.
+- Test-first launch ran 12/12 V1+V2 tests PASS before training/collection.
+- Reuses legacy retired Railway service `scalp-coverage-audit-v1` only to avoid
+  creating another paid service; service ID `f020787f-00fb-4a46-a36c-710f18bbf31e`.
+- Authoritative V2 deployment: `60b67800-6709-45fa-a558-de51fa2d9ec0`.
+- Runtime START: `2026-09-15T21:26:33Z`; startup contract is excluded and only
+  first post-start rollover onward can score.
+- Historical frozen training: base model 70 contracts / 593 snapshots; isotonic
+  calibration 24 contracts / 214 snapshots; historical training flip prior
+  17.88%.
+- Live coverage contract must first be seen with >=840s left; review contract
+  needs >=6 immutable grid predictions.
+- Frozen review requires >=30 prediction-complete fresh contracts and >=240
+  officially settled predictions, plus reliability/Brier/high-stay/time-bucket
+  gates exactly as predeclared.
+- V2 changes only probability calibration; same 12 direct-BRTI features and same
+  logistic base model. No signal path consumes V2.
+- Numeric Flip Risk remains **hidden and user-facing disallowed** until fresh V2
+  passes and manual review separately accepts presentation.
+- No auto-promotion; no orders.
 
 ## SCALP research decisions
 
@@ -155,6 +211,9 @@ single misleading score.
 - Requires >=8 new rollovers, >=6 valid direct-vs-broad comparisons,
   100% identity and clock integrity, direct strict usable book by +15s on >=7/8,
   direct before broad on every valid comparison, median lead >=15s.
+- Latest checked checkpoint: 6/8 rollovers; 6/6 strict exact usable by +15s;
+  identity/clock clean; direct before broad 6/6; median lead 10.29s. The frozen
+  15s median-lead target remains unmet, so there is no PASS yet.
 - PASS authorizes only an isolated exact-ticker shadow validation.
 - Never authorizes production modification automatically.
 
