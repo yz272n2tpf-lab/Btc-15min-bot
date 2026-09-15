@@ -86,7 +86,7 @@ def audit(rows: list[Mapping[str, Any]]) -> dict[str, Any]:
     plus20_n = sum(r["plus20"] for r in rejected_missing)
     armed_n = sum(r["armed_plus5"] for r in rejected_missing)
     first_minute_n = sum(r["first_minute"] for r in rejected_missing)
-    <=50_n = sum(r["entry_at_or_below_50c"] for r in rejected_missing)
+    le50_n = sum(r["entry_at_or_below_50c"] for r in rejected_missing)
     peaks = [float(r["peak_gain"]) for r in rejected_missing if r["peak_gain"] is not None]
     adverse = [float(r["adverse_gain"]) for r in rejected_missing if r["adverse_gain"] is not None]
 
@@ -103,8 +103,8 @@ def audit(rows: list[Mapping[str, Any]]) -> dict[str, Any]:
         "unique_contracts": len({r["contract"] for r in rejected_missing}),
         "first_minute_n": first_minute_n,
         "first_minute_rate": None if not n else first_minute_n / n,
-        "entry_at_or_below_50c_n": <=50_n,
-        "entry_at_or_below_50c_rate": None if not n else <=50_n / n,
+        "entry_at_or_below_50c_n": le50_n,
+        "entry_at_or_below_50c_rate": None if not n else le50_n / n,
         "armed_plus5_n": armed_n,
         "armed_plus5_rate": None if not n else armed_n / n,
         "plus10_n": plus10_n,
