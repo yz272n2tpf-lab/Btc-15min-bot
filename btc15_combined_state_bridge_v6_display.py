@@ -25,6 +25,7 @@ PORT = int(os.environ.get("PORT", "8080"))
 UPSTREAM_COMBINED_URL = "https://scalp-move-shadow-v1-production.up.railway.app/combined-state"
 UPSTREAM_SCALP_URL = "https://scalp-move-shadow-v1-production.up.railway.app/state"
 TIMEOUT_SEC = 3.0
+# Dedicated display bridge; frozen V5 remains the strategy/lifecycle authority.
 
 
 def _float(v: Any) -> float | None:
