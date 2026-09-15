@@ -60,7 +60,9 @@ class ReviewGateTests(unittest.TestCase):
             "entry_price_filter_applied": False,
             "lifecycle_reset_review_ready": True,
             "ended_unarmed_n": 2,
-            "armed_no_validated_exit_n": 0,
+            "armed_no_validated_exit_n": 17,
+            "armed_no_validated_exit_preserved_blocking": True,
+            "armed_no_validated_exit_reclassified_as_ended_unarmed_n": 0,
             "baseline_completed_serial_opportunities": 25,
             "projected_completed_serial_opportunities": 27,
             "true_post_exit_missed_meaningful_10c": 0,
@@ -90,7 +92,7 @@ class ReviewGateTests(unittest.TestCase):
         self.assertFalse(out["failed_prearm_lifecycle_resolved"])
         self.assertEqual(out["status"], "NOT_READY_TO_FREEZE")
 
-    def test_valid_ended_unarmed_evidence_resolves_only_lifecycle_blocker(self):
+    def test_valid_ended_unarmed_evidence_resolves_lifecycle_while_armed_winners_stay_protected(self):
         f, c = self.failed_forward_and_coverage()
         out = g.compose_review(
             f, c, self.protection(), self.lifecycle(),
@@ -98,8 +100,10 @@ class ReviewGateTests(unittest.TestCase):
         )
         self.assertNotIn("FAILED_PREARM_CLOSE_RESET_RULE_UNRESOLVED", out["blockers"])
         self.assertIn("FAILED_PREARM_LIFECYCLE_RESOLVED_BY_ENDED_UNARMED", out["review_items"])
+        self.assertIn("ARMED_NO_EXIT_WINNERS_REMAIN_PROTECTED", out["review_items"])
         self.assertTrue(out["failed_prearm_lifecycle_resolved"])
-        self.assertEqual(out["failed_prearm_lifecycle_checks"], [])
+        self.assertEqual(out["lifecycle_armed_no_validated_exit_n"], 17)
+        self.assertTrue(out["lifecycle_armed_no_exit_preserved_blocking"])
         self.assertEqual(out["status"], "READY_FOR_MANUAL_FREEZE_REVIEW")
         self.assertFalse(out["stop_loss_rule_required"])
         self.assertFalse(out["auto_freeze_allowed"])
@@ -114,12 +118,19 @@ class ReviewGateTests(unittest.TestCase):
         self.assertIn("ENDED_UNARMED_MUST_NOT_BE_ACTIONABLE_EXIT", out["failed_prearm_lifecycle_checks"])
         self.assertIn("STOP_LOSS_RULE_MUST_REMAIN_UNSELECTED", out["failed_prearm_lifecycle_checks"])
 
-    def test_armed_without_validated_exit_cannot_be_hidden_by_ended_unarmed(self):
+    def test_armed_no_exit_must_remain_protected_blocking(self):
         f, c = self.failed_forward_and_coverage()
-        lifecycle = self.lifecycle(); lifecycle["armed_no_validated_exit_n"] = 1
+        lifecycle = self.lifecycle(); lifecycle["armed_no_validated_exit_preserved_blocking"] = False
         out = g.compose_review(f, c, self.protection(), lifecycle, timer_visual_accepted=True)
         self.assertIn("FAILED_PREARM_CLOSE_RESET_RULE_UNRESOLVED", out["blockers"])
-        self.assertIn("ARMED_NO_VALIDATED_EXIT_REMAINS", out["failed_prearm_lifecycle_checks"])
+        self.assertIn("ARMED_NO_EXIT_MUST_REMAIN_PROTECTED_BLOCKING", out["failed_prearm_lifecycle_checks"])
+
+    def test_armed_no_exit_cannot_be_reclassified_as_ended_unarmed(self):
+        f, c = self.failed_forward_and_coverage()
+        lifecycle = self.lifecycle(); lifecycle["armed_no_validated_exit_reclassified_as_ended_unarmed_n"] = 1
+        out = g.compose_review(f, c, self.protection(), lifecycle, timer_visual_accepted=True)
+        self.assertIn("FAILED_PREARM_CLOSE_RESET_RULE_UNRESOLVED", out["blockers"])
+        self.assertIn("ARMED_NO_EXIT_WAS_RECLASSIFIED_AS_ENDED_UNARMED", out["failed_prearm_lifecycle_checks"])
 
     def test_lifecycle_true_post_exit_miss_keeps_prearm_blocker(self):
         f, c = self.failed_forward_and_coverage()
@@ -199,8 +210,9 @@ class UnarmedTerminalLifecycleTests(unittest.TestCase):
         self.assertEqual(out["post_unarmed_later_qualified_n"], 1)
         self.assertEqual(out["post_unarmed_later_plus10_n"], 1)
         self.assertAlmostEqual(out["recovered_handoffs"][0]["to_entry_ask"], .86)
-        self.assertEqual(out["armed_no_validated_exit_n"], 0)
         self.assertFalse(out["ended_unarmed_is_actionable_exit"])
+        self.assertTrue(out["armed_no_validated_exit_preserved_blocking"])
+        self.assertEqual(out["armed_no_validated_exit_reclassified_as_ended_unarmed_n"], 0)
         self.assertFalse(out["entry_price_filter_applied"])
         self.assertFalse(out["orders"])
 
@@ -215,7 +227,6 @@ class UnarmedTerminalLifecycleTests(unittest.TestCase):
         out = terminal_audit.audit(rows)
         self.assertEqual(out["ended_unarmed_n"], 0)
         self.assertEqual(out["projected_completed_serial_opportunities"], 0)
-        self.assertEqual(out["armed_no_validated_exit_n"], 0)
 
     def test_protected_exit_path_is_not_reclassified(self):
         rows = [
@@ -227,20 +238,25 @@ class UnarmedTerminalLifecycleTests(unittest.TestCase):
         out = terminal_audit.audit(rows)
         self.assertEqual(out["projected_ladder"][0]["terminal_kind"], "PROTECTED_EXIT")
         self.assertEqual(out["ended_unarmed_n"], 0)
-        self.assertEqual(out["armed_no_validated_exit_n"], 0)
         self.assertFalse(out["protected_thresholds_changed"])
 
-    def test_armed_without_validated_exit_is_explicit_unresolved_state(self):
+    def test_armed_without_validated_exit_stays_protected_and_blocking(self):
         rows = [
             self.candidate("2026-09-15T00:00:00Z", "a"),
             self.path("2026-09-15T00:00:10Z", "a", 0.06, 10),
             self.path("2026-09-15T00:00:20Z", "a", 0.04, 20),
             self.result("2026-09-15T00:00:40Z", "a"),
+            self.candidate("2026-09-15T00:00:50Z", "b"),
+            self.path("2026-09-15T00:01:00Z", "b", 0.20, 10),
+            self.result("2026-09-15T00:01:10Z", "b"),
         ]
         out = terminal_audit.audit(rows)
         self.assertEqual(out["armed_no_validated_exit_n"], 1)
         self.assertEqual(out["projected_ladder"][0]["terminal_kind"], "ARMED_NO_VALIDATED_EXIT")
+        self.assertEqual(len(out["projected_ladder"]), 1)
         self.assertEqual(out["ended_unarmed_n"], 0)
+        self.assertTrue(out["armed_no_validated_exit_preserved_blocking"])
+        self.assertEqual(out["armed_no_validated_exit_reclassified_as_ended_unarmed_n"], 0)
 
 
 if __name__ == "__main__":
