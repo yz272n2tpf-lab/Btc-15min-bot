@@ -83,6 +83,36 @@ single misleading score.
   and settlement same-side rate separately.
 - No auto-promotion.
 
+## Protected two-signal workflow evidence
+
+### EARLY → FINAL handoff V1 fresh confirmation
+- Status: **AUTHORITATIVE READ-ONLY WORKFLOW AUDIT / COLLECTING**
+- Railway service: `early-final-handoff-v1`.
+- Service ID: `174bd89d-264b-4882-8d5a-b8dbacf97181`.
+- Authoritative deployment: `43e32eee-afea-4986-a944-803a53945852`.
+- Research branch: `scalp-move-shadow-v1-20260912`.
+- Code: `BTC15_EARLY_FINAL_HANDOFF_FORWARD_V1.py`, commit
+  `8c6ebedb14eea11072c0acc1404aa0b68fabb7be`.
+- Tests: `test_BTC15_EARLY_FINAL_HANDOFF_FORWARD_V1.py`, commit
+  `cb05a536a1164132d4a4b872bb90b7bcd1a804d3`; 10 tests PASS.
+- Predeclared freeze: `BTC15_EARLY_FINAL_HANDOFF_FORWARD_FREEZE_20260915.md`,
+  commit `8c5212cb3587be9d61a9bcbcbc486a07e491e887`.
+- Startup contract excluded; live collection arms on first post-start rollover.
+- Coverage universe: first seen with >=600 seconds remaining, before protected
+  EARLY can qualify; this is also complete for the later FINAL window.
+- Review gate: >=30 eligibility-complete contracts, >=10 real protected
+  EARLY→FINAL handoffs, and >=12 officially settled protected FINAL locks.
+- First protected EARLY and first protected FINAL are immutable once recorded;
+  later side changes are measured as flips, never rewritten.
+- Report EARLY/FINAL/union/dual coverage, handoff time, side agreement/flip,
+  EARLY price quality, FINAL locked-side price, same-side price change, and
+  official FINAL accuracy separately.
+- Test-fixture log lines before `Ran 10 tests ... OK` are non-live. Authoritative
+  live evidence begins only after the runtime `START` line.
+- First live heartbeat after startup was healthy with zero restarts and a clean
+  zero-sample state.
+- No threshold changes, no auto-promotion, no orders.
+
 ## SCALP research decisions
 
 ### 15s BRTI/BTC parity >=1.00
