@@ -31,6 +31,9 @@ following read-only research projection:
 
 ENDED_UNARMED is explicitly NOT a sell/exit signal. It means only that the
 collector finished observing that scalp and profit protection never armed.
+A scalp that DID arm +5c but never reached the frozen 4c giveback EXIT is kept
+protected and blocking; it is never reclassified as ENDED_UNARMED and never
+reset merely because collector RESULT exists.
 Nothing in this module changes production, entry qualification, profit
 protection, EARLY, FINAL, price handling, or order behavior.
 """
@@ -43,7 +46,7 @@ from typing import Any, Mapping
 import BTC15_SCALP_LADDER_RESEARCH_V1 as research
 import btc15_scalp_blueprint_forward_v1 as forward
 
-VERSION = "BTC15_SCALP_UNARMED_TERMINAL_HANDOFF_AUDIT_V1_1"
+VERSION = "BTC15_SCALP_UNARMED_TERMINAL_HANDOFF_AUDIT_V1_2"
 
 
 def _result_times(rows: list[Mapping[str, Any]]) -> dict[str, datetime]:
@@ -140,7 +143,8 @@ def audit(rows: list[Mapping[str, Any]]) -> dict[str, Any]:
                     "actionable_exit": False,
                 })
             else:
-                # Armed but no validated protected EXIT: preserve the block.
+                # Armed without the frozen giveback EXIT is a protected winner,
+                # not a stale failed-prearm state. Preserve the block.
                 terminal_kind = "ARMED_NO_VALIDATED_EXIT"
                 terminal_time = None
 
@@ -200,6 +204,8 @@ def audit(rows: list[Mapping[str, Any]]) -> dict[str, Any]:
         "stop_loss_rule_selected": False,
         "ended_unarmed_is_actionable_exit": False,
         "entry_price_filter_applied": False,
+        "armed_no_validated_exit_preserved_blocking": True,
+        "armed_no_validated_exit_reclassified_as_ended_unarmed_n": 0,
         "projected_completed_serial_opportunities": len(projected),
         "ended_unarmed_n": len(unarmed_terminals),
         "ended_unarmed_records": unarmed_terminals,
@@ -216,10 +222,10 @@ def audit(rows: list[Mapping[str, Any]]) -> dict[str, Any]:
         "state_definition": {
             "ENDED_UNARMED": "collector RESULT received before +5c protection arm; informational lifecycle terminal only",
             "PROTECTED_EXIT": "existing frozen +5c arm then 4c giveback exit",
-            "ARMED_NO_VALIDATED_EXIT": "remain blocked; no invented terminal",
+            "ARMED_NO_VALIDATED_EXIT": "protection armed but frozen giveback EXIT not observed; preserve protected blocking state",
         },
         "auto_promote_allowed": False,
-        "note": "Use this only to test stale-ACTIVE lifecycle and handoff coverage. It does not validate a loss-cut or sell signal.",
+        "note": "Use this only to test stale-ACTIVE lifecycle and handoff coverage. It does not validate a loss-cut or sell signal, and armed/no-exit winners remain protected.",
     }
 
 
