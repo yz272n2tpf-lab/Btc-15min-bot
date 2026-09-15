@@ -2,6 +2,7 @@
 import unittest
 
 import btc15_combined_empirical_scorecard_v2 as m
+import BTC15_DASHBOARD_STATE_SOURCE_AUDIT_V1 as source_audit
 
 
 def scalp(cid, idx, *, peak, entry=.35, terminal="EXIT", exit_gain=.08, actionable_exit=True, seconds=600):
@@ -132,6 +133,12 @@ class CombinedEmpiricalScorecardV2Tests(unittest.TestCase):
         self.assertFalse(s["production_behavior_changed"])
         self.assertTrue(s["union_counts_each_contract_once"])
         self.assertTrue(s["serial_scalps_preserved_separately"])
+
+    def test_packed_dashboard_state_contract_discovery_source_is_auditable(self):
+        src = source_audit.decoded_source()
+        self.assertIn("NO ACTIVE KXBTC15M CONTRACT", src)
+        self.assertIn("KXBTC15M", src)
+        source_audit.print_audit()
 
 
 if __name__ == "__main__":
