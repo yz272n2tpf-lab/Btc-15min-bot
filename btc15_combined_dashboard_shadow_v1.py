@@ -11,8 +11,8 @@ by the injected UI from the separate read-only combined-state bridge.
 
 This service never places orders, never accepts order actions, and does not
 change protected trading thresholds. V5 serial lifecycle metadata is accepted
-only when ENDED_UNARMED remains non-actionable and armed/no-exit reset remains
-disabled.
+only when it is explicitly metadata-only, ENDED_UNARMED remains non-actionable,
+and armed/no-exit reset remains disabled.
 """
 from __future__ import annotations
 
@@ -112,10 +112,12 @@ def build_shadow_status(main_state, combined_state) -> dict:
     )
 
     bridge_version = combined_state.get("version")
+    lifecycle_metadata_only = combined_state.get("scalp_lifecycle_metadata_only") is True
     serial_lifecycle_safe = bool(
         bridge_version != "BTC15_COMBINED_STATE_BRIDGE_V5"
         or (
-            combined_state.get("scalp_ended_unarmed_is_actionable_exit") is False
+            lifecycle_metadata_only
+            and combined_state.get("scalp_ended_unarmed_is_actionable_exit") is False
             and combined_state.get("scalp_armed_no_exit_reset_allowed") is False
         )
     )
@@ -157,6 +159,7 @@ def build_shadow_status(main_state, combined_state) -> dict:
         "cross_fetch_timer_delta_sec": cross_fetch_timer_delta,
         "safety_envelope": safety_envelope,
         "serial_lifecycle_safe": serial_lifecycle_safe,
+        "scalp_lifecycle_metadata_only": lifecycle_metadata_only if bridge_version == "BTC15_COMBINED_STATE_BRIDGE_V5" else None,
         "scalp_state": scalp_state,
         "scalp_actionable": scalp_actionable,
         "actionable_scalp_guarded": actionable_scalp_guarded,
@@ -205,8 +208,9 @@ def live_preflight() -> dict | None:
             f"EARLY_preserved={status.get('early_preserved')} | FINAL_preserved={status.get('final_preserved')} | "
             f"canonical_clock={status.get('canonical_clock_present')} | cross_fetch_delta={delta_text} | "
             f"bridge_build={build_text} | safety={status.get('safety_envelope')} | "
-            f"serial_safe={status.get('serial_lifecycle_safe')} | SCALP={status.get('scalp_state')} | "
-            f"opp={status.get('scalp_opportunity_index')} | last_terminal={status.get('scalp_last_terminal_state') or '-'} | "
+            f"serial_safe={status.get('serial_lifecycle_safe')} | lifecycle_meta={status.get('scalp_lifecycle_metadata_only')} | "
+            f"SCALP={status.get('scalp_state')} | opp={status.get('scalp_opportunity_index')} | "
+            f"last_terminal={status.get('scalp_last_terminal_state') or '-'} | "
             f"guarded={status.get('actionable_scalp_guarded')} | fresh={status.get('scalp_source_fresh')} | "
             f"aligned={status.get('scalp_contract_aligned')} | block={status.get('scalp_block_reason') or '-'} | "
             f"labels={labels} | management={status.get('management')} | "
