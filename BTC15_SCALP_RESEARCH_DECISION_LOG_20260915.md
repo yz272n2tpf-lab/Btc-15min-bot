@@ -34,9 +34,45 @@ blueprint unchanged.
 Rejected before holdout because neither predeclared normalized-momentum feature
 produced a development nominee under the locked precision + retention gate.
 
+### 15-second cross-source parity (`brti15 / btc15 >= 1.00`)
+
+**REJECTED decisively on fresh forward data.**
+
+Frozen cutoff: **2026-09-15T04:51:00Z**.
+
+Predeclared manual-review requirements were:
+
+- >=30 completed baseline serial opportunities;
+- >=15 observed baseline contracts;
+- >=80% baseline opportunity-ID retention;
+- >=90% baseline +10c winner-ID retention;
+- hypothesis opportunity count >=80% of baseline count;
+- +10c precision lift >=5 percentage points.
+
+By 2026-09-15 09:09 ET the fresh sample had reached **61 baseline opportunities across 33 contracts**,
+well beyond the required review sample. Results:
+
+- baseline +10c rate: **82.0%**;
+- parity +10c rate: **78.4%**;
+- precision lift: **-3.6 percentage points**;
+- winner-ID retention: **52.0%**;
+- opportunity-count retention: **60.7%**;
+- review status: **REVIEW_SAMPLE_READY_REJECTED**;
+- auto-promotion: forbidden;
+- production behavior: unchanged.
+
+Parity therefore failed in both directions: it reduced +10c precision and discarded
+far too many valid winners/opportunities. It must not be promoted, relaxed, or tuned
+on this same fresh sample. In particular, do not lower the ratio from 1.00 and relabel
+the same cohort as validation.
+
+Fresh diagnostics repeatedly showed rejected candidates with parity ratios below 1.00
+that later reached +10c and often +20c, confirming that strict 15-second BRTI/BTC parity
+is not a safe binary entry gate for this blueprint.
+
 ## Current outcome structure
 
-On the reviewed 60-opportunity lifecycle-projected sample:
+On the reviewed 60-opportunity lifecycle-projected development sample:
 
 - +5c reached: 51/60 = 85.0%.
 - +10c reached: 44/60 = 73.3%.
@@ -48,6 +84,10 @@ On the reviewed 60-opportunity lifecycle-projected sample:
 This means the main remaining quality problem is false-start / entry selection,
 not simply that the +10c reporting target is hiding a large pool of clean small wins.
 
+A separate fresh-forward baseline cohort later showed stronger recent conditions
+(82.0% +10c on 61 opportunities), but that is a different cohort and must not be
+confused with FINAL UP/DOWN accuracy.
+
 ## False-start hypothesis evidence
 
 Pre-entry profile of +10c winners vs never-armed failures showed:
@@ -58,8 +98,9 @@ Pre-entry profile of +10c winners vs never-armed failures showed:
 - Confirmation count: no separation in the reviewed sample.
 - ask5 / ask15 lag medians: no separation in the reviewed sample.
 
-This is hypothesis-generation evidence only. The reviewed 60-opportunity sample
-must never be relabeled as independent validation for a new rule.
+This was hypothesis-generation evidence only. The independent parity test above did
+not validate strict 15-second cross-source parity, so that apparent development pattern
+must not be converted into a hard gate by threshold tuning.
 
 ## Frozen collector constants recovered read-only
 
@@ -77,50 +118,6 @@ must never be relabeled as independent validation for a new rule.
 
 These are source facts, not permission to retune the reviewed blueprint.
 
-## Fresh-forward hypothesis now frozen
-
-**Single hypothesis:** 15-second cross-source parity
-
-`brti15 / btc15 >= 1.00`
-
-Fresh cutoff: **2026-09-15T04:51:00Z**.
-
-The hypothesis validator must collect only data at/after this cutoff. It compares
-current baseline serial lifecycle behavior with a research projection that skips
-candidates failing parity. Existing V5/V10 display behavior is not suppressed.
-
-Manual-review gate (predeclared before fresh results):
-
-- >=30 completed baseline serial opportunities;
-- >=15 observed baseline contracts;
-- >=80% baseline opportunity-ID retention;
-- >=90% baseline +10c winner-ID retention;
-- hypothesis opportunity count >=80% of baseline count;
-- +10c precision lift >=5 percentage points.
-
-Even if all conditions pass, **no auto-promotion is allowed**. A pass earns manual
-review and, if desired, a later independent confirmation phase. It does not
-change production or the stable V5/V10 shadow automatically.
-
-## First fresh parity observation — warning only
-
-The first completed baseline opportunity after the frozen cutoff was a DOWN scalp
-that reached +10c and later completed a valid protected EXIT. Its entry evidence was:
-
-- BTC15 side-aligned move: about 17.70;
-- BRTI15 side-aligned move: about 12.03;
-- BRTI15/BTC15 parity ratio: about 0.680;
-- parity rule result: rejected;
-- baseline result: +10c winner.
-
-Therefore the first fresh observation is a **lost-winner warning** for parity 1.00.
-This is not enough data to reject or retune the hypothesis. Do not lower the ratio,
-sweep alternatives, or restart the cutoff from this one observation. Winner-ID
-retention remains the primary safety metric while the predeclared fresh sample grows.
-
-A dedicated diagnostics observer now records direct parity rejects and any baseline
-+10c winner IDs lost by the hypothesis without changing the hypothesis itself.
-
 ## Production isolation / visual parity audit
 
 - Railway production service `Btc-15min-bot` is confirmed sourced from branch `main`.
@@ -135,11 +132,28 @@ A dedicated diagnostics observer now records direct parity rejects and any basel
 
 ## Freeze-review status
 
-The consolidated scalp review reached the backend timer sample requirement with
-perfect contract-match and canonical-clock rates on valid samples. Protection
-first-crossing audit was also perfect on the reviewed protected exits. The only
-hard freeze blocker left in that consolidated review is the intentionally manual:
+The consolidated scalp review currently has **115 completed serial opportunities** with
+an overall **77.4% +10c meaningful-move rate**, **70 protected exits**, and a perfect
+**100% first-4c-crossing correctness rate** on those protected exits.
+
+Backend timer evidence has reached **532 valid samples out of 535 polls**, with:
+
+- contract-match rate: **100%**;
+- canonical-clock rate: **100%**;
+- within-5s rate: about **99.6%**;
+- fetch failures treated separately from valid samples.
+
+The only hard freeze blocker left in the consolidated review is the intentionally manual:
 
 `TIMER_VISUAL_ACCEPTANCE_PENDING`
 
 Do not clear that blocker without an actual user visual check.
+
+## Next research rule
+
+Do **not** add another hard threshold immediately. Three tightening paths have now failed
+(BTC30>=20, normalized momentum, strict 15-second parity). The next entry-quality step
+should be an independent replication/diagnostic study on fresh failures, with no live
+suppression, to determine whether any pre-entry pattern repeats consistently across
+cohorts. If no stable replicated pattern emerges, freeze the current scalp qualification
+and lifecycle architecture rather than over-layering it.
