@@ -1,0 +1,18 @@
+#!/usr/bin/env python3
+from pathlib import Path
+import pandas as pd
+import numpy as np
+TAPE=Path('kalshi_direct_brti_parity_v1.csv');TRUTH=Path('kalshi_official_settlement_check.csv')
+print('=== BTC15 DIRECT BRTI OFFICIAL TRUTH JOIN AUDIT V1 ===',flush=True);print('READ ONLY | NO MODEL FIT | NO ORDERS',flush=True)
+df=pd.read_csv(TAPE);truth=pd.read_csv(TRUTH);df['timestamp_utc']=pd.to_datetime(df.timestamp_utc,utc=True,errors='coerce')
+for c in ['seconds_left','direct_brti','brti_age_seconds']:df[c]=pd.to_numeric(df[c],errors='coerce')
+truth['ticker']=truth.ticker.astype(str);truth['official_side']=truth.official_side.astype(str).str.upper();truth['status']=truth.status.astype(str).str.lower();truth=truth[(truth.status=='finalized')&truth.official_side.isin(['UP','DOWN'])].copy();conf=truth.groupby('ticker').official_side.nunique();conflicts=conf[conf>1].index.tolist();truth_one=truth.sort_values('settlement_ts').drop_duplicates('ticker',keep='last').set_index('ticker')
+st=[]
+for c,g in df.groupby('contract',sort=False):
+ g=g.sort_values('timestamp_utc');ts=g.timestamp_utc.dropna();d=ts.diff().dt.total_seconds().dropna();d=d[(d>0)&np.isfinite(d)];first=g.seconds_left.max() if g.seconds_left.notna().any() else np.nan;last=g.seconds_left.min() if g.seconds_left.notna().any() else np.nan;span=(ts.max()-ts.min()).total_seconds() if len(ts)>=2 else 0.;p95=float(d.quantile(.95)) if len(d) else np.nan;rr=float(g.direct_brti_ready.astype(str).str.lower().isin(['true','1','yes']).mean());usable=bool(pd.notna(first) and first>=600 and span>=300 and pd.notna(p95) and p95<=8 and rr>=.95);complete=g.final60_complete.astype(str).str.lower().isin(['true','1','yes']);proxy=None
+ if complete.any():
+  v=g.loc[complete,'final60_side'].dropna().astype(str).str.upper();proxy=v.iloc[-1] if len(v) and v.iloc[-1] in {'UP','DOWN'} else None
+ official=truth_one.loc[c,'official_side'] if c in truth_one.index else None;st.append(dict(contract=c,usable=usable,official=official,proxy=proxy,truth_match=official in {'UP','DOWN'},proxy_available=proxy in {'UP','DOWN'},proxy_agrees=(proxy==official) if proxy in {'UP','DOWN'} and official in {'UP','DOWN'} else None))
+s=pd.DataFrame(st);alln=len(s);matched=int(s.truth_match.sum());u=s[s.usable];um=int(u.truth_match.sum());p=s[s.proxy_available&s.truth_match]
+print('tape_contracts:',alln);print('official_finalized_truth_rows_unique:',len(truth_one));print('truth_conflict_tickers:',len(conflicts));print('tape_contracts_with_official_truth:',matched,'/',alln,'rate=',round(matched/alln,6) if alln else None);print('usable_feature_contracts:',len(u));print('usable_with_official_truth:',um,'/',len(u),'rate=',round(um/len(u),6) if len(u) else None);print('missing_official_truth_contracts:',','.join(s.loc[~s.truth_match,'contract'].astype(str).tolist()) if matched<alln else 'NONE');print('proxy_complete_and_official_n:',len(p));print('final60_proxy_vs_official_agreement:',round(float(p.proxy_agrees.mean()),6) if len(p) else None);print('proxy_disagreement_contracts:',','.join(p.loc[p.proxy_agrees==False,'contract'].astype(str).tolist()) if len(p) and (p.proxy_agrees==False).any() else 'NONE')
+sufficient=bool(um>=80 and len(conflicts)==0);print('\n=== JOIN DECISION ===');print('OFFICIAL_TRUTH_JOIN_SUFFICIENT_FOR_MODEL_STUDY='+str(sufficient));print('MODEL_LABEL_SOURCE=OFFICIAL_KALSHI_SETTLEMENT_ONLY');print('FINAL60_PROXY_ALLOWED_AS_MODEL_LABEL=False');print('NO_MODEL_WAS_FIT=True');print('PRODUCTION_CHANGED=False | SIGNAL_THRESHOLDS_CHANGED=False | ORDERS=False');print('NEXT_SAFE_STEP='+('FREEZE_DIRECT_BRTI_MODEL_DEV_HOLDOUT_METHODOLOGY_BEFORE_ANY_FIT' if sufficient else 'INSPECT_OR_REFRESH_OFFICIAL_SETTLEMENT_TRUTH_BEFORE_MODEL_FIT'))
