@@ -101,6 +101,15 @@ class CombinedDashboardShadowV1Tests(unittest.TestCase):
             "scalp_management_message": "SCALP ACTIVE · BUILDING",
         }
 
+    def safe_v5(self):
+        combined = self.combined("BTC15_COMBINED_STATE_BRIDGE_V5")
+        combined.update({
+            "scalp_lifecycle_metadata_only": True,
+            "scalp_ended_unarmed_is_actionable_exit": False,
+            "scalp_armed_no_exit_reset_allowed": False,
+        })
+        return combined
+
     def test_shadow_status_preserves_protected_states(self):
         d = shadow.build_shadow_status(self.main_state(), self.combined())
         self.assertTrue(d["contract_match"])
@@ -113,7 +122,7 @@ class CombinedDashboardShadowV1Tests(unittest.TestCase):
         self.assertAlmostEqual(d["cross_fetch_timer_delta_sec"], 0.8)
 
     def test_v5_safe_lifecycle_metadata_is_accepted_and_exposed(self):
-        combined = self.combined("BTC15_COMBINED_STATE_BRIDGE_V5")
+        combined = self.safe_v5()
         combined.update({
             "scalp_opportunity_index": 2,
             "scalp_serial_opportunities_completed": 1,
@@ -121,35 +130,36 @@ class CombinedDashboardShadowV1Tests(unittest.TestCase):
             "scalp_last_terminal_state": "ENDED_UNARMED",
             "scalp_last_terminal_actionable_exit": False,
             "scalp_ended_unarmed_count": 1,
-            "scalp_ended_unarmed_is_actionable_exit": False,
-            "scalp_armed_no_exit_reset_allowed": False,
         })
         d = shadow.build_shadow_status(self.main_state(), combined)
         self.assertTrue(d["serial_lifecycle_safe"])
         self.assertTrue(d["safety_envelope"])
         self.assertTrue(d["all_safety_checks_pass"])
+        self.assertTrue(d["scalp_lifecycle_metadata_only"])
         self.assertEqual(d["scalp_opportunity_index"], 2)
         self.assertEqual(d["scalp_last_terminal_state"], "ENDED_UNARMED")
         self.assertFalse(d["scalp_last_terminal_actionable_exit"])
         self.assertEqual(d["scalp_ended_unarmed_count"], 1)
 
+    def test_v5_missing_metadata_only_flag_is_rejected(self):
+        combined = self.safe_v5()
+        combined.pop("scalp_lifecycle_metadata_only")
+        d = shadow.build_shadow_status(self.main_state(), combined)
+        self.assertFalse(d["serial_lifecycle_safe"])
+        self.assertFalse(d["safety_envelope"])
+        self.assertFalse(d["all_safety_checks_pass"])
+
     def test_v5_actionable_ended_unarmed_is_rejected(self):
-        combined = self.combined("BTC15_COMBINED_STATE_BRIDGE_V5")
-        combined.update({
-            "scalp_ended_unarmed_is_actionable_exit": True,
-            "scalp_armed_no_exit_reset_allowed": False,
-        })
+        combined = self.safe_v5()
+        combined["scalp_ended_unarmed_is_actionable_exit"] = True
         d = shadow.build_shadow_status(self.main_state(), combined)
         self.assertFalse(d["serial_lifecycle_safe"])
         self.assertFalse(d["safety_envelope"])
         self.assertFalse(d["all_safety_checks_pass"])
 
     def test_v5_armed_no_exit_reset_is_rejected(self):
-        combined = self.combined("BTC15_COMBINED_STATE_BRIDGE_V5")
-        combined.update({
-            "scalp_ended_unarmed_is_actionable_exit": False,
-            "scalp_armed_no_exit_reset_allowed": True,
-        })
+        combined = self.safe_v5()
+        combined["scalp_armed_no_exit_reset_allowed"] = True
         d = shadow.build_shadow_status(self.main_state(), combined)
         self.assertFalse(d["serial_lifecycle_safe"])
         self.assertFalse(d["safety_envelope"])
