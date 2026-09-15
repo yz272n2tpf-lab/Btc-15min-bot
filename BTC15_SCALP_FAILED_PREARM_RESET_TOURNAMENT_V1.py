@@ -5,15 +5,21 @@ BTC15 failed-prearm SCALP reset tournament V1.
 RESEARCH ONLY | SIGNAL ONLY | NO ORDERS
 
 Problem under test:
-A selected scalp that never reaches the protected +5c arm point has no validated
-close/reset rule. That can leave the serial ladder blocked and prevent later
-qualified scalp opportunities in the same 15-minute contract from being shown.
+A selected scalp that has not yet reached the protected +5c arm point has no
+validated close/reset rule. If it eventually fails, the serial ladder can stay
+blocked and later qualified scalps in the same 15-minute contract may never be
+shown.
 
-V1 does NOT choose or promote a stop. It evaluates a frozen grid of hypothetical
-pre-arm release rules and measures two competing costs:
-1) false abort: the original scalp later recovers to +5c after the release; and
-2) opportunity recovery: a later frozen-qualified candidate becomes eligible
-   after release and subsequently reaches +10c.
+V1 does NOT choose or promote a stop. It evaluates a fixed grid of hypothetical
+pre-arm release rules on ALL completed primary scalps, not only the eventual
+losers. This is critical because a too-aggressive rule could cut a slow winner
+that would later reach +5c.
+
+For each rule V1 measures:
+1) how often the release would trigger before +5c arms;
+2) false abort rate: triggered primaries that later recover to +5c;
+3) opportunity recovery: later qualified candidates exposed after the release;
+4) whether those later candidates subsequently reach +10c.
 
 The grid is descriptive only. A rule cannot be promoted by this module.
 """
@@ -89,23 +95,40 @@ def _next_candidate_after(
     return xs[0] if xs else None
 
 
+def _release_before_arm(
+    tl: list[tuple[float, float, datetime]],
+    adverse: float,
+    min_elapsed: float,
+) -> tuple[int, float, float, datetime] | None:
+    """Return first hypothetical release only if it occurs before +5c arms."""
+    running_peak = None
+    for i, (e, gain, ts) in enumerate(tl):
+        running_peak = gain if running_peak is None else max(running_peak, gain)
+        if running_peak >= research.SCALP_ARM_GAIN - 1e-12:
+            return None
+        if e >= min_elapsed and gain <= -adverse + 1e-12:
+            return i, e, gain, ts
+    return None
+
+
 def audit(rows: list[Mapping[str, Any]]) -> dict[str, Any]:
-    """Evaluate the fixed release grid on completed failed-prearm primaries."""
+    """Evaluate the fixed release grid without selecting a live rule."""
     rows = [dict(r) for r in rows]
     done = _done(rows)
     paths = _paths(rows)
     candidates = [dict(c) for c in forward.forward_candidates(rows) if research.candidate_qualified(c)]
     primaries = _first_qualified_by_contract(rows)
 
-    failed: list[dict[str, Any]] = []
-    for contract, primary in primaries.items():
+    completed_primaries: list[dict[str, Any]] = []
+    failed_full_path: list[dict[str, Any]] = []
+    for _contract, primary in primaries.items():
         cid = research.cid(primary)
         if cid not in done:
             continue
+        completed_primaries.append(primary)
         pm = research.measure_path(primary, research.path_rows_for(primary, paths))
-        if pm.armed:
-            continue
-        failed.append(primary)
+        if not pm.armed:
+            failed_full_path.append(primary)
 
     cells: dict[str, dict[str, Any]] = {}
     for adverse in ADVERSE_LEVELS:
@@ -115,8 +138,9 @@ def audit(rows: list[Mapping[str, Any]]) -> dict[str, Any]:
                 "rule": key,
                 "adverse_cents": adverse * 100.0,
                 "min_elapsed_sec": min_elapsed,
-                "failed_primary_n": len(failed),
-                "triggered_n": 0,
+                "completed_primary_n": len(completed_primaries),
+                "full_path_failed_primary_n": len(failed_full_path),
+                "triggered_before_arm_n": 0,
                 "original_later_recovers_plus5_n": 0,
                 "later_candidate_available_n": 0,
                 "later_candidate_completed_n": 0,
@@ -128,23 +152,18 @@ def audit(rows: list[Mapping[str, Any]]) -> dict[str, Any]:
                 "orders": False,
             }
 
-            for primary in failed:
+            for primary in completed_primaries:
                 cid = research.cid(primary)
                 contract = research.contract(primary)
                 tl = _timeline(primary, research.path_rows_for(primary, paths))
-                hit = next(
-                    ((i, e, g, t) for i, (e, g, t) in enumerate(tl)
-                     if e >= min_elapsed and g <= -adverse + 1e-12),
-                    None,
-                )
+                hit = _release_before_arm(tl, adverse, min_elapsed)
                 if hit is None:
                     continue
                 i, _e, gain, trigger_time = hit
-                cell["triggered_n"] += 1
+                cell["triggered_before_arm_n"] += 1
                 cell["trigger_exit_gains"].append(gain)
 
-                # Would this have been a false abort? The original candidate is
-                # considered recovered only if it later reaches the +5c arm.
+                # False abort = the same primary would later recover to +5c.
                 future_gains = [x[1] for x in tl[i + 1:]]
                 if future_gains and max(future_gains) >= research.SCALP_ARM_GAIN - 1e-12:
                     cell["original_later_recovers_plus5_n"] += 1
@@ -162,7 +181,7 @@ def audit(rows: list[Mapping[str, Any]]) -> dict[str, Any]:
                 if npm.peak_gain is not None and npm.peak_gain >= 0.10 - 1e-12:
                     cell["later_candidate_plus10_n"] += 1
 
-            trig = cell["triggered_n"]
+            trig = cell["triggered_before_arm_n"]
             completed_next = cell["later_candidate_completed_n"]
             cell["false_abort_recovery_rate"] = None if not trig else cell["original_later_recovers_plus5_n"] / trig
             cell["later_candidate_plus10_rate"] = None if not completed_next else cell["later_candidate_plus10_n"] / completed_next
@@ -175,8 +194,9 @@ def audit(rows: list[Mapping[str, Any]]) -> dict[str, Any]:
         "research_only": True,
         "orders": False,
         "manual_execution_only": True,
-        "failed_prearm_primary_n": len(failed),
-        "failed_primary_candidate_ids": [research.cid(x) for x in failed],
+        "completed_primary_n": len(completed_primaries),
+        "failed_prearm_primary_n": len(failed_full_path),
+        "failed_primary_candidate_ids": [research.cid(x) for x in failed_full_path],
         "grid": cells,
         "rule_selected": False,
         "auto_promote_allowed": False,
