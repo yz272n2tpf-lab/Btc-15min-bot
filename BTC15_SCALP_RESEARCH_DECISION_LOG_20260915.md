@@ -102,6 +102,37 @@ Even if all conditions pass, **no auto-promotion is allowed**. A pass earns manu
 review and, if desired, a later independent confirmation phase. It does not
 change production or the stable V5/V10 shadow automatically.
 
+## First fresh parity observation — warning only
+
+The first completed baseline opportunity after the frozen cutoff was a DOWN scalp
+that reached +10c and later completed a valid protected EXIT. Its entry evidence was:
+
+- BTC15 side-aligned move: about 17.70;
+- BRTI15 side-aligned move: about 12.03;
+- BRTI15/BTC15 parity ratio: about 0.680;
+- parity rule result: rejected;
+- baseline result: +10c winner.
+
+Therefore the first fresh observation is a **lost-winner warning** for parity 1.00.
+This is not enough data to reject or retune the hypothesis. Do not lower the ratio,
+sweep alternatives, or restart the cutoff from this one observation. Winner-ID
+retention remains the primary safety metric while the predeclared fresh sample grows.
+
+A dedicated diagnostics observer now records direct parity rejects and any baseline
++10c winner IDs lost by the hypothesis without changing the hypothesis itself.
+
+## Production isolation / visual parity audit
+
+- Railway production service `Btc-15min-bot` is confirmed sourced from branch `main`.
+- Research/shadow work remains on `scalp-move-shadow-v1-20260912`.
+- Research branch is additive and isolated from the production auto-deploy source.
+- The newer production render-fix delta was reviewed as display-only: stronger removal/
+  hiding of the retired V8.1 overlay plus safer idempotent patch behavior.
+- That display-only render fix was synced into the shadow branch so V10 visual review
+  more closely matches current production layout behavior.
+- Production's newer inline scalp diagnostic wrapper still uses the existing SCALP card,
+  owns neither EARLY nor FINAL, adds no overlay, and has no order path.
+
 ## Freeze-review status
 
 The consolidated scalp review reached the backend timer sample requirement with
