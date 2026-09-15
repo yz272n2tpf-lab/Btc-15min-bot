@@ -1,7 +1,7 @@
 {
   "$schema": "https://railway.com/railway.schema.json",
   "deploy": {
-    "startCommand": "python -u BTC15_FLIP_RISK_LIVE_FEATURE_PARITY_AUDIT_V1.py",
+    "startCommand": "python -u BTC15_DASHBOARD_RUNTIME_DIAG_V3.py --self-test",
     "restartPolicyType": "NEVER",
     "restartPolicyMaxRetries": 0
   }
