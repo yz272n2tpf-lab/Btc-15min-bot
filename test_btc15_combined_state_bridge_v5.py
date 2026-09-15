@@ -60,6 +60,7 @@ class CombinedStateBridgeV5Tests(unittest.TestCase):
         self.assertEqual(d["scalp"]["state"],"ACTIVE")
         self.assertEqual(d["scalp_opportunity_index"],1)
         self.assertEqual(d["scalp_cache_mode"],"INCREMENTAL_APPEND_ONLY_V1")
+        self.assertTrue(d["scalp_lifecycle_metadata_only"])
         self.assertTrue(d["manual_execution_only"])
         self.assertFalse(d["orders"])
         self.assertIsNone(d["order_action"])
@@ -74,6 +75,7 @@ class CombinedStateBridgeV5Tests(unittest.TestCase):
         self.assertEqual(d["scalp_last_terminal_state"],"ENDED_UNARMED")
         self.assertFalse(d["scalp_last_terminal_actionable_exit"])
         self.assertEqual(d["scalp_ended_unarmed_count"],1)
+        self.assertTrue(d["scalp_lifecycle_metadata_only"])
         self.assertFalse(d["scalp_ended_unarmed_is_actionable_exit"])
         self.assertFalse(d["scalp_armed_no_exit_reset_allowed"])
         self.assertIn("SCALP",d["actionable_paths"])
@@ -85,6 +87,7 @@ class CombinedStateBridgeV5Tests(unittest.TestCase):
         self.assertFalse(d["scalp_contract_aligned"])
         self.assertEqual(d["scalp_management_message"],"SCALP WAIT · CONTRACT SYNC")
         self.assertNotIn("SCALP",d["actionable_paths"])
+        self.assertTrue(d["scalp_lifecycle_metadata_only"])
         self.assertFalse(d["scalp_ended_unarmed_is_actionable_exit"])
 
     def test_bridge_never_calls_full_tape_reader_per_request(self):
@@ -99,6 +102,7 @@ class CombinedStateBridgeV5Tests(unittest.TestCase):
         self.assertNotIn("create_order",src)
         self.assertNotIn("cancel_order",src)
         d=bridge.build_combined_state(main_state())
+        self.assertTrue(d["scalp_lifecycle_metadata_only"])
         self.assertFalse(d["orders"])
         self.assertIsNone(d["order_action"])
         self.assertFalse(d["scalp_ended_unarmed_is_actionable_exit"])
