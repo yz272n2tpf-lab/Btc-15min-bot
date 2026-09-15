@@ -50,6 +50,27 @@ class ReviewGateTests(unittest.TestCase):
             "first_crossing_ok_rate": 1.0,
         }
 
+    def lifecycle(self):
+        return {
+            "orders": False,
+            "manual_execution_only": True,
+            "protected_thresholds_changed": False,
+            "stop_loss_rule_selected": False,
+            "ended_unarmed_is_actionable_exit": False,
+            "entry_price_filter_applied": False,
+            "lifecycle_reset_review_ready": True,
+            "ended_unarmed_n": 2,
+            "armed_no_validated_exit_n": 0,
+            "baseline_completed_serial_opportunities": 25,
+            "projected_completed_serial_opportunities": 27,
+            "true_post_exit_missed_meaningful_10c": 0,
+        }
+
+    def failed_forward_and_coverage(self):
+        f = self.forward(); f["failed_primary"] = {"completed_failed_primary_n": 2}
+        c = self.coverage(); c["failed_prearm_blocked_candidates"] = 3
+        return f, c
+
     def test_actual_forward_schema_is_understood(self):
         out = g.compose_review(
             self.forward(), self.coverage(), self.protection(),
@@ -61,12 +82,51 @@ class ReviewGateTests(unittest.TestCase):
         self.assertNotIn("MULTI_SCALP_RESET_NOT_OBSERVED", out["blockers"])
         self.assertFalse(out["auto_freeze_allowed"])
 
-    def test_failed_prearm_is_hard_freeze_blocker(self):
-        f = self.forward(); f["failed_primary"] = {"completed_failed_primary_n": 2}
-        c = self.coverage(); c["failed_prearm_blocked_candidates"] = 3
+    def test_failed_prearm_without_lifecycle_is_hard_freeze_blocker(self):
+        f, c = self.failed_forward_and_coverage()
         out = g.compose_review(f, c, self.protection(), timer_visual_accepted=True)
         self.assertIn("FAILED_PREARM_CLOSE_RESET_RULE_UNRESOLVED", out["blockers"])
+        self.assertIn("LIFECYCLE_EVIDENCE_NOT_ATTACHED", out["failed_prearm_lifecycle_checks"])
+        self.assertFalse(out["failed_prearm_lifecycle_resolved"])
         self.assertEqual(out["status"], "NOT_READY_TO_FREEZE")
+
+    def test_valid_ended_unarmed_evidence_resolves_only_lifecycle_blocker(self):
+        f, c = self.failed_forward_and_coverage()
+        out = g.compose_review(
+            f, c, self.protection(), self.lifecycle(),
+            timer_visual_accepted=True,
+        )
+        self.assertNotIn("FAILED_PREARM_CLOSE_RESET_RULE_UNRESOLVED", out["blockers"])
+        self.assertIn("FAILED_PREARM_LIFECYCLE_RESOLVED_BY_ENDED_UNARMED", out["review_items"])
+        self.assertTrue(out["failed_prearm_lifecycle_resolved"])
+        self.assertEqual(out["failed_prearm_lifecycle_checks"], [])
+        self.assertEqual(out["status"], "READY_FOR_MANUAL_FREEZE_REVIEW")
+        self.assertFalse(out["stop_loss_rule_required"])
+        self.assertFalse(out["auto_freeze_allowed"])
+
+    def test_actionable_ended_unarmed_or_stop_loss_cannot_resolve_blocker(self):
+        f, c = self.failed_forward_and_coverage()
+        lifecycle = self.lifecycle()
+        lifecycle["ended_unarmed_is_actionable_exit"] = True
+        lifecycle["stop_loss_rule_selected"] = True
+        out = g.compose_review(f, c, self.protection(), lifecycle, timer_visual_accepted=True)
+        self.assertIn("FAILED_PREARM_CLOSE_RESET_RULE_UNRESOLVED", out["blockers"])
+        self.assertIn("ENDED_UNARMED_MUST_NOT_BE_ACTIONABLE_EXIT", out["failed_prearm_lifecycle_checks"])
+        self.assertIn("STOP_LOSS_RULE_MUST_REMAIN_UNSELECTED", out["failed_prearm_lifecycle_checks"])
+
+    def test_armed_without_validated_exit_cannot_be_hidden_by_ended_unarmed(self):
+        f, c = self.failed_forward_and_coverage()
+        lifecycle = self.lifecycle(); lifecycle["armed_no_validated_exit_n"] = 1
+        out = g.compose_review(f, c, self.protection(), lifecycle, timer_visual_accepted=True)
+        self.assertIn("FAILED_PREARM_CLOSE_RESET_RULE_UNRESOLVED", out["blockers"])
+        self.assertIn("ARMED_NO_VALIDATED_EXIT_REMAINS", out["failed_prearm_lifecycle_checks"])
+
+    def test_lifecycle_true_post_exit_miss_keeps_prearm_blocker(self):
+        f, c = self.failed_forward_and_coverage()
+        lifecycle = self.lifecycle(); lifecycle["true_post_exit_missed_meaningful_10c"] = 1
+        out = g.compose_review(f, c, self.protection(), lifecycle, timer_visual_accepted=True)
+        self.assertIn("FAILED_PREARM_CLOSE_RESET_RULE_UNRESOLVED", out["blockers"])
+        self.assertIn("LIFECYCLE_TRUE_POST_EXIT_MISS_PRESENT", out["failed_prearm_lifecycle_checks"])
 
     def test_true_post_exit_miss_is_hard_blocker(self):
         c = self.coverage(); c["post_exit_missed_qualified"] = 1
@@ -139,6 +199,7 @@ class UnarmedTerminalLifecycleTests(unittest.TestCase):
         self.assertEqual(out["post_unarmed_later_qualified_n"], 1)
         self.assertEqual(out["post_unarmed_later_plus10_n"], 1)
         self.assertAlmostEqual(out["recovered_handoffs"][0]["to_entry_ask"], .86)
+        self.assertEqual(out["armed_no_validated_exit_n"], 0)
         self.assertFalse(out["ended_unarmed_is_actionable_exit"])
         self.assertFalse(out["entry_price_filter_applied"])
         self.assertFalse(out["orders"])
@@ -154,6 +215,7 @@ class UnarmedTerminalLifecycleTests(unittest.TestCase):
         out = terminal_audit.audit(rows)
         self.assertEqual(out["ended_unarmed_n"], 0)
         self.assertEqual(out["projected_completed_serial_opportunities"], 0)
+        self.assertEqual(out["armed_no_validated_exit_n"], 0)
 
     def test_protected_exit_path_is_not_reclassified(self):
         rows = [
@@ -165,7 +227,20 @@ class UnarmedTerminalLifecycleTests(unittest.TestCase):
         out = terminal_audit.audit(rows)
         self.assertEqual(out["projected_ladder"][0]["terminal_kind"], "PROTECTED_EXIT")
         self.assertEqual(out["ended_unarmed_n"], 0)
+        self.assertEqual(out["armed_no_validated_exit_n"], 0)
         self.assertFalse(out["protected_thresholds_changed"])
+
+    def test_armed_without_validated_exit_is_explicit_unresolved_state(self):
+        rows = [
+            self.candidate("2026-09-15T00:00:00Z", "a"),
+            self.path("2026-09-15T00:00:10Z", "a", 0.06, 10),
+            self.path("2026-09-15T00:00:20Z", "a", 0.04, 20),
+            self.result("2026-09-15T00:00:40Z", "a"),
+        ]
+        out = terminal_audit.audit(rows)
+        self.assertEqual(out["armed_no_validated_exit_n"], 1)
+        self.assertEqual(out["projected_ladder"][0]["terminal_kind"], "ARMED_NO_VALIDATED_EXIT")
+        self.assertEqual(out["ended_unarmed_n"], 0)
 
 
 if __name__ == "__main__":
