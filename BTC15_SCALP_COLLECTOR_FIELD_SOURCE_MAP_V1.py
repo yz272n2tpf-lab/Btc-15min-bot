@@ -6,9 +6,8 @@ READ-ONLY SOURCE INSPECTION | RESEARCH ONLY | NO ORDERS
 
 Decodes the immutable packaged scalp_move_shadow_v1.py implementation without
 executing it, then prints only source lines that define/reference a small,
-predeclared set of existing candidate-strength fields plus a few fixed nearby
-source windows. This verifies field semantics before any holdout research is
-designed.
+predeclared set of existing candidate-strength fields plus fixed nearby source
+windows. This verifies field semantics before any holdout research is designed.
 """
 from __future__ import annotations
 
@@ -21,7 +20,7 @@ import re
 from pathlib import Path
 from typing import Iterable
 
-VERSION = "BTC15_SCALP_COLLECTOR_FIELD_SOURCE_MAP_V1_1"
+VERSION = "BTC15_SCALP_COLLECTOR_FIELD_SOURCE_MAP_V1_2"
 BASE = Path(__file__).with_name("scalp_move_shadow_v1.py")
 EXPECTED_SHA256 = "3fdb2ef60f184e1ce2cef306c1db2a9de03b3e7b1a27c32b6bfffabb2cf60c48"
 FIELDS = (
@@ -35,11 +34,9 @@ FIELDS = (
     "confirm_count",
     "recent_btc_range60",
 )
-# Fixed read-only context windows around feature construction, event access, and
-# confirmation-count persistence. These windows are descriptive source evidence,
-# not executable logic and not strategy selection.
 CONTEXT_WINDOWS = (
     (320, 390),
+    (389, 429),
     (430, 460),
     (530, 595),
 )
