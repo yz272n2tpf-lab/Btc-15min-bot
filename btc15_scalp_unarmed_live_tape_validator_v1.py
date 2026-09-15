@@ -4,21 +4,13 @@ BTC15 live-tape validator for the ENDED_UNARMED scalp lifecycle projection.
 
 RESEARCH / SHADOW ONLY | SIGNAL ONLY | NO ORDERS
 
-This service reads the existing generalized scalp event export and compares:
-1) the current protected serial ladder, which can stop after a completed scalp
-   that never armed +5c; versus
-2) a research-only lifecycle projection that treats collector RESULT + never
-   armed as ENDED_UNARMED (informational terminal only), then resumes scanning
-   for the next frozen-qualified scalp.
+Reads the existing generalized scalp event export and compares the current
+protected serial ladder with a research-only ENDED_UNARMED lifecycle projection.
+It also runs meaningful-move coverage and the btc30 tightening tournament.
 
-It also decomposes observed 10c+ moves into selected, overlap, blocked-by-unarmed,
-and true post-exit miss classes so coverage and signal precision are not confused.
-It now also runs the research-only btc30 tightening tournament on the projected
-serial lifecycle. Price and seconds-left remain telemetry only.
-
-It does NOT create a stop-loss or sell rule. The existing +5c arm / 4c giveback
-profit-protection thresholds are untouched. Kalshi entry price remains telemetry
-only and is never used as an entry/suppression filter.
+This service does NOT create a stop-loss or sell rule. Existing +5c arm / 4c
+giveback protection is untouched. Kalshi entry price and seconds-left remain
+telemetry only. No strategy rule is auto-promoted.
 """
 from __future__ import annotations
 
@@ -36,7 +28,7 @@ import BTC15_SCALP_TRIGGER_TIGHTENING_RESEARCH_V1 as tightening
 import BTC15_SCALP_UNARMED_TERMINAL_HANDOFF_AUDIT_V1 as handoff
 import btc15_scalp_blueprint_forward_v1 as forward
 
-VERSION = "BTC15_SCALP_UNARMED_LIVE_TAPE_VALIDATOR_V1"
+VERSION = "BTC15_SCALP_UNARMED_LIVE_TAPE_VALIDATOR_V1_1"
 PORT = int(os.environ.get("PORT", "8080"))
 POLL_SEC = max(20, int(os.environ.get("SCALP_UNARMED_LIVE_POLL_SEC", "45")))
 
@@ -51,6 +43,27 @@ STATE: dict[str, Any] = {
 }
 
 
+def _fmt(value: Any, digits: int = 3) -> str:
+    if value is None:
+        return "NA"
+    if isinstance(value, bool):
+        return str(value)
+    try:
+        return f"{float(value):.{digits}f}"
+    except Exception:
+        return str(value)
+
+
+def _tightening_decision(tight: dict[str, Any]) -> str:
+    if tight.get("development_nominee_btc30_min") is None:
+        return "NO_DEVELOPMENT_NOMINEE"
+    if not bool(tight.get("holdout_review_ready")):
+        return "WAITING_FOR_HOLDOUT"
+    if bool(tight.get("holdout_supports_nominee")):
+        return "HOLDOUT_SUPPORTS_NOMINEE"
+    return "HOLDOUT_REJECTS_NOMINEE"
+
+
 def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, Any]:
     baseline = forward.build_serial_opportunities(rows)
     projected = handoff.audit(rows)
@@ -63,6 +76,17 @@ def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, 
     completed_handoffs = int(projected.get("post_unarmed_later_completed_n") or 0)
     plus10_handoffs = int(projected.get("post_unarmed_later_plus10_n") or 0)
     plus20_handoffs = int(projected.get("post_unarmed_later_plus20_n") or 0)
+
+    dev_base = dict(tight.get("development_baseline") or {})
+    dev_nom = dict(tight.get("development_nominee") or {})
+    hold_base = dict(tight.get("holdout_baseline") or {})
+    hold_nom = dict(tight.get("holdout_nominee") or {})
+    true_missed = moves.get("true_post_exit_missed_meaningful_10c")
+    lifecycle_review_ready = bool(
+        int(projected.get("ended_unarmed_n") or 0) > 0
+        and true_missed is not None
+        and int(true_missed) == 0
+    )
 
     return {
         "ok": True,
@@ -84,13 +108,14 @@ def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, 
         "post_unarmed_later_plus20_rate": None if not completed_handoffs else plus20_handoffs / completed_handoffs,
         "recovered_handoffs": projected.get("recovered_handoffs") or [],
         "ended_unarmed_records": projected.get("ended_unarmed_records") or [],
+        "lifecycle_reset_review_ready": lifecycle_review_ready,
         "completed_meaningful_10c_candidates": moves.get("completed_meaningful_10c_candidates"),
         "selected_meaningful_10c": moves.get("selected_meaningful_10c"),
         "selected_sub10": moves.get("selected_sub10"),
         "selected_10c_precision": moves.get("selected_10c_precision"),
         "overlap_meaningful_10c": moves.get("overlap_meaningful_10c"),
         "blocked_prearm_meaningful_10c": moves.get("blocked_prearm_meaningful_10c"),
-        "true_post_exit_missed_meaningful_10c": moves.get("true_post_exit_missed_meaningful_10c"),
+        "true_post_exit_missed_meaningful_10c": true_missed,
         "serial_addressable_meaningful_10c": moves.get("serial_addressable_meaningful_10c"),
         "baseline_serial_captured_meaningful_10c": moves.get("baseline_serial_captured_meaningful_10c"),
         "baseline_serial_10c_capture_rate": moves.get("baseline_serial_10c_capture_rate"),
@@ -101,11 +126,14 @@ def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, 
         "tightening_records_n": tight.get("records_n"),
         "tightening_development_n": tight.get("development_n"),
         "tightening_holdout_n": tight.get("holdout_n"),
+        "tightening_development_baseline": dev_base,
         "tightening_development_nominee_btc30_min": tight.get("development_nominee_btc30_min"),
-        "tightening_development_nominee": tight.get("development_nominee"),
-        "tightening_holdout_baseline": tight.get("holdout_baseline"),
-        "tightening_holdout_nominee": tight.get("holdout_nominee"),
-        "tightening_holdout_review_ready": tight.get("holdout_review_ready"),
+        "tightening_development_nominee": dev_nom or None,
+        "tightening_holdout_baseline": hold_base,
+        "tightening_holdout_nominee": hold_nom or None,
+        "tightening_holdout_review_ready": bool(tight.get("holdout_review_ready")),
+        "tightening_holdout_supports_nominee": bool(tight.get("holdout_supports_nominee")),
+        "tightening_decision": _tightening_decision(tight),
         "tightening_auto_promote_allowed": False,
         "protected_thresholds_changed": False,
         "stop_loss_rule_selected": False,
@@ -131,6 +159,7 @@ def cycle() -> dict[str, Any]:
     with LOCK:
         STATE.clear()
         STATE.update(summary)
+
     print(
         "SCALP UNARMED LIVE TAPE | "
         f"baseline={summary['baseline_completed_serial_opportunities']} | "
@@ -143,9 +172,31 @@ def cycle() -> dict[str, Any]:
         f"selected_+10={summary['selected_meaningful_10c']} | "
         f"blocked_+10={summary['blocked_prearm_meaningful_10c']} | "
         f"true_missed_+10={summary['true_post_exit_missed_meaningful_10c']} | "
+        f"lifecycle_review_ready={summary['lifecycle_reset_review_ready']} | "
         f"tighten_nominee={summary['tightening_development_nominee_btc30_min']} | "
         f"tighten_holdout_ready={summary['tightening_holdout_review_ready']} | "
+        f"tighten_support={summary['tightening_holdout_supports_nominee']} | "
         "RESEARCH ONLY | NO ORDERS",
+        flush=True,
+    )
+
+    dev_base = summary.get("tightening_development_baseline") or {}
+    dev_nom = summary.get("tightening_development_nominee") or {}
+    hold_base = summary.get("tightening_holdout_baseline") or {}
+    hold_nom = summary.get("tightening_holdout_nominee") or {}
+    print(
+        "SCALP TIGHTENING HOLDOUT | "
+        f"decision={summary['tightening_decision']} | "
+        f"nominee={_fmt(summary.get('tightening_development_nominee_btc30_min'),1)} | "
+        f"dev_base_n={dev_base.get('n','NA')} | dev_base_+10={_fmt(dev_base.get('plus10_rate'))} | "
+        f"dev_nom_n={dev_nom.get('n','NA')} | dev_nom_+10={_fmt(dev_nom.get('plus10_rate'))} | "
+        f"dev_winner_retention={_fmt(dev_nom.get('plus10_winner_retention'))} | "
+        f"hold_base_n={hold_base.get('n','NA')} | hold_base_+10={_fmt(hold_base.get('plus10_rate'))} | "
+        f"hold_nom_n={hold_nom.get('n','NA')} | hold_nom_+10={_fmt(hold_nom.get('plus10_rate'))} | "
+        f"hold_winner_retention={_fmt(hold_nom.get('plus10_winner_retention'))} | "
+        f"hold_selected_retained={_fmt(hold_nom.get('selected_share_retained'))} | "
+        f"support={summary['tightening_holdout_supports_nominee']} | "
+        "RESEARCH ONLY | NO AUTO-PROMOTE | NO ORDERS",
         flush=True,
     )
     return summary
@@ -174,7 +225,7 @@ def worker() -> None:
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = "BTC15ScalpUnarmedLiveTape/1.0"
+    server_version = "BTC15ScalpUnarmedLiveTape/1.1"
 
     def log_message(self, fmt, *args):
         return
