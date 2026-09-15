@@ -74,7 +74,12 @@ def main() -> int:
     print("COMBINED SCALP UI V10 | SERIAL LIFECYCLE CONTEXT | SHADOW ONLY | NO ORDERS")
     if "--self-test" in sys.argv:
         assert NEW_VALID in rendered and OLD_VALID not in rendered
-        assert NEW_USABLE in rendered and OLD_USABLE not in rendered
+        # NEW_USABLE deliberately begins with OLD_USABLE, so absence of the old
+        # prefix is not a valid assertion. Verify the full replacement plus the
+        # serial fields that make it new.
+        assert NEW_USABLE in rendered
+        assert "const opp=usable?Math.max(1,Number(d?.scalp_opportunity_index||1)):1;" in rendered
+        assert "const lastTerminal=usable?String(d?.scalp_last_terminal_state||'').toUpperCase():'';" in rendered
         assert NEW_SIDE in rendered and OLD_SIDE not in rendered
         assert NEW_REASON in rendered and OLD_REASON not in rendered
         assert GRID_WITH_LIFECYCLE in rendered
