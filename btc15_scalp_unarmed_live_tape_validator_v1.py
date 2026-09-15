@@ -30,7 +30,7 @@ import BTC15_SCALP_TRIGGER_TIGHTENING_RESEARCH_V1 as tightening
 import BTC15_SCALP_UNARMED_TERMINAL_HANDOFF_AUDIT_V1 as handoff
 import btc15_scalp_blueprint_forward_v1 as forward
 
-VERSION = "BTC15_SCALP_UNARMED_LIVE_TAPE_VALIDATOR_V1_2"
+VERSION = "BTC15_SCALP_UNARMED_LIVE_TAPE_VALIDATOR_V1_3"
 PORT = int(os.environ.get("PORT", "8080"))
 POLL_SEC = max(20, int(os.environ.get("SCALP_UNARMED_LIVE_POLL_SEC", "45")))
 
@@ -96,6 +96,8 @@ def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, 
     completed_handoffs = int(projected.get("post_unarmed_later_completed_n") or 0)
     plus10_handoffs = int(projected.get("post_unarmed_later_plus10_n") or 0)
     plus20_handoffs = int(projected.get("post_unarmed_later_plus20_n") or 0)
+    ended_unarmed_n = int(projected.get("ended_unarmed_n") or 0)
+    armed_unresolved_n = int(projected.get("armed_no_validated_exit_n") or 0)
 
     dev_base = dict(tight.get("development_baseline") or {})
     dev_nom = dict(tight.get("development_nominee") or {})
@@ -103,9 +105,11 @@ def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, 
     hold_nom = dict(tight.get("holdout_nominee") or {})
     true_missed = moves.get("true_post_exit_missed_meaningful_10c")
     lifecycle_review_ready = bool(
-        int(projected.get("ended_unarmed_n") or 0) > 0
+        ended_unarmed_n > 0
+        and armed_unresolved_n == 0
         and true_missed is not None
         and int(true_missed) == 0
+        and projected_n >= baseline_n
     )
 
     return {
@@ -119,7 +123,10 @@ def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, 
         "baseline_completed_serial_opportunities": baseline_n,
         "projected_completed_serial_opportunities": projected_n,
         "projected_additional_serial_opportunities": delta,
-        "ended_unarmed_n": int(projected.get("ended_unarmed_n") or 0),
+        "ended_unarmed_n": ended_unarmed_n,
+        "ended_unarmed_records": projected.get("ended_unarmed_records") or [],
+        "armed_no_validated_exit_n": armed_unresolved_n,
+        "armed_no_validated_exit_records": projected.get("armed_no_validated_exit_records") or [],
         "post_unarmed_later_qualified_n": int(projected.get("post_unarmed_later_qualified_n") or 0),
         "post_unarmed_later_completed_n": completed_handoffs,
         "post_unarmed_later_plus10_n": plus10_handoffs,
@@ -127,7 +134,6 @@ def summarize(rows: list[dict[str, Any]], source_sha256: str = "") -> dict[str, 
         "post_unarmed_later_plus10_rate": None if not completed_handoffs else plus10_handoffs / completed_handoffs,
         "post_unarmed_later_plus20_rate": None if not completed_handoffs else plus20_handoffs / completed_handoffs,
         "recovered_handoffs": projected.get("recovered_handoffs") or [],
-        "ended_unarmed_records": projected.get("ended_unarmed_records") or [],
         "lifecycle_reset_review_ready": lifecycle_review_ready,
         "completed_meaningful_10c_candidates": moves.get("completed_meaningful_10c_candidates"),
         "selected_meaningful_10c": moves.get("selected_meaningful_10c"),
@@ -192,6 +198,7 @@ def cycle() -> dict[str, Any]:
         f"projected={summary['projected_completed_serial_opportunities']} | "
         f"additional={summary['projected_additional_serial_opportunities']} | "
         f"ended_unarmed={summary['ended_unarmed_n']} | "
+        f"armed_no_exit={summary['armed_no_validated_exit_n']} | "
         f"handoff_completed={summary['post_unarmed_later_completed_n']} | "
         f"handoff_+10={summary['post_unarmed_later_plus10_n']} | "
         f"all_+10={summary['completed_meaningful_10c_candidates']} | "
@@ -260,7 +267,7 @@ def worker() -> None:
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = "BTC15ScalpUnarmedLiveTape/1.2"
+    server_version = "BTC15ScalpUnarmedLiveTape/1.3"
 
     def log_message(self, fmt, *args):
         return
