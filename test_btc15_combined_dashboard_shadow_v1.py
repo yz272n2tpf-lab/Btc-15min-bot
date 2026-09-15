@@ -41,6 +41,7 @@ class CombinedDashboardShadowV1Tests(unittest.TestCase):
         self.assertFalse(d["orders"])
         self.assertTrue(d["generalized_scalp_ui"])
         self.assertTrue(d["combined_state_probe"])
+        self.assertIn("V5", d["accepted_combined_bridges"])
         self.assertEqual(headers.get("Cache-Control"), "no-store")
 
     def test_root_serves_dashboard(self):
@@ -60,8 +61,8 @@ class CombinedDashboardShadowV1Tests(unittest.TestCase):
         self.assertEqual(status, 404)
         self.assertFalse(json.loads(body)["orders"])
 
-    def test_shadow_status_preserves_protected_states(self):
-        main = {
+    def main_state(self):
+        return {
             "contract": "KXBTC15M-X",
             "timer": {"seconds_left": 300.0},
             "market": {
@@ -79,8 +80,10 @@ class CombinedDashboardShadowV1Tests(unittest.TestCase):
                 "confidence": 0.88,
             },
         }
-        combined = {
-            "version": "BTC15_COMBINED_STATE_BRIDGE_V3",
+
+    def combined(self, version="BTC15_COMBINED_STATE_BRIDGE_V3"):
+        return {
+            "version": version,
             "manual_execution_only": True,
             "orders": False,
             "order_action": None,
@@ -97,14 +100,60 @@ class CombinedDashboardShadowV1Tests(unittest.TestCase):
             "context_labels": [],
             "scalp_management_message": "SCALP ACTIVE · BUILDING",
         }
-        d = shadow.build_shadow_status(main, combined)
+
+    def test_shadow_status_preserves_protected_states(self):
+        d = shadow.build_shadow_status(self.main_state(), self.combined())
         self.assertTrue(d["contract_match"])
         self.assertTrue(d["early_preserved"])
         self.assertTrue(d["final_preserved"])
         self.assertTrue(d["safety_envelope"])
+        self.assertTrue(d["serial_lifecycle_safe"])
         self.assertTrue(d["actionable_scalp_guarded"])
         self.assertTrue(d["all_safety_checks_pass"])
         self.assertAlmostEqual(d["cross_fetch_timer_delta_sec"], 0.8)
+
+    def test_v5_safe_lifecycle_metadata_is_accepted_and_exposed(self):
+        combined = self.combined("BTC15_COMBINED_STATE_BRIDGE_V5")
+        combined.update({
+            "scalp_opportunity_index": 2,
+            "scalp_serial_opportunities_completed": 1,
+            "scalp_scanning_for_next": False,
+            "scalp_last_terminal_state": "ENDED_UNARMED",
+            "scalp_last_terminal_actionable_exit": False,
+            "scalp_ended_unarmed_count": 1,
+            "scalp_ended_unarmed_is_actionable_exit": False,
+            "scalp_armed_no_exit_reset_allowed": False,
+        })
+        d = shadow.build_shadow_status(self.main_state(), combined)
+        self.assertTrue(d["serial_lifecycle_safe"])
+        self.assertTrue(d["safety_envelope"])
+        self.assertTrue(d["all_safety_checks_pass"])
+        self.assertEqual(d["scalp_opportunity_index"], 2)
+        self.assertEqual(d["scalp_last_terminal_state"], "ENDED_UNARMED")
+        self.assertFalse(d["scalp_last_terminal_actionable_exit"])
+        self.assertEqual(d["scalp_ended_unarmed_count"], 1)
+
+    def test_v5_actionable_ended_unarmed_is_rejected(self):
+        combined = self.combined("BTC15_COMBINED_STATE_BRIDGE_V5")
+        combined.update({
+            "scalp_ended_unarmed_is_actionable_exit": True,
+            "scalp_armed_no_exit_reset_allowed": False,
+        })
+        d = shadow.build_shadow_status(self.main_state(), combined)
+        self.assertFalse(d["serial_lifecycle_safe"])
+        self.assertFalse(d["safety_envelope"])
+        self.assertFalse(d["all_safety_checks_pass"])
+
+    def test_v5_armed_no_exit_reset_is_rejected(self):
+        combined = self.combined("BTC15_COMBINED_STATE_BRIDGE_V5")
+        combined.update({
+            "scalp_ended_unarmed_is_actionable_exit": False,
+            "scalp_armed_no_exit_reset_allowed": True,
+        })
+        d = shadow.build_shadow_status(self.main_state(), combined)
+        self.assertFalse(d["serial_lifecycle_safe"])
+        self.assertFalse(d["safety_envelope"])
+        self.assertFalse(d["all_safety_checks_pass"])
 
     def test_shadow_status_rejects_unguarded_actionable_scalp(self):
         main = {
@@ -113,21 +162,11 @@ class CombinedDashboardShadowV1Tests(unittest.TestCase):
             "early": {"ready": False, "side": "UP", "ask": 0.35, "fair": 0.70, "edge": 0.01},
             "final": {"ready": False, "recorded_final_call": False, "side": "UP", "confidence": 0.80},
         }
-        combined = {
-            "version": "BTC15_COMBINED_STATE_BRIDGE_V3",
-            "manual_execution_only": True,
-            "orders": False,
-            "order_action": None,
-            "numeric_flip_risk_validated": False,
-            "contract": "KXBTC15M-X",
-            "canonical_seconds_left": 300.0,
-            "early": {"state": "PASS", "side": "UP", "ask": 0.35, "fair": 0.70, "edge": 0.01},
-            "final": {"state": "WATCH", "side": "UP", "fair": None},
-            "scalp": {"state": "ACTIVE", "side": "UP"},
-            "scalp_contract_aligned": True,
-            "scalp_source_fresh": False,
-            "scalp_integration_ready": False,
-        }
+        combined = self.combined()
+        combined["early"] = {"state": "PASS", "side": "UP", "ask": 0.35, "fair": 0.70, "edge": 0.01}
+        combined["final"] = {"state": "WATCH", "side": "UP", "fair": None}
+        combined["scalp_source_fresh"] = False
+        combined["scalp_integration_ready"] = False
         d = shadow.build_shadow_status(main, combined)
         self.assertFalse(d["actionable_scalp_guarded"])
         self.assertFalse(d["all_safety_checks_pass"])
