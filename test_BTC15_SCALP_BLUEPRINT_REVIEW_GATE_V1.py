@@ -3,6 +3,7 @@ import unittest
 
 import BTC15_SCALP_BLUEPRINT_REVIEW_GATE_V1 as g
 import BTC15_SCALP_UNARMED_TERMINAL_HANDOFF_AUDIT_V1 as terminal_audit
+from test_BTC15_SCALP_SERIAL_STATE_BRIDGE_SHADOW_V1 import SerialStateBridgeTests
 
 
 class ReviewGateTests(unittest.TestCase):
