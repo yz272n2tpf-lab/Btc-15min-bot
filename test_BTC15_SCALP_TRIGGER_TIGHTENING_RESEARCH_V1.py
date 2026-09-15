@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Deploy trigger: final SCALP acceptance/tightening pass after duplicate timer removal.
 import unittest
 
 import BTC15_SCALP_TRIGGER_TIGHTENING_RESEARCH_V1 as t
