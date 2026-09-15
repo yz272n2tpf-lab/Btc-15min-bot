@@ -39,6 +39,13 @@ class RolloverDiscoveryProbeTests(unittest.TestCase):
         self.assertTrue(p._market_active(market, datetime(2026, 9, 15, 18, 45, 0, tzinfo=timezone.utc)))
         self.assertFalse(p._market_active(market, datetime(2026, 9, 15, 19, 0, 0, tzinfo=timezone.utc)))
 
+    def test_clock_match_requires_exact_expected_window(self):
+        boundary = datetime(2026, 9, 15, 18, 45, 0, tzinfo=timezone.utc)
+        good = {"open_time": "2026-09-15T18:45:00Z", "close_time": "2026-09-15T19:00:00Z"}
+        bad = {"open_time": "2026-09-15T18:30:00Z", "close_time": "2026-09-15T18:45:00Z"}
+        self.assertTrue(p._clock_matches(good, boundary))
+        self.assertFalse(p._clock_matches(bad, boundary))
+
     def test_quotes_require_all_four_valid_prices(self):
         good = {
             "yes_bid_dollars": "0.44", "yes_ask_dollars": "0.46",
@@ -49,16 +56,40 @@ class RolloverDiscoveryProbeTests(unittest.TestCase):
         bad["yes_ask_dollars"] = None
         self.assertFalse(p._quotes_valid(bad))
 
-    def test_evidence_records_first_offsets_only(self):
+    def test_evidence_records_first_offsets_and_active_quoted(self):
         ev = p.BoundaryEvidence("2026-09-15T18:45:00Z", "KXBTC15M-26SEP151500-00")
-        ev.update(-10.0, {"includes_target": False, "active_target": False}, {"exists": True, "active": False, "quotes_valid": True})
-        ev.update(2.0, {"includes_target": True, "active_target": True}, {"exists": True, "active": True, "quotes_valid": True})
-        ev.update(4.0, {"includes_target": True, "active_target": True}, {"exists": True, "active": True, "quotes_valid": True})
+        exact_pre = {
+            "exists": True, "active": False, "quotes_valid": True,
+            "open_time": "2026-09-15T18:45:00Z", "close_time": "2026-09-15T19:00:00Z",
+        }
+        exact_live = dict(exact_pre, active=True)
+        ev.update(-10.0, {"includes_target": False, "active_target": False}, exact_pre)
+        ev.update(2.0, {"includes_target": True, "active_target": True}, exact_live)
+        ev.update(4.0, {"includes_target": True, "active_target": True}, exact_live)
         self.assertEqual(ev.first_exact_exists_offset, -10.0)
         self.assertEqual(ev.first_exact_quoted_offset, -10.0)
         self.assertEqual(ev.first_exact_active_offset, 2.0)
+        self.assertEqual(ev.first_exact_active_quoted_offset, 2.0)
         self.assertEqual(ev.first_broad_includes_offset, 2.0)
         self.assertEqual(ev.first_broad_active_offset, 2.0)
+        self.assertTrue(ev.direct_clock_match_all)
+        self.assertFalse(ev.wrong_clock_seen)
+
+    def test_wrong_clock_is_sticky_failure(self):
+        ev = p.BoundaryEvidence("2026-09-15T18:45:00Z", "KXBTC15M-26SEP151500-00")
+        wrong = {
+            "exists": True, "active": True, "quotes_valid": True,
+            "open_time": "2026-09-15T18:30:00Z", "close_time": "2026-09-15T18:45:00Z",
+        }
+        good = {
+            "exists": True, "active": True, "quotes_valid": True,
+            "open_time": "2026-09-15T18:45:00Z", "close_time": "2026-09-15T19:00:00Z",
+        }
+        ev.update(1.0, {"includes_target": False, "active_target": False}, wrong)
+        ev.update(3.0, {"includes_target": True, "active_target": True}, good)
+        self.assertFalse(ev.direct_clock_match_all)
+        self.assertTrue(ev.wrong_clock_seen)
+        self.assertEqual(ev.first_exact_active_quoted_offset, 3.0)
 
 
 if __name__ == "__main__":
