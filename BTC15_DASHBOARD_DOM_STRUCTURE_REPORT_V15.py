@@ -100,12 +100,54 @@ def report():
         "TIMER": one(p.nodes, lambda n: "timer-card" in n.classes, "TIMER"),
         "SCALP": one(p.nodes, lambda n: n.attrs.get("id") == "scalpCard", "SCALP"),
     }
-    parent_indexes = [x["node"]["parent_index"] for x in targets.values() if x.get("node")]
+    nodes = {k: v.get("node") for k, v in targets.items()}
+    all_present = all(v is not None for v in nodes.values())
+
+    final_parent = nodes["FINAL"]["parent_index"] if nodes["FINAL"] else None
+    early_parent = nodes["EARLY"]["parent_index"] if nodes["EARLY"] else None
+    timer_parent = nodes["TIMER"]["parent_index"] if nodes["TIMER"] else None
+    scalp_parent = nodes["SCALP"]["parent_index"] if nodes["SCALP"] else None
+
+    by_index = {n.index: n for n in p.nodes}
+    left = by_index.get(final_parent)
+    right = by_index.get(timer_parent)
+    primary = left.parent if left is not None else None
+
+    layout_shape_ok = bool(
+        all_present
+        and final_parent == early_parent
+        and timer_parent == scalp_parent
+        and final_parent != timer_parent
+        and left is not None
+        and right is not None
+        and "left-stack" in left.classes
+        and "right-stack" in right.classes
+        and primary is not None
+        and right.parent is primary
+        and primary.tag == "section"
+        and "primary-grid" in primary.classes
+        and nodes["FINAL"]["index_in_parent"] == 0
+        and nodes["EARLY"]["index_in_parent"] == 1
+        and nodes["TIMER"]["index_in_parent"] == 0
+        and nodes["SCALP"]["index_in_parent"] == 1
+    )
+
     return {
         "version": "BTC15_DASHBOARD_DOM_STRUCTURE_REPORT_V15",
         "targets": targets,
-        "all_share_parent": len(parent_indexes) == 4 and len(set(parent_indexes)) == 1,
-        "unique_parent_indexes": sorted(set(parent_indexes)),
+        "layout_shape_ok": layout_shape_ok,
+        "layout_shape": {
+            "left_stack_index": left.index if left else None,
+            "left_stack_signature": left.signature() if left else None,
+            "right_stack_index": right.index if right else None,
+            "right_stack_signature": right.signature() if right else None,
+            "primary_grid_index": primary.index if primary else None,
+            "primary_grid_signature": primary.signature() if primary else None,
+            "primary_grid_child_count": len(primary.children) if primary else None,
+        },
+        "all_four_cards_share_one_parent": bool(
+            all_present and len({final_parent, early_parent, timer_parent, scalp_parent}) == 1
+        ),
         "timer_remaining_count": text.count('id="timerRemaining"'),
         "v14_marker_present": v14.MARKER in text,
     }
