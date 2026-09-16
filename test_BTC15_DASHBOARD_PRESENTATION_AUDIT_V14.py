@@ -38,8 +38,12 @@ class V14PresentationOnlyAudit(unittest.TestCase):
         self.assertIn("html = v13.build_dashboard()", self.src)
         self.assertIn("patch_v14(html)", self.src)
 
-    def test_numeric_flip_risk_not_added(self):
-        self.assertNotIn("flip_risk_percent", self.src)
+    def test_numeric_flip_risk_not_emitted_by_v14_patch(self):
+        # The source intentionally contains the literal name inside a fail-closed
+        # guard. What matters is that V14 does not emit it in presentation CSS or
+        # in the only JS replacement it introduces.
+        self.assertNotIn("flip_risk_percent", v14.V14_CSS)
+        self.assertNotIn("flip_risk_percent", v14.NEW_BTC_COLOR_JS)
         self.assertIn("numeric Flip Risk", self.src)
 
     def test_price_change_is_display_only_exact_anchor(self):
