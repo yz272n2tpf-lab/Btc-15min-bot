@@ -1,4 +1,25 @@
-# CURRENT STATE — first completed-contract checkpoint
+# CURRENT STATE — execution-cost sensitivity milestone
+
+Evidence captured 2026-09-16 at 23:31:57 UTC (7:31 PM Eastern). Archive: `captures/20260916T233157908004Z/`. This Work thread remains the sole engineering/control authority.
+
+- **CONTROL:** Frozen V1 controls and the V2 experiment remain untouched. No source branch, deployment, environment variable, shared collector, or order handling was changed. The 50-service Railway environment had no staged changes; V2 remains on accepted deployment `17cac03e-20a2-46be-b535-c31f63aaf6fa`.
+- **NEW SHADOW:** Existing V2 reports 3 eligible full contracts and 6 serial opportunities. All snapshot integrity checks pass. Three chronological checkpoints pass the longitudinal history check. New cost tooling and reports are saved only on the undeployed review branch; all 42 review tests pass.
+- **BLOCKED:** 97 more full contracts and 94 more signals remain to the overall review floor. No lane-specific sufficiency, actual-fill performance, or winner is established. Summary audit endpoints still cannot independently re-prove raw quote paths or contract first-seen timing.
+- **NEXT STEP:** Capture a later coherent snapshot after additional full contracts close, append it explicitly to the longitudinal review, and repeat the unchanged cost grid. Do not alter the frozen experiment based on these observations. Any future certification requires a separate frozen prospective window.
+
+## New work and early cost observations
+
+Added `nextgen_v2_execution_costs.py` and 15 tests. It applies an extra 0/1/2/5 cents at each side to fixed-entry/fixed-exit fee-net values, separately for the existing 1-lot and 10-lot models. It reports all 24 lanes and 28 paired comparisons, explicit missing exits/fee scores, distinct contracts, and observed-exit sign counts. It makes no network calls, changes no fees or exits, and selects no winner.
+
+The one-lot immediate control has four fee-scored protected exits across two contracts, with a conditional mean of +1.25 cents. Adding 1 cent at entry and 1 cent at exit reduces this to -0.75 cents. Two further opportunities lack an observed protected exit and are excluded, not valued at zero. This is a cost-sensitivity illustration, not total portfolio profit.
+
+Balanced Pullback has two scored exits in two contracts: +3.50 cents conditional mean at baseline, +1.50 cents under 2-cent extra round-trip cost, and -0.50 cents under 4-cent cost. Dynamic Verify has only one scored exit (+16 cents) and one entry without an observed protected exit. These different subsets cannot be ranked by their headline averages. All three SCALP-2 filters still have zero entries against two control opportunity-2 entries. No optimization or promotion is justified.
+
+The confirmed half-cent Watch warning is approximately 0.96 seconds later than V1 1-cent on the two paired warned exits, although earlier than the V1 2/3-cent thresholds on one pair; it also has one unresolved warning. Falling-trend V2 has no paired warned exits. The frozen exit timestamps and economics remain identical across Watch lanes.
+
+Reports: `execution_costs/20260916T233157Z/` and `scorecards/20260916T233157Z/`. Cost scenarios hold fees fixed and do not simulate manual reaction delay, execution feasibility, changing spreads, liquidity or path-dependent exits.
+
+## Historical milestone — first completed-contract checkpoint
 
 Captured 2026-09-16 at 22:55:13 UTC (6:55 PM Eastern). Archive: `captures/20260916T225513444136Z/`.
 

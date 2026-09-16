@@ -37,7 +37,7 @@ Tests use the repository's existing pinned requirements to generate realistic fi
 python -m unittest discover -s research_review -p 'test_*.py'
 ```
 
-21 tests cover mixed refresh snapshots, identity drift, duplicate observations, tampered evidence, altered exit timestamps despite equal counts, false readiness, exact paired arithmetic, missing outcomes, coverage denominators, all controls, rendering, offline replay and non-overwriting archives.
+42 tests cover snapshot integrity/comparisons (21), longitudinal history (6), and extra execution costs (15). They include mixed refresh snapshots, identity drift, duplicate observations, tampered evidence, altered exit timestamps despite equal counts, false readiness, exact paired arithmetic, missing outcomes, coverage denominators, all controls, rendering, offline replay and non-overwriting archives.
 
 ## Longitudinal scorecard
 
@@ -49,10 +49,24 @@ Pass explicit, chronological archives so drafts are never included accidentally:
 python research_review/nextgen_v2_longitudinal.py \
   research_review/captures/accepted_checkpoint/bundle.json \
   research_review/captures/20260916T225513444136Z/bundle.json \
-  --output research_review/scorecards/first_contract
+  --output research_review/scorecards/reproduced_first_contract
 ```
 
 The output directory must be new. It writes `scorecard.json` and `scorecard.md`; it makes no network calls and cannot change a collector.
+
+## Extra execution-cost sensitivity
+
+`nextgen_v2_execution_costs.py` is offline arithmetic on validated audit records, not a fill simulator or new strategy. It reports all 24 lanes and 28 control comparisons under the unchanged 1-lot and 10-lot taker/taker fee model, subtracting a fixed extra 0, 1, 2, or 5 cents **per side**. Thus the extra round-trip costs are 0, 2, 4, or 10 cents per contract. Fees are already in the baseline net, are not subtracted twice, and are not repriced for hypothetical fills.
+
+```bash
+python research_review/nextgen_v2_execution_costs.py \
+  research_review/captures/20260916T233157908004Z/bundle.json \
+  --output research_review/execution_costs/reproduced_checkpoint
+```
+
+The directory must be new. `stress.json` includes both lot scenarios, paired conditional deltas, exit counts, distinct contracts, positive/zero/negative scored exits, unmatched entries, coverage, and mean break-even extra-cost buffers. `stress.md` shows the one-lot table. Missing exits and missing fee scores stay separate; no outcome is imputed as zero. No lane totals are added together.
+
+Equal costs on both sides of a paired comparison cancel in its delta. Watch warnings still share their frozen exits, so this tool does not award any economic benefit for earlier warnings. Costs do not model manual delay, liquidity, changing spreads, execution feasibility, repriced fees, or path-dependent exits. The grid is descriptive, not a tuned threshold or promotion gate. These small conditional samples do not establish comparative superiority.
 
 ## Interpretation limits
 
