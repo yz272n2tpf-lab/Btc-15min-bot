@@ -41,3 +41,4 @@ jobs:
           python -m unittest -v test_scalp_event_schema_adapter_v1.py
           python -m unittest -v test_scalp_specialist_union_live_review_v3_2.py
           python -m unittest -v test_scalp_specialist_union_live_review_v3_3.py
+          python -m unittest -v test_scalp_tiered_validation_freeze_v1.py
