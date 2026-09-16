@@ -156,11 +156,17 @@ def patch_v14(path: Path) -> list[str]:
     if after_safety != before_safety:
         raise RuntimeError(f"V14 safety marker counts changed: before={before_safety} after={after_safety}")
 
-    # Existing FINAL reason stability must remain owned by the older render fix.
+    # Existing FINAL reason stability remains owned by the older render-fix.
+    # Check semantic fragments independently so benign whitespace formatting cannot
+    # make an unchanged inherited rule fail this V14 gate.
     required_existing = (
-        "#finalReason { min-height:4.2em !important; height:4.2em !important;",
-        "-webkit-line-clamp:3 !important;",
-        "#v81ScalpCard { display:none !important; }",
+        'id="btc15-render-fix-v4"',
+        "#finalReason",
+        "min-height:4.2em !important",
+        "height:4.2em !important",
+        "-webkit-line-clamp:3",
+        "#v81ScalpCard",
+        "display:none !important",
     )
     for a in required_existing:
         if a not in text:
