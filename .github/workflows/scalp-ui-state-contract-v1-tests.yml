@@ -8,12 +8,16 @@ on:
       - 'btc15_scalp_ui_state_shadow_v1.py'
       - 'btc15_scalp_ui_state_fixtures_v1.py'
       - 'btc15_scalp_ui_transition_guard_v1.py'
+      - 'btc15_mobile_dashboard_view_model_v1.py'
       - 'test_btc15_scalp_ui_state_contract_v1.py'
       - 'test_btc15_scalp_ui_state_contract_v1_integration.py'
       - 'test_btc15_scalp_ui_state_shadow_v1.py'
       - 'test_btc15_scalp_ui_state_fixtures_v1.py'
       - 'test_btc15_scalp_ui_transition_guard_v1.py'
+      - 'test_btc15_mobile_dashboard_view_model_v1.py'
       - 'BTC15_SCALP_UI_STATE_CONTRACT_V1.md'
+      - 'BTC15_APP_LANGUAGE_CONTRACT_V1.md'
+      - 'BTC15_APP_LANGUAGE_CLEANUP_SPEC_V1.md'
       - '.github/workflows/scalp-ui-state-contract-v1-tests.yml'
 
 permissions:
@@ -36,3 +40,4 @@ jobs:
           python -m unittest -v test_btc15_scalp_ui_state_shadow_v1.py
           python -m unittest -v test_btc15_scalp_ui_state_fixtures_v1.py
           python -m unittest -v test_btc15_scalp_ui_transition_guard_v1.py
+          python -m unittest -v test_btc15_mobile_dashboard_view_model_v1.py
