@@ -17,6 +17,8 @@ on:
       - 'btc15_dashboard_rollover_guard_v1.py'
       - 'btc15_scalp_memory_guard_v1.py'
       - 'btc15_manual_entry_context_guard_v1.py'
+      - 'btc15_dashboard_session_reducer_v1.py'
+      - 'btc15_dashboard_presentation_session_v1.py'
       - 'btc15_dashboard_visual_stability_guard_v1.py'
       - 'btc15_dashboard_reason_slot_guard_v1.py'
       - 'test_btc15_scalp_ui_state_contract_v1.py'
@@ -33,6 +35,8 @@ on:
       - 'test_btc15_dashboard_rollover_guard_v1.py'
       - 'test_btc15_scalp_memory_guard_v1.py'
       - 'test_btc15_manual_entry_context_guard_v1.py'
+      - 'test_btc15_dashboard_session_reducer_v1.py'
+      - 'test_btc15_dashboard_presentation_session_v1.py'
       - 'test_btc15_dashboard_visual_stability_guard_v1.py'
       - 'test_btc15_dashboard_reason_slot_guard_v1.py'
       - 'BTC15_SCALP_UI_STATE_CONTRACT_V1.md'
@@ -70,5 +74,7 @@ jobs:
           python -m unittest -v test_btc15_mobile_dashboard_view_model_v4.py
           python -m unittest -v test_btc15_manual_entry_context_guard_v1.py
           python -m unittest -v test_btc15_mobile_dashboard_view_model_v5.py
+          python -m unittest -v test_btc15_dashboard_session_reducer_v1.py
+          python -m unittest -v test_btc15_dashboard_presentation_session_v1.py
           python -m unittest -v test_btc15_dashboard_visual_stability_guard_v1.py
           python -m unittest -v test_btc15_dashboard_reason_slot_guard_v1.py
