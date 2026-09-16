@@ -2,7 +2,7 @@ name: Shadow diagnostics tests
 
 on:
   push:
-    branches: [shadow-diagnostic-pack-v1, scalp-economics-exit-cert-v1, scalp-candidate-verify-forward-v1]
+    branches: [shadow-diagnostic-pack-v1, scalp-economics-exit-cert-v1, scalp-candidate-verify-forward-v1, scalp-opportunity-density-forward-v1]
   pull_request:
     paths:
       - 'shadow_diagnostics/**'
@@ -54,3 +54,4 @@ jobs:
           python -m unittest -v test_scalp_economics_exit_live_review_v1.py
           python -m unittest -v test_scalp_economics_forward_v1.py
           python -m unittest -v test_scalp_candidate_verify_forward_v1.py
+          python -m unittest -v test_scalp_opportunity_density_forward_v1.py
