@@ -4,7 +4,7 @@
 NO NETWORK | FIXTURE DATA ONLY | PRESENTATION ONLY | NO ORDERS
 
 Builds a self-contained HTML page from the frozen scalp UI fixtures and mobile
-view-model V2. It is intentionally separate from the live V14/V15 dashboard and
+view-model V3. It is intentionally separate from the live V14/V15 dashboard and
 is used only for deterministic phone/tablet visual QA.
 """
 from __future__ import annotations
@@ -13,10 +13,11 @@ from html import escape
 import json
 from pathlib import Path
 
-from btc15_mobile_dashboard_view_model_v2 import build_mobile_dashboard_view_model
+import btc15_mobile_dashboard_view_model_v2 as v2
+from btc15_mobile_dashboard_view_model_v3 import build_mobile_dashboard_view_model
 from btc15_scalp_ui_state_fixtures_v1 import FIXTURES
 
-VERSION = "BTC15_DASHBOARD_V15_FIXTURE_PREVIEW_V2_TIME_GUARDS"
+VERSION = "BTC15_DASHBOARD_V15_FIXTURE_PREVIEW_V3_ROLLOVER_HISTORY"
 OUT = Path("/tmp/BTC15_DASHBOARD_V15_FIXTURE_PREVIEW.html")
 
 TIME_FIXTURES = {
@@ -24,14 +25,18 @@ TIME_FIXTURES = {
     "TIME_3M_GUARD": 180.0,
     "ROLLOVER": 0.0,
 }
+ROLLOVER_HISTORY_FIXTURE = "CONTRACT_ROLLOVER_HISTORY"
 
 
-def combined_for_fixture(name: str) -> dict:
+def combined_for_fixture(name: str, *, contract: str | None = None, seconds_left: float | None = None) -> dict:
     # Keep FINAL/EARLY stable so the preview isolates scalp/layout transitions.
     # This is deterministic fixture data, never a live signal.
-    seconds_left = TIME_FIXTURES.get(name, 600.0)
+    if seconds_left is None:
+        seconds_left = 899.0 if name == ROLLOVER_HISTORY_FIXTURE else TIME_FIXTURES.get(name, 600.0)
+    if contract is None:
+        contract = "KXBTC15M-FIXTURE-NEW" if name == ROLLOVER_HISTORY_FIXTURE else "KXBTC15M-FIXTURE"
     return {
-        "contract": "KXBTC15M-FIXTURE",
+        "contract": contract,
         "canonical_seconds_left": seconds_left,
         "up_bid": .44,
         "up_ask": .45,
@@ -52,6 +57,11 @@ def combined_for_fixture(name: str) -> dict:
     }
 
 
+def _previous_rollover_model() -> dict:
+    old_combined = combined_for_fixture("EXIT", contract="KXBTC15M-FIXTURE-OLD", seconds_left=1.0)
+    return v2.build_mobile_dashboard_view_model(old_combined, FIXTURES["EXIT"])
+
+
 def preview_models() -> dict[str, dict]:
     models = {
         name: build_mobile_dashboard_view_model(combined_for_fixture(name), fixture)
@@ -60,6 +70,11 @@ def preview_models() -> dict[str, dict]:
     wait_fixture = FIXTURES["WAIT"]
     for name in TIME_FIXTURES:
         models[name] = build_mobile_dashboard_view_model(combined_for_fixture(name), wait_fixture)
+    models[ROLLOVER_HISTORY_FIXTURE] = build_mobile_dashboard_view_model(
+        combined_for_fixture(ROLLOVER_HISTORY_FIXTURE),
+        wait_fixture,
+        previous_model=_previous_rollover_model(),
+    )
     return models
 
 
@@ -101,6 +116,10 @@ body{{padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-ri
 .tone-positive .action{{color:var(--good)}} .tone-caution .action{{color:var(--warn)}} .tone-protect .action{{color:var(--warn)}} .tone-exit .action{{color:var(--exit)}} .tone-lock .action{{color:var(--lock)}}
 .timer .action{{font-size:35px;font-weight:950;font-variant-numeric:tabular-nums;min-height:auto}}
 .timer .primary{{min-height:1.5em;color:#cfdae2}}
+.history-slot{{min-height:58px;margin-top:12px;border:1px solid rgba(148,167,181,.18);border-radius:12px;padding:10px 12px;color:var(--muted);display:flex;flex-direction:column;justify-content:center}}
+.history-slot.hidden{{visibility:hidden}}
+.history-title{{font-size:11px;font-weight:900;letter-spacing:.3px}}
+.history-detail{{font-size:11px;margin-top:4px}}
 .safe{{margin-top:12px;text-align:center;color:#6f8494;font-size:10px}}
 @media(min-width:768px) and (max-width:1180px){{
  .grid{{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-areas:"final final" "early timer" "scalp scalp" "flip flip";gap:14px}}
@@ -117,6 +136,7 @@ body{{padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-ri
  <div class="top"><div><div class="title">BTC 15 MIN · V15 FIXTURE PREVIEW</div><div class="meta">OFFLINE · FIXTURE DATA · NO ORDERS</div></div><div class="meta" id="fixtureName"></div></div>
  <div class="fixture-bar">{buttons}</div>
  <main class="grid" id="grid"></main>
+ <aside class="history-slot hidden" id="historySlot" aria-label="Previous scalp history"><div class="history-title" id="historyTitle"></div><div class="history-detail" id="historyDetail"></div></aside>
  <div class="safe">SIGNAL ONLY · MANUAL EXECUTION · FIXTURE PREVIEW · NO ORDERS</div>
 </div>
 <script type="application/json" id="fixtureData">{payload}</script>
@@ -133,10 +153,18 @@ body{{padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-ri
    const secondary=c.action?(c.primary||''):(c.status_label||'');
    return `<section class="card tone-${{esc(c.tone||'neutral')}}${{timer}}" id="${{esc(c.id)}}"><div class="card-title">${{esc(c.title)}}</div><div class="action">${{esc(mainAction)}}</div>${{secondary?`<div class="primary">${{esc(secondary)}}</div>`:''}}<div class="rows">${{rows}}</div></section>`;
  }}
+ function renderHistory(h){{
+   const slot=document.getElementById('historySlot');
+   const visible=!!(h&&h.visible&&h.historical_only===true&&h.actionable===false);
+   slot.classList.toggle('hidden',!visible);
+   document.getElementById('historyTitle').textContent=visible?(h.headline||'PREVIOUS SCALP'):'';
+   document.getElementById('historyDetail').textContent=visible?(h.detail||'Historical context only.'):'';
+ }}
  function render(name){{
    const m=DATA[name]; if(!m)return;
    document.getElementById('fixtureName').textContent=name.replaceAll('_',' ');
    document.getElementById('grid').innerHTML=ORDER.map(id=>card(m.cards[id])).join('');
+   renderHistory(m.scalp_history_slot);
    document.querySelectorAll('[data-fixture]').forEach(b=>b.classList.toggle('active',b.dataset.fixture===name));
  }}
  document.querySelectorAll('[data-fixture]').forEach(b=>b.addEventListener('click',()=>render(b.dataset.fixture)));
