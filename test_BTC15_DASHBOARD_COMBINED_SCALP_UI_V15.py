@@ -50,18 +50,25 @@ class V15ResponsiveCandidateTests(unittest.TestCase):
         self.assertIn('@media (min-width:1181px)', self.text)
         self.assertIn('"final early"\n      "timer scalp"', self.text)
 
-    def test_runtime_dom_guard_is_fail_closed(self):
+    def test_runtime_dom_guard_matches_real_v14_stack_hierarchy(self):
         for fragment in (
             "guarded-missing-card",
-            "guarded-parent-drift",
-            "guarded-index-drift",
-            "if(!parent || cards.some(card=>card.parentElement!==parent))",
+            "guarded-left-stack-drift",
+            "guarded-right-stack-drift",
+            "guarded-primary-grid-drift",
+            "earlyCard.parentElement!==leftStack",
+            "scalpCard.parentElement!==rightStack",
+            "rightStack.parentElement!==primaryGrid",
         ):
             self.assertIn(fragment, self.text)
 
-    def test_semantic_card_order_frozen(self):
-        self.assertIn("Frozen semantic order: FINAL, EARLY, canonical TIMER, SCALP", self.text)
-        self.assertIn("cards.forEach(card=>grid.appendChild(card));", self.text)
+    def test_existing_stack_nodes_are_reused_not_recreated(self):
+        self.assertIn("primaryGrid.classList.add('v15-primary-grid')", self.text)
+        self.assertIn("leftStack.classList.add('v15-left-stack')", self.text)
+        self.assertIn("rightStack.classList.add('v15-right-stack')", self.text)
+        self.assertIn("FINAL_EARLY_TIMER_SCALP", self.text)
+        self.assertNotIn("document.createElement('section')", self.text)
+        self.assertNotIn("appendChild(card)", self.text)
 
     def test_no_position_and_safety_wording_survive(self):
         for phrase in (
