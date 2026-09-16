@@ -21,6 +21,7 @@ on:
       - 'btc15_dashboard_presentation_session_v1.py'
       - 'btc15_dashboard_session_sequence_fixtures_v1.py'
       - 'btc15_dashboard_session_shadow_v1.py'
+      - 'btc15_dashboard_session_payload_gate_v1.py'
       - 'btc15_dashboard_visual_stability_guard_v1.py'
       - 'btc15_dashboard_reason_slot_guard_v1.py'
       - 'test_btc15_scalp_ui_state_contract_v1.py'
@@ -41,6 +42,7 @@ on:
       - 'test_btc15_dashboard_presentation_session_v1.py'
       - 'test_btc15_dashboard_session_sequence_fixtures_v1.py'
       - 'test_btc15_dashboard_session_shadow_v1.py'
+      - 'test_btc15_dashboard_session_payload_gate_v1.py'
       - 'test_btc15_dashboard_visual_stability_guard_v1.py'
       - 'test_btc15_dashboard_reason_slot_guard_v1.py'
       - 'BTC15_SCALP_UI_STATE_CONTRACT_V1.md'
@@ -82,5 +84,6 @@ jobs:
           python -m unittest -v test_btc15_dashboard_presentation_session_v1.py
           python -m unittest -v test_btc15_dashboard_session_sequence_fixtures_v1.py
           python -m unittest -v test_btc15_dashboard_session_shadow_v1.py
+          python -m unittest -v test_btc15_dashboard_session_payload_gate_v1.py
           python -m unittest -v test_btc15_dashboard_visual_stability_guard_v1.py
           python -m unittest -v test_btc15_dashboard_reason_slot_guard_v1.py
