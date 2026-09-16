@@ -11,8 +11,10 @@ on:
       - 'btc15_mobile_dashboard_view_model_v1.py'
       - 'btc15_mobile_dashboard_view_model_v2.py'
       - 'btc15_mobile_dashboard_view_model_v3.py'
+      - 'btc15_mobile_dashboard_view_model_v4.py'
       - 'btc15_time_left_guardrail_v1.py'
       - 'btc15_dashboard_rollover_guard_v1.py'
+      - 'btc15_scalp_memory_guard_v1.py'
       - 'btc15_scalp_ui_state_fixtures_v1.py'
       - 'test_BTC15_DASHBOARD_COMBINED_SCALP_UI_V15.py'
       - 'test_BTC15_DASHBOARD_PRESENTATION_AUDIT_V15.py'
@@ -20,8 +22,10 @@ on:
       - 'test_BTC15_DASHBOARD_V15_FIXTURE_PREVIEW.py'
       - 'test_btc15_mobile_dashboard_view_model_v2.py'
       - 'test_btc15_mobile_dashboard_view_model_v3.py'
+      - 'test_btc15_mobile_dashboard_view_model_v4.py'
       - 'test_btc15_time_left_guardrail_v1.py'
       - 'test_btc15_dashboard_rollover_guard_v1.py'
+      - 'test_btc15_scalp_memory_guard_v1.py'
       - 'BTC15_DASHBOARD_V15_RESPONSIVE_CANDIDATE_FREEZE.md'
       - '.github/workflows/dashboard-v15-candidate-tests.yml'
   pull_request:
@@ -33,8 +37,10 @@ on:
       - 'btc15_mobile_dashboard_view_model_v1.py'
       - 'btc15_mobile_dashboard_view_model_v2.py'
       - 'btc15_mobile_dashboard_view_model_v3.py'
+      - 'btc15_mobile_dashboard_view_model_v4.py'
       - 'btc15_time_left_guardrail_v1.py'
       - 'btc15_dashboard_rollover_guard_v1.py'
+      - 'btc15_scalp_memory_guard_v1.py'
       - 'btc15_scalp_ui_state_fixtures_v1.py'
       - 'test_BTC15_DASHBOARD_COMBINED_SCALP_UI_V15.py'
       - 'test_BTC15_DASHBOARD_PRESENTATION_AUDIT_V15.py'
@@ -42,8 +48,10 @@ on:
       - 'test_BTC15_DASHBOARD_V15_FIXTURE_PREVIEW.py'
       - 'test_btc15_mobile_dashboard_view_model_v2.py'
       - 'test_btc15_mobile_dashboard_view_model_v3.py'
+      - 'test_btc15_mobile_dashboard_view_model_v4.py'
       - 'test_btc15_time_left_guardrail_v1.py'
       - 'test_btc15_dashboard_rollover_guard_v1.py'
+      - 'test_btc15_scalp_memory_guard_v1.py'
       - 'BTC15_DASHBOARD_V15_RESPONSIVE_CANDIDATE_FREEZE.md'
 
 permissions:
@@ -84,6 +92,8 @@ jobs:
           python -m unittest -v test_btc15_mobile_dashboard_view_model_v2.py
           python -m unittest -v test_btc15_dashboard_rollover_guard_v1.py
           python -m unittest -v test_btc15_mobile_dashboard_view_model_v3.py
+          python -m unittest -v test_btc15_scalp_memory_guard_v1.py
+          python -m unittest -v test_btc15_mobile_dashboard_view_model_v4.py
           python -m unittest -v test_BTC15_DASHBOARD_V15_FIXTURE_PREVIEW.py
           python BTC15_DASHBOARD_V15_FIXTURE_PREVIEW.py
           cp /tmp/BTC15_DASHBOARD_V15_FIXTURE_PREVIEW.html ./BTC15_DASHBOARD_V15_FIXTURE_PREVIEW.html
