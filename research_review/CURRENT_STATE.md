@@ -1,4 +1,22 @@
-# CURRENT STATE — review-tool milestone
+# CURRENT STATE — first completed-contract checkpoint
+
+Captured 2026-09-16 at 22:55:13 UTC (6:55 PM Eastern). Archive: `captures/20260916T225513444136Z/`.
+
+- **CONTROL:** All 49 pre-existing deployment IDs match the accepted deployment receipt; no staged Railway changes. Frozen V1 collectors remain untouched.
+- **NEW SHADOW:** Combined V2 remains SUCCESS on the accepted deployment and fingerprint listed below. One full eligible contract, two serial opportunities, all four families present, and no review integrity errors. This milestone adds evidence and documentation only to the undeployed review branch.
+- **BLOCKED:** 99 more full contracts and 98 more signals are needed to reach the overall manual-review floor. One contract cannot establish an advantage, false-warning rate, or lane-specific sufficiency. No winner is selected.
+- **NEXT STEP:** Capture and compare the next coherent snapshot after further full contracts close, while preserving the existing code, cutoff, controls, and exit rule. Continue toward the 100-contract / 100-signal review floor; a separate prospective certification window is still required before production consideration.
+
+## First observations — one contract only
+
+- **SCALP-2 economics:** All three filters skipped the second opportunity at 52 cents. The V1 replay recorded a 72-cent protected exit, or +16 cents after the frozen one-lot taker/taker fee model. This is a missed profitable replay, not evidence that the new filters improve economics.
+- **Dynamic Verify:** Confirmed that second opportunity immediately at 52 cents (`IMMEDIATE_STRONG`). The 30-second control entered at 77 cents and had no observed protected exit. Immediate and 5/10/15-second controls entered at the same 52 cents; there is no paired economics improvement against those controls. Dynamic Verify skipped the first opportunity, whose V1 one-lot net replay was -3 cents. These are observations, not proof of prospective filtering skill.
+- **Watch:** The confirmed half-cent rule warned 29.079 seconds before the unchanged exit, 0.920 seconds later than V1 on that same opportunity, and did not warn on the other opportunity. Falling-trend V2 warned on neither. Frozen exit timestamps and economics match exactly. No materially earlier warning was demonstrated.
+- **Selective Pullback:** Balanced V2 used its immediate-entry path for the same 52-cent opportunity, matching the immediate control's price and protected economics. Price-disciplined V2 and all six fixed-price V1 pullback policies took no entries. No improved pullback entry price was demonstrated.
+
+All economics are shadow replay estimates from observed protected exits, not executed profits or total portfolio P&L. Source paths and first-seen timestamps remain outside the summary audit.
+
+## Previous milestone — review tools
 
 Checked 2026-09-16 at 22:34 UTC (6:34 PM Eastern). This Work thread remains the sole engineering/control authority.
 
