@@ -73,11 +73,30 @@ class V15GeneratedDOMStructureAudit(unittest.TestCase):
         cls.early = find_one(nodes, lambda n: "early-card" in n.classes, "EARLY")
         cls.timer = find_one(nodes, lambda n: "timer-card" in n.classes, "TIMER")
         cls.scalp = find_one(nodes, lambda n: n.attrs.get("id") == "scalpCard", "SCALP")
+        cls.left = cls.final.parent
+        cls.right = cls.timer.parent
+        cls.primary = cls.left.parent if cls.left is not None else None
 
-    def test_four_core_cards_share_one_parent(self):
-        parents = [self.final.parent, self.early.parent, self.timer.parent, self.scalp.parent]
-        signatures = [p.signature() if p else None for p in parents]
-        self.assertTrue(all(p is parents[0] for p in parents), f"core-card parents differ: {signatures}")
+    def test_final_and_early_share_left_stack(self):
+        self.assertIsNotNone(self.left)
+        self.assertIs(self.early.parent, self.left)
+        self.assertIn("left-stack", self.left.classes, self.left.signature())
+        self.assertEqual(self.left.children.index(self.final), 0)
+        self.assertEqual(self.left.children.index(self.early), 1)
+
+    def test_timer_and_scalp_share_right_stack(self):
+        self.assertIsNotNone(self.right)
+        self.assertIs(self.scalp.parent, self.right)
+        self.assertIn("right-stack", self.right.classes, self.right.signature())
+        self.assertEqual(self.right.children.index(self.timer), 0)
+        self.assertEqual(self.right.children.index(self.scalp), 1)
+
+    def test_left_and_right_stacks_share_primary_grid(self):
+        self.assertIsNotNone(self.primary)
+        self.assertIs(self.right.parent, self.primary)
+        self.assertEqual(self.primary.tag, "section")
+        self.assertIn("primary-grid", self.primary.classes, self.primary.signature())
+        self.assertNotEqual(self.primary.children.index(self.left), self.primary.children.index(self.right))
 
     def test_all_four_are_real_card_nodes(self):
         for label, node in (
@@ -86,13 +105,11 @@ class V15GeneratedDOMStructureAudit(unittest.TestCase):
             with self.subTest(label=label):
                 self.assertIn("card", node.classes, node.signature())
 
-    def test_parent_child_indexes_are_stable_and_distinct(self):
-        parent = self.final.parent
-        self.assertIsNotNone(parent)
-        cards = [self.final, self.early, self.timer, self.scalp]
-        indexes = [parent.children.index(c) for c in cards]
-        self.assertEqual(len(set(indexes)), 4)
-        self.assertTrue(all(i >= 0 for i in indexes))
+    def test_stack_hierarchy_is_exactly_two_levels_for_core_cards(self):
+        self.assertIs(self.final.parent.parent, self.primary)
+        self.assertIs(self.early.parent.parent, self.primary)
+        self.assertIs(self.timer.parent.parent, self.primary)
+        self.assertIs(self.scalp.parent.parent, self.primary)
 
     def test_single_timer_node(self):
         nodes = [n for n in self.parser.nodes if n.attrs.get("id") == "timerRemaining"]
