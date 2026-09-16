@@ -29,6 +29,11 @@ class TestNextgenV2(unittest.TestCase):
     def test_weak_requires_causal_events(self):
         r=v2.dynamic_verify_record(op(False)); self.assertEqual(r["verify_mode"],"EVENT_CONFIRMED")
         self.assertEqual(r["actual_delay_sec"],4)
+    def test_dynamic_rejects_price_chase(self):
+        x=op(False)
+        for row in x["_paths"]:
+            row["current_ask"]=x["entry_ask"]+.04
+        self.assertIsNone(v2.dynamic_verify_record(x))
     def test_watch_exit_is_unchanged(self):
         r=v2.watch_measure(op(False),"V2_CONFIRMED_HALF_C")
         self.assertTrue(r["armed"]); self.assertTrue(r["exit"])
@@ -41,6 +46,18 @@ class TestNextgenV2(unittest.TestCase):
     def test_selective_immediate_when_affordable(self):
         r=v2.selective_pullback_record(op(False,ask=.49),"V2_BALANCED")
         self.assertEqual(r["entry_elapsed_sec"],0)
+    def test_selective_pullback_can_pass(self):
+        x=op(False,ask=.70)
+        for row in x["_paths"]: row["current_ask"]=.65
+        self.assertIsNone(v2.selective_pullback_record(x,"V2_PRICE_DISCIPLINED"))
+    def test_invalid_cutoff_fails_closed(self):
+        r=v2.analyze_rows([],cutoff_text="not-a-time")
+        self.assertFalse(r["ok"]); self.assertEqual(r["status"],"FAIL_CLOSED_INVALID_CUTOFF")
+        self.assertFalse(r["orders"])
+    def test_watch_v2_never_changes_exit_count(self):
+        lanes=v2.watch_lanes([op(False),op(False)])
+        exits={x["frozen_exit_signals"] for x in lanes.values()}
+        self.assertEqual(len(exits),1)
     def test_no_orders_or_promotion(self):
         rules=v2.frozen_rules(); self.assertFalse(rules["orders"])
         self.assertFalse(rules["automatic_promotion"]); self.assertFalse(rules["same_sample_promotion"])
