@@ -6,12 +6,24 @@ V15 is intentionally built on top of the exact V14 generated dashboard. It is no
 
 ## Allowed V15 changes
 
-- Responsive placement of the existing FINAL, EARLY, CONTRACT TIMER and SCALP cards.
+- Responsive placement of the existing FINAL, EARLY, CONTRACT TIMER and SCALP cards through CSS/classes on existing V14 containers.
 - One-column phone layout.
 - Two-column tablet/desktop layout.
 - Stable card width/min-width behavior.
 - No whole-card transition animation.
-- Runtime fail-closed DOM guard before the responsive wrapper is installed.
+- Runtime fail-closed DOM guard before responsive classes are installed.
+
+## Measured V14 DOM authority
+
+The generated V14 DOM was captured before adapting V15:
+- FINAL is child 0 of `div.left-stack`.
+- EARLY is child 1 of `div.left-stack`.
+- CONTRACT TIMER is child 0 of `div.right-stack`.
+- SCALP is child 1 of `div.right-stack`.
+- `div.left-stack` and `div.right-stack` share `section.primary-grid` as their parent.
+- There is exactly one `#timerRemaining` node.
+
+V15 must match this measured hierarchy; the audit is not weakened to fit V15.
 
 ## Frozen semantic order
 
@@ -24,7 +36,14 @@ V15 adds no second timer and no numeric Flip Risk card.
 
 ## Runtime DOM guard
 
-The responsive wrapper may install only when all four expected card anchors exist and share the same parent. If they do not, the V14 DOM/layout remains unchanged and the page records a guarded-noop status.
+Responsive classes may install only when:
+- FINAL and EARLY share a `.left-stack` parent;
+- TIMER and SCALP share a `.right-stack` parent;
+- both stacks share one `.primary-grid` parent.
+
+If any relationship drifts, the V14 DOM/layout remains unchanged and the page records a guarded-noop status.
+
+V15 does **not** create, move, append, clone, or recreate the four signal-card DOM nodes. It only adds classes/data metadata to the existing `primary-grid`, `left-stack`, and `right-stack` containers after the guard passes.
 
 ## Inherited authorities that V15 may not change
 
@@ -47,7 +66,9 @@ V15 introduces no `fetch`, XHR, WebSocket, EventSource, timer poller, API endpoi
 
 ## DOM invariant
 
-The four existing card anchors and single canonical timer must remain exactly once in generated HTML. V15 may create one runtime layout wrapper but may not create duplicate signal cards.
+The four existing card anchors and single canonical timer must remain exactly once in generated HTML. Existing signal-card nodes are never moved or recreated by V15.
+
+Any other direct child already present in `.primary-grid` remains present and is forced full-width below the named V15 core grid areas rather than being deleted or overwritten.
 
 ## Status
 
