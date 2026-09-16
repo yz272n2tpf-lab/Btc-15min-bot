@@ -4,14 +4,14 @@
 SHADOW PRESENTATION CANDIDATE ONLY | SIGNAL ONLY | MANUAL EXECUTION | NO ORDERS
 
 V15 wraps the exact V14 generated dashboard and changes presentation only:
-- groups the existing FINAL / EARLY / TIMER / SCALP cards into one responsive
-  core-grid container at runtime;
+- reuses the existing V14 `section.primary-grid`, `div.left-stack`, and
+  `div.right-stack` containers rather than moving signal-card DOM nodes;
 - preserves one canonical timer;
 - uses one-column phone layout and two-column tablet/desktop layouts;
 - preserves every existing card id/class, data source, event listener and state;
 - adds no network client, no polling, no signal threshold, no order path;
-- fails closed to the unchanged V14 layout if the expected four cards do not
-  share one DOM parent.
+- fails closed to the unchanged V14 layout if the expected stack hierarchy
+  drifts.
 
 This file is an isolated candidate and is NOT a production deployment.
 """
@@ -57,61 +57,62 @@ NETWORK_PRIMITIVES = (
 
 V15_CSS = r'''<style id="btc15-v15-responsive-style">
 /* V15 owns layout only. Existing V14/V13 styles continue to own card content. */
-#v15CoreGrid{
-  width:100%;
-  min-width:0;
-  box-sizing:border-box;
-  grid-column:1 / -1;
-}
-.v15-core-grid{
+.primary-grid.v15-primary-grid{
   display:grid!important;
-  grid-template-columns:minmax(0,1fr);
+  grid-template-columns:minmax(0,1fr)!important;
   grid-template-areas:
     "final"
     "early"
     "timer"
-    "scalp";
+    "scalp"!important;
   gap:12px!important;
-  align-items:stretch;
+  align-items:stretch!important;
+  min-width:0!important;
 }
-.v15-core-grid > #finalCard{grid-area:final;}
-.v15-core-grid > .early-card{grid-area:early;}
-.v15-core-grid > .timer-card{grid-area:timer;}
-.v15-core-grid > #scalpCard{grid-area:scalp;}
-.v15-core-grid > #finalCard,
-.v15-core-grid > .early-card,
-.v15-core-grid > .timer-card,
-.v15-core-grid > #scalpCard{
+/* The existing stack wrappers become layout-transparent only after the guarded
+   runtime hierarchy check succeeds. No card node is moved or recreated. */
+.primary-grid.v15-primary-grid > .left-stack.v15-left-stack,
+.primary-grid.v15-primary-grid > .right-stack.v15-right-stack{
+  display:contents!important;
+}
+.primary-grid.v15-primary-grid #finalCard{grid-area:final;}
+.primary-grid.v15-primary-grid .early-card{grid-area:early;}
+.primary-grid.v15-primary-grid .timer-card{grid-area:timer;}
+.primary-grid.v15-primary-grid #scalpCard{grid-area:scalp;}
+.primary-grid.v15-primary-grid #finalCard,
+.primary-grid.v15-primary-grid .early-card,
+.primary-grid.v15-primary-grid .timer-card,
+.primary-grid.v15-primary-grid #scalpCard{
   width:100%;
   min-width:0;
   max-width:none;
   margin:0!important;
   box-sizing:border-box;
+  transition:none!important;
 }
-/* Prevent whole-card transition flicker. Semantic classes may still change instantly. */
-.v15-core-grid > #finalCard,
-.v15-core-grid > .early-card,
-.v15-core-grid > .timer-card,
-.v15-core-grid > #scalpCard{transition:none!important;}
-/* Keep long changing copy inside already-reserved slots. */
+/* Preserve any other existing primary-grid child as a full-width section below
+   the four core signal cards instead of letting it collide with named areas. */
+.primary-grid.v15-primary-grid > :not(.v15-left-stack):not(.v15-right-stack){
+  grid-column:1 / -1!important;
+}
 #finalActionSub,#earlyEntry,#earlyFlow{overflow:hidden!important;}
 
 @media (min-width:768px) and (max-width:1180px){
-  .v15-core-grid{
-    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  .primary-grid.v15-primary-grid{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
     grid-template-areas:
       "final final"
       "early timer"
-      "scalp scalp";
+      "scalp scalp"!important;
     gap:14px!important;
   }
 }
 @media (min-width:1181px){
-  .v15-core-grid{
-    grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);
+  .primary-grid.v15-primary-grid{
+    grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr)!important;
     grid-template-areas:
       "final early"
-      "timer scalp";
+      "timer scalp"!important;
     gap:14px!important;
   }
 }
@@ -125,35 +126,33 @@ V15_JS = r'''<script id="btc15-v15-responsive-script">
     const earlyCard=document.querySelector('.early-card');
     const timerCard=document.querySelector('.timer-card');
     const scalpCard=document.getElementById('scalpCard');
-    const cards=[finalCard,earlyCard,timerCard,scalpCard];
-    if(cards.some(card=>!card)){
+    if([finalCard,earlyCard,timerCard,scalpCard].some(card=>!card)){
       document.documentElement.dataset.v15Layout='guarded-missing-card';
       return false;
     }
-    if(document.getElementById('v15CoreGrid')){
+    const leftStack=finalCard.parentElement;
+    if(!leftStack || earlyCard.parentElement!==leftStack || !leftStack.classList.contains('left-stack')){
+      document.documentElement.dataset.v15Layout='guarded-left-stack-drift';
+      return false;
+    }
+    const rightStack=timerCard.parentElement;
+    if(!rightStack || scalpCard.parentElement!==rightStack || !rightStack.classList.contains('right-stack')){
+      document.documentElement.dataset.v15Layout='guarded-right-stack-drift';
+      return false;
+    }
+    const primaryGrid=leftStack.parentElement;
+    if(!primaryGrid || rightStack.parentElement!==primaryGrid || !primaryGrid.classList.contains('primary-grid')){
+      document.documentElement.dataset.v15Layout='guarded-primary-grid-drift';
+      return false;
+    }
+    if(primaryGrid.classList.contains('v15-primary-grid')){
       document.documentElement.dataset.v15Layout='installed';
       return true;
     }
-    const parent=finalCard.parentElement;
-    if(!parent || cards.some(card=>card.parentElement!==parent)){
-      document.documentElement.dataset.v15Layout='guarded-parent-drift';
-      return false;
-    }
-    const children=Array.from(parent.children);
-    const indexes=cards.map(card=>children.indexOf(card));
-    if(indexes.some(index=>index<0)){
-      document.documentElement.dataset.v15Layout='guarded-index-drift';
-      return false;
-    }
-    const firstIndex=Math.min(...indexes);
-    const reference=children[firstIndex];
-    const grid=document.createElement('section');
-    grid.id='v15CoreGrid';
-    grid.className='v15-core-grid';
-    grid.setAttribute('aria-label','Primary BTC 15 minute signal cards');
-    parent.insertBefore(grid,reference);
-    /* Frozen semantic order: FINAL, EARLY, canonical TIMER, SCALP. */
-    cards.forEach(card=>grid.appendChild(card));
+    primaryGrid.classList.add('v15-primary-grid');
+    leftStack.classList.add('v15-left-stack');
+    rightStack.classList.add('v15-right-stack');
+    primaryGrid.setAttribute('data-v15-semantic-order','FINAL_EARLY_TIMER_SCALP');
     document.documentElement.dataset.v15Layout='installed';
     return true;
   }
@@ -244,12 +243,15 @@ def main() -> int:
         assert rendered.count(MARKER) == 1
         assert rendered.count('id="timerRemaining"') == 1
         assert "grid-template-areas:" in rendered
-        assert "guarded-parent-drift" in rendered
+        assert "guarded-left-stack-drift" in rendered
+        assert "guarded-right-stack-drift" in rendered
+        assert "guarded-primary-grid-drift" in rendered
+        assert "data-v15-semantic-order','FINAL_EARLY_TIMER_SCALP'" in rendered
         assert "TRACKING ONLY · DON'T CHASE" in rendered
         assert "TRACKING ONLY · NO POSITION ASSUMED" in rendered
         assert "SIGNAL ONLY · MANUAL EXECUTION · NO ORDERS" in rendered
         assert "flip_risk_percent" not in rendered
-        print("COMBINED DASHBOARD UI V15 SELFTEST PASS | RESPONSIVE · ONE TIMER · NO NEW POLLING · NO ORDERS")
+        print("COMBINED DASHBOARD UI V15 SELFTEST PASS | RESPONSIVE STACKS · ONE TIMER · NO NEW POLLING · NO ORDERS")
         return 0
     return 0
 
