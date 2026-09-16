@@ -58,6 +58,14 @@ class TestNextgenV2(unittest.TestCase):
         lanes=v2.watch_lanes([op(False),op(False)])
         exits={x["frozen_exit_signals"] for x in lanes.values()}
         self.assertEqual(len(exits),1)
+    def test_runtime_integrity_passes_only_complete_safe_state(self):
+        state={"cutoff_utc":v2.DEFAULT_CUTOFF_UTC,"orders":False,"automatic_promotion":False,
+               "same_sample_promotion":False,"production_logic_changed":False,
+               "scalp2_economics_v2":{},"candidate_verify_v2":{},"selective_pullback_v2":{},
+               "watch_exit_v2":{"A":{"frozen_exit_signals":3},"B":{"frozen_exit_signals":3}}}
+        self.assertTrue(v2.integrity_report(state)["all_checks_pass"])
+        state["watch_exit_v2"]["B"]["frozen_exit_signals"]=2
+        self.assertFalse(v2.integrity_report(state)["all_checks_pass"])
     def test_no_orders_or_promotion(self):
         rules=v2.frozen_rules(); self.assertFalse(rules["orders"])
         self.assertFalse(rules["automatic_promotion"]); self.assertFalse(rules["same_sample_promotion"])
