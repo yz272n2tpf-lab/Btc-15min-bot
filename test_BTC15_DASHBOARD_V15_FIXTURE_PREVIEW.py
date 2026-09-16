@@ -7,7 +7,7 @@ import BTC15_DASHBOARD_V15_FIXTURE_PREVIEW as preview
 
 
 class V15FixturePreviewTests(unittest.TestCase):
-    def test_all_frozen_time_rollover_and_memory_fixtures_are_present(self):
+    def test_all_frozen_time_rollover_memory_and_context_fixtures_are_present(self):
         models = preview.preview_models()
         self.assertEqual(
             set(models),
@@ -25,6 +25,8 @@ class V15FixturePreviewTests(unittest.TestCase):
                 "CONTRACT_ROLLOVER_HISTORY",
                 "SCALP_1_COMPLETE_SCAN_2",
                 "SCALP_1_COMPLETE_SCALP_2_ACTIVE",
+                "GOOD_ENTRY_TELEMETRY_BLIP_PROTECT",
+                "DONT_CHASE_LATER_PROTECT",
             },
         )
 
@@ -46,6 +48,9 @@ class V15FixturePreviewTests(unittest.TestCase):
                 self.assertFalse(model["safety"]["historical_scalp_can_change_current_signals"])
                 self.assertFalse(model["safety"]["scalp_memory_actionable"])
                 self.assertFalse(model["safety"]["scalp_memory_changes_current_signals"])
+                self.assertFalse(model["safety"]["manual_position_confirmed"])
+                self.assertFalse(model["safety"]["manual_entry_context_signal_filtering"])
+                self.assertFalse(model["safety"]["manual_entry_context_signal_suppression"])
 
     def test_expensive_entry_fixture_is_tracking_only(self):
         model = preview.preview_models()["ACTIVE_CAUTION_ABOVE_50"]
@@ -55,6 +60,34 @@ class V15FixturePreviewTests(unittest.TestCase):
         self.assertIn("TRACKING ONLY", scalp["action"])
         self.assertIn("DON'T CHASE", scalp["primary"])
         self.assertEqual(scalp["rows"][-1]["value"], "MODEL TRACKING ONLY · NO POSITION ASSUMED")
+
+    def test_good_entry_context_survives_protect_telemetry_blip(self):
+        model = preview.preview_models()["GOOD_ENTRY_TELEMETRY_BLIP_PROTECT"]
+        self.assertEqual(model["manual_entry_context"]["state"], "ACCEPTABLE_ENTRY_PATH")
+        self.assertFalse(model["manual_entry_context"]["manual_position_confirmed"])
+        scalp = model["cards"]["SCALP_OPPORTUNITY"]
+        self.assertEqual(scalp["underlying_lifecycle_state"], "PROTECT")
+        self.assertEqual(scalp["action"], "PROTECT PROFITS")
+        self.assertEqual(scalp["primary"], "MOVE REACHED PROTECTION LEVEL")
+        self.assertFalse(scalp["tracking_only"])
+        self.assertTrue(scalp["manual_entry_path_available"])
+        entry_row = next(r for r in scalp["rows"] if r["label"] == "Entry Price")
+        self.assertEqual(entry_row["value"], "31¢")
+
+    def test_dont_chase_context_stays_no_position_at_later_protect(self):
+        model = preview.preview_models()["DONT_CHASE_LATER_PROTECT"]
+        self.assertEqual(model["manual_entry_context"]["state"], "TRACKING_ONLY_NO_POSITION")
+        self.assertFalse(model["manual_entry_context"]["manual_position_confirmed"])
+        scalp = model["cards"]["SCALP_OPPORTUNITY"]
+        self.assertEqual(scalp["underlying_lifecycle_state"], "PROTECT")
+        self.assertTrue(scalp["tracking_only"])
+        self.assertFalse(scalp["manual_entry_path_available"])
+        self.assertIn("TRACKING ONLY", scalp["action"])
+        self.assertNotIn("PROTECT PROFITS", scalp["action"])
+        self.assertEqual(
+            next(r for r in scalp["rows"] if r["label"] == "Profit Protection")["value"],
+            "MODEL TRACKING ONLY · NO POSITION ASSUMED",
+        )
 
     def test_time_guardrail_fixtures_use_single_timer_card(self):
         models = preview.preview_models()
@@ -140,6 +173,8 @@ class V15FixturePreviewTests(unittest.TestCase):
         self.assertIn("CONTRACT ROLLOVER HISTORY", text)
         self.assertIn("SCALP 1 COMPLETE SCAN 2", text)
         self.assertIn("SCALP 1 COMPLETE SCALP 2 ACTIVE", text)
+        self.assertIn("GOOD ENTRY TELEMETRY BLIP PROTECT", text)
+        self.assertIn("DONT CHASE LATER PROTECT", text)
         self.assertIn('id="historySlot"', text)
 
     def test_viewport_breakpoints_match_frozen_contract(self):
