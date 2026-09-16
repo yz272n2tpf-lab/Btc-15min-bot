@@ -252,7 +252,7 @@ class IntegrationAndRuntime(unittest.TestCase):
     def test_activation_requires_aware_fresh_cutoff_and_code_pin(self):
         for cutoff in ("", "not-a-time", "2026-09-17T00:00:00"):
             self.assertFalse(runtime.analyze_rows([], cutoff_text=cutoff)["ok"])
-        self.assertFalse(runtime.analyze_rows([], cutoff_text=CUTOFF)["ok"])
+        self.assertFalse(runtime.analyze_rows([], cutoff_text=CUTOFF, expected_code_sha256="")["ok"])
         fp = runtime.code_fingerprint()
         self.assertFalse(runtime.analyze_rows([], cutoff_text="2026-09-16T19:50:00Z", expected_code_sha256=fp)["ok"])
         self.assertTrue(runtime.analyze_rows([], cutoff_text=CUTOFF, expected_code_sha256=fp)["ok"])
