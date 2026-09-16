@@ -66,13 +66,11 @@ def _timeline(candidate: Mapping[str, Any], paths: list[Mapping[str, Any]]) -> l
             "timestamp": q.dt(r.get("timestamp_utc")),
             "ask": finite(r.get("current_ask")),
             "bid": finite(r.get("current_bid")),
-            "row": r,
         })
     return sorted(out, key=lambda z: z["elapsed_sec"])
 
 
-def choose_entry(candidate: Mapping[str, Any], paths: list[Mapping[str, Any]], policy: Mapping[str, Any]) -> dict[str, Any] | None:
-    """Choose an entry using information available up to the entry moment only."""
+def _choose_entry_from_timeline(candidate: Mapping[str, Any], timeline: list[Mapping[str, Any]], policy: Mapping[str, Any]) -> dict[str, Any] | None:
     base_ask = finite(candidate.get("entry_ask"))
     if base_ask is None:
         return None
@@ -88,14 +86,14 @@ def choose_entry(candidate: Mapping[str, Any], paths: list[Mapping[str, Any]], p
         if base_ask <= hi and (lo is None or base_ask >= lo):
             e = 0.0; ask = base_ask; row = None
         else:
-            z = next((x for x in _timeline(candidate, paths)
-                      if x["elapsed_sec"] <= wait + 1e-12
-                      and x["ask"] is not None
-                      and x["ask"] <= hi + 1e-12
-                      and (lo is None or x["ask"] >= lo - 1e-12)), None)
-            if z is None:
+            row = next((x for x in timeline
+                        if float(x["elapsed_sec"]) <= wait + 1e-12
+                        and x.get("ask") is not None
+                        and float(x["ask"]) <= hi + 1e-12
+                        and (lo is None or float(x["ask"]) >= lo - 1e-12)), None)
+            if row is None:
                 return None
-            e = float(z["elapsed_sec"]); ask = float(z["ask"]); row = z
+            e = float(row["elapsed_sec"]); ask = float(row["ask"])
     left0 = finite(candidate.get("seconds_left"))
     left = None if left0 is None else max(0.0, left0 - e)
     t0 = q.dt(candidate.get("timestamp_utc"))
@@ -110,14 +108,18 @@ def choose_entry(candidate: Mapping[str, Any], paths: list[Mapping[str, Any]], p
     }
 
 
-def simulate_exit(candidate: Mapping[str, Any], paths: list[Mapping[str, Any]], entry: Mapping[str, Any], policy: Mapping[str, Any]) -> dict[str, Any]:
-    """Score future executable BID against the actual selected entry ASK."""
+def choose_entry(candidate: Mapping[str, Any], paths: list[Mapping[str, Any]], policy: Mapping[str, Any]) -> dict[str, Any] | None:
+    """Public compatibility helper; delayed entry uses actual later ASK."""
+    return _choose_entry_from_timeline(candidate, _timeline(candidate, paths), policy)
+
+
+def _simulate_exit_from_timeline(timeline: list[Mapping[str, Any]], entry: Mapping[str, Any], policy: Mapping[str, Any]) -> dict[str, Any]:
     entry_e = float(entry["entry_elapsed_sec"])
     ask = float(entry["entry_ask"])
-    z = [x for x in _timeline(candidate, paths) if x["elapsed_sec"] + 1e-12 >= entry_e and x["bid"] is not None]
+    z = [x for x in timeline if float(x["elapsed_sec"]) + 1e-12 >= entry_e and x.get("bid") is not None]
     if not z:
         return {"scoreable": False}
-    gains = [(x["elapsed_sec"], float(x["bid"]) - ask, x) for x in z]
+    gains = [(float(x["elapsed_sec"]), float(x["bid"]) - ask, x) for x in z]
     peak = -float("inf")
     trough = float("inf")
     hit5 = hit10 = hit20 = False
@@ -140,8 +142,6 @@ def simulate_exit(candidate: Mapping[str, Any], paths: list[Mapping[str, Any]], 
                     floor = peak - float(policy["pre10_giveback"])
                 if g <= floor + 1e-12:
                     exit_gain = g; exit_e = e; exit_ts = x["timestamp"]; protected = True; break
-    # Report terminal executable value even if no protection exit occurred, but
-    # do not use terminal fallback to unlock another serial scalp.
     terminal_e, terminal_gain, terminal_x = gains[-1]
     realized = exit_gain if protected else terminal_gain
     return {
@@ -161,19 +161,40 @@ def simulate_exit(candidate: Mapping[str, Any], paths: list[Mapping[str, Any]], 
     }
 
 
-def _raw_parts(rows: list[Mapping[str, Any]]) -> tuple[set[str], dict[str, list[dict[str, Any]]], dict[str, list[dict[str, Any]]]]:
+def simulate_exit(candidate: Mapping[str, Any], paths: list[Mapping[str, Any]], entry: Mapping[str, Any], policy: Mapping[str, Any]) -> dict[str, Any]:
+    """Public compatibility helper; future executable BID is rebased to actual ASK."""
+    return _simulate_exit_from_timeline(_timeline(candidate, paths), entry, policy)
+
+
+def prepare_rows(rows: list[Mapping[str, Any]]) -> dict[str, Any]:
+    """Parse the immutable tape once for all policy-grid evaluations."""
     done = {q.cid(r) for r in rows if q.typ(r) == "RESULT" and q.cid(r)}
-    paths: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    raw_paths: dict[str, list[dict[str, Any]]] = defaultdict(list)
     byc: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    candidate_by_id: dict[str, dict[str, Any]] = {}
     for r0 in rows:
         r = dict(r0)
         if q.typ(r) == "PATH" and q.cid(r):
-            paths[q.cid(r)].append(r)
+            raw_paths[q.cid(r)].append(r)
         elif q.typ(r) == "CANDIDATE" and q.cid(r) and q.contract(r):
             byc[q.contract(r)].append(r)
-    for k in paths:
-        paths[k].sort(key=lambda r: q.elapsed(r, q.dt(next((c.get("timestamp_utc") for rs in byc.values() for c in rs if q.cid(c) == k), None))) or 0.0)
-    return done, paths, byc
+            candidate_by_id[q.cid(r)] = r
+    timelines: dict[str, list[dict[str, Any]]] = {}
+    for candidate_id, pr in raw_paths.items():
+        cand = candidate_by_id.get(candidate_id)
+        if cand is not None:
+            timelines[candidate_id] = _timeline(cand, pr)
+    sorted_candidates: dict[str, list[dict[str, Any]]] = {}
+    for contract, rs in byc.items():
+        sorted_candidates[contract] = [
+            r for r in sorted(rs, key=lambda x: q.dt(x.get("timestamp_utc")))
+            if q.baseline_qualified(r)
+        ]
+    return {
+        "done": done,
+        "timelines": timelines,
+        "candidates_by_contract": sorted_candidates,
+    }
 
 
 def contract_split(rows: list[Mapping[str, Any]]) -> dict[str, str]:
@@ -192,43 +213,48 @@ def contract_split(rows: list[Mapping[str, Any]]) -> dict[str, str]:
     return {c: ("DEVELOPMENT" if i < i60 else "VALIDATION" if i < i80 else "HOLDOUT") for i, c in enumerate(ordered)}
 
 
-def simulate_ladder(rows: list[Mapping[str, Any]], entry_policy: Mapping[str, Any], exit_policy: Mapping[str, Any]) -> list[dict[str, Any]]:
-    done, paths, byc = _raw_parts(rows)
+def simulate_ladder_prepared(prepared: Mapping[str, Any], entry_policy: Mapping[str, Any], exit_policy: Mapping[str, Any]) -> list[dict[str, Any]]:
+    done: set[str] = prepared["done"]
+    timelines: Mapping[str, list[dict[str, Any]]] = prepared["timelines"]
+    byc: Mapping[str, list[dict[str, Any]]] = prepared["candidates_by_contract"]
     out: list[dict[str, Any]] = []
-    for c, raw in byc.items():
-        candidates = [r for r in sorted(raw, key=lambda x: q.dt(x.get("timestamp_utc"))) if q.baseline_qualified(r)]
+    for c, candidates in byc.items():
         earliest = datetime.min.replace(tzinfo=timezone.utc)
         used: set[str] = set(); idx = 1
         while True:
             cand = next((r for r in candidates if q.cid(r) not in used and q.dt(r.get("timestamp_utc")) > earliest), None)
             if cand is None:
                 break
-            used.add(q.cid(cand))
-            if q.cid(cand) not in done:
+            candidate_id = q.cid(cand)
+            used.add(candidate_id)
+            if candidate_id not in done:
                 continue
-            pr = paths.get(q.cid(cand), [])
-            entry = choose_entry(cand, pr, entry_policy)
+            timeline = timelines.get(candidate_id, [])
+            entry = _choose_entry_from_timeline(cand, timeline, entry_policy)
             if entry is None:
                 continue
-            ex = simulate_exit(cand, pr, entry, exit_policy)
+            ex = _simulate_exit_from_timeline(timeline, entry, exit_policy)
             if not ex.get("scoreable"):
                 continue
             rec = {
                 "contract": c,
-                "candidate_id": q.cid(cand),
+                "candidate_id": candidate_id,
                 "opportunity_index": idx,
                 "side": str(cand.get("side") or "").strip().upper(),
                 **entry,
                 **ex,
             }
             out.append(rec)
-            # Only a real protection exit unlocks another scalp; terminal fallback
-            # is accounting telemetry, not a synthetic reset.
             nxt = ex.get("protected_exit_timestamp")
             if not nxt:
                 break
             earliest = nxt; idx += 1
     return out
+
+
+def simulate_ladder(rows: list[Mapping[str, Any]], entry_policy: Mapping[str, Any], exit_policy: Mapping[str, Any]) -> list[dict[str, Any]]:
+    """Compatibility API for one policy; full grid uses one shared preindex."""
+    return simulate_ladder_prepared(prepare_rows(rows), entry_policy, exit_policy)
 
 
 def summarize(records: list[dict[str, Any]], denominator_contracts: set[str] | None = None) -> dict[str, Any]:
@@ -268,15 +294,19 @@ def summarize(records: list[dict[str, Any]], denominator_contracts: set[str] | N
 
 def analyze(rows: list[Mapping[str, Any]]) -> dict[str, Any]:
     split = contract_split(rows)
+    prepared = prepare_rows(rows)
+    denominator_by_part = {
+        part: {c for c, s in split.items() if s == part}
+        for part in ("DEVELOPMENT", "VALIDATION", "HOLDOUT")
+    }
     out: list[dict[str, Any]] = []
     for ename, ep in ENTRY_POLICIES.items():
         for xname, xp in EXIT_POLICIES.items():
-            recs = simulate_ladder(rows, ep, xp)
+            recs = simulate_ladder_prepared(prepared, ep, xp)
             result = {"entry_policy": ename, "exit_policy": xname}
             for part in ("DEVELOPMENT", "VALIDATION", "HOLDOUT"):
-                dcontracts = {c for c, s in split.items() if s == part}
                 z = [r for r in recs if split.get(r["contract"]) == part]
-                result[part.lower()] = summarize(z, dcontracts)
+                result[part.lower()] = summarize(z, denominator_by_part[part])
             out.append(result)
     return {
         "version": VERSION,
