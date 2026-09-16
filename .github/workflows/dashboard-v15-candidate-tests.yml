@@ -1,0 +1,40 @@
+name: Dashboard V15 responsive candidate tests
+
+on:
+  push:
+    branches: [scalp-ui-state-contract-v1]
+    paths:
+      - 'BTC15_DASHBOARD_COMBINED_SCALP_UI_V15.py'
+      - 'test_BTC15_DASHBOARD_COMBINED_SCALP_UI_V15.py'
+      - 'test_BTC15_DASHBOARD_PRESENTATION_AUDIT_V15.py'
+      - 'BTC15_DASHBOARD_V15_RESPONSIVE_CANDIDATE_FREEZE.md'
+      - '.github/workflows/dashboard-v15-candidate-tests.yml'
+  pull_request:
+    paths:
+      - 'BTC15_DASHBOARD_COMBINED_SCALP_UI_V15.py'
+      - 'test_BTC15_DASHBOARD_COMBINED_SCALP_UI_V15.py'
+      - 'test_BTC15_DASHBOARD_PRESENTATION_AUDIT_V15.py'
+      - 'BTC15_DASHBOARD_V15_RESPONSIVE_CANDIDATE_FREEZE.md'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Prove inherited V14 still passes
+        run: |
+          python -m unittest -v test_BTC15_DASHBOARD_COMBINED_SCALP_UI_V14.py
+          python -m unittest -v test_BTC15_DASHBOARD_PRESENTATION_AUDIT_V14.py
+      - name: Test V15 responsive candidate
+        run: |
+          python -m unittest -v test_BTC15_DASHBOARD_COMBINED_SCALP_UI_V15.py
+          python -m unittest -v test_BTC15_DASHBOARD_PRESENTATION_AUDIT_V15.py
+          python BTC15_DASHBOARD_COMBINED_SCALP_UI_V15.py --self-test
