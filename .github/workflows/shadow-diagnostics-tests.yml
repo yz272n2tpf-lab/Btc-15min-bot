@@ -61,3 +61,4 @@ jobs:
           python -m unittest -v test_scalp_market_regime_live_review_v1_1.py
           python -m unittest -v test_scalp_regime_tag_coverage_audit_v1_1.py
           python -m unittest -v test_scalp_regime_tag_coverage_live_review_v1_1.py
+          python -m unittest -v test_scalp_regime_forward_observation_v1_1.py
