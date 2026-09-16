@@ -32,3 +32,4 @@ jobs:
           python -m unittest -v test_scalp_specialist_union_live_review_v1.py
           python -m unittest -v test_scalp_kalshi_lag_fingerprint_v1.py
           python -m unittest -v test_scalp_specialist_union_live_review_v2.py
+          python -m unittest -v test_scalp_lane_complementarity_v1.py
