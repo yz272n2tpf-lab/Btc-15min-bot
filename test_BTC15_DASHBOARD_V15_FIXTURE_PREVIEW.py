@@ -7,7 +7,7 @@ import BTC15_DASHBOARD_V15_FIXTURE_PREVIEW as preview
 
 
 class V15FixturePreviewTests(unittest.TestCase):
-    def test_all_frozen_and_time_guard_fixtures_are_present(self):
+    def test_all_frozen_time_and_rollover_fixtures_are_present(self):
         models = preview.preview_models()
         self.assertEqual(
             set(models),
@@ -22,6 +22,7 @@ class V15FixturePreviewTests(unittest.TestCase):
                 "TIME_5M_CAUTION",
                 "TIME_3M_GUARD",
                 "ROLLOVER",
+                "CONTRACT_ROLLOVER_HISTORY",
             },
         )
 
@@ -39,6 +40,8 @@ class V15FixturePreviewTests(unittest.TestCase):
                 self.assertFalse(model["safety"]["watch_warning_thresholds_visible"])
                 self.assertFalse(model["safety"]["time_guardrail_signal_filtering"])
                 self.assertFalse(model["safety"]["time_guardrail_signal_suppression"])
+                self.assertFalse(model["safety"]["historical_scalp_actionable"])
+                self.assertFalse(model["safety"]["historical_scalp_can_change_current_signals"])
 
     def test_expensive_entry_fixture_is_tracking_only(self):
         model = preview.preview_models()["ACTIVE_CAUTION_ABOVE_50"]
@@ -67,6 +70,32 @@ class V15FixturePreviewTests(unittest.TestCase):
                 self.assertFalse(timer["signal_filtering"])
                 self.assertFalse(timer["signal_suppression"])
 
+    def test_contract_rollover_history_is_non_actionable_and_new_contract_wins(self):
+        model = preview.preview_models()["CONTRACT_ROLLOVER_HISTORY"]
+        hist = model["scalp_history_slot"]
+        self.assertTrue(model["rollover"]["rollover_detected"])
+        self.assertEqual(model["rollover"]["previous_contract"], "KXBTC15M-FIXTURE-OLD")
+        self.assertEqual(model["rollover"]["current_contract"], "KXBTC15M-FIXTURE-NEW")
+        self.assertEqual(model["contract"], "KXBTC15M-FIXTURE-NEW")
+        self.assertTrue(hist["visible"])
+        self.assertTrue(hist["historical_only"])
+        self.assertFalse(hist["actionable"])
+        self.assertEqual(hist["headline"], "#2 COMPLETE · PROTECTED EXIT")
+        self.assertNotIn("EXIT NOW", hist["headline"])
+        self.assertNotIn("PROTECT PROFITS", hist["headline"])
+        self.assertFalse(hist["orders"])
+        self.assertIsNone(hist["order_action"])
+        self.assertEqual(model["cards"]["CONTRACT_TIME_LEFT"]["primary"], "14:59")
+        self.assertEqual(model["cards"]["SCALP_OPPORTUNITY"]["action"], "WATCHING FOR SCALP")
+
+    def test_history_slot_is_reserved_even_when_hidden(self):
+        for name, model in preview.preview_models().items():
+            with self.subTest(name=name):
+                self.assertTrue(model["layout"]["scalp_history_slot_reserved"])
+                self.assertFalse(model["layout"]["scalp_history_slot_changes_core_card_order"])
+                self.assertTrue(model["scalp_history_slot"]["historical_only"])
+                self.assertFalse(model["scalp_history_slot"]["actionable"])
+
     def test_preview_html_is_offline_and_has_no_order_or_network_path(self):
         text = preview.build_html()
         for forbidden in (
@@ -80,6 +109,9 @@ class V15FixturePreviewTests(unittest.TestCase):
         self.assertIn("5M CAUTION", text)
         self.assertIn("3M GUARD RAIL", text)
         self.assertIn("NEXT CONTRACT SYNCING", text)
+        self.assertIn("CONTRACT ROLLOVER HISTORY", text)
+        self.assertIn('id="historySlot"', text)
+        self.assertIn("Historical context only", text)
 
     def test_viewport_breakpoints_match_frozen_contract(self):
         text = preview.build_html()
@@ -89,6 +121,7 @@ class V15FixturePreviewTests(unittest.TestCase):
         self.assertIn('grid-template-areas:"final early" "timer scalp" "flip flip"', text)
         self.assertIn("env(safe-area-inset-top)", text)
         self.assertIn("font-variant-numeric:tabular-nums", text)
+        self.assertIn(".history-slot{min-height:58px", text)
 
     def test_fixture_preview_keeps_flip_risk_non_numeric(self):
         models = preview.preview_models()
