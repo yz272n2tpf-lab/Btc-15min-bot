@@ -37,7 +37,7 @@ Tests use the repository's existing pinned requirements to generate realistic fi
 python -m unittest discover -s research_review -p 'test_*.py'
 ```
 
-42 tests cover snapshot integrity/comparisons (21), longitudinal history (6), and extra execution costs (15). They include mixed refresh snapshots, identity drift, duplicate observations, tampered evidence, altered exit timestamps despite equal counts, false readiness, exact paired arithmetic, missing outcomes, coverage denominators, all controls, rendering, offline replay and non-overwriting archives.
+54 regression tests cover snapshot integrity/comparisons (21), longitudinal history (6), extra execution costs (15), and the causal-audit harness (12). They include mixed refresh snapshots, identity drift, duplicate observations, tampered evidence, altered exit timestamps despite equal counts, false readiness, exact paired arithmetic, missing outcomes, coverage denominators, all controls, rendering, offline replay and non-overwriting archives.
 
 ## Longitudinal scorecard
 
@@ -67,6 +67,21 @@ python research_review/nextgen_v2_execution_costs.py \
 The directory must be new. `stress.json` includes both lot scenarios, paired conditional deltas, exit counts, distinct contracts, positive/zero/negative scored exits, unmatched entries, coverage, and mean break-even extra-cost buffers. `stress.md` shows the one-lot table. Missing exits and missing fee scores stay separate; no outcome is imputed as zero. No lane totals are added together.
 
 Equal costs on both sides of a paired comparison cancel in its delta. Watch warnings still share their frozen exits, so this tool does not award any economic benefit for earlier warnings. Costs do not model manual delay, liquidity, changing spreads, execution feasibility, repriced fees, or path-dependent exits. The grid is descriptive, not a tuned threshold or promotion gate. These small conditional samples do not establish comparative superiority.
+
+## Synthetic causal and boundary audit
+
+`nextgen_v2_causal_audit.py` first verifies that the local frozen source fingerprint matches the accepted manifest. It then imports the unchanged core functions and runs 6,952 deterministic checks over 40 generated quote paths plus hand-specified boundary cases. The source fingerprint is checked again at completion. Nothing is deployed, no polling loop is started, and no live data is fetched by this command.
+
+```bash
+python research_review/nextgen_v2_causal_audit.py \
+  --output research_review/causal_audits/reproduced_pinned_run
+```
+
+This uses the repository's pinned dependencies, like the regression tests. A new directory is required. `audit.json` records the source fingerprint, seed, group counts, failures, and limitations; `audit.md` is readable. The saved first run is `causal_audits/first_pinned_run/`.
+
+Checks cover strong/weak confirmation; two-event evidence; exact 30-second, 5-second-gap, chase-price and pullback-window boundaries; unknown safety flags; bad clocks and quotes; SCALP-2 membership; prefixes; changed future suffixes; poisoned outcome labels; duplicate events; event-time order; pre-entry peak exclusion; input immutability; and independent +5-cent-arm/4-cent-giveback exit arithmetic. Twelve harness tests demonstrate detection of deliberately injected in-memory look-ahead, changed exits, source drift, and input mutation, and preserve existing audit files.
+
+Passing is **mechanism evidence only**. Synthetic clean event-time prefixes do not validate received-time ordering, provider corrections, candidate-feature construction, serial-opportunity construction, raw live paths, or prospective cutoff eligibility. The audit preserves V1 Watch clock/exec_gain semantics. It is not a market-performance, execution-feasibility or certification pass.
 
 ## Interpretation limits
 

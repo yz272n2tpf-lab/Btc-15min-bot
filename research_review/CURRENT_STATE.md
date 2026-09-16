@@ -1,4 +1,21 @@
-# CURRENT STATE — execution-cost sensitivity milestone
+# CURRENT STATE — synthetic causal-audit milestone
+
+Latest market evidence captured 2026-09-16 at 23:49:00 UTC (7:49 PM Eastern). This Work thread is the sole engineering/control authority.
+
+- **CONTROL:** All frozen V1 collectors and the accepted V2 experiment remain untouched. The deployment, start command, source code and variables were not changed. No new Railway slot was used.
+- **NEW SHADOW:** V2 remains on accepted deployment `17cac03e-20a2-46be-b535-c31f63aaf6fa`. The latest coherent snapshot has 5 full contracts and 8 serial opportunities with no integrity errors. Four chronological checkpoints pass history validation. Added an undeployed synthetic causal/boundary audit: 6,952 checks passed, zero failures; the entire regression suite now passes 54 tests.
+- **BLOCKED:** 95 more full contracts and 92 more signals are needed for the overall review floor. Per-lane efficacy and manual-fill performance remain unestablished. Synthetic mechanism tests cannot prove live provider timestamps, candidate-feature causality, raw path history or cutoff eligibility.
+- **NEXT STEP:** Capture another coherent post-contract checkpoint and rerun the unchanged longitudinal/cost reports. Keep all policies and collectors frozen. A promising hypothesis still requires a separately frozen prospective certification window; do not treat this engineering-test pass as certification.
+
+## Work completed
+
+New `nextgen_v2_causal_audit.py` invokes only unchanged fingerprint-pinned local core functions. It checks clean event-time prefixes, altered future suffixes, poisoned outcome labels, duplicate events, 30/60-second and price boundaries, SCALP-2 selection membership, pre-entry peak exclusion, input immutability and independent frozen-exit arithmetic. Twelve new regression tests prove the harness detects injected in-memory look-ahead, changed exits, source drift and input mutation. No frozen file is edited and no service loop is started.
+
+The 6,952 checks use 40 deterministic synthetic tapes, not new market contracts. They provide no efficacy, live-causality or execution guarantee. Audit evidence is in `causal_audits/first_pinned_run/`.
+
+The fresh market snapshot, four-checkpoint scorecard and unchanged execution-cost grid are saved under timestamp `20260916T234900Z` (capture directory `captures/20260916T234900184881Z/`). New entries remain sparse: SCALP-2 filters 0 against 2 control opportunity-2 entries; Dynamic Verify 2 against 8 immediate-control opportunities; Balanced Pullback 3; Price-disciplined Pullback 2. These counts and conditional outcomes are not a winner ranking.
+
+## Historical milestone — execution-cost sensitivity
 
 Evidence captured 2026-09-16 at 23:31:57 UTC (7:31 PM Eastern). Archive: `captures/20260916T233157908004Z/`. This Work thread remains the sole engineering/control authority.
 

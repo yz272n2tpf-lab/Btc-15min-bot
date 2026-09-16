@@ -1,0 +1,97 @@
+{
+  "audit_version": "NEXTGEN_V2_SYNTHETIC_CAUSAL_1",
+  "automatic_promotion": false,
+  "certification_passed": false,
+  "checks": 6952,
+  "code_sha256": "7f901c87774dd418db79a29f513b05245488a6ba0cedd6e7a8572ac9865ce55f",
+  "collector_commit": "f23b4b37c0bb5f2ba5a50915933962b9eb7813a1",
+  "expected_code_sha256": "7f901c87774dd418db79a29f513b05245488a6ba0cedd6e7a8572ac9865ce55f",
+  "failure_count": 0,
+  "failures": [],
+  "generated_tapes": 40,
+  "groups": {
+    "decision_future_suffix": {
+      "checks": 85,
+      "failures": 0
+    },
+    "decision_outcome_independence": {
+      "checks": 120,
+      "failures": 0
+    },
+    "decision_prefix": {
+      "checks": 2280,
+      "failures": 0
+    },
+    "duplicate_evidence": {
+      "checks": 120,
+      "failures": 0
+    },
+    "entry_exit_oracle": {
+      "checks": 85,
+      "failures": 0
+    },
+    "event_time_order": {
+      "checks": 120,
+      "failures": 0
+    },
+    "frozen_constants": {
+      "checks": 1,
+      "failures": 0
+    },
+    "input_immutability": {
+      "checks": 40,
+      "failures": 0
+    },
+    "pullback_boundaries": {
+      "checks": 20,
+      "failures": 0
+    },
+    "scalp2_boundaries": {
+      "checks": 4,
+      "failures": 0
+    },
+    "scalp2_outcome_independence": {
+      "checks": 40,
+      "failures": 0
+    },
+    "score_boundaries": {
+      "checks": 1,
+      "failures": 0
+    },
+    "source_integrity": {
+      "checks": 1,
+      "failures": 0
+    },
+    "verify_boundaries": {
+      "checks": 25,
+      "failures": 0
+    },
+    "watch_boundaries": {
+      "checks": 10,
+      "failures": 0
+    },
+    "watch_exit_oracle": {
+      "checks": 200,
+      "failures": 0
+    },
+    "watch_prefix": {
+      "checks": 3800,
+      "failures": 0
+    }
+  },
+  "limitations": [
+    "Synthetic deterministic fixtures test mechanics only, not efficacy, fill feasibility, latency, or market coverage.",
+    "Prefixes are clean event-time prefixes. Receipt ordering, provider revisions and delayed/backdated rows are not validated here.",
+    "Frozen Watch uses existing exec_gain semantics; this audit does not replace the V1 event clock or validate feed construction.",
+    "This does not independently verify live raw paths, candidate feature causality, serial-opportunity creation, or cutoff eligibility.",
+    "Existing summary-only evidence lacks raw paths; later certification still needs a separate prospective freeze and source audit."
+  ],
+  "live_raw_tape_audited": false,
+  "market_efficacy_established": false,
+  "orders": false,
+  "production_changes": false,
+  "same_sample_promotion": false,
+  "seed": 20260916,
+  "status": "MECHANISM_TESTS_PASS",
+  "winner_selected": false
+}
