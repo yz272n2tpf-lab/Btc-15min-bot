@@ -29,3 +29,4 @@ jobs:
           python -m unittest -v test_scalp_specialist_union_frontier_v1.py
           python -m unittest -v test_scalp_specialist_union_frontier_v2.py
           python -m unittest -v test_scalp_contract_zone_map_v1.py
+          python -m unittest -v test_scalp_specialist_union_live_review_v1.py
