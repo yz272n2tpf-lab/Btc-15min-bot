@@ -64,7 +64,7 @@ class MarketRegimeLedgerV11Tests(unittest.TestCase):
         self.assertFalse(out["semantic_repair"]["thresholds_changed"])
         self.assertTrue(out["holdout_is_descriptive_after_semantic_repair"])
         self.assertTrue(out["holdout_cannot_select_v1_1_rule"])
-        self.assertFalse(out["no_threshold_selection"])
+        self.assertTrue(out["no_threshold_selection"])
         self.assertFalse(out["automatic_promotion"])
         self.assertFalse(out["orders"])
 
