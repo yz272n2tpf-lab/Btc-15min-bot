@@ -39,6 +39,21 @@ python -m unittest discover -s research_review -p 'test_*.py'
 
 21 tests cover mixed refresh snapshots, identity drift, duplicate observations, tampered evidence, altered exit timestamps despite equal counts, false readiness, exact paired arithmetic, missing outcomes, coverage denominators, all controls, rendering, offline replay and non-overwriting archives.
 
+## Longitudinal scorecard
+
+The collector snapshots are cumulative. `nextgen_v2_longitudinal.py` therefore validates a chronological sequence and never adds checkpoint totals together. It rejects window/code drift, decreasing totals, missing historical opportunities, changed historical records, duplicate capture times, or invalid component bundles. The latest accepted snapshot supplies current totals and all 28 current comparisons.
+
+Pass explicit, chronological archives so drafts are never included accidentally:
+
+```bash
+python research_review/nextgen_v2_longitudinal.py \
+  research_review/captures/accepted_checkpoint/bundle.json \
+  research_review/captures/20260916T225513444136Z/bundle.json \
+  --output research_review/scorecards/first_contract
+```
+
+The output directory must be new. It writes `scorecard.json` and `scorecard.md`; it makes no network calls and cannot change a collector.
+
 ## Interpretation limits
 
 The overall 100-contract / 100-signal floor permits manual review only; it does not establish lane-specific sample sufficiency. Comparisons show opportunity and distinct-contract counts. They do not claim independent observations, statistical significance, confidence intervals or total portfolio P&L. Repeated entries from one contract must not be interpreted as independent contracts.

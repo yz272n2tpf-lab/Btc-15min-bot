@@ -2,6 +2,8 @@
 
 Captured 2026-09-16 at 22:55:13 UTC (6:55 PM Eastern). Archive: `captures/20260916T225513444136Z/`.
 
+Longitudinal tooling milestone: `nextgen_v2_longitudinal.py` now accepts explicit chronological bundle archives, rejects experiment/window drift and rewritten history, and never sums cumulative checkpoints. The first scorecard in `scorecards/first_contract/` accepted both frozen checkpoints and reports the latest totals of 1 contract / 2 signals. The complete read-only review suite passes 27 tests.
+
 - **CONTROL:** All 49 pre-existing deployment IDs match the accepted deployment receipt; no staged Railway changes. Frozen V1 collectors remain untouched.
 - **NEW SHADOW:** Combined V2 remains SUCCESS on the accepted deployment and fingerprint listed below. One full eligible contract, two serial opportunities, all four families present, and no review integrity errors. This milestone adds evidence and documentation only to the undeployed review branch.
 - **BLOCKED:** 99 more full contracts and 98 more signals are needed to reach the overall manual-review floor. One contract cannot establish an advantage, false-warning rate, or lane-specific sufficiency. No winner is selected.
