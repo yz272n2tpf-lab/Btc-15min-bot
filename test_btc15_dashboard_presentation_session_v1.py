@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import copy
 import unittest
 
 from btc15_dashboard_presentation_session_v1 import DashboardPresentationSession
@@ -44,11 +43,7 @@ def scalp_ui(
         "opportunity_index": opp,
         "serial_opportunities_completed": completed,
         "scanning_for_next": scanning,
-        "entry_guidance": {
-            "tier": tier,
-            "label": tier,
-            "presentation_only": True,
-        },
+        "entry_guidance": {"tier": tier, "label": tier, "presentation_only": True},
         "entry_ask_c": entry_c,
         "current_bid_c": bid_c,
         "exec_gain_c": gain_c,
@@ -85,14 +80,7 @@ class DashboardPresentationSessionV1Tests(unittest.TestCase):
 
         stale = session.process(
             combined(seconds=580.0),
-            scalp_ui(
-                lifecycle="ACTIVE",
-                app_ready=False,
-                source_fresh=False,
-                block_reason="SCALP SOURCE STALE",
-                tier="UNAVAILABLE",
-                entry_c=None,
-            ),
+            scalp_ui(lifecycle="ACTIVE", app_ready=False, source_fresh=False, block_reason="SCALP SOURCE STALE", tier="UNAVAILABLE", entry_c=None),
         )
         self.assertTrue(stale["cards"]["SCALP_OPPORTUNITY"]["action"].startswith("WAIT ·"))
         self.assertTrue(stale["presentation_session"]["current_fail_closed"])
@@ -100,15 +88,7 @@ class DashboardPresentationSessionV1Tests(unittest.TestCase):
 
         recovered = session.process(
             combined(seconds=560.0),
-            scalp_ui(
-                lifecycle="PROTECT",
-                tier="UNAVAILABLE",
-                entry_c=None,
-                bid_c=40.0,
-                gain_c=9.0,
-                peak_c=10.0,
-                giveback_c=1.0,
-            ),
+            scalp_ui(lifecycle="PROTECT", tier="UNAVAILABLE", entry_c=None, bid_c=40.0, gain_c=9.0, peak_c=10.0, giveback_c=1.0),
         )
         scalp = recovered["cards"]["SCALP_OPPORTUNITY"]
         self.assertEqual(scalp["action"], "PROTECT PROFITS")
@@ -119,35 +99,17 @@ class DashboardPresentationSessionV1Tests(unittest.TestCase):
 
     def test_tracking_only_survives_stale_wait_and_never_becomes_position_wording(self):
         session = DashboardPresentationSession()
-        first = session.process(
-            combined(),
-            scalp_ui(tier="CAUTION_ABOVE_50", entry_c=71.0, bid_c=72.0),
-        )
+        first = session.process(combined(), scalp_ui(tier="CAUTION_ABOVE_50", entry_c=71.0, bid_c=72.0))
         self.assertIn("TRACKING ONLY", first["cards"]["SCALP_OPPORTUNITY"]["action"])
         self.assertEqual(first["manual_entry_context"]["state"], "TRACKING_ONLY_NO_POSITION")
 
         session.process(
             combined(seconds=580.0),
-            scalp_ui(
-                lifecycle="ACTIVE",
-                app_ready=False,
-                source_fresh=False,
-                block_reason="SCALP SOURCE STALE",
-                tier="UNAVAILABLE",
-                entry_c=None,
-            ),
+            scalp_ui(lifecycle="ACTIVE", app_ready=False, source_fresh=False, block_reason="SCALP SOURCE STALE", tier="UNAVAILABLE", entry_c=None),
         )
         recovered = session.process(
             combined(seconds=550.0),
-            scalp_ui(
-                lifecycle="PROTECT",
-                tier="UNAVAILABLE",
-                entry_c=None,
-                bid_c=78.0,
-                gain_c=7.0,
-                peak_c=10.0,
-                giveback_c=3.0,
-            ),
+            scalp_ui(lifecycle="PROTECT", tier="UNAVAILABLE", entry_c=None, bid_c=78.0, gain_c=7.0, peak_c=10.0, giveback_c=3.0),
         )
         scalp = recovered["cards"]["SCALP_OPPORTUNITY"]
         self.assertIn("TRACKING ONLY", scalp["action"])
@@ -159,11 +121,7 @@ class DashboardPresentationSessionV1Tests(unittest.TestCase):
         session = DashboardPresentationSession()
         old = session.process(combined("C1"), scalp_ui(contract="C1", tier="IDEAL_25_35", entry_c=31.0))
         self.assertEqual(old["manual_entry_context"]["state"], "ACCEPTABLE_ENTRY_PATH")
-
-        new = session.process(
-            combined("C2", 899.0),
-            scalp_ui(contract="C2", tier="CAUTION_ABOVE_50", entry_c=68.0),
-        )
+        new = session.process(combined("C2", 899.0), scalp_ui(contract="C2", tier="CAUTION_ABOVE_50", entry_c=68.0))
         self.assertEqual(new["contract"], "C2")
         self.assertEqual(new["manual_entry_context"]["state"], "TRACKING_ONLY_NO_POSITION")
         self.assertIn("TRACKING ONLY", new["cards"]["SCALP_OPPORTUNITY"]["action"])
@@ -172,12 +130,8 @@ class DashboardPresentationSessionV1Tests(unittest.TestCase):
     def test_out_of_order_scalp_regression_is_quarantined_but_timer_and_final_keep_advancing(self):
         session = DashboardPresentationSession()
         session.process(combined(seconds=600.0), scalp_ui())
-        protect = session.process(
-            combined(seconds=540.0),
-            scalp_ui(lifecycle="PROTECT", bid_c=40.0, gain_c=9.0, peak_c=10.0, giveback_c=1.0),
-        )
+        protect = session.process(combined(seconds=540.0), scalp_ui(lifecycle="PROTECT", bid_c=40.0, gain_c=9.0, peak_c=10.0, giveback_c=1.0))
         self.assertEqual(protect["cards"]["SCALP_OPPORTUNITY"]["action"], "PROTECT PROFITS")
-
         regressed = session.process(
             combined(seconds=500.0, final_state="LOCK", final_side="UP", final_fair=.94),
             scalp_ui(lifecycle="ACTIVE", bid_c=39.0, gain_c=8.0, peak_c=10.0, giveback_c=2.0),
@@ -193,24 +147,42 @@ class DashboardPresentationSessionV1Tests(unittest.TestCase):
     def test_fail_closed_wait_is_immediate_even_after_protect(self):
         session = DashboardPresentationSession()
         session.process(combined(), scalp_ui())
-        session.process(
-            combined(seconds=560.0),
-            scalp_ui(lifecycle="PROTECT", bid_c=40.0, gain_c=9.0, peak_c=10.0, giveback_c=1.0),
-        )
+        session.process(combined(seconds=560.0), scalp_ui(lifecycle="PROTECT", bid_c=40.0, gain_c=9.0, peak_c=10.0, giveback_c=1.0))
         stale = session.process(
             combined(seconds=550.0),
-            scalp_ui(
-                lifecycle="PROTECT",
-                app_ready=False,
-                source_fresh=False,
-                block_reason="SCALP SOURCE STALE",
-                tier="UNAVAILABLE",
-                entry_c=None,
-            ),
+            scalp_ui(lifecycle="PROTECT", app_ready=False, source_fresh=False, block_reason="SCALP SOURCE STALE", tier="UNAVAILABLE", entry_c=None),
         )
         self.assertTrue(stale["cards"]["SCALP_OPPORTUNITY"]["action"].startswith("WAIT ·"))
         self.assertTrue(stale["presentation_session"]["current_fail_closed"])
         self.assertFalse(stale["presentation_session"]["current_scalp_quarantined"])
+
+    def test_completed_scalp_history_persists_through_scan_to_next_active(self):
+        session = DashboardPresentationSession()
+        exited = session.process(
+            combined(seconds=400.0),
+            scalp_ui(lifecycle="EXIT", opp=1, completed=1, entry_c=31.0, bid_c=37.0, gain_c=6.0, peak_c=11.0, giveback_c=5.0),
+        )
+        self.assertEqual(exited["cards"]["SCALP_OPPORTUNITY"]["underlying_lifecycle_state"], "EXIT")
+
+        scanning = session.process(
+            combined(seconds=390.0),
+            scalp_ui(lifecycle="PASS", side=None, opp=None, completed=1, scanning=True, tier="UNAVAILABLE", entry_c=None, bid_c=None, gain_c=None, peak_c=None, giveback_c=None),
+        )
+        self.assertTrue(scanning["scalp_history_slot"]["visible"])
+        self.assertIn("#1 COMPLETE", scanning["scalp_history_slot"]["headline"])
+
+        active2 = session.process(
+            combined(seconds=370.0),
+            scalp_ui(lifecycle="ACTIVE", opp=2, completed=1, tier="GOOD_36_50", entry_c=42.0, bid_c=44.0, gain_c=2.0, peak_c=2.0, giveback_c=0.0),
+        )
+        self.assertEqual(active2["cards"]["SCALP_OPPORTUNITY"]["opportunity_index"], 2)
+        self.assertIn("#2 · ENTRY AVAILABLE", active2["cards"]["SCALP_OPPORTUNITY"]["action"])
+        self.assertTrue(active2["scalp_history_slot"]["visible"])
+        self.assertIn("#1 COMPLETE", active2["scalp_history_slot"]["headline"])
+        self.assertFalse(active2["scalp_history_slot"]["actionable"])
+        self.assertTrue(active2["presentation_session"]["completed_history_carried_forward"])
+        self.assertFalse(active2["safety"]["carried_history_actionable"])
+        self.assertFalse(active2["safety"]["carried_history_changes_current_signals"])
 
     def test_reset_clears_both_memories(self):
         session = DashboardPresentationSession()
@@ -230,6 +202,8 @@ class DashboardPresentationSessionV1Tests(unittest.TestCase):
         self.assertFalse(out["safety"]["presentation_session_signal_filtering"])
         self.assertFalse(out["safety"]["presentation_session_signal_suppression"])
         self.assertFalse(out["safety"]["presentation_session_orders"])
+        self.assertFalse(out["safety"]["carried_history_actionable"])
+        self.assertFalse(out["safety"]["carried_history_changes_current_signals"])
         self.assertFalse(out["presentation_session"]["orders"])
 
 
