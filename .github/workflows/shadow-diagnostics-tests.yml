@@ -51,3 +51,4 @@ jobs:
           python -m unittest -v test_scalp_coverage_rescue_v1.py
           python -m unittest -v test_scalp_coverage_rescue_forward_v1.py
           python -m unittest -v test_scalp_reversal_reentry_ladder_v1.py
+          python -m unittest -v test_scalp_reversal_reentry_live_review_v1.py
