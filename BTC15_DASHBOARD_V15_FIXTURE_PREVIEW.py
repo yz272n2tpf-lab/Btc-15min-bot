@@ -4,8 +4,8 @@
 NO NETWORK | FIXTURE DATA ONLY | PRESENTATION ONLY | NO ORDERS
 
 Builds a self-contained HTML page from the frozen scalp UI fixtures and mobile
-view-model. It is intentionally separate from the live V14/V15 dashboard and is
-used only for deterministic phone/tablet visual QA.
+view-model V2. It is intentionally separate from the live V14/V15 dashboard and
+is used only for deterministic phone/tablet visual QA.
 """
 from __future__ import annotations
 
@@ -13,19 +13,26 @@ from html import escape
 import json
 from pathlib import Path
 
-from btc15_mobile_dashboard_view_model_v1 import build_mobile_dashboard_view_model
+from btc15_mobile_dashboard_view_model_v2 import build_mobile_dashboard_view_model
 from btc15_scalp_ui_state_fixtures_v1 import FIXTURES
 
-VERSION = "BTC15_DASHBOARD_V15_FIXTURE_PREVIEW"
+VERSION = "BTC15_DASHBOARD_V15_FIXTURE_PREVIEW_V2_TIME_GUARDS"
 OUT = Path("/tmp/BTC15_DASHBOARD_V15_FIXTURE_PREVIEW.html")
+
+TIME_FIXTURES = {
+    "TIME_5M_CAUTION": 300.0,
+    "TIME_3M_GUARD": 180.0,
+    "ROLLOVER": 0.0,
+}
 
 
 def combined_for_fixture(name: str) -> dict:
     # Keep FINAL/EARLY stable so the preview isolates scalp/layout transitions.
     # This is deterministic fixture data, never a live signal.
+    seconds_left = TIME_FIXTURES.get(name, 600.0)
     return {
         "contract": "KXBTC15M-FIXTURE",
-        "canonical_seconds_left": 600.0,
+        "canonical_seconds_left": seconds_left,
         "up_bid": .44,
         "up_ask": .45,
         "down_bid": .55,
@@ -46,10 +53,14 @@ def combined_for_fixture(name: str) -> dict:
 
 
 def preview_models() -> dict[str, dict]:
-    return {
+    models = {
         name: build_mobile_dashboard_view_model(combined_for_fixture(name), fixture)
         for name, fixture in FIXTURES.items()
     }
+    wait_fixture = FIXTURES["WAIT"]
+    for name in TIME_FIXTURES:
+        models[name] = build_mobile_dashboard_view_model(combined_for_fixture(name), wait_fixture)
+    return models
 
 
 def build_html() -> str:
@@ -88,7 +99,8 @@ body{{padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-ri
 .row span{{color:var(--muted)}}
 .row strong{{text-align:right}}
 .tone-positive .action{{color:var(--good)}} .tone-caution .action{{color:var(--warn)}} .tone-protect .action{{color:var(--warn)}} .tone-exit .action{{color:var(--exit)}} .tone-lock .action{{color:var(--lock)}}
-.timer .primary{{font-size:35px;font-weight:950;font-variant-numeric:tabular-nums;min-height:auto}}
+.timer .action{{font-size:35px;font-weight:950;font-variant-numeric:tabular-nums;min-height:auto}}
+.timer .primary{{min-height:1.5em;color:#cfdae2}}
 .safe{{margin-top:12px;text-align:center;color:#6f8494;font-size:10px}}
 @media(min-width:768px) and (max-width:1180px){{
  .grid{{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-areas:"final final" "early timer" "scalp scalp" "flip flip";gap:14px}}
@@ -117,7 +129,9 @@ body{{padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-ri
  function card(c){{
    const rows=(c.rows||[]).map(r=>`<div class="row"><span>${{esc(r.label)}}</span><strong>${{esc(r.value)}}</strong></div>`).join('');
    const timer=c.id==='CONTRACT_TIME_LEFT'?' timer':'';
-   return `<section class="card tone-${{esc(c.tone||'neutral')}}${{timer}}" id="${{esc(c.id)}}"><div class="card-title">${{esc(c.title)}}</div><div class="action">${{esc(c.action||c.primary||'—')}}</div>${{c.action?`<div class="primary">${{esc(c.primary||'—')}}</div>`:''}}<div class="rows">${{rows}}</div></section>`;
+   const mainAction=c.action||c.primary||'—';
+   const secondary=c.action?(c.primary||''):(c.status_label||'');
+   return `<section class="card tone-${{esc(c.tone||'neutral')}}${{timer}}" id="${{esc(c.id)}}"><div class="card-title">${{esc(c.title)}}</div><div class="action">${{esc(mainAction)}}</div>${{secondary?`<div class="primary">${{esc(secondary)}}</div>`:''}}<div class="rows">${{rows}}</div></section>`;
  }}
  function render(name){{
    const m=DATA[name]; if(!m)return;
