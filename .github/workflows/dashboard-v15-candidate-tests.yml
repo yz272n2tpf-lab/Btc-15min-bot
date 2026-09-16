@@ -7,6 +7,7 @@ on:
       - 'BTC15_DASHBOARD_COMBINED_SCALP_UI_V15.py'
       - 'test_BTC15_DASHBOARD_COMBINED_SCALP_UI_V15.py'
       - 'test_BTC15_DASHBOARD_PRESENTATION_AUDIT_V15.py'
+      - 'test_BTC15_DASHBOARD_DOM_STRUCTURE_V15.py'
       - 'BTC15_DASHBOARD_V15_RESPONSIVE_CANDIDATE_FREEZE.md'
       - '.github/workflows/dashboard-v15-candidate-tests.yml'
   pull_request:
@@ -14,6 +15,7 @@ on:
       - 'BTC15_DASHBOARD_COMBINED_SCALP_UI_V15.py'
       - 'test_BTC15_DASHBOARD_COMBINED_SCALP_UI_V15.py'
       - 'test_BTC15_DASHBOARD_PRESENTATION_AUDIT_V15.py'
+      - 'test_BTC15_DASHBOARD_DOM_STRUCTURE_V15.py'
       - 'BTC15_DASHBOARD_V15_RESPONSIVE_CANDIDATE_FREEZE.md'
 
 permissions:
@@ -33,6 +35,8 @@ jobs:
         run: |
           python -m unittest -v test_BTC15_DASHBOARD_COMBINED_SCALP_UI_V14.py
           python -m unittest -v test_BTC15_DASHBOARD_PRESENTATION_AUDIT_V14.py
+      - name: Prove current DOM can accept guarded V15 layout
+        run: python -m unittest -v test_BTC15_DASHBOARD_DOM_STRUCTURE_V15.py
       - name: Test V15 responsive candidate
         run: |
           python -m unittest -v test_BTC15_DASHBOARD_COMBINED_SCALP_UI_V15.py
