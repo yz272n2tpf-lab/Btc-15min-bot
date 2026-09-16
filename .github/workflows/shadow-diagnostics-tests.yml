@@ -54,3 +54,4 @@ jobs:
           python -m unittest -v test_scalp_economics_exit_live_review_v1.py
           python -m unittest -v test_scalp_economics_forward_v1.py
           python -m unittest -v test_scalp_market_regime_ledger_v1.py
+          python -m unittest -v test_scalp_market_regime_live_review_v1.py
