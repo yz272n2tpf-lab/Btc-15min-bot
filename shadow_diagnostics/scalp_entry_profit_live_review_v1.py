@@ -74,6 +74,7 @@ def compact(result: dict[str, Any]) -> dict[str, Any]:
 
 
 def analyze_rows(rows: list[dict[str, str]], sha: str = "", source_bytes: int = 0) -> dict[str, Any]:
+    print(f"SCALP_ENTRY_PROFIT_PROGRESS | analyze_start | rows={len(rows)} | bytes={source_bytes}", flush=True)
     result = ladder.analyze(rows)
     out = compact(result)
     out.update({
@@ -91,12 +92,15 @@ def analyze_rows(rows: list[dict[str, str]], sha: str = "", source_bytes: int = 
 
 
 def refresh_once() -> dict[str, Any]:
+    print("SCALP_ENTRY_PROFIT_PROGRESS | fetch_start", flush=True)
     rows, sha, source_bytes = source.fetch_rows()
+    print(f"SCALP_ENTRY_PROFIT_PROGRESS | fetch_ok | rows={len(rows)} | bytes={source_bytes}", flush=True)
     with LOCK:
         old_sha = STATE.get("source_sha256")
     if old_sha == sha and STATE.get("status") != "STARTING":
         with LOCK:
             STATE["last_poll_utc"] = utcnow()
+            print("SCALP_ENTRY_PROFIT_PROGRESS | source_unchanged", flush=True)
             return dict(STATE)
     result = analyze_rows(rows, sha=sha, source_bytes=source_bytes)
     result["last_poll_utc"] = utcnow()
@@ -110,12 +114,14 @@ def loop() -> None:
         try:
             refresh_once()
         except Exception as exc:
+            err = f"{type(exc).__name__}:{exc}"
+            print(f"SCALP_ENTRY_PROFIT_FAIL_CLOSED | {err}", flush=True)
             with LOCK:
                 STATE.update({
                     "ok": False,
                     "version": VERSION,
                     "status": "FAIL_CLOSED_ENTRY_PROFIT_REVIEW_ERROR",
-                    "error": f"{type(exc).__name__}:{exc}",
+                    "error": err,
                     "last_poll_utc": utcnow(),
                     "holdout_sealed": True,
                     "orders": False,
