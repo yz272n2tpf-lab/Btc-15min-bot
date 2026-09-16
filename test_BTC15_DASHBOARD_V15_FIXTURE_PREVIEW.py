@@ -7,7 +7,7 @@ import BTC15_DASHBOARD_V15_FIXTURE_PREVIEW as preview
 
 
 class V15FixturePreviewTests(unittest.TestCase):
-    def test_all_frozen_scalp_fixtures_are_present(self):
+    def test_all_frozen_and_time_guard_fixtures_are_present(self):
         models = preview.preview_models()
         self.assertEqual(
             set(models),
@@ -19,6 +19,9 @@ class V15FixturePreviewTests(unittest.TestCase):
                 "EXIT",
                 "SCANNING_NEXT",
                 "STALE_FAIL_CLOSED",
+                "TIME_5M_CAUTION",
+                "TIME_3M_GUARD",
+                "ROLLOVER",
             },
         )
 
@@ -34,6 +37,8 @@ class V15FixturePreviewTests(unittest.TestCase):
                 self.assertIsNone(model["safety"]["order_action"])
                 self.assertFalse(model["safety"]["numeric_flip_risk_visible"])
                 self.assertFalse(model["safety"]["watch_warning_thresholds_visible"])
+                self.assertFalse(model["safety"]["time_guardrail_signal_filtering"])
+                self.assertFalse(model["safety"]["time_guardrail_signal_suppression"])
 
     def test_expensive_entry_fixture_is_tracking_only(self):
         model = preview.preview_models()["ACTIVE_CAUTION_ABOVE_50"]
@@ -43,6 +48,24 @@ class V15FixturePreviewTests(unittest.TestCase):
         self.assertIn("TRACKING ONLY", scalp["action"])
         self.assertIn("DON'T CHASE", scalp["primary"])
         self.assertEqual(scalp["rows"][-1]["value"], "MODEL TRACKING ONLY · NO POSITION ASSUMED")
+
+    def test_time_guardrail_fixtures_use_single_timer_card(self):
+        models = preview.preview_models()
+        expectations = {
+            "TIME_5M_CAUTION": ("5:00", "CAUTION_5M", "5M CAUTION"),
+            "TIME_3M_GUARD": ("3:00", "GUARD_3M", "3M GUARD RAIL"),
+            "ROLLOVER": ("0:00", "ROLLOVER", "NEXT CONTRACT SYNCING"),
+        }
+        for name, (clock, band, label) in expectations.items():
+            with self.subTest(name=name):
+                timer = models[name]["cards"]["CONTRACT_TIME_LEFT"]
+                self.assertEqual(timer["primary"], clock)
+                self.assertEqual(timer["visible_timer_count"], 1)
+                self.assertEqual(timer["guardrail_band"], band)
+                self.assertEqual(timer["status_label"], label)
+                self.assertTrue(timer["presentation_only"])
+                self.assertFalse(timer["signal_filtering"])
+                self.assertFalse(timer["signal_suppression"])
 
     def test_preview_html_is_offline_and_has_no_order_or_network_path(self):
         text = preview.build_html()
@@ -54,6 +77,9 @@ class V15FixturePreviewTests(unittest.TestCase):
         self.assertIn("OFFLINE · FIXTURE DATA · NO ORDERS", text)
         self.assertIn("SIGNAL ONLY · MANUAL EXECUTION · FIXTURE PREVIEW · NO ORDERS", text)
         self.assertIn('type="application/json" id="fixtureData"', text)
+        self.assertIn("5M CAUTION", text)
+        self.assertIn("3M GUARD RAIL", text)
+        self.assertIn("NEXT CONTRACT SYNCING", text)
 
     def test_viewport_breakpoints_match_frozen_contract(self):
         text = preview.build_html()
