@@ -35,7 +35,7 @@ class ScalpContractZoneMapTests(unittest.TestCase):
                 "peak_gain": .12, "adverse_gain": -.01, "protected_exit_gain": .08, "t10_sec": 30,
             },
             {
-                "contract": "B", "seconds_left": 500, "entry_ask": .60,
+                "contract": "B", "seconds_left": 600, "entry_ask": .60,
                 "plus5": 1, "plus10": 1, "plus20": 0,
                 "peak_gain": .11, "adverse_gain": -.02, "protected_exit_gain": .07, "t10_sec": 45,
             },
