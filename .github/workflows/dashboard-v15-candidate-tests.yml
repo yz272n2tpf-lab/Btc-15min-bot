@@ -5,6 +5,7 @@ on:
     branches: [scalp-ui-state-contract-v1]
     paths:
       - 'BTC15_DASHBOARD_COMBINED_SCALP_UI_V15.py'
+      - 'BTC15_DASHBOARD_DOM_STRUCTURE_REPORT_V15.py'
       - 'test_BTC15_DASHBOARD_COMBINED_SCALP_UI_V15.py'
       - 'test_BTC15_DASHBOARD_PRESENTATION_AUDIT_V15.py'
       - 'test_BTC15_DASHBOARD_DOM_STRUCTURE_V15.py'
@@ -13,6 +14,7 @@ on:
   pull_request:
     paths:
       - 'BTC15_DASHBOARD_COMBINED_SCALP_UI_V15.py'
+      - 'BTC15_DASHBOARD_DOM_STRUCTURE_REPORT_V15.py'
       - 'test_BTC15_DASHBOARD_COMBINED_SCALP_UI_V15.py'
       - 'test_BTC15_DASHBOARD_PRESENTATION_AUDIT_V15.py'
       - 'test_BTC15_DASHBOARD_DOM_STRUCTURE_V15.py'
@@ -35,6 +37,14 @@ jobs:
         run: |
           python -m unittest -v test_BTC15_DASHBOARD_COMBINED_SCALP_UI_V14.py
           python -m unittest -v test_BTC15_DASHBOARD_PRESENTATION_AUDIT_V14.py
+      - name: Capture current generated DOM structure
+        run: python BTC15_DASHBOARD_DOM_STRUCTURE_REPORT_V15.py > v15_dom_structure.json
+      - name: Upload generated DOM structure
+        uses: actions/upload-artifact@v4
+        with:
+          name: v15-dom-structure
+          path: v15_dom_structure.json
+          retention-days: 3
       - name: Prove current DOM can accept guarded V15 layout
         run: python -m unittest -v test_BTC15_DASHBOARD_DOM_STRUCTURE_V15.py
       - name: Test V15 responsive candidate
