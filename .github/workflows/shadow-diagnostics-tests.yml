@@ -52,3 +52,4 @@ jobs:
           python -m unittest -v test_scalp_coverage_rescue_forward_v1.py
           python -m unittest -v test_scalp_entry_profit_ladder_v1.py
           python -m unittest -v test_scalp_entry_profit_live_review_v1.py
+          python -m unittest -v test_scalp_entry_profit_validation_freeze_v1.py
