@@ -3,8 +3,8 @@
 
 NO NETWORK | FIXTURE DATA ONLY | PRESENTATION ONLY | NO ORDERS
 
-Builds a self-contained HTML page from the frozen scalp UI fixtures and mobile
-view-model V4. It is intentionally separate from the live V14/V15 dashboard and
+Builds a self-contained HTML page from frozen scalp UI fixtures and mobile
+view-model V5. It is intentionally separate from the live V14/V15 dashboard and
 is used only for deterministic phone/tablet visual QA.
 """
 from __future__ import annotations
@@ -15,10 +15,10 @@ import json
 from pathlib import Path
 
 import btc15_mobile_dashboard_view_model_v3 as v3
-from btc15_mobile_dashboard_view_model_v4 import build_mobile_dashboard_view_model
+import btc15_mobile_dashboard_view_model_v5 as v5
 from btc15_scalp_ui_state_fixtures_v1 import FIXTURES
 
-VERSION = "BTC15_DASHBOARD_V15_FIXTURE_PREVIEW_V4_SCALP_MEMORY"
+VERSION = "BTC15_DASHBOARD_V15_FIXTURE_PREVIEW_V5_ENTRY_CONTEXT"
 OUT = Path("/tmp/BTC15_DASHBOARD_V15_FIXTURE_PREVIEW.html")
 
 TIME_FIXTURES = {
@@ -29,16 +29,18 @@ TIME_FIXTURES = {
 ROLLOVER_HISTORY_FIXTURE = "CONTRACT_ROLLOVER_HISTORY"
 SAME_CONTRACT_SCAN_FIXTURE = "SCALP_1_COMPLETE_SCAN_2"
 SAME_CONTRACT_ACTIVE_FIXTURE = "SCALP_1_COMPLETE_SCALP_2_ACTIVE"
+GOOD_BLIP_PROTECT_FIXTURE = "GOOD_ENTRY_TELEMETRY_BLIP_PROTECT"
+TRACKING_LATER_PROTECT_FIXTURE = "DONT_CHASE_LATER_PROTECT"
 
 
 def combined_for_fixture(name: str, *, contract: str | None = None, seconds_left: float | None = None) -> dict:
-    # Keep FINAL/EARLY stable so the preview isolates scalp/layout transitions.
-    # This is deterministic fixture data, never a live signal.
     if seconds_left is None:
         if name == ROLLOVER_HISTORY_FIXTURE:
             seconds_left = 899.0
         elif name in {SAME_CONTRACT_SCAN_FIXTURE, SAME_CONTRACT_ACTIVE_FIXTURE}:
             seconds_left = 240.0 if name == SAME_CONTRACT_SCAN_FIXTURE else 220.0
+        elif name in {GOOD_BLIP_PROTECT_FIXTURE, TRACKING_LATER_PROTECT_FIXTURE}:
+            seconds_left = 480.0
         else:
             seconds_left = TIME_FIXTURES.get(name, 600.0)
     if contract is None:
@@ -72,12 +74,7 @@ def _clone_ui(name: str, **updates) -> dict:
 
 
 def _exit_one_ui() -> dict:
-    return _clone_ui(
-        "EXIT",
-        opportunity_index=1,
-        serial_opportunities_completed=1,
-        scanning_for_next=False,
-    )
+    return _clone_ui("EXIT", opportunity_index=1, serial_opportunities_completed=1, scanning_for_next=False)
 
 
 def _previous_rollover_model() -> dict:
@@ -91,46 +88,82 @@ def _previous_same_contract_exit_model() -> dict:
 
 
 def _scan_two_ui() -> dict:
-    return _clone_ui(
-        "WAIT",
-        opportunity_index=None,
-        serial_opportunities_completed=1,
-        scanning_for_next=True,
-    )
+    return _clone_ui("WAIT", opportunity_index=None, serial_opportunities_completed=1, scanning_for_next=True)
 
 
 def _active_two_ui() -> dict:
+    return _clone_ui("ACTIVE_IDEAL", opportunity_index=2, serial_opportunities_completed=1, scanning_for_next=False)
+
+
+def _previous_good_entry_model() -> dict:
+    return v5.build_mobile_dashboard_view_model(
+        combined_for_fixture("ACTIVE_IDEAL", seconds_left=520.0),
+        _clone_ui("ACTIVE_IDEAL", opportunity_index=1, serial_opportunities_completed=0, scanning_for_next=False),
+    )
+
+
+def _good_entry_blip_protect_ui() -> dict:
     return _clone_ui(
-        "ACTIVE_IDEAL",
-        opportunity_index=2,
-        serial_opportunities_completed=1,
+        "PROTECT_PULLBACK",
+        opportunity_index=1,
+        serial_opportunities_completed=0,
         scanning_for_next=False,
+        entry_guidance={"tier": "UNAVAILABLE"},
+        entry_ask_c=None,
+    )
+
+
+def _previous_tracking_model() -> dict:
+    return v5.build_mobile_dashboard_view_model(
+        combined_for_fixture("ACTIVE_CAUTION_ABOVE_50", seconds_left=520.0),
+        _clone_ui("ACTIVE_CAUTION_ABOVE_50", opportunity_index=1, serial_opportunities_completed=0, scanning_for_next=False),
+    )
+
+
+def _tracking_later_protect_ui() -> dict:
+    return _clone_ui(
+        "PROTECT_PULLBACK",
+        opportunity_index=1,
+        serial_opportunities_completed=0,
+        scanning_for_next=False,
+        entry_guidance={"tier": "GOOD_36_50"},
+        entry_ask_c=44.0,
     )
 
 
 def preview_models() -> dict[str, dict]:
     models = {
-        name: build_mobile_dashboard_view_model(combined_for_fixture(name), fixture)
+        name: v5.build_mobile_dashboard_view_model(combined_for_fixture(name), fixture)
         for name, fixture in FIXTURES.items()
     }
     wait_fixture = FIXTURES["WAIT"]
     for name in TIME_FIXTURES:
-        models[name] = build_mobile_dashboard_view_model(combined_for_fixture(name), wait_fixture)
-    models[ROLLOVER_HISTORY_FIXTURE] = build_mobile_dashboard_view_model(
+        models[name] = v5.build_mobile_dashboard_view_model(combined_for_fixture(name), wait_fixture)
+    models[ROLLOVER_HISTORY_FIXTURE] = v5.build_mobile_dashboard_view_model(
         combined_for_fixture(ROLLOVER_HISTORY_FIXTURE),
         wait_fixture,
         previous_model=_previous_rollover_model(),
     )
     previous_same = _previous_same_contract_exit_model()
-    models[SAME_CONTRACT_SCAN_FIXTURE] = build_mobile_dashboard_view_model(
+    models[SAME_CONTRACT_SCAN_FIXTURE] = v5.build_mobile_dashboard_view_model(
         combined_for_fixture(SAME_CONTRACT_SCAN_FIXTURE),
         _scan_two_ui(),
         previous_model=previous_same,
     )
-    models[SAME_CONTRACT_ACTIVE_FIXTURE] = build_mobile_dashboard_view_model(
+    models[SAME_CONTRACT_ACTIVE_FIXTURE] = v5.build_mobile_dashboard_view_model(
         combined_for_fixture(SAME_CONTRACT_ACTIVE_FIXTURE),
         _active_two_ui(),
         previous_model=previous_same,
+    )
+    models[GOOD_BLIP_PROTECT_FIXTURE] = v5.build_mobile_dashboard_view_model(
+        combined_for_fixture(GOOD_BLIP_PROTECT_FIXTURE),
+        _good_entry_blip_protect_ui(),
+        previous_model=_previous_good_entry_model(),
+    )
+    models[TRACKING_LATER_PROTECT_FIXTURE] = v5.build_mobile_dashboard_view_model(
+        combined_for_fixture(TRACKING_LATER_PROTECT_FIXTURE),
+        _tracking_later_protect_ui(),
+        previous_model=_previous_tracking_model(),
     )
     return models
 
