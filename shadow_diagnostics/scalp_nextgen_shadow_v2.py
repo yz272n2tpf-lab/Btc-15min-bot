@@ -282,6 +282,30 @@ def frozen_rules() -> dict[str, Any]:
     }
 
 
+def integrity_report(state: Mapping[str, Any]) -> dict[str, Any]:
+    """Runtime evidence-integrity checks; never a performance/promotion gate."""
+    required = ("scalp2_economics_v2", "candidate_verify_v2", "watch_exit_v2", "selective_pullback_v2")
+    present = {name: isinstance(state.get(name), Mapping) for name in required}
+    watch = state.get("watch_exit_v2") or {}
+    exit_counts = [lane.get("frozen_exit_signals") for lane in watch.values()
+                   if isinstance(lane, Mapping) and lane.get("frozen_exit_signals") is not None]
+    watch_parity = bool(exit_counts) and len(set(exit_counts)) == 1
+    cutoff_ok = str(state.get("cutoff_utc") or "") == DEFAULT_CUTOFF_UTC
+    safety_ok = (state.get("orders") is False and state.get("automatic_promotion") is False
+                 and state.get("same_sample_promotion") is False
+                 and state.get("production_logic_changed") is False)
+    all_ok = all(present.values()) and watch_parity and cutoff_ok and safety_ok
+    return {
+        "all_checks_pass": all_ok,
+        "four_families_present": present,
+        "watch_frozen_exit_count_parity": watch_parity,
+        "watch_frozen_exit_counts": exit_counts,
+        "prospective_cutoff_exact": cutoff_ok,
+        "safety_flags_exact": safety_ok,
+        "performance_selection_or_promotion": False,
+    }
+
+
 def analyze_rows(rows: list[dict[str, str]], sha: str = "", source_bytes: int = 0,
                  cutoff_text: str | None = None) -> dict[str, Any]:
     cutoff = econ_v1.parse_cutoff(CUTOFF_TEXT if cutoff_text is None else cutoff_text)
@@ -307,6 +331,10 @@ def analyze_rows(rows: list[dict[str, str]], sha: str = "", source_bytes: int = 
         "production_logic_changed": False, "same_sample_promotion": False,
         "automatic_promotion": False, "shadow_only": True, "orders": False,
     }
+    state["runtime_integrity"] = integrity_report(state)
+    if not state["runtime_integrity"]["all_checks_pass"]:
+        state["ok"] = False
+        state["status"] = "FAIL_CLOSED_NEXTGEN_V2_INVARIANT"
     print("SCALP_NEXTGEN_V2 | " + json.dumps({k: state[k] for k in (
         "version", "status", "cutoff_utc", "future_full_contracts", "serial_signals",
         "evidence_readiness", "frozen_rules")}, separators=(",", ":"), sort_keys=True), flush=True)
