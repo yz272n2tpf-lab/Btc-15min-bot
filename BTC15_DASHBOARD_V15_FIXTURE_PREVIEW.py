@@ -4,20 +4,21 @@
 NO NETWORK | FIXTURE DATA ONLY | PRESENTATION ONLY | NO ORDERS
 
 Builds a self-contained HTML page from the frozen scalp UI fixtures and mobile
-view-model V3. It is intentionally separate from the live V14/V15 dashboard and
+view-model V4. It is intentionally separate from the live V14/V15 dashboard and
 is used only for deterministic phone/tablet visual QA.
 """
 from __future__ import annotations
 
+import copy
 from html import escape
 import json
 from pathlib import Path
 
-import btc15_mobile_dashboard_view_model_v2 as v2
-from btc15_mobile_dashboard_view_model_v3 import build_mobile_dashboard_view_model
+import btc15_mobile_dashboard_view_model_v3 as v3
+from btc15_mobile_dashboard_view_model_v4 import build_mobile_dashboard_view_model
 from btc15_scalp_ui_state_fixtures_v1 import FIXTURES
 
-VERSION = "BTC15_DASHBOARD_V15_FIXTURE_PREVIEW_V3_ROLLOVER_HISTORY"
+VERSION = "BTC15_DASHBOARD_V15_FIXTURE_PREVIEW_V4_SCALP_MEMORY"
 OUT = Path("/tmp/BTC15_DASHBOARD_V15_FIXTURE_PREVIEW.html")
 
 TIME_FIXTURES = {
@@ -26,13 +27,20 @@ TIME_FIXTURES = {
     "ROLLOVER": 0.0,
 }
 ROLLOVER_HISTORY_FIXTURE = "CONTRACT_ROLLOVER_HISTORY"
+SAME_CONTRACT_SCAN_FIXTURE = "SCALP_1_COMPLETE_SCAN_2"
+SAME_CONTRACT_ACTIVE_FIXTURE = "SCALP_1_COMPLETE_SCALP_2_ACTIVE"
 
 
 def combined_for_fixture(name: str, *, contract: str | None = None, seconds_left: float | None = None) -> dict:
     # Keep FINAL/EARLY stable so the preview isolates scalp/layout transitions.
     # This is deterministic fixture data, never a live signal.
     if seconds_left is None:
-        seconds_left = 899.0 if name == ROLLOVER_HISTORY_FIXTURE else TIME_FIXTURES.get(name, 600.0)
+        if name == ROLLOVER_HISTORY_FIXTURE:
+            seconds_left = 899.0
+        elif name in {SAME_CONTRACT_SCAN_FIXTURE, SAME_CONTRACT_ACTIVE_FIXTURE}:
+            seconds_left = 240.0 if name == SAME_CONTRACT_SCAN_FIXTURE else 220.0
+        else:
+            seconds_left = TIME_FIXTURES.get(name, 600.0)
     if contract is None:
         contract = "KXBTC15M-FIXTURE-NEW" if name == ROLLOVER_HISTORY_FIXTURE else "KXBTC15M-FIXTURE"
     return {
@@ -57,9 +65,47 @@ def combined_for_fixture(name: str, *, contract: str | None = None, seconds_left
     }
 
 
+def _clone_ui(name: str, **updates) -> dict:
+    out = copy.deepcopy(FIXTURES[name])
+    out.update(updates)
+    return out
+
+
+def _exit_one_ui() -> dict:
+    return _clone_ui(
+        "EXIT",
+        opportunity_index=1,
+        serial_opportunities_completed=1,
+        scanning_for_next=False,
+    )
+
+
 def _previous_rollover_model() -> dict:
     old_combined = combined_for_fixture("EXIT", contract="KXBTC15M-FIXTURE-OLD", seconds_left=1.0)
-    return v2.build_mobile_dashboard_view_model(old_combined, FIXTURES["EXIT"])
+    return v3.build_mobile_dashboard_view_model(old_combined, _exit_one_ui())
+
+
+def _previous_same_contract_exit_model() -> dict:
+    old_combined = combined_for_fixture("EXIT", contract="KXBTC15M-FIXTURE", seconds_left=250.0)
+    return v3.build_mobile_dashboard_view_model(old_combined, _exit_one_ui())
+
+
+def _scan_two_ui() -> dict:
+    return _clone_ui(
+        "WAIT",
+        opportunity_index=None,
+        serial_opportunities_completed=1,
+        scanning_for_next=True,
+    )
+
+
+def _active_two_ui() -> dict:
+    return _clone_ui(
+        "ACTIVE_IDEAL",
+        opportunity_index=2,
+        serial_opportunities_completed=1,
+        scanning_for_next=False,
+    )
 
 
 def preview_models() -> dict[str, dict]:
@@ -74,6 +120,17 @@ def preview_models() -> dict[str, dict]:
         combined_for_fixture(ROLLOVER_HISTORY_FIXTURE),
         wait_fixture,
         previous_model=_previous_rollover_model(),
+    )
+    previous_same = _previous_same_contract_exit_model()
+    models[SAME_CONTRACT_SCAN_FIXTURE] = build_mobile_dashboard_view_model(
+        combined_for_fixture(SAME_CONTRACT_SCAN_FIXTURE),
+        _scan_two_ui(),
+        previous_model=previous_same,
+    )
+    models[SAME_CONTRACT_ACTIVE_FIXTURE] = build_mobile_dashboard_view_model(
+        combined_for_fixture(SAME_CONTRACT_ACTIVE_FIXTURE),
+        _active_two_ui(),
+        previous_model=previous_same,
     )
     return models
 
