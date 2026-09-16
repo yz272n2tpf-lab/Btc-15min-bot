@@ -10,6 +10,10 @@ Maintains two deliberately separate presentation snapshots:
   presentation context such as the original acceptable-entry path across a
   temporary stale source).
 
+It also keeps the most recent completed same-contract scalp history visible as
+non-actionable context through SCAN -> next ACTIVE handoff. The history slot is
+never allowed to change current signals or imply a position.
+
 Safety always wins: a stale/current-unready frame displays WAIT immediately.
 The last healthy frame is never shown instead of that WAIT. It is only used as
 presentation context when a later healthy frame returns.
@@ -35,6 +39,10 @@ def _scalp(model: Mapping[str, Any] | None) -> dict[str, Any]:
     return dict((((model or {}).get("cards") or {}).get("SCALP_OPPORTUNITY") or {}))
 
 
+def _history(model: Mapping[str, Any] | None) -> dict[str, Any]:
+    return dict((model or {}).get("scalp_history_slot") or {})
+
+
 def _is_fail_closed(model: Mapping[str, Any] | None) -> bool:
     card = _scalp(model)
     action = str(card.get("action") or "").upper()
@@ -47,6 +55,45 @@ def _is_quarantined(model: Mapping[str, Any] | None) -> bool:
     return meta.get("scalp_frame_quarantined") is True
 
 
+def _valid_history(slot: Mapping[str, Any] | None) -> bool:
+    h = dict(slot or {})
+    return bool(
+        h.get("visible") is True
+        and h.get("historical_only") is True
+        and h.get("actionable") is False
+        and h.get("orders") is not True
+    )
+
+
+def _carry_same_contract_history(
+    previous: Mapping[str, Any] | None,
+    current: Mapping[str, Any],
+) -> tuple[dict[str, Any], bool]:
+    out = copy.deepcopy(dict(current))
+    if not previous or _contract(previous) != _contract(current):
+        return out, False
+
+    current_history = _history(out)
+    if _valid_history(current_history):
+        return out, False
+
+    previous_history = _history(previous)
+    if not _valid_history(previous_history):
+        return out, False
+
+    # History is permanently non-actionable and may only occupy the reserved
+    # history slot. It never modifies the current SCALP/FINAL/EARLY/TIMER cards.
+    carried = copy.deepcopy(previous_history)
+    carried["visible"] = True
+    carried["historical_only"] = True
+    carried["actionable"] = False
+    carried["orders"] = False
+    carried["order_action"] = None
+    carried["carried_forward_same_contract"] = True
+    out["scalp_history_slot"] = carried
+    return out, True
+
+
 @dataclass(frozen=True)
 class PresentationSessionState:
     version: str
@@ -57,6 +104,7 @@ class PresentationSessionState:
     current_scalp_quarantined: bool
     has_last_healthy_context: bool
     healthy_context_preserved: bool
+    completed_history_carried_forward: bool
     manual_position_confirmed: bool = False
     signal_filtering: bool = False
     signal_suppression: bool = False
@@ -72,6 +120,7 @@ class PresentationSessionState:
             "current_scalp_quarantined": self.current_scalp_quarantined,
             "has_last_healthy_context": self.has_last_healthy_context,
             "healthy_context_preserved": self.healthy_context_preserved,
+            "completed_history_carried_forward": self.completed_history_carried_forward,
             "manual_position_confirmed": self.manual_position_confirmed,
             "signal_filtering": self.signal_filtering,
             "signal_suppression": self.signal_suppression,
@@ -150,6 +199,7 @@ class DashboardPresentationSession:
             or ""
         ).strip() or None
 
+        previous_accepted = copy.deepcopy(self._accepted)
         previous_healthy_before = copy.deepcopy(self._last_healthy)
         context_previous = self._context_previous(incoming_contract)
         candidate = v5.build_mobile_dashboard_view_model(
@@ -158,6 +208,7 @@ class DashboardPresentationSession:
             previous_model=context_previous,
         )
         accepted = reduce_dashboard_session(self._accepted, candidate)
+        accepted, history_carried = _carry_same_contract_history(previous_accepted, accepted)
 
         self._processed += 1
         self._accepted = copy.deepcopy(accepted)
@@ -188,6 +239,7 @@ class DashboardPresentationSession:
             quarantined,
             self._last_healthy is not None,
             healthy_preserved,
+            history_carried,
         )
         self._accepted["presentation_session"] = state.to_dict()
         self._accepted.setdefault("safety", {})
@@ -195,6 +247,8 @@ class DashboardPresentationSession:
         self._accepted["safety"]["presentation_session_signal_filtering"] = False
         self._accepted["safety"]["presentation_session_signal_suppression"] = False
         self._accepted["safety"]["presentation_session_orders"] = False
+        self._accepted["safety"]["carried_history_actionable"] = False
+        self._accepted["safety"]["carried_history_changes_current_signals"] = False
 
         if self._last_healthy is not None:
             self._last_healthy["presentation_session"] = state.to_dict()
