@@ -1,0 +1,35 @@
+{
+  "service_url": "https://scalp-nextgen-shadow-v2-production.up.railway.app",
+  "service_id": "46b79a18-0fc2-46f0-8f12-d6bac63eecad",
+  "deployment_id": "17cac03e-20a2-46be-b535-c31f63aaf6fa",
+  "commit": "f23b4b37c0bb5f2ba5a50915933962b9eb7813a1",
+  "version": "BTC15_SCALP_NEXTGEN_SHADOW_V2_R2",
+  "code_sha256": "7f901c87774dd418db79a29f513b05245488a6ba0cedd6e7a8572ac9865ce55f",
+  "cutoff_utc": "2026-09-16T22:30:00+00:00",
+  "window_id": "00e73c80479a5ec5d482d33429e5f2115513dcddd93babdf38a7e38c6b7cac67",
+  "minimum_full_contracts": 100,
+  "minimum_signals": 100,
+  "maximum_age_seconds": 600,
+  "families": {
+    "scalp2_economics_v2": {
+      "anchor": "CONTROL_V1_SCALP2",
+      "controls": ["CONTROL_V1_SCALP2"],
+      "experiments": ["AFFORDABLE_LE50", "EARLY_AFFORDABLE", "STRONG_AFFORDABLE"]
+    },
+    "candidate_verify_v2": {
+      "anchor": "V1_IMMEDIATE",
+      "controls": ["V1_IMMEDIATE", "V1_FIXED_5S", "V1_FIXED_10S", "V1_FIXED_15S", "V1_FIXED_30S"],
+      "experiments": ["V2_DYNAMIC_CAUSAL"]
+    },
+    "watch_exit_v2": {
+      "anchor": "V1_1C",
+      "controls": ["V1_1C", "V1_2C", "V1_3C"],
+      "experiments": ["V2_CONFIRMED_HALF_C", "V2_FALLING_TREND"]
+    },
+    "selective_pullback_v2": {
+      "anchor": "V1_IMMEDIATE_CONTROL",
+      "controls": ["V1_IMMEDIATE_CONTROL", "V1_LE50_30S", "V1_LE50_60S", "V1_LE40_30S", "V1_LE40_60S", "V1_LE35_30S", "V1_LE35_60S"],
+      "experiments": ["V2_BALANCED", "V2_PRICE_DISCIPLINED"]
+    }
+  }
+}
