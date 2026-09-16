@@ -211,16 +211,36 @@ def watch_measure(op: Mapping[str, Any], mode: str) -> dict[str, Any]:
 def watch_lanes(opps: list[dict[str, Any]]) -> dict[str, Any]:
     out = {}
     for mode in ("V1_1C", "V2_CONFIRMED_HALF_C", "V2_VELOCITY_OR_1C"):
-        rows = [watch_measure(op, mode) for op in opps]
+        rows = []
+        for op in opps:
+            row = watch_measure(op, mode)
+            er = econ._op_record(op)
+            fees = er.get("fee_scenarios") or {}
+            row["gross_protected_gain_c"] = er.get("gross_protected_gain_c") if row["exit"] else None
+            row["one_lot_taker_taker_net_c"] = (
+                (((fees.get("1") or {}).get("TAKER_TAKER") or {}).get("net_gain_c_per_contract"))
+                if row["exit"] else None
+            )
+            row["ten_lot_taker_taker_net_c"] = (
+                (((fees.get("10") or {}).get("TAKER_TAKER") or {}).get("net_gain_c_per_contract"))
+                if row["exit"] else None
+            )
+            rows.append(row)
         watched = [r for r in rows if r["warning"]]
         paired = [r for r in watched if r["exit"]]
         leads = [float(r["lead"]) for r in paired if r["lead"] is not None]
+        gross = [float(r["gross_protected_gain_c"]) for r in paired if f(r.get("gross_protected_gain_c")) is not None]
+        net1 = [float(r["one_lot_taker_taker_net_c"]) for r in paired if f(r.get("one_lot_taker_taker_net_c")) is not None]
+        net10 = [float(r["ten_lot_taker_taker_net_c"]) for r in paired if f(r.get("ten_lot_taker_taker_net_c")) is not None]
         out[mode] = {
             "signals": len(rows), "armed_signals": sum(r["armed"] for r in rows),
             "warning_signals": len(watched), "frozen_exit_signals": sum(r["exit"] for r in rows),
             "avg_warning_to_exit_lead_sec": mean(leads),
             "lead_ge5_rate": rate([x >= 5 for x in leads]),
             "false_warning_rate": rate([r["warning_without_exit"] for r in watched]),
+            "avg_gross_protected_gain_c": mean(gross),
+            "one_lot_taker_taker_avg_net_c": mean(net1),
+            "ten_lot_taker_taker_avg_net_c": mean(net10),
             "exit_rule_unchanged": True,
         }
     return out
