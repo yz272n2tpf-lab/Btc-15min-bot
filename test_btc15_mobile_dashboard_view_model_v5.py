@@ -109,6 +109,27 @@ class MobileDashboardViewModelV5Tests(unittest.TestCase):
         self.assertEqual(row_value(scalp, "Profit Protection"), "PROTECTED EXIT")
         self.assertEqual(scalp["underlying_lifecycle_state"], "EXIT")
 
+    def test_fail_closed_wait_cannot_be_overridden_by_sticky_acceptable_context(self):
+        prev = v5.build_mobile_dashboard_view_model(combined(), ui(tier="IDEAL_25_35", entry_c=31.0))
+        stale = ui(lifecycle="ACTIVE", tier="UNAVAILABLE", entry_c=None)
+        stale["source"] = {
+            "app_ready": False,
+            "source_fresh": False,
+            "integration_ready": False,
+            "block_reason": "SCALP SOURCE STALE",
+        }
+        out = v5.build_mobile_dashboard_view_model(
+            combined(seconds=470),
+            stale,
+            previous_model=prev,
+        )
+        scalp = out["cards"]["SCALP_OPPORTUNITY"]
+        self.assertTrue(scalp["action"].startswith("WAIT ·"))
+        self.assertEqual(scalp["primary"], "NO ACTION · SOURCE NOT READY")
+        self.assertFalse(scalp["manual_entry_context_applied"])
+        self.assertEqual(out["manual_entry_context"]["state"], "ACCEPTABLE_ENTRY_PATH")
+        self.assertFalse(out["safety"]["manual_entry_context_overrides_fail_closed"])
+
     def test_new_opportunity_resets_tracking_context(self):
         prev = v5.build_mobile_dashboard_view_model(combined(), ui(opp=1, tier="CAUTION_ABOVE_50"))
         out = v5.build_mobile_dashboard_view_model(
@@ -160,6 +181,7 @@ class MobileDashboardViewModelV5Tests(unittest.TestCase):
         self.assertFalse(out["safety"]["manual_entry_context_signal_filtering"])
         self.assertFalse(out["safety"]["manual_entry_context_signal_suppression"])
         self.assertFalse(out["safety"]["manual_entry_context_changes_underlying_lifecycle"])
+        self.assertFalse(out["safety"]["manual_entry_context_overrides_fail_closed"])
         self.assertFalse(out["safety"]["orders"])
         self.assertIsNone(out["safety"]["order_action"])
 
