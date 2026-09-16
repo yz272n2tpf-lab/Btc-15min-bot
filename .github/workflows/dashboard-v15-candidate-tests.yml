@@ -6,18 +6,24 @@ on:
     paths:
       - 'BTC15_DASHBOARD_COMBINED_SCALP_UI_V15.py'
       - 'BTC15_DASHBOARD_DOM_STRUCTURE_REPORT_V15.py'
+      - 'BTC15_DASHBOARD_V15_FIXTURE_PREVIEW.py'
+      - 'BTC15_DASHBOARD_V15_VIEWPORT_CONTRACT.md'
       - 'test_BTC15_DASHBOARD_COMBINED_SCALP_UI_V15.py'
       - 'test_BTC15_DASHBOARD_PRESENTATION_AUDIT_V15.py'
       - 'test_BTC15_DASHBOARD_DOM_STRUCTURE_V15.py'
+      - 'test_BTC15_DASHBOARD_V15_FIXTURE_PREVIEW.py'
       - 'BTC15_DASHBOARD_V15_RESPONSIVE_CANDIDATE_FREEZE.md'
       - '.github/workflows/dashboard-v15-candidate-tests.yml'
   pull_request:
     paths:
       - 'BTC15_DASHBOARD_COMBINED_SCALP_UI_V15.py'
       - 'BTC15_DASHBOARD_DOM_STRUCTURE_REPORT_V15.py'
+      - 'BTC15_DASHBOARD_V15_FIXTURE_PREVIEW.py'
+      - 'BTC15_DASHBOARD_V15_VIEWPORT_CONTRACT.md'
       - 'test_BTC15_DASHBOARD_COMBINED_SCALP_UI_V15.py'
       - 'test_BTC15_DASHBOARD_PRESENTATION_AUDIT_V15.py'
       - 'test_BTC15_DASHBOARD_DOM_STRUCTURE_V15.py'
+      - 'test_BTC15_DASHBOARD_V15_FIXTURE_PREVIEW.py'
       - 'BTC15_DASHBOARD_V15_RESPONSIVE_CANDIDATE_FREEZE.md'
 
 permissions:
@@ -52,3 +58,14 @@ jobs:
           python -m unittest -v test_BTC15_DASHBOARD_COMBINED_SCALP_UI_V15.py
           python -m unittest -v test_BTC15_DASHBOARD_PRESENTATION_AUDIT_V15.py
           python BTC15_DASHBOARD_COMBINED_SCALP_UI_V15.py --self-test
+      - name: Test offline phone/tablet fixture preview
+        run: |
+          python -m unittest -v test_BTC15_DASHBOARD_V15_FIXTURE_PREVIEW.py
+          python BTC15_DASHBOARD_V15_FIXTURE_PREVIEW.py
+          cp /tmp/BTC15_DASHBOARD_V15_FIXTURE_PREVIEW.html ./BTC15_DASHBOARD_V15_FIXTURE_PREVIEW.html
+      - name: Upload offline fixture preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: v15-offline-fixture-preview
+          path: BTC15_DASHBOARD_V15_FIXTURE_PREVIEW.html
+          retention-days: 3
