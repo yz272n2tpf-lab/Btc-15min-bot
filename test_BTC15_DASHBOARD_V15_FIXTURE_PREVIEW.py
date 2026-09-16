@@ -7,7 +7,7 @@ import BTC15_DASHBOARD_V15_FIXTURE_PREVIEW as preview
 
 
 class V15FixturePreviewTests(unittest.TestCase):
-    def test_all_frozen_time_and_rollover_fixtures_are_present(self):
+    def test_all_frozen_time_rollover_and_memory_fixtures_are_present(self):
         models = preview.preview_models()
         self.assertEqual(
             set(models),
@@ -23,6 +23,8 @@ class V15FixturePreviewTests(unittest.TestCase):
                 "TIME_3M_GUARD",
                 "ROLLOVER",
                 "CONTRACT_ROLLOVER_HISTORY",
+                "SCALP_1_COMPLETE_SCAN_2",
+                "SCALP_1_COMPLETE_SCALP_2_ACTIVE",
             },
         )
 
@@ -42,6 +44,8 @@ class V15FixturePreviewTests(unittest.TestCase):
                 self.assertFalse(model["safety"]["time_guardrail_signal_suppression"])
                 self.assertFalse(model["safety"]["historical_scalp_actionable"])
                 self.assertFalse(model["safety"]["historical_scalp_can_change_current_signals"])
+                self.assertFalse(model["safety"]["scalp_memory_actionable"])
+                self.assertFalse(model["safety"]["scalp_memory_changes_current_signals"])
 
     def test_expensive_entry_fixture_is_tracking_only(self):
         model = preview.preview_models()["ACTIVE_CAUTION_ABOVE_50"]
@@ -80,13 +84,37 @@ class V15FixturePreviewTests(unittest.TestCase):
         self.assertTrue(hist["visible"])
         self.assertTrue(hist["historical_only"])
         self.assertFalse(hist["actionable"])
-        self.assertEqual(hist["headline"], "#2 COMPLETE · PROTECTED EXIT")
+        self.assertEqual(hist["headline"], "#1 COMPLETE · PROTECTED EXIT")
         self.assertNotIn("EXIT NOW", hist["headline"])
         self.assertNotIn("PROTECT PROFITS", hist["headline"])
         self.assertFalse(hist["orders"])
         self.assertIsNone(hist["order_action"])
         self.assertEqual(model["cards"]["CONTRACT_TIME_LEFT"]["primary"], "14:59")
         self.assertEqual(model["cards"]["SCALP_OPPORTUNITY"]["action"], "WATCHING FOR SCALP")
+
+    def test_same_contract_completed_memory_remains_while_scanning(self):
+        model = preview.preview_models()["SCALP_1_COMPLETE_SCAN_2"]
+        hist = model["scalp_history_slot"]
+        self.assertFalse(model["rollover"]["rollover_detected"])
+        self.assertTrue(hist["visible"])
+        self.assertEqual(hist["headline"], "#1 COMPLETE · PROTECTED EXIT")
+        self.assertIn("scanning for #2", hist["detail"].lower())
+        self.assertFalse(hist["actionable"])
+        scalp = model["cards"]["SCALP_OPPORTUNITY"]
+        self.assertEqual(scalp["action"], "WATCHING FOR SCALP")
+        self.assertEqual(scalp["primary"], "SCANNING FOR #2")
+
+    def test_same_contract_completed_memory_remains_while_second_scalp_is_active(self):
+        model = preview.preview_models()["SCALP_1_COMPLETE_SCALP_2_ACTIVE"]
+        hist = model["scalp_history_slot"]
+        scalp = model["cards"]["SCALP_OPPORTUNITY"]
+        self.assertTrue(hist["visible"])
+        self.assertEqual(hist["headline"], "#1 COMPLETE · PROTECTED EXIT")
+        self.assertFalse(hist["actionable"])
+        self.assertEqual(scalp["action"], "UP #2 · ENTRY AVAILABLE")
+        self.assertEqual(scalp["underlying_lifecycle_state"], "ACTIVE")
+        self.assertTrue(scalp["manual_entry_path_available"])
+        self.assertTrue(model["presentation_integrity"]["ok"])
 
     def test_history_slot_is_reserved_even_when_hidden(self):
         for name, model in preview.preview_models().items():
@@ -110,8 +138,9 @@ class V15FixturePreviewTests(unittest.TestCase):
         self.assertIn("3M GUARD RAIL", text)
         self.assertIn("NEXT CONTRACT SYNCING", text)
         self.assertIn("CONTRACT ROLLOVER HISTORY", text)
+        self.assertIn("SCALP 1 COMPLETE SCAN 2", text)
+        self.assertIn("SCALP 1 COMPLETE SCALP 2 ACTIVE", text)
         self.assertIn('id="historySlot"', text)
-        self.assertIn("Historical context only", text)
 
     def test_viewport_breakpoints_match_frozen_contract(self):
         text = preview.build_html()
