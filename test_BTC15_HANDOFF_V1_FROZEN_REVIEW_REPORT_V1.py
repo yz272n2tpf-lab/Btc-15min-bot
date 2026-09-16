@@ -16,7 +16,7 @@ class HandoffReviewTests(unittest.TestCase):
     def test_counts_without_collector_ready_not_certified(self):
         z=r.build_report(payload(eligible=30,early=14,final=27,both=11,settled=16,sample_ready=False));self.assertFalse(z["common_universe"]["target_90pct_certified"]);self.assertFalse(z["frozen_gate"]["manual_review_ready"])
     def test_double_counted_union_fails(self):
-        p=payload();p["live"]["any_signal_coverage"]=13/21;self.assertIn("union_coverage_math",r.build_report(p)["integrity"]["errors"])
+        p=payload();p["live"]["any_signal_coverage"]=14/21;self.assertIn("union_coverage_math",r.build_report(p)["integrity"]["errors"])
     def test_partition_mismatch_fails(self):
         p=payload();p["live"]["no_anchor_contracts"]=0;self.assertIn("partition_math",r.build_report(p)["integrity"]["errors"])
     def test_fake_handoffs_fail_bounds(self):
