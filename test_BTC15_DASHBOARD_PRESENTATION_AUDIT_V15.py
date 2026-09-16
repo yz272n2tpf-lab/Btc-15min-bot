@@ -48,9 +48,22 @@ class V15PresentationOnlyAudit(unittest.TestCase):
     def test_patch_owns_layout_not_signal_content(self):
         self.assertIn("responsive core layout", self.src.lower())
         self.assertIn("V15 owns layout only", v15.V15_CSS)
-        self.assertIn("Frozen semantic order: FINAL, EARLY, canonical TIMER, SCALP", v15.V15_JS)
+        self.assertIn("FINAL_EARLY_TIMER_SCALP", v15.V15_JS)
+        self.assertIn("v15-primary-grid", v15.V15_JS)
+        self.assertIn("v15-left-stack", v15.V15_JS)
+        self.assertIn("v15-right-stack", v15.V15_JS)
         self.assertNotIn("innerHTML=", v15.V15_JS)
         self.assertNotIn("textContent=", v15.V15_JS)
+
+    def test_existing_cards_are_not_moved_or_recreated(self):
+        for forbidden in (
+            "document.createElement('section')",
+            'document.createElement("section")',
+            "appendChild(card)",
+            "insertBefore(grid",
+        ):
+            self.assertNotIn(forbidden, v15.V15_JS)
+        self.assertIn("primaryGrid.classList.add('v15-primary-grid')", v15.V15_JS)
 
     def test_numeric_flip_risk_not_emitted(self):
         self.assertNotIn("flip_risk_percent", v15.V15_CSS)
