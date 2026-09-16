@@ -38,3 +38,5 @@ jobs:
           python -m unittest -v test_scalp_coverage_gap_ledger_v1.py
           python -m unittest -v test_scalp_event_schema_probe_v1.py
           python -m unittest -v test_scalp_specialist_union_live_review_v3_1.py
+          python -m unittest -v test_scalp_event_schema_adapter_v1.py
+          python -m unittest -v test_scalp_specialist_union_live_review_v3_2.py
