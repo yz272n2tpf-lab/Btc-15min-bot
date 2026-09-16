@@ -6,6 +6,7 @@ on:
     paths:
       - 'btc15_scalp_ui_state_contract_v1.py'
       - 'test_btc15_scalp_ui_state_contract_v1.py'
+      - 'test_btc15_scalp_ui_state_contract_v1_integration.py'
       - 'BTC15_SCALP_UI_STATE_CONTRACT_V1.md'
       - '.github/workflows/scalp-ui-state-contract-v1-tests.yml'
 
@@ -21,4 +22,6 @@ jobs:
         with:
           python-version: '3.12'
       - name: Run scalp UI contract tests
-        run: python -m unittest -v test_btc15_scalp_ui_state_contract_v1.py
+        run: |
+          python -m unittest -v test_btc15_scalp_ui_state_contract_v1.py
+          python -m unittest -v test_btc15_scalp_ui_state_contract_v1_integration.py
