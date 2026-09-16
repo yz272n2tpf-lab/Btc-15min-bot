@@ -26,3 +26,4 @@ jobs:
         run: |
           python -m unittest -v test_shadow_diagnostic_pack_v1.py
           python -m unittest -v test_scalp_opportunity_quality_frontier_v1.py
+          python -m unittest -v test_scalp_specialist_union_frontier_v1.py
