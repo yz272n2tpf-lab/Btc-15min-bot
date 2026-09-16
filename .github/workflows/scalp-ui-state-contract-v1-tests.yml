@@ -1,0 +1,24 @@
+name: Scalp UI state contract V1 tests
+
+on:
+  push:
+    branches: [scalp-ui-state-contract-v1]
+    paths:
+      - 'btc15_scalp_ui_state_contract_v1.py'
+      - 'test_btc15_scalp_ui_state_contract_v1.py'
+      - 'BTC15_SCALP_UI_STATE_CONTRACT_V1.md'
+      - '.github/workflows/scalp-ui-state-contract-v1-tests.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run scalp UI contract tests
+        run: python -m unittest -v test_btc15_scalp_ui_state_contract_v1.py
