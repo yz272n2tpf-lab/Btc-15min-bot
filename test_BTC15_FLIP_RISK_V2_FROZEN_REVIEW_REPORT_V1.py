@@ -101,10 +101,15 @@ class FlipV2ReviewTests(unittest.TestCase):
         p=payload(complete=35,settled_complete=35,preds=240,stay_n=40,stay_contracts=10,
                   sample_ready=True,high_ready=True,forced=False,decision=True,
                   gate_pass=False,status="FUTURE_V2_REVIEW_SAMPLE_FAILED",pass_metrics=True)
+        # Consistent reliability rows with 8pp error in every populated bin.
+        for row in p["live"]["reliability"]:
+            row["actual"]=row["stated"]+.08
+            row["error"]=.08
         p["live"]["weighted_abs_calibration_error"]=.08
-        # Make collector's reliability gate false too; report should then agree on FAIL.
+        p["live"]["max_bin_error_n30"]=.08
         p["live"]["reliability_gate_ok"]=False
         z=r.build_report(p)
+        self.assertTrue(z["integrity"]["pass"])
         self.assertEqual(z["status"],"FUTURE_V2_REVIEW_SAMPLE_FAILED")
         self.assertFalse(z["decision"]["gate_pass"])
 
