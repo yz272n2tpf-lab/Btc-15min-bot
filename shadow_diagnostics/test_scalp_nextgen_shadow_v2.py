@@ -32,6 +32,9 @@ class TestNextgenV2(unittest.TestCase):
     def test_watch_exit_is_unchanged(self):
         r=v2.watch_measure(op(False),"V2_CONFIRMED_HALF_C")
         self.assertTrue(r["armed"]); self.assertTrue(r["exit"])
+        lanes=v2.watch_lanes([op(False)])
+        self.assertIn("avg_gross_protected_gain_c",lanes["V1_1C"])
+        self.assertIn("one_lot_taker_taker_avg_net_c",lanes["V2_CONFIRMED_HALF_C"])
     def test_scalp2_only(self):
         lanes=v2.scalp2_lanes([op(False,idx=1),op(False,idx=2)],1)
         self.assertEqual(lanes["CONTROL_V1_SCALP2"]["signals"],1)
