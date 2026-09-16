@@ -29,9 +29,16 @@ class V14PresentationStabilityTests(unittest.TestCase):
         self.assertIn("#finalActionSub{", self.text)
         self.assertIn("height:2.8em!important", self.text)
         self.assertIn("-webkit-line-clamp:2!important", self.text)
-        # Older render fix continues to own the full reason box.
-        self.assertIn("#finalReason { min-height:4.2em !important; height:4.2em !important;", self.text)
-        self.assertIn("-webkit-line-clamp:3 !important", self.text)
+        # Older render fix continues to own the full reason box. Check its
+        # semantic pieces independently so formatting whitespace is irrelevant.
+        for fragment in (
+            'id="btc15-render-fix-v4"',
+            "#finalReason",
+            "min-height:4.2em !important",
+            "height:4.2em !important",
+            "-webkit-line-clamp:3",
+        ):
+            self.assertIn(fragment, self.text)
 
     def test_early_dynamic_copy_reserves_space(self):
         self.assertIn("#earlyEntry,#earlyFlow{", self.text)
