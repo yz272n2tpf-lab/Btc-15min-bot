@@ -53,36 +53,84 @@ class LedgerStatus:
     last_record_hash: str
     bytes: int
     chain_valid: bool
+    durability_uncertain: bool = False
 
 
 class AppendOnlyHashChainLedger:
     """Single-volume ledger with a durable pre-write continuity anchor.
 
-    An interrupted write leaves a detectable anchor/ledger mismatch; recovery
-    never truncates, adopts an unanchored ledger, or silently repairs evidence.
-    A local anchor cannot detect coordinated rollback/removal of BOTH files;
-    that requires an independently retained witness (see hardening report).
+    A durable intent marker covers the entire ledger/anchor acknowledgment
+    sequence, including final directory fsync. Unresolved markers fail closed
+    across restart even when the row and committed anchor look complete.
+    Diagnostic opens can expose failed status but cannot append or recover.
+    Recovery never truncates, adopts, or silently repairs evidence. Coordinated
+    rollback/removal of local files still requires an external witness.
     """
 
-    def __init__(self, path: str | Path, write_guard=None) -> None:
+    def __init__(self, path: str | Path, write_guard=None, *, allow_failed_open=False) -> None:
         self.path = Path(path)
         self.anchor_path = self.path.with_suffix(self.path.suffix + ".anchor.json")
+        self.durability_path = self.path.with_suffix(self.path.suffix + ".durability-pending.json")
         self._lock = threading.RLock()
         self._write_guard = write_guard
         self._sequence = self._records = 0
         self._last_hash = GENESIS_HASH
         self._write_failed = False
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        if not self.path.exists() and not self.anchor_path.exists():
-            self._guard()
-            fd = os.open(self.path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
-            try:
-                os.fsync(fd)
-            finally:
-                os.close(fd)
-            self._write_anchor(0, GENESIS_HASH, 0)
-        # Existing ledger without anchor, or anchor without ledger, is unsafe.
-        self.verify()
+        try:
+            if os.path.lexists(self.durability_path):
+                raise ValueError("unacknowledged ledger durability; independent recovery required")
+            if not self.path.exists() and not self.anchor_path.exists():
+                self._begin_durability(None, 0, GENESIS_HASH, 0)
+                self._guard()
+                fd = os.open(self.path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+                try:
+                    os.fsync(fd)
+                finally:
+                    os.close(fd)
+                self._write_anchor(0, GENESIS_HASH, 0)
+                self._finish_durability()
+            # Existing ledger without anchor, or anchor without ledger, is unsafe.
+            self.verify()
+        except (OSError, ValueError, TypeError, UnicodeError):
+            self._write_failed = True
+            if not allow_failed_open:
+                raise
+            # Diagnostic-only open: status is failed and append remains blocked.
+            # Never repair, rewrite, truncate, or adopt the existing evidence.
+
+    def _begin_durability(self, previous, sequence, digest, size):
+        """Persist uncertainty BEFORE touching either evidence or its anchor.
+
+        Failure here cannot be followed by ledger/anchor mutation. Existing,
+        empty, partial, or malformed markers all block reopen; parsing a marker
+        is never needed to decide whether the ledger is healthy.
+        """
+        self._guard()
+        raw = (canonical_json({"state": "DURABILITY_UNACKNOWLEDGED",
+            "started_at_utc": utc_now(), "previous": previous,
+            "candidate": {"sequence": sequence, "record_hash": digest, "bytes": size},
+            "recovery": "explicit independently audited action required"}) + "\n").encode()
+        fd = os.open(self.durability_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+        try:
+            if os.write(fd, raw) != len(raw):
+                raise OSError("short durability marker write")
+            os.fsync(fd)
+        finally:
+            os.close(fd)
+        directory = os.open(self.path.parent, os.O_RDONLY | os.O_DIRECTORY)
+        try:
+            os.fsync(directory)
+        finally:
+            os.close(directory)
+
+    def _finish_durability(self):
+        # Only reached AFTER the committed anchor's directory fsync succeeded.
+        # Do not add a fallible durability acknowledgment after this unlink:
+        # cleanup need not survive a crash. A resurrected marker conservatively
+        # blocks recovery even for an acknowledged append (a safe false alarm).
+        # Failed/unacknowledged transactions never reach this cleanup path.
+        self.durability_path.unlink()
 
     def _guard(self):
         if self._write_guard is not None:
@@ -124,6 +172,8 @@ class AppendOnlyHashChainLedger:
                 yield obj
 
     def _verify_locked(self) -> LedgerStatus:
+        if os.path.lexists(self.durability_path):
+            raise ValueError("unacknowledged ledger durability; independent recovery required")
         if self._write_failed:
             raise ValueError("ledger write failed; independent recovery required")
         if self.anchor_path.with_name(self.anchor_path.name + ".pending").exists():
@@ -169,6 +219,9 @@ class AppendOnlyHashChainLedger:
             # Reserve the exact next committed endpoint before writing. Crash or
             # short write cannot be mistaken for a valid old tail on restart.
             try:
+                self._begin_durability({"sequence": status.last_sequence,
+                    "record_hash": status.last_record_hash, "bytes": status.bytes},
+                    sequence, record_hash, status.bytes + len(raw))
                 self._write_anchor(sequence, record_hash, status.bytes + len(raw), committed=False)
                 self._guard()
                 fd = os.open(self.path, os.O_WRONLY | os.O_APPEND)
@@ -181,6 +234,7 @@ class AppendOnlyHashChainLedger:
                 # A complete-looking row after failed fsync is not committed.
                 # Startup accepts only the durable post-fsync acknowledgement.
                 self._write_anchor(sequence, record_hash, status.bytes + len(raw))
+                self._finish_durability()
             except Exception:
                 self._write_failed = True
                 raise
@@ -194,7 +248,8 @@ class AppendOnlyHashChainLedger:
             return self.verify()
         except (OSError, ValueError, TypeError, UnicodeError):
             return LedgerStatus(str(self.path), self._records, self._sequence,
-                                self._last_hash, -1, False)
+                                self._last_hash, -1, False,
+                                os.path.lexists(self.durability_path))
 
 
 def source_sample_body(*, source: str, observed_at_utc: str,

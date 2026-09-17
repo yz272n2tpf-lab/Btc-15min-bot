@@ -138,6 +138,18 @@ def _payload_failures(payload):
     return failures
 
 
+class NoRedirectSession(requests.Session):
+    """Keep the first response, including an unparseable Location header.
+
+    Requests normally calls resolve_redirects even with allow_redirects=False
+    to construct Response.next. An empty iterator prevents that parsing and
+    every redirect hop, while retaining normal adapter timeout/TLS handling.
+    """
+
+    def resolve_redirects(self, response, request, **kwargs):
+        return iter(())
+
+
 class RecorderRuntime:
     def __init__(self, root: str | Path, sources: list[SourceConfig], *,
                  expected_manifest=None, actual_snapshot=None) -> None:
@@ -158,7 +170,7 @@ class RecorderRuntime:
         self.membership_poll_sec = _number_env("SENTINEL_MEMBERSHIP_POLL_SEC", DEFAULT_MEMBERSHIP_POLL_SEC, self.poll_sec)
         self.max_cycle_age_sec = max(30.0, 3 * self.membership_poll_sec)
         self.source_max_age_sec = max(30.0, 3 * self.membership_poll_sec)
-        self.session = requests.Session()
+        self.session = NoRedirectSession()
         self.state = {
             "version": VERSION, "started_at_utc": utc_now(), "last_cycle_utc": None,
             "last_membership_cycle_utc": None, "cycles": 0, "membership_cycles": 0,
@@ -172,9 +184,14 @@ class RecorderRuntime:
                          "last_failure_utc": None, "last_exception_type": None,
                          "unrecovered_failure": False},
         }
-        self.telemetry = AppendOnlyHashChainLedger(self.root / "telemetry.jsonl", self._storage_guard)
-        self.membership = AppendOnlyHashChainLedger(self.root / "membership.jsonl", self._storage_guard)
-        self.seen_membership = existing_membership_ids(self.membership)
+        self.telemetry = AppendOnlyHashChainLedger(self.root / "telemetry.jsonl", self._storage_guard,
+                                                 allow_failed_open=True)
+        self.membership = AppendOnlyHashChainLedger(self.root / "membership.jsonl", self._storage_guard,
+                                                  allow_failed_open=True)
+        ledgers_ok = self.telemetry.status().chain_valid and self.membership.status().chain_valid
+        self.seen_membership = existing_membership_ids(self.membership) if ledgers_ok else set()
+        if not ledgers_ok:
+            self._failure(ValueError("startup ledger integrity failed; independent recovery required"))
         try:
             manifest_path = os.environ.get("SENTINEL_CONTROL_MANIFEST", "").strip()
             actual_path = os.environ.get("SENTINEL_CONTROL_SNAPSHOT", "").strip()
@@ -197,9 +214,13 @@ class RecorderRuntime:
         except (ValueError, OSError, TypeError) as exc:
             self.state["control_attestation"] = {"control_plane_pass": None, "error_type": type(exc).__name__}
         # Freeze by value, including the separately supplied actual capture.
-        self.telemetry.append({"record_type": "CONTROL_ATTESTATION", "observed_at_utc": utc_now(),
-            "expected": expected_manifest, "actual": actual_snapshot,
-            "attestation": self.state["control_attestation"], "orders": False})
+        if ledgers_ok:
+            try:
+                self.telemetry.append({"record_type": "CONTROL_ATTESTATION", "observed_at_utc": utc_now(),
+                    "expected": expected_manifest, "actual": actual_snapshot,
+                    "attestation": self.state["control_attestation"], "orders": False})
+            except Exception as exc:
+                self._failure(exc)
 
     def _failure(self, exc):
         with self.lock:
@@ -294,6 +315,8 @@ class RecorderRuntime:
     def _cycle(self, kind):
         try:
             disk = self._storage_guard()
+            if not self.telemetry.status().chain_valid or not self.membership.status().chain_valid:
+                raise ValueError("ledger integrity failed; independent recovery required")
             if kind == "telemetry":
                 self.telemetry.append({"record_type": "SENTINEL_STORAGE", "observed_at_utc": utc_now(),
                                        **disk, "orders": False})

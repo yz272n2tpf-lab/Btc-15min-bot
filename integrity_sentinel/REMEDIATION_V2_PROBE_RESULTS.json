@@ -1,0 +1,906 @@
+{
+  "generated_at_utc": "2026-09-17T18:33:15.317955+00:00",
+  "scope": "two Sentinel V2 blockers only; offline temporary synthetic fixtures; no deployment",
+  "starting_head": "27272bee15f579b2cd0f5a5e879485983b217890",
+  "production_main": "8b7f8b48694364cb8c47456d0ab491b102aa42c0",
+  "unchanged_integrity_tree": "cb6c41f4bd62246baa272f94f33e54a8a54238ba",
+  "compile": {
+    "passed": 15,
+    "total": 15,
+    "python_files": {
+      "integrity_sentinel/__init__.py": "e61f18ec61b6936b6f735d12da951b0ac1105ab2bcf9671dd8848fd8e9ce0b56",
+      "integrity_sentinel/adversarial_hardening_v1.py": "9e371c40b57df72e899bbca429de3d129c90473f0ac7f3999b535d8a778dc70e",
+      "integrity_sentinel/adversarial_remediation_v2.py": "4c8ccdba2363fc4375518f160141099726243053ef319a94e9b52feab9b1363e",
+      "integrity_sentinel/control_attestation_v1.py": "ec1bafc1341e50cec7041fd63a4694f7865f9f94acd8d58887ce9ade49683606",
+      "integrity_sentinel/identity_v1.py": "5fac9d782b21d2abec6845b9919b74adab682147538225eb8bde4da13042a29d",
+      "integrity_sentinel/recorder_core_v1.py": "f1b60c7da46d9a9c3d90f8dcdfbd5b68e5145746b6f6d72a67545b96ad21538b",
+      "integrity_sentinel/runtime_v1.py": "852c6ff389081bea37399d405acab00887e663175ab42dca195d14f1c48e7ca0",
+      "integrity_sentinel/source_adapters_v1.py": "ae4b57485a79b32f79af44f29359a0a095bebc8479668e5bab920eb625a397c8",
+      "integrity_sentinel/storage_guard_v1.py": "9237a9a0b141495a0d17502b9fa99da614962fc986f60e9b0f6e57555ddd6461",
+      "integrity_sentinel/test_control_attestation_v1.py": "ea02684f5d15b8ff09e8c3b6c6d43611d9b6283bf5876931aac67456743bac98",
+      "integrity_sentinel/test_hardening_v1.py": "09cdfa4b13ed19c5577731c48d0b7e6c6f84c7e5d5903c0bd52553cdf51a2e91",
+      "integrity_sentinel/test_recorder_core_v1.py": "9a39229c5cbf5ec3ecd5ad6bb5b96abddfc48e3e1569870767bdb20e5be398a4",
+      "integrity_sentinel/test_remediation_v2.py": "fa428e3b3e0caf8bbecd4f0b82143622f195d7a6a6d586722181794b80d37fa3",
+      "integrity_sentinel/test_runtime_safety_v1.py": "3838d24a733fa1fdb02d55035a3f0753227bd0836d0b87833f5d38faac95e33a",
+      "integrity_sentinel/test_storage_guard_v1.py": "76bdcdcc0ff4ac1c1f10b4542f236ef5013b9c231045436ad913f58ece6cf1e8"
+    }
+  },
+  "sentinel_unittest": {
+    "passed": 74,
+    "existing_unchanged": 64,
+    "added": 10,
+    "output": "test_exact_match_passes (test_control_attestation_v1.ControlAttestationTests.test_exact_match_passes) ... ok\ntest_manifest_hash_is_deterministic (test_control_attestation_v1.ControlAttestationTests.test_manifest_hash_is_deterministic) ... ok\ntest_mismatch_fails (test_control_attestation_v1.ControlAttestationTests.test_mismatch_fails) ... ok\ntest_missing_fact_is_unknown (test_control_attestation_v1.ControlAttestationTests.test_missing_fact_is_unknown) ... ok\ntest_08_short_os_write_does_not_advance (test_hardening_v1.LedgerHardeningTests.test_08_short_os_write_does_not_advance) ... ok\ntest_09_missing_newline (test_hardening_v1.LedgerHardeningTests.test_09_missing_newline) ... ok\ntest_10_complete_trailing_row_deleted (test_hardening_v1.LedgerHardeningTests.test_10_complete_trailing_row_deleted) ... ok\ntest_11_full_truncation (test_hardening_v1.LedgerHardeningTests.test_11_full_truncation) ... ok\ntest_fsync_failure_does_not_advance (test_hardening_v1.LedgerHardeningTests.test_fsync_failure_does_not_advance) ... ok\ntest_ledger_fsync_failure_status_cannot_adopt_uncommitted_row (test_hardening_v1.LedgerHardeningTests.test_ledger_fsync_failure_status_cannot_adopt_uncommitted_row) ... ok\ntest_ledger_removed_with_anchor_retained (test_hardening_v1.LedgerHardeningTests.test_ledger_removed_with_anchor_retained) ... ok\ntest_missing_ledger_or_anchor (test_hardening_v1.LedgerHardeningTests.test_missing_ledger_or_anchor) ... ok\ntest_short_checkpoint_write (test_hardening_v1.LedgerHardeningTests.test_short_checkpoint_write) ... ok\ntest_15_combined_real_shape (test_hardening_v1.MembershipHardeningTests.test_15_combined_real_shape) ... ok\ntest_16_nextgen_real_shape_and_records_wrapper (test_hardening_v1.MembershipHardeningTests.test_16_nextgen_real_shape_and_records_wrapper) ... ok\ntest_membership_id_key_conflict (test_hardening_v1.MembershipHardeningTests.test_membership_id_key_conflict) ... ok\ntest_membership_wrong_type_and_missing_id (test_hardening_v1.MembershipHardeningTests.test_membership_wrong_type_and_missing_id) ... ok\ntest_missing_membership_schema_is_not_empty_success (test_hardening_v1.MembershipHardeningTests.test_missing_membership_schema_is_not_empty_success) ... ok\ntest_01_redirect_kalshi (test_hardening_v1.RuntimeHardeningTests.test_01_redirect_kalshi) ... ok\ntest_02_redirect_coinbase (test_hardening_v1.RuntimeHardeningTests.test_02_redirect_coinbase) ... ok\ntest_03_redirect_http_and_other_hosts (test_hardening_v1.RuntimeHardeningTests.test_03_redirect_http_and_other_hosts) ... ok\ntest_04_required_telemetry_unavailable (test_hardening_v1.RuntimeHardeningTests.test_04_required_telemetry_unavailable) ... ok\ntest_05_explicit_http_200_failure_or_stale (test_hardening_v1.RuntimeHardeningTests.test_05_explicit_http_200_failure_or_stale) ... ok\ntest_06_ledger_write_exception_health_and_recovery (test_hardening_v1.RuntimeHardeningTests.test_06_ledger_write_exception_health_and_recovery) ... ok\ntest_07_recorder_thread_dead_or_stale (test_hardening_v1.RuntimeHardeningTests.test_07_recorder_thread_dead_or_stale) ... ok\ntest_12_blank_expectations_never_pass (test_hardening_v1.RuntimeHardeningTests.test_12_blank_expectations_never_pass) ... ok\ntest_13_actual_snapshot_missing_or_uncaptured (test_hardening_v1.RuntimeHardeningTests.test_13_actual_snapshot_missing_or_uncaptured) ... ok\ntest_14_control_mismatch (test_hardening_v1.RuntimeHardeningTests.test_14_control_mismatch) ... ok\ntest_17_http_error_body_retention (test_hardening_v1.RuntimeHardeningTests.test_17_http_error_body_retention) ... ok\ntest_18_malformed_json_retains_http_status (test_hardening_v1.RuntimeHardeningTests.test_18_malformed_json_retains_http_status) ... ok\ntest_19_wrong_type_json_retention (test_hardening_v1.RuntimeHardeningTests.test_19_wrong_type_json_retention) ... ok\ntest_20_empty_membership_observation (test_hardening_v1.RuntimeHardeningTests.test_20_empty_membership_observation) ... ok\ntest_21_generic_age_not_kalshi (test_hardening_v1.RuntimeHardeningTests.test_21_generic_age_not_kalshi) ... ok\ntest_22_coinbase_missing_stays_unknown (test_hardening_v1.RuntimeHardeningTests.test_22_coinbase_missing_stays_unknown) ... ok\ntest_23_low_disk_blocks_all_writes (test_hardening_v1.RuntimeHardeningTests.test_23_low_disk_blocks_all_writes) ... ok\ntest_24_invalid_contract_types (test_hardening_v1.RuntimeHardeningTests.test_24_invalid_contract_types) ... ok\ntest_25_within_payload_conflicts (test_hardening_v1.RuntimeHardeningTests.test_25_within_payload_conflicts) ... ok\ntest_26_cross_source_disagreement (test_hardening_v1.RuntimeHardeningTests.test_26_cross_source_disagreement) ... ok\ntest_27_invalid_brti_counters (test_hardening_v1.RuntimeHardeningTests.test_27_invalid_brti_counters) ... ok\ntest_28_empty_userinfo (test_hardening_v1.RuntimeHardeningTests.test_28_empty_userinfo) ... ok\ntest_config_bypass_revalidated_before_get (test_hardening_v1.RuntimeHardeningTests.test_config_bypass_revalidated_before_get) ... ok\ntest_disk_inspection_error (test_hardening_v1.RuntimeHardeningTests.test_disk_inspection_error) ... ok\ntest_explicit_provider_age_and_source_timestamp_stale (test_hardening_v1.RuntimeHardeningTests.test_explicit_provider_age_and_source_timestamp_stale) ... ok\ntest_membership_event_provenance_and_dedup (test_hardening_v1.RuntimeHardeningTests.test_membership_event_provenance_and_dedup) ... ok\ntest_membership_failure_makes_health_fail (test_hardening_v1.RuntimeHardeningTests.test_membership_failure_makes_health_fail) ... ok\ntest_nonfinite_json_preserved (test_hardening_v1.RuntimeHardeningTests.test_nonfinite_json_preserved) ... ok\ntest_partial_transfer_preserves_known_status_and_received_bytes (test_hardening_v1.RuntimeHardeningTests.test_partial_transfer_preserves_known_status_and_received_bytes) ... ok\ntest_recorder_loop_death_overrides_previous_success (test_hardening_v1.RuntimeHardeningTests.test_recorder_loop_death_overrides_previous_success) ... ok\ntest_source_observation_stale (test_hardening_v1.RuntimeHardeningTests.test_source_observation_stale) ... ok\ntest_unexpected_loop_exception_and_serialization (test_hardening_v1.RuntimeHardeningTests.test_unexpected_loop_exception_and_serialization) ... ok\ntest_brti_adapter_preserves_negative_states_and_counters (test_recorder_core_v1.RecorderCoreTests.test_brti_adapter_preserves_negative_states_and_counters) ... ok\ntest_early_membership_uses_exact_contract_ids (test_recorder_core_v1.RecorderCoreTests.test_early_membership_uses_exact_contract_ids) ... ok\ntest_final_membership_dictionary_key_becomes_contract (test_recorder_core_v1.RecorderCoreTests.test_final_membership_dictionary_key_becomes_contract) ... ok\ntest_hash_chain_detects_tamper (test_recorder_core_v1.RecorderCoreTests.test_hash_chain_detects_tamper) ... ok\ntest_hash_chain_round_trip_and_recovery (test_recorder_core_v1.RecorderCoreTests.test_hash_chain_round_trip_and_recovery) ... ok\ntest_source_sample_preserves_payload_hash_and_no_orders (test_recorder_core_v1.RecorderCoreTests.test_source_sample_preserves_payload_hash_and_no_orders) ... ok\ntest_strict_json_rejects_nan (test_recorder_core_v1.RecorderCoreTests.test_strict_json_rejects_nan) ... ok\ntest_failed_fault_storage_never_mutates_ledger_or_anchor (test_remediation_v2.RemediationV2Tests.test_failed_fault_storage_never_mutates_ledger_or_anchor) ... ok\ntest_final_directory_fsync_fault_survives_new_runtime_and_cycle (test_remediation_v2.RemediationV2Tests.test_final_directory_fsync_fault_survives_new_runtime_and_cycle) ... ok\ntest_forbidden_redirect_destinations_keep_first_response (test_remediation_v2.RemediationV2Tests.test_forbidden_redirect_destinations_keep_first_response) ... ok\ntest_initial_checkpoint_failure_keeps_marker_and_exposes_health (test_remediation_v2.RemediationV2Tests.test_initial_checkpoint_failure_keeps_marker_and_exposes_health) ... ok\ntest_malformed_location_keeps_complete_first_response (test_remediation_v2.RemediationV2Tests.test_malformed_location_keeps_complete_first_response) ... ok\ntest_marker_cleanup_failure_stays_fail_closed (test_remediation_v2.RemediationV2Tests.test_marker_cleanup_failure_stays_fail_closed) ... ok\ntest_marker_content_cannot_make_uncertainty_healthy (test_remediation_v2.RemediationV2Tests.test_marker_content_cannot_make_uncertainty_healthy) ... ok\ntest_marker_is_durable_before_anchor_or_ledger_mutation (test_remediation_v2.RemediationV2Tests.test_marker_is_durable_before_anchor_or_ledger_mutation) ... ok\ntest_no_redirect_session_never_prepares_next_request (test_remediation_v2.RemediationV2Tests.test_no_redirect_session_never_prepares_next_request) ... ok\ntest_successful_restart_and_append_remain_healthy (test_remediation_v2.RemediationV2Tests.test_successful_restart_and_append_remain_healthy) ... ok\ntest_accepts_railway_https (test_runtime_safety_v1.RuntimeSafetyTests.test_accepts_railway_https) ... ok\ntest_default_source_inventory_has_telemetry_and_membership (test_runtime_safety_v1.RuntimeSafetyTests.test_default_source_inventory_has_telemetry_and_membership) ... ok\ntest_rejects_coinbase (test_runtime_safety_v1.RuntimeSafetyTests.test_rejects_coinbase) ... ok\ntest_rejects_direct_kalshi (test_runtime_safety_v1.RuntimeSafetyTests.test_rejects_direct_kalshi) ... ok\ntest_rejects_http (test_runtime_safety_v1.RuntimeSafetyTests.test_rejects_http) ... ok\ntest_bad_thresholds_rejected (test_storage_guard_v1.StorageGuardTests.test_bad_thresholds_rejected) ... ok\ntest_ok_warn_fail_boundaries (test_storage_guard_v1.StorageGuardTests.test_ok_warn_fail_boundaries) ... ok\n\n----------------------------------------------------------------------\nRan 74 tests in 0.624s\n\nOK\n"
+  },
+  "integrity_unittest": {
+    "passed": 62,
+    "output": "test_brti_stale_contract_is_quarantined (test_dual_gate_integration_v1.DualGateIntegrationTests.test_brti_stale_contract_is_quarantined) ... ok\ntest_clean_adapter_output_is_certifiable (test_dual_gate_integration_v1.DualGateIntegrationTests.test_clean_adapter_output_is_certifiable) ... ok\ntest_high_429_share_is_partial_not_certifiable (test_dual_gate_integration_v1.DualGateIntegrationTests.test_high_429_share_is_partial_not_certifiable) ... ok\ntest_operational_failure_is_quarantined_even_with_clean_feed (test_dual_gate_integration_v1.DualGateIntegrationTests.test_operational_failure_is_quarantined_even_with_clean_feed) ... ok\ntest_parity_failure_is_quarantined (test_dual_gate_integration_v1.DualGateIntegrationTests.test_parity_failure_is_quarantined) ... ok\ntest_end_to_end_clean_requires_explicit_operational_manifest (test_evidence_bundle_builder_v1.EvidenceBundleBuilderTests.test_end_to_end_clean_requires_explicit_operational_manifest) ... ok\ntest_manifest_true_cannot_override_evidence_false (test_evidence_bundle_builder_v1.EvidenceBundleBuilderTests.test_manifest_true_cannot_override_evidence_false) ... ok\ntest_missing_manifest_value_stays_missing (test_evidence_bundle_builder_v1.EvidenceBundleBuilderTests.test_missing_manifest_value_stays_missing) ... ok\ntest_same_feed_path_without_operational_attestation_is_unknown (test_evidence_bundle_builder_v1.EvidenceBundleBuilderTests.test_same_feed_path_without_operational_attestation_is_unknown) ... ok\ntest_any_known_operational_false_dominates (test_evidence_integrity_adapter_v1.AdapterTests.test_any_known_operational_false_dominates) ... ok\ntest_clean_full_path (test_evidence_integrity_adapter_v1.AdapterTests.test_clean_full_path) ... ok\ntest_contract_clock_jump_breaks_continuity (test_evidence_integrity_adapter_v1.AdapterTests.test_contract_clock_jump_breaks_continuity) ... ok\ntest_counter_reset_returns_unknown_delta (test_evidence_integrity_adapter_v1.AdapterTests.test_counter_reset_returns_unknown_delta) ... ok\ntest_late_rollover_is_not_start_complete (test_evidence_integrity_adapter_v1.AdapterTests.test_late_rollover_is_not_start_complete) ... ok\ntest_middle_gap_breaks_continuity (test_evidence_integrity_adapter_v1.AdapterTests.test_middle_gap_breaks_continuity) ... ok\ntest_missing_feed_measurement_stays_missing (test_evidence_integrity_adapter_v1.AdapterTests.test_missing_feed_measurement_stays_missing) ... ok\ntest_operational_only_heartbeat_cannot_fill_path_gap (test_evidence_integrity_adapter_v1.AdapterTests.test_operational_only_heartbeat_cannot_fill_path_gap) ... ok\ntest_parity_fail_count_derived_from_samples (test_evidence_integrity_adapter_v1.AdapterTests.test_parity_fail_count_derived_from_samples) ... ok\ntest_429_rate_is_warning_when_freshness_remained_clean (test_evidence_integrity_reconciler_v1.ReconcilerTests.test_429_rate_is_warning_when_freshness_remained_clean) ... ok\ntest_clean_requires_both_gates (test_evidence_integrity_reconciler_v1.ReconcilerTests.test_clean_requires_both_gates) ... ok\ntest_good_evidence_does_not_override_bad_operational_health (test_evidence_integrity_reconciler_v1.ReconcilerTests.test_good_evidence_does_not_override_bad_operational_health) ... ok\ntest_green_service_does_not_override_bad_evidence (test_evidence_integrity_reconciler_v1.ReconcilerTests.test_green_service_does_not_override_bad_evidence) ... ok\ntest_missing_required_measurement_is_unknown_not_clean (test_evidence_integrity_reconciler_v1.ReconcilerTests.test_missing_required_measurement_is_unknown_not_clean) ... ok\ntest_parity_failure_is_hard_by_default (test_evidence_integrity_reconciler_v1.ReconcilerTests.test_parity_failure_is_hard_by_default) ... ok\ntest_policy_can_disable_unused_feed_dependency (test_evidence_integrity_reconciler_v1.ReconcilerTests.test_policy_can_disable_unused_feed_dependency) ... ok\ntest_rollover_late_is_invalid_for_cert (test_evidence_integrity_reconciler_v1.ReconcilerTests.test_rollover_late_is_invalid_for_cert) ... ok\ntest_summary_preserves_quarantine_counts (test_evidence_integrity_reconciler_v1.ReconcilerTests.test_summary_preserves_quarantine_counts) ... ok\ntest_aggregation_and_reconciliation_do_not_mutate_observations (test_integrity_hardening_v1.MeasurementHardeningTests.test_aggregation_and_reconciliation_do_not_mutate_observations) ... ok\ntest_coverage_boolean_alone_cannot_certify_or_mask_invalid_statistics (test_integrity_hardening_v1.MeasurementHardeningTests.test_coverage_boolean_alone_cannot_certify_or_mask_invalid_statistics) ... ok\ntest_direct_record_explicit_parity_failure_is_hard_even_with_warning_policy (test_integrity_hardening_v1.MeasurementHardeningTests.test_direct_record_explicit_parity_failure_is_hard_even_with_warning_policy) ... ok\ntest_direct_record_recorded_rollover_cannot_be_masked (test_integrity_hardening_v1.MeasurementHardeningTests.test_direct_record_recorded_rollover_cannot_be_masked) ... ok\ntest_dual_gate_full_pass_fail_unknown_truth_table (test_integrity_hardening_v1.MeasurementHardeningTests.test_dual_gate_full_pass_fail_unknown_truth_table) ... ok\ntest_explicit_feed_trouble_survives_all_pipeline_stages (test_integrity_hardening_v1.MeasurementHardeningTests.test_explicit_feed_trouble_survives_all_pipeline_stages) ... ok\ntest_feed_specific_start_end_and_middle_gaps_cannot_borrow_other_feeds (test_integrity_hardening_v1.MeasurementHardeningTests.test_feed_specific_start_end_and_middle_gaps_cannot_borrow_other_feeds) ... ok\ntest_feed_trouble_dominates_later_healthy_status (test_integrity_hardening_v1.MeasurementHardeningTests.test_feed_trouble_dominates_later_healthy_status) ... ok\ntest_intermediate_counter_reset_cannot_recover_to_clean (test_integrity_hardening_v1.MeasurementHardeningTests.test_intermediate_counter_reset_cannot_recover_to_clean) ... ok\ntest_invalid_counter_measurements_cannot_disappear (test_integrity_hardening_v1.MeasurementHardeningTests.test_invalid_counter_measurements_cannot_disappear) ... ok\ntest_invalid_numeric_contract_measurements_never_clean (test_integrity_hardening_v1.MeasurementHardeningTests.test_invalid_numeric_contract_measurements_never_clean) ... ok\ntest_invalid_observation_cannot_be_diluted_by_healthy_samples (test_integrity_hardening_v1.MeasurementHardeningTests.test_invalid_observation_cannot_be_diluted_by_healthy_samples) ... ok\ntest_invalid_policy_thresholds_are_rejected (test_integrity_hardening_v1.MeasurementHardeningTests.test_invalid_policy_thresholds_are_rejected) ... ok\ntest_missing_feed_coverage_stays_unknown_and_disabled_feed_is_exempt (test_integrity_hardening_v1.MeasurementHardeningTests.test_missing_feed_coverage_stays_unknown_and_disabled_feed_is_exempt) ... ok\ntest_one_feed_sample_among_169_path_samples_is_not_coverage (test_integrity_hardening_v1.MeasurementHardeningTests.test_one_feed_sample_among_169_path_samples_is_not_coverage) ... ok\ntest_parity_failure_without_path_measurement_survives (test_integrity_hardening_v1.MeasurementHardeningTests.test_parity_failure_without_path_measurement_survives) ... ok\ntest_parser_preserves_invalid_age_and_lag_evidence (test_integrity_hardening_v1.MeasurementHardeningTests.test_parser_preserves_invalid_age_and_lag_evidence) ... ok\ntest_recorded_rollover_35_7_beats_inferred_one_second (test_integrity_hardening_v1.MeasurementHardeningTests.test_recorded_rollover_35_7_beats_inferred_one_second) ... ok\ntest_rollover_worst_record_survives_later_smaller_summary (test_integrity_hardening_v1.MeasurementHardeningTests.test_rollover_worst_record_survives_later_smaller_summary) ... ok\ntest_zero_cumulative_parity_never_masks_explicit_failure (test_integrity_hardening_v1.MeasurementHardeningTests.test_zero_cumulative_parity_never_masks_explicit_failure) ... ok\ntest_bundle_all_generated_names_protect_all_input_types_before_any_write (test_integrity_hardening_v1.OutputProtectionTests.test_bundle_all_generated_names_protect_all_input_types_before_any_write) ... ok\ntest_exclusive_creation_rejects_file_appearing_after_preflight (test_integrity_hardening_v1.OutputProtectionTests.test_exclusive_creation_rejects_file_appearing_after_preflight) ... ok\ntest_existing_derived_output_and_dangling_symlink_are_refused (test_integrity_hardening_v1.OutputProtectionTests.test_existing_derived_output_and_dangling_symlink_are_refused) ... ok\ntest_reconciler_all_input_output_overlaps_preserve_bytes (test_integrity_hardening_v1.OutputProtectionTests.test_reconciler_all_input_output_overlaps_preserve_bytes) ... ok\ntest_reconciler_outputs_cannot_alias_each_other (test_integrity_hardening_v1.OutputProtectionTests.test_reconciler_outputs_cannot_alias_each_other) ... ok\ntest_safe_bundle_cli_writes_six_outputs_and_refuses_rerun (test_integrity_hardening_v1.OutputProtectionTests.test_safe_bundle_cli_writes_six_outputs_and_refuses_rerun) ... ok\ntest_safe_cli_outputs_succeed_and_preserve_source (test_integrity_hardening_v1.OutputProtectionTests.test_safe_cli_outputs_succeed_and_preserve_source) ... ok\ntest_symlink_hardlink_relative_and_parent_aliases_are_blocked (test_integrity_hardening_v1.OutputProtectionTests.test_symlink_hardlink_relative_and_parent_aliases_are_blocked) ... ok\ntest_combined_late_start_is_kept_separate_from_exact_probe_lag (test_railway_evidence_log_adapter_v1.RailwayEvidenceLogAdapterTests.test_combined_late_start_is_kept_separate_from_exact_probe_lag) ... ok\ntest_final_lock_parses_without_claiming_certification (test_railway_evidence_log_adapter_v1.RailwayEvidenceLogAdapterTests.test_final_lock_parses_without_claiming_certification) ... ok\ntest_global_brti_heartbeat_attaches_only_inside_known_window (test_railway_evidence_log_adapter_v1.RailwayEvidenceLogAdapterTests.test_global_brti_heartbeat_attaches_only_inside_known_window) ... ok\ntest_observations_do_not_infer_missing_operational_fields (test_railway_evidence_log_adapter_v1.RailwayEvidenceLogAdapterTests.test_observations_do_not_infer_missing_operational_fields) ... ok\ntest_parity_fail_preserves_hard_evidence (test_railway_evidence_log_adapter_v1.RailwayEvidenceLogAdapterTests.test_parity_fail_preserves_hard_evidence) ... ok\ntest_parse_real_brti_heartbeat_shape (test_railway_evidence_log_adapter_v1.RailwayEvidenceLogAdapterTests.test_parse_real_brti_heartbeat_shape) ... ok\ntest_rollover_window_uses_exact_probe_boundary (test_railway_evidence_log_adapter_v1.RailwayEvidenceLogAdapterTests.test_rollover_window_uses_exact_probe_boundary) ... ok\n\n----------------------------------------------------------------------\nRan 62 tests in 0.574s\n\nOK\n"
+  },
+  "integrity_adversarial": {
+    "positive_control": "CLEAN",
+    "passed": 7,
+    "total": 7,
+    "findings": [
+      {
+        "finding": 1,
+        "result": "PASS",
+        "details": {
+          "cases": 10,
+          "source_bytes_unchanged": true
+        }
+      },
+      {
+        "finding": 2,
+        "result": "PASS",
+        "details": {
+          "cases": 40,
+          "all_invalid_values_blocked": true
+        }
+      },
+      {
+        "finding": 3,
+        "result": "PASS",
+        "details": {
+          "path_observations": 169,
+          "feed_samples": 1,
+          "results": {
+            "kalshi": "INVALID_FOR_CERT",
+            "brti": "INVALID_FOR_CERT",
+            "coinbase": "INVALID_FOR_CERT"
+          }
+        }
+      },
+      {
+        "finding": 4,
+        "result": "PASS",
+        "details": {
+          "parity_fail_count": 1,
+          "classification": "INVALID_FOR_CERT"
+        }
+      },
+      {
+        "finding": 5,
+        "result": "PASS",
+        "details": {
+          "sequence": [
+            1000,
+            1,
+            1840
+          ],
+          "delta": null,
+          "results": {
+            "brti_attempts_total": "INVALID_FOR_CERT",
+            "brti_429_total": "INVALID_FOR_CERT"
+          }
+        }
+      },
+      {
+        "finding": 6,
+        "result": "PASS",
+        "details": {
+          "brti_feed_clean": "INVALID_FOR_CERT",
+          "direct_brti_ready": "INVALID_FOR_CERT",
+          "coinbase_timeout": "INVALID_FOR_CERT"
+        }
+      },
+      {
+        "finding": 7,
+        "result": "PASS",
+        "details": {
+          "inferred_lag_sec": 1.0,
+          "results": {
+            "exact_ticker": {
+              "lag_sec": 35.7,
+              "classification": "INVALID_FOR_CERT"
+            },
+            "combined": {
+              "lag_sec": 35.7,
+              "classification": "INVALID_FOR_CERT"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "prior_28_sentinel_adversarial": {
+    "passed": 28,
+    "total": 28,
+    "network": "offline source transport; health HTTP on loopback only",
+    "results": [
+      {
+        "probe": "01 redirect to Kalshi",
+        "result": "PASS"
+      },
+      {
+        "probe": "02 redirect to Coinbase",
+        "result": "PASS"
+      },
+      {
+        "probe": "03 redirect HTTP/non-Railway/approved-hop",
+        "result": "PASS"
+      },
+      {
+        "probe": "04 required source unavailable",
+        "result": "PASS"
+      },
+      {
+        "probe": "05 HTTP-200 source failure/staleness",
+        "result": "PASS"
+      },
+      {
+        "probe": "06 write failure then health and recovery",
+        "result": "PASS"
+      },
+      {
+        "probe": "07 recorder dead/stale",
+        "result": "PASS"
+      },
+      {
+        "probe": "08 short write",
+        "result": "PASS"
+      },
+      {
+        "probe": "09 missing final newline",
+        "result": "PASS"
+      },
+      {
+        "probe": "10 complete tail deletion",
+        "result": "PASS"
+      },
+      {
+        "probe": "11 full truncation",
+        "result": "PASS"
+      },
+      {
+        "probe": "12 blank/null control manifest",
+        "result": "PASS"
+      },
+      {
+        "probe": "13 missing actual control capture",
+        "result": "PASS"
+      },
+      {
+        "probe": "14 control mismatch",
+        "result": "PASS"
+      },
+      {
+        "probe": "15 real Combined membership shape",
+        "result": "PASS"
+      },
+      {
+        "probe": "16 real Nextgen membership shapes",
+        "result": "PASS"
+      },
+      {
+        "probe": "17 HTTP-error body retention",
+        "result": "PASS"
+      },
+      {
+        "probe": "18 malformed JSON retention",
+        "result": "PASS"
+      },
+      {
+        "probe": "19 wrong-type JSON retention",
+        "result": "PASS"
+      },
+      {
+        "probe": "20 empty membership envelope",
+        "result": "PASS"
+      },
+      {
+        "probe": "21 generic age is not Kalshi",
+        "result": "PASS"
+      },
+      {
+        "probe": "22 missing Coinbase freshness",
+        "result": "PASS"
+      },
+      {
+        "probe": "23 low-disk membership block",
+        "result": "PASS"
+      },
+      {
+        "probe": "24 invalid contract IDs",
+        "result": "PASS"
+      },
+      {
+        "probe": "25 within-payload ID conflicts",
+        "result": "PASS"
+      },
+      {
+        "probe": "26 cross-source disagreement",
+        "result": "PASS"
+      },
+      {
+        "probe": "27 invalid BRTI counters",
+        "result": "PASS"
+      },
+      {
+        "probe": "28 empty user-info URLs",
+        "result": "PASS"
+      }
+    ]
+  },
+  "dedicated_v2_probes": {
+    "passed": 9,
+    "total": 9,
+    "network": "offline Requests adapter; health endpoints loopback only",
+    "results": [
+      {
+        "probe": "final directory fsync / telemetry / fresh processes",
+        "result": "PASS",
+        "detail": {
+          "separate_processes": 3,
+          "stages": [
+            {
+              "injected_final_fsync_failures": 1,
+              "complete_row_and_anchor": true,
+              "after_failure": {
+                "health_status": 503,
+                "state_ok": false
+              },
+              "pid": 137,
+              "ledger": "telemetry",
+              "files": {
+                "membership.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "membership.jsonl.anchor.json": "5403be9e4b15fc8432f69595ff7e2909de0f34b768be4603d5a739f97aed314e",
+                "telemetry.jsonl": "a6db90dc560f644046ad901dfe83e378047220cc311a449ec25ac1da1b06cc7a",
+                "telemetry.jsonl.anchor.json": "860090d3c560f5cae311df2a5b134d9c661fa2331c0d0dcad8dbe1527bf3d3f1",
+                "telemetry.jsonl.durability-pending.json": "e45c49cf349e2a36c76ad653b90fac8ca0bf5db1b11648f961e6d1bedefa7eec"
+              }
+            },
+            {
+              "after_reopen": {
+                "health_status": 503,
+                "state_ok": false
+              },
+              "after_subsequent_cycle": {
+                "health_status": 503,
+                "state_ok": false
+              },
+              "evidence_unchanged": true,
+              "cycle_source_requests": 0,
+              "failure_count": 2,
+              "pid": 145,
+              "ledger": "telemetry",
+              "files": {
+                "membership.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "membership.jsonl.anchor.json": "5403be9e4b15fc8432f69595ff7e2909de0f34b768be4603d5a739f97aed314e",
+                "telemetry.jsonl": "a6db90dc560f644046ad901dfe83e378047220cc311a449ec25ac1da1b06cc7a",
+                "telemetry.jsonl.anchor.json": "860090d3c560f5cae311df2a5b134d9c661fa2331c0d0dcad8dbe1527bf3d3f1",
+                "telemetry.jsonl.durability-pending.json": "e45c49cf349e2a36c76ad653b90fac8ca0bf5db1b11648f961e6d1bedefa7eec"
+              }
+            },
+            {
+              "after_reopen": {
+                "health_status": 503,
+                "state_ok": false
+              },
+              "after_subsequent_cycle": {
+                "health_status": 503,
+                "state_ok": false
+              },
+              "evidence_unchanged": true,
+              "cycle_source_requests": 0,
+              "failure_count": 2,
+              "pid": 154,
+              "ledger": "telemetry",
+              "files": {
+                "membership.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "membership.jsonl.anchor.json": "5403be9e4b15fc8432f69595ff7e2909de0f34b768be4603d5a739f97aed314e",
+                "telemetry.jsonl": "a6db90dc560f644046ad901dfe83e378047220cc311a449ec25ac1da1b06cc7a",
+                "telemetry.jsonl.anchor.json": "860090d3c560f5cae311df2a5b134d9c661fa2331c0d0dcad8dbe1527bf3d3f1",
+                "telemetry.jsonl.durability-pending.json": "e45c49cf349e2a36c76ad653b90fac8ca0bf5db1b11648f961e6d1bedefa7eec"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "probe": "final directory fsync / membership / fresh processes",
+        "result": "PASS",
+        "detail": {
+          "separate_processes": 3,
+          "stages": [
+            {
+              "injected_final_fsync_failures": 1,
+              "complete_row_and_anchor": true,
+              "after_failure": {
+                "health_status": 503,
+                "state_ok": false
+              },
+              "pid": 163,
+              "ledger": "membership",
+              "files": {
+                "membership.jsonl": "256f90526bcb06d330e8ee960c36484fdb49bf2b1d7257bc6517c4c9c042343a",
+                "membership.jsonl.anchor.json": "5569eced984fc22f2440aa985014ead19acbf4b544d076c6d93fa4c58a7b7aab",
+                "membership.jsonl.durability-pending.json": "c98b44eef41281e9e57d050d561efb8df307a40264275a193d019c456f3e7a0a",
+                "telemetry.jsonl": "1ba90b16f35a42f2ddd98d61445010703559c9be1a8cbcd0c1f47aa396a52b98",
+                "telemetry.jsonl.anchor.json": "f0ff5f7a2adc9088a608084a3235f3e01121810108da5e077c23972bc693c8b2"
+              }
+            },
+            {
+              "after_reopen": {
+                "health_status": 503,
+                "state_ok": false
+              },
+              "after_subsequent_cycle": {
+                "health_status": 503,
+                "state_ok": false
+              },
+              "evidence_unchanged": true,
+              "cycle_source_requests": 0,
+              "failure_count": 2,
+              "pid": 171,
+              "ledger": "membership",
+              "files": {
+                "membership.jsonl": "256f90526bcb06d330e8ee960c36484fdb49bf2b1d7257bc6517c4c9c042343a",
+                "membership.jsonl.anchor.json": "5569eced984fc22f2440aa985014ead19acbf4b544d076c6d93fa4c58a7b7aab",
+                "membership.jsonl.durability-pending.json": "c98b44eef41281e9e57d050d561efb8df307a40264275a193d019c456f3e7a0a",
+                "telemetry.jsonl": "1ba90b16f35a42f2ddd98d61445010703559c9be1a8cbcd0c1f47aa396a52b98",
+                "telemetry.jsonl.anchor.json": "f0ff5f7a2adc9088a608084a3235f3e01121810108da5e077c23972bc693c8b2"
+              }
+            },
+            {
+              "after_reopen": {
+                "health_status": 503,
+                "state_ok": false
+              },
+              "after_subsequent_cycle": {
+                "health_status": 503,
+                "state_ok": false
+              },
+              "evidence_unchanged": true,
+              "cycle_source_requests": 0,
+              "failure_count": 2,
+              "pid": 180,
+              "ledger": "membership",
+              "files": {
+                "membership.jsonl": "256f90526bcb06d330e8ee960c36484fdb49bf2b1d7257bc6517c4c9c042343a",
+                "membership.jsonl.anchor.json": "5569eced984fc22f2440aa985014ead19acbf4b544d076c6d93fa4c58a7b7aab",
+                "membership.jsonl.durability-pending.json": "c98b44eef41281e9e57d050d561efb8df307a40264275a193d019c456f3e7a0a",
+                "telemetry.jsonl": "1ba90b16f35a42f2ddd98d61445010703559c9be1a8cbcd0c1f47aa396a52b98",
+                "telemetry.jsonl.anchor.json": "f0ff5f7a2adc9088a608084a3235f3e01121810108da5e077c23972bc693c8b2"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "probe": "malformed Location",
+        "result": "PASS",
+        "detail": {
+          "cases": 8,
+          "results": [
+            {
+              "location": "https://[broken",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://[broken",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://[broken",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://[broken",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://example.org/\u00ff",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://example.org/\u00ff",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://example.org/\u00ff",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://example.org/\u00ff",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            }
+          ]
+        }
+      },
+      {
+        "probe": "Kalshi Location",
+        "result": "PASS",
+        "detail": {
+          "cases": 4,
+          "results": [
+            {
+              "location": "https://external-api.kalshi.com/trade-api/v2/markets",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://external-api.kalshi.com/trade-api/v2/markets",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://external-api.kalshi.com/trade-api/v2/markets",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://external-api.kalshi.com/trade-api/v2/markets",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            }
+          ]
+        }
+      },
+      {
+        "probe": "Coinbase Location",
+        "result": "PASS",
+        "detail": {
+          "cases": 4,
+          "results": [
+            {
+              "location": "https://api.exchange.coinbase.com/products/BTC-USD/ticker",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://api.exchange.coinbase.com/products/BTC-USD/ticker",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://api.exchange.coinbase.com/products/BTC-USD/ticker",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://api.exchange.coinbase.com/products/BTC-USD/ticker",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            }
+          ]
+        }
+      },
+      {
+        "probe": "HTTP Location",
+        "result": "PASS",
+        "detail": {
+          "cases": 4,
+          "results": [
+            {
+              "location": "http://v2-offline.up.railway.app/state",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "http://v2-offline.up.railway.app/state",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "http://v2-offline.up.railway.app/state",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "http://v2-offline.up.railway.app/state",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            }
+          ]
+        }
+      },
+      {
+        "probe": "non-Railway Location",
+        "result": "PASS",
+        "detail": {
+          "cases": 4,
+          "results": [
+            {
+              "location": "https://example.org/state",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://example.org/state",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://example.org/state",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://example.org/state",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            }
+          ]
+        }
+      },
+      {
+        "probe": "alternate Railway Location",
+        "result": "PASS",
+        "detail": {
+          "cases": 4,
+          "results": [
+            {
+              "location": "https://other.up.railway.app/state",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://other.up.railway.app/state",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://other.up.railway.app/state",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://other.up.railway.app/state",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            }
+          ]
+        }
+      },
+      {
+        "probe": "other blocked destinations",
+        "result": "PASS",
+        "detail": {
+          "cases": 28,
+          "results": [
+            {
+              "location": "https://www.cfbenchmarks.com/data/indices/BRTI",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://www.cfbenchmarks.com/data/indices/BRTI",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://www.cfbenchmarks.com/data/indices/BRTI",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://www.cfbenchmarks.com/data/indices/BRTI",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app:444/state",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app:444/state",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app:444/state",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app:444/state",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://@v2-offline.up.railway.app/state",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://@v2-offline.up.railway.app/state",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://@v2-offline.up.railway.app/state",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://@v2-offline.up.railway.app/state",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://user@v2-offline.up.railway.app/state",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://user@v2-offline.up.railway.app/state",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://user@v2-offline.up.railway.app/state",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://user@v2-offline.up.railway.app/state",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app/state#fragment",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app/state#fragment",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app/state#fragment",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app/state#fragment",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app/state\r\ninvalid",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app/state\r\ninvalid",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app/state\r\ninvalid",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app/state\r\ninvalid",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app\\@example.org/state",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app\\@example.org/state",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app\\@example.org/state",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app\\@example.org/state",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "redirect_cases": 56,
+  "provider_freshness": {
+    "kalshi": "INSUFFICIENT",
+    "coinbase": "INSUFFICIENT"
+  }
+}
