@@ -37,7 +37,35 @@ Tests use the repository's existing pinned requirements to generate realistic fi
 python -m unittest discover -s research_review -p 'test_*.py'
 ```
 
-70 regression tests cover snapshot integrity/comparisons (21), longitudinal history (6), extra execution costs (15), the causal-audit harness (12), and decision/omission accounting (16). They include mixed refresh snapshots, identity drift, duplicate observations, tampered evidence, altered exit timestamps despite equal counts, false readiness, exact paired arithmetic, missing outcomes, coverage denominators, all controls, rendering, offline replay and non-overwriting archives.
+93 regression tests cover snapshot integrity/comparisons (21), longitudinal history (6), extra execution costs (15), the causal-audit harness (12), decision/omission accounting (16), and checkpoint packaging/replay (23). They include mixed refresh snapshots, identity drift, duplicate observations, tampered evidence, altered exit timestamps despite equal counts, false readiness, exact paired arithmetic, missing outcomes, coverage denominators, all controls, rendering, offline replay and non-overwriting archives.
+
+## Single-snapshot checkpoint pack
+
+`nextgen_v2_checkpoint.py` runs one coherent capture through all five review tools and saves a self-contained evidence pack. Only the existing reviewer contacts the live service, using read-only GET requests; every market report then uses the exact same saved bundle. The synthetic mechanism audit remains separate engineering evidence, never additional market observations. This combined command needs the repository's pinned dependencies because it also runs that audit; it never starts a collector loop.
+
+Pass only accepted chronological histories, not a directory glob that could include drafts:
+
+```bash
+python research_review/nextgen_v2_checkpoint.py capture \
+  --history research_review/captures/accepted_checkpoint/bundle.json \
+    research_review/captures/20260916T225513444136Z/bundle.json \
+    research_review/captures/20260916T233157908004Z/bundle.json \
+    research_review/captures/20260916T234900184881Z/bundle.json \
+    research_review/captures/20260916T235948995478Z/bundle.json \
+  --output research_review/checkpoints/new_checkpoint
+```
+
+Use `--bundle path/to/bundle.json` for an entirely offline build. `verify` is always offline and does not modify the saved pack:
+
+```bash
+python research_review/nextgen_v2_checkpoint.py verify research_review/checkpoints/20260917T002405Z
+```
+
+Each pack contains current and historical bundles, the experiment manifest, comparison/ledger/cost/history/mechanism JSON and Markdown, and a concise `summary.md`. `pack.json` records each artifact's SHA-256, six report-source hashes, the frozen collector identity and exact Python version. `COMPLETE` seals that receipt and is written last. An incomplete write is retained for diagnosis, not overwritten or treated as complete. A new output directory is required even after a partial failure.
+
+Verification rejects missing/extra files, symlinks, unsafe inventory paths, duplicate JSON keys, non-finite values, changed tool code/runtime, mismatched hashes or safety flags. It then regenerates every report and checks exact bytes, including provenance. Inputs are canonicalized so JSON object ordering cannot change report order after saving. Fixed input/file/pack size bounds apply; the largest aggregate pack is 256 MiB. Verify old packs using their recorded report-code revision and Python runtime if the tooling later changes.
+
+Hashes and replay are reproducibility checks, **not signatures, trustworthy-clock proof, independent live-tape validation or prospective certification**. A consistently fabricated input cannot be ruled out by hashing it. The completion marker certifies only that files were written, never that a trading policy passed. The command creates no schedule or background monitor and never selects a winner.
 
 ## Longitudinal scorecard
 
@@ -97,7 +125,7 @@ The new output directory contains complete `ledger.json` evidence plus `ledger.m
 
 Accepted entries retain their exported reasons, prices and delays. Missing entries are explicitly `NO_ENTRY_RECORDED` with `NOT_EXPORTED` reasons; the tool does not invent confirmation failures, timeout causes or price rejection explanations. Missing reasons on existing records are also explicit. Warning presence is tracked separately from entry presence, so a missing warning cannot be mistaken for a skipped trade. Unknown outcomes, missing fee scores, and observed zero net are different states.
 
-Control-only positive/negative fee-net exits are labeled hindsight observations, not missed-win/avoided-loss claims. All values retain the fixed-exit and fixed-fee replay assumptions. Quiet contracts remain in total counts, but their individual IDs cannot be reconstructed from the current audit export. The latest saved run uses the coherent 23:59:48 UTC checkpoint, not live endpoint reads by this ledger command.
+Control-only positive/negative fee-net exits are labeled hindsight observations, not missed-win/avoided-loss claims. All values retain the fixed-exit and fixed-fee replay assumptions. Quiet contracts remain in total counts, but their individual IDs cannot be reconstructed from the current audit export. The standalone saved ledger uses the coherent 23:59:48 UTC checkpoint; the newer checkpoint pack has its own ledger on its shared 00:24:35 UTC bundle. This ledger command itself never reads live endpoints.
 
 ## Interpretation limits
 

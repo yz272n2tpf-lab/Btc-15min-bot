@@ -1,4 +1,26 @@
-# CURRENT STATE — decision-ledger milestone
+# CURRENT STATE — single-snapshot evidence-pack milestone
+
+Market evidence captured 2026-09-17 at 00:24:35 UTC (September 16, 8:24 PM Eastern). This Work thread remains the sole engineering/control authority.
+
+- **CONTROL:** All 50 Railway services retain the same deployment IDs and statuses as this work session's baseline; no staged changes were reported. Frozen V1 collectors, the accepted V2 deployment, and the replacement feed remain untouched. No collector edits, restarts, new services, orders or promotions.
+- **NEW SHADOW:** Added an undeployed one-command checkpoint runner with exact offline replay verification. All 93 regression tests pass, including 23 new pack tests. The accepted V2 service remains SUCCESS. The new pack contains one coherent snapshot: 7 full contracts / 11 serial opportunities, all 28 comparisons, six consistent historical checkpoints, and 6,952 separately labeled synthetic mechanism checks with zero failures.
+- **BLOCKED:** 93 contracts / 89 signals remain to the initial overall review floor; no lane-specific sufficiency or winner is established. Raw live quote paths, individual quiet-contract IDs and exact missing-entry reasons remain unavailable from the current exports. Hashes/replay do not prove source authenticity, live causality, manual-fill performance or certification.
+- **NEXT STEP:** At the next requested review, use the same checkpoint command with the five archived historical bundles plus `checkpoints/20260917T002405Z/bundle.json` as explicit history, capturing into a new directory. Compare the next completed-contract evidence without modifying any policy. There is no new background schedule. Any candidate still requires a separately frozen prospective certification window.
+
+## New build and observations
+
+`nextgen_v2_checkpoint.py` makes one coherent read-only capture and feeds that exact bundle into the comparison, decision-ledger, cost and longitudinal reports. It separately invokes the unchanged frozen-source synthetic audit. The pack archives inputs, outputs, experiment identity, runtime version and six tool-source hashes, writes `COMPLETE` last, then independently re-renders the reports offline. Tampered/resealed reports, mixed identities, unsafe inventories, source/runtime drift, partial writes and accidental overwrites fail closed. JSON object key ordering is normalized to make saved report bytes reproducible. No existing collector or policy file changed.
+
+Evidence: `checkpoints/20260917T002405Z/` contains 20 files, including complete JSON and readable Markdown reports. All market reports use the 00:24:35 UTC snapshot; cumulative histories are not summed and synthetic tests are not counted as market samples. The full regression suite passes 93 tests.
+
+Early observations remain descriptive:
+
+- SCALP-2: all three V2 filters entered 0 of 3 control opportunity-2 records. Two control records have observed positive one-lot fee-net protected exits (+16 and +1 cents); the third has no observed protected exit.
+- Dynamic Verify: 4 entries versus 11 immediate-control entries. Newly added entries are 36 cents and 97.1 cents, both `IMMEDIATE_STRONG`, neither with an observed protected exit. Only one matched protected-exit pair exists versus the immediate/5/10/15-second controls, with zero net delta. The 30-second comparison has no pair of observed protected exits. Expensive entries and omissions remain review evidence, not reasons to alter the live frozen rule.
+- Selective Pullback: Balanced entered 5 of 11 opportunities; Price-disciplined entered 3. Matched prices equal the immediate control in this snapshot; no entry-price improvement is demonstrated against that control. Coverage loss remains explicit.
+- Watch: confirmed half-cent warning remains about 0.96 seconds later than V1 1-cent on two paired warned exits; it is about 29.05 seconds earlier on average than the 2/3-cent controls on those same two pairs. It now has two unresolved warnings. Falling-trend still has no warnings. Frozen exit timestamps/economics remain identical; no economic credit is assigned merely for warning earlier.
+
+## Historical milestone — decision ledger
 
 Market evidence captured 2026-09-16 at 23:59:48 UTC (7:59 PM Eastern). This Work thread remains the sole engineering/control authority.
 
