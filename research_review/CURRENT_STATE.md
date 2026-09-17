@@ -1,4 +1,17 @@
-# CURRENT STATE — approved storage recovery, awaiting volume resize
+# CURRENT STATE — storage recovered; BRTI authority still unavailable
+
+Checked 2026-09-17 at 01:49 UTC (September 16, 9:49 PM Eastern). This Work thread remains the sole engineering/control authority.
+
+- **CONTROL:** All other 49 services retain exactly the same status/deployment records as the saved pre-recovery baseline. Frozen collectors were not edited or restarted. Early's original 2 calls/2 settlements and Final's original 14 locks/14 settlements are retained exactly; both report zero observer restarts.
+- **NEW SHADOW:** Accepted V2 remains SUCCESS on deployment `17cac03e-20a2-46be-b535-c31f63aaf6fa`, unchanged. No strategy was built or deployed in this recovery milestone. The user expanded only the existing source volume from 500 MB to 1000 MB; the assistant then restored only `Btc-15min-bot` on deployment `f7d53197-bd43-4833-8985-314cd89d0bde`, same commit `8b7f8b48694364cb8c47456d0ab491b102aa42c0` and same service configuration. Health is HTTP 200. Fresh paired quotes and the current contract are now present.
+- **BLOCKED:** Direct BRTI requests still return HTTP 429 and the dashboard reports `brti_fresh:false` / `direct_brti_authority_ready:false`. Storage recovery is not full signal-readiness certification. Early remains 22 eligible contracts / 2 settled calls; Final remains 24 / 14. No new settlement was observed. The collection gap remains missing evidence, with no backfill.
+- **NEXT STEP:** Read-only diagnosis of the remaining BRTI rate limit and the next post-recovery contract rollover; verify new eligible observations and later official settlements without changing thresholds, source selection, polling, or any frozen collector. No further production changes or storage increase are authorized by this recovery approval.
+
+Evidence: `recovery/20260917T014517Z/` contains the deployment/config receipt, startup inventory, three HTTP capture rounds and preservation checks. By dashboard generation 01:48:00 UTC, source data was 4.57 seconds old, paired quotes were present, the market was open, and the contract closed at 02:00 UTC. Early/Final successful polls resumed by 01:46:46/47 UTC; these first HTTP successes preceded complete market-field recovery. Source freshness must be assessed separately from watchdog liveness.
+
+The same volume ID and /data mount remain. Startup inventory shows the prior evidence files and their rounded sizes (424M total); this is not a byte-for-byte integrity proof of the volume. No file deletion/truncation, variable change, rule change, order or promotion was performed. The latest disk metric is 0.52967424 GB with a 1-GB allocation, and the new deployment has no matching disk-full errors in the inspected log query. Early and Final late-exclusion counters each increased by one during warm-up; do not count that excluded observation as a complete fresh contract.
+
+## Historical milestone — approved storage recovery, awaiting volume resize
 
 Checked 2026-09-17 at 01:31 UTC. The user explicitly approved the narrowly scoped storage recovery in this Work thread; do not ask for that approval again.
 

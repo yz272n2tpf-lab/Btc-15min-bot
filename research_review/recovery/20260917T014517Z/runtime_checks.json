@@ -1,0 +1,52 @@
+{
+  "checked_at_utc": "2026-09-17T01:49:35.809Z",
+  "metrics": {
+    "environment": {
+      "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+      "name": "production"
+    },
+    "metrics": [
+      {
+        "average": 0.49933677954098377,
+        "current": 0.52967424,
+        "max": 0.52967424,
+        "measurement": "DISK_USAGE_GB",
+        "min": 0.498040832,
+        "sampleCount": 61
+      }
+    ],
+    "service": {
+      "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+      "name": "Btc-15min-bot"
+    }
+  },
+  "disk_full_log_query": {
+    "deploy": [],
+    "deploymentId": "f7d53197-bd43-4833-8985-314cd89d0bde",
+    "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+    "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+    "status": "SUCCESS"
+  },
+  "remaining_issue_logs": [
+    {
+      "timestamp": "2026-09-17T01:47:09.821467188Z",
+      "message": "DIRECT BRTI AUTHORITY NOTE: 429 Client Error: Too Many Requests for url: https://external-api.kalshi.com/trade-api/v2/cfbenchmarks/values?id=BRTI&maxResolution=PER_SECOND"
+    },
+    {
+      "timestamp": "2026-09-17T01:47:11.330030266Z",
+      "message": "DIRECT BRTI WARNING: HTTPError: 429 Client Error: Too Many Requests for url: https://external-api.kalshi.com/trade-api/v2/cfbenchmarks/values?id=BRTI&maxResolution=PER_SECOND"
+    },
+    {
+      "timestamp": "2026-09-17T01:47:17.400247308Z",
+      "message": "PARITY WARNING | HTTPError: 429 Client Error: Too Many Requests for url: https://external-api.kalshi.com/trade-api/v2/cfbenchmarks/values?id=BRTI&maxResolution=PER_SECOND"
+    },
+    {
+      "timestamp": "2026-09-17T01:47:32.553624307Z",
+      "message": "PARITY WARNING | HTTPError: 429 Client Error: Too Many Requests for url: https://external-api.kalshi.com/trade-api/v2/cfbenchmarks/values?id=BRTI&maxResolution=PER_SECOND"
+    },
+    {
+      "timestamp": "2026-09-17T01:47:42.318188280Z",
+      "message": "DIRECT BRTI WARNING: HTTPError: 429 Client Error: Too Many Requests for url: https://external-api.kalshi.com/trade-api/v2/cfbenchmarks/values?id=BRTI&maxResolution=PER_SECOND"
+    }
+  ]
+}

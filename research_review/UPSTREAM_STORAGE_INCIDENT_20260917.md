@@ -1,4 +1,18 @@
-# Early / Final upstream storage incident — read-only diagnosis
+# Early / Final upstream storage incident — diagnosis and approved recovery
+
+## Recovery executed — 2026-09-17 01:49 UTC
+
+The user completed the existing-volume resize in Railway, selecting 1 GB. The API confirms 1000 MB on the same volume ID and /data mount. Railway removed the crashed source deployment during resizing; it did not automatically restore a running source in the observed interval. After confirming the main ref still matched the failed source's commit and the service configuration was identical, the assistant invoked one service-scoped redeploy of Btc-15min-bot. Deployment `f7d53197-bd43-4833-8985-314cd89d0bde` was created at 01:45:17 UTC and reached SUCCESS at 01:46:33 UTC on unchanged commit `8b7f8b48694364cb8c47456d0ab491b102aa42c0`.
+
+All other 49 service records/deployment IDs remain identical to the pre-recovery baseline, including the frozen V1 controls and accepted V2. No collector was restarted, no variables or logic were changed, and no data files were deleted or truncated. The startup inventory shows the original evidence filenames and rounded sizes; volume-wide byte identity was not independently verified.
+
+Health and dashboard HTTP requests now succeed. Early and Final resumed successful source polling by 01:46:46/47 UTC with zero observer restarts. Exact membership checks retain all original call/lock and settlement records. A startup dashboard response had empty market fields despite HTTP 200, so it was not counted as fresh market recovery. By the 01:48:00 UTC dashboard generation, the source timestamp was 01:47:56 UTC (4.57 seconds old), paired quotes were present, and the current contract was `KXBTC15M-26SEP162200-00`, closing at 02:00 UTC.
+
+Direct BRTI remains unavailable: repeated HTTP 429 responses, `brti_fresh:false` and `direct_brti_authority_ready:false`. Do not bypass this authority gate or claim full readiness. No new settled call was observed: Early remains 22 eligible / 2 settled, Final 24 eligible / 14 settled. Their late-exclusion counters each increased by one during warm-up; preserve that exclusion. The outage began after the last successful source observations on September 16 at 02:37:31 UTC. HTTP recovery and fresh-market recovery are separate boundaries; the missed interval remains unobserved and must not be backfilled.
+
+The latest disk usage metric is 0.52967424 GB against 1 GB allocated. The disk-full log query for the new deployment returned no matches. This is an initial recovery check, not a long-run storage-capacity guarantee.
+
+Evidence and verification are archived under `recovery/20260917T014517Z/`. The next authorized work is read-only BRTI diagnosis and observation of a new post-recovery rollover and settlement, preserving all frozen rules and source selection. All earlier pending-action statements below are historical and superseded by this completed storage/source action.
 
 ## Approved recovery update — 2026-09-17 01:31 UTC
 

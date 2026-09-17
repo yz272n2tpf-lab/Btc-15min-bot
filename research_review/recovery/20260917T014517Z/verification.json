@@ -1,0 +1,41 @@
+{
+  "verified_utc": "2026-09-17T01:50:06.474937+00:00",
+  "checks": {
+    "same_50_service_ids": true,
+    "all_other_49_service_status_records_unchanged": true,
+    "source_config_unchanged": true,
+    "same_source_commit": true,
+    "source_success": true,
+    "volume_1000_MB": true,
+    "early_all_original_calls_exactly_retained": true,
+    "early_all_original_settlements_exactly_retained": true,
+    "early_observer_restarts_zero": true,
+    "early_successful_source_poll_resumed": true,
+    "final_all_original_calls_exactly_retained": true,
+    "final_all_original_settlements_exactly_retained": true,
+    "final_observer_restarts_zero": true,
+    "final_successful_source_poll_resumed": true,
+    "fresh_paired_open_market": true,
+    "orders_disabled": true
+  },
+  "remaining_blocker": "Direct BRTI HTTP 429; brti_fresh and direct_brti_authority_ready false.",
+  "fresh_dashboard_generated_utc": "2026-09-17T01:48:00.838003+00:00",
+  "fresh_dashboard_source_utc": "2026-09-17T01:47:56.263265+00:00",
+  "snapshot_request_timestamps_note": "captured_utc is request-start time; use payload generation/source fields for market timing.",
+  "artifacts": {
+    "dashboard_20260917T014642.770080+0000.json": "d05fbd35c27a796336c0035e42d1380bf6d623e308ba4c3bc405ebb0702c9120",
+    "dashboard_20260917T014705.858946+0000.json": "1487297706df7ec562805d64607c3d4cc3990a3cfb269b7be449bf343bbe18d3",
+    "dashboard_20260917T014754.240579+0000.json": "96c6908699c7fb828b93b33c120148e0fe4c2547b6c24688d55b90b4f13cb7f6",
+    "early_20260917T014642.770789+0000.json": "04f0fd95604b5026894106e52dddeb7e5809d63d59582770fe57273fe73cb87f",
+    "early_20260917T014705.859437+0000.json": "a8df9e86a6645d22e2a6e032c84f606cbeb9d99d3c044c6146489df37a6fadcc",
+    "early_20260917T014754.241066+0000.json": "7fd18f6684f4b2926493a84d2f1c75b08d54cf910174a867e328c151a3d05d03",
+    "final_20260917T014642.771283+0000.json": "231556daaff4a0e777197c214a91cb478e7580e903b589fda7ddab394fd8b3e2",
+    "final_20260917T014705.859820+0000.json": "23b6e3d147e9e74bb822e8378d8167e15ecb620064f6d30bbf75ba5f40dc95c9",
+    "final_20260917T014754.241546+0000.json": "d767b332f3613b22971cac0464a1080d98249b7b8c252230882d0971579312ae",
+    "health_20260917T014642.769408+0000.json": "212755ceb3cd09f5d552424aaea3468151b31f037ac88da616d354337a1ea97d",
+    "health_20260917T014705.858456+0000.json": "96c00ac3982bd3f00a18761b4d9d563db89f06fd4ef0576d902e5478e925af28",
+    "health_20260917T014754.240042+0000.json": "c2effa21961f520899e1bb0213f2d4bf7350c3e0a22ffeba99fb741fd33b2a99",
+    "receipt.json": "9ed3cb6cfc13dfef370fcb12b8bdd2b9254a443a76e985f8f4e9af43ad77b21f",
+    "runtime_checks.json": "9b5bbd116c2cd13a9d22a3afb14d6566e6608e16265c3a8148a4f29c1282b24f"
+  }
+}

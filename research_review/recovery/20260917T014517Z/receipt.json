@@ -1,0 +1,1146 @@
+{
+  "checked_at_utc": "2026-09-17T01:47:06.980Z",
+  "approved_scope": "Existing source volume 500 MB to 1000 MB and recovery of Btc-15min-bot only at unchanged source commit and settings.",
+  "user_executed_resize": true,
+  "assistant_redeploy": {
+    "deployment": {
+      "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+      "id": "f7d53197-bd43-4833-8985-314cd89d0bde",
+      "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+      "status": "INITIALIZING"
+    }
+  },
+  "deployment": {
+    "deployments": [
+      {
+        "createdAt": "2026-09-17T01:45:17.463Z",
+        "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "id": "f7d53197-bd43-4833-8985-314cd89d0bde",
+        "meta": {
+          "branch": "main",
+          "commitHash": "8b7f8b48694364cb8c47456d0ab491b102aa42c0",
+          "commitMessage": "Add validated V8.1 gate diagnostics to production scalp card",
+          "reason": "redeploy"
+        },
+        "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "snapshotId": "86f0c451-19e4-45f3-82d0-8a87067f7d01",
+        "status": "SUCCESS",
+        "updatedAt": "2026-09-17T01:46:33.935Z",
+        "url": null
+      }
+    ]
+  },
+  "environment_after": {
+    "buckets": [],
+    "environment": {
+      "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+      "name": "production",
+      "stagedChanges": null,
+      "unmergedChangesCount": null
+    },
+    "project": {
+      "id": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+      "name": "noble-warmth",
+      "workspaceName": "yz272n2tpf-lab's Projects"
+    },
+    "services": [
+      {
+        "cronSchedule": null,
+        "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "latestDeployment": {
+          "createdAt": "2026-09-17T01:45:17.463Z",
+          "id": "f7d53197-bd43-4833-8985-314cd89d0bde",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "Btc-15min-bot",
+        "numReplicas": null,
+        "volumes": [
+          {
+            "id": "6ced6b1a-3755-4518-a240-c895e936d443",
+            "mountPath": "/data",
+            "name": "btc-15min-bot-volume",
+            "region": "iad",
+            "sizeMB": 1000
+          }
+        ]
+      },
+      {
+        "cronSchedule": null,
+        "id": "90d3435e-c98c-43ae-880f-cd629b9606e2",
+        "latestDeployment": {
+          "createdAt": "2026-09-11T16:16:19.458Z",
+          "id": "bd1faafd-3d39-4ff1-bf69-8e3b1e364068",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-lead-shadow",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "f6e62c87-ac2a-4340-8be2-72932ad4c486",
+        "latestDeployment": {
+          "createdAt": "2026-09-11T16:16:12.461Z",
+          "id": "87cf1c7f-2ff6-41f9-8fb8-d5dcad7f0994",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-lead-qualified",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "ca605c00-4608-4b32-b0bb-d1ca9c6b42a5",
+        "latestDeployment": {
+          "createdAt": "2026-09-11T16:16:04.670Z",
+          "id": "db0473b2-22cd-46f3-9f63-efce713112a7",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-lead-v4",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "c21d4dfa-cf66-4f4d-96d6-fb7515f80795",
+        "latestDeployment": {
+          "createdAt": "2026-09-11T16:13:26.389Z",
+          "id": "52baa3cb-b2e6-45e1-86d4-8bcf1a3a0954",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-lead-v5",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "7e643823-456a-414b-a369-0ee40462223f",
+        "latestDeployment": {
+          "createdAt": "2026-09-11T16:13:26.389Z",
+          "id": "1c0c5ea0-67a4-453c-ba7f-752433b66d67",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-lead-v5-live",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "2b0060ac-e0d1-49a2-a2f6-b577fd9ac478",
+        "latestDeployment": {
+          "createdAt": "2026-09-11T16:16:27.603Z",
+          "id": "c071ec85-f1d4-4fa5-865b-1ce21271ed58",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-lead-v5-main",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "ea6e520b-fa94-49bb-abf9-094817ae3d6b",
+        "latestDeployment": {
+          "createdAt": "2026-09-11T19:10:31.099Z",
+          "id": "3f4649ce-535d-4fab-ab31-6756117187d7",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-lead-v6",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "568716be-9c96-446e-aecb-0fcd16158b8e",
+        "latestDeployment": {
+          "createdAt": "2026-09-12T20:00:58.406Z",
+          "id": "4fec361b-a1ff-4d7d-a3a7-fefb5a2ff249",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-lead-v6-main",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "2e63484b-e726-41fc-980a-a117b5efdcfd",
+        "latestDeployment": {
+          "createdAt": "2026-09-13T05:09:38.027Z",
+          "id": "8eb3020c-6f36-40b5-9242-bd7f04f0b501",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-v81-sub30-shadow",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "b883a5e1-7cef-4d3d-b3f6-cffccde53053",
+        "latestDeployment": {
+          "createdAt": "2026-09-12T02:12:11.760Z",
+          "id": "ac70c610-5c36-4cc2-8479-2e1ee489b747",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-v81-sub30-shadow-v2",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "0bda3f3d-90b7-4934-8636-d16a45a3dc32",
+        "latestDeployment": {
+          "createdAt": "2026-09-12T01:12:12.787Z",
+          "id": "a36a2a6b-3463-4093-a5e5-c68c1ab82245",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "v81-immutable-test",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "10045980-cdd0-485a-a827-b50a3f0b4943",
+        "latestDeployment": {
+          "createdAt": "2026-09-12T20:29:26.978Z",
+          "id": "c5bc8cf1-6407-4a3b-8f70-48d63fa8a9bf",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "v81-final-isolated-test",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "07e8e86b-644e-4c27-8965-c2055c77270c",
+        "latestDeployment": {
+          "createdAt": "2026-09-12T12:57:09.042Z",
+          "id": "41a8b854-9a25-43cb-8af4-82e55ecdbe61",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "v81-30-45-dashboard-validation",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "299990cb-7a46-469f-a124-d39d9c44d665",
+        "latestDeployment": {
+          "createdAt": "2026-09-12T13:01:23.103Z",
+          "id": "4445ec91-c8d5-406c-a103-f1703bb3d9eb",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "v81-30-45-dashboard-validation-v2",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "43e53181-102a-4759-a7cd-70875c605cf0",
+        "latestDeployment": {
+          "createdAt": "2026-09-12T13:26:14.053Z",
+          "id": "242c233f-a16e-46a3-a373-6a536a6f199a",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "v81-30-45-dashboard-validation-v3",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "afd8f1f0-65f6-46f0-a79b-ef582f35293f",
+        "latestDeployment": {
+          "createdAt": "2026-09-12T20:07:15.383Z",
+          "id": "ae6976a2-fb93-449a-a05d-f45dc32bd478",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "v81-30-45-live-feed-v2",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "80e36da7-15aa-447e-9b08-fad61d193d11",
+        "latestDeployment": {
+          "createdAt": "2026-09-12T14:40:16.103Z",
+          "id": "5aeb6837-8e96-497c-839d-82f5257bf914",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "v81-dashboard-live-card-validation",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "8660dddc-6f59-4c94-bce1-00bcb99d7b46",
+        "latestDeployment": {
+          "createdAt": "2026-09-15T21:18:09.783Z",
+          "id": "96c802e5-6486-4a94-8e19-6bdf3dfe943b",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "dashboard-source-diag-temp",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "38ea1519-51f7-4355-8fae-061a6fec0452",
+        "latestDeployment": {
+          "createdAt": "2026-09-12T19:57:43.028Z",
+          "id": "504c20b7-9a9e-4bd5-b3c6-46e20e8748c1",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "v81-inline-scalp-validation",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "latestDeployment": {
+          "createdAt": "2026-09-12T20:01:41.897Z",
+          "id": "632c92f9-b129-4422-abd3-60a96057e3c8",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "v81-live-diagnostics",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "8b40a28c-1beb-4020-bdc2-e7e236fe3501",
+        "latestDeployment": {
+          "createdAt": "2026-09-15T04:28:23.885Z",
+          "id": "88ffe129-a6dd-418d-8261-f95bbe453fbf",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-move-shadow-v1",
+        "numReplicas": null,
+        "volumes": [
+          {
+            "id": "656da4af-6a3f-4907-95da-2c0c0000cf29",
+            "mountPath": "/data",
+            "name": "scalp-move-shadow-v1-volume",
+            "region": "iad",
+            "sizeMB": 5000
+          }
+        ]
+      },
+      {
+        "cronSchedule": null,
+        "id": "0fe5d048-873e-4c1c-a3d4-8e7216e44f3e",
+        "latestDeployment": {
+          "createdAt": "2026-09-13T05:20:32.705Z",
+          "id": "c9721d57-888d-4fa0-8937-41d73a52c2d9",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "brti-shared-feed-v1",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "84f579fc-36d0-4170-8a28-6d26c01bb364",
+        "latestDeployment": {
+          "createdAt": "2026-09-13T05:18:39.829Z",
+          "id": "1edca6fd-095d-4910-90af-a11c49c086db",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "v81-live-diag-shared-brti-shadow",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "142e0fe5-13ce-4cb7-a08b-d4a65539fb47",
+        "latestDeployment": {
+          "createdAt": "2026-09-15T05:02:45.985Z",
+          "id": "3296cc04-c5b0-4256-8108-47e4861fdf20",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "combined-dashboard-shadow-v1",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "7ef27913-4f4d-40fc-9b32-91d79852f13d",
+        "latestDeployment": {
+          "createdAt": "2026-09-16T12:14:42.127Z",
+          "id": "74ff8af6-74c4-45be-8325-a40b9918663f",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-ladder-research-v1",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "66af8caf-cca0-4733-b1b2-71b227adbc2f",
+        "latestDeployment": {
+          "createdAt": "2026-09-14T21:14:11.540Z",
+          "id": "42773a97-e279-48f4-bfac-6c1eb984755d",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-blueprint-forward-v1",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "f020787f-00fb-4a46-a36c-710f18bbf31e",
+        "latestDeployment": {
+          "createdAt": "2026-09-15T21:25:19.515Z",
+          "id": "60b67800-6709-45fa-a558-de51fa2d9ec0",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-coverage-audit-v1",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "cc7ca702-ddbc-4f61-8205-873e34b7d740",
+        "latestDeployment": {
+          "createdAt": "2026-09-15T04:15:58.583Z",
+          "id": "b3173208-401f-4a17-b298-3f67f3730bd3",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-unarmed-live-tape-v1",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "90046a79-3f57-493f-b473-18d0031e8f0d",
+        "latestDeployment": {
+          "createdAt": "2026-09-15T13:41:20.060Z",
+          "id": "52114b2d-2d17-44c3-9ee4-5454aec9222d",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-display-bridge-v6",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "87801206-d705-43d6-8aa2-bfb1b11c1ff6",
+        "latestDeployment": {
+          "createdAt": "2026-09-15T14:03:08.725Z",
+          "id": "12a26d34-ffe5-46b5-a29e-5f8a43a12a17",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "combined-dashboard-shadow-v11",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "fbe79688-25ed-4329-b0d6-c9b669559b17",
+        "latestDeployment": {
+          "createdAt": "2026-09-15T19:55:38.110Z",
+          "id": "48b86488-3688-40d3-82b4-ad5fe028a61f",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "final-forward-scorecard-v1",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "e9399baa-25a8-4801-a374-ae6c5401060d",
+        "latestDeployment": {
+          "createdAt": "2026-09-15T19:49:39.005Z",
+          "id": "4b23c967-5cae-49f0-b2de-7ee2aa74a8e1",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "combined-forward-scorecard-v1",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "b210d5f0-0616-4e39-9812-ce7b41b73d67",
+        "latestDeployment": {
+          "createdAt": "2026-09-15T18:39:18.394Z",
+          "id": "0df31206-238e-46aa-b0f8-ef79773889b7",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "combined-dashboard-shadow-v13",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "efb56ace-8c0e-4672-a772-6dd3b8633078",
+        "latestDeployment": {
+          "createdAt": "2026-09-15T20:24:24.332Z",
+          "id": "32b3b7f1-ae00-4e45-8609-84eb3a2409f8",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "early-forward-scorecard-v1",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "174bd89d-264b-4882-8d5a-b8dbacf97181",
+        "latestDeployment": {
+          "createdAt": "2026-09-15T20:39:32.809Z",
+          "id": "43e32eee-afea-4986-a944-803a53945852",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "early-final-handoff-v1",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "6b847381-fc63-4421-b7bd-e8111c844e2f",
+        "latestDeployment": {
+          "createdAt": "2026-09-15T22:33:47.303Z",
+          "id": "b6c7e09a-e6bd-4c36-a98c-48a50e72d0cf",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "early-excursion-forward-v1",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "6c0ec9d5-2187-4623-97ec-44c3304b8074",
+        "latestDeployment": {
+          "createdAt": "2026-09-15T23:32:29.505Z",
+          "id": "1bb0e9b5-a299-4516-bad4-79b57686b9ff",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "authoritative-scoreboard-v1",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "c1db8b80-f656-4295-ade8-812c129f6c72",
+        "latestDeployment": {
+          "createdAt": "2026-09-16T00:15:59.542Z",
+          "id": "95380505-ccb6-4489-bfec-299933596116",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "combined-dashboard-shadow-v14",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "56b8496c-8dea-409b-a236-9e139a9c2e96",
+        "latestDeployment": {
+          "createdAt": "2026-09-16T02:22:35.698Z",
+          "id": "bf74b182-7507-4ed8-9a25-9e7041d37e1f",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "final-v4-review-tooling-v1",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "fbf35c65-2043-49e8-9715-3c9151ea941b",
+        "latestDeployment": {
+          "createdAt": "2026-09-16T05:00:36.220Z",
+          "id": "a46158d3-2a60-467f-88d7-7fb9cc7b5df3",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-specialist-review-v3",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "d357294c-05e7-4a2b-89bf-0aaa4509b8fb",
+        "latestDeployment": {
+          "createdAt": "2026-09-16T05:01:24.153Z",
+          "id": "f4fc1620-3cd9-46c8-9101-6fede77d8d71",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-coverage-rescue-forward-v1",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "b3080f5e-c625-4891-8aa2-eae860d6c174",
+        "latestDeployment": {
+          "createdAt": "2026-09-16T11:50:30.690Z",
+          "id": "71f6718d-1901-4196-b629-2e514ea5a327",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-entry-profit-review-v1",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "4a7f7942-7701-4441-8061-d1c6148d0e81",
+        "latestDeployment": {
+          "createdAt": "2026-09-16T07:01:59.765Z",
+          "id": "a0fe5959-62ab-4678-b010-a36ff07de461",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-entry-profit-holdout-v1",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "c45a77d2-c91c-4c7c-b1f9-de52d7348ff9",
+        "latestDeployment": {
+          "createdAt": "2026-09-16T11:59:34.454Z",
+          "id": "265e87a4-754f-4d6e-a116-12ac67b80c95",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-reversal-reentry-review-v1",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "a0f417fe-9bfe-4d80-bcd0-5647a582a1e7",
+        "latestDeployment": {
+          "createdAt": "2026-09-16T07:14:01.636Z",
+          "id": "0d3dff12-6e18-423e-8f0e-1c46d105ba82",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-reversal-reentry-holdout-v1",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "f6ae8e92-dbd9-4439-817e-abda52981ab1",
+        "latestDeployment": {
+          "createdAt": "2026-09-16T11:14:49.070Z",
+          "id": "19c72496-8ea1-4a4b-8e09-564e1074dbef",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-economics-exit-review-v1",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "a09d4dbc-8fa7-4d9f-bbc3-215533c4cf2b",
+        "latestDeployment": {
+          "createdAt": "2026-09-16T10:32:35.831Z",
+          "id": "0cf8e2e8-ef60-4b09-86cf-93b2aff44f6e",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-economics-forward-v1",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "979ad780-249d-407a-ae73-c8488c1d047f",
+        "latestDeployment": {
+          "createdAt": "2026-09-16T11:03:55.301Z",
+          "id": "0e00dbd2-efa3-4954-9cd7-e199861b9c72",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-regime-review-v1",
+        "numReplicas": null,
+        "volumes": []
+      },
+      {
+        "cronSchedule": null,
+        "id": "46b79a18-0fc2-46f0-8f12-d6bac63eecad",
+        "latestDeployment": {
+          "createdAt": "2026-09-16T22:11:40.253Z",
+          "id": "17cac03e-20a2-46be-b535-c31f63aaf6fa",
+          "status": "SUCCESS",
+          "url": null
+        },
+        "name": "scalp-nextgen-shadow-v2",
+        "numReplicas": null,
+        "volumes": []
+      }
+    ]
+  },
+  "source_config_after": {
+    "config": {
+      "build": {
+        "buildEnvironment": "V3",
+        "builder": "RAILPACK"
+      },
+      "deploy": {
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 30,
+        "ipv6EgressEnabled": false,
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        },
+        "runtime": "V2",
+        "startCommand": "/bin/sh -c 'sleep 3; echo \"BTC15 VOLUME INVENTORY BEGIN\" >&2; du -ah /data 2>/dev/null | sort -hr | head -40 >&2; echo \"BTC15 VOLUME INVENTORY END\" >&2; sleep 1; exec python -u BTC15_DASHBOARD_INLINE_SCALP_DIAG_V2.py'",
+        "useLegacyStacker": false
+      },
+      "networking": {
+        "privateNetworkEndpoint": "btc-15min-bot",
+        "serviceDomains": {
+          "btc-15min-bot-production.up.railway.app": {
+            "port": 8080
+          }
+        }
+      },
+      "source": {
+        "branch": "main",
+        "checkSuites": false,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot"
+      },
+      "volumeMounts": {
+        "6ced6b1a-3755-4518-a240-c895e936d443": {
+          "mountPath": "/data"
+        }
+      }
+    },
+    "environment": {
+      "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+      "name": "production"
+    },
+    "service": {
+      "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+      "name": "Btc-15min-bot"
+    },
+    "staged": null,
+    "variableNames": [
+      "BTC15_DASH_V13_Z1",
+      "BTC15_DASH_V13_Z2",
+      "BTC15_DASH_V13_Z3",
+      "BTC15_DASH_V13_Z4",
+      "BTC15_DASH_V13_Z5",
+      "BTC15_INLINE_SCALP_V1",
+      "BTC15_VOLUME_DIAG",
+      "KALSHI_KEY_ID",
+      "KALSHI_PRIVATE_KEY_B64",
+      "PORT",
+      "PYTHONUNBUFFERED"
+    ]
+  },
+  "startup_logs": [
+    {
+      "timestamp": "2026-09-17T01:46:27.440512289Z",
+      "message": "Mounting volume on: /var/lib/containers/railwayapp/bind-mounts/20f3252a-0ab7-4fd2-a8ff-9777b1dc0728/vol_xjnsuc4xj56ptz20"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:27.440683756Z",
+      "message": "Starting Container"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:30.311761108Z",
+      "message": "BTC15 VOLUME INVENTORY BEGIN"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:30.311765998Z",
+      "message": "424M\t/data"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:30.311771958Z",
+      "message": "245M\t/data/kalshi_subminute_unified_v1_1.csv"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:30.311775208Z",
+      "message": "76M\t/data/kalshi_scalp_shadow_snapshots_v1.csv"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:30.311779258Z",
+      "message": "41M\t/data/kalshi_early_conf_shadow_v1_2.csv"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:30.311782888Z",
+      "message": "29M\t/data/kalshi_direct_brti_parity_v1.csv"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:30.311786668Z",
+      "message": "17M\t/data/kalshi_scalp_shadow_events_v1.csv"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:30.311790008Z",
+      "message": "8.4M\t/data/kalshi_final_position_protection_shadow_v3.csv"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:30.311793728Z",
+      "message": "8.4M\t/data/kalshi_app_parity_shadow_v1.csv"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:30.311796928Z",
+      "message": "176K\t/data/kalshi_rescue_v2_shadow_v1.csv"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:30.311800098Z",
+      "message": "84K\t/data/kalshi_rescue_v2_shadow_state_v1.json"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:30.311803928Z",
+      "message": "80K\t/data/kalshi_rescue_v2_shadow_state_v1.tmp"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:30.311807478Z",
+      "message": "24K\t/data/kalshi_two_output_live_log_v4_13.csv"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:30.311813938Z",
+      "message": "16K\t/data/lost+found"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:30.311817337Z",
+      "message": "4.0K\t/data/kalshi_true_scalp_forward_shadow_v1.csv"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:30.311821067Z",
+      "message": "4.0K\t/data/kalshi_scalp_shadow_state_v1.json"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:30.311830217Z",
+      "message": "4.0K\t/data/kalshi_profit_protection_forward_shadow_v1.csv"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:30.311833207Z",
+      "message": "4.0K\t/data/kalshi_final_position_protection_shadow_v3_state.json"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:30.311836407Z",
+      "message": "4.0K\t/data/kalshi_15m_ladder_state.json"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:30.311841477Z",
+      "message": "0\t/data/kalshi_final_position_protection_shadow_v3_state.tmp"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:30.311844507Z",
+      "message": "BTC15 VOLUME INVENTORY END"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.162811600Z",
+      "message": "INLINE SCALP DIAG V2 | base=chart-opacity,chart-unavailable-opacity,chart-no-preclear,chart-empty-cleanup,chart-postdraw-swap,gap-native-red-green,final-90-pending-label | diag=v1-inline-script-removed,diag-v2-script"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.322974626Z",
+      "message": "========================================================================================"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.322978026Z",
+      "message": "BTC15 FULL VALIDATION + LIVE DASHBOARD: STARTING"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.322981466Z",
+      "message": "Existing full-validation runner: UNCHANGED CHILD"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.322984906Z",
+      "message": "Dashboard: READ-ONLY / SIGNAL DISPLAY ONLY"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.322988306Z",
+      "message": "NO ORDERS. NO TRADING-LOGIC CHANGES."
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.322992126Z",
+      "message": "========================================================================================"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.322995476Z",
+      "message": "========================================================================================"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.322998945Z",
+      "message": "BTC15 FULL VALIDATION RUNNER: STARTING"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.323001935Z",
+      "message": "Core + Rescue V2 + parity: UNCHANGED"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.323005075Z",
+      "message": "FINAL position protection: PROSPECTIVE SHADOW / RAW TELEMETRY"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.323008405Z",
+      "message": "NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.323011815Z",
+      "message": "========================================================================================"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.401711566Z",
+      "message": "BTC15 FINAL POSITION-PROTECTION SHADOW V4 LOW-MEM: STARTING"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.401716416Z",
+      "message": "Bounded CSV tail only. Existing bot unchanged. NO ORDERS."
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.423213404Z",
+      "message": "===================================================================================="
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.423218124Z",
+      "message": "BTC15 RESCUE V2 + KALSHI PARITY SHADOW RUNNER: STARTING"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.423221204Z",
+      "message": "Existing Rescue V2 wrapper: UNCHANGED"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.423223924Z",
+      "message": "Kalshi/BRTI parity collector: SHADOW / READ-ONLY"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.423226394Z",
+      "message": "NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.423228984Z",
+      "message": "===================================================================================="
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.448974172Z",
+      "message": "BTC15 DASHBOARD LIVE SERVER: STARTING on port 8080"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.448981472Z",
+      "message": "READ-ONLY. NO ORDERS. NO TRADING LOGIC CHANGES."
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.488390451Z",
+      "message": "DASHBOARD HTTP | \"GET /health HTTP/1.1\" 200 -"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.516335938Z",
+      "message": "Starting existing BTC15 bot as unchanged child process..."
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.521104204Z",
+      "message": "=============================================================================="
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.521112474Z",
+      "message": "RESCUE V2 PROVISIONAL SHADOW: STARTING"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.521117934Z",
+      "message": "Frozen rule: ask<=60c | fair>=70% | edge>=8% | 2-12m | gap>=$15 | switch>=1"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.521122444Z",
+      "message": "Exit score: +8c target / -8c stop / 3m horizon"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.521126774Z",
+      "message": "Promotion gate: 15 CLOSED fresh calls at >=90% | NO RETUNING"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.521133384Z",
+      "message": "Shadow log: /data/kalshi_rescue_v2_shadow_v1.csv"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.521137674Z",
+      "message": "NO ORDERS — EXISTING BOT RUNS UNCHANGED"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.521141744Z",
+      "message": "=============================================================================="
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.820447021Z",
+      "message": "BTC15 KALSHI/BRTI PARITY SHADOW V3 LOW-MEM: STARTING"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.820449991Z",
+      "message": "Bounded CSV tails only. NO ORDERS."
+    },
+    {
+      "timestamp": "2026-09-17T01:46:31.984957905Z",
+      "message": "PARITY WARNING | HTTPError: 429 Client Error: Too Many Requests for url: https://external-api.kalshi.com/trade-api/v2/cfbenchmarks/values?id=BRTI&maxResolution=PER_SECOND"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:32.764368761Z",
+      "message": "['15m', '10m', '5m', '4m', '3m', '1m', '45s', '30s', '15s', '10s', '5s']"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:32.764374201Z",
+      "message": "{'15m': 'trend', '10m': 'trend', '5m': 'decision', '4m': 'momentum', '3m': 'momentum', '1m': 'trigger', '45s': 'short', '30s': 'short', '15s': 'short', '10s': 'short', '5s': 'short'}"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:32.870747052Z",
+      "message": "RAILWAY KEY-ID MATCH LOCAL VERIFIED: True"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:32.870751862Z",
+      "message": "RAILWAY PRIVATE-KEY MATCH LOCAL VERIFIED: True"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:32.955907602Z",
+      "message": "RAILWAY AUTH BALANCE HTTP: 200"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:33.033171296Z",
+      "message": "RAILWAY AUTH BRTI HTTP: 429"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:33.482549753Z",
+      "message": "                               Open      High       Low     Close     Volume"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:33.482553903Z",
+      "message": "Datetime                                                                    "
+    },
+    {
+      "timestamp": "2026-09-17T01:46:33.482556623Z",
+      "message": "2026-09-17 00:45:00+00:00  76362.13  76389.53  76268.00  76268.48  35.939269"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:33.482573593Z",
+      "message": "2026-09-17 01:00:00+00:00  76268.49  76300.71  76148.80  76237.27  35.304769"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:33.482576463Z",
+      "message": "2026-09-17 01:15:00+00:00  76237.27  76585.60  76152.02  76562.27  81.280244"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:33.482579373Z",
+      "message": "2026-09-17 01:30:00+00:00  76561.67  76714.68  76433.31  76530.67  71.843119"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:33.482582223Z",
+      "message": "2026-09-17 01:45:00+00:00  76530.67  76530.68  76460.80  76460.80   5.393906"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:33.482585733Z",
+      "message": "BTC data rows: 480"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:33.482588343Z",
+      "message": "Current BTC price: 76460.8"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:33.482590893Z",
+      "message": "Data rows: 480"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:33.482593273Z",
+      "message": "SMA20: 76093.519"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:33.482595683Z",
+      "message": "Signal: BULLISH"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:33.482598923Z",
+      "message": "Distance from SMA20: 367.2810000000027"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:33.482602713Z",
+      "message": "Contract start: 2026-09-17 01:45:00+00:00"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:33.482605353Z",
+      "message": "15-minute start price: 76530.67"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:33.482608463Z",
+      "message": "Move from 15-minute start: -69.86999999999534"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:33.482611173Z",
+      "message": "Move from start (%): -0.09129673110139418"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:33.482615143Z",
+      "message": "Recent 15-minute change: -69.86999999999534"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:35.533025208Z",
+      "message": "DASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:37.397368055Z",
+      "message": "DASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:38.798459073Z",
+      "message": "DASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:39.115696574Z",
+      "message": "1-minute change: -18.220000000001164"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:39.115702734Z",
+      "message": "5-minute change: 10.710000000006403"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:39.115705944Z",
+      "message": "Previous 1-minute change: -51.64999999999418"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:39.115708594Z",
+      "message": "1-minute momentum change: 33.429999999993015"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:39.115711184Z",
+      "message": "Direction score: -77.3799999999901"
+    },
+    {
+      "timestamp": "2026-09-17T01:46:39.443719683Z",
+      "message": "DASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -"
+    }
+  ]
+}
