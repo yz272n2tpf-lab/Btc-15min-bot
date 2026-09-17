@@ -6,7 +6,7 @@ def expected():
     return {"sources": {"x": {
         "service_id": "svc", "deployment_id": "dep", "branch": "main",
         "commit_sha": "abc", "start_command": "python app.py", "role": "source",
-        "cutoff_utc": None,
+        "cutoff_utc": {"not_applicable": True, "reason": "source has no cutoff"},
     }}}
 
 

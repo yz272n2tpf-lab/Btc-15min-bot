@@ -14,8 +14,12 @@ from datetime import datetime, timezone
 import hashlib
 import json
 import os
+import fcntl
+import threading
 from pathlib import Path
 from typing import Any, Iterable, Mapping
+from integrity_sentinel.identity_v1 import exact_contract, validate_contract
+from integrity_sentinel.storage_guard_v1 import storage_status
 
 VERSION = "BTC15_INTEGRITY_SENTINEL_RECORDER_CORE_V1"
 GENESIS_HASH = "0" * 64
@@ -52,86 +56,145 @@ class LedgerStatus:
 
 
 class AppendOnlyHashChainLedger:
-    """Append-only JSONL ledger with a cryptographic hash chain."""
+    """Single-volume ledger with a durable pre-write continuity anchor.
 
-    def __init__(self, path: str | Path) -> None:
+    An interrupted write leaves a detectable anchor/ledger mismatch; recovery
+    never truncates, adopts an unanchored ledger, or silently repairs evidence.
+    A local anchor cannot detect coordinated rollback/removal of BOTH files;
+    that requires an independently retained witness (see hardening report).
+    """
+
+    def __init__(self, path: str | Path, write_guard=None) -> None:
         self.path = Path(path)
-        self.path.parent.mkdir(parents=True, exist_ok=True)
-        if not self.path.exists():
-            fd = os.open(self.path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
-            os.close(fd)
-        self._sequence = 0
+        self.anchor_path = self.path.with_suffix(self.path.suffix + ".anchor.json")
+        self._lock = threading.RLock()
+        self._write_guard = write_guard
+        self._sequence = self._records = 0
         self._last_hash = GENESIS_HASH
-        self._records = 0
+        self._write_failed = False
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        if not self.path.exists() and not self.anchor_path.exists():
+            self._guard()
+            fd = os.open(self.path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+            try:
+                os.fsync(fd)
+            finally:
+                os.close(fd)
+            self._write_anchor(0, GENESIS_HASH, 0)
+        # Existing ledger without anchor, or anchor without ledger, is unsafe.
         self.verify()
 
+    def _guard(self):
+        if self._write_guard is not None:
+            self._write_guard()
+        elif storage_status(self.path.parent)["storage_ok"] is not True:
+            raise OSError("storage guard FAIL")
+
+    def _write_anchor(self, sequence, digest, size, *, committed=True):
+        self._guard()
+        raw = (canonical_json({"sequence": sequence, "record_hash": digest,
+                               "bytes": size, "committed": committed}) + "\n").encode()
+        temp = self.anchor_path.with_name(self.anchor_path.name + ".pending")
+        fd = os.open(temp, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+        try:
+            if os.write(fd, raw) != len(raw):
+                raise OSError("short checkpoint write")
+            os.fsync(fd)
+        finally:
+            os.close(fd)
+        self._guard()
+        os.replace(temp, self.anchor_path)
+        directory = os.open(self.path.parent, os.O_RDONLY | os.O_DIRECTORY)
+        try:
+            os.fsync(directory)
+        finally:
+            os.close(directory)
+
     def _iter_records(self) -> Iterable[dict[str, Any]]:
-        with self.path.open("r", encoding="utf-8") as stream:
+        with self.path.open("rb") as stream:
             for line_no, line in enumerate(stream, start=1):
-                text = line.strip()
-                if not text:
-                    continue
+                if not line.endswith(b"\n") or not line.strip():
+                    raise ValueError(f"ledger line {line_no}: partial or empty row")
                 try:
-                    obj = json.loads(text)
-                except json.JSONDecodeError as exc:
+                    obj = json.loads(line)
+                except (ValueError, UnicodeError) as exc:
                     raise ValueError(f"ledger line {line_no}: invalid JSON") from exc
                 if not isinstance(obj, dict):
                     raise ValueError(f"ledger line {line_no}: expected object")
                 yield obj
 
-    def verify(self) -> LedgerStatus:
-        previous = GENESIS_HASH
-        sequence = 0
-        count = 0
-        for row in self._iter_records():
-            count += 1
-            body = row.get("body")
-            if not isinstance(body, dict):
-                raise ValueError(f"ledger record {count}: body missing")
-            seq = row.get("sequence")
-            if not isinstance(seq, int) or isinstance(seq, bool) or seq != sequence + 1:
-                raise ValueError(f"ledger record {count}: non-contiguous sequence")
-            if row.get("previous_hash") != previous:
-                raise ValueError(f"ledger record {count}: previous hash mismatch")
+    def _verify_locked(self) -> LedgerStatus:
+        if self._write_failed:
+            raise ValueError("ledger write failed; independent recovery required")
+        if self.anchor_path.with_name(self.anchor_path.name + ".pending").exists():
+            raise ValueError("unfinished checkpoint write")
+        try:
+            anchor = json.loads(self.anchor_path.read_bytes())
+        except (OSError, ValueError) as exc:
+            raise ValueError("missing or invalid continuity anchor") from exc
+        previous, sequence = GENESIS_HASH, 0
+        for count, row in enumerate(self._iter_records(), start=1):
+            body, seq = row.get("body"), row.get("sequence")
+            if not isinstance(body, dict) or type(seq) is not int or seq != sequence + 1:
+                raise ValueError(f"ledger record {count}: invalid body/sequence")
             expected = _chain_hash(previous, {"sequence": seq, "body": body})
-            if row.get("record_hash") != expected:
-                raise ValueError(f"ledger record {count}: record hash mismatch")
-            previous = expected
-            sequence = seq
-        self._sequence = sequence
+            if row.get("previous_hash") != previous or row.get("record_hash") != expected:
+                raise ValueError(f"ledger record {count}: hash mismatch")
+            previous, sequence = expected, seq
+        size = self.path.stat().st_size
+        if anchor != {"sequence": sequence, "record_hash": previous, "bytes": size, "committed": True}:
+            raise ValueError("ledger continuity anchor mismatch")
+        if sequence < self._sequence or (sequence == self._sequence and previous != self._last_hash):
+            raise ValueError("ledger rollback")
+        self._sequence = self._records = sequence
         self._last_hash = previous
-        self._records = count
-        return self.status(chain_valid=True)
+        return LedgerStatus(str(self.path), sequence, sequence, previous, size, True)
+
+    def verify(self) -> LedgerStatus:
+        with self._lock, self.path.open("rb") as stream:
+            fcntl.flock(stream, fcntl.LOCK_SH)
+            return self._verify_locked()
 
     def append(self, body: Mapping[str, Any]) -> dict[str, Any]:
-        normalized = json.loads(canonical_json(dict(body)))
-        sequence = self._sequence + 1
-        hash_body = {"sequence": sequence, "body": normalized}
-        record_hash = _chain_hash(self._last_hash, hash_body)
-        row = {
-            "sequence": sequence,
-            "previous_hash": self._last_hash,
-            "record_hash": record_hash,
-            "body": normalized,
-        }
-        raw = (canonical_json(row) + "\n").encode("utf-8")
-        fd = os.open(self.path, os.O_WRONLY | os.O_APPEND)
-        try:
-            os.write(fd, raw)
-            os.fsync(fd)
-        finally:
-            os.close(fd)
-        self._sequence = sequence
-        self._last_hash = record_hash
-        self._records += 1
-        return row
+        with self._lock, self.path.open("rb") as stream:
+            fcntl.flock(stream, fcntl.LOCK_EX)
+            self._guard()
+            status = self._verify_locked()
+            normalized = json.loads(canonical_json(dict(body)))
+            sequence = self._sequence + 1
+            record_hash = _chain_hash(self._last_hash, {"sequence": sequence, "body": normalized})
+            row = {"sequence": sequence, "previous_hash": self._last_hash,
+                   "record_hash": record_hash, "body": normalized}
+            raw = (canonical_json(row) + "\n").encode("utf-8")
+            # Reserve the exact next committed endpoint before writing. Crash or
+            # short write cannot be mistaken for a valid old tail on restart.
+            try:
+                self._write_anchor(sequence, record_hash, status.bytes + len(raw), committed=False)
+                self._guard()
+                fd = os.open(self.path, os.O_WRONLY | os.O_APPEND)
+                try:
+                    if os.write(fd, raw) != len(raw):
+                        raise OSError("short ledger write")
+                    os.fsync(fd)
+                finally:
+                    os.close(fd)
+                # A complete-looking row after failed fsync is not committed.
+                # Startup accepts only the durable post-fsync acknowledgement.
+                self._write_anchor(sequence, record_hash, status.bytes + len(raw))
+            except Exception:
+                self._write_failed = True
+                raise
+            self._sequence = sequence
+            self._last_hash = record_hash
+            self._records += 1
+            return row
 
-    def status(self, *, chain_valid: bool = True) -> LedgerStatus:
-        return LedgerStatus(
-            path=str(self.path), records=self._records, last_sequence=self._sequence,
-            last_record_hash=self._last_hash, bytes=self.path.stat().st_size,
-            chain_valid=chain_valid,
-        )
+    def status(self) -> LedgerStatus:
+        try:
+            return self.verify()
+        except (OSError, ValueError, TypeError, UnicodeError):
+            return LedgerStatus(str(self.path), self._records, self._sequence,
+                                self._last_hash, -1, False)
 
 
 def source_sample_body(*, source: str, observed_at_utc: str,
@@ -152,32 +215,33 @@ def source_sample_body(*, source: str, observed_at_utc: str,
 
 
 def _record_contract(record: Mapping[str, Any]) -> str | None:
-    for key in ("contract", "contract_id", "ticker"):
-        value = str(record.get(key) or "").strip()
-        if value:
-            return value
-    return None
+    return exact_contract(record)
 
 
 def _iter_record_container(value: Any) -> Iterable[Mapping[str, Any]]:
+    if value is None:
+        return
     if isinstance(value, Mapping):
         if _record_contract(value):
             yield value
         else:
             for key, child in value.items():
-                if isinstance(child, Mapping):
-                    row = dict(child)
-                    if not _record_contract(row) and isinstance(key, str) and key.startswith("KXBTC15M-"):
-                        row["contract"] = key
-                    yield row
-                elif isinstance(child, list):
-                    for item in child:
-                        if isinstance(item, Mapping):
-                            yield item
+                if not isinstance(child, Mapping):
+                    raise ValueError("membership row must be an object")
+                row = dict(child)
+                # Dictionary keys are explicit exact IDs, never inferred IDs.
+                validate_contract(key)
+                contract = exact_contract(row, {"contract_id": key})
+                if not exact_contract(row):
+                    row["contract"] = contract
+                yield row
     elif isinstance(value, list):
         for item in value:
-            if isinstance(item, Mapping):
-                yield item
+            if not isinstance(item, Mapping) or not _record_contract(item):
+                raise ValueError("membership row missing exact contract ID")
+            yield item
+    else:
+        raise ValueError("membership container must be object or list")
 
 
 MEMBERSHIP_CONTAINERS = {
@@ -197,13 +261,41 @@ def membership_events(source: str, payload: Mapping[str, Any]) -> list[dict[str,
             names = candidate
             break
     if not names:
-        return []
+        raise ValueError("unsupported membership source schema")
     live = payload.get("live") if isinstance(payload.get("live"), Mapping) else payload
     results: list[dict[str, Any]] = []
+    containers = []
+    recognized = False
     for container_name in names:
         container = live.get(container_name) if isinstance(live, Mapping) else None
         if container is None and container_name in payload:
             container = payload.get(container_name)
+        if container is not None:
+            recognized = True
+        if "nextgen" in family and container_name == "audit_records" and isinstance(container, Mapping):
+            # Deployed shape: audit_records -> family -> lane -> records.
+            for group, lanes in container.items():
+                if not isinstance(lanes, Mapping):
+                    raise ValueError("invalid Nextgen family")
+                for lane, detail in lanes.items():
+                    if isinstance(detail, list):
+                        containers.append((f"audit_records/{group}/{lane}", detail))
+                    elif isinstance(detail, Mapping) and "records" in detail:
+                        containers.append((f"audit_records/{group}/{lane}/records", detail["records"]))
+                    else:
+                        raise ValueError("invalid Nextgen lane")
+        else:
+            containers.append((container_name, container))
+    if "combined" in family:
+        scorecard = payload.get("scorecard")
+        if isinstance(scorecard, Mapping) and "contract_rows" in scorecard:
+            if scorecard["contract_rows"] is None:
+                raise ValueError("missing Combined contract_rows")
+            recognized = True
+            containers.append(("scorecard.contract_rows", scorecard["contract_rows"]))
+    if not recognized:
+        raise ValueError("missing recognized membership container")
+    for container_name, container in containers:
         for row in _iter_record_container(container):
             rec = dict(row)
             contract = _record_contract(rec)

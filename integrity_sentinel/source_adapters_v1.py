@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import math
 from typing import Any, Mapping
+from integrity_sentinel.identity_v1 import exact_contract
 
 
 def _map(v: Any) -> Mapping[str, Any]:
@@ -25,12 +26,16 @@ def _finite(v: Any, *, scale: float = 1.0) -> float | None:
 
 
 def _contract(payload: Mapping[str, Any]) -> str | None:
-    for obj in (payload, _map(payload.get("market")), _map(payload.get("live"))):
-        for key in ("contract", "ticker", "contract_id"):
-            value = str(obj.get(key) or "").strip()
-            if value:
-                return value
-    return None
+    return exact_contract(payload, _map(payload.get("market")), _map(payload.get("live")))
+
+
+def _counter(payload, key):
+    value = payload.get(key)
+    if key not in payload:
+        return None
+    if type(value) is not int or value < 0:
+        raise ValueError(f"invalid BRTI counter: {key}")
+    return value
 
 
 def _seconds_left(payload: Mapping[str, Any]) -> float | None:
@@ -49,15 +54,20 @@ def _seconds_left(payload: Mapping[str, Any]) -> float | None:
 def adapt_brti_shared(payload: Mapping[str, Any]) -> dict[str, Any]:
     age_ms = _finite(payload.get("age_ms"))
     return {
-        "contract_id": None,
+        "contract_id": _contract(payload),
         "brti_age_sec": None if age_ms is None else age_ms / 1000.0,
         "brti_feed_clean": payload.get("clean_for_qualification") if isinstance(payload.get("clean_for_qualification"), bool) else None,
         "brti_status": payload.get("status"),
-        "brti_seq": payload.get("sequence") if isinstance(payload.get("sequence"), int) else None,
-        "brti_attempts_total": payload.get("upstream_attempts") if isinstance(payload.get("upstream_attempts"), int) else None,
-        "brti_upstream_ok_total": payload.get("upstream_ok") if isinstance(payload.get("upstream_ok"), int) else None,
-        "brti_errors_total": payload.get("upstream_errors") if isinstance(payload.get("upstream_errors"), int) else None,
-        "brti_429_total": payload.get("http_429") if isinstance(payload.get("http_429"), int) else None,
+        "brti_seq": _counter(payload, "sequence"),
+        "brti_attempts_total": _counter(payload, "upstream_attempts"),
+        "brti_upstream_ok_total": _counter(payload, "upstream_ok"),
+        "brti_errors_total": _counter(payload, "upstream_errors"),
+        "brti_429_total": _counter(payload, "http_429"),
+        "brti_timeout_errors_total": _counter(payload, "timeout_errors"),
+        "brti_http_errors_total": _counter(payload, "http_errors"),
+        "brti_connection_errors_total": _counter(payload, "connection_errors"),
+        "brti_other_errors_total": _counter(payload, "other_errors"),
+        "brti_consecutive_errors": _counter(payload, "consecutive_errors"),
         "brti_last_error_type": payload.get("last_error_type"),
         "brti_success_timestamp_utc": payload.get("success_timestamp_utc"),
         "brti_last_attempt_timestamp_utc": payload.get("last_attempt_timestamp_utc"),
@@ -67,7 +77,7 @@ def adapt_brti_shared(payload: Mapping[str, Any]) -> dict[str, Any]:
 def adapt_main(payload: Mapping[str, Any]) -> dict[str, Any]:
     out = {"contract_id": _contract(payload), "seconds_left": _seconds_left(payload)}
     candidates = {
-        "kalshi_age_sec": ("kalshi_age_sec", "market_age_sec", "source_age_sec"),
+        "kalshi_age_sec": ("kalshi_age_sec",),
         "coinbase_age_sec": ("coinbase_age_sec",),
         "brti_age_sec": ("brti_age_sec",),
     }
@@ -80,6 +90,13 @@ def adapt_main(payload: Mapping[str, Any]) -> dict[str, Any]:
     for key in ("brti_fresh", "kalshi_fresh", "coinbase_fresh", "parity_ok"):
         if isinstance(payload.get(key), bool):
             out[key] = payload[key]
+    for provider in ("kalshi", "coinbase"):
+        key = provider + "_success_timestamp_utc"
+        if isinstance(payload.get(key), str) and payload[key].strip():
+            out[key] = payload[key]
+        out[provider + "_freshness_status"] = (
+            "EXPLICIT_EVIDENCE" if any(k in out for k in
+                (provider + "_age_sec", provider + "_fresh", key)) else "UNKNOWN")
     return out
 
 
