@@ -1,0 +1,91 @@
+{
+  "version": "BTC15_EVIDENCE_SOURCE_REGISTRY_V1",
+  "purpose": "Read-only authoritative source map for integrity tooling. Service names are labels only; IDs, branches, runtime commands and verified endpoints are the identity fields.",
+  "project_id": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+  "environment_id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+  "repository": "yz272n2tpf-lab/Btc-15min-bot",
+  "sources": {
+    "production_root": {
+      "service_name": "Btc-15min-bot",
+      "service_id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+      "branch": "main",
+      "expected_sha": "8b7f8b48694364cb8c47456d0ab491b102aa42c0",
+      "dashboard_state_url": "https://btc-15min-bot-production.up.railway.app/dashboard_state.json",
+      "role": "canonical production/app market state source",
+      "mutable_production": true
+    },
+    "scalp_root": {
+      "service_name": "scalp-move-shadow-v1",
+      "service_id": "8b40a28c-1beb-4020-bdc2-e7e236fe3501",
+      "branch": "scalp-move-shadow-v1-20260912",
+      "deployment_id": "88ffe129-a6dd-418d-8261-f95bbe453fbf",
+      "base_url": "https://scalp-move-shadow-v1-production.up.railway.app",
+      "combined_state_path": "/combined-state",
+      "scalp_state_path": "/state",
+      "volume_id": "656da4af-6a3f-4907-95da-2c0c0000cf29",
+      "volume_mount": "/data",
+      "role": "raw scalp tape plus frozen combined/scalp bridges",
+      "frozen_control_dependency": true
+    },
+    "brti_shared": {
+      "service_name": "brti-shared-feed-v1",
+      "service_id": "0fe5d048-873e-4c1c-a3d4-8e7216e44f3e",
+      "branch": "brti-shared-feed-v1-20260913",
+      "deployment_id": "c9721d57-888d-4fa0-8937-41d73a52c2d9",
+      "base_url": "https://brti-shared-feed-v1-production.up.railway.app",
+      "role": "shared BRTI health/feed source",
+      "endpoint_path": null,
+      "endpoint_verification_required": true,
+      "known_integrity_risk": "recurring Kalshi BRTI 429 and stale intervals"
+    },
+    "early_forward": {
+      "service_name": "early-forward-scorecard-v1",
+      "service_id": "efb56ace-8c0e-4672-a772-6dd3b8633078",
+      "branch": "scalp-move-shadow-v1-20260912",
+      "deployment_id": "32b3b7f1-ae00-4e45-8609-84eb3a2409f8",
+      "base_url": "https://early-forward-scorecard-v1-production.up.railway.app",
+      "role": "frozen Early prospective collector",
+      "frozen": true
+    },
+    "final_forward": {
+      "service_name": "final-forward-scorecard-v1",
+      "service_id": "fbe79688-25ed-4329-b0d6-c9b669559b17",
+      "branch": "scalp-move-shadow-v1-20260912",
+      "deployment_id": "48b86488-3688-40d3-82b4-ad5fe028a61f",
+      "base_url": "https://final-forward-scorecard-v1-production.up.railway.app",
+      "state_path": "/state",
+      "role": "frozen Final V4 prospective collector",
+      "frozen": true
+    },
+    "combined_forward": {
+      "service_name": "combined-forward-scorecard-v1",
+      "service_id": "e9399baa-25a8-4801-a374-ae6c5401060d",
+      "branch": "scalp-move-shadow-v1-20260912",
+      "deployment_id": "4b23c967-5cae-49f0-b2de-7ee2aa74a8e1",
+      "role": "frozen combined scorecard plus rollover probe",
+      "frozen": true,
+      "known_integrity_risk": "combined scorecard broad-discovery path currently misses <=5s eligibility while exact-ticker probe succeeds much earlier"
+    },
+    "nextgen_v2": {
+      "service_name": "scalp-nextgen-shadow-v2",
+      "service_id": "46b79a18-0fc2-46f0-8f12-d6bac63eecad",
+      "branch": "scalp-nextgen-shadow-v2",
+      "expected_sha": "f23b4b37c0bb5f2ba5a50915933962b9eb7813a1",
+      "deployment_id": "17cac03e-20a2-46be-b535-c31f63aaf6fa",
+      "base_url": "https://scalp-nextgen-shadow-v2-production.up.railway.app",
+      "health_path": "/health",
+      "prospective_cutoff_utc": "2026-09-16T22:30:00Z",
+      "role": "isolated four-family read-only nextgen shadow",
+      "shadow_only": true,
+      "orders": false,
+      "automatic_promotion": false
+    }
+  },
+  "safety": {
+    "read_only": true,
+    "orders": false,
+    "automatic_promotion": false,
+    "registry_does_not_authorize_deployments": true,
+    "runtime_config_must_be_reverified_before_certification": true
+  }
+}
