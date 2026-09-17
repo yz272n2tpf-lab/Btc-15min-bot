@@ -1,4 +1,15 @@
-# CURRENT STATE — storage recovered; BRTI authority still unavailable
+# CURRENT STATE — BRTI retry draft tested; live transport unchanged
+
+Checked 2026-09-17 at 01:59 UTC. This Work thread remains the sole engineering/control authority.
+
+- **CONTROL:** All 50 services retain the same status/deployment records as the completed storage recovery. Frozen controls, shared feed and accepted V2 were not edited or restarted. The root source remains SUCCESS on the original recovered revision.
+- **NEW SHADOW:** Existing V2 unchanged. Built an offline, exact-source-pinned retry patch and ten passing tests. The patch reduces repeated 429 request pressure while preserving BRTI parsing, timestamps, freshness and signal rules; it has not been applied or deployed.
+- **BLOCKED:** BRTI is intermittent, not wholly unavailable: source authority was fresh at 01:56:16 UTC, while 429s continue elsewhere. The root loop retries about once per second on failures; the existing shared feed already backs off. Aggregate/account/endpoint quotas remain unmeasured, so this patch is not a proven complete fix. Production transport changes were not included in the storage-only approval.
+- **NEXT STEP:** Request explicit approval for the tested root-source retry change and one source-only restart. Use a dedicated source recovery branch, never main, and preserve every other service/configuration/volume. Disclose the upstream sampling boundary and verify live rate limits/freshness and retained collector records afterward.
+
+Concrete draft and deployment scope: `BRTI_RATE_LIMIT_RECOVERY_DRAFT.md`; proposed diff: `brti_retry_candidate.patch`; tests: `python -m unittest research_review.test_brti_retry_patch -v`. This is undeployed engineering work, not a strategy promotion or certified improvement.
+
+## Historical milestone — storage recovered; BRTI authority still unavailable
 
 Checked 2026-09-17 at 01:49 UTC (September 16, 9:49 PM Eastern). This Work thread remains the sole engineering/control authority.
 

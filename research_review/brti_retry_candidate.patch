@@ -1,0 +1,54 @@
+--- a/bot_two_output_build_v4_13_profit_protection_shadow.py
++++ b/bot_two_output_build_v4_13_profit_protection_shadow.py
+@@ -2161,32 +2161,45 @@
+     return parsed
+ 
+ def _brti_poller():
++    import random
++
+     global _brti_last_error, _brti_last_error_print
+     last_seen_cf_ts = None
++    rate_limit_delay_s = BRTI_POLL_SECONDS
+ 
+     while running:
+-        cycle = time.time()
++        cycle = time.monotonic()
++        rate_limited = False
+         try:
+             value, cf_ts = _fetch_direct_brti_once()
+ 
+-            # Store one publication per CF timestamp; do not duplicate the same
+-            # BRTI point if a poll returns the previous second's value.
++            # Keep the original publication timestamp and duplicate handling.
+             if last_seen_cf_ts != cf_ts:
+                 with _brti_lock:
+                     _brti_samples.append((cf_ts, value))
+                 last_seen_cf_ts = cf_ts
+ 
+             _brti_last_error = None
++            rate_limit_delay_s = BRTI_POLL_SECONDS
+ 
+         except Exception as exc:
+             _brti_last_error = f"{type(exc).__name__}: {exc}"
+-            # Avoid flooding the terminal if entitlement/API is unavailable.
++            status = getattr(getattr(exc, "response", None), "status_code", None)
++            if status == 429:
++                rate_limited = True
++                rate_limit_delay_s = min(30.0, rate_limit_delay_s * 2.0)
++            else:
++                rate_limit_delay_s = BRTI_POLL_SECONDS
+             if time.time() - _brti_last_error_print >= 30:
+                 print("DIRECT BRTI WARNING:", _brti_last_error)
+                 _brti_last_error_print = time.time()
+ 
+-        elapsed = time.time() - cycle
+-        time.sleep(max(0.05, BRTI_POLL_SECONDS - elapsed))
++        elapsed = time.monotonic() - cycle
++        if rate_limited:
++            # Start backoff after the response, including slow 429 responses.
++            time.sleep(rate_limit_delay_s + random.uniform(0.0, 0.25))
++        else:
++            time.sleep(max(0.05, BRTI_POLL_SECONDS - elapsed))
+ 
+ def _latest_brti():
+     with _brti_lock:
