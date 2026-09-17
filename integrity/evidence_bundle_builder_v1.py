@@ -24,6 +24,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Mapping, Tuple
 
 from integrity.evidence_integrity_adapter_v1 import aggregate_all
+from integrity.safe_outputs_v1 import validate_output_paths, write_new_text
 from integrity.evidence_integrity_reconciler_v1 import (
     ReconcilerPolicy,
     reconcile_many,
@@ -72,16 +73,15 @@ def _read_jsonl(path: str | Path) -> List[Dict[str, Any]]:
 
 
 def _write_json(path: str | Path, obj: Any) -> None:
-    Path(path).write_text(
+    write_new_text(path,
         json.dumps(obj, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
     )
 
 
 def _write_jsonl(path: str | Path, rows: Iterable[Mapping[str, Any]]) -> None:
     materialized = [dict(r) for r in rows]
     text = "\n".join(json.dumps(r, sort_keys=True) for r in materialized)
-    Path(path).write_text(text + ("\n" if text else ""), encoding="utf-8")
+    write_new_text(path, text + ("\n" if text else ""))
 
 
 def parse_log_arg(value: str) -> Tuple[str, str]:
@@ -224,6 +224,15 @@ def main() -> int:
     )
     args = parser.parse_args()
 
+    # Validate ALL generated targets against ALL inputs before the first write.
+    out_dir = Path(args.out_dir)
+    names = ("summary.json", "parsed_events.jsonl", "contract_windows.json",
+             "integrity_observations.jsonl", "contract_records.jsonl", "assessments.jsonl")
+    targets = validate_output_paths(
+        [path for _, path in args.log] + [args.operational_manifest, args.policy],
+        [out_dir / name for name in names],
+    )
+
     manifest: Mapping[str, Any] | None = None
     if args.operational_manifest:
         raw = _read_json(args.operational_manifest)
@@ -237,17 +246,13 @@ def main() -> int:
         policy=load_policy(args.policy),
     )
 
-    out_dir = Path(args.out_dir)
-    out_dir.mkdir(parents=True, exist_ok=True)
-    _write_json(out_dir / "summary.json", bundle["summary"])
-    _write_jsonl(out_dir / "parsed_events.jsonl", bundle["parsed_events"])
-    _write_json(out_dir / "contract_windows.json", bundle["contract_windows"])
-    _write_jsonl(
-        out_dir / "integrity_observations.jsonl",
-        bundle["integrity_observations"],
-    )
-    _write_jsonl(out_dir / "contract_records.jsonl", bundle["contract_records"])
-    _write_jsonl(out_dir / "assessments.jsonl", bundle["assessments"])
+    targets[0].parent.mkdir(parents=True, exist_ok=True)
+    for name, target in zip(names, targets):
+        key = name.rsplit(".", 1)[0]
+        if name.endswith(".jsonl"):
+            _write_jsonl(target, bundle[key])
+        else:
+            _write_json(target, bundle[key])
 
     return 0
 

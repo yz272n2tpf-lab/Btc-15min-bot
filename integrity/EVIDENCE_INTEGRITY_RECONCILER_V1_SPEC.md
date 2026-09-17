@@ -6,7 +6,7 @@ Deterministically classify every BTC 15-minute contract's **evidence quality** w
 
 This tool implements the permanent project rule:
 
-> **Operational Health PASS + Evidence Integrity PASS = valid evidence.**
+> **Operational Health PASS + Evidence Integrity PASS + CLEAN classification = certifiable evidence.**
 
 A Railway `SUCCESS` status, a live process, or growing sample counts are never sufficient on their own.
 
@@ -85,6 +85,21 @@ Example:
   "kalshi_max_age_sec": 1.4,
   "brti_max_age_sec": 2.1,
   "coinbase_max_age_sec": 1.1,
+  "kalshi_sample_count": 169,
+  "kalshi_has_start_observation": true,
+  "kalshi_has_end_observation": true,
+  "kalshi_max_observation_gap_sec": 5.0,
+  "kalshi_coverage_complete": true,
+  "brti_sample_count": 169,
+  "brti_has_start_observation": true,
+  "brti_has_end_observation": true,
+  "brti_max_observation_gap_sec": 5.0,
+  "brti_coverage_complete": true,
+  "coinbase_sample_count": 169,
+  "coinbase_has_start_observation": true,
+  "coinbase_has_end_observation": true,
+  "coinbase_max_observation_gap_sec": 5.0,
+  "coinbase_coverage_complete": true,
   "max_source_gap_sec": 4.0,
   "rollover_lag_sec": 4.9,
   "parity_fail_count": 0,
@@ -105,6 +120,41 @@ For every contract:
 - untouched original input.
 
 The summary contains counts by classification and explicitly records the dual-gate rule.
+
+## Verification hardening contract
+
+- Both CLIs canonicalize the complete output set and all protected inputs before
+  writing. They refuse input/output aliases, output/output aliases, existing
+  output files (including hard links), and output symlinks. Files are created
+  exclusively; there is no overwrite option. Use new derived-output filenames
+  or a new bundle directory for each run.
+- All age, gap, clock and rollover measurements must be finite and non-negative.
+  Invalid explicit observations are recorded in `invalid_measurements`; a later
+  healthy observation cannot erase them. Invalid policy thresholds are rejected.
+- Each enabled feed requires its own coverage boolean, unique-timestamp sample
+  count (at least two), start and end observations, and maximum observation gap.
+  Adapter coverage also enforces contract clock continuity. The defaults require
+  first coverage within 15 seconds, end coverage at 60 seconds left or later,
+  and no observation gap above 10 seconds. No feed measurements means UNKNOWN;
+  one sample or incomplete coverage means failure. Disabling an unused feed
+  explicitly in the policy exempts its coverage requirement.
+- Explicit parity failure dominates cumulative counts, including zero. Parity
+  events outside the continuous-path sample set are still aggregated.
+- BRTI counters are ordered by timestamp and checked at every adjacent pair.
+  `brti_counter_metadata` preserves reset locations, sample counts and invalid
+  measurements. A reset produces no normal delta and blocks certification.
+- `brti_feed_clean`, `direct_brti_ready` and `coinbase_timeout` retain tri-state
+  status. Absent diagnostics remain null; they do not assert health or replace
+  required measured feed coverage. Explicit trouble for an enabled feed blocks
+  certification even when measured ages are fresh.
+- Certification uses the worst applicable inferred or recorded rollover lag,
+  including exact-ticker and combined-first-seen records. Repeated summaries
+  cannot lower it. Invalid recorded lag remains disqualifying.
+
+Run all tests with `python -m unittest discover -s integrity -p 'test_*.py' -v`.
+Run independent synthetic adversarial probes with
+`python -m integrity.adversarial_hardening_v1`.
+Neither command contacts Railway or uses real source evidence.
 
 ## Next wiring step
 

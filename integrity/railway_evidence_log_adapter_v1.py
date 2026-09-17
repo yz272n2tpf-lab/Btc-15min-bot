@@ -19,9 +19,10 @@ from __future__ import annotations
 from dataclasses import dataclass, field, asdict
 from datetime import datetime, timedelta, timezone
 import json
-import math
 import re
 from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence
+
+from integrity.measurement_validation_v1 import nonnegative_finite
 
 
 VERSION = "BTC15_RAILWAY_EVIDENCE_LOG_ADAPTER_V1"
@@ -47,6 +48,7 @@ class ContractWindow:
     start_utc: str
     end_utc: str
     rollover_quote_lag_sec: Optional[float] = None
+    rollover_lag_invalid: bool = False
 
     def start_dt(self) -> datetime:
         return _dt(self.start_utc)
@@ -67,11 +69,18 @@ def _iso(d: datetime) -> str:
 
 
 def _float(text: Any) -> Optional[float]:
+    # Preserve explicit NaN/Infinity/negative values for downstream rejection;
+    # dropping the log entry would hide negative evidence among healthy rows.
     try:
         x = float(text)
-    except (TypeError, ValueError):
+    except (TypeError, ValueError, OverflowError):
         return None
-    return x if math.isfinite(x) else None
+    return x
+
+
+def _scaled(text: Any, factor: float) -> Optional[float]:
+    value = _float(text)
+    return value * factor if value is not None else None
 
 
 def _bool(text: Any) -> Optional[bool]:
@@ -89,7 +98,7 @@ ROLLOVER_RE = re.compile(
     r"ROLLOVER PROBE V3(?: SUMMARY)? \| boundary=(?P<boundary>[^ |]+) "
     r"\| target=(?P<ticker>KXBTC15M-[A-Z0-9-]+)"
 )
-ROLLOVER_SUMMARY_LAG_RE = re.compile(r"\| exact_active_quoted=(?P<lag>-?\d+(?:\.\d+)?)")
+ROLLOVER_SUMMARY_LAG_RE = re.compile(r"\| exact_active_quoted=(?P<lag>[^ |]+)")
 COMBINED_LATE_RE = re.compile(
     r"COMBINED V2 LATE START \| (?P<ticker>KXBTC15M-[A-Z0-9-]+) "
     r"\| first_seen_lag=(?P<lag>[^s|]+)s"
@@ -97,36 +106,36 @@ COMBINED_LATE_RE = re.compile(
 BRTI_HEARTBEAT_RE = re.compile(
     r"BRTI_SHARED HEARTBEAT \| status=(?P<status>[A-Z_]+) "
     r"\| clean=(?P<clean>True|False) "
-    r"\| age_ms=(?P<age>\d+(?:\.\d+)?) "
+    r"\| age_ms=(?P<age>[^ |]+) "
     r"\| seq=(?P<seq>\d+) "
     r"\| upstream_ok=(?P<ok>\d+)/(?P<attempts>\d+) "
     r"\([^)]*\) \| 429=(?P<count429>\d+) \| errors=(?P<errors>\d+)"
 )
 PARITY_RE = re.compile(
     r"PARITY (?P<result>PASS|FAIL) \| (?P<ticker>KXBTC15M-[A-Z0-9-]+) "
-    r"\| age (?P<kalshi_age>\d+(?:\.\d+)?)s .*?"
-    r"BRTI .*? @ (?P<brti_age>\d+(?:\.\d+)?)s"
+    r"\| age (?P<kalshi_age>[^ |]+)s .*?"
+    r"BRTI .*? @ (?P<brti_age>[^ |]+)s"
 )
 CONTRACT_STATUS_RE = re.compile(
     r"^(?P<clock>\d{2}:\d{2}:\d{2}Z) \| "
     r"(?P<ticker>KXBTC15M-[A-Z0-9-]+) \| "
-    r"(?P<minutes>\d+(?:\.\d+)?)m left"
+    r"(?P<minutes>[^ |]+)m left"
 )
 DIRECT_BRTI_RE = re.compile(
-    r"^\s*DIRECT BRTI \| .*? \| age (?P<age>\d+(?:\.\d+)?)s "
+    r"^\s*DIRECT BRTI \| .*? \| age (?P<age>[^ |]+)s "
     r"\| ready (?P<ready>True|False)"
 )
 FINAL_COVERAGE_RE = re.compile(
     r"FINAL V4 COVERAGE-ELIGIBLE CONTRACT \| "
-    r"(?P<ticker>KXBTC15M-[A-Z0-9-]+) \| first_seen_left=(?P<left>\d+(?:\.\d+)?)s"
+    r"(?P<ticker>KXBTC15M-[A-Z0-9-]+) \| first_seen_left=(?P<left>[^ |]+)s"
 )
 EARLY_COVERAGE_RE = re.compile(
     r"EARLY COVERAGE-ELIGIBLE CONTRACT \| "
-    r"(?P<ticker>KXBTC15M-[A-Z0-9-]+) \| first_seen_left=(?P<left>\d+(?:\.\d+)?)s"
+    r"(?P<ticker>KXBTC15M-[A-Z0-9-]+) \| first_seen_left=(?P<left>[^ |]+)s"
 )
 FINAL_LOCK_RE = re.compile(
     r"FINAL V4 FIRST LOCK \| (?P<ticker>KXBTC15M-[A-Z0-9-]+) "
-    r"\| (?P<side>UP|DOWN) \| .*?left=(?P<minutes>\d+(?:\.\d+)?)m "
+    r"\| (?P<side>UP|DOWN) \| .*?left=(?P<minutes>[^ |]+)m "
     r"\| ask=(?P<ask>\d+(?:\.\d+)?)"
 )
 FINAL_SETTLED_RE = re.compile(
@@ -141,7 +150,7 @@ EARLY_SETTLED_RE = re.compile(
 )
 EARLY_FIRST_RE = re.compile(
     r"EARLY FIRST OPPORTUNITY \| (?P<ticker>KXBTC15M-[A-Z0-9-]+) "
-    r"\| (?P<side>UP|DOWN) \| .*?left=(?P<minutes>\d+(?:\.\d+)?)m "
+    r"\| (?P<side>UP|DOWN) \| .*?left=(?P<minutes>[^ |]+)m "
     r"\| ask=(?P<ask>\d+(?:\.\d+)?)"
 )
 WARNING_429_RE = re.compile(r"(?:PARITY WARNING|DIRECT BRTI WARNING).*?429 Client Error")
@@ -186,7 +195,7 @@ def parse_log_entry(
             {
                 "brti_status": m.group("status"),
                 "brti_clean": _bool(m.group("clean")),
-                "brti_age_sec": _float(m.group("age")) / 1000.0,
+                "brti_age_sec": _scaled(m.group("age"), 0.001),
                 "brti_seq": int(m.group("seq")),
                 "brti_upstream_ok_total": int(m.group("ok")),
                 "brti_attempts_total": int(m.group("attempts")),
@@ -212,7 +221,7 @@ def parse_log_entry(
     if m:
         return ParsedEvent(
             observed, source, "CONTRACT_STATUS", m.group("ticker"),
-            {"seconds_left": _float(m.group("minutes")) * 60.0},
+            {"seconds_left": _scaled(m.group("minutes"), 60.0)},
             msg,
         )
 
@@ -249,7 +258,7 @@ def parse_log_entry(
             observed, source, "FINAL_LOCK", m.group("ticker"),
             {
                 "final_side": m.group("side"),
-                "seconds_left": _float(m.group("minutes")) * 60.0,
+                "seconds_left": _scaled(m.group("minutes"), 60.0),
                 "final_ask": _float(m.group("ask")),
             },
             msg,
@@ -273,7 +282,7 @@ def parse_log_entry(
             observed, source, "EARLY_OPPORTUNITY", m.group("ticker"),
             {
                 "early_side": m.group("side"),
-                "seconds_left": _float(m.group("minutes")) * 60.0,
+                "seconds_left": _scaled(m.group("minutes"), 60.0),
                 "early_ask": _float(m.group("ask")),
             },
             msg,
@@ -346,13 +355,17 @@ def build_contract_windows(events: Sequence[ParsedEvent]) -> List[ContractWindow
             {
                 "start": start,
                 "lag": None,
+                "lag_invalid": False,
             },
         )
         if start < row["start"]:
             row["start"] = start
-        lag = event.fields.get("rollover_quote_lag_sec")
-        if isinstance(lag, (int, float)):
-            row["lag"] = float(lag)
+        if "rollover_quote_lag_sec" in event.fields:
+            lag = nonnegative_finite(event.fields["rollover_quote_lag_sec"])
+            if lag is None:
+                row["lag_invalid"] = True
+            else:
+                row["lag"] = max(row["lag"], lag) if row["lag"] is not None else lag
 
     windows = [
         ContractWindow(
@@ -360,6 +373,7 @@ def build_contract_windows(events: Sequence[ParsedEvent]) -> List[ContractWindow
             start_utc=_iso(v["start"]),
             end_utc=_iso(v["start"] + timedelta(seconds=CONTRACT_LENGTH_SEC)),
             rollover_quote_lag_sec=v["lag"],
+            rollover_lag_invalid=v["lag_invalid"],
         )
         for cid, v in by_contract.items()
     ]
@@ -441,6 +455,8 @@ def to_integrity_observations(
                 )
         if window and window.rollover_quote_lag_sec is not None:
             row["exact_ticker_rollover_quote_lag_sec"] = window.rollover_quote_lag_sec
+        if window and window.rollover_lag_invalid:
+            row["rollover_lag_invalid"] = True
 
         # A heartbeat's explicit clean=False is evidence of feed trouble. It is
         # not converted to operational process failure; those are separate gates.

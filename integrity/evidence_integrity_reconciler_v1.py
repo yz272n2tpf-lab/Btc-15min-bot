@@ -19,6 +19,13 @@ import json
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
 
+if __package__:
+    from .measurement_validation_v1 import ROLLOVER_FIELDS, nonnegative_finite
+    from .safe_outputs_v1 import validate_output_paths, write_new_text
+else:  # Preserve direct-script CLI use as well as python -m.
+    from measurement_validation_v1 import ROLLOVER_FIELDS, nonnegative_finite
+    from safe_outputs_v1 import validate_output_paths, write_new_text
+
 
 class Classification(str, Enum):
     CLEAN = "CLEAN"
@@ -63,6 +70,16 @@ class ReconcilerPolicy:
     # If true, any parity fail invalidates certification for the contract.
     parity_fail_is_hard: bool = True
 
+    def __post_init__(self):
+        for name, value in asdict(self).items():
+            if name.startswith("require_") or name == "parity_fail_is_hard":
+                if not isinstance(value, bool):
+                    raise ValueError(f"policy flag must be boolean: {name}")
+            elif not isinstance(value, (int, float)) or nonnegative_finite(value) is None:
+                raise ValueError(f"policy threshold must be finite and non-negative: {name}")
+        if self.max_429_share > 1:
+            raise ValueError("max_429_share must be at most 1")
+
 
 @dataclass
 class GateResult:
@@ -101,7 +118,7 @@ def _float_field(record: Dict[str, Any], name: str) -> Optional[float]:
     if isinstance(value, bool):
         return None
     if isinstance(value, (int, float)):
-        return float(value)
+        return nonnegative_finite(value)
     return None
 
 
@@ -169,6 +186,10 @@ def evaluate_evidence_integrity(
     warnings: List[str] = []
     hard: List[Optional[bool]] = []
 
+    if record.get("invalid_measurements"):
+        reasons.append("FAIL_INVALID_MEASUREMENTS")
+        hard.append(False)
+
     hard.extend([
         _required_bool(record, "cutoff_valid", "CUTOFF_VALID", policy.require_cutoff_valid, reasons),
         _required_bool(record, "has_start_observation", "START_OBSERVATION", policy.require_start_observation, reasons),
@@ -180,6 +201,38 @@ def evaluate_evidence_integrity(
     hard.append(_age_check(record, "brti_max_age_sec", policy.require_brti, policy.max_brti_age_sec, "BRTI", reasons))
     hard.append(_age_check(record, "coinbase_max_age_sec", policy.require_coinbase, policy.max_coinbase_age_sec, "COINBASE", reasons))
 
+    # Coverage is required independently for every enabled feed. One feed's
+    # dense path must never fill another feed's missing observations.
+    for feed, required in (("kalshi", policy.require_kalshi), ("brti", policy.require_brti),
+                           ("coinbase", policy.require_coinbase)):
+        if not required:
+            continue
+        for suffix in ("coverage_complete", "has_start_observation", "has_end_observation"):
+            hard.append(_required_bool(record, f"{feed}_{suffix}", f"{feed}_{suffix}".upper(), True, reasons))
+        count = record.get(f"{feed}_sample_count")
+        if not isinstance(count, int) or isinstance(count, bool) or count < 0:
+            reasons.append(f"UNKNOWN_{feed.upper()}_SAMPLE_COUNT")
+            hard.append(None)
+        elif count < 2:
+            reasons.append(f"FAIL_{feed.upper()}_INSUFFICIENT_SAMPLES")
+            hard.append(False)
+        hard.append(_age_check(record, f"{feed}_max_observation_gap_sec", True,
+                               policy.max_source_gap_sec, f"{feed.upper()}_OBSERVATION_GAP", reasons))
+
+    for key, enabled, bad_value in (("brti_feed_clean", policy.require_brti, False),
+                                    ("brti_clean", policy.require_brti, False),
+                                    ("direct_brti_ready", policy.require_brti, False),
+                                    ("brti_counter_reset", policy.require_brti, True),
+                                    ("coinbase_timeout", policy.require_coinbase, True)):
+        if enabled and record.get(key) is bad_value:
+            reasons.append(f"FAIL_{key.upper()}")
+            hard.append(False)
+    if policy.require_brti:
+        for item in record.get("brti_counter_metadata", {}).values():
+            if item.get("reset_detected") is True or item.get("invalid_measurement") is True:
+                reasons.append("FAIL_BRTI_COUNTER_INTEGRITY")
+                hard.append(False)
+
     gap = _float_field(record, "max_source_gap_sec")
     if gap is None:
         reasons.append("UNKNOWN_SOURCE_GAP")
@@ -190,7 +243,8 @@ def evaluate_evidence_integrity(
     else:
         hard.append(True)
 
-    rollover = _float_field(record, "rollover_lag_sec")
+    rollover_values = [_float_field(record, name) for name in ROLLOVER_FIELDS if name in record]
+    rollover = (max(rollover_values) if rollover_values and all(v is not None for v in rollover_values) else None)
     if rollover is None:
         reasons.append("UNKNOWN_ROLLOVER_LAG")
         hard.append(None)
@@ -202,7 +256,10 @@ def evaluate_evidence_integrity(
 
     if policy.require_parity:
         parity = record.get("parity_fail_count")
-        if isinstance(parity, int) and parity >= 0:
+        if record.get("parity_ok") is False:
+            reasons.append("FAIL_PARITY_EXPLICIT")
+            hard.append(False)
+        if isinstance(parity, int) and not isinstance(parity, bool) and parity >= 0:
             if parity > 0:
                 if policy.parity_fail_is_hard:
                     reasons.append(f"FAIL_PARITY:{parity}")
@@ -282,7 +339,7 @@ def summary(assessments: Iterable[ContractAssessment]) -> Dict[str, Any]:
         "classification_counts": counts,
         "certifiable_contracts": sum(1 for r in rows if r.valid_for_certification),
         "quarantined_contracts": sum(1 for r in rows if r.quarantine),
-        "dual_gate_rule": "OPERATIONAL_HEALTH_PASS + EVIDENCE_INTEGRITY_PASS = VALID_EVIDENCE",
+        "dual_gate_rule": "OPERATIONAL_HEALTH_PASS + EVIDENCE_INTEGRITY_PASS + CLEAN = VALID_EVIDENCE",
         "orders": False,
         "source_mutation": False,
     }
@@ -319,13 +376,16 @@ def main() -> int:
     parser.add_argument("--policy", help="Optional JSON policy override")
     args = parser.parse_args()
 
+    out_path, summary_path = validate_output_paths(
+        [args.input, args.policy], [args.output, args.summary]
+    )
+
     policy = _load_policy(args.policy)
     records = _read_jsonl(args.input)
     assessments = reconcile_many(records, policy)
 
-    out_path = Path(args.output)
-    out_path.write_text("\n".join(json.dumps(a.to_dict(), sort_keys=True) for a in assessments) + ("\n" if assessments else ""))
-    Path(args.summary).write_text(json.dumps(summary(assessments), indent=2, sort_keys=True) + "\n")
+    write_new_text(out_path, "\n".join(json.dumps(a.to_dict(), sort_keys=True) for a in assessments) + ("\n" if assessments else ""))
+    write_new_text(summary_path, json.dumps(summary(assessments), indent=2, sort_keys=True) + "\n")
     return 0
 
 
