@@ -168,4 +168,19 @@ The standing engineering sequence is:
 
 **Audit -> prove inputs -> prove storage -> prove collector -> prove scorer -> certify evidence window -> compare logic -> only then consider promotion.**
 
+## 11. Mandatory dual-gate completion rule
+
+Every meaningful test, milestone, release candidate, or claimed project-completion state must pass **both** of these independently:
+
+1. **Operational Health PASS** — the system is actually running correctly: services/processes are live, storage has headroom, endpoints respond, collectors/scorers advance, runtime matches intended config, timing/rollover is correct, and no hidden restart/stale-process issue exists.
+2. **Evidence Integrity PASS** — the output is actually trustworthy: feeds are fresh, BRTI/Kalshi/Coinbase quality is acceptable, rate limits/parity/staleness are accounted for, the prospective cutoff and cohort are immutable, contract paths are sufficiently observed, denominators are valid, and compromised intervals are quarantined rather than blended into results.
+
+**Operational Health PASS + Evidence Integrity PASS = valid evidence.**
+
+If either side fails, the result may be preserved for research/diagnostics, but it must not be certified, promoted, used as the foundation for a dependent layer, or treated as project completion.
+
+This dual-gate rule applies to all parts of the bot, including Early, Final, scalp/reversal logic, entry quality, exits, Flip Risk, coverage, economics, handoff behavior, combined scoring, and the eventual finished app/bot.
+
+The Integrity Sentinel and project health reporting must monitor both categories simultaneously. Operational monitoring never replaces evidence-integrity monitoring, and evidence-integrity monitoring never replaces operational monitoring.
+
 This protocol is the default unless explicitly superseded by a later versioned authority file.
