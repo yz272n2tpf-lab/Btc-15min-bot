@@ -1,0 +1,4211 @@
+{
+  "base_sha": "b75c0cee90a114590db612f87e33cc10bf959ccb",
+  "production_main_sha": "8b7f8b48694364cb8c47456d0ab491b102aa42c0",
+  "branch": "integrity-sentinel-nextgen-body-dedup-v1",
+  "decision": "NEXTGEN BODY DEDUP V1 FAILED \u2014 DO NOT DEPLOY",
+  "reason": "Realistic-size cold recording violates the unchanged 5-second observation cadence and triggers source freshness failures.",
+  "suite_summary": {
+    "compiled": [
+      "__init__.py",
+      "adversarial_body_dedup_v1.py",
+      "adversarial_hardening_v1.py",
+      "adversarial_remediation_v2.py",
+      "adversarial_watchdog_v3.py",
+      "control_attestation_v1.py",
+      "identity_v1.py",
+      "measure_body_dedup_v1.py",
+      "nextgen_body_store_v1.py",
+      "recorder_core_v1.py",
+      "runtime_v1.py",
+      "source_adapters_v1.py",
+      "storage_guard_v1.py",
+      "test_control_attestation_v1.py",
+      "test_hardening_v1.py",
+      "test_nextgen_body_dedup_v1.py",
+      "test_recorder_core_v1.py",
+      "test_remediation_v2.py",
+      "test_runtime_safety_v1.py",
+      "test_storage_guard_v1.py",
+      "test_watchdog_v3.py",
+      "watchdog_health_v3.py"
+    ],
+    "checks": [
+      {
+        "check": "sentinel-tests",
+        "returncode": 0,
+        "seconds": 3.891745960001572
+      },
+      {
+        "check": "integrity-tests",
+        "returncode": 0,
+        "seconds": 0.5853580170005444
+      },
+      {
+        "check": "integrity-adversarial",
+        "returncode": 0,
+        "seconds": 0.7856585839981562
+      },
+      {
+        "check": "sentinel-v1",
+        "returncode": 0,
+        "seconds": 0.9070654989991453
+      },
+      {
+        "check": "sentinel-v2",
+        "returncode": 0,
+        "seconds": 3.2155563220003387
+      },
+      {
+        "check": "sentinel-v3",
+        "returncode": 0,
+        "seconds": 5.655999287999293
+      },
+      {
+        "check": "dedup-independent",
+        "returncode": 0,
+        "seconds": 5.112920724001015
+      }
+    ]
+  },
+  "suites": {
+    "sentinel-tests": {
+      "sha256": "d4993a7074e128718933086ca491cd07f4b535f2b101dbd398de65be0bfb02e3",
+      "output": "test_exact_match_passes (test_control_attestation_v1.ControlAttestationTests.test_exact_match_passes) ... ok\ntest_manifest_hash_is_deterministic (test_control_attestation_v1.ControlAttestationTests.test_manifest_hash_is_deterministic) ... ok\ntest_mismatch_fails (test_control_attestation_v1.ControlAttestationTests.test_mismatch_fails) ... ok\ntest_missing_fact_is_unknown (test_control_attestation_v1.ControlAttestationTests.test_missing_fact_is_unknown) ... ok\ntest_08_short_os_write_does_not_advance (test_hardening_v1.LedgerHardeningTests.test_08_short_os_write_does_not_advance) ... ok\ntest_09_missing_newline (test_hardening_v1.LedgerHardeningTests.test_09_missing_newline) ... ok\ntest_10_complete_trailing_row_deleted (test_hardening_v1.LedgerHardeningTests.test_10_complete_trailing_row_deleted) ... ok\ntest_11_full_truncation (test_hardening_v1.LedgerHardeningTests.test_11_full_truncation) ... ok\ntest_fsync_failure_does_not_advance (test_hardening_v1.LedgerHardeningTests.test_fsync_failure_does_not_advance) ... ok\ntest_ledger_fsync_failure_status_cannot_adopt_uncommitted_row (test_hardening_v1.LedgerHardeningTests.test_ledger_fsync_failure_status_cannot_adopt_uncommitted_row) ... ok\ntest_ledger_removed_with_anchor_retained (test_hardening_v1.LedgerHardeningTests.test_ledger_removed_with_anchor_retained) ... ok\ntest_missing_ledger_or_anchor (test_hardening_v1.LedgerHardeningTests.test_missing_ledger_or_anchor) ... ok\ntest_short_checkpoint_write (test_hardening_v1.LedgerHardeningTests.test_short_checkpoint_write) ... ok\ntest_15_combined_real_shape (test_hardening_v1.MembershipHardeningTests.test_15_combined_real_shape) ... ok\ntest_16_nextgen_real_shape_and_records_wrapper (test_hardening_v1.MembershipHardeningTests.test_16_nextgen_real_shape_and_records_wrapper) ... ok\ntest_membership_id_key_conflict (test_hardening_v1.MembershipHardeningTests.test_membership_id_key_conflict) ... ok\ntest_membership_wrong_type_and_missing_id (test_hardening_v1.MembershipHardeningTests.test_membership_wrong_type_and_missing_id) ... ok\ntest_missing_membership_schema_is_not_empty_success (test_hardening_v1.MembershipHardeningTests.test_missing_membership_schema_is_not_empty_success) ... ok\ntest_01_redirect_kalshi (test_hardening_v1.RuntimeHardeningTests.test_01_redirect_kalshi) ... ok\ntest_02_redirect_coinbase (test_hardening_v1.RuntimeHardeningTests.test_02_redirect_coinbase) ... ok\ntest_03_redirect_http_and_other_hosts (test_hardening_v1.RuntimeHardeningTests.test_03_redirect_http_and_other_hosts) ... ok\ntest_04_required_telemetry_unavailable (test_hardening_v1.RuntimeHardeningTests.test_04_required_telemetry_unavailable) ... ok\ntest_05_explicit_http_200_failure_or_stale (test_hardening_v1.RuntimeHardeningTests.test_05_explicit_http_200_failure_or_stale) ... ok\ntest_06_ledger_write_exception_health_and_recovery (test_hardening_v1.RuntimeHardeningTests.test_06_ledger_write_exception_health_and_recovery) ... ok\ntest_07_recorder_thread_dead_or_stale (test_hardening_v1.RuntimeHardeningTests.test_07_recorder_thread_dead_or_stale) ... ok\ntest_12_blank_expectations_never_pass (test_hardening_v1.RuntimeHardeningTests.test_12_blank_expectations_never_pass) ... ok\ntest_13_actual_snapshot_missing_or_uncaptured (test_hardening_v1.RuntimeHardeningTests.test_13_actual_snapshot_missing_or_uncaptured) ... ok\ntest_14_control_mismatch (test_hardening_v1.RuntimeHardeningTests.test_14_control_mismatch) ... ok\ntest_17_http_error_body_retention (test_hardening_v1.RuntimeHardeningTests.test_17_http_error_body_retention) ... ok\ntest_18_malformed_json_retains_http_status (test_hardening_v1.RuntimeHardeningTests.test_18_malformed_json_retains_http_status) ... ok\ntest_19_wrong_type_json_retention (test_hardening_v1.RuntimeHardeningTests.test_19_wrong_type_json_retention) ... ok\ntest_20_empty_membership_observation (test_hardening_v1.RuntimeHardeningTests.test_20_empty_membership_observation) ... ok\ntest_21_generic_age_not_kalshi (test_hardening_v1.RuntimeHardeningTests.test_21_generic_age_not_kalshi) ... ok\ntest_22_coinbase_missing_stays_unknown (test_hardening_v1.RuntimeHardeningTests.test_22_coinbase_missing_stays_unknown) ... ok\ntest_23_low_disk_blocks_all_writes (test_hardening_v1.RuntimeHardeningTests.test_23_low_disk_blocks_all_writes) ... ok\ntest_24_invalid_contract_types (test_hardening_v1.RuntimeHardeningTests.test_24_invalid_contract_types) ... ok\ntest_25_within_payload_conflicts (test_hardening_v1.RuntimeHardeningTests.test_25_within_payload_conflicts) ... ok\ntest_26_cross_source_disagreement (test_hardening_v1.RuntimeHardeningTests.test_26_cross_source_disagreement) ... ok\ntest_27_invalid_brti_counters (test_hardening_v1.RuntimeHardeningTests.test_27_invalid_brti_counters) ... ok\ntest_28_empty_userinfo (test_hardening_v1.RuntimeHardeningTests.test_28_empty_userinfo) ... ok\ntest_config_bypass_revalidated_before_get (test_hardening_v1.RuntimeHardeningTests.test_config_bypass_revalidated_before_get) ... ok\ntest_disk_inspection_error (test_hardening_v1.RuntimeHardeningTests.test_disk_inspection_error) ... ok\ntest_explicit_provider_age_and_source_timestamp_stale (test_hardening_v1.RuntimeHardeningTests.test_explicit_provider_age_and_source_timestamp_stale) ... ok\ntest_membership_event_provenance_and_dedup (test_hardening_v1.RuntimeHardeningTests.test_membership_event_provenance_and_dedup) ... ok\ntest_membership_failure_makes_health_fail (test_hardening_v1.RuntimeHardeningTests.test_membership_failure_makes_health_fail) ... ok\ntest_nonfinite_json_preserved (test_hardening_v1.RuntimeHardeningTests.test_nonfinite_json_preserved) ... ok\ntest_partial_transfer_preserves_known_status_and_received_bytes (test_hardening_v1.RuntimeHardeningTests.test_partial_transfer_preserves_known_status_and_received_bytes) ... ok\ntest_recorder_loop_death_overrides_previous_success (test_hardening_v1.RuntimeHardeningTests.test_recorder_loop_death_overrides_previous_success) ... ok\ntest_source_observation_stale (test_hardening_v1.RuntimeHardeningTests.test_source_observation_stale) ... ok\ntest_unexpected_loop_exception_and_serialization (test_hardening_v1.RuntimeHardeningTests.test_unexpected_loop_exception_and_serialization) ... ok\ntest_body_payload_mismatch_rejected (test_nextgen_body_dedup_v1.BodyDedupTests.test_body_payload_mismatch_rejected) ... ok\ntest_body_write_failure_leaves_durable_intent (test_nextgen_body_dedup_v1.BodyDedupTests.test_body_write_failure_leaves_durable_intent) ... ok\ntest_catalog_missing (test_nextgen_body_dedup_v1.BodyDedupTests.test_catalog_missing) ... ok\ntest_changed_body_creates_object_and_correct_new_event (test_nextgen_body_dedup_v1.BodyDedupTests.test_changed_body_creates_object_and_correct_new_event) ... ok\ntest_concurrent_observations_remain_distinct (test_nextgen_body_dedup_v1.BodyDedupTests.test_concurrent_observations_remain_distinct) ... ok\ntest_concurrent_same_body_across_store_instances (test_nextgen_body_dedup_v1.BodyDedupTests.test_concurrent_same_body_across_store_instances) ... ok\ntest_disk_guard_prevents_object_and_reference_writes (test_nextgen_body_dedup_v1.BodyDedupTests.test_disk_guard_prevents_object_and_reference_writes) ... ok\ntest_error_partial_malformed_never_reuse_even_identical_good_bytes (test_nextgen_body_dedup_v1.BodyDedupTests.test_error_partial_malformed_never_reuse_even_identical_good_bytes) ... ok\ntest_false_membership_link_fails (test_nextgen_body_dedup_v1.BodyDedupTests.test_false_membership_link_fails) ... ok\ntest_forged_ledger_reference_fails_even_valid_chain (test_nextgen_body_dedup_v1.BodyDedupTests.test_forged_ledger_reference_fails_even_valid_chain) ... ok\ntest_identical_envelopes_unique_body_and_exact_provenance (test_nextgen_body_dedup_v1.BodyDedupTests.test_identical_envelopes_unique_body_and_exact_provenance) ... ok\ntest_missing_body (test_nextgen_body_dedup_v1.BodyDedupTests.test_missing_body) ... ok\ntest_missing_reference_marker_fails_even_valid_chain (test_nextgen_body_dedup_v1.BodyDedupTests.test_missing_reference_marker_fails_even_valid_chain) ... ok\ntest_modified_body (test_nextgen_body_dedup_v1.BodyDedupTests.test_modified_body) ... ok\ntest_one_byte_whitespace_change_is_new_object (test_nextgen_body_dedup_v1.BodyDedupTests.test_one_byte_whitespace_change_is_new_object) ... ok\ntest_orphan_unknown_object (test_nextgen_body_dedup_v1.BodyDedupTests.test_orphan_unknown_object) ... ok\ntest_reference_write_failure_retains_object_and_blocks_reopen (test_nextgen_body_dedup_v1.BodyDedupTests.test_reference_write_failure_retains_object_and_blocks_reopen) ... ok\ntest_restart_validates_and_reuses (test_nextgen_body_dedup_v1.BodyDedupTests.test_restart_validates_and_reuses) ... ok\ntest_scope_and_cadence_unchanged (test_nextgen_body_dedup_v1.BodyDedupTests.test_scope_and_cadence_unchanged) ... ok\ntest_symlink_body (test_nextgen_body_dedup_v1.BodyDedupTests.test_symlink_body) ... ok\ntest_truncated_body (test_nextgen_body_dedup_v1.BodyDedupTests.test_truncated_body) ... ok\ntest_brti_adapter_preserves_negative_states_and_counters (test_recorder_core_v1.RecorderCoreTests.test_brti_adapter_preserves_negative_states_and_counters) ... ok\ntest_early_membership_uses_exact_contract_ids (test_recorder_core_v1.RecorderCoreTests.test_early_membership_uses_exact_contract_ids) ... ok\ntest_final_membership_dictionary_key_becomes_contract (test_recorder_core_v1.RecorderCoreTests.test_final_membership_dictionary_key_becomes_contract) ... ok\ntest_hash_chain_detects_tamper (test_recorder_core_v1.RecorderCoreTests.test_hash_chain_detects_tamper) ... ok\ntest_hash_chain_round_trip_and_recovery (test_recorder_core_v1.RecorderCoreTests.test_hash_chain_round_trip_and_recovery) ... ok\ntest_source_sample_preserves_payload_hash_and_no_orders (test_recorder_core_v1.RecorderCoreTests.test_source_sample_preserves_payload_hash_and_no_orders) ... ok\ntest_strict_json_rejects_nan (test_recorder_core_v1.RecorderCoreTests.test_strict_json_rejects_nan) ... ok\ntest_failed_fault_storage_never_mutates_ledger_or_anchor (test_remediation_v2.RemediationV2Tests.test_failed_fault_storage_never_mutates_ledger_or_anchor) ... ok\ntest_final_directory_fsync_fault_survives_new_runtime_and_cycle (test_remediation_v2.RemediationV2Tests.test_final_directory_fsync_fault_survives_new_runtime_and_cycle) ... ok\ntest_forbidden_redirect_destinations_keep_first_response (test_remediation_v2.RemediationV2Tests.test_forbidden_redirect_destinations_keep_first_response) ... ok\ntest_initial_checkpoint_failure_keeps_marker_and_exposes_health (test_remediation_v2.RemediationV2Tests.test_initial_checkpoint_failure_keeps_marker_and_exposes_health) ... ok\ntest_malformed_location_keeps_complete_first_response (test_remediation_v2.RemediationV2Tests.test_malformed_location_keeps_complete_first_response) ... ok\ntest_marker_cleanup_failure_stays_fail_closed (test_remediation_v2.RemediationV2Tests.test_marker_cleanup_failure_stays_fail_closed) ... ok\ntest_marker_content_cannot_make_uncertainty_healthy (test_remediation_v2.RemediationV2Tests.test_marker_content_cannot_make_uncertainty_healthy) ... ok\ntest_marker_is_durable_before_anchor_or_ledger_mutation (test_remediation_v2.RemediationV2Tests.test_marker_is_durable_before_anchor_or_ledger_mutation) ... ok\ntest_no_redirect_session_never_prepares_next_request (test_remediation_v2.RemediationV2Tests.test_no_redirect_session_never_prepares_next_request) ... ok\ntest_successful_restart_and_append_remain_healthy (test_remediation_v2.RemediationV2Tests.test_successful_restart_and_append_remain_healthy) ... ok\ntest_accepts_railway_https (test_runtime_safety_v1.RuntimeSafetyTests.test_accepts_railway_https) ... ok\ntest_default_source_inventory_has_telemetry_and_membership (test_runtime_safety_v1.RuntimeSafetyTests.test_default_source_inventory_has_telemetry_and_membership) ... ok\ntest_rejects_coinbase (test_runtime_safety_v1.RuntimeSafetyTests.test_rejects_coinbase) ... ok\ntest_rejects_direct_kalshi (test_runtime_safety_v1.RuntimeSafetyTests.test_rejects_direct_kalshi) ... ok\ntest_rejects_http (test_runtime_safety_v1.RuntimeSafetyTests.test_rejects_http) ... ok\ntest_bad_thresholds_rejected (test_storage_guard_v1.StorageGuardTests.test_bad_thresholds_rejected) ... ok\ntest_ok_warn_fail_boundaries (test_storage_guard_v1.StorageGuardTests.test_ok_warn_fail_boundaries) ... ok\ntest_early_membership_both_locations (test_watchdog_v3.WatchdogV3Tests.test_early_membership_both_locations) ... ok\ntest_early_membership_live_contradictory_flags (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_contradictory_flags) ... ok\ntest_early_membership_live_dead_flag (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_dead_flag) ... ok\ntest_early_membership_live_failed (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_failed) ... ok\ntest_early_membership_live_healthy_false (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_healthy_false) ... ok\ntest_early_membership_live_healthy_false_string (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_healthy_false_string) ... ok\ntest_early_membership_live_healthy_list (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_healthy_list) ... ok\ntest_early_membership_live_healthy_null (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_healthy_null) ... ok\ntest_early_membership_live_healthy_object (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_healthy_object) ... ok\ntest_early_membership_live_healthy_one (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_healthy_one) ... ok\ntest_early_membership_live_healthy_true_string (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_healthy_true_string) ... ok\ntest_early_membership_live_healthy_zero (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_healthy_zero) ... ok\ntest_early_membership_live_lifecycle (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_lifecycle) ... ok\ntest_early_membership_live_malformed_exception (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_malformed_exception) ... ok\ntest_early_membership_live_malformed_object (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_malformed_object) ... ok\ntest_early_membership_live_malformed_worker_alive (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_malformed_worker_alive) ... ok\ntest_early_membership_live_observer_age_sec_boolean (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_observer_age_sec_boolean) ... ok\ntest_early_membership_live_observer_age_sec_list (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_observer_age_sec_list) ... ok\ntest_early_membership_live_observer_age_sec_negative (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_observer_age_sec_negative) ... ok\ntest_early_membership_live_observer_age_sec_null (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_observer_age_sec_null) ... ok\ntest_early_membership_live_observer_age_sec_object (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_observer_age_sec_object) ... ok\ntest_early_membership_live_observer_age_sec_overflow (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_observer_age_sec_overflow) ... ok\ntest_early_membership_live_observer_age_sec_string (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_observer_age_sec_string) ... ok\ntest_early_membership_live_observer_stale_sec_boolean (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_observer_stale_sec_boolean) ... ok\ntest_early_membership_live_observer_stale_sec_list (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_observer_stale_sec_list) ... ok\ntest_early_membership_live_observer_stale_sec_negative (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_observer_stale_sec_negative) ... ok\ntest_early_membership_live_observer_stale_sec_null (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_observer_stale_sec_null) ... ok\ntest_early_membership_live_observer_stale_sec_object (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_observer_stale_sec_object) ... ok\ntest_early_membership_live_observer_stale_sec_overflow (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_observer_stale_sec_overflow) ... ok\ntest_early_membership_live_observer_stale_sec_string (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_observer_stale_sec_string) ... ok\ntest_early_membership_live_stale_flag (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_stale_flag) ... ok\ntest_early_membership_live_state_dead (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_state_dead) ... ok\ntest_early_membership_live_state_error (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_state_error) ... ok\ntest_early_membership_live_state_failed (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_state_failed) ... ok\ntest_early_membership_live_state_integer (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_state_integer) ... ok\ntest_early_membership_live_state_list (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_state_list) ... ok\ntest_early_membership_live_state_null (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_state_null) ... ok\ntest_early_membership_live_state_object (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_state_object) ... ok\ntest_early_membership_live_state_stale (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_state_stale) ... ok\ntest_early_membership_live_state_stopped (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_state_stopped) ... ok\ntest_early_membership_live_state_unhealthy (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_state_unhealthy) ... ok\ntest_early_membership_live_status_dead (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_status_dead) ... ok\ntest_early_membership_live_status_error (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_status_error) ... ok\ntest_early_membership_live_status_failed (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_status_failed) ... ok\ntest_early_membership_live_status_integer (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_status_integer) ... ok\ntest_early_membership_live_status_list (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_status_list) ... ok\ntest_early_membership_live_status_null (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_status_null) ... ok\ntest_early_membership_live_status_object (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_status_object) ... ok\ntest_early_membership_live_status_stale (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_status_stale) ... ok\ntest_early_membership_live_status_stopped (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_status_stopped) ... ok\ntest_early_membership_live_status_unhealthy (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_status_unhealthy) ... ok\ntest_early_membership_live_worker_dead (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_worker_dead) ... ok\ntest_early_membership_live_worker_error (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_worker_error) ... ok\ntest_early_membership_live_worker_stale (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_worker_stale) ... ok\ntest_early_membership_live_zero_threshold (test_watchdog_v3.WatchdogV3Tests.test_early_membership_live_zero_threshold) ... ok\ntest_early_membership_missing (test_watchdog_v3.WatchdogV3Tests.test_early_membership_missing) ... ok\ntest_early_membership_recovery_other_gate (test_watchdog_v3.WatchdogV3Tests.test_early_membership_recovery_other_gate) ... ok\ntest_early_membership_root_contradictory_flags (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_contradictory_flags) ... ok\ntest_early_membership_root_dead_flag (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_dead_flag) ... ok\ntest_early_membership_root_failed (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_failed) ... ok\ntest_early_membership_root_healthy_false (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_healthy_false) ... ok\ntest_early_membership_root_healthy_false_string (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_healthy_false_string) ... ok\ntest_early_membership_root_healthy_list (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_healthy_list) ... ok\ntest_early_membership_root_healthy_null (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_healthy_null) ... ok\ntest_early_membership_root_healthy_object (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_healthy_object) ... ok\ntest_early_membership_root_healthy_one (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_healthy_one) ... ok\ntest_early_membership_root_healthy_true_string (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_healthy_true_string) ... ok\ntest_early_membership_root_healthy_zero (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_healthy_zero) ... ok\ntest_early_membership_root_lifecycle (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_lifecycle) ... ok\ntest_early_membership_root_malformed_exception (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_malformed_exception) ... ok\ntest_early_membership_root_malformed_object (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_malformed_object) ... ok\ntest_early_membership_root_malformed_worker_alive (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_malformed_worker_alive) ... ok\ntest_early_membership_root_observer_age_sec_boolean (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_observer_age_sec_boolean) ... ok\ntest_early_membership_root_observer_age_sec_list (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_observer_age_sec_list) ... ok\ntest_early_membership_root_observer_age_sec_negative (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_observer_age_sec_negative) ... ok\ntest_early_membership_root_observer_age_sec_null (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_observer_age_sec_null) ... ok\ntest_early_membership_root_observer_age_sec_object (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_observer_age_sec_object) ... ok\ntest_early_membership_root_observer_age_sec_overflow (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_observer_age_sec_overflow) ... ok\ntest_early_membership_root_observer_age_sec_string (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_observer_age_sec_string) ... ok\ntest_early_membership_root_observer_stale_sec_boolean (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_observer_stale_sec_boolean) ... ok\ntest_early_membership_root_observer_stale_sec_list (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_observer_stale_sec_list) ... ok\ntest_early_membership_root_observer_stale_sec_negative (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_observer_stale_sec_negative) ... ok\ntest_early_membership_root_observer_stale_sec_null (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_observer_stale_sec_null) ... ok\ntest_early_membership_root_observer_stale_sec_object (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_observer_stale_sec_object) ... ok\ntest_early_membership_root_observer_stale_sec_overflow (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_observer_stale_sec_overflow) ... ok\ntest_early_membership_root_observer_stale_sec_string (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_observer_stale_sec_string) ... ok\ntest_early_membership_root_stale_flag (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_stale_flag) ... ok\ntest_early_membership_root_state_dead (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_state_dead) ... ok\ntest_early_membership_root_state_error (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_state_error) ... ok\ntest_early_membership_root_state_failed (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_state_failed) ... ok\ntest_early_membership_root_state_integer (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_state_integer) ... ok\ntest_early_membership_root_state_list (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_state_list) ... ok\ntest_early_membership_root_state_null (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_state_null) ... ok\ntest_early_membership_root_state_object (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_state_object) ... ok\ntest_early_membership_root_state_stale (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_state_stale) ... ok\ntest_early_membership_root_state_stopped (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_state_stopped) ... ok\ntest_early_membership_root_state_unhealthy (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_state_unhealthy) ... ok\ntest_early_membership_root_status_dead (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_status_dead) ... ok\ntest_early_membership_root_status_error (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_status_error) ... ok\ntest_early_membership_root_status_failed (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_status_failed) ... ok\ntest_early_membership_root_status_integer (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_status_integer) ... ok\ntest_early_membership_root_status_list (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_status_list) ... ok\ntest_early_membership_root_status_null (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_status_null) ... ok\ntest_early_membership_root_status_object (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_status_object) ... ok\ntest_early_membership_root_status_stale (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_status_stale) ... ok\ntest_early_membership_root_status_stopped (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_status_stopped) ... ok\ntest_early_membership_root_status_unhealthy (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_status_unhealthy) ... ok\ntest_early_membership_root_worker_dead (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_worker_dead) ... ok\ntest_early_membership_root_worker_error (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_worker_error) ... ok\ntest_early_membership_root_worker_stale (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_worker_stale) ... ok\ntest_early_membership_root_zero_threshold (test_watchdog_v3.WatchdogV3Tests.test_early_membership_root_zero_threshold) ... ok\ntest_final_membership_both_locations (test_watchdog_v3.WatchdogV3Tests.test_final_membership_both_locations) ... ok\ntest_final_membership_live_contradictory_flags (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_contradictory_flags) ... ok\ntest_final_membership_live_dead_flag (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_dead_flag) ... ok\ntest_final_membership_live_failed (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_failed) ... ok\ntest_final_membership_live_healthy_false (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_healthy_false) ... ok\ntest_final_membership_live_healthy_false_string (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_healthy_false_string) ... ok\ntest_final_membership_live_healthy_list (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_healthy_list) ... ok\ntest_final_membership_live_healthy_null (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_healthy_null) ... ok\ntest_final_membership_live_healthy_object (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_healthy_object) ... ok\ntest_final_membership_live_healthy_one (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_healthy_one) ... ok\ntest_final_membership_live_healthy_true_string (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_healthy_true_string) ... ok\ntest_final_membership_live_healthy_zero (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_healthy_zero) ... ok\ntest_final_membership_live_lifecycle (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_lifecycle) ... ok\ntest_final_membership_live_malformed_exception (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_malformed_exception) ... ok\ntest_final_membership_live_malformed_object (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_malformed_object) ... ok\ntest_final_membership_live_malformed_worker_alive (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_malformed_worker_alive) ... ok\ntest_final_membership_live_observer_age_sec_boolean (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_observer_age_sec_boolean) ... ok\ntest_final_membership_live_observer_age_sec_list (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_observer_age_sec_list) ... ok\ntest_final_membership_live_observer_age_sec_negative (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_observer_age_sec_negative) ... ok\ntest_final_membership_live_observer_age_sec_null (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_observer_age_sec_null) ... ok\ntest_final_membership_live_observer_age_sec_object (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_observer_age_sec_object) ... ok\ntest_final_membership_live_observer_age_sec_overflow (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_observer_age_sec_overflow) ... ok\ntest_final_membership_live_observer_age_sec_string (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_observer_age_sec_string) ... ok\ntest_final_membership_live_observer_stale_sec_boolean (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_observer_stale_sec_boolean) ... ok\ntest_final_membership_live_observer_stale_sec_list (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_observer_stale_sec_list) ... ok\ntest_final_membership_live_observer_stale_sec_negative (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_observer_stale_sec_negative) ... ok\ntest_final_membership_live_observer_stale_sec_null (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_observer_stale_sec_null) ... ok\ntest_final_membership_live_observer_stale_sec_object (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_observer_stale_sec_object) ... ok\ntest_final_membership_live_observer_stale_sec_overflow (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_observer_stale_sec_overflow) ... ok\ntest_final_membership_live_observer_stale_sec_string (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_observer_stale_sec_string) ... ok\ntest_final_membership_live_stale_flag (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_stale_flag) ... ok\ntest_final_membership_live_state_dead (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_state_dead) ... ok\ntest_final_membership_live_state_error (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_state_error) ... ok\ntest_final_membership_live_state_failed (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_state_failed) ... ok\ntest_final_membership_live_state_integer (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_state_integer) ... ok\ntest_final_membership_live_state_list (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_state_list) ... ok\ntest_final_membership_live_state_null (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_state_null) ... ok\ntest_final_membership_live_state_object (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_state_object) ... ok\ntest_final_membership_live_state_stale (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_state_stale) ... ok\ntest_final_membership_live_state_stopped (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_state_stopped) ... ok\ntest_final_membership_live_state_unhealthy (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_state_unhealthy) ... ok\ntest_final_membership_live_status_dead (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_status_dead) ... ok\ntest_final_membership_live_status_error (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_status_error) ... ok\ntest_final_membership_live_status_failed (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_status_failed) ... ok\ntest_final_membership_live_status_integer (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_status_integer) ... ok\ntest_final_membership_live_status_list (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_status_list) ... ok\ntest_final_membership_live_status_null (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_status_null) ... ok\ntest_final_membership_live_status_object (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_status_object) ... ok\ntest_final_membership_live_status_stale (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_status_stale) ... ok\ntest_final_membership_live_status_stopped (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_status_stopped) ... ok\ntest_final_membership_live_status_unhealthy (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_status_unhealthy) ... ok\ntest_final_membership_live_worker_dead (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_worker_dead) ... ok\ntest_final_membership_live_worker_error (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_worker_error) ... ok\ntest_final_membership_live_worker_stale (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_worker_stale) ... ok\ntest_final_membership_live_zero_threshold (test_watchdog_v3.WatchdogV3Tests.test_final_membership_live_zero_threshold) ... ok\ntest_final_membership_missing (test_watchdog_v3.WatchdogV3Tests.test_final_membership_missing) ... ok\ntest_final_membership_recovery_other_gate (test_watchdog_v3.WatchdogV3Tests.test_final_membership_recovery_other_gate) ... ok\ntest_final_membership_root_contradictory_flags (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_contradictory_flags) ... ok\ntest_final_membership_root_dead_flag (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_dead_flag) ... ok\ntest_final_membership_root_failed (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_failed) ... ok\ntest_final_membership_root_healthy_false (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_healthy_false) ... ok\ntest_final_membership_root_healthy_false_string (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_healthy_false_string) ... ok\ntest_final_membership_root_healthy_list (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_healthy_list) ... ok\ntest_final_membership_root_healthy_null (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_healthy_null) ... ok\ntest_final_membership_root_healthy_object (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_healthy_object) ... ok\ntest_final_membership_root_healthy_one (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_healthy_one) ... ok\ntest_final_membership_root_healthy_true_string (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_healthy_true_string) ... ok\ntest_final_membership_root_healthy_zero (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_healthy_zero) ... ok\ntest_final_membership_root_lifecycle (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_lifecycle) ... ok\ntest_final_membership_root_malformed_exception (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_malformed_exception) ... ok\ntest_final_membership_root_malformed_object (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_malformed_object) ... ok\ntest_final_membership_root_malformed_worker_alive (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_malformed_worker_alive) ... ok\ntest_final_membership_root_observer_age_sec_boolean (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_observer_age_sec_boolean) ... ok\ntest_final_membership_root_observer_age_sec_list (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_observer_age_sec_list) ... ok\ntest_final_membership_root_observer_age_sec_negative (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_observer_age_sec_negative) ... ok\ntest_final_membership_root_observer_age_sec_null (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_observer_age_sec_null) ... ok\ntest_final_membership_root_observer_age_sec_object (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_observer_age_sec_object) ... ok\ntest_final_membership_root_observer_age_sec_overflow (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_observer_age_sec_overflow) ... ok\ntest_final_membership_root_observer_age_sec_string (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_observer_age_sec_string) ... ok\ntest_final_membership_root_observer_stale_sec_boolean (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_observer_stale_sec_boolean) ... ok\ntest_final_membership_root_observer_stale_sec_list (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_observer_stale_sec_list) ... ok\ntest_final_membership_root_observer_stale_sec_negative (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_observer_stale_sec_negative) ... ok\ntest_final_membership_root_observer_stale_sec_null (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_observer_stale_sec_null) ... ok\ntest_final_membership_root_observer_stale_sec_object (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_observer_stale_sec_object) ... ok\ntest_final_membership_root_observer_stale_sec_overflow (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_observer_stale_sec_overflow) ... ok\ntest_final_membership_root_observer_stale_sec_string (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_observer_stale_sec_string) ... ok\ntest_final_membership_root_stale_flag (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_stale_flag) ... ok\ntest_final_membership_root_state_dead (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_state_dead) ... ok\ntest_final_membership_root_state_error (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_state_error) ... ok\ntest_final_membership_root_state_failed (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_state_failed) ... ok\ntest_final_membership_root_state_integer (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_state_integer) ... ok\ntest_final_membership_root_state_list (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_state_list) ... ok\ntest_final_membership_root_state_null (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_state_null) ... ok\ntest_final_membership_root_state_object (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_state_object) ... ok\ntest_final_membership_root_state_stale (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_state_stale) ... ok\ntest_final_membership_root_state_stopped (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_state_stopped) ... ok\ntest_final_membership_root_state_unhealthy (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_state_unhealthy) ... ok\ntest_final_membership_root_status_dead (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_status_dead) ... ok\ntest_final_membership_root_status_error (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_status_error) ... ok\ntest_final_membership_root_status_failed (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_status_failed) ... ok\ntest_final_membership_root_status_integer (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_status_integer) ... ok\ntest_final_membership_root_status_list (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_status_list) ... ok\ntest_final_membership_root_status_null (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_status_null) ... ok\ntest_final_membership_root_status_object (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_status_object) ... ok\ntest_final_membership_root_status_stale (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_status_stale) ... ok\ntest_final_membership_root_status_stopped (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_status_stopped) ... ok\ntest_final_membership_root_status_unhealthy (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_status_unhealthy) ... ok\ntest_final_membership_root_worker_dead (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_worker_dead) ... ok\ntest_final_membership_root_worker_error (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_worker_error) ... ok\ntest_final_membership_root_worker_stale (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_worker_stale) ... ok\ntest_final_membership_root_zero_threshold (test_watchdog_v3.WatchdogV3Tests.test_final_membership_root_zero_threshold) ... ok\n\n----------------------------------------------------------------------\nRan 317 tests in 3.718s\n\nOK\n"
+    },
+    "integrity-tests": {
+      "sha256": "185a410ebec33b76b4f5911fa2c07a7dfaf8322869a27fecbecd52a771c9996d",
+      "output": "test_brti_stale_contract_is_quarantined (test_dual_gate_integration_v1.DualGateIntegrationTests.test_brti_stale_contract_is_quarantined) ... ok\ntest_clean_adapter_output_is_certifiable (test_dual_gate_integration_v1.DualGateIntegrationTests.test_clean_adapter_output_is_certifiable) ... ok\ntest_high_429_share_is_partial_not_certifiable (test_dual_gate_integration_v1.DualGateIntegrationTests.test_high_429_share_is_partial_not_certifiable) ... ok\ntest_operational_failure_is_quarantined_even_with_clean_feed (test_dual_gate_integration_v1.DualGateIntegrationTests.test_operational_failure_is_quarantined_even_with_clean_feed) ... ok\ntest_parity_failure_is_quarantined (test_dual_gate_integration_v1.DualGateIntegrationTests.test_parity_failure_is_quarantined) ... ok\ntest_end_to_end_clean_requires_explicit_operational_manifest (test_evidence_bundle_builder_v1.EvidenceBundleBuilderTests.test_end_to_end_clean_requires_explicit_operational_manifest) ... ok\ntest_manifest_true_cannot_override_evidence_false (test_evidence_bundle_builder_v1.EvidenceBundleBuilderTests.test_manifest_true_cannot_override_evidence_false) ... ok\ntest_missing_manifest_value_stays_missing (test_evidence_bundle_builder_v1.EvidenceBundleBuilderTests.test_missing_manifest_value_stays_missing) ... ok\ntest_same_feed_path_without_operational_attestation_is_unknown (test_evidence_bundle_builder_v1.EvidenceBundleBuilderTests.test_same_feed_path_without_operational_attestation_is_unknown) ... ok\ntest_any_known_operational_false_dominates (test_evidence_integrity_adapter_v1.AdapterTests.test_any_known_operational_false_dominates) ... ok\ntest_clean_full_path (test_evidence_integrity_adapter_v1.AdapterTests.test_clean_full_path) ... ok\ntest_contract_clock_jump_breaks_continuity (test_evidence_integrity_adapter_v1.AdapterTests.test_contract_clock_jump_breaks_continuity) ... ok\ntest_counter_reset_returns_unknown_delta (test_evidence_integrity_adapter_v1.AdapterTests.test_counter_reset_returns_unknown_delta) ... ok\ntest_late_rollover_is_not_start_complete (test_evidence_integrity_adapter_v1.AdapterTests.test_late_rollover_is_not_start_complete) ... ok\ntest_middle_gap_breaks_continuity (test_evidence_integrity_adapter_v1.AdapterTests.test_middle_gap_breaks_continuity) ... ok\ntest_missing_feed_measurement_stays_missing (test_evidence_integrity_adapter_v1.AdapterTests.test_missing_feed_measurement_stays_missing) ... ok\ntest_operational_only_heartbeat_cannot_fill_path_gap (test_evidence_integrity_adapter_v1.AdapterTests.test_operational_only_heartbeat_cannot_fill_path_gap) ... ok\ntest_parity_fail_count_derived_from_samples (test_evidence_integrity_adapter_v1.AdapterTests.test_parity_fail_count_derived_from_samples) ... ok\ntest_429_rate_is_warning_when_freshness_remained_clean (test_evidence_integrity_reconciler_v1.ReconcilerTests.test_429_rate_is_warning_when_freshness_remained_clean) ... ok\ntest_clean_requires_both_gates (test_evidence_integrity_reconciler_v1.ReconcilerTests.test_clean_requires_both_gates) ... ok\ntest_good_evidence_does_not_override_bad_operational_health (test_evidence_integrity_reconciler_v1.ReconcilerTests.test_good_evidence_does_not_override_bad_operational_health) ... ok\ntest_green_service_does_not_override_bad_evidence (test_evidence_integrity_reconciler_v1.ReconcilerTests.test_green_service_does_not_override_bad_evidence) ... ok\ntest_missing_required_measurement_is_unknown_not_clean (test_evidence_integrity_reconciler_v1.ReconcilerTests.test_missing_required_measurement_is_unknown_not_clean) ... ok\ntest_parity_failure_is_hard_by_default (test_evidence_integrity_reconciler_v1.ReconcilerTests.test_parity_failure_is_hard_by_default) ... ok\ntest_policy_can_disable_unused_feed_dependency (test_evidence_integrity_reconciler_v1.ReconcilerTests.test_policy_can_disable_unused_feed_dependency) ... ok\ntest_rollover_late_is_invalid_for_cert (test_evidence_integrity_reconciler_v1.ReconcilerTests.test_rollover_late_is_invalid_for_cert) ... ok\ntest_summary_preserves_quarantine_counts (test_evidence_integrity_reconciler_v1.ReconcilerTests.test_summary_preserves_quarantine_counts) ... ok\ntest_aggregation_and_reconciliation_do_not_mutate_observations (test_integrity_hardening_v1.MeasurementHardeningTests.test_aggregation_and_reconciliation_do_not_mutate_observations) ... ok\ntest_coverage_boolean_alone_cannot_certify_or_mask_invalid_statistics (test_integrity_hardening_v1.MeasurementHardeningTests.test_coverage_boolean_alone_cannot_certify_or_mask_invalid_statistics) ... ok\ntest_direct_record_explicit_parity_failure_is_hard_even_with_warning_policy (test_integrity_hardening_v1.MeasurementHardeningTests.test_direct_record_explicit_parity_failure_is_hard_even_with_warning_policy) ... ok\ntest_direct_record_recorded_rollover_cannot_be_masked (test_integrity_hardening_v1.MeasurementHardeningTests.test_direct_record_recorded_rollover_cannot_be_masked) ... ok\ntest_dual_gate_full_pass_fail_unknown_truth_table (test_integrity_hardening_v1.MeasurementHardeningTests.test_dual_gate_full_pass_fail_unknown_truth_table) ... ok\ntest_explicit_feed_trouble_survives_all_pipeline_stages (test_integrity_hardening_v1.MeasurementHardeningTests.test_explicit_feed_trouble_survives_all_pipeline_stages) ... ok\ntest_feed_specific_start_end_and_middle_gaps_cannot_borrow_other_feeds (test_integrity_hardening_v1.MeasurementHardeningTests.test_feed_specific_start_end_and_middle_gaps_cannot_borrow_other_feeds) ... ok\ntest_feed_trouble_dominates_later_healthy_status (test_integrity_hardening_v1.MeasurementHardeningTests.test_feed_trouble_dominates_later_healthy_status) ... ok\ntest_intermediate_counter_reset_cannot_recover_to_clean (test_integrity_hardening_v1.MeasurementHardeningTests.test_intermediate_counter_reset_cannot_recover_to_clean) ... ok\ntest_invalid_counter_measurements_cannot_disappear (test_integrity_hardening_v1.MeasurementHardeningTests.test_invalid_counter_measurements_cannot_disappear) ... ok\ntest_invalid_numeric_contract_measurements_never_clean (test_integrity_hardening_v1.MeasurementHardeningTests.test_invalid_numeric_contract_measurements_never_clean) ... ok\ntest_invalid_observation_cannot_be_diluted_by_healthy_samples (test_integrity_hardening_v1.MeasurementHardeningTests.test_invalid_observation_cannot_be_diluted_by_healthy_samples) ... ok\ntest_invalid_policy_thresholds_are_rejected (test_integrity_hardening_v1.MeasurementHardeningTests.test_invalid_policy_thresholds_are_rejected) ... ok\ntest_missing_feed_coverage_stays_unknown_and_disabled_feed_is_exempt (test_integrity_hardening_v1.MeasurementHardeningTests.test_missing_feed_coverage_stays_unknown_and_disabled_feed_is_exempt) ... ok\ntest_one_feed_sample_among_169_path_samples_is_not_coverage (test_integrity_hardening_v1.MeasurementHardeningTests.test_one_feed_sample_among_169_path_samples_is_not_coverage) ... ok\ntest_parity_failure_without_path_measurement_survives (test_integrity_hardening_v1.MeasurementHardeningTests.test_parity_failure_without_path_measurement_survives) ... ok\ntest_parser_preserves_invalid_age_and_lag_evidence (test_integrity_hardening_v1.MeasurementHardeningTests.test_parser_preserves_invalid_age_and_lag_evidence) ... ok\ntest_recorded_rollover_35_7_beats_inferred_one_second (test_integrity_hardening_v1.MeasurementHardeningTests.test_recorded_rollover_35_7_beats_inferred_one_second) ... ok\ntest_rollover_worst_record_survives_later_smaller_summary (test_integrity_hardening_v1.MeasurementHardeningTests.test_rollover_worst_record_survives_later_smaller_summary) ... ok\ntest_zero_cumulative_parity_never_masks_explicit_failure (test_integrity_hardening_v1.MeasurementHardeningTests.test_zero_cumulative_parity_never_masks_explicit_failure) ... ok\ntest_bundle_all_generated_names_protect_all_input_types_before_any_write (test_integrity_hardening_v1.OutputProtectionTests.test_bundle_all_generated_names_protect_all_input_types_before_any_write) ... ok\ntest_exclusive_creation_rejects_file_appearing_after_preflight (test_integrity_hardening_v1.OutputProtectionTests.test_exclusive_creation_rejects_file_appearing_after_preflight) ... ok\ntest_existing_derived_output_and_dangling_symlink_are_refused (test_integrity_hardening_v1.OutputProtectionTests.test_existing_derived_output_and_dangling_symlink_are_refused) ... ok\ntest_reconciler_all_input_output_overlaps_preserve_bytes (test_integrity_hardening_v1.OutputProtectionTests.test_reconciler_all_input_output_overlaps_preserve_bytes) ... ok\ntest_reconciler_outputs_cannot_alias_each_other (test_integrity_hardening_v1.OutputProtectionTests.test_reconciler_outputs_cannot_alias_each_other) ... ok\ntest_safe_bundle_cli_writes_six_outputs_and_refuses_rerun (test_integrity_hardening_v1.OutputProtectionTests.test_safe_bundle_cli_writes_six_outputs_and_refuses_rerun) ... ok\ntest_safe_cli_outputs_succeed_and_preserve_source (test_integrity_hardening_v1.OutputProtectionTests.test_safe_cli_outputs_succeed_and_preserve_source) ... ok\ntest_symlink_hardlink_relative_and_parent_aliases_are_blocked (test_integrity_hardening_v1.OutputProtectionTests.test_symlink_hardlink_relative_and_parent_aliases_are_blocked) ... ok\ntest_combined_late_start_is_kept_separate_from_exact_probe_lag (test_railway_evidence_log_adapter_v1.RailwayEvidenceLogAdapterTests.test_combined_late_start_is_kept_separate_from_exact_probe_lag) ... ok\ntest_final_lock_parses_without_claiming_certification (test_railway_evidence_log_adapter_v1.RailwayEvidenceLogAdapterTests.test_final_lock_parses_without_claiming_certification) ... ok\ntest_global_brti_heartbeat_attaches_only_inside_known_window (test_railway_evidence_log_adapter_v1.RailwayEvidenceLogAdapterTests.test_global_brti_heartbeat_attaches_only_inside_known_window) ... ok\ntest_observations_do_not_infer_missing_operational_fields (test_railway_evidence_log_adapter_v1.RailwayEvidenceLogAdapterTests.test_observations_do_not_infer_missing_operational_fields) ... ok\ntest_parity_fail_preserves_hard_evidence (test_railway_evidence_log_adapter_v1.RailwayEvidenceLogAdapterTests.test_parity_fail_preserves_hard_evidence) ... ok\ntest_parse_real_brti_heartbeat_shape (test_railway_evidence_log_adapter_v1.RailwayEvidenceLogAdapterTests.test_parse_real_brti_heartbeat_shape) ... ok\ntest_rollover_window_uses_exact_probe_boundary (test_railway_evidence_log_adapter_v1.RailwayEvidenceLogAdapterTests.test_rollover_window_uses_exact_probe_boundary) ... ok\n\n----------------------------------------------------------------------\nRan 62 tests in 0.486s\n\nOK\n"
+    },
+    "integrity-adversarial": {
+      "sha256": "417294fd0f625a1f3a300d5f33a14e704ee0db70cf3799a17415e2f67aef4ac5",
+      "output": {
+        "positive_control": "CLEAN",
+        "passed": 7,
+        "total": 7,
+        "findings": [
+          {
+            "finding": 1,
+            "result": "PASS",
+            "details": {
+              "cases": 10,
+              "source_bytes_unchanged": true
+            }
+          },
+          {
+            "finding": 2,
+            "result": "PASS",
+            "details": {
+              "cases": 40,
+              "all_invalid_values_blocked": true
+            }
+          },
+          {
+            "finding": 3,
+            "result": "PASS",
+            "details": {
+              "path_observations": 169,
+              "feed_samples": 1,
+              "results": {
+                "kalshi": "INVALID_FOR_CERT",
+                "brti": "INVALID_FOR_CERT",
+                "coinbase": "INVALID_FOR_CERT"
+              }
+            }
+          },
+          {
+            "finding": 4,
+            "result": "PASS",
+            "details": {
+              "parity_fail_count": 1,
+              "classification": "INVALID_FOR_CERT"
+            }
+          },
+          {
+            "finding": 5,
+            "result": "PASS",
+            "details": {
+              "sequence": [
+                1000,
+                1,
+                1840
+              ],
+              "delta": null,
+              "results": {
+                "brti_attempts_total": "INVALID_FOR_CERT",
+                "brti_429_total": "INVALID_FOR_CERT"
+              }
+            }
+          },
+          {
+            "finding": 6,
+            "result": "PASS",
+            "details": {
+              "brti_feed_clean": "INVALID_FOR_CERT",
+              "direct_brti_ready": "INVALID_FOR_CERT",
+              "coinbase_timeout": "INVALID_FOR_CERT"
+            }
+          },
+          {
+            "finding": 7,
+            "result": "PASS",
+            "details": {
+              "inferred_lag_sec": 1.0,
+              "results": {
+                "exact_ticker": {
+                  "lag_sec": 35.7,
+                  "classification": "INVALID_FOR_CERT"
+                },
+                "combined": {
+                  "lag_sec": 35.7,
+                  "classification": "INVALID_FOR_CERT"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "sentinel-v1": {
+      "sha256": "009794857b8669c891319cb4b45736a96db8bead0eb7754b967935ba0567dd15",
+      "output": {
+        "passed": 28,
+        "total": 28,
+        "network": "offline source transport; health HTTP on loopback only",
+        "results": [
+          {
+            "probe": "01 redirect to Kalshi",
+            "result": "PASS"
+          },
+          {
+            "probe": "02 redirect to Coinbase",
+            "result": "PASS"
+          },
+          {
+            "probe": "03 redirect HTTP/non-Railway/approved-hop",
+            "result": "PASS"
+          },
+          {
+            "probe": "04 required source unavailable",
+            "result": "PASS"
+          },
+          {
+            "probe": "05 HTTP-200 source failure/staleness",
+            "result": "PASS"
+          },
+          {
+            "probe": "06 write failure then health and recovery",
+            "result": "PASS"
+          },
+          {
+            "probe": "07 recorder dead/stale",
+            "result": "PASS"
+          },
+          {
+            "probe": "08 short write",
+            "result": "PASS"
+          },
+          {
+            "probe": "09 missing final newline",
+            "result": "PASS"
+          },
+          {
+            "probe": "10 complete tail deletion",
+            "result": "PASS"
+          },
+          {
+            "probe": "11 full truncation",
+            "result": "PASS"
+          },
+          {
+            "probe": "12 blank/null control manifest",
+            "result": "PASS"
+          },
+          {
+            "probe": "13 missing actual control capture",
+            "result": "PASS"
+          },
+          {
+            "probe": "14 control mismatch",
+            "result": "PASS"
+          },
+          {
+            "probe": "15 real Combined membership shape",
+            "result": "PASS"
+          },
+          {
+            "probe": "16 real Nextgen membership shapes",
+            "result": "PASS"
+          },
+          {
+            "probe": "17 HTTP-error body retention",
+            "result": "PASS"
+          },
+          {
+            "probe": "18 malformed JSON retention",
+            "result": "PASS"
+          },
+          {
+            "probe": "19 wrong-type JSON retention",
+            "result": "PASS"
+          },
+          {
+            "probe": "20 empty membership envelope",
+            "result": "PASS"
+          },
+          {
+            "probe": "21 generic age is not Kalshi",
+            "result": "PASS"
+          },
+          {
+            "probe": "22 missing Coinbase freshness",
+            "result": "PASS"
+          },
+          {
+            "probe": "23 low-disk membership block",
+            "result": "PASS"
+          },
+          {
+            "probe": "24 invalid contract IDs",
+            "result": "PASS"
+          },
+          {
+            "probe": "25 within-payload ID conflicts",
+            "result": "PASS"
+          },
+          {
+            "probe": "26 cross-source disagreement",
+            "result": "PASS"
+          },
+          {
+            "probe": "27 invalid BRTI counters",
+            "result": "PASS"
+          },
+          {
+            "probe": "28 empty user-info URLs",
+            "result": "PASS"
+          }
+        ]
+      }
+    },
+    "sentinel-v2": {
+      "sha256": "2fea5a6e064a832cb0f85321fe06931b4679907771c9d61c5626dd01e91cabbe",
+      "output": {
+        "passed": 9,
+        "total": 9,
+        "network": "offline Requests adapter; health endpoints loopback only",
+        "results": [
+          {
+            "probe": "final directory fsync / telemetry / fresh processes",
+            "result": "PASS",
+            "detail": {
+              "separate_processes": 3,
+              "stages": [
+                {
+                  "injected_final_fsync_failures": 1,
+                  "complete_row_and_anchor": true,
+                  "after_failure": {
+                    "health_status": 503,
+                    "state_ok": false
+                  },
+                  "pid": 920,
+                  "ledger": "telemetry",
+                  "files": {
+                    "membership.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "membership.jsonl.anchor.json": "5403be9e4b15fc8432f69595ff7e2909de0f34b768be4603d5a739f97aed314e",
+                    "telemetry.jsonl": "07e137fc3c320c8e2b61417876ed160eefcf489e79252937fdcf622b2556cf55",
+                    "telemetry.jsonl.anchor.json": "1360f4096efbc3b1a1309c3db591024e22fa40e7430a11a699c6f3c7807444ba",
+                    "telemetry.jsonl.durability-pending.json": "bfa6118f8fa40eecd1e1e07394ca47f93d3adad7673a907fbfc596b403f337cb"
+                  }
+                },
+                {
+                  "after_reopen": {
+                    "health_status": 503,
+                    "state_ok": false
+                  },
+                  "after_subsequent_cycle": {
+                    "health_status": 503,
+                    "state_ok": false
+                  },
+                  "evidence_unchanged": true,
+                  "cycle_source_requests": 0,
+                  "failure_count": 2,
+                  "pid": 928,
+                  "ledger": "telemetry",
+                  "files": {
+                    "membership.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "membership.jsonl.anchor.json": "5403be9e4b15fc8432f69595ff7e2909de0f34b768be4603d5a739f97aed314e",
+                    "telemetry.jsonl": "07e137fc3c320c8e2b61417876ed160eefcf489e79252937fdcf622b2556cf55",
+                    "telemetry.jsonl.anchor.json": "1360f4096efbc3b1a1309c3db591024e22fa40e7430a11a699c6f3c7807444ba",
+                    "telemetry.jsonl.durability-pending.json": "bfa6118f8fa40eecd1e1e07394ca47f93d3adad7673a907fbfc596b403f337cb"
+                  }
+                },
+                {
+                  "after_reopen": {
+                    "health_status": 503,
+                    "state_ok": false
+                  },
+                  "after_subsequent_cycle": {
+                    "health_status": 503,
+                    "state_ok": false
+                  },
+                  "evidence_unchanged": true,
+                  "cycle_source_requests": 0,
+                  "failure_count": 2,
+                  "pid": 937,
+                  "ledger": "telemetry",
+                  "files": {
+                    "membership.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "membership.jsonl.anchor.json": "5403be9e4b15fc8432f69595ff7e2909de0f34b768be4603d5a739f97aed314e",
+                    "telemetry.jsonl": "07e137fc3c320c8e2b61417876ed160eefcf489e79252937fdcf622b2556cf55",
+                    "telemetry.jsonl.anchor.json": "1360f4096efbc3b1a1309c3db591024e22fa40e7430a11a699c6f3c7807444ba",
+                    "telemetry.jsonl.durability-pending.json": "bfa6118f8fa40eecd1e1e07394ca47f93d3adad7673a907fbfc596b403f337cb"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "probe": "final directory fsync / membership / fresh processes",
+            "result": "PASS",
+            "detail": {
+              "separate_processes": 3,
+              "stages": [
+                {
+                  "injected_final_fsync_failures": 1,
+                  "complete_row_and_anchor": true,
+                  "after_failure": {
+                    "health_status": 503,
+                    "state_ok": false
+                  },
+                  "pid": 946,
+                  "ledger": "membership",
+                  "files": {
+                    "membership.jsonl": "256f90526bcb06d330e8ee960c36484fdb49bf2b1d7257bc6517c4c9c042343a",
+                    "membership.jsonl.anchor.json": "5569eced984fc22f2440aa985014ead19acbf4b544d076c6d93fa4c58a7b7aab",
+                    "membership.jsonl.durability-pending.json": "df9488912e57bf559c54451d6a8f30384f5c7b48bb380553447bc7cc2efd5c2a",
+                    "telemetry.jsonl": "09c127ec92cd4bccbdbcb4b4ec88f2e7cc5937f2baac88e0dc826479c2f0f5dc",
+                    "telemetry.jsonl.anchor.json": "07460a3e8c4d889cb96b8b0f17eb27db42e4a0f6962b5e4eb42b2dfd7662f723"
+                  }
+                },
+                {
+                  "after_reopen": {
+                    "health_status": 503,
+                    "state_ok": false
+                  },
+                  "after_subsequent_cycle": {
+                    "health_status": 503,
+                    "state_ok": false
+                  },
+                  "evidence_unchanged": true,
+                  "cycle_source_requests": 0,
+                  "failure_count": 2,
+                  "pid": 954,
+                  "ledger": "membership",
+                  "files": {
+                    "membership.jsonl": "256f90526bcb06d330e8ee960c36484fdb49bf2b1d7257bc6517c4c9c042343a",
+                    "membership.jsonl.anchor.json": "5569eced984fc22f2440aa985014ead19acbf4b544d076c6d93fa4c58a7b7aab",
+                    "membership.jsonl.durability-pending.json": "df9488912e57bf559c54451d6a8f30384f5c7b48bb380553447bc7cc2efd5c2a",
+                    "telemetry.jsonl": "09c127ec92cd4bccbdbcb4b4ec88f2e7cc5937f2baac88e0dc826479c2f0f5dc",
+                    "telemetry.jsonl.anchor.json": "07460a3e8c4d889cb96b8b0f17eb27db42e4a0f6962b5e4eb42b2dfd7662f723"
+                  }
+                },
+                {
+                  "after_reopen": {
+                    "health_status": 503,
+                    "state_ok": false
+                  },
+                  "after_subsequent_cycle": {
+                    "health_status": 503,
+                    "state_ok": false
+                  },
+                  "evidence_unchanged": true,
+                  "cycle_source_requests": 0,
+                  "failure_count": 2,
+                  "pid": 963,
+                  "ledger": "membership",
+                  "files": {
+                    "membership.jsonl": "256f90526bcb06d330e8ee960c36484fdb49bf2b1d7257bc6517c4c9c042343a",
+                    "membership.jsonl.anchor.json": "5569eced984fc22f2440aa985014ead19acbf4b544d076c6d93fa4c58a7b7aab",
+                    "membership.jsonl.durability-pending.json": "df9488912e57bf559c54451d6a8f30384f5c7b48bb380553447bc7cc2efd5c2a",
+                    "telemetry.jsonl": "09c127ec92cd4bccbdbcb4b4ec88f2e7cc5937f2baac88e0dc826479c2f0f5dc",
+                    "telemetry.jsonl.anchor.json": "07460a3e8c4d889cb96b8b0f17eb27db42e4a0f6962b5e4eb42b2dfd7662f723"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "probe": "malformed Location",
+            "result": "PASS",
+            "detail": {
+              "cases": 8,
+              "results": [
+                {
+                  "location": "https://[broken",
+                  "http_status": 301,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://[broken",
+                  "http_status": 301,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://[broken",
+                  "http_status": 302,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://[broken",
+                  "http_status": 302,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://example.org/\u00ff",
+                  "http_status": 301,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://example.org/\u00ff",
+                  "http_status": 301,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://example.org/\u00ff",
+                  "http_status": 302,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://example.org/\u00ff",
+                  "http_status": 302,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                }
+              ]
+            }
+          },
+          {
+            "probe": "Kalshi Location",
+            "result": "PASS",
+            "detail": {
+              "cases": 4,
+              "results": [
+                {
+                  "location": "https://external-api.kalshi.com/trade-api/v2/markets",
+                  "http_status": 301,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://external-api.kalshi.com/trade-api/v2/markets",
+                  "http_status": 301,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://external-api.kalshi.com/trade-api/v2/markets",
+                  "http_status": 302,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://external-api.kalshi.com/trade-api/v2/markets",
+                  "http_status": 302,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                }
+              ]
+            }
+          },
+          {
+            "probe": "Coinbase Location",
+            "result": "PASS",
+            "detail": {
+              "cases": 4,
+              "results": [
+                {
+                  "location": "https://api.exchange.coinbase.com/products/BTC-USD/ticker",
+                  "http_status": 301,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://api.exchange.coinbase.com/products/BTC-USD/ticker",
+                  "http_status": 301,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://api.exchange.coinbase.com/products/BTC-USD/ticker",
+                  "http_status": 302,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://api.exchange.coinbase.com/products/BTC-USD/ticker",
+                  "http_status": 302,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                }
+              ]
+            }
+          },
+          {
+            "probe": "HTTP Location",
+            "result": "PASS",
+            "detail": {
+              "cases": 4,
+              "results": [
+                {
+                  "location": "http://v2-offline.up.railway.app/state",
+                  "http_status": 301,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "http://v2-offline.up.railway.app/state",
+                  "http_status": 301,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "http://v2-offline.up.railway.app/state",
+                  "http_status": 302,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "http://v2-offline.up.railway.app/state",
+                  "http_status": 302,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                }
+              ]
+            }
+          },
+          {
+            "probe": "non-Railway Location",
+            "result": "PASS",
+            "detail": {
+              "cases": 4,
+              "results": [
+                {
+                  "location": "https://example.org/state",
+                  "http_status": 301,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://example.org/state",
+                  "http_status": 301,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://example.org/state",
+                  "http_status": 302,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://example.org/state",
+                  "http_status": 302,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                }
+              ]
+            }
+          },
+          {
+            "probe": "alternate Railway Location",
+            "result": "PASS",
+            "detail": {
+              "cases": 4,
+              "results": [
+                {
+                  "location": "https://other.up.railway.app/state",
+                  "http_status": 301,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://other.up.railway.app/state",
+                  "http_status": 301,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://other.up.railway.app/state",
+                  "http_status": 302,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://other.up.railway.app/state",
+                  "http_status": 302,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                }
+              ]
+            }
+          },
+          {
+            "probe": "other blocked destinations",
+            "result": "PASS",
+            "detail": {
+              "cases": 28,
+              "results": [
+                {
+                  "location": "https://www.cfbenchmarks.com/data/indices/BRTI",
+                  "http_status": 301,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://www.cfbenchmarks.com/data/indices/BRTI",
+                  "http_status": 301,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://www.cfbenchmarks.com/data/indices/BRTI",
+                  "http_status": 302,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://www.cfbenchmarks.com/data/indices/BRTI",
+                  "http_status": 302,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://v2-offline.up.railway.app:444/state",
+                  "http_status": 301,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://v2-offline.up.railway.app:444/state",
+                  "http_status": 301,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://v2-offline.up.railway.app:444/state",
+                  "http_status": 302,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://v2-offline.up.railway.app:444/state",
+                  "http_status": 302,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://@v2-offline.up.railway.app/state",
+                  "http_status": 301,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://@v2-offline.up.railway.app/state",
+                  "http_status": 301,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://@v2-offline.up.railway.app/state",
+                  "http_status": 302,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://@v2-offline.up.railway.app/state",
+                  "http_status": 302,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://user@v2-offline.up.railway.app/state",
+                  "http_status": 301,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://user@v2-offline.up.railway.app/state",
+                  "http_status": 301,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://user@v2-offline.up.railway.app/state",
+                  "http_status": 302,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://user@v2-offline.up.railway.app/state",
+                  "http_status": 302,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://v2-offline.up.railway.app/state#fragment",
+                  "http_status": 301,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://v2-offline.up.railway.app/state#fragment",
+                  "http_status": 301,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://v2-offline.up.railway.app/state#fragment",
+                  "http_status": 302,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://v2-offline.up.railway.app/state#fragment",
+                  "http_status": 302,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://v2-offline.up.railway.app/state\r\ninvalid",
+                  "http_status": 301,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://v2-offline.up.railway.app/state\r\ninvalid",
+                  "http_status": 301,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://v2-offline.up.railway.app/state\r\ninvalid",
+                  "http_status": 302,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://v2-offline.up.railway.app/state\r\ninvalid",
+                  "http_status": 302,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://v2-offline.up.railway.app\\@example.org/state",
+                  "http_status": 301,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://v2-offline.up.railway.app\\@example.org/state",
+                  "http_status": 301,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://v2-offline.up.railway.app\\@example.org/state",
+                  "http_status": 302,
+                  "parse_outcome": "OBJECT",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                },
+                {
+                  "location": "https://v2-offline.up.railway.app\\@example.org/state",
+                  "http_status": 302,
+                  "parse_outcome": "MALFORMED_JSON",
+                  "source_requests": 1,
+                  "redirect_hops": 0,
+                  "complete_envelope_retained": true
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "sentinel-v3": {
+      "sha256": "44a9cb13e867f9a16fd17c03b2008086be8523b3798adfcc23fed2ac4b8462ed",
+      "output": {
+        "watchdog_matrix": [
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "producer_healthy",
+            "result": "PASS",
+            "health_http": 200,
+            "state_ok": true,
+            "source_ok": true,
+            "immutable_observation": true,
+            "source_failures": []
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "producer_dead",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:false",
+              "watchdog.observer_worker_alive:false"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "producer_stale",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:false",
+              "watchdog.observer_age_sec:stale"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "producer_error",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_last_exception:present"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "healthy_false",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:false"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "contradictory_flags",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:false"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "healthy_but_dead",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_worker_alive:false"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "healthy_but_stale",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_age_sec:stale"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "malformed_healthy_0",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "malformed_healthy_1",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "malformed_healthy_string_true",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "malformed_healthy_string_false",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "malformed_healthy_null",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "malformed_healthy_list",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "malformed_healthy_object",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "malformed_observer_age_sec_negative",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "malformed_observer_age_sec_null",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "malformed_observer_age_sec_string",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "malformed_observer_age_sec_boolean",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "malformed_observer_age_sec_list",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "malformed_observer_age_sec_object",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "malformed_observer_age_sec_overflow",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "malformed_observer_stale_sec_negative",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "malformed_observer_stale_sec_null",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "malformed_observer_stale_sec_string",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "malformed_observer_stale_sec_boolean",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "malformed_observer_stale_sec_list",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "malformed_observer_stale_sec_object",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "malformed_observer_stale_sec_overflow",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "status_'DEAD'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.status:negative_or_unknown:DEAD"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "status_'STALE'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.status:negative_or_unknown:STALE"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "status_'ERROR'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.status:negative_or_unknown:ERROR"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "status_'FAILED'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.status:negative_or_unknown:FAILED"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "status_'UNHEALTHY'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.status:negative_or_unknown:UNHEALTHY"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "status_None",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.status:invalid_state"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "status_[]",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.status:invalid_state"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "status_{}",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.status:invalid_state"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "state_'DEAD'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.state:negative_or_unknown:DEAD"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "state_'STALE'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.state:negative_or_unknown:STALE"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "state_'ERROR'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.state:negative_or_unknown:ERROR"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "state_'FAILED'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.state:negative_or_unknown:FAILED"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "state_'UNHEALTHY'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.state:negative_or_unknown:UNHEALTHY"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "state_None",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.state:invalid_state"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "state_[]",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.state:invalid_state"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "state_{}",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.state:invalid_state"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "watchdog_null",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog:invalid_object"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "watchdog_list",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog:invalid_object"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "root",
+            "case": "watchdog_empty",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:missing"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "producer_healthy",
+            "result": "PASS",
+            "health_http": 200,
+            "state_ok": true,
+            "source_ok": true,
+            "immutable_observation": true,
+            "source_failures": []
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "producer_dead",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:false",
+              "live.watchdog.observer_worker_alive:false"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "producer_stale",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:false",
+              "live.watchdog.observer_age_sec:stale"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "producer_error",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_last_exception:present"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "healthy_false",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:false"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "contradictory_flags",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:false"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "healthy_but_dead",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_worker_alive:false"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "healthy_but_stale",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_age_sec:stale"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "malformed_healthy_0",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "malformed_healthy_1",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "malformed_healthy_string_true",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "malformed_healthy_string_false",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "malformed_healthy_null",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "malformed_healthy_list",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "malformed_healthy_object",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "malformed_observer_age_sec_negative",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "malformed_observer_age_sec_null",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "malformed_observer_age_sec_string",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "malformed_observer_age_sec_boolean",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "malformed_observer_age_sec_list",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "malformed_observer_age_sec_object",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "malformed_observer_age_sec_overflow",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "malformed_observer_stale_sec_negative",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "malformed_observer_stale_sec_null",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "malformed_observer_stale_sec_string",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "malformed_observer_stale_sec_boolean",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "malformed_observer_stale_sec_list",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "malformed_observer_stale_sec_object",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "malformed_observer_stale_sec_overflow",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "status_'DEAD'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.status:negative_or_unknown:DEAD"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "status_'STALE'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.status:negative_or_unknown:STALE"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "status_'ERROR'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.status:negative_or_unknown:ERROR"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "status_'FAILED'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.status:negative_or_unknown:FAILED"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "status_'UNHEALTHY'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.status:negative_or_unknown:UNHEALTHY"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "status_None",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.status:invalid_state"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "status_[]",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.status:invalid_state"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "status_{}",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.status:invalid_state"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "state_'DEAD'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.state:negative_or_unknown:DEAD"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "state_'STALE'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.state:negative_or_unknown:STALE"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "state_'ERROR'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.state:negative_or_unknown:ERROR"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "state_'FAILED'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.state:negative_or_unknown:FAILED"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "state_'UNHEALTHY'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.state:negative_or_unknown:UNHEALTHY"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "state_None",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.state:invalid_state"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "state_[]",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.state:invalid_state"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "state_{}",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.state:invalid_state"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "watchdog_null",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog:invalid_object"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "watchdog_list",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog:invalid_object"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "location": "live",
+            "case": "watchdog_empty",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:missing"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "case": "conflicting_locations_root",
+            "result": "PASS",
+            "source_failures": [
+              "watchdog.healthy:false"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "case": "conflicting_locations_live",
+            "result": "PASS",
+            "source_failures": [
+              "live.watchdog.healthy:false"
+            ]
+          },
+          {
+            "source": "early_membership",
+            "case": "missing_watchdog",
+            "result": "PASS",
+            "source_failures": [
+              "watchdog:missing"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "producer_healthy",
+            "result": "PASS",
+            "health_http": 200,
+            "state_ok": true,
+            "source_ok": true,
+            "immutable_observation": true,
+            "source_failures": []
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "producer_dead",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:false",
+              "watchdog.observer_worker_alive:false"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "producer_stale",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:false",
+              "watchdog.observer_age_sec:stale"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "producer_error",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_last_exception:present"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "healthy_false",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:false"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "contradictory_flags",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:false"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "healthy_but_dead",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_worker_alive:false"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "healthy_but_stale",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_age_sec:stale"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "malformed_healthy_0",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "malformed_healthy_1",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "malformed_healthy_string_true",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "malformed_healthy_string_false",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "malformed_healthy_null",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "malformed_healthy_list",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "malformed_healthy_object",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "malformed_observer_age_sec_negative",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "malformed_observer_age_sec_null",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "malformed_observer_age_sec_string",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "malformed_observer_age_sec_boolean",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "malformed_observer_age_sec_list",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "malformed_observer_age_sec_object",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "malformed_observer_age_sec_overflow",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "malformed_observer_stale_sec_negative",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "malformed_observer_stale_sec_null",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "malformed_observer_stale_sec_string",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "malformed_observer_stale_sec_boolean",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "malformed_observer_stale_sec_list",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "malformed_observer_stale_sec_object",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "malformed_observer_stale_sec_overflow",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "status_'DEAD'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.status:negative_or_unknown:DEAD"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "status_'STALE'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.status:negative_or_unknown:STALE"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "status_'ERROR'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.status:negative_or_unknown:ERROR"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "status_'FAILED'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.status:negative_or_unknown:FAILED"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "status_'UNHEALTHY'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.status:negative_or_unknown:UNHEALTHY"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "status_None",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.status:invalid_state"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "status_[]",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.status:invalid_state"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "status_{}",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.status:invalid_state"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "state_'DEAD'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.state:negative_or_unknown:DEAD"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "state_'STALE'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.state:negative_or_unknown:STALE"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "state_'ERROR'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.state:negative_or_unknown:ERROR"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "state_'FAILED'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.state:negative_or_unknown:FAILED"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "state_'UNHEALTHY'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.state:negative_or_unknown:UNHEALTHY"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "state_None",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.state:invalid_state"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "state_[]",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.state:invalid_state"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "state_{}",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.state:invalid_state"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "watchdog_null",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog:invalid_object"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "watchdog_list",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog:invalid_object"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "root",
+            "case": "watchdog_empty",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "watchdog.healthy:missing"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "producer_healthy",
+            "result": "PASS",
+            "health_http": 200,
+            "state_ok": true,
+            "source_ok": true,
+            "immutable_observation": true,
+            "source_failures": []
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "producer_dead",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:false",
+              "live.watchdog.observer_worker_alive:false"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "producer_stale",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:false",
+              "live.watchdog.observer_age_sec:stale"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "producer_error",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_last_exception:present"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "healthy_false",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:false"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "contradictory_flags",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:false"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "healthy_but_dead",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_worker_alive:false"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "healthy_but_stale",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_age_sec:stale"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "malformed_healthy_0",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "malformed_healthy_1",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "malformed_healthy_string_true",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "malformed_healthy_string_false",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "malformed_healthy_null",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "malformed_healthy_list",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "malformed_healthy_object",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:invalid_boolean"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "malformed_observer_age_sec_negative",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "malformed_observer_age_sec_null",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "malformed_observer_age_sec_string",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "malformed_observer_age_sec_boolean",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "malformed_observer_age_sec_list",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "malformed_observer_age_sec_object",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "malformed_observer_age_sec_overflow",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_age_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "malformed_observer_stale_sec_negative",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "malformed_observer_stale_sec_null",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "malformed_observer_stale_sec_string",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "malformed_observer_stale_sec_boolean",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "malformed_observer_stale_sec_list",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "malformed_observer_stale_sec_object",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "malformed_observer_stale_sec_overflow",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.observer_stale_sec:invalid_measurement"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "status_'DEAD'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.status:negative_or_unknown:DEAD"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "status_'STALE'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.status:negative_or_unknown:STALE"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "status_'ERROR'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.status:negative_or_unknown:ERROR"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "status_'FAILED'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.status:negative_or_unknown:FAILED"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "status_'UNHEALTHY'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.status:negative_or_unknown:UNHEALTHY"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "status_None",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.status:invalid_state"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "status_[]",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.status:invalid_state"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "status_{}",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.status:invalid_state"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "state_'DEAD'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.state:negative_or_unknown:DEAD"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "state_'STALE'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.state:negative_or_unknown:STALE"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "state_'ERROR'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.state:negative_or_unknown:ERROR"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "state_'FAILED'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.state:negative_or_unknown:FAILED"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "state_'UNHEALTHY'",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.state:negative_or_unknown:UNHEALTHY"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "state_None",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.state:invalid_state"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "state_[]",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.state:invalid_state"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "state_{}",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.state:invalid_state"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "watchdog_null",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog:invalid_object"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "watchdog_list",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog:invalid_object"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "location": "live",
+            "case": "watchdog_empty",
+            "result": "PASS",
+            "health_http": 503,
+            "state_ok": false,
+            "source_ok": false,
+            "immutable_observation": true,
+            "source_failures": [
+              "live.watchdog.healthy:missing"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "case": "conflicting_locations_root",
+            "result": "PASS",
+            "source_failures": [
+              "watchdog.healthy:false"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "case": "conflicting_locations_live",
+            "result": "PASS",
+            "source_failures": [
+              "live.watchdog.healthy:false"
+            ]
+          },
+          {
+            "source": "final_membership",
+            "case": "missing_watchdog",
+            "result": "PASS",
+            "source_failures": [
+              "watchdog:missing"
+            ]
+          }
+        ],
+        "lifecycle": [
+          {
+            "source": "early_membership",
+            "case": "healthy_unhealthy_recovery",
+            "result": "PASS",
+            "telemetry_only_cannot_clear": true,
+            "other_failed_gate_blocks_recovery": true,
+            "negative_history_byte_identical": true,
+            "reopened_chain_valid": true
+          },
+          {
+            "source": "final_membership",
+            "case": "healthy_unhealthy_recovery",
+            "result": "PASS",
+            "telemetry_only_cannot_clear": true,
+            "other_failed_gate_blocks_recovery": true,
+            "negative_history_byte_identical": true,
+            "reopened_chain_valid": true
+          }
+        ],
+        "prior_false_health_matrix": [
+          {
+            "case": "outage",
+            "result": "PASS",
+            "health_failures": [
+              "source_unhealthy:production_main"
+            ]
+          },
+          {
+            "case": "payload_stale",
+            "result": "PASS",
+            "health_failures": [
+              "source_unhealthy:production_main"
+            ]
+          },
+          {
+            "case": "observation_stale",
+            "result": "PASS",
+            "health_failures": [
+              "source_unhealthy:early_membership"
+            ]
+          },
+          {
+            "case": "explicit_failure",
+            "result": "PASS",
+            "health_failures": [
+              "source_unhealthy:production_main"
+            ]
+          },
+          {
+            "case": "membership_failure",
+            "result": "PASS",
+            "health_failures": [
+              "source_unhealthy:final_membership"
+            ]
+          },
+          {
+            "case": "thread_dead",
+            "result": "PASS",
+            "health_failures": [
+              "recorder_unhealthy"
+            ]
+          },
+          {
+            "case": "thread_stale",
+            "result": "PASS",
+            "health_failures": [
+              "recorder_unhealthy"
+            ]
+          },
+          {
+            "case": "write_failure",
+            "result": "PASS",
+            "health_failures": [
+              "recorder_unhealthy"
+            ]
+          },
+          {
+            "case": "low_disk",
+            "result": "PASS",
+            "health_failures": [
+              "recorder_unhealthy",
+              "storage_failed"
+            ]
+          },
+          {
+            "case": "disk_query_failure",
+            "result": "PASS",
+            "health_failures": [
+              "recorder_unhealthy",
+              "storage_failed"
+            ]
+          },
+          {
+            "case": "ledger_corruption",
+            "result": "PASS",
+            "health_failures": [
+              "ledger_integrity_failed"
+            ]
+          },
+          {
+            "case": "anchor_corruption",
+            "result": "PASS",
+            "health_failures": [
+              "ledger_integrity_failed"
+            ]
+          },
+          {
+            "case": "durability_marker",
+            "result": "PASS",
+            "health_failures": [
+              "ledger_integrity_failed"
+            ]
+          },
+          {
+            "case": "missing_control",
+            "result": "PASS",
+            "health_failures": [
+              "control_attestation_unknown_or_failed"
+            ]
+          },
+          {
+            "case": "mismatched_control",
+            "result": "PASS",
+            "health_failures": [
+              "control_attestation_unknown_or_failed"
+            ]
+          },
+          {
+            "case": "contract_disagreement",
+            "result": "PASS",
+            "health_failures": [
+              "contract_agreement_unknown_or_failed"
+            ]
+          }
+        ],
+        "counts": {
+          "watchdog_matrix": 198,
+          "lifecycle": 2,
+          "prior_false_health_matrix": 16
+        },
+        "passed": 216,
+        "total": 216,
+        "result": "PASS"
+      }
+    },
+    "dedup-independent": {
+      "sha256": "b7e55e8337b4d5b5429806fff671f0cf0f2d2479ada33993ce132a4aba0455de",
+      "output": {
+        "passed": 20,
+        "total": 20,
+        "network": "synthetic transport only",
+        "results": [
+          {
+            "probe": "identical observations",
+            "result": "PASS",
+            "detail": null
+          },
+          {
+            "probe": "one byte changed",
+            "result": "PASS",
+            "detail": null
+          },
+          {
+            "probe": "http never reuses",
+            "result": "PASS",
+            "detail": null
+          },
+          {
+            "probe": "partial never reuses",
+            "result": "PASS",
+            "detail": null
+          },
+          {
+            "probe": "malformed never reuses",
+            "result": "PASS",
+            "detail": null
+          },
+          {
+            "probe": "wrong-type never reuses",
+            "result": "PASS",
+            "detail": null
+          },
+          {
+            "probe": "health never reuses",
+            "result": "PASS",
+            "detail": null
+          },
+          {
+            "probe": "missing fails two fresh processes",
+            "result": "PASS",
+            "detail": null
+          },
+          {
+            "probe": "modified fails two fresh processes",
+            "result": "PASS",
+            "detail": null
+          },
+          {
+            "probe": "truncated fails two fresh processes",
+            "result": "PASS",
+            "detail": null
+          },
+          {
+            "probe": "catalog fails two fresh processes",
+            "result": "PASS",
+            "detail": null
+          },
+          {
+            "probe": "reference fails two fresh processes",
+            "result": "PASS",
+            "detail": null
+          },
+          {
+            "probe": "valid process restart",
+            "result": "PASS",
+            "detail": null
+          },
+          {
+            "probe": "concurrent observations",
+            "result": "PASS",
+            "detail": null
+          },
+          {
+            "probe": "exact membership provenance",
+            "result": "PASS",
+            "detail": null
+          },
+          {
+            "probe": "body write failure",
+            "result": "PASS",
+            "detail": null
+          },
+          {
+            "probe": "body fsync failure",
+            "result": "PASS",
+            "detail": null
+          },
+          {
+            "probe": "reference write failure",
+            "result": "PASS",
+            "detail": null
+          },
+          {
+            "probe": "reference fsync failure",
+            "result": "PASS",
+            "detail": null
+          },
+          {
+            "probe": "every body fsync boundary",
+            "result": "PASS",
+            "detail": {
+              "fsync_boundaries": 18
+            }
+          }
+        ]
+      }
+    }
+  },
+  "measurements": {
+    "benchmark-base-identical": {
+      "scenario": {
+        "mode": "identical",
+        "samples": 24,
+        "records_per_lane": 16,
+        "sustain_seconds": 0
+      },
+      "body_bytes": 136884,
+      "telemetry_cycles": 48,
+      "membership_observations_per_source": {
+        "early_membership": 24,
+        "final_membership": 24,
+        "combined_membership": 24,
+        "nextgen_membership": 24
+      },
+      "elapsed_seconds": 12.151296130999981,
+      "application_bytes_written": 8821279,
+      "fsync_calls": 4161,
+      "retained_bytes": 8433224,
+      "allocated_bytes": 8445952,
+      "files": 4,
+      "directories": 0,
+      "body_objects": 0,
+      "first_cycle_application_bytes": 861073,
+      "first_cycle_retained_bytes": 686851,
+      "projected_application_GB_per_day": 3.17566044,
+      "projected_retained_GB_per_day": 3.03596064,
+      "projected_body_objects_per_day": 0,
+      "mean_cycle_wall_ms": 252.76818575010412,
+      "p95_cycle_wall_ms": 533.8007049977023,
+      "max_cycle_wall_ms": 1888.8949979991594,
+      "first_cycle_wall_ms": 1888.8949979991594,
+      "mean_cycle_cpu_ms": 252.01975831250002,
+      "total_cycle_cpu_seconds": 12.096948399,
+      "peak_rss_bytes": 57425920,
+      "incremental_peak_rss_bytes": 28811264,
+      "reopen_verify_wall_ms": 262.4861760014028,
+      "reopen_verify_cpu_ms": 262.4092240000007,
+      "max_scheduling_lateness_ms": 0.0,
+      "reopen_verified": true,
+      "offline": true,
+      "healthy_cycles": 48,
+      "unique_body_caveat": "No cross-observation dedup savings claimed when every body changes.",
+      "measurement_scope": "Application writes include all seven sources, events, anchors and markers; filesystem journal/device write amplification excluded. GB is decimal. Peak RSS is process high-water, not exact live heap."
+    },
+    "benchmark-dedup-identical": {
+      "scenario": {
+        "mode": "identical",
+        "samples": 24,
+        "records_per_lane": 16,
+        "sustain_seconds": 0
+      },
+      "body_bytes": 136884,
+      "telemetry_cycles": 48,
+      "membership_observations_per_source": {
+        "early_membership": 24,
+        "final_membership": 24,
+        "combined_membership": 24,
+        "nextgen_membership": 24
+      },
+      "elapsed_seconds": 4.708935444999952,
+      "application_bytes_written": 1321600,
+      "fsync_calls": 4202,
+      "retained_bytes": 933104,
+      "allocated_bytes": 958464,
+      "files": 7,
+      "directories": 1,
+      "body_objects": 1,
+      "first_cycle_application_bytes": 703785,
+      "first_cycle_retained_bytes": 528768,
+      "projected_application_GB_per_day": 0.475776,
+      "projected_retained_GB_per_day": 0.33591744,
+      "projected_body_objects_per_day": 1,
+      "mean_cycle_wall_ms": 97.70157631305665,
+      "p95_cycle_wall_ms": 120.22796800010838,
+      "max_cycle_wall_ms": 1303.9185000016005,
+      "first_cycle_wall_ms": 1303.9185000016005,
+      "mean_cycle_cpu_ms": 96.83822383333339,
+      "total_cycle_cpu_seconds": 4.6482347440000025,
+      "peak_rss_bytes": 38502400,
+      "incremental_peak_rss_bytes": 9822208,
+      "reopen_verify_wall_ms": 47.49093500140589,
+      "reopen_verify_cpu_ms": 47.4712739999994,
+      "max_scheduling_lateness_ms": 0.0,
+      "reopen_verified": true,
+      "offline": true,
+      "healthy_cycles": 48,
+      "unique_body_caveat": "No cross-observation dedup savings claimed when every body changes.",
+      "measurement_scope": "Application writes include all seven sources, events, anchors and markers; filesystem journal/device write amplification excluded. GB is decimal. Peak RSS is process high-water, not exact live heap."
+    },
+    "benchmark-base-change6": {
+      "scenario": {
+        "mode": "change6",
+        "samples": 24,
+        "records_per_lane": 16,
+        "sustain_seconds": 0
+      },
+      "body_bytes": 136884,
+      "telemetry_cycles": 48,
+      "membership_observations_per_source": {
+        "early_membership": 24,
+        "final_membership": 24,
+        "combined_membership": 24,
+        "nextgen_membership": 24
+      },
+      "elapsed_seconds": 11.679492823997862,
+      "application_bytes_written": 8821282,
+      "fsync_calls": 4161,
+      "retained_bytes": 8433227,
+      "allocated_bytes": 8445952,
+      "files": 4,
+      "directories": 0,
+      "body_objects": 0,
+      "first_cycle_application_bytes": 861072,
+      "first_cycle_retained_bytes": 686850,
+      "projected_application_GB_per_day": 3.17566152,
+      "projected_retained_GB_per_day": 3.03596172,
+      "projected_body_objects_per_day": 0,
+      "mean_cycle_wall_ms": 242.95195620849577,
+      "p95_cycle_wall_ms": 514.0620219972334,
+      "max_cycle_wall_ms": 1636.5793770019081,
+      "first_cycle_wall_ms": 1636.5793770019081,
+      "mean_cycle_cpu_ms": 242.0664591875,
+      "total_cycle_cpu_seconds": 11.619190041,
+      "peak_rss_bytes": 57024512,
+      "incremental_peak_rss_bytes": 28536832,
+      "reopen_verify_wall_ms": 316.46812799954205,
+      "reopen_verify_cpu_ms": 316.4355560000001,
+      "max_scheduling_lateness_ms": 0.0,
+      "reopen_verified": true,
+      "offline": true,
+      "healthy_cycles": 48,
+      "unique_body_caveat": "No cross-observation dedup savings claimed when every body changes.",
+      "measurement_scope": "Application writes include all seven sources, events, anchors and markers; filesystem journal/device write amplification excluded. GB is decimal. Peak RSS is process high-water, not exact live heap."
+    },
+    "benchmark-dedup-change6": {
+      "scenario": {
+        "mode": "change6",
+        "samples": 24,
+        "records_per_lane": 16,
+        "sustain_seconds": 0
+      },
+      "body_bytes": 136884,
+      "telemetry_cycles": 48,
+      "membership_observations_per_source": {
+        "early_membership": 24,
+        "final_membership": 24,
+        "combined_membership": 24,
+        "nextgen_membership": 24
+      },
+      "elapsed_seconds": 4.631706923999445,
+      "application_bytes_written": 1735592,
+      "fsync_calls": 4238,
+      "retained_bytes": 1344718,
+      "allocated_bytes": 1376256,
+      "files": 10,
+      "directories": 1,
+      "body_objects": 4,
+      "first_cycle_application_bytes": 703784,
+      "first_cycle_retained_bytes": 528767,
+      "projected_application_GB_per_day": 0.62481312,
+      "projected_retained_GB_per_day": 0.48409848,
+      "projected_body_objects_per_day": 1440.0,
+      "mean_cycle_wall_ms": 96.1072442501063,
+      "p95_cycle_wall_ms": 121.9935990011436,
+      "max_cycle_wall_ms": 1261.4836300017487,
+      "first_cycle_wall_ms": 1261.4836300017487,
+      "mean_cycle_cpu_ms": 95.63394160416667,
+      "total_cycle_cpu_seconds": 4.590429197,
+      "peak_rss_bytes": 38612992,
+      "incremental_peak_rss_bytes": 10063872,
+      "reopen_verify_wall_ms": 51.35357200197177,
+      "reopen_verify_cpu_ms": 51.31686400000035,
+      "max_scheduling_lateness_ms": 0.0,
+      "reopen_verified": true,
+      "offline": true,
+      "healthy_cycles": 48,
+      "unique_body_caveat": "No cross-observation dedup savings claimed when every body changes.",
+      "measurement_scope": "Application writes include all seven sources, events, anchors and markers; filesystem journal/device write amplification excluded. GB is decimal. Peak RSS is process high-water, not exact live heap."
+    },
+    "benchmark-base-unique": {
+      "scenario": {
+        "mode": "unique",
+        "samples": 24,
+        "records_per_lane": 16,
+        "sustain_seconds": 0
+      },
+      "body_bytes": 136884,
+      "telemetry_cycles": 48,
+      "membership_observations_per_source": {
+        "early_membership": 24,
+        "final_membership": 24,
+        "combined_membership": 24,
+        "nextgen_membership": 24
+      },
+      "elapsed_seconds": 11.846801656000025,
+      "application_bytes_written": 8821276,
+      "fsync_calls": 4161,
+      "retained_bytes": 8433221,
+      "allocated_bytes": 8445952,
+      "files": 4,
+      "directories": 0,
+      "body_objects": 0,
+      "first_cycle_application_bytes": 861073,
+      "first_cycle_retained_bytes": 686851,
+      "projected_application_GB_per_day": 3.17565936,
+      "projected_retained_GB_per_day": 3.03595956,
+      "projected_body_objects_per_day": 0,
+      "mean_cycle_wall_ms": 246.41497720836014,
+      "p95_cycle_wall_ms": 538.6526250003953,
+      "max_cycle_wall_ms": 1548.9319560001604,
+      "first_cycle_wall_ms": 1548.9319560001604,
+      "mean_cycle_cpu_ms": 245.92752166666668,
+      "total_cycle_cpu_seconds": 11.804521040000001,
+      "peak_rss_bytes": 56885248,
+      "incremental_peak_rss_bytes": 28278784,
+      "reopen_verify_wall_ms": 258.0935389996739,
+      "reopen_verify_cpu_ms": 257.9580569999997,
+      "max_scheduling_lateness_ms": 0.0,
+      "reopen_verified": true,
+      "offline": true,
+      "healthy_cycles": 48,
+      "unique_body_caveat": "No cross-observation dedup savings claimed when every body changes.",
+      "measurement_scope": "Application writes include all seven sources, events, anchors and markers; filesystem journal/device write amplification excluded. GB is decimal. Peak RSS is process high-water, not exact live heap."
+    },
+    "benchmark-dedup-unique": {
+      "scenario": {
+        "mode": "unique",
+        "samples": 24,
+        "records_per_lane": 16,
+        "sustain_seconds": 0
+      },
+      "body_bytes": 136884,
+      "telemetry_cycles": 48,
+      "membership_observations_per_source": {
+        "early_membership": 24,
+        "final_membership": 24,
+        "combined_membership": 24,
+        "nextgen_membership": 24
+      },
+      "elapsed_seconds": 4.9132188170005975,
+      "application_bytes_written": 4495622,
+      "fsync_calls": 4478,
+      "retained_bytes": 4088770,
+      "allocated_bytes": 4165632,
+      "files": 30,
+      "directories": 1,
+      "body_objects": 24,
+      "first_cycle_application_bytes": 703784,
+      "first_cycle_retained_bytes": 528767,
+      "projected_application_GB_per_day": 1.61842392,
+      "projected_retained_GB_per_day": 1.4719572,
+      "projected_body_objects_per_day": 8640.0,
+      "mean_cycle_wall_ms": 101.96885995818168,
+      "p95_cycle_wall_ms": 147.3664099976304,
+      "max_cycle_wall_ms": 1189.0160379989538,
+      "first_cycle_wall_ms": 1189.0160379989538,
+      "mean_cycle_cpu_ms": 101.50778862500003,
+      "total_cycle_cpu_seconds": 4.872373854000001,
+      "peak_rss_bytes": 41889792,
+      "incremental_peak_rss_bytes": 13213696,
+      "reopen_verify_wall_ms": 57.48689200117951,
+      "reopen_verify_cpu_ms": 57.46155200000036,
+      "max_scheduling_lateness_ms": 0.0,
+      "reopen_verified": true,
+      "offline": true,
+      "healthy_cycles": 48,
+      "unique_body_caveat": "No cross-observation dedup savings claimed when every body changes.",
+      "measurement_scope": "Application writes include all seven sources, events, anchors and markers; filesystem journal/device write amplification excluded. GB is decimal. Peak RSS is process high-water, not exact live heap."
+    },
+    "sustained-dedup": {
+      "scenario": {
+        "mode": "change6",
+        "samples": 24,
+        "records_per_lane": 16,
+        "sustain_seconds": 305.0
+      },
+      "body_bytes": 136884,
+      "telemetry_cycles": 61,
+      "membership_observations_per_source": {
+        "early_membership": 31,
+        "final_membership": 31,
+        "combined_membership": 31,
+        "nextgen_membership": 31
+      },
+      "elapsed_seconds": 305.01096098500057,
+      "application_bytes_written": 2188310,
+      "fsync_calls": 4920,
+      "retained_bytes": 1734929,
+      "allocated_bytes": 1769472,
+      "files": 12,
+      "directories": 1,
+      "body_objects": 6,
+      "first_cycle_application_bytes": 703784,
+      "first_cycle_retained_bytes": 528767,
+      "projected_application_GB_per_day": 0.6099031741935483,
+      "projected_retained_GB_per_day": 0.4835415019354839,
+      "projected_body_objects_per_day": 1672.258064516129,
+      "mean_cycle_wall_ms": 102.48718672140012,
+      "p95_cycle_wall_ms": 157.35873700032244,
+      "max_cycle_wall_ms": 1141.9741360004991,
+      "first_cycle_wall_ms": 1141.9741360004991,
+      "mean_cycle_cpu_ms": 101.001893852459,
+      "total_cycle_cpu_seconds": 6.161115525,
+      "peak_rss_bytes": 40427520,
+      "incremental_peak_rss_bytes": 11743232,
+      "reopen_verify_wall_ms": 79.78148300026078,
+      "reopen_verify_cpu_ms": 79.7393470000003,
+      "max_scheduling_lateness_ms": 1.9971859983343165,
+      "reopen_verified": true,
+      "offline": true,
+      "healthy_cycles": 61,
+      "unique_body_caveat": "No cross-observation dedup savings claimed when every body changes.",
+      "measurement_scope": "Application writes include all seven sources, events, anchors and markers; filesystem journal/device write amplification excluded. GB is decimal. Peak RSS is process high-water, not exact live heap."
+    },
+    "large-sustained-base": {
+      "scenario": {
+        "mode": "change6",
+        "samples": 24,
+        "records_per_lane": 192,
+        "sustain_seconds": 305.0
+      },
+      "body_bytes": 1634996,
+      "telemetry_cycles": 21,
+      "membership_observations_per_source": {
+        "early_membership": 11,
+        "final_membership": 11,
+        "combined_membership": 11,
+        "nextgen_membership": 11
+      },
+      "elapsed_seconds": 305.5300513600014,
+      "application_bytes_written": 48494679,
+      "fsync_calls": 22564,
+      "retained_bytes": 46363921,
+      "allocated_bytes": 46374912,
+      "files": 4,
+      "directories": 0,
+      "body_objects": 0,
+      "first_cycle_application_bytes": 10081747,
+      "first_cycle_retained_bytes": 8042449,
+      "projected_application_GB_per_day": 38.09036605090909,
+      "projected_retained_GB_per_day": 36.416752494545456,
+      "projected_body_objects_per_day": 0,
+      "mean_cycle_wall_ms": 10999.627397047292,
+      "p95_cycle_wall_ms": 2804.3887179992453,
+      "max_cycle_wall_ms": 205521.1240110002,
+      "first_cycle_wall_ms": 205521.1240110002,
+      "mean_cycle_cpu_ms": 10986.007070809523,
+      "total_cycle_cpu_seconds": 230.70614848699998,
+      "peak_rss_bytes": 210219008,
+      "incremental_peak_rss_bytes": 181649408,
+      "reopen_verify_wall_ms": 1525.448057000176,
+      "reopen_verify_cpu_ms": 1525.1630410000132,
+      "max_scheduling_lateness_ms": 200529.78273600093,
+      "reopen_verified": true,
+      "offline": true,
+      "healthy_cycles": 20,
+      "unhealthy_cycles": [
+        {
+          "cycle": 1,
+          "http_status": 503,
+          "failures": [
+            "source_unhealthy:production_main",
+            "source_unhealthy:brti_shared",
+            "source_unhealthy:scalp_combined",
+            "source_unhealthy:early_membership",
+            "source_unhealthy:final_membership",
+            "source_unhealthy:combined_membership",
+            "source_unhealthy:nextgen_membership"
+          ]
+        }
+      ],
+      "cycles_over_5_seconds": 1,
+      "expected_telemetry_cycles_at_5s": 61,
+      "unique_body_caveat": "No cross-observation dedup savings claimed when every body changes.",
+      "measurement_scope": "Application writes include all seven sources, events, anchors and markers; filesystem journal/device write amplification excluded. GB is decimal. Peak RSS is process high-water, not exact live heap."
+    },
+    "large-sustained-dedup": {
+      "scenario": {
+        "mode": "change6",
+        "samples": 24,
+        "records_per_lane": 192,
+        "sustain_seconds": 305.0
+      },
+      "body_bytes": 1634996,
+      "telemetry_cycles": 35,
+      "membership_observations_per_source": {
+        "early_membership": 18,
+        "final_membership": 18,
+        "combined_membership": 18,
+        "nextgen_membership": 18
+      },
+      "elapsed_seconds": 305.40971098299997,
+      "application_bytes_written": 11908877,
+      "fsync_calls": 23309,
+      "retained_bytes": 9714185,
+      "allocated_bytes": 9748480,
+      "files": 9,
+      "directories": 1,
+      "body_objects": 3,
+      "first_cycle_application_bytes": 8186149,
+      "first_cycle_retained_bytes": 6148771,
+      "projected_application_GB_per_day": 5.71626096,
+      "projected_retained_GB_per_day": 4.6628088,
+      "projected_body_objects_per_day": 1440.0,
+      "mean_cycle_wall_ms": 4390.797837171288,
+      "p95_cycle_wall_ms": 940.2850359983859,
+      "max_cycle_wall_ms": 136199.59540799755,
+      "first_cycle_wall_ms": 136199.59540799755,
+      "mean_cycle_cpu_ms": 4382.671821428571,
+      "total_cycle_cpu_seconds": 153.39351374999998,
+      "peak_rss_bytes": 105975808,
+      "incremental_peak_rss_bytes": 77238272,
+      "reopen_verify_wall_ms": 296.03166800006875,
+      "reopen_verify_cpu_ms": 295.97633800000267,
+      "max_scheduling_lateness_ms": 131208.23396200285,
+      "reopen_verified": true,
+      "offline": true,
+      "healthy_cycles": 34,
+      "unhealthy_cycles": [
+        {
+          "cycle": 1,
+          "http_status": 503,
+          "failures": [
+            "source_unhealthy:production_main",
+            "source_unhealthy:brti_shared",
+            "source_unhealthy:scalp_combined",
+            "source_unhealthy:early_membership",
+            "source_unhealthy:final_membership",
+            "source_unhealthy:combined_membership",
+            "source_unhealthy:nextgen_membership"
+          ]
+        }
+      ],
+      "cycles_over_5_seconds": 1,
+      "expected_telemetry_cycles_at_5s": 61,
+      "unique_body_caveat": "No cross-observation dedup savings claimed when every body changes.",
+      "measurement_scope": "Application writes include all seven sources, events, anchors and markers; filesystem journal/device write amplification excluded. GB is decimal. Peak RSS is process high-water, not exact live heap."
+    }
+  },
+  "runtime_sha256": "5f1e76da16d303e30531a23112fb99ad40dd24a5e34dca7e9c2b637c75b08f00",
+  "body_store_sha256": "91b21e8a5ee2c60d66b453d5cc942c007ee16f4e87e03269175ec58684ed59c1",
+  "notes": [
+    "All source requests use synthetic transports; venv sitecustomize audit hook rejects external DNS/connect, including child processes. Existing endpoint probes use loopback only.",
+    "Large cold-start tests ran concurrently in a shared container; timing and peak RSS are comparative local observations, not dedicated-hardware production guarantees.",
+    "Small sustained harness was instrumented before extra unhealthy-cycle reporting was added. Runtime/body-store code was unchanged. Its body-object/day field is a finite-window rate (6 objects/31 observations), not the stationary six-observation refresh rate of 1440/day.",
+    "Measured application writes include all synthetic feeds, new event population, anchors and intents. Other source bodies are smaller than known production bodies; these are not full production-volume estimates.",
+    "Unique-body scenario has zero reused body objects. No dedup savings are claimed there; any lower byte count is single-representation raw storage, a separate format effect.",
+    "Benchmark process exit zero means measurement completed, not that throughput/cadence passed.",
+    "An earlier large cold-start diagnostic using an assert-on-health harness failed with all seven source_unhealthy reasons; the final diagnostic harness retained those failures and completed measurement instead of discarding results."
+  ]
+}

@@ -36,6 +36,7 @@ from integrity_sentinel.recorder_core_v1 import (
     AppendOnlyHashChainLedger, existing_membership_ids, membership_events,
     utc_now,
 )
+from integrity_sentinel.nextgen_body_store_v1 import NextgenBodyStore, NextgenMembershipLedger
 from integrity_sentinel.source_adapters_v1 import adapt_source
 from integrity_sentinel.watchdog_health_v3 import watchdog_failures
 from integrity_sentinel.storage_guard_v1 import storage_status
@@ -167,6 +168,7 @@ class RecorderRuntime:
         self._thread = None
         self._last_success_mono = None
         self._source_mono = {}
+        self._membership_cycle_lock = threading.RLock()
         self.poll_sec = _number_env("SENTINEL_POLL_SEC", DEFAULT_POLL_SEC, 2)
         self.membership_poll_sec = _number_env("SENTINEL_MEMBERSHIP_POLL_SEC", DEFAULT_MEMBERSHIP_POLL_SEC, self.poll_sec)
         self.max_cycle_age_sec = max(30.0, 3 * self.membership_poll_sec)
@@ -187,7 +189,8 @@ class RecorderRuntime:
         }
         self.telemetry = AppendOnlyHashChainLedger(self.root / "telemetry.jsonl", self._storage_guard,
                                                  allow_failed_open=True)
-        self.membership = AppendOnlyHashChainLedger(self.root / "membership.jsonl", self._storage_guard,
+        self.nextgen_bodies = NextgenBodyStore(self.root, self._storage_guard)
+        self.membership = NextgenMembershipLedger(self.root / "membership.jsonl", self.nextgen_bodies, self._storage_guard,
                                                   allow_failed_open=True)
         ledgers_ok = self.telemetry.status().chain_valid and self.membership.status().chain_valid
         self.seen_membership = existing_membership_ids(self.membership) if ledgers_ok else set()
@@ -379,13 +382,16 @@ class RecorderRuntime:
                 # Every attempt, including empty/invalid membership, gets an
                 # immutable envelope BEFORE any derived membership event.
                 ledger = self.membership if kind == "membership" else self.telemetry
-                envelope_row = ledger.append(observation)
+                stored_observation = self.nextgen_bodies.compact(observation) if kind == "membership" else observation
+                envelope_row = ledger.append(stored_observation)
                 for event in events:
                     if event["event_id"] in self.seen_membership:
                         continue
                     event.update(observed_by_sentinel_utc=observation["completed_at_utc"],
                         observation_id=observation["observation_id"],
                         observation_record_hash=envelope_row["record_hash"])
+                    if "body_ref" in stored_observation:
+                        event["observation_body_sha256"] = stored_observation["body_sha256"]
                     self.membership.append(event)
                     self.seen_membership.add(event["event_id"])
                 statuses[source.name] = {
@@ -418,7 +424,8 @@ class RecorderRuntime:
         self._cycle("telemetry")
 
     def membership_cycle(self):
-        self._cycle("membership")
+        with self._membership_cycle_lock:
+            self._cycle("membership")
 
     def run_cycle(self, include_membership=True):
         with self.lock:
