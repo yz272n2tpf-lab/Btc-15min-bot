@@ -1,0 +1,54 @@
+{
+  "early": {
+    "commit_sha": "98d4cc8685d85bcab07b99448161c6d868c32b52",
+    "path": "BTC15_EARLY_FORWARD_SCORECARD_V1.py",
+    "sha256": "4f81d6e04ba4c81aea191b6cabd8d9088e032296a55d10cad879592265826565",
+    "git_blob": "237c85bcf8c3d24a4ab0c9ceaddf7d5f2b59e6b5",
+    "excerpts": {
+      "runtime_health": {
+        "line": 452,
+        "source": "def runtime_health(now: datetime | None = None) -> dict[str, Any]:\n    age = observer_age_seconds(now)\n    with RUNTIME_LOCK:\n        out = dict(RUNTIME)\n    alive = bool(out.get(\"observer_worker_alive\"))\n    healthy = bool(alive and age is not None and age <= OBSERVER_STALE_SEC)\n    return {\n        \"healthy\": healthy,\n        \"observer_age_sec\": age,\n        \"observer_stale_sec\": OBSERVER_STALE_SEC,\n        \"observer_worker_alive\": alive,\n        \"observer_restarts\": int(out.get(\"observer_restarts\") or 0),\n        \"observer_iterations\": int(out.get(\"observer_iterations\") or 0),\n        \"observer_successes\": int(out.get(\"observer_successes\") or 0),\n        \"observer_last_iteration_utc\": out.get(\"observer_last_iteration_utc\"),\n        \"observer_last_success_utc\": out.get(\"observer_last_success_utc\"),\n        \"observer_last_exception\": out.get(\"observer_last_exception\"),\n        \"active_generation\": int(out.get(\"active_generation\") or 0),\n    }"
+      },
+      "_worker_loop": {
+        "line": 481,
+        "source": "def _worker_loop(generation: int) -> None:\n    with RUNTIME_LOCK:\n        RUNTIME[\"observer_worker_alive\"] = True\n    try:\n        while True:\n            with RUNTIME_LOCK:\n                if generation != int(RUNTIME.get(\"active_generation\") or 0):\n                    return\n                RUNTIME[\"observer_iterations\"] = int(RUNTIME.get(\"observer_iterations\") or 0) + 1\n                RUNTIME[\"observer_last_iteration_utc\"] = _iso()\n            now = _now()\n            try:\n                _one_observer_iteration(now)\n                with RUNTIME_LOCK:\n                    RUNTIME[\"observer_successes\"] = int(RUNTIME.get(\"observer_successes\") or 0) + 1\n                    RUNTIME[\"observer_last_success_utc\"] = _iso(now)\n                    RUNTIME[\"observer_last_exception\"] = None\n            except Exception as exc:\n                msg = f\"{type(exc).__name__}:{exc}\"\n                with RUNTIME_LOCK:\n                    RUNTIME[\"observer_last_exception\"] = msg\n                with LOCK:\n                    STATE[\"last_error\"] = msg\n                print(f\"EARLY FORWARD WARNING | {msg} | FAIL CLOSED | NO ORDERS\", flush=True)\n            time.sleep(POLL_SEC)\n    finally:\n        with RUNTIME_LOCK:\n            if generation == int(RUNTIME.get(\"active_generation\") or 0):\n                RUNTIME[\"observer_worker_alive\"] = False"
+      },
+      "do_GET": {
+        "line": 584,
+        "source": "def do_GET(self):\n        path = urlparse(self.path).path\n        if path == \"/health\":\n            h = runtime_health()\n            with LOCK:\n                err = STATE.get(\"last_error\")\n                last_poll = STATE.get(\"last_poll_utc\")\n            return self._json(200 if h[\"healthy\"] else 503, {\n                \"ok\": h[\"healthy\"],\n                \"version\": VERSION,\n                \"watchdog\": h,\n                \"last_poll_utc\": last_poll,\n                \"last_error\": err,\n                \"protected_early_thresholds_changed\": False,\n                \"production_behavior_changed\": False,\n                \"numeric_flip_risk_validated\": False,\n                \"manual_execution_only\": True,\n                \"orders\": False,\n            })\n        if path == \"/state\":\n            return self._json(200, {\n                \"ok\": True,\n                \"version\": VERSION,\n                \"live\": summarize_state(),\n                \"watchdog\": runtime_health(),\n                \"orders\": False,\n                \"manual_execution_only\": True,\n            })\n        return self._json(404, {\"ok\": False, \"orders\": False, \"error\": \"not_found\"})"
+      }
+    }
+  },
+  "final": {
+    "commit_sha": "5a767fd40d394f86e9012bd96a9efefabfd081bf",
+    "path": "BTC15_FINAL_FORWARD_SCORECARD_V4.py",
+    "sha256": "d3eb3bee7bfd7cb3e3546371c4f38223626e935b2688aa9c175f240381a340b5",
+    "git_blob": "f9dbddbbf1eb8a41a5e618fe9a1cd51429153401",
+    "excerpts": {
+      "do_GET": {
+        "line": 210,
+        "source": "def do_GET(self):\n        from urllib.parse import urlparse\n\n        path = urlparse(self.path).path\n        if path == \"/state\":\n            with LOCK:\n                live = summarize_live_snapshot(STATE)\n                hist = STATE.get(\"historical\")\n                err = STATE.get(\"last_error\")\n                last_poll = STATE.get(\"last_poll_utc\")\n            return self._json(\n                200,\n                {\n                    \"ok\": True,\n                    \"version\": VERSION,\n                    \"historical\": hist,\n                    \"live\": live,\n                    \"watchdog\": v3.runtime_health(),\n                    \"last_poll_utc\": last_poll,\n                    \"last_error\": err,\n                    \"orders\": False,\n                    \"manual_execution_only\": True,\n                },\n            )\n        return super().do_GET()"
+      }
+    }
+  },
+  "final_watchdog": {
+    "commit_sha": "5a767fd40d394f86e9012bd96a9efefabfd081bf",
+    "path": "BTC15_FINAL_FORWARD_SCORECARD_V3.py",
+    "sha256": "1490cd974bd1387025cb76b4d3be3202a16d7510093ec28c2ff5cdbe739c7a76",
+    "git_blob": "2d3139314f9e8c36b942e5ef5f56e8384e7bfe44",
+    "excerpts": {
+      "runtime_health": {
+        "line": 105,
+        "source": "def runtime_health(now: datetime | None = None) -> dict[str, Any]:\n    age = observer_age_seconds(now)\n    with RUNTIME_LOCK:\n        worker_alive = bool(RUNTIME.get(\"observer_worker_alive\"))\n        out = dict(RUNTIME)\n    healthy = bool(worker_alive and age is not None and age <= OBSERVER_STALE_SEC)\n    return {\n        \"healthy\": healthy,\n        \"observer_age_sec\": age,\n        \"observer_stale_sec\": OBSERVER_STALE_SEC,\n        \"observer_worker_alive\": worker_alive,\n        \"observer_restarts\": int(out.get(\"observer_restarts\") or 0),\n        \"observer_iterations\": int(out.get(\"observer_iterations\") or 0),\n        \"observer_successes\": int(out.get(\"observer_successes\") or 0),\n        \"observer_last_iteration_utc\": out.get(\"observer_last_iteration_utc\"),\n        \"observer_last_success_utc\": out.get(\"observer_last_success_utc\"),\n        \"observer_last_exception\": out.get(\"observer_last_exception\"),\n        \"active_generation\": int(out.get(\"active_generation\") or 0),\n    }"
+      },
+      "_worker_loop": {
+        "line": 134,
+        "source": "def _worker_loop(generation: int) -> None:\n    with RUNTIME_LOCK:\n        RUNTIME[\"observer_worker_alive\"] = True\n    try:\n        while True:\n            with RUNTIME_LOCK:\n                if generation != int(RUNTIME.get(\"active_generation\") or 0):\n                    return\n                RUNTIME[\"observer_iterations\"] = int(RUNTIME.get(\"observer_iterations\") or 0) + 1\n                RUNTIME[\"observer_last_iteration_utc\"] = _iso()\n            now = datetime.now(timezone.utc)\n            try:\n                _one_observer_iteration(now)\n                with RUNTIME_LOCK:\n                    RUNTIME[\"observer_successes\"] = int(RUNTIME.get(\"observer_successes\") or 0) + 1\n                    RUNTIME[\"observer_last_success_utc\"] = _iso(now)\n                    RUNTIME[\"observer_last_exception\"] = None\n            except Exception as exc:\n                msg = f\"{type(exc).__name__}:{exc}\"\n                with RUNTIME_LOCK:\n                    RUNTIME[\"observer_last_exception\"] = msg\n                with LOCK:\n                    STATE[\"last_error\"] = msg\n                print(f\"FINAL FORWARD V3 WARNING | {msg} | FAIL CLOSED | NO ORDERS\", flush=True)\n            time.sleep(POLL_SEC)\n    finally:\n        with RUNTIME_LOCK:\n            if generation == int(RUNTIME.get(\"active_generation\") or 0):\n                RUNTIME[\"observer_worker_alive\"] = False"
+      },
+      "do_GET": {
+        "line": 225,
+        "source": "def do_GET(self):\n        path = urlparse(self.path).path\n        if path == \"/health\":\n            h = runtime_health()\n            with LOCK:\n                last_poll = STATE.get(\"last_poll_utc\")\n                err = STATE.get(\"last_error\")\n            return self._json(200 if h[\"healthy\"] else 503, {\n                \"ok\": h[\"healthy\"],\n                \"version\": VERSION,\n                \"last_poll_utc\": last_poll,\n                \"last_error\": err,\n                \"watchdog\": h,\n                \"orders\": False,\n                \"manual_execution_only\": True,\n                \"protected_final_thresholds_changed\": False,\n                \"numeric_flip_risk_validated\": False,\n                \"partial_start_contract_counted\": False,\n            })\n        if path == \"/state\":\n            with LOCK:\n                live = v2.summarize_live_snapshot(STATE)\n                hist = STATE.get(\"historical\")\n                err = STATE.get(\"last_error\")\n                last_poll = STATE.get(\"last_poll_utc\")\n            return self._json(200, {\n                \"ok\": True,\n                \"version\": VERSION,\n                \"historical\": hist,\n                \"live\": live,\n                \"watchdog\": runtime_health(),\n                \"last_poll_utc\": last_poll,\n                \"last_error\": err,\n                \"orders\": False,\n                \"manual_execution_only\": True,\n            })\n        return super().do_GET()"
+      }
+    }
+  }
+}

@@ -37,6 +37,7 @@ from integrity_sentinel.recorder_core_v1 import (
     utc_now,
 )
 from integrity_sentinel.source_adapters_v1 import adapt_source
+from integrity_sentinel.watchdog_health_v3 import watchdog_failures
 from integrity_sentinel.storage_guard_v1 import storage_status
 from integrity_sentinel.control_attestation_v1 import load_manifest, manifest_sha256, compare_manifest, validate_manifest
 
@@ -331,11 +332,15 @@ class RecorderRuntime:
                 observed_times[source.name] = observation.pop("_completed_mono")
                 payload = observation["payload"]
                 events = []
-                failures = []
+                # Evaluate watchdog before normalization/membership extraction,
+                # even for a parsed error response or another validation fault.
+                # The original payload/body remain untouched in the envelope.
+                failures = watchdog_failures(payload, required=source.name in {
+                    "early_membership", "final_membership"}) if isinstance(payload, Mapping) else []
                 if observation["error_type"] is None and isinstance(payload, Mapping):
                     try:
                         observation["normalized"] = adapt_source(source.name, payload)
-                        failures = _payload_failures(payload)
+                        failures.extend(_payload_failures(payload))
                         normalized = observation["normalized"]
                         for key in ("source_age_sec", "age_sec", "kalshi_age_sec", "coinbase_age_sec", "brti_age_sec"):
                             if key in payload:

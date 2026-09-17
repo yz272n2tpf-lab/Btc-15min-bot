@@ -1,0 +1,4450 @@
+{
+  "starting_head": "a9ac1fbd6fc0975e230e6bcc37a49ecbee25f375",
+  "production_main": "8b7f8b48694364cb8c47456d0ab491b102aa42c0",
+  "integrity_tree": "cb6c41f4bd62246baa272f94f33e54a8a54238ba",
+  "python": "3.12.14",
+  "requests": "2.34.2",
+  "network": "offline source transports; loopback HTTP endpoints only; external DNS/connect audit blocked",
+  "compile": {
+    "count": 18,
+    "files": [
+      "__init__.py",
+      "adversarial_hardening_v1.py",
+      "adversarial_remediation_v2.py",
+      "adversarial_watchdog_v3.py",
+      "control_attestation_v1.py",
+      "identity_v1.py",
+      "recorder_core_v1.py",
+      "runtime_v1.py",
+      "source_adapters_v1.py",
+      "storage_guard_v1.py",
+      "test_control_attestation_v1.py",
+      "test_hardening_v1.py",
+      "test_recorder_core_v1.py",
+      "test_remediation_v2.py",
+      "test_runtime_safety_v1.py",
+      "test_storage_guard_v1.py",
+      "test_watchdog_v3.py",
+      "watchdog_health_v3.py"
+    ]
+  },
+  "unit_suites": {
+    "sentinel_tests": {
+      "passed": 296,
+      "total": 296,
+      "output_tail": [
+        "----------------------------------------------------------------------",
+        "Ran 296 tests in 3.204s",
+        "",
+        "OK"
+      ],
+      "log_sha256": "e4d873300ebdaac282b993b2897393e985b61b5d7a3b0aedd07161c123cced54"
+    },
+    "integrity_tests": {
+      "passed": 62,
+      "total": 62,
+      "output_tail": [
+        "----------------------------------------------------------------------",
+        "Ran 62 tests in 0.603s",
+        "",
+        "OK"
+      ],
+      "log_sha256": "0035eb6766afa13d448ef26a4fc965277d00b5412d993ba33eeaca49d36370cc"
+    }
+  },
+  "integrity_adversarial": {
+    "positive_control": "CLEAN",
+    "passed": 7,
+    "total": 7,
+    "findings": [
+      {
+        "finding": 1,
+        "result": "PASS",
+        "details": {
+          "cases": 10,
+          "source_bytes_unchanged": true
+        }
+      },
+      {
+        "finding": 2,
+        "result": "PASS",
+        "details": {
+          "cases": 40,
+          "all_invalid_values_blocked": true
+        }
+      },
+      {
+        "finding": 3,
+        "result": "PASS",
+        "details": {
+          "path_observations": 169,
+          "feed_samples": 1,
+          "results": {
+            "kalshi": "INVALID_FOR_CERT",
+            "brti": "INVALID_FOR_CERT",
+            "coinbase": "INVALID_FOR_CERT"
+          }
+        }
+      },
+      {
+        "finding": 4,
+        "result": "PASS",
+        "details": {
+          "parity_fail_count": 1,
+          "classification": "INVALID_FOR_CERT"
+        }
+      },
+      {
+        "finding": 5,
+        "result": "PASS",
+        "details": {
+          "sequence": [
+            1000,
+            1,
+            1840
+          ],
+          "delta": null,
+          "results": {
+            "brti_attempts_total": "INVALID_FOR_CERT",
+            "brti_429_total": "INVALID_FOR_CERT"
+          }
+        }
+      },
+      {
+        "finding": 6,
+        "result": "PASS",
+        "details": {
+          "brti_feed_clean": "INVALID_FOR_CERT",
+          "direct_brti_ready": "INVALID_FOR_CERT",
+          "coinbase_timeout": "INVALID_FOR_CERT"
+        }
+      },
+      {
+        "finding": 7,
+        "result": "PASS",
+        "details": {
+          "inferred_lag_sec": 1.0,
+          "results": {
+            "exact_ticker": {
+              "lag_sec": 35.7,
+              "classification": "INVALID_FOR_CERT"
+            },
+            "combined": {
+              "lag_sec": 35.7,
+              "classification": "INVALID_FOR_CERT"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "sentinel_adversarial": {
+    "passed": 28,
+    "total": 28,
+    "network": "offline source transport; health HTTP on loopback only",
+    "results": [
+      {
+        "probe": "01 redirect to Kalshi",
+        "result": "PASS"
+      },
+      {
+        "probe": "02 redirect to Coinbase",
+        "result": "PASS"
+      },
+      {
+        "probe": "03 redirect HTTP/non-Railway/approved-hop",
+        "result": "PASS"
+      },
+      {
+        "probe": "04 required source unavailable",
+        "result": "PASS"
+      },
+      {
+        "probe": "05 HTTP-200 source failure/staleness",
+        "result": "PASS"
+      },
+      {
+        "probe": "06 write failure then health and recovery",
+        "result": "PASS"
+      },
+      {
+        "probe": "07 recorder dead/stale",
+        "result": "PASS"
+      },
+      {
+        "probe": "08 short write",
+        "result": "PASS"
+      },
+      {
+        "probe": "09 missing final newline",
+        "result": "PASS"
+      },
+      {
+        "probe": "10 complete tail deletion",
+        "result": "PASS"
+      },
+      {
+        "probe": "11 full truncation",
+        "result": "PASS"
+      },
+      {
+        "probe": "12 blank/null control manifest",
+        "result": "PASS"
+      },
+      {
+        "probe": "13 missing actual control capture",
+        "result": "PASS"
+      },
+      {
+        "probe": "14 control mismatch",
+        "result": "PASS"
+      },
+      {
+        "probe": "15 real Combined membership shape",
+        "result": "PASS"
+      },
+      {
+        "probe": "16 real Nextgen membership shapes",
+        "result": "PASS"
+      },
+      {
+        "probe": "17 HTTP-error body retention",
+        "result": "PASS"
+      },
+      {
+        "probe": "18 malformed JSON retention",
+        "result": "PASS"
+      },
+      {
+        "probe": "19 wrong-type JSON retention",
+        "result": "PASS"
+      },
+      {
+        "probe": "20 empty membership envelope",
+        "result": "PASS"
+      },
+      {
+        "probe": "21 generic age is not Kalshi",
+        "result": "PASS"
+      },
+      {
+        "probe": "22 missing Coinbase freshness",
+        "result": "PASS"
+      },
+      {
+        "probe": "23 low-disk membership block",
+        "result": "PASS"
+      },
+      {
+        "probe": "24 invalid contract IDs",
+        "result": "PASS"
+      },
+      {
+        "probe": "25 within-payload ID conflicts",
+        "result": "PASS"
+      },
+      {
+        "probe": "26 cross-source disagreement",
+        "result": "PASS"
+      },
+      {
+        "probe": "27 invalid BRTI counters",
+        "result": "PASS"
+      },
+      {
+        "probe": "28 empty user-info URLs",
+        "result": "PASS"
+      }
+    ]
+  },
+  "v2_adversarial": {
+    "passed": 9,
+    "total": 9,
+    "network": "offline Requests adapter; health endpoints loopback only",
+    "results": [
+      {
+        "probe": "final directory fsync / telemetry / fresh processes",
+        "result": "PASS",
+        "detail": {
+          "separate_processes": 3,
+          "stages": [
+            {
+              "injected_final_fsync_failures": 1,
+              "complete_row_and_anchor": true,
+              "after_failure": {
+                "health_status": 503,
+                "state_ok": false
+              },
+              "pid": 6,
+              "ledger": "telemetry",
+              "files": {
+                "membership.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "membership.jsonl.anchor.json": "5403be9e4b15fc8432f69595ff7e2909de0f34b768be4603d5a739f97aed314e",
+                "telemetry.jsonl": "dddb3a333e16f2fa2cfc918333dda678ccf7ad3388dc5da84fc2dc3095606561",
+                "telemetry.jsonl.anchor.json": "ad65877b0950ed91fc90b22576aae0cece77728ecc29fe2993bfc076e02aedd9",
+                "telemetry.jsonl.durability-pending.json": "073a6d3138162f54abf3e078b2c0cc95130aafe9cd0d4a63c2934a148111a6cb"
+              }
+            },
+            {
+              "after_reopen": {
+                "health_status": 503,
+                "state_ok": false
+              },
+              "after_subsequent_cycle": {
+                "health_status": 503,
+                "state_ok": false
+              },
+              "evidence_unchanged": true,
+              "cycle_source_requests": 0,
+              "failure_count": 2,
+              "pid": 14,
+              "ledger": "telemetry",
+              "files": {
+                "membership.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "membership.jsonl.anchor.json": "5403be9e4b15fc8432f69595ff7e2909de0f34b768be4603d5a739f97aed314e",
+                "telemetry.jsonl": "dddb3a333e16f2fa2cfc918333dda678ccf7ad3388dc5da84fc2dc3095606561",
+                "telemetry.jsonl.anchor.json": "ad65877b0950ed91fc90b22576aae0cece77728ecc29fe2993bfc076e02aedd9",
+                "telemetry.jsonl.durability-pending.json": "073a6d3138162f54abf3e078b2c0cc95130aafe9cd0d4a63c2934a148111a6cb"
+              }
+            },
+            {
+              "after_reopen": {
+                "health_status": 503,
+                "state_ok": false
+              },
+              "after_subsequent_cycle": {
+                "health_status": 503,
+                "state_ok": false
+              },
+              "evidence_unchanged": true,
+              "cycle_source_requests": 0,
+              "failure_count": 2,
+              "pid": 23,
+              "ledger": "telemetry",
+              "files": {
+                "membership.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "membership.jsonl.anchor.json": "5403be9e4b15fc8432f69595ff7e2909de0f34b768be4603d5a739f97aed314e",
+                "telemetry.jsonl": "dddb3a333e16f2fa2cfc918333dda678ccf7ad3388dc5da84fc2dc3095606561",
+                "telemetry.jsonl.anchor.json": "ad65877b0950ed91fc90b22576aae0cece77728ecc29fe2993bfc076e02aedd9",
+                "telemetry.jsonl.durability-pending.json": "073a6d3138162f54abf3e078b2c0cc95130aafe9cd0d4a63c2934a148111a6cb"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "probe": "final directory fsync / membership / fresh processes",
+        "result": "PASS",
+        "detail": {
+          "separate_processes": 3,
+          "stages": [
+            {
+              "injected_final_fsync_failures": 1,
+              "complete_row_and_anchor": true,
+              "after_failure": {
+                "health_status": 503,
+                "state_ok": false
+              },
+              "pid": 32,
+              "ledger": "membership",
+              "files": {
+                "membership.jsonl": "256f90526bcb06d330e8ee960c36484fdb49bf2b1d7257bc6517c4c9c042343a",
+                "membership.jsonl.anchor.json": "5569eced984fc22f2440aa985014ead19acbf4b544d076c6d93fa4c58a7b7aab",
+                "membership.jsonl.durability-pending.json": "f4567fce2e753d92b9eace724a9f50a0351efc19d4292edb8068c3430b0dbf7c",
+                "telemetry.jsonl": "56433345f45089441ed75da62eb2fa5e7639fbd7d919a1b1778e23345947e8ea",
+                "telemetry.jsonl.anchor.json": "edb9964f796373165383353fcb024279b901d1ca4de7ea85851ce33851942216"
+              }
+            },
+            {
+              "after_reopen": {
+                "health_status": 503,
+                "state_ok": false
+              },
+              "after_subsequent_cycle": {
+                "health_status": 503,
+                "state_ok": false
+              },
+              "evidence_unchanged": true,
+              "cycle_source_requests": 0,
+              "failure_count": 2,
+              "pid": 40,
+              "ledger": "membership",
+              "files": {
+                "membership.jsonl": "256f90526bcb06d330e8ee960c36484fdb49bf2b1d7257bc6517c4c9c042343a",
+                "membership.jsonl.anchor.json": "5569eced984fc22f2440aa985014ead19acbf4b544d076c6d93fa4c58a7b7aab",
+                "membership.jsonl.durability-pending.json": "f4567fce2e753d92b9eace724a9f50a0351efc19d4292edb8068c3430b0dbf7c",
+                "telemetry.jsonl": "56433345f45089441ed75da62eb2fa5e7639fbd7d919a1b1778e23345947e8ea",
+                "telemetry.jsonl.anchor.json": "edb9964f796373165383353fcb024279b901d1ca4de7ea85851ce33851942216"
+              }
+            },
+            {
+              "after_reopen": {
+                "health_status": 503,
+                "state_ok": false
+              },
+              "after_subsequent_cycle": {
+                "health_status": 503,
+                "state_ok": false
+              },
+              "evidence_unchanged": true,
+              "cycle_source_requests": 0,
+              "failure_count": 2,
+              "pid": 49,
+              "ledger": "membership",
+              "files": {
+                "membership.jsonl": "256f90526bcb06d330e8ee960c36484fdb49bf2b1d7257bc6517c4c9c042343a",
+                "membership.jsonl.anchor.json": "5569eced984fc22f2440aa985014ead19acbf4b544d076c6d93fa4c58a7b7aab",
+                "membership.jsonl.durability-pending.json": "f4567fce2e753d92b9eace724a9f50a0351efc19d4292edb8068c3430b0dbf7c",
+                "telemetry.jsonl": "56433345f45089441ed75da62eb2fa5e7639fbd7d919a1b1778e23345947e8ea",
+                "telemetry.jsonl.anchor.json": "edb9964f796373165383353fcb024279b901d1ca4de7ea85851ce33851942216"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "probe": "malformed Location",
+        "result": "PASS",
+        "detail": {
+          "cases": 8,
+          "results": [
+            {
+              "location": "https://[broken",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://[broken",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://[broken",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://[broken",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://example.org/\u00ff",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://example.org/\u00ff",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://example.org/\u00ff",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://example.org/\u00ff",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            }
+          ]
+        }
+      },
+      {
+        "probe": "Kalshi Location",
+        "result": "PASS",
+        "detail": {
+          "cases": 4,
+          "results": [
+            {
+              "location": "https://external-api.kalshi.com/trade-api/v2/markets",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://external-api.kalshi.com/trade-api/v2/markets",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://external-api.kalshi.com/trade-api/v2/markets",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://external-api.kalshi.com/trade-api/v2/markets",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            }
+          ]
+        }
+      },
+      {
+        "probe": "Coinbase Location",
+        "result": "PASS",
+        "detail": {
+          "cases": 4,
+          "results": [
+            {
+              "location": "https://api.exchange.coinbase.com/products/BTC-USD/ticker",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://api.exchange.coinbase.com/products/BTC-USD/ticker",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://api.exchange.coinbase.com/products/BTC-USD/ticker",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://api.exchange.coinbase.com/products/BTC-USD/ticker",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            }
+          ]
+        }
+      },
+      {
+        "probe": "HTTP Location",
+        "result": "PASS",
+        "detail": {
+          "cases": 4,
+          "results": [
+            {
+              "location": "http://v2-offline.up.railway.app/state",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "http://v2-offline.up.railway.app/state",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "http://v2-offline.up.railway.app/state",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "http://v2-offline.up.railway.app/state",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            }
+          ]
+        }
+      },
+      {
+        "probe": "non-Railway Location",
+        "result": "PASS",
+        "detail": {
+          "cases": 4,
+          "results": [
+            {
+              "location": "https://example.org/state",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://example.org/state",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://example.org/state",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://example.org/state",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            }
+          ]
+        }
+      },
+      {
+        "probe": "alternate Railway Location",
+        "result": "PASS",
+        "detail": {
+          "cases": 4,
+          "results": [
+            {
+              "location": "https://other.up.railway.app/state",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://other.up.railway.app/state",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://other.up.railway.app/state",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://other.up.railway.app/state",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            }
+          ]
+        }
+      },
+      {
+        "probe": "other blocked destinations",
+        "result": "PASS",
+        "detail": {
+          "cases": 28,
+          "results": [
+            {
+              "location": "https://www.cfbenchmarks.com/data/indices/BRTI",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://www.cfbenchmarks.com/data/indices/BRTI",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://www.cfbenchmarks.com/data/indices/BRTI",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://www.cfbenchmarks.com/data/indices/BRTI",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app:444/state",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app:444/state",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app:444/state",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app:444/state",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://@v2-offline.up.railway.app/state",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://@v2-offline.up.railway.app/state",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://@v2-offline.up.railway.app/state",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://@v2-offline.up.railway.app/state",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://user@v2-offline.up.railway.app/state",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://user@v2-offline.up.railway.app/state",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://user@v2-offline.up.railway.app/state",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://user@v2-offline.up.railway.app/state",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app/state#fragment",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app/state#fragment",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app/state#fragment",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app/state#fragment",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app/state\r\ninvalid",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app/state\r\ninvalid",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app/state\r\ninvalid",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app/state\r\ninvalid",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app\\@example.org/state",
+              "http_status": 301,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app\\@example.org/state",
+              "http_status": 301,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app\\@example.org/state",
+              "http_status": 302,
+              "parse_outcome": "OBJECT",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            },
+            {
+              "location": "https://v2-offline.up.railway.app\\@example.org/state",
+              "http_status": 302,
+              "parse_outcome": "MALFORMED_JSON",
+              "source_requests": 1,
+              "redirect_hops": 0,
+              "complete_envelope_retained": true
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "v3_adversarial": {
+    "watchdog_matrix": [
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "producer_healthy",
+        "result": "PASS",
+        "health_http": 200,
+        "state_ok": true,
+        "source_ok": true,
+        "immutable_observation": true,
+        "source_failures": []
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "producer_dead",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:false",
+          "watchdog.observer_worker_alive:false"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "producer_stale",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:false",
+          "watchdog.observer_age_sec:stale"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "producer_error",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_last_exception:present"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "healthy_false",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:false"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "contradictory_flags",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:false"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "healthy_but_dead",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_worker_alive:false"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "healthy_but_stale",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_age_sec:stale"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "malformed_healthy_0",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "malformed_healthy_1",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "malformed_healthy_string_true",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "malformed_healthy_string_false",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "malformed_healthy_null",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "malformed_healthy_list",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "malformed_healthy_object",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "malformed_observer_age_sec_negative",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "malformed_observer_age_sec_null",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "malformed_observer_age_sec_string",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "malformed_observer_age_sec_boolean",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "malformed_observer_age_sec_list",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "malformed_observer_age_sec_object",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "malformed_observer_age_sec_overflow",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "malformed_observer_stale_sec_negative",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "malformed_observer_stale_sec_null",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "malformed_observer_stale_sec_string",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "malformed_observer_stale_sec_boolean",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "malformed_observer_stale_sec_list",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "malformed_observer_stale_sec_object",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "malformed_observer_stale_sec_overflow",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "status_'DEAD'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.status:negative_or_unknown:DEAD"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "status_'STALE'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.status:negative_or_unknown:STALE"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "status_'ERROR'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.status:negative_or_unknown:ERROR"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "status_'FAILED'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.status:negative_or_unknown:FAILED"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "status_'UNHEALTHY'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.status:negative_or_unknown:UNHEALTHY"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "status_None",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.status:invalid_state"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "status_[]",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.status:invalid_state"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "status_{}",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.status:invalid_state"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "state_'DEAD'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.state:negative_or_unknown:DEAD"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "state_'STALE'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.state:negative_or_unknown:STALE"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "state_'ERROR'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.state:negative_or_unknown:ERROR"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "state_'FAILED'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.state:negative_or_unknown:FAILED"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "state_'UNHEALTHY'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.state:negative_or_unknown:UNHEALTHY"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "state_None",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.state:invalid_state"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "state_[]",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.state:invalid_state"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "state_{}",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.state:invalid_state"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "watchdog_null",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog:invalid_object"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "watchdog_list",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog:invalid_object"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "root",
+        "case": "watchdog_empty",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:missing"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "producer_healthy",
+        "result": "PASS",
+        "health_http": 200,
+        "state_ok": true,
+        "source_ok": true,
+        "immutable_observation": true,
+        "source_failures": []
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "producer_dead",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:false",
+          "live.watchdog.observer_worker_alive:false"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "producer_stale",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:false",
+          "live.watchdog.observer_age_sec:stale"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "producer_error",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_last_exception:present"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "healthy_false",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:false"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "contradictory_flags",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:false"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "healthy_but_dead",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_worker_alive:false"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "healthy_but_stale",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_age_sec:stale"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "malformed_healthy_0",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "malformed_healthy_1",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "malformed_healthy_string_true",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "malformed_healthy_string_false",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "malformed_healthy_null",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "malformed_healthy_list",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "malformed_healthy_object",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "malformed_observer_age_sec_negative",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "malformed_observer_age_sec_null",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "malformed_observer_age_sec_string",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "malformed_observer_age_sec_boolean",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "malformed_observer_age_sec_list",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "malformed_observer_age_sec_object",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "malformed_observer_age_sec_overflow",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "malformed_observer_stale_sec_negative",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "malformed_observer_stale_sec_null",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "malformed_observer_stale_sec_string",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "malformed_observer_stale_sec_boolean",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "malformed_observer_stale_sec_list",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "malformed_observer_stale_sec_object",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "malformed_observer_stale_sec_overflow",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "status_'DEAD'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.status:negative_or_unknown:DEAD"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "status_'STALE'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.status:negative_or_unknown:STALE"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "status_'ERROR'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.status:negative_or_unknown:ERROR"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "status_'FAILED'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.status:negative_or_unknown:FAILED"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "status_'UNHEALTHY'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.status:negative_or_unknown:UNHEALTHY"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "status_None",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.status:invalid_state"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "status_[]",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.status:invalid_state"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "status_{}",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.status:invalid_state"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "state_'DEAD'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.state:negative_or_unknown:DEAD"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "state_'STALE'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.state:negative_or_unknown:STALE"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "state_'ERROR'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.state:negative_or_unknown:ERROR"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "state_'FAILED'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.state:negative_or_unknown:FAILED"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "state_'UNHEALTHY'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.state:negative_or_unknown:UNHEALTHY"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "state_None",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.state:invalid_state"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "state_[]",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.state:invalid_state"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "state_{}",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.state:invalid_state"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "watchdog_null",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog:invalid_object"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "watchdog_list",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog:invalid_object"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "location": "live",
+        "case": "watchdog_empty",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:missing"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "case": "conflicting_locations_root",
+        "result": "PASS",
+        "source_failures": [
+          "watchdog.healthy:false"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "case": "conflicting_locations_live",
+        "result": "PASS",
+        "source_failures": [
+          "live.watchdog.healthy:false"
+        ]
+      },
+      {
+        "source": "early_membership",
+        "case": "missing_watchdog",
+        "result": "PASS",
+        "source_failures": [
+          "watchdog:missing"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "producer_healthy",
+        "result": "PASS",
+        "health_http": 200,
+        "state_ok": true,
+        "source_ok": true,
+        "immutable_observation": true,
+        "source_failures": []
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "producer_dead",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:false",
+          "watchdog.observer_worker_alive:false"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "producer_stale",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:false",
+          "watchdog.observer_age_sec:stale"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "producer_error",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_last_exception:present"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "healthy_false",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:false"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "contradictory_flags",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:false"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "healthy_but_dead",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_worker_alive:false"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "healthy_but_stale",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_age_sec:stale"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "malformed_healthy_0",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "malformed_healthy_1",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "malformed_healthy_string_true",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "malformed_healthy_string_false",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "malformed_healthy_null",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "malformed_healthy_list",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "malformed_healthy_object",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "malformed_observer_age_sec_negative",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "malformed_observer_age_sec_null",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "malformed_observer_age_sec_string",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "malformed_observer_age_sec_boolean",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "malformed_observer_age_sec_list",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "malformed_observer_age_sec_object",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "malformed_observer_age_sec_overflow",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "malformed_observer_stale_sec_negative",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "malformed_observer_stale_sec_null",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "malformed_observer_stale_sec_string",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "malformed_observer_stale_sec_boolean",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "malformed_observer_stale_sec_list",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "malformed_observer_stale_sec_object",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "malformed_observer_stale_sec_overflow",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "status_'DEAD'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.status:negative_or_unknown:DEAD"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "status_'STALE'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.status:negative_or_unknown:STALE"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "status_'ERROR'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.status:negative_or_unknown:ERROR"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "status_'FAILED'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.status:negative_or_unknown:FAILED"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "status_'UNHEALTHY'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.status:negative_or_unknown:UNHEALTHY"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "status_None",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.status:invalid_state"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "status_[]",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.status:invalid_state"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "status_{}",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.status:invalid_state"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "state_'DEAD'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.state:negative_or_unknown:DEAD"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "state_'STALE'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.state:negative_or_unknown:STALE"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "state_'ERROR'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.state:negative_or_unknown:ERROR"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "state_'FAILED'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.state:negative_or_unknown:FAILED"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "state_'UNHEALTHY'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.state:negative_or_unknown:UNHEALTHY"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "state_None",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.state:invalid_state"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "state_[]",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.state:invalid_state"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "state_{}",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.state:invalid_state"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "watchdog_null",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog:invalid_object"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "watchdog_list",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog:invalid_object"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "root",
+        "case": "watchdog_empty",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "watchdog.healthy:missing"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "producer_healthy",
+        "result": "PASS",
+        "health_http": 200,
+        "state_ok": true,
+        "source_ok": true,
+        "immutable_observation": true,
+        "source_failures": []
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "producer_dead",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:false",
+          "live.watchdog.observer_worker_alive:false"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "producer_stale",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:false",
+          "live.watchdog.observer_age_sec:stale"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "producer_error",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_last_exception:present"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "healthy_false",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:false"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "contradictory_flags",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:false"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "healthy_but_dead",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_worker_alive:false"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "healthy_but_stale",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_age_sec:stale"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "malformed_healthy_0",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "malformed_healthy_1",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "malformed_healthy_string_true",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "malformed_healthy_string_false",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "malformed_healthy_null",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "malformed_healthy_list",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "malformed_healthy_object",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:invalid_boolean"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "malformed_observer_age_sec_negative",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "malformed_observer_age_sec_null",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "malformed_observer_age_sec_string",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "malformed_observer_age_sec_boolean",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "malformed_observer_age_sec_list",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "malformed_observer_age_sec_object",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "malformed_observer_age_sec_overflow",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_age_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "malformed_observer_stale_sec_negative",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "malformed_observer_stale_sec_null",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "malformed_observer_stale_sec_string",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "malformed_observer_stale_sec_boolean",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "malformed_observer_stale_sec_list",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "malformed_observer_stale_sec_object",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "malformed_observer_stale_sec_overflow",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.observer_stale_sec:invalid_measurement"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "status_'DEAD'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.status:negative_or_unknown:DEAD"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "status_'STALE'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.status:negative_or_unknown:STALE"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "status_'ERROR'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.status:negative_or_unknown:ERROR"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "status_'FAILED'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.status:negative_or_unknown:FAILED"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "status_'UNHEALTHY'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.status:negative_or_unknown:UNHEALTHY"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "status_None",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.status:invalid_state"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "status_[]",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.status:invalid_state"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "status_{}",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.status:invalid_state"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "state_'DEAD'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.state:negative_or_unknown:DEAD"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "state_'STALE'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.state:negative_or_unknown:STALE"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "state_'ERROR'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.state:negative_or_unknown:ERROR"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "state_'FAILED'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.state:negative_or_unknown:FAILED"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "state_'UNHEALTHY'",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.state:negative_or_unknown:UNHEALTHY"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "state_None",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.state:invalid_state"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "state_[]",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.state:invalid_state"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "state_{}",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.state:invalid_state"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "watchdog_null",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog:invalid_object"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "watchdog_list",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog:invalid_object"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "location": "live",
+        "case": "watchdog_empty",
+        "result": "PASS",
+        "health_http": 503,
+        "state_ok": false,
+        "source_ok": false,
+        "immutable_observation": true,
+        "source_failures": [
+          "live.watchdog.healthy:missing"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "case": "conflicting_locations_root",
+        "result": "PASS",
+        "source_failures": [
+          "watchdog.healthy:false"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "case": "conflicting_locations_live",
+        "result": "PASS",
+        "source_failures": [
+          "live.watchdog.healthy:false"
+        ]
+      },
+      {
+        "source": "final_membership",
+        "case": "missing_watchdog",
+        "result": "PASS",
+        "source_failures": [
+          "watchdog:missing"
+        ]
+      }
+    ],
+    "lifecycle": [
+      {
+        "source": "early_membership",
+        "case": "healthy_unhealthy_recovery",
+        "result": "PASS",
+        "telemetry_only_cannot_clear": true,
+        "other_failed_gate_blocks_recovery": true,
+        "negative_history_byte_identical": true,
+        "reopened_chain_valid": true
+      },
+      {
+        "source": "final_membership",
+        "case": "healthy_unhealthy_recovery",
+        "result": "PASS",
+        "telemetry_only_cannot_clear": true,
+        "other_failed_gate_blocks_recovery": true,
+        "negative_history_byte_identical": true,
+        "reopened_chain_valid": true
+      }
+    ],
+    "prior_false_health_matrix": [
+      {
+        "case": "outage",
+        "result": "PASS",
+        "health_failures": [
+          "source_unhealthy:production_main"
+        ]
+      },
+      {
+        "case": "payload_stale",
+        "result": "PASS",
+        "health_failures": [
+          "source_unhealthy:production_main"
+        ]
+      },
+      {
+        "case": "observation_stale",
+        "result": "PASS",
+        "health_failures": [
+          "source_unhealthy:early_membership"
+        ]
+      },
+      {
+        "case": "explicit_failure",
+        "result": "PASS",
+        "health_failures": [
+          "source_unhealthy:production_main"
+        ]
+      },
+      {
+        "case": "membership_failure",
+        "result": "PASS",
+        "health_failures": [
+          "source_unhealthy:final_membership"
+        ]
+      },
+      {
+        "case": "thread_dead",
+        "result": "PASS",
+        "health_failures": [
+          "recorder_unhealthy"
+        ]
+      },
+      {
+        "case": "thread_stale",
+        "result": "PASS",
+        "health_failures": [
+          "recorder_unhealthy"
+        ]
+      },
+      {
+        "case": "write_failure",
+        "result": "PASS",
+        "health_failures": [
+          "recorder_unhealthy"
+        ]
+      },
+      {
+        "case": "low_disk",
+        "result": "PASS",
+        "health_failures": [
+          "recorder_unhealthy",
+          "storage_failed"
+        ]
+      },
+      {
+        "case": "disk_query_failure",
+        "result": "PASS",
+        "health_failures": [
+          "recorder_unhealthy",
+          "storage_failed"
+        ]
+      },
+      {
+        "case": "ledger_corruption",
+        "result": "PASS",
+        "health_failures": [
+          "ledger_integrity_failed"
+        ]
+      },
+      {
+        "case": "anchor_corruption",
+        "result": "PASS",
+        "health_failures": [
+          "ledger_integrity_failed"
+        ]
+      },
+      {
+        "case": "durability_marker",
+        "result": "PASS",
+        "health_failures": [
+          "ledger_integrity_failed"
+        ]
+      },
+      {
+        "case": "missing_control",
+        "result": "PASS",
+        "health_failures": [
+          "control_attestation_unknown_or_failed"
+        ]
+      },
+      {
+        "case": "mismatched_control",
+        "result": "PASS",
+        "health_failures": [
+          "control_attestation_unknown_or_failed"
+        ]
+      },
+      {
+        "case": "contract_disagreement",
+        "result": "PASS",
+        "health_failures": [
+          "contract_agreement_unknown_or_failed"
+        ]
+      }
+    ],
+    "counts": {
+      "watchdog_matrix": 198,
+      "lifecycle": 2,
+      "prior_false_health_matrix": 16
+    },
+    "passed": 216,
+    "total": 216,
+    "result": "PASS"
+  },
+  "prior_verifier_rerun": {
+    "prior_script_sha256": "10e71af7408cf1e1978a8b7f83305cfc6810c0cd15b3d74c021909670135718b",
+    "adaptation": "Only healthy Early/Final baseline fixtures gain actual producer watchdog; original probe functions are unmodified.",
+    "false_health": [
+      {
+        "case": "outage",
+        "result": "PASS",
+        "reasons": [
+          "source_unhealthy:production_main"
+        ]
+      },
+      {
+        "case": "payload_stale",
+        "result": "PASS",
+        "reasons": [
+          "source_unhealthy:production_main"
+        ]
+      },
+      {
+        "case": "observation_stale",
+        "result": "PASS",
+        "reasons": [
+          "source_unhealthy:early_membership"
+        ]
+      },
+      {
+        "case": "explicit_failure",
+        "result": "PASS",
+        "reasons": [
+          "source_unhealthy:production_main"
+        ]
+      },
+      {
+        "case": "membership_failure",
+        "result": "PASS",
+        "reasons": [
+          "source_unhealthy:final_membership"
+        ]
+      },
+      {
+        "case": "thread_dead",
+        "result": "PASS",
+        "reasons": [
+          "recorder_unhealthy"
+        ]
+      },
+      {
+        "case": "thread_stale",
+        "result": "PASS",
+        "reasons": [
+          "recorder_unhealthy"
+        ]
+      },
+      {
+        "case": "write_failure",
+        "result": "PASS",
+        "reasons": [
+          "recorder_unhealthy"
+        ]
+      },
+      {
+        "case": "low_disk",
+        "result": "PASS",
+        "reasons": [
+          "recorder_unhealthy",
+          "storage_failed"
+        ]
+      },
+      {
+        "case": "disk_query_failure",
+        "result": "PASS",
+        "reasons": [
+          "recorder_unhealthy",
+          "storage_failed"
+        ]
+      },
+      {
+        "case": "ledger_corruption",
+        "result": "PASS",
+        "reasons": [
+          "ledger_integrity_failed"
+        ]
+      },
+      {
+        "case": "anchor_corruption",
+        "result": "PASS",
+        "reasons": [
+          "ledger_integrity_failed"
+        ]
+      },
+      {
+        "case": "durability_marker",
+        "result": "PASS",
+        "reasons": [
+          "ledger_integrity_failed"
+        ]
+      },
+      {
+        "case": "missing_control",
+        "result": "PASS",
+        "reasons": [
+          "control_attestation_unknown_or_failed"
+        ]
+      },
+      {
+        "case": "mismatched_control",
+        "result": "PASS",
+        "reasons": [
+          "control_attestation_unknown_or_failed"
+        ]
+      },
+      {
+        "case": "contract_disagreement",
+        "result": "PASS",
+        "reasons": [
+          "contract_agreement_unknown_or_failed"
+        ]
+      }
+    ],
+    "redirects": [
+      {
+        "target": "https://[broken",
+        "status": 301,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://[broken",
+        "status": 302,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://[broken",
+        "status": 303,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://[broken",
+        "status": 307,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://[broken",
+        "status": 308,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://other.example/\u00ff",
+        "status": 301,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://other.example/\u00ff",
+        "status": 302,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://other.example/\u00ff",
+        "status": 303,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://other.example/\u00ff",
+        "status": 307,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://other.example/\u00ff",
+        "status": 308,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://[::g]/",
+        "status": 301,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://[::g]/",
+        "status": 302,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://[::g]/",
+        "status": 303,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://[::g]/",
+        "status": 307,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://[::g]/",
+        "status": 308,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://external-api.kalshi.com/trade-api/v2/markets",
+        "status": 301,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://external-api.kalshi.com/trade-api/v2/markets",
+        "status": 302,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://external-api.kalshi.com/trade-api/v2/markets",
+        "status": 303,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://external-api.kalshi.com/trade-api/v2/markets",
+        "status": 307,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://external-api.kalshi.com/trade-api/v2/markets",
+        "status": 308,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://api.exchange.coinbase.com/products/BTC-USD/ticker",
+        "status": 301,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://api.exchange.coinbase.com/products/BTC-USD/ticker",
+        "status": 302,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://api.exchange.coinbase.com/products/BTC-USD/ticker",
+        "status": 303,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://api.exchange.coinbase.com/products/BTC-USD/ticker",
+        "status": 307,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://api.exchange.coinbase.com/products/BTC-USD/ticker",
+        "status": 308,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://www.cfbenchmarks.com/data/indices/BRTI",
+        "status": 301,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://www.cfbenchmarks.com/data/indices/BRTI",
+        "status": 302,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://www.cfbenchmarks.com/data/indices/BRTI",
+        "status": 303,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://www.cfbenchmarks.com/data/indices/BRTI",
+        "status": 307,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://www.cfbenchmarks.com/data/indices/BRTI",
+        "status": 308,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "http://second-verifier.up.railway.app/production_main",
+        "status": 301,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "http://second-verifier.up.railway.app/production_main",
+        "status": 302,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "http://second-verifier.up.railway.app/production_main",
+        "status": 303,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "http://second-verifier.up.railway.app/production_main",
+        "status": 307,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "http://second-verifier.up.railway.app/production_main",
+        "status": 308,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://example.org/state",
+        "status": 301,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://example.org/state",
+        "status": 302,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://example.org/state",
+        "status": 303,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://example.org/state",
+        "status": 307,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://example.org/state",
+        "status": 308,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://different-valid.up.railway.app/state",
+        "status": 301,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://different-valid.up.railway.app/state",
+        "status": 302,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://different-valid.up.railway.app/state",
+        "status": 303,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://different-valid.up.railway.app/state",
+        "status": 307,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://different-valid.up.railway.app/state",
+        "status": 308,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app:444/state",
+        "status": 301,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app:444/state",
+        "status": 302,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app:444/state",
+        "status": 303,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app:444/state",
+        "status": 307,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app:444/state",
+        "status": 308,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://user:password@second-verifier.up.railway.app/state",
+        "status": 301,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://user:password@second-verifier.up.railway.app/state",
+        "status": 302,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://user:password@second-verifier.up.railway.app/state",
+        "status": 303,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://user:password@second-verifier.up.railway.app/state",
+        "status": 307,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://user:password@second-verifier.up.railway.app/state",
+        "status": 308,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app/production_main#fragment",
+        "status": 301,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app/production_main#fragment",
+        "status": 302,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app/production_main#fragment",
+        "status": 303,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app/production_main#fragment",
+        "status": 307,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app/production_main#fragment",
+        "status": 308,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app\\@example.org/state",
+        "status": 301,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app\\@example.org/state",
+        "status": 302,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app\\@example.org/state",
+        "status": 303,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app\\@example.org/state",
+        "status": 307,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app\\@example.org/state",
+        "status": 308,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app/production_main\r\ninvalid",
+        "status": 301,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app/production_main\r\ninvalid",
+        "status": 302,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app/production_main\r\ninvalid",
+        "status": 303,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app/production_main\r\ninvalid",
+        "status": 307,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app/production_main\r\ninvalid",
+        "status": 308,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "/relative",
+        "status": 301,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "/relative",
+        "status": 302,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "/relative",
+        "status": 303,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "/relative",
+        "status": 307,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "/relative",
+        "status": 308,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app/production_main",
+        "status": 301,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app/production_main",
+        "status": 302,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app/production_main",
+        "status": 303,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app/production_main",
+        "status": 307,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      },
+      {
+        "target": "https://second-verifier.up.railway.app/production_main",
+        "status": 308,
+        "requests": 1,
+        "hops": 0,
+        "envelope_retained": true,
+        "result": "PASS"
+      }
+    ],
+    "raw_retention": [
+      {
+        "case": "normal",
+        "result": "PASS",
+        "body_bytes": 100,
+        "parse_outcome": "OBJECT",
+        "body_complete": true
+      },
+      {
+        "case": "HTTP_error",
+        "result": "PASS",
+        "body_bytes": 22,
+        "parse_outcome": "MALFORMED_JSON",
+        "body_complete": true
+      },
+      {
+        "case": "malformed",
+        "result": "PASS",
+        "body_bytes": 9,
+        "parse_outcome": "MALFORMED_JSON",
+        "body_complete": true
+      },
+      {
+        "case": "wrong_type",
+        "result": "PASS",
+        "body_bytes": 14,
+        "parse_outcome": "WRONG_TYPE",
+        "body_complete": true
+      },
+      {
+        "case": "interrupted",
+        "result": "PASS",
+        "body_bytes": 19,
+        "parse_outcome": "NO_RESPONSE",
+        "body_complete": false
+      },
+      {
+        "case": "empty_membership",
+        "result": "PASS",
+        "observation_recorded": true
+      }
+    ],
+    "membership_provider": {
+      "result": "PASS",
+      "membership_events": 5,
+      "families": [
+        "combined_membership",
+        "early_membership",
+        "final_membership",
+        "nextgen_membership"
+      ],
+      "provider_http_200_alone": "INSUFFICIENT",
+      "generic_age_status": "UNKNOWN",
+      "rescore_performed": false
+    }
+  },
+  "tested_sentinel_python_sha256": {
+    "integrity_sentinel/__init__.py": "e61f18ec61b6936b6f735d12da951b0ac1105ab2bcf9671dd8848fd8e9ce0b56",
+    "integrity_sentinel/adversarial_hardening_v1.py": "9e371c40b57df72e899bbca429de3d129c90473f0ac7f3999b535d8a778dc70e",
+    "integrity_sentinel/adversarial_remediation_v2.py": "4c8ccdba2363fc4375518f160141099726243053ef319a94e9b52feab9b1363e",
+    "integrity_sentinel/adversarial_watchdog_v3.py": "40e2372d1f194dadaea30a496050d97cef981800259d9656a8be499c47f487fd",
+    "integrity_sentinel/control_attestation_v1.py": "ec1bafc1341e50cec7041fd63a4694f7865f9f94acd8d58887ce9ade49683606",
+    "integrity_sentinel/identity_v1.py": "5fac9d782b21d2abec6845b9919b74adab682147538225eb8bde4da13042a29d",
+    "integrity_sentinel/recorder_core_v1.py": "f1b60c7da46d9a9c3d90f8dcdfbd5b68e5145746b6f6d72a67545b96ad21538b",
+    "integrity_sentinel/runtime_v1.py": "e2658415fa61287330704a5f1ea9ffa2e9fa369c977293416c75cd01d326d202",
+    "integrity_sentinel/source_adapters_v1.py": "ae4b57485a79b32f79af44f29359a0a095bebc8479668e5bab920eb625a397c8",
+    "integrity_sentinel/storage_guard_v1.py": "9237a9a0b141495a0d17502b9fa99da614962fc986f60e9b0f6e57555ddd6461",
+    "integrity_sentinel/test_control_attestation_v1.py": "ea02684f5d15b8ff09e8c3b6c6d43611d9b6283bf5876931aac67456743bac98",
+    "integrity_sentinel/test_hardening_v1.py": "09cdfa4b13ed19c5577731c48d0b7e6c6f84c7e5d5903c0bd52553cdf51a2e91",
+    "integrity_sentinel/test_recorder_core_v1.py": "9a39229c5cbf5ec3ecd5ad6bb5b96abddfc48e3e1569870767bdb20e5be398a4",
+    "integrity_sentinel/test_remediation_v2.py": "fa428e3b3e0caf8bbecd4f0b82143622f195d7a6a6d586722181794b80d37fa3",
+    "integrity_sentinel/test_runtime_safety_v1.py": "3838d24a733fa1fdb02d55035a3f0753227bd0836d0b87833f5d38faac95e33a",
+    "integrity_sentinel/test_storage_guard_v1.py": "76bdcdcc0ff4ac1c1f10b4542f236ef5013b9c231045436ad913f58ece6cf1e8",
+    "integrity_sentinel/test_watchdog_v3.py": "46a073bccab02203d6764959ae42d94b65d70b0d5b852b291c230a63c364fbfa",
+    "integrity_sentinel/watchdog_health_v3.py": "59ee73a4277f8ea385680c40a769368a8501745896fc869761776553dcc95eb8"
+  },
+  "protected_tracked_files_unchanged": 566,
+  "v3_unit_tests_added": 222,
+  "existing_sentinel_tests_unchanged": 74
+}
