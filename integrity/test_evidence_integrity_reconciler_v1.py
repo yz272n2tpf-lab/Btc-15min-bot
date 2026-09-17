@@ -1,6 +1,6 @@
 import unittest
 
-from evidence_integrity_reconciler_v1 import (
+from integrity.evidence_integrity_reconciler_v1 import (
     Classification,
     ReconcilerPolicy,
     reconcile_contract,
