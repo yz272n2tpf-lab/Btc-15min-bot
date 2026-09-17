@@ -1,4 +1,15 @@
-# CURRENT STATE — upstream storage diagnosis
+# CURRENT STATE — approved storage recovery, awaiting volume resize
+
+Checked 2026-09-17 at 01:31 UTC. The user explicitly approved the narrowly scoped storage recovery in this Work thread; do not ask for that approval again.
+
+- **CONTROL:** All 50 service deployments remain at the pre-recovery baseline. No frozen collector or sample changed. No production/volume mutation has been executed.
+- **NEW SHADOW:** Existing V2 and its rules remain unchanged. Recovery preflight and Early/Final state archives are saved under `recovery/20260917T013150Z/`.
+- **BLOCKED:** `Btc-15min-bot` remains CRASHED. Railway status now confirms volume `btc-15min-bot-volume`, ID `6ced6b1a-3755-4518-a240-c895e936d443`, mounted at `/data`, allocated **500 MB**. Usage is approximately 498 MB. The previously uncertain allocation is now verified. The direct connector has no volume-resize operation.
+- **NEXT STEP:** User opens only `btc-15min-bot-volume` in `noble-warmth` / `production`, selects Live Resize and increases it to **1 GB**. This is already approved. Then verify the actual capacity and source status; if necessary restore only the failed source at commit `8b7f8b48694364cb8c47456d0ab491b102aa42c0`, with identical command/variables/rules. Check fresh data, retained call records and the collection-gap boundary. No collector restart, new service, deletion, or larger resize is authorized.
+
+The repository's `main` ref still equals the deployed source commit above. Recheck before any deployment action. Volume resizing may automatically restart its attached failed source, so inspect before issuing an additional restore action.
+
+## Historical milestone — upstream storage diagnosis
 
 Checked 2026-09-17; Early state captured at 01:23:06 UTC. This Work thread remains the sole engineering/control authority.
 

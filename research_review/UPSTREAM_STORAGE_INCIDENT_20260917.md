@@ -1,5 +1,13 @@
 # Early / Final upstream storage incident — read-only diagnosis
 
+## Approved recovery update — 2026-09-17 01:31 UTC
+
+The user explicitly approved the proposed storage-only recovery. This approval persists; no repeat permission request is needed within that scope. A fresh Railway status response confirmed `btc-15min-bot-volume` is allocated **500 MB**, attached only to the identified source service at `/data`. The proposal to increase it to **1 GB** therefore applies. The source remains CRASHED, and `main` still matches deployed commit `8b7f8b48694364cb8c47456d0ab491b102aa42c0`.
+
+No volume or service mutation has been executed. The user needs the direct Railway UI resize step because the available direct connector has no volume-resize operation: open the existing `btc-15min-bot-volume` in `noble-warmth` / `production`, select Live Resize, choose 1 GB and confirm. Afterward inspect capacity and source status before any separate restore action, since resizing a full volume can itself restart the attached source. All frozen collectors remain excluded from changes. Pre-recovery status/config and live state snapshots are archived in `recovery/20260917T013150Z/`.
+
+The diagnosis and original unexecuted proposal below are historical; their allocation uncertainty and pending-approval statements are superseded by this update.
+
 Observed 2026-09-17. No Railway mutation, restart, deletion, production code change or collector change was performed. This Work thread remains the sole control authority.
 
 ## Evidence
