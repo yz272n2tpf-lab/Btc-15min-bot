@@ -1,9 +1,16 @@
 #!/usr/bin/env python3
 """BTC15 Integrity Sentinel / Prospective Evidence Recorder V1.
 
-Standalone read-only recorder. It reads existing BTC15 Railway service state
-endpoints and appends timestamped, hash-chained evidence to Sentinel-owned
-storage. It never contacts a market-provider host directly.
+Standalone read-only recorder. It reads existing BTC15 service state endpoints
+and appends timestamped, hash-chained evidence to Sentinel-owned storage.
+
+CRITICAL SAFETY:
+- HTTP GET only.
+- Railway service endpoints only; direct Kalshi/Coinbase/BRTI upstream hosts are
+  rejected by configuration validation.
+- No order/trade endpoint, no POST/PUT/PATCH/DELETE, no strategy selection.
+- Does not certify or promote strategies. It records evidence for the hardened
+  reconciler to evaluate later.
 """
 from __future__ import annotations
 
@@ -26,6 +33,8 @@ from integrity_sentinel.recorder_core_v1 import (
     source_sample_body, utc_now,
 )
 from integrity_sentinel.source_adapters_v1 import adapt_source
+from integrity_sentinel.storage_guard_v1 import storage_status
+from integrity_sentinel.control_attestation_v1 import load_manifest, manifest_sha256
 
 VERSION = "BTC15_INTEGRITY_SENTINEL_RECORDER_V1"
 DEFAULT_POLL_SEC = 5.0
@@ -91,8 +100,21 @@ class RecorderRuntime:
             "version": VERSION, "started_at_utc": utc_now(), "last_cycle_utc": None,
             "last_membership_cycle_utc": None, "cycles": 0, "membership_cycles": 0,
             "last_contract_id": None, "source_status": {}, "orders": False,
-            "automatic_promotion": False,
+            "automatic_promotion": False, "storage": None,
+            "control_manifest_sha256": None, "control_manifest_status": "MISSING",
         }
+        manifest_path = os.environ.get("SENTINEL_CONTROL_MANIFEST", "").strip()
+        if manifest_path:
+            manifest = load_manifest(manifest_path)
+            digest = manifest_sha256(manifest)
+            self.telemetry.append({
+                "record_type": "CONTROL_EXPECTATION", "sentinel_version": VERSION,
+                "observed_at_utc": utc_now(), "manifest_sha256": digest,
+                "manifest": manifest, "actual_control_plane_match": None,
+                "orders": False, "production_mutation": False,
+            })
+            self.state["control_manifest_sha256"] = digest
+            self.state["control_manifest_status"] = "EXPECTED_ONLY_REQUIRES_EXTERNAL_ATTESTATION"
 
     def fetch(self, source: SourceConfig) -> tuple[SourceConfig, int | None, float, Any | None, str | None]:
         started = time.perf_counter()
@@ -122,6 +144,15 @@ class RecorderRuntime:
         return None
 
     def telemetry_cycle(self) -> None:
+        disk = storage_status(self.root)
+        with self.lock:
+            self.state["storage"] = disk
+        self.telemetry.append({
+            "record_type": "SENTINEL_STORAGE", "sentinel_version": VERSION,
+            "observed_at_utc": utc_now(), **disk, "orders": False,
+        })
+        if disk["storage_ok"] is not True:
+            return
         sources = [s for s in self.sources if s.kind == "telemetry"]
         cycle_id = str(uuid.uuid4())
         observed = utc_now()
@@ -221,7 +252,11 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self) -> None:
         path = urlparse(self.path).path
         if path in ("/", "/health", "/state"):
-            return self._json(200, {"ok": True, **self.runtime.public_state()})
+            state = self.runtime.public_state()
+            storage_ok = (state.get("storage") or {}).get("storage_ok") is True
+            ok = bool(storage_ok and state["telemetry_ledger"]["chain_valid"] and state["membership_ledger"]["chain_valid"])
+            code = 200 if (path != "/health" or ok) else 503
+            return self._json(code, {"ok": ok, **state})
         return self._json(404, {"ok": False, "orders": False, "error": "not_found"})
 
     def _reject(self) -> None:
