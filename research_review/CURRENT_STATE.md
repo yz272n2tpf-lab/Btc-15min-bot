@@ -1,4 +1,15 @@
-# CURRENT STATE — single-snapshot evidence-pack milestone
+# CURRENT STATE — upstream storage diagnosis
+
+Checked 2026-09-17; Early state captured at 01:23:06 UTC. This Work thread remains the sole engineering/control authority.
+
+- **CONTROL:** All frozen collectors remain untouched. Railway still reports 50 services. No service edits, deletions, restarts, volume changes, orders or promotions were performed.
+- **NEW SHADOW:** Existing V2 experiment and undeployed review tools unchanged. Added the read-only incident report `UPSTREAM_STORAGE_INCIDENT_20260917.md`; no new Early rule or recovery was deployed.
+- **BLOCKED:** The original upstream `Btc-15min-bot` is CRASHED and logged `No space left on device`. Disk usage is approximately 0.498 GB; configured capacity is not yet verified. Early and Final source polls have been stale since September 16 at 02:37 UTC. Early remains at 22 eligible contracts / 2 settled calls, requiring both 30 / 12 for its initial review. Its existing two calls are already settled.
+- **NEXT STEP:** Seek explicit approval for storage-only recovery of the already-crashed upstream under the user's no-production-change lock. Confirm the existing `/data` allocation, expand only if the confirmed capacity is below the proposed 1 GB, and restore the same upstream revision without touching any frozen collector. Verify resumed data and preserve the outage boundary; do not backfill the missed live sample.
+
+Deployment SUCCESS and a responsive observer watchdog do not establish fresh market input. The previous snapshot milestone remains valid for its recorded V2 capture time; it was not a health certification of the other ladders.
+
+## Historical milestone — single-snapshot evidence pack
 
 Market evidence captured 2026-09-17 at 00:24:35 UTC (September 16, 8:24 PM Eastern). This Work thread remains the sole engineering/control authority.
 
