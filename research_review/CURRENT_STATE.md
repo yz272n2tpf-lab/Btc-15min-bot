@@ -1,4 +1,23 @@
-# CURRENT STATE — synthetic causal-audit milestone
+# CURRENT STATE — decision-ledger milestone
+
+Market evidence captured 2026-09-16 at 23:59:48 UTC (7:59 PM Eastern). This Work thread remains the sole engineering/control authority.
+
+- **CONTROL:** Frozen V1 collectors and the running V2 experiment remain untouched. No source/start-command/variable edits, restarts, additional services, orders or promotions. All 50 deployment IDs were checked against the work-session baseline.
+- **NEW SHADOW:** The same accepted V2 deployment remains SUCCESS. Latest reviewed evidence: 5 full contracts / 8 serial opportunities; snapshot integrity passes and five chronological checkpoints validate without rewritten history. Added the undeployed per-opportunity decision/omission ledger, with 28 comparisons and 16 new tests. All 70 regression tests pass.
+- **BLOCKED:** 95 contracts / 92 signals remain to the initial review floor; no lane-specific sufficiency or winner is established. Exact skip reasons, raw quote paths and individual quiet-contract IDs are not exported by the current audit.
+- **NEXT STEP:** Review a later coherent completed-contract snapshot using the unchanged history, comparison, cost and omission checks. Record expensive entries and coverage losses without adjusting frozen rules or inferring missing reasons. Any future candidate still requires a separate prospective certification window.
+
+## New ledger and observations
+
+`nextgen_v2_decision_ledger.py` records every family-anchor opportunity against all relevant lanes. Exact IDs join the records; the same opportunity across families is never counted as a new sample. Entry absence, no warning, no observed protected exit, missing fee net and observed zero net are distinct states. Available decision reasons are retained; unknown ones stay `NOT_EXPORTED`. Markdown shows 40 of 46 experiment/anchor cases and explicitly points to untruncated JSON.
+
+This checkpoint has 26 family-anchor rows but only 8 unique serial opportunities over 5 full contracts; no quiet contracts in this snapshot. Dynamic Verify recorded 2 entries and omitted 6 relative to the immediate control. Its accepted records show `IMMEDIATE_STRONG` at 52 cents and `EVENT_CONFIRMED` at 85 cents. The 85-cent entry has no observed protected exit, so its realized/replay net is not filled in. The frozen policy permits this result; this is evidence to review, not a live fix or a new policy failure verdict.
+
+Among the 6 Dynamic Verify control-only opportunities, the one-lot frozen replay has 2 negative-net protected exits (-3 and -9 cents), 1 positive-net protected exit (+1 cent), and 3 without observed protected exits. These are post-hoc descriptions, not proof of filtering skill. Both SCALP-2 control opportunities had positive-net protected exits (+16 and +1 cent), and all three V2 filters omitted them. Balanced Pullback retained 3 of 8; Price-disciplined Pullback retained 2 of 8. None of these small subsets justify selection or promotion.
+
+New evidence: `decision_ledgers/20260916T235948Z/`, `captures/20260916T235948995478Z/`, and `scorecards/20260916T235948Z/`. The previous execution-cost report remains timestamped 23:49 UTC; it is not silently relabeled as this capture.
+
+## Historical milestone — synthetic causal audit
 
 Latest market evidence captured 2026-09-16 at 23:49:00 UTC (7:49 PM Eastern). This Work thread is the sole engineering/control authority.
 

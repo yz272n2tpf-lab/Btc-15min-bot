@@ -37,7 +37,7 @@ Tests use the repository's existing pinned requirements to generate realistic fi
 python -m unittest discover -s research_review -p 'test_*.py'
 ```
 
-54 regression tests cover snapshot integrity/comparisons (21), longitudinal history (6), extra execution costs (15), and the causal-audit harness (12). They include mixed refresh snapshots, identity drift, duplicate observations, tampered evidence, altered exit timestamps despite equal counts, false readiness, exact paired arithmetic, missing outcomes, coverage denominators, all controls, rendering, offline replay and non-overwriting archives.
+70 regression tests cover snapshot integrity/comparisons (21), longitudinal history (6), extra execution costs (15), the causal-audit harness (12), and decision/omission accounting (16). They include mixed refresh snapshots, identity drift, duplicate observations, tampered evidence, altered exit timestamps despite equal counts, false readiness, exact paired arithmetic, missing outcomes, coverage denominators, all controls, rendering, offline replay and non-overwriting archives.
 
 ## Longitudinal scorecard
 
@@ -82,6 +82,22 @@ This uses the repository's pinned dependencies, like the regression tests. A new
 Checks cover strong/weak confirmation; two-event evidence; exact 30-second, 5-second-gap, chase-price and pullback-window boundaries; unknown safety flags; bad clocks and quotes; SCALP-2 membership; prefixes; changed future suffixes; poisoned outcome labels; duplicate events; event-time order; pre-entry peak exclusion; input immutability; and independent +5-cent-arm/4-cent-giveback exit arithmetic. Twelve harness tests demonstrate detection of deliberately injected in-memory look-ahead, changed exits, source drift, and input mutation, and preserve existing audit files.
 
 Passing is **mechanism evidence only**. Synthetic clean event-time prefixes do not validate received-time ordering, provider corrections, candidate-feature construction, serial-opportunity construction, raw live paths, or prospective cutoff eligibility. The audit preserves V1 Watch clock/exec_gain semantics. It is not a market-performance, execution-feasibility or certification pass.
+
+## Per-opportunity decision ledger
+
+`nextgen_v2_decision_ledger.py` is a separate, offline diagnostic built from the existing `/state` and `/audit` bundle. It does not modify or invoke the older V1 coverage-gap ledger, which requires different input features. The V2 ledger matches contract/candidate/opportunity IDs, includes every family-anchor opportunity, and distinguishes both actions, experiment-only actions, control-only actions, and neither. Its 28 comparisons reconcile to the appropriate family denominator; SCALP-2 applies only to opportunity #2.
+
+```bash
+python research_review/nextgen_v2_decision_ledger.py \
+  research_review/captures/20260916T235948995478Z/bundle.json \
+  --output research_review/decision_ledgers/reproduced_checkpoint
+```
+
+The new output directory contains complete `ledger.json` evidence plus `ledger.md`, a summary with the first 40 experiment/anchor detail rows in deterministic order. Only Markdown detail is capped; JSON retains all records. It has no network calls, new policy, live alert, order handling or promotion behavior.
+
+Accepted entries retain their exported reasons, prices and delays. Missing entries are explicitly `NO_ENTRY_RECORDED` with `NOT_EXPORTED` reasons; the tool does not invent confirmation failures, timeout causes or price rejection explanations. Missing reasons on existing records are also explicit. Warning presence is tracked separately from entry presence, so a missing warning cannot be mistaken for a skipped trade. Unknown outcomes, missing fee scores, and observed zero net are different states.
+
+Control-only positive/negative fee-net exits are labeled hindsight observations, not missed-win/avoided-loss claims. All values retain the fixed-exit and fixed-fee replay assumptions. Quiet contracts remain in total counts, but their individual IDs cannot be reconstructed from the current audit export. The latest saved run uses the coherent 23:59:48 UTC checkpoint, not live endpoint reads by this ledger command.
 
 ## Interpretation limits
 
