@@ -47,7 +47,7 @@ def refresh():
             f.seek(0);rows=0
             for chunk in iter(lambda:f.read(1024*1024),b""):
                 h.update(chunk);rows+=chunk.count(bytes([10]))
-        os.replace(tmp,DATA)
+        os.replace(tmp,DATA)\n        # Best-effort: tell Linux the committed snapshot need not remain in page cache.\n        if hasattr(os,"posix_fadvise") and hasattr(os,"POSIX_FADV_DONTNEED"):\n            try:\n                fd2=os.open(DATA,os.O_RDONLY);os.posix_fadvise(fd2,0,0,os.POSIX_FADV_DONTNEED);os.close(fd2)\n            except OSError: pass
         st={"ok":True,"status":"READY","bytes":n,"rows":max(0,rows-1),"sha256":h.hexdigest(),"updated":time.time(),"orders":False,"read_only":True}
         with LOCK:STATE.clear();STATE.update(st)
         print("SCALP_INCREMENTAL_DISK | "+json.dumps(st,separators=(",",":")),flush=True)
