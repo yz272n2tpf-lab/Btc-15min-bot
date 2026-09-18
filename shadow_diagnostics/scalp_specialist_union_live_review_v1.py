@@ -38,7 +38,11 @@ SOURCE_URL = os.environ.get(
     "SCALP_PATH_EXPORT_URL",
     "https://scalp-move-shadow-v1-production.up.railway.app/research/path-export",
 ).strip()
-SOURCE_TOKEN = os.environ.get("SCALP_PATH_EXPORT_TOKEN", "").strip()\nINCREMENTAL_URL = os.environ.get("SCALP_INCREMENTAL_URL", "").strip()\n_INCREMENTAL_RAW = bytearray()\n_INCREMENTAL_OFFSET = 0\n_INCREMENTAL_GENERATION = ""
+SOURCE_TOKEN = os.environ.get("SCALP_PATH_EXPORT_TOKEN", "").strip()
+INCREMENTAL_URL = os.environ.get("SCALP_INCREMENTAL_URL", "").strip()
+_INCREMENTAL_RAW = bytearray()
+_INCREMENTAL_OFFSET = 0
+_INCREMENTAL_GENERATION = ""
 
 LOCK = threading.Lock()
 STATE: dict[str, Any] = {
