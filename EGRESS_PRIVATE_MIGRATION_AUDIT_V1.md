@@ -243,9 +243,23 @@ Service ID: `c45a77d2-c91c-4c7c-b1f9-de52d7348ff9`
 
 This timestamp is the explicit infrastructure/evidence segment boundary. Density remains descriptive and does not select or suppress signals.
 
-### Post-change
+### Post-change verification
 
-PENDING.
+- Private URL applied: `http://scalp-move-shadow-v1.railway.internal:8080/research/path-export`
+- Post-change deployment: `cbca0472-9f3c-48c9-924a-3c0e58cf0eb9`
+- Deployment Git SHA: `b786be9bf13c8c4ad80d9073f2e498904a609f23` — unchanged.
+- Railway deployment status: SUCCESS.
+- Healthcheck: PASS.
+- First post-change analysis timestamp: `2026-09-18T04:32:16.052824525Z`
+- Frozen cutoff remained exactly `2026-09-16T12:05:59+00:00`.
+- Status remained `READY_FOR_MANUAL_PULLBACK_DEVELOPMENT_REVIEW`.
+- Future full contracts advanced from 135 to 136 from new source data.
+- Immediate signals advanced from 228 to 229.
+- Development-comparison sample_ready remained true.
+- Selected pullback rule still requires a new fresh certification window.
+- NO ORDERS / no automatic promotion.
+
+Result: PRIVATE NETWORK MIGRATION SEGMENT PASS for Pullback Entry Forward.
 
 ## Protected consumer migration segment 7 — Pullback Entry Forward
 
