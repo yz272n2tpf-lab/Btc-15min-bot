@@ -246,3 +246,28 @@ This timestamp is the explicit infrastructure/evidence segment boundary. Density
 ### Post-change
 
 PENDING.
+
+## Protected consumer migration segment 7 — Pullback Entry Forward
+
+Service: `scalp-ladder-research-v1`
+Service ID: `7ef27913-4f4d-40fc-9b32-91d79852f13d`
+
+### Pre-change evidence boundary
+
+- Pre-change deployment: `74ff8af6-74c4-45be-8325-a40b9918663f`
+- Git SHA / current branch head: `b786be9bf13c8c4ad80d9073f2e498904a609f23`
+- Frozen cutoff: `2026-09-16T12:05:59+00:00`
+- Last recorded pre-change analysis timestamp: `2026-09-18T04:28:35.923515421Z`
+- Pre-change status: `READY_FOR_MANUAL_PULLBACK_DEVELOPMENT_REVIEW`
+- Pre-change future full contracts: 135
+- Pre-change immediate signals: 228
+- Development-comparison sample_ready: true
+- Orders: false
+- Automatic promotion: false
+- Runtime branch head equals deployed Git SHA.
+
+This timestamp is the explicit infrastructure/evidence segment boundary. Pullback remains development comparison only and any selected rule still requires a new fresh certification window.
+
+### Post-change
+
+PENDING.
