@@ -356,3 +356,29 @@ This timestamp is the infrastructure/evidence verification boundary for Regime O
 ### Post-change
 
 PENDING.
+
+## Protected consumer migration segment 5 — Watch Exit
+
+Service: `scalp-entry-profit-review-v1`
+Service ID: `b3080f5e-c625-4891-8aa2-eae860d6c174`
+
+### Pre-change evidence boundary
+
+- Active deployment: `7877b573-6e9e-4440-a560-700d912001f5`
+- Git SHA: `14ef7cf264eb2e53246082038bd90eef9dde63da`
+- Current branch head equals deployed SHA.
+- Frozen cutoff: `2026-09-16T11:48:06+00:00`
+- Last recorded analysis timestamp before verification: `2026-09-18T12:31:07.088490516Z`
+- Future full contracts: 169
+- Armed signals: 238
+- sample_ready: true
+- Watch does not change exit: true
+- Watch policy selection: false
+- Automatic promotion: false
+- Orders: false
+
+This timestamp is the infrastructure/evidence verification boundary for Watch Exit. The frozen strategy cutoff remains unchanged.
+
+### Post-change
+
+PENDING.
