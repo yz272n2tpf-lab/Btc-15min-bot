@@ -320,9 +320,18 @@ Service ID: `f6ae8e92-dbd9-4439-817e-abda52981ab1`
 
 This timestamp is the explicit infrastructure/evidence segment boundary for Candidate Verify. The frozen strategy cutoff remains unchanged.
 
-### Post-change
+### Post-change verification
 
-PENDING.
+The explicit variable set to the private target created no new deployment, so the configured value already matched the private target before this verification attempt.
+
+- Confirmed target: `http://scalp-move-shadow-v1.railway.internal:8080/research/path-export`
+- Active deployment remained `385f960a-edfe-41c9-a5b9-c22c79b5b137`.
+- Git SHA remained `bccb066d6f8853d34a503da7bd8b01586c5b190e`.
+- Frozen cutoff remained `2026-09-16T11:03:16+00:00`.
+- Service continued healthy with no restart from the no-op set.
+- NO ORDERS / shadow-only / no automatic promotion.
+
+Audit correction: this is a verification boundary, not the original public-to-private switch boundary. Current private-path state is verified operationally.
 
 ## Protected consumer migration segment 4 — Regime Observation
 
