@@ -72,3 +72,29 @@ This timestamp is an explicit infrastructure/evidence segment boundary. Evidence
 - NO ORDERS / shadow-only / no automatic promotion.
 
 Result: PRIVATE NETWORK MIGRATION SEGMENT PASS for Coverage Rescue. The infrastructure boundary remains recorded for provenance and later certification accounting.
+
+## Protected consumer migration segment 2 — Economics Forward
+
+Service: `scalp-economics-forward-v1`
+Service ID: `a09d4dbc-8fa7-4d9f-bbc3-215533c4cf2b`
+
+### Pre-change evidence boundary
+
+- Pre-change deployment: `0cf8e2e8-ef60-4b09-86cf-93b2aff44f6e`
+- Deployed Git SHA: `f5bc64eeb3608ee7822040f13e568148dd13cc97`
+- Current branch head: `ebae93d1260c9ec8a91de8a746a14b498972a1e1`
+- All four watched runtime/freeze files are byte-identical between deployed SHA and current branch head.
+- Frozen cutoff: `2026-09-16T10:31:55+00:00`
+- Last recorded pre-change analysis timestamp: `2026-09-18T04:08:48.171575320Z`
+- Pre-change status: `READY_FOR_MANUAL_ECONOMICS_REVIEW`
+- Pre-change future full contracts: 139
+- OVERALL sample_ready: true
+- OVERALL manual-review break-even evidence pass: true
+- Orders: false
+- Automatic promotion: false
+
+This timestamp is the explicit infrastructure/evidence segment boundary for the Economics Forward scorer. The frozen strategy cutoff is not changed.
+
+### Post-change
+
+PENDING.
