@@ -135,3 +135,27 @@ This timestamp is the explicit infrastructure/evidence segment boundary. The fro
 ### Post-change
 
 PENDING.
+
+## Protected consumer migration segment 4 — Regime Observation V1.1
+
+Service: `scalp-regime-review-v1`
+Service ID: `979ad780-249d-407a-ae73-c8488c1d047f`
+
+### Pre-change evidence boundary
+
+- Pre-change deployment: `0e00dbd2-efa3-4954-9cd7-e199861b9c72`
+- Git SHA: `bccb066d6f8853d34a503da7bd8b01586c5b190e`
+- Frozen cutoff: `2026-09-16T11:03:16+00:00`
+- Last recorded pre-change analysis timestamp: `2026-09-18T04:15:42.521439877Z`
+- Pre-change status: `READY_FOR_MANUAL_DESCRIPTIVE_REVIEW`
+- Pre-change future full contracts: 139
+- Descriptive sample_ready: true
+- Orders: false
+- Automatic promotion: false
+- Runtime branch head equals deployed Git SHA.
+
+This timestamp is the explicit infrastructure/evidence segment boundary. The frozen cutoff and descriptive-only interpretation are not changed.
+
+### Post-change
+
+PENDING.
