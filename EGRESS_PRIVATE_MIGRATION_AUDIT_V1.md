@@ -439,3 +439,30 @@ This timestamp is the infrastructure/evidence verification boundary for Pullback
 ### Post-change
 
 PENDING.
+
+## Protected consumer migration segment 8 — Nextgen V2
+
+Service: `scalp-nextgen-shadow-v2`
+Service ID: `46b79a18-0fc2-46f0-8f12-d6bac63eecad`
+
+### Pre-change evidence boundary
+
+- Active deployment: `17cac03e-20a2-46be-b535-c31f63aaf6fa`
+- Git SHA: `f23b4b37c0bb5f2ba5a50915933962b9eb7813a1`
+- Current branch head equals deployed SHA.
+- Frozen cutoff: `2026-09-16T22:30:00+00:00`
+- Window ID: `00e73c80479a5ec5d482d33429e5f2115513dcddd93babdf38a7e38c6b7cac67`
+- Expected code fingerprint: `7f901c87774dd418db79a29f513b05245488a6ba0cedd6e7a8572ac9865ce55f`
+- Last recorded analysis timestamp before migration: `2026-09-18T12:34:04.534060529Z`
+- Status: `READY_FOR_MANUAL_V2_COMPARISON`
+- Future full contracts: 135
+- Serial signals: 221
+- Source SHA256: `c1448ecc9eccb2858e8bf6a17811c8bfde870508e8cd75e1bb7ad2f851230dbd`
+- Runtime integrity all checks pass: true
+- Safety remains shadow-only/manual-execution/orders=false/no automatic promotion.
+
+The Nextgen process recomputes state and audit_records from the full source export on refresh; the restart does not rely on an authoritative in-memory timer state. This timestamp is the explicit infrastructure/evidence segment boundary. The frozen cutoff, code fingerprint, and window ID must remain unchanged.
+
+### Post-change
+
+PENDING.
