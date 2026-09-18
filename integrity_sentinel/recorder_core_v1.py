@@ -23,6 +23,10 @@ from integrity_sentinel.storage_guard_v1 import storage_status
 
 VERSION = "BTC15_INTEGRITY_SENTINEL_RECORDER_CORE_V1"
 GENESIS_HASH = "0" * 64
+# Hard admission bounds, not a reason to drop or split an observation's events.
+MAX_BATCH_ROWS = 8192
+MAX_BATCH_BYTES = 32 * 1024 * 1024
+BATCH_WRITE_BYTES = 1024 * 1024
 
 
 def utc_now() -> str:
@@ -242,6 +246,72 @@ class AppendOnlyHashChainLedger:
             self._last_hash = record_hash
             self._records += 1
             return row
+
+    def _verify_batch_locked(self, bodies):
+        return self._verify_locked()
+
+    def append_batch(self, bodies: Iterable[Mapping[str, Any]]) -> list[dict[str, Any]]:
+        """Append bounded individual rows under one lock/durability transaction.
+
+        The existing append path is deliberately unchanged. Full verification
+        runs once, including subclass integrity gates, before any mutation.
+        No retry, tail adoption, truncation or partial-batch acknowledgement.
+        Rejected admission before intent cannot change the acknowledged tail.
+        Runtime observations separately commit their derived-event obligation
+        so even a pre-intent rejection remains detectable across restart.
+        """
+        with self._lock, self.path.open("rb") as stream:
+            fcntl.flock(stream, fcntl.LOCK_EX)
+            normalized, normalized_bytes = [], 0
+            for body in bodies:
+                if len(normalized) >= MAX_BATCH_ROWS:
+                    raise ValueError("membership batch row bound exceeded")
+                value = canonical_json(dict(body))
+                normalized_bytes += len(value.encode("utf-8"))
+                if normalized_bytes > MAX_BATCH_BYTES:
+                    raise ValueError("membership batch byte bound exceeded")
+                normalized.append(json.loads(value))
+            status = self._verify_batch_locked(normalized)
+            if not normalized:
+                return []
+            sequence, previous = status.last_sequence, status.last_record_hash
+            rows, raw = [], bytearray()
+            for body in normalized:
+                sequence += 1
+                digest = _chain_hash(previous, {"sequence": sequence, "body": body})
+                row = {"sequence": sequence, "previous_hash": previous,
+                       "record_hash": digest, "body": body}
+                encoded = (canonical_json(row) + "\n").encode("utf-8")
+                if len(raw) + len(encoded) > MAX_BATCH_BYTES:
+                    raise ValueError("membership batch encoded byte bound exceeded")
+                raw.extend(encoded)
+                rows.append(row)
+                previous = digest
+            size = status.bytes + len(raw)
+            try:
+                self._begin_durability({"sequence": status.last_sequence,
+                    "record_hash": status.last_record_hash, "bytes": status.bytes},
+                    sequence, previous, size)
+                self._write_anchor(sequence, previous, size, committed=False)
+                self._guard()
+                fd = os.open(self.path, os.O_WRONLY | os.O_APPEND)
+                try:
+                    for offset in range(0, len(raw), BATCH_WRITE_BYTES):
+                        self._guard()
+                        chunk = memoryview(raw)[offset:offset + BATCH_WRITE_BYTES]
+                        if os.write(fd, chunk) != len(chunk):
+                            raise OSError("short ledger batch write")
+                    os.fsync(fd)
+                finally:
+                    os.close(fd)
+                self._write_anchor(sequence, previous, size)
+                self._finish_durability()
+            except BaseException:
+                self._write_failed = True
+                raise
+            self._sequence = self._records = sequence
+            self._last_hash = previous
+            return rows
 
     def status(self) -> LedgerStatus:
         try:

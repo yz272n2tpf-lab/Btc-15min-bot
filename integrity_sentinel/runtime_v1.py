@@ -37,6 +37,7 @@ from integrity_sentinel.recorder_core_v1 import (
     utc_now,
 )
 from integrity_sentinel.nextgen_body_store_v1 import NextgenBodyStore, NextgenMembershipLedger
+from integrity_sentinel.membership_batch_v2 import BatchedMembershipLedger, batch_commitment
 from integrity_sentinel.source_adapters_v1 import adapt_source
 from integrity_sentinel.watchdog_health_v3 import watchdog_failures
 from integrity_sentinel.storage_guard_v1 import storage_status
@@ -190,7 +191,7 @@ class RecorderRuntime:
         self.telemetry = AppendOnlyHashChainLedger(self.root / "telemetry.jsonl", self._storage_guard,
                                                  allow_failed_open=True)
         self.nextgen_bodies = NextgenBodyStore(self.root, self._storage_guard)
-        self.membership = NextgenMembershipLedger(self.root / "membership.jsonl", self.nextgen_bodies, self._storage_guard,
+        self.membership = BatchedMembershipLedger(self.root / "membership.jsonl", self.nextgen_bodies, self._storage_guard,
                                                   allow_failed_open=True)
         ledgers_ok = self.telemetry.status().chain_valid and self.membership.status().chain_valid
         self.seen_membership = existing_membership_ids(self.membership) if ledgers_ok else set()
@@ -382,18 +383,23 @@ class RecorderRuntime:
                 # Every attempt, including empty/invalid membership, gets an
                 # immutable envelope BEFORE any derived membership event.
                 ledger = self.membership if kind == "membership" else self.telemetry
+                # Deduplicate before admission; never mark events seen until
+                # the entire derived batch has a durable acknowledgement.
+                events = list({event["event_id"]: event for event in events
+                               if event["event_id"] not in self.seen_membership}.values())
+                if kind == "membership":
+                    observation["membership_batch"] = batch_commitment(events)
                 stored_observation = self.nextgen_bodies.compact(observation) if kind == "membership" else observation
                 envelope_row = ledger.append(stored_observation)
                 for event in events:
-                    if event["event_id"] in self.seen_membership:
-                        continue
                     event.update(observed_by_sentinel_utc=observation["completed_at_utc"],
                         observation_id=observation["observation_id"],
                         observation_record_hash=envelope_row["record_hash"])
                     if "body_ref" in stored_observation:
                         event["observation_body_sha256"] = stored_observation["body_sha256"]
-                    self.membership.append(event)
-                    self.seen_membership.add(event["event_id"])
+                if events:
+                    self.membership.append_batch(events)
+                    self.seen_membership.update(event["event_id"] for event in events)
                 statuses[source.name] = {
                     "observed_at_utc": observation["completed_at_utc"],
                     "ok": observation["error_type"] is None and not failures,
