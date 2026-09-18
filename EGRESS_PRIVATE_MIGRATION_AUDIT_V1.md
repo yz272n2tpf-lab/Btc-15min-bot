@@ -323,3 +323,27 @@ This timestamp is the explicit infrastructure/evidence segment boundary for Cand
 ### Post-change
 
 PENDING.
+
+## Protected consumer migration segment 4 — Regime Observation
+
+Service: `scalp-regime-review-v1`
+Service ID: `979ad780-249d-407a-ae73-c8488c1d047f`
+
+### Pre-change evidence boundary
+
+- Active deployment: `385f960a-edfe-41c9-a5b9-c22c79b5b137`
+- Git SHA: `bccb066d6f8853d34a503da7bd8b01586c5b190e`
+- Current branch head equals deployed SHA.
+- Frozen cutoff: `2026-09-16T11:03:16+00:00`
+- Last recorded analysis timestamp before verification: `2026-09-18T12:30:33.609640113Z`
+- Status: `READY_FOR_MANUAL_DESCRIPTIVE_REVIEW`
+- Future full contracts: 172
+- sample_ready: true
+- Automatic promotion: false
+- Orders: false
+
+This timestamp is the infrastructure/evidence verification boundary for Regime Observation. The strategy cutoff remains unchanged.
+
+### Post-change
+
+PENDING.
