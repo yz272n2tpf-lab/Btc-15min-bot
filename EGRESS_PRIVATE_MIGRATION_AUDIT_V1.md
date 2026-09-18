@@ -1,0 +1,59 @@
+# BTC15 Private-Network Egress Migration Audit V1
+
+Read-only/signal-only research infrastructure migration record. No strategy thresholds, provider polling, cutoffs, order logic, or production trading behavior are changed by this audit record.
+
+## Completed no-boundary consumers
+
+1. `scalp-reversal-reentry-holdout-v1`
+   - Service ID: `a0f417fe-9bfe-4d80-bcd0-5647a582a1e7`
+   - Private URL applied: `http://scalp-move-shadow-v1.railway.internal:8080/research/path-export`
+   - Post-migration deployment: `9933e54a-dad2-4c39-ae07-657d73eef847`
+   - Post-migration status: SUCCESS
+   - First post-migration fetch: 492,437 rows
+   - Runtime executable files verified byte-identical to prior deployment despite branch-head commit metadata drift.
+   - NO ORDERS / shadow-only.
+
+2. `scalp-entry-profit-holdout-v1`
+   - Service ID: `4a7f7942-7701-4441-8061-d1c6148d0e81`
+   - Private URL applied: `http://scalp-move-shadow-v1.railway.internal:8080/research/path-export`
+   - Post-migration deployment: `82056b10-b4be-4016-83d5-4388017fd9ab`
+   - Post-migration status: SUCCESS
+   - First post-migration fetch: 495,456 rows
+   - Source SHA256: `67d9eff7306177c60420aa9e64e54ec7b639eb076b6063522a4cab792c1a8281`
+   - Analysis status: `FROZEN_ROLES_HOLDOUT_REVEALED`
+   - Runtime files verified byte-identical to prior deployment.
+   - NO ORDERS / shadow-only.
+
+3. `scalp-specialist-review-v3`
+   - Service ID: `fbf35c65-2043-49e8-9715-3c9151ea941b`
+   - Private URL applied: `http://scalp-move-shadow-v1.railway.internal:8080/research/path-export`
+   - Post-migration deployment: `fd95b152-f923-40f8-8b4f-224779b5a78f`
+   - Post-migration status: SUCCESS
+   - Deployment Git SHA unchanged: `22b8371bd12a714544396f4d073fccc7e038353f`
+   - First post-migration analysis: `GAP_RECOVERY_FEATURE_AUDIT_READY`
+   - NO ORDERS / shadow-only.
+
+## Protected consumer migration segment 1 — Coverage Rescue
+
+Service: `scalp-coverage-rescue-forward-v1`
+Service ID: `d357294c-05e7-4a2b-89bf-0aaa4509b8fb`
+
+### Pre-change evidence boundary
+
+- Pre-change deployment: `f4fc1620-3cd9-46c8-9101-6fede77d8d71`
+- Git SHA: `22b8371bd12a714544396f4d073fccc7e038353f`
+- Frozen cutoff: `2026-09-16T05:00:21+00:00`
+- Last recorded pre-change analysis timestamp: `2026-09-18T04:01:17.967850260Z`
+- Pre-change status: `COLLECTING_FUTURE_RESCUE_V1`
+- Pre-change future full contracts: 156
+- Pre-change incremental rescue contracts: 1
+- Pre-change qualification pass: false
+- Orders: false
+- Automatic promotion: false
+- Runtime branch head equals deployed Git SHA; no code drift before migration.
+
+This timestamp is an explicit infrastructure/evidence segment boundary. Evidence before and after the URL migration must not be described as operationally uninterrupted. The original frozen cutoff remains unchanged; the boundary is for infrastructure provenance, not strategy re-freezing.
+
+### Post-change
+
+PENDING.
