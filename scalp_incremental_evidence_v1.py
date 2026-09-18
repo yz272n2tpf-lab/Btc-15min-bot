@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only incremental adapter for the existing scalp path export.
+"""Read-only incremental adapter for the existing scalp path export.\nDEPLOY_TRIGGER_20260918: source-branch deployment handshake.
 Infrastructure only. Does not change producer, strategy, cutoffs, or orders.
 """
 from __future__ import annotations
