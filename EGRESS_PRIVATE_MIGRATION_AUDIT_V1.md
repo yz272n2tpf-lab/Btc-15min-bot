@@ -210,3 +210,26 @@ This timestamp is the explicit infrastructure/evidence segment boundary. The fro
 ### Post-change
 
 PENDING.
+
+## Protected consumer migration segment 6 — Opportunity Density Forward
+
+Service: `scalp-reversal-reentry-review-v1`
+Service ID: `c45a77d2-c91c-4c7c-b1f9-de52d7348ff9`
+
+### Pre-change evidence boundary
+
+- Pre-change deployment: `265e87a4-754f-4d6e-a116-12ac67b80c95`
+- Git SHA / current branch head: `b124c54ea9d015d88c5237d5e0bc45ded8a37f36`
+- Frozen cutoff: `2026-09-16T11:56:59+00:00`
+- Last recorded pre-change analysis timestamp: `2026-09-18T04:22:08.281827375Z`
+- Pre-change status: `READY_FOR_MANUAL_DENSITY_REVIEW`
+- Pre-change future full contracts: 136
+- Sample_ready: true
+- Orders: false
+- Automatic promotion: false
+
+This timestamp is the explicit infrastructure/evidence segment boundary. Density remains descriptive and does not select or suppress signals.
+
+### Post-change
+
+PENDING.
