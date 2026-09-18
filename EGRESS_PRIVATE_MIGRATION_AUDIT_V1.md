@@ -282,9 +282,19 @@ Service ID: `7ef27913-4f4d-40fc-9b32-91d79852f13d`
 
 This timestamp is the explicit infrastructure/evidence segment boundary. Pullback remains development comparison only and any selected rule still requires a new fresh certification window.
 
-### Post-change
+### Post-change verification
 
-PENDING.
+The explicit `set_variables` call to the private target produced no new deployment, while the service continued healthy on deployment `c0332514-8c3c-41c5-8ca4-78076cc7e4f7`. This indicates the configured value already matched the private target before this verification attempt.
+
+- Confirmed target: `http://scalp-move-shadow-v1.railway.internal:8080/research/path-export`
+- Active deployment remained: `c0332514-8c3c-41c5-8ca4-78076cc7e4f7`
+- Git SHA remained: `ebae93d1260c9ec8a91de8a746a14b498972a1e1`
+- Frozen cutoff remained `2026-09-16T11:10:33+00:00`.
+- Service continued producing healthy analysis after the verification attempt.
+- No new restart/deployment occurred from this no-op variable set.
+- NO ORDERS / shadow-only / no automatic promotion.
+
+Audit correction: the 12:25:49 timestamp above is a verification boundary, not the original public-to-private switch boundary. The exact earlier switch time is not asserted from redacted variable history. Current private-path state is verified operationally.
 
 ## Protected consumer migration segment 3 — Candidate Verify
 
