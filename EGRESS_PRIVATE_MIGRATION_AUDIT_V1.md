@@ -95,9 +95,22 @@ Service ID: `a09d4dbc-8fa7-4d9f-bbc3-215533c4cf2b`
 
 This timestamp is the explicit infrastructure/evidence segment boundary for the Economics Forward scorer. The frozen strategy cutoff is not changed.
 
-### Post-change
+### Post-change verification
 
-PENDING.
+- Private URL applied: `http://scalp-move-shadow-v1.railway.internal:8080/research/path-export`
+- Post-change deployment: `c0332514-8c3c-41c5-8ca4-78076cc7e4f7`
+- Deployment Git SHA: `ebae93d1260c9ec8a91de8a746a14b498972a1e1` — unchanged.
+- Railway deployment status: SUCCESS.
+- Healthcheck: PASS.
+- First post-change analysis timestamp: `2026-09-18T04:16:42.415966826Z`
+- Frozen cutoff remained exactly `2026-09-16T11:10:33+00:00`.
+- Future full contracts advanced from 138 to 139 from new source data.
+- Immediate serial signals advanced from 237 to 239.
+- Development-comparison sample_ready remained true.
+- No same-sample promotion; selected policy would still require a later fresh certification window.
+- NO ORDERS / no automatic promotion.
+
+Result: PRIVATE NETWORK MIGRATION SEGMENT PASS for Candidate→Verify Forward.
 
 ## Protected consumer migration segment 3 — Candidate→Verify Forward
 
