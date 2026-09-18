@@ -379,9 +379,17 @@ Service ID: `b3080f5e-c625-4891-8aa2-eae860d6c174`
 
 This timestamp is the infrastructure/evidence verification boundary for Watch Exit. The frozen strategy cutoff remains unchanged.
 
-### Post-change
+### Post-change verification
 
-PENDING.
+Setting the private target caused no new deployment, indicating the configured URL already matched the private target before this verification attempt.
+
+- Active deployment remained `7877b573-6e9e-4440-a560-700d912001f5`.
+- Git SHA remained `14ef7cf264eb2e53246082038bd90eef9dde63da`.
+- Frozen cutoff remained unchanged.
+- No restart occurred from the no-op set.
+- NO ORDERS / no policy selection / no automatic promotion.
+
+Current private-path state is verified operationally.
 
 ## Protected consumer migration segment 6 — Opportunity Density
 
