@@ -21,6 +21,7 @@ LOCK=threading.Lock()
 STATE={"ok":False,"status":"STARTING","orders":False,"read_only":True}
 BODY=b""
 GEN=""
+SOURCE_PREFIX_SHA=""
 
 def fetch():
     h={"Cache-Control":"no-cache"}
@@ -36,9 +37,9 @@ def fetch():
     return body
 
 def cycle():
-    global BODY,GEN
+    global BODY,GEN,SOURCE_PREFIX_SHA
     raw=fetch()
-    sha=hashlib.sha256(raw).hexdigest()
+    sha=hashlib.sha256(raw).hexdigest()\n    SOURCE_PREFIX_SHA=sha
     header=raw.splitlines()[0]
     gen=hashlib.sha256(header).hexdigest()
     rows=max(0,raw.count(bytes([10]))-1)
