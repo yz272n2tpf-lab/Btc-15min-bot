@@ -38,7 +38,7 @@ SOURCE_URL = os.environ.get(
     "SCALP_PATH_EXPORT_URL",
     "https://scalp-move-shadow-v1-production.up.railway.app/research/path-export",
 ).strip()
-SOURCE_TOKEN = os.environ.get("SCALP_PATH_EXPORT_TOKEN", "").strip()
+SOURCE_TOKEN = os.environ.get("SCALP_PATH_EXPORT_TOKEN", "").strip()\nINCREMENTAL_URL = os.environ.get("SCALP_INCREMENTAL_URL", "").strip()\n_INCREMENTAL_RAW = bytearray()\n_INCREMENTAL_OFFSET = 0\n_INCREMENTAL_GENERATION = ""
 
 LOCK = threading.Lock()
 STATE: dict[str, Any] = {
@@ -57,12 +57,32 @@ def utcnow() -> str:
 
 
 def fetch_rows() -> tuple[list[dict[str, str]], str, int]:
-    headers = {"Cache-Control": "no-cache"}
-    if SOURCE_TOKEN:
-        headers["Authorization"] = f"Bearer {SOURCE_TOKEN}"
-    r = requests.get(SOURCE_URL, headers=headers, timeout=45)
-    r.raise_for_status()
-    raw = r.content
+    global _INCREMENTAL_OFFSET, _INCREMENTAL_GENERATION
+    if INCREMENTAL_URL:
+        # Canary transport only: reconstruct exact source bytes from bounded deltas.
+        # Analysis below is unchanged, allowing exact parity before deeper state optimization.
+        while True:
+            u = f"{INCREMENTAL_URL.rstrip('/')}/research/path-delta?offset={_INCREMENTAL_OFFSET}&max_bytes=4194304"
+            r = requests.get(u, timeout=45); r.raise_for_status()
+            gen = r.headers.get("X-Generation", "")
+            if _INCREMENTAL_GENERATION and gen != _INCREMENTAL_GENERATION:
+                _INCREMENTAL_RAW.clear(); _INCREMENTAL_OFFSET = 0
+            _INCREMENTAL_GENERATION = gen
+            start = int(r.headers.get("X-Start-Offset", _INCREMENTAL_OFFSET))
+            end = int(r.headers.get("X-End-Offset", start + len(r.content)))
+            if start != _INCREMENTAL_OFFSET:
+                raise ValueError("incremental offset mismatch")
+            if hashlib.sha256(r.content).hexdigest() != r.headers.get("X-Chunk-SHA256", ""):
+                raise ValueError("incremental chunk hash mismatch")
+            _INCREMENTAL_RAW.extend(r.content); _INCREMENTAL_OFFSET = end
+            size = int(r.headers.get("X-Source-Size", end))
+            if end >= size or not r.content: break
+        raw = bytes(_INCREMENTAL_RAW)
+    else:
+        headers = {"Cache-Control": "no-cache"}
+        if SOURCE_TOKEN: headers["Authorization"] = f"Bearer {SOURCE_TOKEN}"
+        r = requests.get(SOURCE_URL, headers=headers, timeout=45); r.raise_for_status()
+        raw = r.content
     if not raw or b"record_type" not in raw[:4096]:
         raise ValueError("unexpected scalp event export")
     rows = list(csv.DictReader(io.StringIO(raw.decode("utf-8", "replace"))))
