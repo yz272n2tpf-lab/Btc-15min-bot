@@ -30,8 +30,7 @@ def fetch():
     raw=r.content
     if not raw or b"record_type" not in raw[:4096]: raise ValueError("unexpected export")
     # Expose only complete newline-terminated bytes.
-    end=raw.rfind(b"
-")
+    end=raw.rfind(bytes([10]))
     if end<0: raise ValueError("no complete rows")
     body=raw[:end+1]
     return body
@@ -42,8 +41,7 @@ def cycle():
     sha=hashlib.sha256(raw).hexdigest()
     header=raw.splitlines()[0]
     gen=hashlib.sha256(header).hexdigest()
-    rows=max(0,raw.count(b"
-")-1)
+    rows=max(0,raw.count(bytes([10]))-1)
     with LOCK:
         BODY=raw; GEN=gen
         STATE.update({"ok":True,"status":"READY","bytes":len(raw),"rows":rows,
@@ -78,8 +76,7 @@ class H(BaseHTTPRequestHandler):
             if start<0 or start>len(raw): return self.sendj(409,{"ok":False,"error":"invalid_offset","generation":gen,"size":len(raw),"orders":False})
             stop=min(len(raw),start+cap)
             if stop<len(raw):
-                nl=raw.rfind(b"
-",start,stop+1); stop=start if nl<start else nl+1
+                nl=raw.rfind(bytes([10]),start,stop+1); stop=start if nl<start else nl+1
             chunk=raw[start:stop]
             self.send_response(200); self.send_header("Content-Type","application/octet-stream")
             self.send_header("Content-Length",str(len(chunk))); self.send_header("X-Generation",gen)
