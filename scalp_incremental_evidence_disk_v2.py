@@ -4,7 +4,7 @@ Infrastructure only | READ ONLY | NO ORDERS.
 Avoids retaining the complete source export in Python heap.
 """
 from __future__ import annotations
-import hashlib,json,os,tempfile,threading,time
+import gc,hashlib,json,os,tempfile,threading,time
 from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
 from urllib.parse import parse_qs,urlparse
 import requests
@@ -35,9 +35,9 @@ def refresh():
         # Trim incomplete tail if any.
         with open(tmp,"rb+") as f:
             if n:
-                f.seek(max(0,n-1024*1024));tail=f.read();pos=tail.rfind(bytes([10]))
+                f.seek(max(0,n-65536));tail=f.read();pos=tail.rfind(bytes([10]))
                 if pos<0: raise ValueError("no complete newline in tail")
-                end=max(0,n-1024*1024)+pos+1
+                end=max(0,n-65536)+pos+1
                 if end<n:f.truncate(end);n=end
         # Rehash exact committed bytes if truncated.
         h=hashlib.sha256();rows=-1
@@ -50,7 +50,7 @@ def refresh():
         os.replace(tmp,DATA)
         st={"ok":True,"status":"READY","bytes":n,"rows":max(0,rows-1),"sha256":h.hexdigest(),"updated":time.time(),"orders":False,"read_only":True}
         with LOCK:STATE.clear();STATE.update(st)
-        print("SCALP_INCREMENTAL_DISK | "+json.dumps(st,separators=(",",":")),flush=True)
+        print("SCALP_INCREMENTAL_DISK | "+json.dumps(st,separators=(",",":")),flush=True)\n        del tail, head, chunk\n        gc.collect()
     finally:
         if os.path.exists(tmp):
             try:os.unlink(tmp)
