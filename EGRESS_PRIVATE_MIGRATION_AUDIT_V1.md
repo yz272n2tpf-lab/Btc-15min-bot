@@ -285,3 +285,31 @@ This timestamp is the explicit infrastructure/evidence segment boundary. Pullbac
 ### Post-change
 
 PENDING.
+
+## Protected consumer migration segment 3 — Candidate Verify
+
+Service: `scalp-economics-exit-review-v1`
+Service ID: `f6ae8e92-dbd9-4439-817e-abda52981ab1`
+
+### Pre-change evidence boundary
+
+- Pre-change deployment: `c0332514-8c3c-41c5-8ca4-78076cc7e4f7`
+- Git SHA: `ebae93d1260c9ec8a91de8a746a14b498972a1e1`
+- Frozen cutoff: `2026-09-16T11:10:33+00:00`
+- Last recorded pre-change analysis timestamp: `2026-09-18T12:25:49.454450288Z`
+- Pre-change status: `READY_FOR_MANUAL_DEVELOPMENT_COMPARISON`
+- Pre-change future full contracts: 171
+- Pre-change immediate serial signals: 296
+- Pre-change observed 30s verified signals: 296
+- Pre-change sample_ready: true
+- Policy selection: false
+- Same-sample promotion: false
+- Automatic promotion: false
+- Orders: false
+- Runtime branch head equals deployed Git SHA.
+
+This timestamp is the explicit infrastructure/evidence segment boundary for Candidate Verify. The frozen strategy cutoff remains unchanged.
+
+### Post-change
+
+PENDING.
