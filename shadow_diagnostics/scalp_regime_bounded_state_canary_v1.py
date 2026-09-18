@@ -23,7 +23,10 @@ class State:
         self.min_left:dict[str,float]={}
         self.rows_seen=0
         self.rows_retained=0
-        self.orders=False\n        self.candidates:dict[str,dict[str,str]]={}\n        self.paths:dict[str,list[tuple[float,float,str]]]={}\n        self.results:set[str]=set()
+        self.orders=False
+        self.candidates:dict[str,dict[str,str]]={}
+        self.paths:dict[str,list[tuple[float,float,str]]]={}
+        self.results:set[str]=set()
     @staticmethod
     def dt(v:str)->datetime|None:
         try:
@@ -52,7 +55,15 @@ class State:
             if first < CUTOFF:
                 # Contract can never enter prospective denominator.
                 self.by_contract.pop(c,None);continue
-            self.by_contract.setdefault(c,[]).append(r);self.rows_retained+=1\n            typ=(r.get("record_type") or "").strip().upper(); cid=(r.get("candidate_id") or "").strip()\n            if typ=="CANDIDATE" and cid:\n                self.candidates[cid]=r\n            elif typ=="PATH" and cid:\n                e=self.num(r.get("elapsed_sec") or ""); g=self.num(r.get("exec_gain") or "")\n                if e is not None and g is not None:self.paths.setdefault(cid,[]).append((e,g,r.get("timestamp_utc") or ""))\n            elif typ=="RESULT" and cid:\n                self.results.add(cid)
+            self.by_contract.setdefault(c,[]).append(r);self.rows_retained+=1
+            typ=(r.get("record_type") or "").strip().upper(); cid=(r.get("candidate_id") or "").strip()
+            if typ=="CANDIDATE" and cid:
+                self.candidates[cid]=r
+            elif typ=="PATH" and cid:
+                e=self.num(r.get("elapsed_sec") or ""); g=self.num(r.get("exec_gain") or "")
+                if e is not None and g is not None:self.paths.setdefault(cid,[]).append((e,g,r.get("timestamp_utc") or ""))
+            elif typ=="RESULT" and cid:
+                self.results.add(cid)
             left=self.num(r.get("seconds_left") or "")
             if left is not None:
                 self.max_left[c]=max(self.max_left.get(c,left),left)
@@ -62,7 +73,8 @@ class State:
     def stats(self)->dict[str,Any]:
         return {"version":VERSION,"cutoff_utc":CUTOFF.isoformat(),"rows_seen":self.rows_seen,
                 "rows_retained":self.rows_retained,"contracts_retained":len(self.by_contract),
-                "eligible_full_contracts":len(self.eligible_full_ids()),"candidate_count":len(self.candidates),\n                "path_candidate_count":len(self.paths),"result_count":len(self.results),"orders":False}
+                "eligible_full_contracts":len(self.eligible_full_ids()),"candidate_count":len(self.candidates),
+                "path_candidate_count":len(self.paths),"result_count":len(self.results),"orders":False}
 
 if __name__=="__main__":
     print(json.dumps({"version":VERSION,"status":"SCAFFOLD_ONLY","orders":False},separators=(",",":")))
