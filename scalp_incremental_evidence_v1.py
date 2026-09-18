@@ -39,7 +39,8 @@ def fetch():
 def cycle():
     global BODY,GEN,SOURCE_PREFIX_SHA
     raw=fetch()
-    sha=hashlib.sha256(raw).hexdigest()\n    SOURCE_PREFIX_SHA=sha
+    sha=hashlib.sha256(raw).hexdigest()
+    SOURCE_PREFIX_SHA=sha
     header=raw.splitlines()[0]
     gen=hashlib.sha256(header).hexdigest()
     rows=max(0,raw.count(bytes([10]))-1)
