@@ -379,7 +379,11 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         path = urlparse(self.path).path
-        if path in {"/", "/health", "/summary.json"}:
+        if path == "/health":
+            with LOCK:
+                data = dict(STATE)
+            return self._json(200, data)
+        if path in {"/", "/summary.json"}:
             with LOCK:
                 data = dict(STATE)
             return self._json(200 if data.get("ok") else 503, data)
@@ -400,7 +404,6 @@ def main() -> int:
         "READ ONLY | SIGNAL ONLY | NO ORDERS",
         flush=True,
     )
-    cycle()
     threading.Thread(target=worker, name="scalp-unarmed-live-tape", daemon=True).start()
     ThreadingHTTPServer(("0.0.0.0", PORT), Handler).serve_forever()
     return 0
