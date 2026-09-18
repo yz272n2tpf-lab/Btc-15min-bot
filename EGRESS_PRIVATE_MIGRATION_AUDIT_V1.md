@@ -415,3 +415,27 @@ This timestamp is the infrastructure/evidence verification boundary for Opportun
 ### Post-change
 
 PENDING.
+
+## Protected consumer migration segment 7 — Pullback Entry
+
+Service: `scalp-ladder-research-v1`
+Service ID: `7ef27913-4f4d-40fc-9b32-91d79852f13d`
+
+### Pre-change evidence boundary
+
+- Active deployment: `cbca0472-9f3c-48c9-924a-3c0e58cf0eb9`
+- Git SHA: `b786be9bf13c8c4ad80d9073f2e498904a609f23`
+- Current branch head equals deployed SHA.
+- Frozen cutoff: `2026-09-16T12:05:59+00:00`
+- Last recorded analysis timestamp before verification: `2026-09-18T12:32:19.486613570Z`
+- Status: `READY_FOR_MANUAL_PULLBACK_DEVELOPMENT_REVIEW`
+- Future full contracts: 168
+- Signals: 286
+- sample_ready: true
+- Orders: false
+
+This timestamp is the infrastructure/evidence verification boundary for Pullback Entry. The frozen strategy cutoff remains unchanged.
+
+### Post-change
+
+PENDING.
