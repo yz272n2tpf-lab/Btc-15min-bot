@@ -98,3 +98,27 @@ This timestamp is the explicit infrastructure/evidence segment boundary for the 
 ### Post-change
 
 PENDING.
+
+## Protected consumer migration segment 3 — Candidate→Verify Forward
+
+Service: `scalp-economics-exit-review-v1`
+Service ID: `f6ae8e92-dbd9-4439-817e-abda52981ab1`
+
+### Pre-change evidence boundary
+
+- Pre-change deployment: `19c72496-8ea1-4a4b-8e09-564e1074dbef`
+- Git SHA: `ebae93d1260c9ec8a91de8a746a14b498972a1e1`
+- Frozen cutoff: `2026-09-16T11:10:33+00:00`
+- Last recorded pre-change analysis timestamp: `2026-09-18T04:10:27.372156784Z`
+- Pre-change future full contracts: 138
+- Pre-change immediate serial signals: 237
+- Development-comparison sample_ready: true
+- Orders: false
+- Automatic promotion: false
+- Runtime branch head equals deployed Git SHA.
+
+This timestamp is the explicit infrastructure/evidence segment boundary. The frozen cutoff and comparison policy are not changed.
+
+### Post-change
+
+PENDING.
