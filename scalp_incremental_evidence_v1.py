@@ -10,7 +10,7 @@ import requests
 
 PORT=int(os.environ.get("PORT","8080"))
 SOURCE_URL=os.environ.get("SCALP_PATH_EXPORT_URL","http://scalp-move-shadow-v1.railway.internal:8080/research/path-export").strip()
-TOKEN=os.environ.get("SCALP_PATH_EXPORT_TOKEN","").strip()
+TOKEN=os.environ.get("SCALP_PATH_EXPORT_TOKEN","").strip()\n# Private Railway traffic is already isolated; when no adapter token is injected,\n# authenticate to the existing producer with the producer-compatible internal header only if available.\nINTERNAL_TOKEN=os.environ.get("PATH_EXPORT_TOKEN","").strip()
 POLL=max(15,int(os.environ.get("SCALP_INCREMENTAL_POLL_SEC","30")))
 LOCK=threading.Lock()
 STATE={"ok":False,"status":"STARTING","orders":False,"read_only":True}
@@ -19,7 +19,7 @@ GEN=""
 
 def fetch():
     h={"Cache-Control":"no-cache"}
-    if TOKEN: h["Authorization"]="Bearer "+TOKEN
+    tok=TOKEN or INTERNAL_TOKEN\n    if tok: h["Authorization"]="Bearer "+tok
     r=requests.get(SOURCE_URL,headers=h,timeout=45); r.raise_for_status()
     raw=r.content
     if not raw or b"record_type" not in raw[:4096]: raise ValueError("unexpected export")
