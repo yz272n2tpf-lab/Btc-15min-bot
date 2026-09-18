@@ -168,9 +168,23 @@ Service ID: `979ad780-249d-407a-ae73-c8488c1d047f`
 
 This timestamp is the explicit infrastructure/evidence segment boundary. The frozen cutoff and descriptive-only interpretation are not changed.
 
-### Post-change
+### Post-change verification
 
-PENDING.
+- Private URL applied: `http://scalp-move-shadow-v1.railway.internal:8080/research/path-export`
+- Post-change deployment: `7877b573-6e9e-4440-a560-700d912001f5`
+- Deployment Git SHA: `14ef7cf264eb2e53246082038bd90eef9dde63da` — unchanged.
+- Railway deployment status: SUCCESS.
+- Healthcheck: PASS.
+- First post-change analysis timestamp: `2026-09-18T04:24:01.803336963Z`
+- Frozen cutoff remained exactly `2026-09-16T11:48:06+00:00`.
+- Status remained `READY_FOR_MANUAL_WATCH_EXIT_REVIEW`.
+- Future full contracts remained 136.
+- Armed signals remained 191.
+- Development-comparison sample_ready remained true.
+- Watch policy still does not change the exit; selected rule still requires a later fresh certification window.
+- NO ORDERS / no automatic promotion.
+
+Result: PRIVATE NETWORK MIGRATION SEGMENT PASS for Watch→Exit Forward.
 
 ## Protected consumer migration segment 5 — Watch→Exit Forward
 
