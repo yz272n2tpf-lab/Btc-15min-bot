@@ -50,7 +50,10 @@ def refresh():
         os.replace(tmp,DATA)
         st={"ok":True,"status":"READY","bytes":n,"rows":max(0,rows-1),"sha256":h.hexdigest(),"updated":time.time(),"orders":False,"read_only":True}
         with LOCK:STATE.clear();STATE.update(st)
-        print("SCALP_INCREMENTAL_DISK | "+json.dumps(st,separators=(",",":")),flush=True)\n        del tail, head, chunk\n        gc.collect()
+        print("SCALP_INCREMENTAL_DISK | "+json.dumps(st,separators=(",",":")),flush=True)
+        for name in ("tail","head","chunk"):
+            if name in locals(): del locals()[name]
+        gc.collect()
     finally:
         if os.path.exists(tmp):
             try:os.unlink(tmp)
