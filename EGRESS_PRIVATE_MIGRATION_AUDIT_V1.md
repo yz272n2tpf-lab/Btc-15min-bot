@@ -54,6 +54,21 @@ Service ID: `d357294c-05e7-4a2b-89bf-0aaa4509b8fb`
 
 This timestamp is an explicit infrastructure/evidence segment boundary. Evidence before and after the URL migration must not be described as operationally uninterrupted. The original frozen cutoff remains unchanged; the boundary is for infrastructure provenance, not strategy re-freezing.
 
-### Post-change
+### Post-change verification
 
-PENDING.
+- Private URL applied: `http://scalp-move-shadow-v1.railway.internal:8080/research/path-export`
+- Post-change deployment: `5c5b28fb-e1bc-4018-86bd-5ea84049d653`
+- Deployment Git SHA: `22b8371bd12a714544396f4d073fccc7e038353f` — unchanged.
+- Railway deployment status: SUCCESS.
+- Healthcheck: PASS.
+- First post-change analysis timestamp: `2026-09-18T04:08:11.068469700Z`
+- Frozen cutoff remained exactly `2026-09-16T05:00:21+00:00`.
+- Post-change status remained `COLLECTING_FUTURE_RESCUE_V1`.
+- Post-change future full contracts: 156.
+- Post-change incremental rescue contracts: 1.
+- Post-change qualification pass: false.
+- Baseline, rescue, union, and mechanical-reconciliation aggregate values matched the last pre-change state at the segment boundary.
+- The scorer rebuilds its state from the full source export on every refresh; no in-memory timer/evidence state is authoritative across restart.
+- NO ORDERS / shadow-only / no automatic promotion.
+
+Result: PRIVATE NETWORK MIGRATION SEGMENT PASS for Coverage Rescue. The infrastructure boundary remains recorded for provenance and later certification accounting.
