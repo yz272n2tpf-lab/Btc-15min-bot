@@ -132,9 +132,21 @@ Service ID: `f6ae8e92-dbd9-4439-817e-abda52981ab1`
 
 This timestamp is the explicit infrastructure/evidence segment boundary. The frozen cutoff and comparison policy are not changed.
 
-### Post-change
+### Post-change verification
 
-PENDING.
+- Private URL applied: `http://scalp-move-shadow-v1.railway.internal:8080/research/path-export`
+- Post-change deployment: `385f960a-edfe-41c9-a5b9-c22c79b5b137`
+- Deployment Git SHA: `bccb066d6f8853d34a503da7bd8b01586c5b190e` — unchanged.
+- Railway deployment status: SUCCESS.
+- Healthcheck: PASS.
+- First post-change analysis timestamp: `2026-09-18T04:20:02.876025647Z`
+- Frozen cutoff remained exactly `2026-09-16T11:03:16+00:00`.
+- Status remained `READY_FOR_MANUAL_DESCRIPTIVE_REVIEW`.
+- Pre/post descriptive aggregates remained continuous, with the same 139-contract universe at the boundary.
+- Descriptive-only interpretation and no-threshold-selection guardrail remained intact.
+- NO ORDERS / no automatic promotion.
+
+Result: PRIVATE NETWORK MIGRATION SEGMENT PASS for Regime Observation V1.1.
 
 ## Protected consumer migration segment 4 — Regime Observation V1.1
 
