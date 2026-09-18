@@ -382,3 +382,28 @@ This timestamp is the infrastructure/evidence verification boundary for Watch Ex
 ### Post-change
 
 PENDING.
+
+## Protected consumer migration segment 6 — Opportunity Density
+
+Service: `scalp-reversal-reentry-review-v1`
+Service ID: `c45a77d2-c91c-4c7c-b1f9-de52d7348ff9`
+
+### Pre-change evidence boundary
+
+- Active deployment: `057504f6-cb85-41ea-8a9c-9a4d0c577b6b`
+- Git SHA: `b124c54ea9d015d88c5237d5e0bc45ded8a37f36`
+- Current branch head equals deployed SHA.
+- Frozen cutoff: `2026-09-16T11:56:59+00:00`
+- Last recorded analysis timestamp before verification: `2026-09-18T12:31:37.217815185Z`
+- Status: `READY_FOR_MANUAL_DENSITY_REVIEW`
+- Future full contracts: 169
+- Total serial opportunities: 289
+- True contract coverage: 0.9763313609467456
+- sample_ready: true
+- Orders: false
+
+This timestamp is the infrastructure/evidence verification boundary for Opportunity Density. The frozen strategy cutoff remains unchanged.
+
+### Post-change
+
+PENDING.
