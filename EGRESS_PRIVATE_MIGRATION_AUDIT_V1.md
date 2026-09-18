@@ -436,9 +436,17 @@ Service ID: `7ef27913-4f4d-40fc-9b32-91d79852f13d`
 
 This timestamp is the infrastructure/evidence verification boundary for Pullback Entry. The frozen strategy cutoff remains unchanged.
 
-### Post-change
+### Post-change verification
 
-PENDING.
+Setting the private target caused no new deployment, indicating the configured URL already matched the private target before this verification attempt.
+
+- Active deployment remained `cbca0472-9f3c-48c9-924a-3c0e58cf0eb9`.
+- Git SHA remained `b786be9bf13c8c4ad80d9073f2e498904a609f23`.
+- Frozen cutoff remained unchanged.
+- No restart occurred from the no-op set.
+- NO ORDERS / shadow-only.
+
+Current private-path state is verified operationally.
 
 ## Protected consumer migration segment 8 — Nextgen V2
 
