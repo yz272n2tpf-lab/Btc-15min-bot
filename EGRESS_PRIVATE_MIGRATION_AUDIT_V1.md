@@ -207,9 +207,22 @@ Service ID: `b3080f5e-c625-4891-8aa2-eae860d6c174`
 
 This timestamp is the explicit infrastructure/evidence segment boundary. The frozen Watch→Exit rules and cutoff are not changed.
 
-### Post-change
+### Post-change verification
 
-PENDING.
+- Private URL applied: `http://scalp-move-shadow-v1.railway.internal:8080/research/path-export`
+- Post-change deployment: `057504f6-cb85-41ea-8a9c-9a4d0c577b6b`
+- Deployment Git SHA: `b124c54ea9d015d88c5237d5e0bc45ded8a37f36` — unchanged.
+- Railway deployment status: SUCCESS.
+- Healthcheck: PASS.
+- First post-change analysis timestamp: `2026-09-18T04:27:25.271428495Z`
+- Frozen cutoff remained exactly `2026-09-16T11:56:59+00:00`.
+- Status remained `READY_FOR_MANUAL_DENSITY_REVIEW`.
+- Future full contracts remained 136.
+- Sample_ready remained true.
+- Density remains descriptive only and does not select/suppress signals.
+- NO ORDERS / no automatic promotion.
+
+Result: PRIVATE NETWORK MIGRATION SEGMENT PASS for Opportunity Density Forward.
 
 ## Protected consumer migration segment 6 — Opportunity Density Forward
 
