@@ -81,7 +81,12 @@ def fetch_rows() -> tuple[list[dict[str, str]], str, int]:
             _INCREMENTAL_RAW.extend(r.content); _INCREMENTAL_OFFSET = end
             size = int(r.headers.get("X-Source-Size", end))
             if end >= size or not r.content: break
-        raw = bytes(_INCREMENTAL_RAW)\n        manifest = requests.get(f"{INCREMENTAL_URL.rstrip('/')}/research/path-manifest", timeout=15); manifest.raise_for_status()\n        meta = manifest.json()\n        if len(raw) != int(meta.get("bytes", -1)) or hashlib.sha256(raw).hexdigest() != str(meta.get("sha256", "")):\n            raise ValueError("incremental reconstructed snapshot parity mismatch")
+        raw = bytes(_INCREMENTAL_RAW)
+        manifest = requests.get(f"{INCREMENTAL_URL.rstrip('/')}/research/path-manifest", timeout=15)
+        manifest.raise_for_status()
+        meta = manifest.json()
+        if len(raw) != int(meta.get("bytes", -1)) or hashlib.sha256(raw).hexdigest() != str(meta.get("sha256", "")):
+            raise ValueError("incremental reconstructed snapshot parity mismatch")
     else:
         headers = {"Cache-Control": "no-cache"}
         if SOURCE_TOKEN: headers["Authorization"] = f"Bearer {SOURCE_TOKEN}"
