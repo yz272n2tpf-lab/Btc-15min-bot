@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Read-only incremental adapter for the existing scalp path export.\nDEPLOY_TRIGGER_20260918: source-branch deployment handshake.\nDEPLOY_TRIGGER_TOKEN_REF: apply Railway reference variable.
+"""Read-only incremental adapter for the existing scalp path export.
+DEPLOY_TRIGGER_20260918: source-branch deployment handshake.
+DEPLOY_TRIGGER_TOKEN_REF: apply Railway reference variable.
 Infrastructure only. Does not change producer, strategy, cutoffs, or orders.
 """
 from __future__ import annotations
@@ -10,7 +12,10 @@ import requests
 
 PORT=int(os.environ.get("PORT","8080"))
 SOURCE_URL=os.environ.get("SCALP_PATH_EXPORT_URL","http://scalp-move-shadow-v1.railway.internal:8080/research/path-export").strip()
-TOKEN=os.environ.get("SCALP_PATH_EXPORT_TOKEN","").strip()\n# Private Railway traffic is already isolated; when no adapter token is injected,\n# authenticate to the existing producer with the producer-compatible internal header only if available.\nINTERNAL_TOKEN=os.environ.get("PATH_EXPORT_TOKEN","").strip()
+TOKEN=os.environ.get("SCALP_PATH_EXPORT_TOKEN","").strip()
+# Private Railway traffic is already isolated; when no adapter token is injected,
+# authenticate to the existing producer with the producer-compatible internal header only if available.
+INTERNAL_TOKEN=os.environ.get("PATH_EXPORT_TOKEN","").strip()
 POLL=max(15,int(os.environ.get("SCALP_INCREMENTAL_POLL_SEC","30")))
 LOCK=threading.Lock()
 STATE={"ok":False,"status":"STARTING","orders":False,"read_only":True}
@@ -19,12 +24,14 @@ GEN=""
 
 def fetch():
     h={"Cache-Control":"no-cache"}
-    tok=TOKEN or INTERNAL_TOKEN\n    if tok: h["Authorization"]="Bearer "+tok
+    tok=TOKEN or INTERNAL_TOKEN
+    if tok: h["Authorization"]="Bearer "+tok
     r=requests.get(SOURCE_URL,headers=h,timeout=45); r.raise_for_status()
     raw=r.content
     if not raw or b"record_type" not in raw[:4096]: raise ValueError("unexpected export")
     # Expose only complete newline-terminated bytes.
-    end=raw.rfind(b"\n")
+    end=raw.rfind(b"
+")
     if end<0: raise ValueError("no complete rows")
     body=raw[:end+1]
     return body
@@ -35,7 +42,8 @@ def cycle():
     sha=hashlib.sha256(raw).hexdigest()
     header=raw.splitlines()[0]
     gen=hashlib.sha256(header).hexdigest()
-    rows=max(0,raw.count(b"\n")-1)
+    rows=max(0,raw.count(b"
+")-1)
     with LOCK:
         BODY=raw; GEN=gen
         STATE.update({"ok":True,"status":"READY","bytes":len(raw),"rows":rows,
@@ -70,7 +78,8 @@ class H(BaseHTTPRequestHandler):
             if start<0 or start>len(raw): return self.sendj(409,{"ok":False,"error":"invalid_offset","generation":gen,"size":len(raw),"orders":False})
             stop=min(len(raw),start+cap)
             if stop<len(raw):
-                nl=raw.rfind(b"\n",start,stop+1); stop=start if nl<start else nl+1
+                nl=raw.rfind(b"
+",start,stop+1); stop=start if nl<start else nl+1
             chunk=raw[start:stop]
             self.send_response(200); self.send_header("Content-Type","application/octet-stream")
             self.send_header("Content-Length",str(len(chunk))); self.send_header("X-Generation",gen)
