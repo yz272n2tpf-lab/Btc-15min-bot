@@ -171,3 +171,28 @@ This timestamp is the explicit infrastructure/evidence segment boundary. The fro
 ### Post-change
 
 PENDING.
+
+## Protected consumer migration segment 5 — Watch→Exit Forward
+
+Service: `scalp-entry-profit-review-v1`
+Service ID: `b3080f5e-c625-4891-8aa2-eae860d6c174`
+
+### Pre-change evidence boundary
+
+- Pre-change deployment: `71f6718d-1901-4196-b629-2e514ea5a327`
+- Git SHA: `14ef7cf264eb2e53246082038bd90eef9dde63da`
+- Frozen cutoff: `2026-09-16T11:48:06+00:00`
+- Last recorded pre-change analysis timestamp: `2026-09-18T04:19:00.120649803Z`
+- Pre-change status: `READY_FOR_MANUAL_WATCH_EXIT_REVIEW`
+- Pre-change future full contracts: 136
+- Pre-change armed signals: 191
+- Development-comparison sample_ready: true
+- Orders: false
+- Automatic promotion: false
+- Runtime branch head equals deployed Git SHA.
+
+This timestamp is the explicit infrastructure/evidence segment boundary. The frozen Watch→Exit rules and cutoff are not changed.
+
+### Post-change
+
+PENDING.
