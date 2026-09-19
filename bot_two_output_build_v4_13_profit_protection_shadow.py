@@ -1185,6 +1185,39 @@ try:
         _fair_calibration_snapshots = len(_fair_calibrate)
     _fair_ready = True
 
+    # Offline artifact-freeze hook. Explicit opt-in only; never enabled in production.
+    _freeze_out = os.getenv("BTC15_FREEZE_FITTED_MODELS_PATH","").strip()
+    if _freeze_out and not _BTC15_ARTIFACT_MODE:
+        import hashlib as _freeze_hashlib
+        import pickle as _freeze_pickle
+        _general_parity_X = X_test[feature_columns].tail(min(128,len(X_test))).copy()
+        _fair_parity_X = _fair_calibrate[_fair_features].tail(min(128,len(_fair_calibrate))).copy()
+        _train_boundary = {
+            "feature_columns":feature_columns,
+            "train_first":str(train_data.index.min()),"train_last":str(train_data.index.max()),
+            "train_rows":len(train_data),"test_rows":len(test_data),
+        }
+        _fair_boundary = {
+            "features":_fair_features,
+            "model_tickers":sorted(_fair_model_ticks),"calib_tickers":sorted(_fair_calib_ticks),
+            "model_contracts":len(_fair_model_contracts),"calib_contracts":len(_fair_calib_contracts),
+        }
+        def _freeze_sha(_x):
+            return _freeze_hashlib.sha256(
+                __import__("json").dumps(_x,sort_keys=True,separators=(",",":")).encode()
+            ).hexdigest()
+        _freeze_obj={
+            "general_model":model,"fair_rf":_fair_rf,"fair_sigmoid":_fair_sigmoid,
+            "general_parity_X":_general_parity_X,"fair_parity_X":_fair_parity_X,
+            "training_boundary_sha256":_freeze_sha(_train_boundary),
+            "fair_chronology_sha256":_freeze_sha(_fair_boundary),
+            "fair_calibration_contracts":len(_fair_calib_contracts),
+            "fair_calibration_snapshots":len(_fair_calibrate),
+            "orders":False,
+        }
+        Path(_freeze_out).write_bytes(_freeze_pickle.dumps(_freeze_obj,_freeze_pickle.HIGHEST_PROTOCOL))
+        print("BTC15 FITTED MODEL FREEZE EMITTED | OFFLINE CANARY INPUT | NO ORDERS")
+
 except Exception as _fair_error:
     _fair_ready = False
     _fair_error_text = str(_fair_error)
