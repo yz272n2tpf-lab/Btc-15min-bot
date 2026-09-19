@@ -371,118 +371,122 @@ else:
     )
     model.fit(X_train, y_train)
 
-pred = model.predict(X_test)
+if _BTC15_ARTIFACT_MODE:
+    print("GENERAL RF WALK-FORWARD/THRESHOLD DIAGNOSTICS: SKIPPED | certified artifact mode")
+else:
+    pred = model.predict(X_test)
 
-model_accuracy = accuracy_score(y_test, pred)
+    model_accuracy = accuracy_score(y_test, pred)
 
-print("Model accuracy:", model_accuracy)
-probabilities = model.predict_proba(X_test)
+    print("Model accuracy:", model_accuracy)
+    probabilities = model.predict_proba(X_test)
 
-confidence = probabilities.max(axis=1)
+    confidence = probabilities.max(axis=1)
 
-high_confidence = confidence >= 0.70
+    high_confidence = confidence >= 0.70
 
-high_conf_accuracy = (
-    pred[high_confidence] == y_test.iloc[high_confidence]
-).mean()
+    high_conf_accuracy = (
+        pred[high_confidence] == y_test.iloc[high_confidence]
+    ).mean()
 
-print("High-confidence trades:", high_confidence.sum())
-print("High-confidence accuracy:", high_conf_accuracy)
-for threshold in [0.55, 0.60, 0.65, 0.69, 0.70, 0.75, 0.80]:
-    mask = confidence >= threshold
-    if mask.sum() > 0:
-        acc = (pred[mask] == y_test.iloc[mask]).mean()
-        print(f"Threshold {threshold}: {mask.sum()} trades, accuracy {acc:.3f}")
-walk_forward_windows = [
-    (0.60, 0.70),
-    (0.70, 0.80),
-    (0.80, 1.00),
-]
-walk_forward_results = []
-threshold_summary = {
-    0.55: {"correct": 0, "total": 0},
-    0.60: {"correct": 0, "total": 0},
-    0.65: {"correct": 0, "total": 0},
-    0.70: {"correct": 0, "total": 0},
-}
-for train_end, test_end in walk_forward_windows:
-        train_end_idx = int(len(model_data) * train_end)
-        test_end_idx = int(len(model_data) * test_end)
+    print("High-confidence trades:", high_confidence.sum())
+    print("High-confidence accuracy:", high_conf_accuracy)
+    for threshold in [0.55, 0.60, 0.65, 0.69, 0.70, 0.75, 0.80]:
+        mask = confidence >= threshold
+        if mask.sum() > 0:
+            acc = (pred[mask] == y_test.iloc[mask]).mean()
+            print(f"Threshold {threshold}: {mask.sum()} trades, accuracy {acc:.3f}")
+    walk_forward_windows = [
+        (0.60, 0.70),
+        (0.70, 0.80),
+        (0.80, 1.00),
+    ]
+    walk_forward_results = []
+    threshold_summary = {
+        0.55: {"correct": 0, "total": 0},
+        0.60: {"correct": 0, "total": 0},
+        0.65: {"correct": 0, "total": 0},
+        0.70: {"correct": 0, "total": 0},
+    }
+    for train_end, test_end in walk_forward_windows:
+            train_end_idx = int(len(model_data) * train_end)
+            test_end_idx = int(len(model_data) * test_end)
 
-        wf_train = model_data.iloc[:train_end_idx]
-        wf_test = model_data.iloc[train_end_idx:test_end_idx]
-        wf_X_train = wf_train[feature_columns]
-        wf_y_train = wf_train["outcome"]
+            wf_train = model_data.iloc[:train_end_idx]
+            wf_test = model_data.iloc[train_end_idx:test_end_idx]
+            wf_X_train = wf_train[feature_columns]
+            wf_y_train = wf_train["outcome"]
 
-        wf_X_test = wf_test[feature_columns]
-        wf_y_test = wf_test["outcome"]
-        wf_model = RandomForestClassifier(
-    n_estimators=1200,
-    max_depth=8,
-    random_state=42,
-    class_weight="balanced"
-)
+            wf_X_test = wf_test[feature_columns]
+            wf_y_test = wf_test["outcome"]
+            wf_model = RandomForestClassifier(
+        n_estimators=1200,
+        max_depth=8,
+        random_state=42,
+        class_weight="balanced"
+    )
 
-        wf_model.fit(wf_X_train, wf_y_train)
-        wf_pred = wf_model.predict(wf_X_test)
-        wf_accuracy = accuracy_score(wf_y_test, wf_pred)
-        wf_probabilities = wf_model.predict_proba(wf_X_test)
-        wf_confidence = wf_probabilities.max(axis=1)
-        wf_test = wf_test.copy()
+            wf_model.fit(wf_X_train, wf_y_train)
+            wf_pred = wf_model.predict(wf_X_test)
+            wf_accuracy = accuracy_score(wf_y_test, wf_pred)
+            wf_probabilities = wf_model.predict_proba(wf_X_test)
+            wf_confidence = wf_probabilities.max(axis=1)
+            wf_test = wf_test.copy()
 
-        wf_test["wf_pred"] = wf_pred
-        wf_test["correct"] = wf_test["wf_pred"] == wf_test["outcome"]
-        wf_test["trend_aligned"] = ((wf_test["wf_pred"] == 1) & (wf_test["trend_5_20"] > 0)) | ((wf_test["wf_pred"] == 0) & (wf_test["trend_5_20"] < 0))
-        for wf_threshold in [0.55, 0.60, 0.65, 0.70]:
-         wf_high_confidence = wf_confidence >= wf_threshold
-         print("WF TEST COLUMNS:", wf_test.columns.tolist())
-         wf_distance = ((wf_test["Close"] - wf_test["Open"]) / wf_test["Open"]).abs().to_numpy()
-         wf_far_mask = wf_distance >= 0.002
-         wf_far_high_confidence = wf_high_confidence & wf_far_mask
-         wf_far_total = wf_far_high_confidence.sum()
-         wf_far_correct = (wf_pred[wf_far_high_confidence] == wf_y_test.iloc[wf_far_high_confidence]).sum()
-         if wf_threshold == 0.60:
-          print(">>> WF FAR:", wf_far_total, "correct:", wf_far_correct, "threshold:", wf_threshold)
-         wf_trend_aligned = wf_test["trend_aligned"].to_numpy()
-         wf_trend_high_confidence = wf_high_confidence & wf_trend_aligned
-         wf_trend_total = wf_trend_high_confidence.sum()
-         wf_trend_correct = (wf_pred[wf_trend_high_confidence] == wf_y_test.iloc[wf_trend_high_confidence]).sum()
-         print("WF TREND-ALIGNED:", wf_trend_total, "correct:", wf_trend_correct)
-         wf_trend_up = wf_trend_high_confidence & (wf_pred == 1)
-         wf_trend_down = wf_trend_high_confidence & (wf_pred == 0)
-         wf_trend_up_correct = (wf_pred[wf_trend_up] == wf_y_test.iloc[wf_trend_up]).sum()
-         wf_trend_down_correct = (wf_pred[wf_trend_down] == wf_y_test.iloc[wf_trend_down]).sum()
-         print("WF TREND UP:", wf_trend_up.sum(), "correct:", wf_trend_up_correct, "| TREND DOWN:", wf_trend_down.sum(), "correct:", wf_trend_down_correct)
-         wf_high_conf_pred = wf_pred[wf_high_confidence]
-         wf_high_conf_accuracy = (wf_pred[wf_high_confidence] == wf_y_test.iloc[wf_high_confidence]).mean()
-         wf_high_conf_actual = wf_y_test.iloc[wf_high_confidence]
-         wf_up_mask = wf_high_conf_pred == 1
-         wf_down_mask = wf_high_conf_pred == 0
-         wf_up_correct = (wf_high_conf_pred[wf_up_mask] == wf_high_conf_actual.iloc[wf_up_mask]).sum()
-         wf_down_correct = (wf_high_conf_pred[wf_down_mask] == wf_high_conf_actual.iloc[wf_down_mask]).sum()
-         wf_up_total = wf_up_mask.sum()
-         wf_down_total = wf_down_mask.sum()
-         print("WF UP:", wf_up_total, "correct:", wf_up_correct, "| DOWN:", wf_down_total, "correct:", wf_down_correct)
-         threshold_summary[wf_threshold]["total"] += int(wf_high_confidence.sum())
-         threshold_summary[wf_threshold]["correct"] += int((wf_pred[wf_high_confidence] == wf_y_test.iloc[wf_high_confidence]).sum())
-         print(
+            wf_test["wf_pred"] = wf_pred
+            wf_test["correct"] = wf_test["wf_pred"] == wf_test["outcome"]
+            wf_test["trend_aligned"] = ((wf_test["wf_pred"] == 1) & (wf_test["trend_5_20"] > 0)) | ((wf_test["wf_pred"] == 0) & (wf_test["trend_5_20"] < 0))
+            for wf_threshold in [0.55, 0.60, 0.65, 0.70]:
+             wf_high_confidence = wf_confidence >= wf_threshold
+             print("WF TEST COLUMNS:", wf_test.columns.tolist())
+             wf_distance = ((wf_test["Close"] - wf_test["Open"]) / wf_test["Open"]).abs().to_numpy()
+             wf_far_mask = wf_distance >= 0.002
+             wf_far_high_confidence = wf_high_confidence & wf_far_mask
+             wf_far_total = wf_far_high_confidence.sum()
+             wf_far_correct = (wf_pred[wf_far_high_confidence] == wf_y_test.iloc[wf_far_high_confidence]).sum()
+             if wf_threshold == 0.60:
+              print(">>> WF FAR:", wf_far_total, "correct:", wf_far_correct, "threshold:", wf_threshold)
+             wf_trend_aligned = wf_test["trend_aligned"].to_numpy()
+             wf_trend_high_confidence = wf_high_confidence & wf_trend_aligned
+             wf_trend_total = wf_trend_high_confidence.sum()
+             wf_trend_correct = (wf_pred[wf_trend_high_confidence] == wf_y_test.iloc[wf_trend_high_confidence]).sum()
+             print("WF TREND-ALIGNED:", wf_trend_total, "correct:", wf_trend_correct)
+             wf_trend_up = wf_trend_high_confidence & (wf_pred == 1)
+             wf_trend_down = wf_trend_high_confidence & (wf_pred == 0)
+             wf_trend_up_correct = (wf_pred[wf_trend_up] == wf_y_test.iloc[wf_trend_up]).sum()
+             wf_trend_down_correct = (wf_pred[wf_trend_down] == wf_y_test.iloc[wf_trend_down]).sum()
+             print("WF TREND UP:", wf_trend_up.sum(), "correct:", wf_trend_up_correct, "| TREND DOWN:", wf_trend_down.sum(), "correct:", wf_trend_down_correct)
+             wf_high_conf_pred = wf_pred[wf_high_confidence]
+             wf_high_conf_accuracy = (wf_pred[wf_high_confidence] == wf_y_test.iloc[wf_high_confidence]).mean()
+             wf_high_conf_actual = wf_y_test.iloc[wf_high_confidence]
+             wf_up_mask = wf_high_conf_pred == 1
+             wf_down_mask = wf_high_conf_pred == 0
+             wf_up_correct = (wf_high_conf_pred[wf_up_mask] == wf_high_conf_actual.iloc[wf_up_mask]).sum()
+             wf_down_correct = (wf_high_conf_pred[wf_down_mask] == wf_high_conf_actual.iloc[wf_down_mask]).sum()
+             wf_up_total = wf_up_mask.sum()
+             wf_down_total = wf_down_mask.sum()
+             print("WF UP:", wf_up_total, "correct:", wf_up_correct, "| DOWN:", wf_down_total, "correct:", wf_down_correct)
+             threshold_summary[wf_threshold]["total"] += int(wf_high_confidence.sum())
+             threshold_summary[wf_threshold]["correct"] += int((wf_pred[wf_high_confidence] == wf_y_test.iloc[wf_high_confidence]).sum())
+             print(
 
-        f"WF {train_end:.2f}->{test_end:.2f} threshold {wf_threshold:.2f} high-confidence: "
-        f"{wf_high_confidence.sum()} trades, accuracy {wf_high_conf_accuracy}"
+            f"WF {train_end:.2f}->{test_end:.2f} threshold {wf_threshold:.2f} high-confidence: "
+            f"{wf_high_confidence.sum()} trades, accuracy {wf_high_conf_accuracy}"
 
-         )
-        walk_forward_results.append(wf_accuracy)
+             )
+            walk_forward_results.append(wf_accuracy)
 
-        print(
-    f"Walk-forward {train_end:.2f} -> {test_end:.2f}: "
-    f"{len(wf_test)} rows, accuracy {wf_accuracy:.3f}"
-        )
-        print("\n=== WALK-FORWARD THRESHOLD SUMMARY ===")
-for t, stats in threshold_summary.items():
-    total = stats["total"]
-    correct = stats["correct"]
-    accuracy = correct / total if total else 0
-    print(f"{t:.2f}: {correct}/{total} = {accuracy:.3f}")
+            print(
+        f"Walk-forward {train_end:.2f} -> {test_end:.2f}: "
+        f"{len(wf_test)} rows, accuracy {wf_accuracy:.3f}"
+            )
+            print("\n=== WALK-FORWARD THRESHOLD SUMMARY ===")
+    for t, stats in threshold_summary.items():
+        total = stats["total"]
+        correct = stats["correct"]
+        accuracy = correct / total if total else 0
+        print(f"{t:.2f}: {correct}/{total} = {accuracy:.3f}")
+
 # Live 15-minute prediction
 live_data = data.copy()
 
