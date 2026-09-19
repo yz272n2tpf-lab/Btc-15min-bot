@@ -277,7 +277,13 @@ def cycle() -> dict[str, Any]:
     summary = summarize(rows, sha, fwd)
     _LAST_SOURCE_SHA = sha
     _LAST_ANALYSIS_AT = now
-    # Keep the always-on HTTP state compact; detailed evidence is reproducible from the source tape.\n    live_summary = dict(summary)\n    for key in ("ended_unarmed_records","armed_no_validated_exit_records","recovered_handoffs","prearm_reset_failed_primary_candidate_ids","blueprint_review_items"):\n        live_summary.pop(key, None)\n    with LOCK:\n        STATE.clear()\n        STATE.update(live_summary)
+    # Keep the always-on HTTP state compact; detailed evidence is reproducible from the source tape.
+    live_summary = dict(summary)
+    for key in ("ended_unarmed_records","armed_no_validated_exit_records","recovered_handoffs","prearm_reset_failed_primary_candidate_ids","blueprint_review_items"):
+        live_summary.pop(key, None)
+    with LOCK:
+        STATE.clear()
+        STATE.update(live_summary)
     # Release the largest raw input before logging/sleep; summaries retain only required evidence.
     del rows
 
