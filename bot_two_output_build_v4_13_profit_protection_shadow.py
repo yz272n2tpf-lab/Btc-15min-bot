@@ -341,6 +341,10 @@ feature_columns = [
 model_data = model_data.dropna(
     subset=feature_columns + ["outcome"]
 ).copy()
+if _BTC15_ARTIFACT_MODE:
+    # Training/test frames are not needed for live scoring from certified model.
+    # Keep tiny placeholders only so legacy diagnostics metadata remains structurally defined.
+    model_data = model_data.tail(32).copy()
 walk_forward_splits = [0.60, 0.70, 0.80]
 split_index = int(len(model_data) * walk_forward_splits[-2])
 
