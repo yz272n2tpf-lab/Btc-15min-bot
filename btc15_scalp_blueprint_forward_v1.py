@@ -78,7 +78,7 @@ def cutoff_dt() -> datetime:
     return x
 
 
-def fetch_csv_rows() -> tuple[list[dict[str, str]], str]:
+def fetch_csv_raw() -> tuple[bytes, str]:
     headers = {"Cache-Control": "no-cache"}
     if SOURCE_TOKEN:
         headers["Authorization"] = f"Bearer {SOURCE_TOKEN}"
@@ -87,8 +87,7 @@ def fetch_csv_rows() -> tuple[list[dict[str, str]], str]:
     raw = r.content
     if not raw or b"record_type" not in raw[:4096]:
         raise ValueError("unexpected event export")
-    rows = list(csv.DictReader(io.StringIO(raw.decode("utf-8", "replace"))))
-    return rows, hashlib.sha256(raw).hexdigest()
+    return raw, hashlib.sha256(raw).hexdigest()\n\ndef parse_csv_raw(raw: bytes) -> list[dict[str, str]]:\n    return list(csv.DictReader(io.StringIO(raw.decode("utf-8", "replace"))))\n\ndef fetch_csv_rows() -> tuple[list[dict[str, str]], str]:\n    raw, sha = fetch_csv_raw()\n    return parse_csv_raw(raw), sha
 
 
 def completed_ids(rows: list[Mapping[str, Any]]) -> set[str]:
