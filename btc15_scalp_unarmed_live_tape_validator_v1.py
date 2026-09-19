@@ -259,7 +259,16 @@ def summarize(
 
 def cycle() -> dict[str, Any]:
     global _LAST_SOURCE_SHA, _LAST_ANALYSIS_AT
-    raw, sha = forward.fetch_csv_raw()\n    now = time.time()\n    if sha and sha == _LAST_SOURCE_SHA and (now - _LAST_ANALYSIS_AT) < MIN_REANALYZE_SEC:\n        del raw\n        with LOCK:\n            cached = dict(STATE)\n        cached["analysis_skipped_unchanged_source"] = True\n        return cached\n    rows = forward.parse_csv_raw(raw)\n    del raw
+    raw, sha = forward.fetch_csv_raw()
+    now = time.time()
+    if sha and sha == _LAST_SOURCE_SHA and (now - _LAST_ANALYSIS_AT) < MIN_REANALYZE_SEC:
+        del raw
+        with LOCK:
+            cached = dict(STATE)
+        cached["analysis_skipped_unchanged_source"] = True
+        return cached
+    rows = forward.parse_csv_raw(raw)
+    del raw
     # Build a fresh local backend-timer evidence series for this consolidated
     # reviewer. It starts at zero after deploy by design rather than borrowing
     # unverifiable historical counts from another service.
