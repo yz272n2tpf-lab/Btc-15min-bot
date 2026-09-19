@@ -1103,19 +1103,24 @@ try:
     if len(_fair_calib_contracts) < 20:
         raise RuntimeError('FAIR ENGINE SAFETY FAILURE: fewer than 20 calibration contracts in current BTC cache')
 
-    _fair_rf = RandomForestClassifier(
-        n_estimators=900, max_depth=9, min_samples_leaf=12,
-        class_weight='balanced', random_state=42, n_jobs=-1,
-    )
-    _fair_rf.fit(_fair_train[_fair_features], _fair_train['flip'])
-    _fair_calib_raw = _fair_rf.predict_proba(_fair_calibrate[_fair_features])[:,1]
+    if _BTC15_ARTIFACT_MODE:
+        _fair_rf = _BTC15_CERTIFIED["fair_rf"]
+        _fair_sigmoid = _BTC15_CERTIFIED["fair_sigmoid"]
+        print("FAIR RF+SIGMOID: CERTIFIED FITTED ARTIFACTS | RETRAIN SKIPPED")
+    else:
+        _fair_rf = RandomForestClassifier(
+            n_estimators=900, max_depth=9, min_samples_leaf=12,
+            class_weight='balanced', random_state=42, n_jobs=-1,
+        )
+        _fair_rf.fit(_fair_train[_fair_features], _fair_train['flip'])
+        _fair_calib_raw = _fair_rf.predict_proba(_fair_calibrate[_fair_features])[:,1]
 
-    _fair_sigmoid = LogisticRegression(
-        solver='lbfgs', C=1.0, max_iter=1000, random_state=42,
-    )
-    _fair_sigmoid.fit(
-        _fair_calib_raw.reshape(-1,1), _fair_calibrate['flip'].astype(int)
-    )
+        _fair_sigmoid = LogisticRegression(
+            solver='lbfgs', C=1.0, max_iter=1000, random_state=42,
+        )
+        _fair_sigmoid.fit(
+            _fair_calib_raw.reshape(-1,1), _fair_calibrate['flip'].astype(int)
+        )
 
     _fair_live_start = pd.Timestamp(_strict_active_open)
     if _fair_live_start.tzinfo is None:
