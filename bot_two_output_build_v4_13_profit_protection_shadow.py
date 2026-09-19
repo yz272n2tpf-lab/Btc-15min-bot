@@ -1226,7 +1226,12 @@ try:
         }
         Path(_freeze_out).write_bytes(_freeze_pickle.dumps(_freeze_obj,_freeze_pickle.HIGHEST_PROTOCOL))
         print("BTC15 FITTED MODEL FREEZE EMITTED | OFFLINE CANARY INPUT | NO ORDERS")
+        if os.getenv("BTC15_FREEZE_EXIT_AFTER_EMIT","").strip() == "1":
+            print("BTC15 FREEZE-ONLY RUN COMPLETE | EXITING BEFORE LIVE LOOP | NO ORDERS")
+            raise SystemExit(0)
 
+except SystemExit:
+    raise
 except Exception as _fair_error:
     _fair_ready = False
     _fair_error_text = str(_fair_error)
