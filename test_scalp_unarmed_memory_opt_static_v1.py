@@ -9,3 +9,5 @@ for x in ["MIN_REANALYZE_SEC","_LAST_SOURCE_SHA","analysis_skipped_unchanged_sou
 for x in ["requests.post(","requests.put(","requests.patch(","requests.delete("]:
  if x in s:raise SystemExit("STOP write-capable HTTP introduced: "+x)
 print("SCALP_UNARMED_MEMORY_OPT_STATIC_PASS | bounded unchanged-source reanalysis | NO ORDERS")
+
+# packaging-trigger-v1
