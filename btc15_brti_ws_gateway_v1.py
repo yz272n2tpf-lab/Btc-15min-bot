@@ -76,6 +76,10 @@ class H(BaseHTTPRequestHandler):
  def log_message(self,*a):pass
 def main():
  threading.Thread(target=lambda:asyncio.run(owner()),daemon=True,name="brti-ws-owner").start()
- port=int(os.getenv("PORT","8080"));print("BRTI WS GATEWAY V1 START | ONE OWNER | 1H RING | FAIL CLOSED | NO ORDERS",flush=True)\n def heartbeat():\n  while True:\n   time.sleep(30);x=snap();print("BRTI_GATEWAY HEARTBEAT | ready=%s | reason=%s | age_ms=%s | seq=%s | retained=%s | epoch=%s | reconnects=%s | dup=%s | ooo=%s | bad=%s | NO ORDERS"%(x["ready"],x["reason"],x["source_age_ms"],x["sequence"],x["retained_ticks"],x["epoch"],x["reconnects"],x["dup"],x["ooo"],x["bad"]),flush=True)\n threading.Thread(target=heartbeat,daemon=True,name="brti-gateway-heartbeat").start()
+ port=int(os.getenv("PORT","8080"));print("BRTI WS GATEWAY V1 START | ONE OWNER | 1H RING | FAIL CLOSED | NO ORDERS",flush=True)
+ def heartbeat():
+  while True:
+   time.sleep(30);x=snap();print("BRTI_GATEWAY HEARTBEAT | ready=%s | reason=%s | age_ms=%s | seq=%s | retained=%s | epoch=%s | reconnects=%s | dup=%s | ooo=%s | bad=%s | NO ORDERS"%(x["ready"],x["reason"],x["source_age_ms"],x["sequence"],x["retained_ticks"],x["epoch"],x["reconnects"],x["dup"],x["ooo"],x["bad"]),flush=True)
+ threading.Thread(target=heartbeat,daemon=True,name="brti-gateway-heartbeat").start()
  ThreadingHTTPServer(("0.0.0.0",port),H).serve_forever()
 if __name__=="__main__":main()
