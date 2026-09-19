@@ -263,6 +263,12 @@ momentum_change = one_minute_change - previous_1m_change
 print("1-minute momentum change:", momentum_change)
 direction_score = move_from_start + one_minute_change + five_minute_change
 print("Direction score:", direction_score)
+# ARTIFACT CANARY SWITCH — default OFF; protected behavior remains training path.
+_BTC15_ARTIFACT_PATH = os.getenv("BTC15_CERTIFIED_MODEL_ARTIFACT_PATH","").strip()
+_BTC15_ARTIFACT_SHA = os.getenv("BTC15_CERTIFIED_MODEL_ARTIFACT_SHA256","").strip()
+_BTC15_ARTIFACT_MODE = bool(_BTC15_ARTIFACT_PATH)
+if _BTC15_ARTIFACT_MODE:
+    print("BTC15 CERTIFIED ARTIFACT MODE REQUESTED | fail-closed | NO ORDERS")
 training_data = coinbase_history(60, 900)
 print("Training rows:", len(training_data))
 training_data["future_open"] = training_data["Open"].shift(-1)
