@@ -7,7 +7,8 @@ class T(unittest.TestCase):
  def test_unchanged_source_skips_expensive_reanalysis(self):
   v._LAST_SOURCE_SHA="same";v._LAST_ANALYSIS_AT=1000.0
   v.STATE.clear();v.STATE.update({"ok":True,"orders":False,"sentinel":7})
-  with patch.object(v.forward,"fetch_csv_raw",return_value=(b"record_type\\n","same")), patch.object(v.forward,"parse_csv_raw",side_effect=AssertionError("must not parse unchanged source")), patch.object(v.time,"time",return_value=1001.0), patch.object(v.forward,"build_summary",side_effect=AssertionError("must skip")), patch.object(v,"summarize",side_effect=AssertionError("must skip")):
+  with patch.object(v.forward,"fetch_csv_raw",return_value=(b"record_type
+","same")), patch.object(v.forward,"parse_csv_raw",side_effect=AssertionError("must not parse unchanged source")), patch.object(v.time,"time",return_value=1001.0), patch.object(v.forward,"build_summary",side_effect=AssertionError("must skip")), patch.object(v,"summarize",side_effect=AssertionError("must skip")):
    out=v.cycle()
   self.assertTrue(out["analysis_skipped_unchanged_source"]);self.assertEqual(out["sentinel"],7);self.assertFalse(out["orders"])
-if __name__=="__main__":unittest.main()
+ def test_changed_source_parses_once_and_updates_fingerprint(self):\n  v._LAST_SOURCE_SHA="old";v._LAST_ANALYSIS_AT=0.0\n  rows=[{"record_type":"RESULT"}]\n  fake={"ok":True,"orders":False,"baseline_completed_serial_opportunities":1}\n  with patch.object(v.forward,"fetch_csv_raw",return_value=(b"new","newsha")), patch.object(v.forward,"parse_csv_raw",return_value=rows) as parse, patch.object(v.time,"time",return_value=2000.0), patch.object(v.forward,"poll_timer_status"), patch.object(v.forward,"build_summary",return_value={}), patch.object(v,"summarize",return_value=fake):\n   out=v.cycle()\n  parse.assert_called_once_with(b"new");self.assertEqual(v._LAST_SOURCE_SHA,"newsha");self.assertEqual(v._LAST_ANALYSIS_AT,2000.0);self.assertFalse(out["orders"])\nif __name__=="__main__":unittest.main()
