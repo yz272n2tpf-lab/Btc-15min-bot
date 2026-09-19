@@ -1061,74 +1061,81 @@ try:
         subset=['start','close','target_brti','final_brti','final_side']
     ).sort_values('start').reset_index(drop=True)
 
-    _fair_hist_rows = []
-    for _, _r in _fair_cal.iterrows():
-        for _elapsed in range(1,15):
-            _s = _fair_build_snapshot(
-                _fair_btc, _r['start'], float(_r['target_brti']),
-                _final_side=int(_r['final_side']), _elapsed=_elapsed,
-            )
-            if _s is not None:
-                _s['ticker'] = _r['ticker']
-                _s['start'] = _r['start']
-                _fair_hist_rows.append(_s)
-
-    _fair_hist = pd.DataFrame(_fair_hist_rows)
-    if _fair_hist.empty:
-        raise RuntimeError('No historical fair-value feature rows available')
-
-    _fair_coverage = _fair_hist.groupby('ticker')['elapsed'].nunique()
-    _fair_keep = _fair_coverage[_fair_coverage >= 10].index
-    _fair_hist = _fair_hist[_fair_hist['ticker'].isin(_fair_keep)].copy()
-    _fair_contracts = (
-        _fair_hist[['ticker','start']].drop_duplicates('ticker')
-        .sort_values('start').reset_index(drop=True)
-    )
-    # V4.6: exact chronology used by the offline tournament winner.
-    # First 50% = RF model training.
-    # Next 20%  = sigmoid probability calibration.
-    # Final 30% was reserved for validation + untouched holdout and therefore
-    # remains excluded from fitting so live behavior matches the tested model.
-    _fair_model_end = int(len(_fair_contracts)*0.50)
-    _fair_calib_end = int(len(_fair_contracts)*0.70)
-    if (
-        _fair_model_end <= 0
-        or _fair_calib_end <= _fair_model_end
-        or _fair_calib_end >= len(_fair_contracts)
-    ):
-        raise RuntimeError('Not enough contracts for tournament chronology split')
-
-    _fair_model_contracts = _fair_contracts.iloc[:_fair_model_end]
-    _fair_calib_contracts = _fair_contracts.iloc[_fair_model_end:_fair_calib_end]
-    if _fair_model_contracts['start'].max() >= _fair_calib_contracts['start'].min():
-        raise RuntimeError('FAIR ENGINE TRAIN/CALIBRATION CHRONOLOGY FAILURE')
-
-    _fair_model_ticks = set(_fair_model_contracts['ticker'])
-    _fair_calib_ticks = set(_fair_calib_contracts['ticker'])
-    _fair_train = _fair_hist[_fair_hist['ticker'].isin(_fair_model_ticks)].copy()
-    _fair_calibrate = _fair_hist[_fair_hist['ticker'].isin(_fair_calib_ticks)].copy()
-
-    if len(_fair_calib_contracts) < 20:
-        raise RuntimeError('FAIR ENGINE SAFETY FAILURE: fewer than 20 calibration contracts in current BTC cache')
-
     if _BTC15_ARTIFACT_MODE:
+        _fair_calibration_contracts = int(_BTC15_CERTIFIED["metadata"].get("fair_calibration_contracts",0))
+        _fair_calibration_snapshots = int(_BTC15_CERTIFIED["metadata"].get("fair_calibration_snapshots",0))
         _fair_rf = _BTC15_CERTIFIED["fair_rf"]
         _fair_sigmoid = _BTC15_CERTIFIED["fair_sigmoid"]
-        print("FAIR RF+SIGMOID: CERTIFIED FITTED ARTIFACTS | RETRAIN SKIPPED")
+        print("FAIR HISTORICAL RECONSTRUCTION: SKIPPED | certified artifact mode")
     else:
-        _fair_rf = RandomForestClassifier(
-            n_estimators=900, max_depth=9, min_samples_leaf=12,
-            class_weight='balanced', random_state=42, n_jobs=-1,
-        )
-        _fair_rf.fit(_fair_train[_fair_features], _fair_train['flip'])
-        _fair_calib_raw = _fair_rf.predict_proba(_fair_calibrate[_fair_features])[:,1]
+        _fair_hist_rows = []
+        for _, _r in _fair_cal.iterrows():
+            for _elapsed in range(1,15):
+                _s = _fair_build_snapshot(
+                    _fair_btc, _r['start'], float(_r['target_brti']),
+                    _final_side=int(_r['final_side']), _elapsed=_elapsed,
+                )
+                if _s is not None:
+                    _s['ticker'] = _r['ticker']
+                    _s['start'] = _r['start']
+                    _fair_hist_rows.append(_s)
 
-        _fair_sigmoid = LogisticRegression(
-            solver='lbfgs', C=1.0, max_iter=1000, random_state=42,
+        _fair_hist = pd.DataFrame(_fair_hist_rows)
+        if _fair_hist.empty:
+            raise RuntimeError('No historical fair-value feature rows available')
+
+        _fair_coverage = _fair_hist.groupby('ticker')['elapsed'].nunique()
+        _fair_keep = _fair_coverage[_fair_coverage >= 10].index
+        _fair_hist = _fair_hist[_fair_hist['ticker'].isin(_fair_keep)].copy()
+        _fair_contracts = (
+            _fair_hist[['ticker','start']].drop_duplicates('ticker')
+            .sort_values('start').reset_index(drop=True)
         )
-        _fair_sigmoid.fit(
-            _fair_calib_raw.reshape(-1,1), _fair_calibrate['flip'].astype(int)
-        )
+        # V4.6: exact chronology used by the offline tournament winner.
+        # First 50% = RF model training.
+        # Next 20%  = sigmoid probability calibration.
+        # Final 30% was reserved for validation + untouched holdout and therefore
+        # remains excluded from fitting so live behavior matches the tested model.
+        _fair_model_end = int(len(_fair_contracts)*0.50)
+        _fair_calib_end = int(len(_fair_contracts)*0.70)
+        if (
+            _fair_model_end <= 0
+            or _fair_calib_end <= _fair_model_end
+            or _fair_calib_end >= len(_fair_contracts)
+        ):
+            raise RuntimeError('Not enough contracts for tournament chronology split')
+
+        _fair_model_contracts = _fair_contracts.iloc[:_fair_model_end]
+        _fair_calib_contracts = _fair_contracts.iloc[_fair_model_end:_fair_calib_end]
+        if _fair_model_contracts['start'].max() >= _fair_calib_contracts['start'].min():
+            raise RuntimeError('FAIR ENGINE TRAIN/CALIBRATION CHRONOLOGY FAILURE')
+
+        _fair_model_ticks = set(_fair_model_contracts['ticker'])
+        _fair_calib_ticks = set(_fair_calib_contracts['ticker'])
+        _fair_train = _fair_hist[_fair_hist['ticker'].isin(_fair_model_ticks)].copy()
+        _fair_calibrate = _fair_hist[_fair_hist['ticker'].isin(_fair_calib_ticks)].copy()
+
+        if len(_fair_calib_contracts) < 20:
+            raise RuntimeError('FAIR ENGINE SAFETY FAILURE: fewer than 20 calibration contracts in current BTC cache')
+
+        if _BTC15_ARTIFACT_MODE:
+            _fair_rf = _BTC15_CERTIFIED["fair_rf"]
+            _fair_sigmoid = _BTC15_CERTIFIED["fair_sigmoid"]
+            print("FAIR RF+SIGMOID: CERTIFIED FITTED ARTIFACTS | RETRAIN SKIPPED")
+        else:
+            _fair_rf = RandomForestClassifier(
+                n_estimators=900, max_depth=9, min_samples_leaf=12,
+                class_weight='balanced', random_state=42, n_jobs=-1,
+            )
+            _fair_rf.fit(_fair_train[_fair_features], _fair_train['flip'])
+            _fair_calib_raw = _fair_rf.predict_proba(_fair_calibrate[_fair_features])[:,1]
+
+            _fair_sigmoid = LogisticRegression(
+                solver='lbfgs', C=1.0, max_iter=1000, random_state=42,
+            )
+            _fair_sigmoid.fit(
+                _fair_calib_raw.reshape(-1,1), _fair_calibrate['flip'].astype(int)
+            )
 
     _fair_live_start = pd.Timestamp(_strict_active_open)
     if _fair_live_start.tzinfo is None:
