@@ -16,7 +16,7 @@ def headers():
     return {"KALSHI-ACCESS-KEY":KEY,"KALSHI-ACCESS-SIGNATURE":base64.b64encode(sig).decode(),"KALSHI-ACCESS-TIMESTAMP":ts}
 
 async def run():
-    n=dup=ooo=wrong=bad=0; last_ts=None; started=time.time(); sid=None
+    n=dup=ooo=wrong=bad=0; last_ts=None; started=time.time(); sid=None\n    forced_after=int(os.getenv("BRTI_WS_FORCE_DISCONNECT_AFTER_TICKS","0")); forced=False
     print("BRTI WS QUAL START | READ/SUBSCRIBE ONLY | NO ORDERS",flush=True)
     async with websockets.connect(URL,additional_headers=headers(),ping_interval=20,ping_timeout=20,max_queue=2048) as ws:
         await ws.send(json.dumps({"id":1,"cmd":"subscribe","params":{"channels":["cfbenchmarks_value"],"index_ids":["BRTI"]}}))
@@ -45,7 +45,7 @@ async def run():
                 if source_ms==last_ts: dup+=1
                 elif source_ms<last_ts: ooo+=1
             if last_ts is None or source_ms>last_ts:last_ts=source_ms
-            n+=1; age=recv_ms-source_ms
+            n+=1; age=recv_ms-source_ms\n            if forced_after and not forced and n >= forced_after:\n                forced=True\n                print(f"BRTI WS FORCED DISCONNECT | after_ticks={n} | last_source_ms={source_ms} | EXPECT FAIL-CLOSED UNTIL NEW CONNECTION | NO ORDERS",flush=True)\n                await ws.close(code=1000,reason="qualification forced reconnect test")\n                raise RuntimeError("QUAL_FORCED_DISCONNECT")
             if n<=5 or n%30==0: print(f"BRTI WS TICK | n={n} | value={val} | source_ms={source_ms} | age_ms={age} | dup={dup} | ooo={ooo} | bad={bad} | NO ORDERS",flush=True)
     print(f"BRTI_WS_QUAL_COMPLETE | ticks={n} | dup={dup} | ooo={ooo} | wrong={wrong} | bad={bad} | NO ORDERS",flush=True)
 if __name__=="__main__": asyncio.run(run())
