@@ -1176,8 +1176,9 @@ try:
         _fair_preferred-_fair_preferred_ask
         if _fair_preferred_ask is not None else None
     )
-    _fair_calibration_contracts = len(_fair_calib_contracts)
-    _fair_calibration_snapshots = len(_fair_calibrate)
+    if not _BTC15_ARTIFACT_MODE:
+        _fair_calibration_contracts = len(_fair_calib_contracts)
+        _fair_calibration_snapshots = len(_fair_calibrate)
     _fair_ready = True
 
 except Exception as _fair_error:
