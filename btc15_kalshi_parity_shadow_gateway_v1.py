@@ -22,7 +22,7 @@ OUT = DATA_ROOT / "kalshi_app_parity_shadow_v1.csv"
 
 BASE = "https://external-api.kalshi.com"
 MARKETS_PATH = "/trade-api/v2/markets"
-BRTI_PATH = "/trade-api/v2/cfbenchmarks/values"
+BRTI_PATH = None  # direct CF passthrough intentionally disabled in gateway shadow
 
 POLL_SECONDS = 15
 TAIL_BYTES_UNIFIED = 192 * 1024
