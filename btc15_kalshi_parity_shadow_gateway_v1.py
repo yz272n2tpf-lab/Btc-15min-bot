@@ -363,11 +363,7 @@ def main():
 
     print("BTC15 KALSHI/BRTI PARITY SHADOW V3 LOW-MEM: STARTING", flush=True)
     print("Bounded CSV tails only. NO ORDERS.", flush=True)
-    while True:
-        try: audit()
-        except KeyboardInterrupt: break
-        except Exception as e: print(f"PARITY WARNING | {type(e).__name__}: {e}", flush=True)
-        time.sleep(POLL_SECONDS)
+    once = "--once" in sys.argv\n    while True:\n        try: audit()\n        except KeyboardInterrupt: break\n        except Exception as e: print(f"PARITY WARNING | {type(e).__name__}: {e}", flush=True)\n        if once: break\n        time.sleep(POLL_SECONDS)
     return 0
 
 if __name__ == "__main__":
