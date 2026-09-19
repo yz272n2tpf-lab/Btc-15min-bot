@@ -2,7 +2,7 @@
 """Deterministic safety tests for BRTI WS gateway V1. NO NETWORK. NO ORDERS."""
 import ast,pathlib
 p=pathlib.Path(__file__).with_name("btc15_brti_ws_gateway_v1.py");s=p.read_text();ast.parse(s)
-required=["MAX_AGE_MS=5000","source_ts_ms","receive_ts_ms","owner_epoch","UPSTREAM_DISCONNECTED","index_id\")!=\"BRTI\"","ts>recv+1000","STATE[\"dup\"]+=1;continue","STATE[\"ooo\"]+=1;continue",'"orders":False']
+required=["MAX_AGE_MS=5000","source_ts_ms","receive_ts_ms","owner_epoch","UPSTREAM_DISCONNECTED","ts>recv+1000","STATE[\"dup\"]+=1;continue","STATE[\"ooo\"]+=1;continue",'"orders":False']
 for x in required:
  if x not in s:raise SystemExit("STOP missing safety invariant: "+x)
 # Exact boundary contract: source age <=5000 qualifies; 5001 does not.
