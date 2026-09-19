@@ -13,7 +13,9 @@ print("PHASE 2/3 CERTIFY EXACT ARTIFACT",flush=True)
 p=subprocess.run([sys.executable,"-u","btc15_freeze_certified_models_v1.py","--input",str(RAW),"--output",str(ART)],text=True,capture_output=True,check=True)
 print(p.stdout.strip(),flush=True)
 line=[x for x in p.stdout.splitlines() if "MODEL_ARTIFACT_FREEZE_PASS" in x][-1]; result=json.loads(line);sha=result["artifact_sha256"]
+print("CERTIFICATION SUMMARY | MODEL_ARTIFACT_FREEZE_PASS | general_diff="+str(result["general_max_abs_diff"])+" | fair_rf_diff="+str(result["fair_rf_max_abs_diff"])+" | fair_sigmoid_diff="+str(result["fair_sigmoid_max_abs_diff"])+" | NO ORDERS",flush=True)
 subprocess.run([sys.executable,"-u","btc15_certified_artifact_runtime_preflight_v1.py","--artifact",str(ART),"--sha",sha,"--parity-input",str(RAW)],check=True)
+print("CERTIFICATION SUMMARY | CERTIFIED_ARTIFACT_RUNTIME_PREFLIGHT_PASS | SHA VERIFIED | NO ORDERS",flush=True)
 print("PHASE 3/3 FAST CERTIFIED RUNTIME | NO RETRAIN | NO ORDERS",flush=True)
 env=os.environ.copy();env.pop("BTC15_FREEZE_FITTED_MODELS_PATH",None);env.pop("BTC15_FREEZE_EXIT_AFTER_EMIT",None);env["BTC15_CERTIFIED_MODEL_ARTIFACT_PATH"]=str(ART);env["BTC15_CERTIFIED_MODEL_ARTIFACT_SHA256"]=sha
 os.execve(sys.executable,[sys.executable,"-u",CORE],env)
