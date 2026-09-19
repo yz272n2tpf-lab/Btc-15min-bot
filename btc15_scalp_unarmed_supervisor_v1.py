@@ -10,7 +10,7 @@ def loop():
   try:
    p=subprocess.run(["python","-u","btc15_scalp_unarmed_analysis_once_v1.py"],capture_output=True,text=True,timeout=840,check=True)
    j=json.loads(p.stdout.strip().splitlines()[-1]);j["worker_running"]=False;j["orders"]=False
-   with LOCK:STATE.clear();STATE.update(j)
+   with LOCK:STATE.clear();STATE.update(j)\n   print("SCALP_SUPERVISOR RESULT | baseline=%s | projected=%s | true_missed_+10=%s | blueprint=%s | worker_running=False | NO ORDERS"%(j.get("baseline_completed_serial_opportunities"),j.get("projected_completed_serial_opportunities"),j.get("true_post_exit_missed_meaningful_10c"),j.get("blueprint_review_status")),flush=True)
   except Exception as e:
    with LOCK:STATE.update({"ok":False,"status":"WORKER_ERROR","last_error":type(e).__name__,"worker_running":False,"orders":False,"research_only":True})
   time.sleep(INTERVAL)
