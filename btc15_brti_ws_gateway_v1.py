@@ -93,8 +93,12 @@ def main():
   import subprocess,sys
   time.sleep(75)
   p=subprocess.run([sys.executable,"-u","test_btc15_kalshi_parity_shadow_gateway_v1_static.py"],capture_output=True,text=True,timeout=10)
-  print((p.stdout.strip() if p.returncode==0 else ("BRTI_PARITY_GATEWAY_SHADOW_STATIC_FAIL | rc=%s | detail=%s | NO ORDERS"%(p.returncode,(p.stderr.strip() or p.stdout.strip()).replace("
-"," ")[:500]))),flush=True)
+  detail=(p.stderr.strip() or p.stdout.strip()).replace(chr(10)," ")[:500]
+  print(p.stdout.strip() if p.returncode==0 else "BRTI_PARITY_GATEWAY_SHADOW_STATIC_FAIL | rc=%s | detail=%s | NO ORDERS"%(p.returncode,detail),flush=True)
+  if p.returncode==0:
+   q=subprocess.run([sys.executable,"-u","btc15_kalshi_parity_shadow_gateway_v1.py","--once"],capture_output=True,text=True,timeout=20)
+   out=(q.stdout.strip() or q.stderr.strip()).replace(chr(10)," | ")[:1200]
+   print("BRTI_PARITY_GATEWAY_RUNTIME | rc=%s | %s | NO ORDERS"%(q.returncode,out),flush=True)
  threading.Thread(target=parity_shadow_proof,daemon=True,name="brti-parity-shadow-static-proof").start()
  ThreadingHTTPServer(("0.0.0.0",port),H).serve_forever()
 if __name__=="__main__":main()
