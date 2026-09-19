@@ -127,14 +127,17 @@ def _railway_verified_credential_diagnostic_v14():
         )
         print("RAILWAY AUTH BALANCE HTTP:", _rb.status_code)
 
-        _brti_path = "/trade-api/v2/cfbenchmarks/values"
-        _rr = requests.get(
-            _base + _brti_path,
-            headers=kalshi_headers("GET", _brti_path),
-            params={"id": "BRTI", "maxResolution": "PER_SECOND"},
-            timeout=8,
-        )
-        print("RAILWAY AUTH BRTI HTTP:", _rr.status_code)
+        if os.getenv("BTC15_USE_SHARED_BRTI","").strip() == "1":
+            print("RAILWAY AUTH BRTI HTTP: SKIPPED | shared BRTI transport owns upstream")
+        else:
+            _brti_path = "/trade-api/v2/cfbenchmarks/values"
+            _rr = requests.get(
+                _base + _brti_path,
+                headers=kalshi_headers("GET", _brti_path),
+                params={"id": "BRTI", "maxResolution": "PER_SECOND"},
+                timeout=8,
+            )
+            print("RAILWAY AUTH BRTI HTTP:", _rr.status_code)
 
     except Exception as _exc_v14:
         print("RAILWAY AUTH DIAGNOSTIC ERROR:", type(_exc_v14).__name__)
