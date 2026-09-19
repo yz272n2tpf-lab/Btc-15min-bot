@@ -39,3 +39,15 @@ Return immediately to plumbing/infrastructure:
 Then untouched end-to-end certification, then ladders/performance work.
 
 Signal-only/manual execution remains non-negotiable. NO ORDERS.
+
+## Permanent budget governance — user-approved 2026-09-18
+- Prevent recurrence of runaway Railway cost as a permanent operational requirement.
+- Normal objective: remain within the agreed operating budget at all times.
+- No intentional architecture/service change that is expected to exceed the agreed budget without discussing the expected cost/performance tradeoff with the user first.
+- Cost must be treated as a release/infrastructure gate alongside correctness, latency, freshness, reliability and NO ORDERS.
+- New or materially changed services require a measured RAM/CPU/network baseline and explicit classification as permanent production vs temporary research/certification.
+- Internal service-to-service data paths should use private networking; unexpected public internal egress is a regression.
+- Temporary/research services require a defined purpose, evidence/finish condition, and retirement review; they must not silently become permanent.
+- Track project run-rate and investigate material unexplained increases before expanding infrastructure.
+- Cost reductions may never silently weaken signals, data freshness, timing, validation, reliability or bot integrity.
+- If performance/integrity requires spending above budget, stop at the decision boundary, quantify the expected cost and benefit, and discuss with the user before proceeding.
