@@ -11,7 +11,8 @@ from pathlib import Path
 from datetime import datetime, timezone
 import base64, csv, math, os, sys, time
 
-import requests\nfrom btc15_brti_ws_gateway_client_v1 import state as gateway_brti_state
+import requests
+from btc15_brti_ws_gateway_client_v1 import state as gateway_brti_state
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding
 
