@@ -68,6 +68,16 @@ def _btc15_safe_excepthook(exc_type, exc, tb):
 
 sys.excepthook = _btc15_safe_excepthook
 
+# Isolated/runtime-safe data path. Production uses its mounted data directory;
+# canaries can opt into local /tmp storage so missing volumes never crash logging.
+def _btc15_data_path(filename):
+    if os.getenv("BTC15_ISOLATED_CANARY_LOCAL_DATA","").strip() == "1":
+        base = Path("/tmp/btc15-canary-data")
+    else:
+        base = Path(os.getenv("BTC15_DATA_DIR","/data"))
+    base.mkdir(parents=True, exist_ok=True)
+    return base / filename
+
 KALSHI_BASE_URL = "https://api.elections.kalshi.com"
 def kalshi_headers(method, path):
     timestamp = str(int(time.time() * 1000))
