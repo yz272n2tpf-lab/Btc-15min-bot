@@ -24,7 +24,8 @@ def snap():
  x["ready"]=bool(x["connected"] and latest and age is not None and 0<=age<=MAX_AGE_MS and x["reason"]=="PRIMARY_OK")
  x["server_ts_ms"]=now;x["retained_ticks"]=len(RING);return x
 def fail(reason):
- with LOCK: STATE["ready"]=False;STATE["connected"]=False;STATE["reason"]=reason
+ with LOCK: STATE["ready"]=False;STATE["connected"]=False;STATE["reason"]=reason;STATE["latest"]=None
+ with LOCK: RING.clear()
 async def owner():
  backoff=1
  while True:
@@ -32,7 +33,7 @@ async def owner():
   try:
    fail("CONNECTING")
    async with websockets.connect(WS,additional_headers=hdr(),ping_interval=20,ping_timeout=20,max_queue=4096) as ws:
-    with LOCK: STATE["connected"]=True;STATE["epoch"]=epoch
+    with LOCK: STATE["connected"]=True;STATE["epoch"]=epoch;STATE["latest"]=None;RING.clear()
     await ws.send(json.dumps({"id":1,"cmd":"subscribe","params":{"channels":["cfbenchmarks_value"],"index_ids":["BRTI"]}}))
     backoff=1
     while True:
