@@ -21,18 +21,13 @@ import sys
 import traceback
 
 # Isolated canaries/builders may not have the production /data volume.
-# Redirect only literal /data Paths to a private temp root when explicitly enabled.
-if os.getenv("BTC15_ISOLATED_CANARY_LOCAL_DATA","").strip() == "1":
-    _OriginalPath = Path
-    _canary_data_root = _OriginalPath("/tmp/btc15_canary_data")
-    _canary_data_root.mkdir(parents=True, exist_ok=True)
-    def Path(value="."):
-        p = _OriginalPath(value)
-        if str(p) == "/data":
-            return _canary_data_root
-        if str(p).startswith("/data/"):
-            return _canary_data_root / str(p)[6:]
-        return p
+# Redirect literal /data Paths without shadowing pathlib.Path class methods.
+_CANARY_LOCAL_DATA = os.getenv("BTC15_ISOLATED_CANARY_LOCAL_DATA","").strip() == "1"
+_CANARY_DATA_ROOT = Path("/tmp/btc15_canary_data")
+if _CANARY_LOCAL_DATA:
+    _CANARY_DATA_ROOT.mkdir(parents=True, exist_ok=True)
+def _btc15_data_path(name):
+    return (_CANARY_DATA_ROOT / name) if _CANARY_LOCAL_DATA else (Path("/data") / name)
 
 KALSHI_KEY_ID = (
     os.getenv("KALSHI_KEY_ID")
@@ -1266,7 +1261,7 @@ _ladder_direction = _model_15m_direction
 _ladder_confidence = float(current_confidence)
 _ladder_reason = "Every-contract raw 15-minute forecast"
 _ladder_contract_ticker = None
-_ladder_state_path = Path("/data/kalshi_15m_ladder_state.json")
+_ladder_state_path = _btc15_data_path("kalshi_15m_ladder_state.json")
 _ladder_state = {}
 
 try:
@@ -1864,7 +1859,7 @@ if "_strict_error_text" in globals():
 # AUTOMATIC V4 LIVE SNAPSHOT LOG
 # New filename avoids mixing the V3 and V4 CSV schemas.
 # ============================================================
-_snapshot_log = Path("/data/kalshi_two_output_live_log_v4_13.csv")
+_snapshot_log = _btc15_data_path("kalshi_two_output_live_log_v4_13.csv")
 _snapshot_fields = [
     'timestamp_utc','contract','elapsed_min','time_left_min',
     'btc_price','kalshi_target','target_gap_dollars',
@@ -2014,9 +2009,9 @@ EVENT_SAMPLE_SPACING_SECONDS = 15
 STOP_LOSS = 0.10
 TARGETS = [0.08, 0.10, 0.15, 0.20]
 
-SNAPSHOT_LOG = Path("/data/kalshi_scalp_shadow_snapshots_v1.csv")
-EVENT_LOG = Path("/data/kalshi_scalp_shadow_events_v1.csv")
-STATE_FILE = Path("/data/kalshi_scalp_shadow_state_v1.json")
+SNAPSHOT_LOG = _btc15_data_path("kalshi_scalp_shadow_snapshots_v1.csv")
+EVENT_LOG = _btc15_data_path("kalshi_scalp_shadow_events_v1.csv")
+STATE_FILE = _btc15_data_path("kalshi_scalp_shadow_state_v1.json")
 
 KEY_ID = KALSHI_KEY_ID
 PRIVATE_KEY_PATH = KALSHI_PRIVATE_KEY_PATH
@@ -2179,7 +2174,7 @@ BRTI_PARAMS = {"id": "BRTI", "maxResolution": "PER_SECOND"}
 BRTI_POLL_SECONDS = 1.0
 BRTI_MAX_AGE_SECONDS = 5.0
 
-BRTI_PARITY_LOG = Path("/data/kalshi_direct_brti_parity_v1.csv")
+BRTI_PARITY_LOG = _btc15_data_path("kalshi_direct_brti_parity_v1.csv")
 BRTI_PARITY_LOG.parent.mkdir(parents=True, exist_ok=True)
 BRTI_PARITY_FIELDS = [
     "timestamp_utc","contract","target","seconds_left",
@@ -2753,7 +2748,7 @@ def _live_fair_shadow(now, ticker, target, btc_spot, up_ask, down_ask):
         "dist_over_range5": float(_snap["dist_over_range5"]),
     }
 
-EARLY_CONF_LOG = Path("/data/kalshi_early_conf_shadow_v1_2.csv")
+EARLY_CONF_LOG = _btc15_data_path("kalshi_early_conf_shadow_v1_2.csv")
 EARLY_CONF_FIELDS = [
     "timestamp_utc","contract","target","seconds_left",
     "btc_price","btc_gap","preferred_side","preferred_ask",
@@ -2861,7 +2856,7 @@ print()
 # No orders. No FINAL/Tier-1/scalp authority changes.
 # =====================================================================
 
-UNIFIED_SUBMINUTE_LOG = Path("/data/kalshi_subminute_unified_v1_1.csv")
+UNIFIED_SUBMINUTE_LOG = _btc15_data_path("kalshi_subminute_unified_v1_1.csv")
 UNIFIED_SUBMINUTE_FIELDS = [
     "timestamp_utc","contract","side","side_num",
     "target","seconds_left","minutes_left",
@@ -3209,7 +3204,7 @@ TRUE_SCALP_HORIZON_SECONDS = 180.0
 TRUE_SCALP_STOP = 0.10
 TRUE_SCALP_TARGETS = [0.10, 0.15, 0.20]
 
-TRUE_SCALP_LOG = Path("/data/kalshi_true_scalp_forward_shadow_v1.csv")
+TRUE_SCALP_LOG = _btc15_data_path("kalshi_true_scalp_forward_shadow_v1.csv")
 TRUE_SCALP_FIELDS = [
     "signal_id","contract","side","signal_timestamp_utc",
     "scalp_probability","entry_ask","entry_bid",
@@ -3272,7 +3267,7 @@ PROFIT_SHADOW_FLOOR = 0.06
 PROFIT_SHADOW_TRAIL = 0.04
 PROFIT_SHADOW_HORIZON_SECONDS = 180.0
 
-PROFIT_SHADOW_LOG = Path("/data/kalshi_profit_protection_forward_shadow_v1.csv")
+PROFIT_SHADOW_LOG = _btc15_data_path("kalshi_profit_protection_forward_shadow_v1.csv")
 PROFIT_SHADOW_FIELDS = [
     "signal_id","contract","side",
     "entry_timestamp_utc","entry_ask",
