@@ -2,7 +2,7 @@
 """Deterministic safety tests for BRTI WS gateway V1. NO NETWORK. NO ORDERS."""
 import ast,pathlib
 p=pathlib.Path(__file__).with_name("btc15_brti_ws_gateway_v1.py");s=p.read_text();ast.parse(s)
-required=["STATE[\"latest\"]=None","RING.clear()","MAX_AGE_MS=5000","source_ts_ms","receive_ts_ms","owner_epoch","UPSTREAM_DISCONNECTED","ts>recv+1000","STATE[\"dup\"]+=1;continue","STATE[\"ooo\"]+=1;continue",'"orders":False']
+required=["STATE[\"latest\"]=None","RING.clear()","raise RuntimeError(\"invalid_data\")","MAX_AGE_MS=5000","source_ts_ms","receive_ts_ms","owner_epoch","UPSTREAM_DISCONNECTED","ts>recv+1000","STATE[\"dup\"]+=1;continue","STATE[\"ooo\"]+=1;continue",'"orders":False']
 for x in required:
  if x not in s:raise SystemExit("STOP missing safety invariant: "+x)
 # Exact boundary contract: source age <=5000 qualifies; 5001 does not.
@@ -21,3 +21,6 @@ assert accept(1000,1000)=="DUP";assert accept(2000,1000)=="OOO";assert accept(10
 source=1_000_000; now=1_300_000
 assert now-source==300_000 and not eligible(now-source)
 print("BRTI_WS_GATEWAY_STATIC_SAFETY_PASS | 4999 PASS | 5000 PASS | 5001 WAIT | 300S OLD WAIT | DUP/OOO REJECT | DISCONNECT WAIT | NO ORDERS")
+
+# Invalid upstream payloads must escape the receive loop so the owner reconnects; never call fail() while LOCK is held.
+assert 'raise RuntimeError("invalid_data")' in s
