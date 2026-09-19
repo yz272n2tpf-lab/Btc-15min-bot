@@ -1,7 +1,7 @@
 # COST CLOSEOUT + PLUMBING HANDOFF — 2026-09-18
 
 ## Hard engineering rule
-Lowest sustainable monthly cost without sacrificing bot correctness, speed, freshness, reliability, integrity, signal behavior, coverage, timing, evidence or goals. ~$20/mo is a target, never permission to weaken the bot. Any cost optimization that worsens semantics/freshness/latency fails.
+Lowest sustainable monthly cost without sacrificing bot correctness, speed, freshness, reliability, integrity, signal behavior, coverage, timing, evidence or goals. ~$20/mo is a target, not a floor. Pursue below $20/mo whenever safely possible; never use cost reduction as permission to weaken the bot. Any cost optimization that worsens semantics/freshness/latency fails.
 
 ## Cost work already proven
 - Railway billing showed egress was dominant historical cost: $227.79 / 4,555.71 GB at captured billing boundary.
