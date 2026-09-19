@@ -2221,6 +2221,15 @@ def _parse_direct_brti_response(obj):
     return None
 
 def _fetch_direct_brti_once():
+    if os.getenv("BTC15_USE_SHARED_BRTI","").strip() == "1":
+        from btc15_brti_shared_consumer_v1 import read_shared_brti
+        _s = read_shared_brti()
+        if _s["status"] != "PRIMARY_OK":
+            raise RuntimeError("shared BRTI latest upstream attempt not PRIMARY_OK")
+        _cf_ts = datetime.fromisoformat(
+            str(_s["success_timestamp_utc"]).replace("Z","+00:00")
+        ).timestamp()
+        return float(_s["value"]), float(_cf_ts)
     r = requests.get(
         BRTI_KALSHI_BASE_URL + BRTI_PATH,
         headers=kalshi_headers("GET", BRTI_PATH),
