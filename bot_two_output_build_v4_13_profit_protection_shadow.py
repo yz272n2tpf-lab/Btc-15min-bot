@@ -274,7 +274,11 @@ if _BTC15_ARTIFACT_MODE:
     import btc15_certified_model_artifact_v1 as _btc15_art
     _BTC15_CERTIFIED = _btc15_art.load_bundle(Path(_BTC15_ARTIFACT_PATH), _BTC15_ARTIFACT_SHA)
     print("BTC15 CERTIFIED ARTIFACT LOADED | SHA VERIFIED | NO ORDERS")
-training_data = coinbase_history(60, 900)
+if _BTC15_ARTIFACT_MODE:
+    training_data = data.copy()
+    print("Training history download: SKIPPED | certified artifact mode")
+else:
+    training_data = coinbase_history(60, 900)
 print("Training rows:", len(training_data))
 training_data["future_open"] = training_data["Open"].shift(-1)
 training_data["future_close"] = training_data["Close"].shift(-1)
