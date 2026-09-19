@@ -24,8 +24,8 @@ def snap():
  x["ready"]=bool(x["connected"] and latest and age is not None and 0<=age<=MAX_AGE_MS and x["reason"]=="PRIMARY_OK")
  x["server_ts_ms"]=now;x["retained_ticks"]=len(RING);return x
 def fail(reason):
- with LOCK: STATE["ready"]=False;STATE["connected"]=False;STATE["reason"]=reason;STATE["latest"]=None
- with LOCK: RING.clear()
+ with LOCK:
+  STATE["ready"]=False;STATE["connected"]=False;STATE["reason"]=reason;STATE["latest"]=None;RING.clear()
 async def owner():
  backoff=1
  while True:
@@ -44,10 +44,10 @@ async def owner():
      try: ts=int(d["time"]);v=Decimal(str(d["value"]))
      except Exception:
       with LOCK:STATE["bad"]+=1
-      fail("INVALID_DATA");continue
+      raise RuntimeError("invalid_data")
      if m.get("index_id")!="BRTI" or d.get("id")!="BRTI" or not v.is_finite() or v<=0 or ts>recv+1000:
       with LOCK:STATE["bad"]+=1
-      fail("INVALID_DATA");continue
+      raise RuntimeError("invalid_data")
      with LOCK:
       prev=STATE["latest"]
       if prev and ts==prev["source_ts_ms"]:STATE["dup"]+=1;continue
