@@ -14,7 +14,6 @@ def read_shared_brti(base_url=None,timeout_s=0.8):
                 "success_timestamp_utc":datetime.fromtimestamp(s["source_ts_ms"]/1000.0,tz=timezone.utc).isoformat().replace("+00:00","Z"),"upstream_attempts":0,"upstream_ok":0,
                 "http_429":0,"orders":False,"signal_only":True,
                 "owner_epoch":s["owner_epoch"],"source_ts_ms":s["source_ts_ms"]}
-    from datetime import datetime
     import time,requests
     base=(base_url or os.getenv("BTC15_BRTI_SHARED_URL","")).rstrip("/")
     if not base:raise RuntimeError("shared BRTI URL not configured")
