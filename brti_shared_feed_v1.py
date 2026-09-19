@@ -367,8 +367,8 @@ def main() -> None:
     if not key_id or not private_key_b64:
         raise SystemExit("BRTI_SHARED_FEED CONFIG ERROR | missing Kalshi credentials")
 
-    poll_interval = float(os.environ.get("BRTI_SHARED_POLL_INTERVAL_S", "1.0"))
-    max_age = float(os.environ.get("BRTI_SHARED_MAX_QUAL_AGE_S", "1.35"))
+    poll_interval = float(os.environ.get("BRTI_SHARED_POLL_INTERVAL_S", "3.0"))
+    max_age = float(os.environ.get("BRTI_SHARED_MAX_QUAL_AGE_S", "5.0"))
     max_429 = float(os.environ.get("BRTI_SHARED_MAX_429_BACKOFF_S", "30"))
     host = os.environ.get("BRTI_SHARED_HOST", "0.0.0.0")
     port = int(os.environ.get("PORT", os.environ.get("BRTI_SHARED_PORT", "8080")))
