@@ -6,6 +6,6 @@ s=p.read_text();ast.parse(s)
 required=["source_ts_ms","success_timestamp_utc","datetime.fromtimestamp","timezone.utc","PRIMARY_OK",'"orders":False','"signal_only":True']
 for x in required:
  if x not in s: raise SystemExit("STOP missing WS adapter compatibility invariant: "+x)
-if '"success_timestamp_utc":None' in s:
+if "    from datetime import datetime" in s:\n raise SystemExit("STOP function-local datetime shadows module import")\nif '"success_timestamp_utc":None' in s:
  raise SystemExit("STOP websocket adapter exposes null legacy timestamp")
 print("BRTI_WS_ADAPTER_COMPAT_PASS | SOURCE_TS->ISO UTC | PRIMARY_OK | NO ORDERS")
