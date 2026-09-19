@@ -88,7 +88,6 @@ def main():
    p=subprocess.run([sys.executable,"-u","btc15_brti_gateway_loopback_proof_v1.py"],capture_output=True,text=True,timeout=5)
    print((p.stdout.strip() or ("BRTI_CONSUMER_LOOPBACK | pass=False | rc=%s | NO ORDERS"%p.returncode)),flush=True)
    time.sleep(60)
- threading.Thread(target=consumer_proof,daemon=True,name="brti-consumer-loopback-proof").start()
- ThreadingHTTPServer(("0.0.0.0",port),H).serve_forever()
+ threading.Thread(target=consumer_proof,daemon=True,name="brti-consumer-loopback-proof").start()\n def parity_shadow_proof():\n  import subprocess,sys\n  time.sleep(75)\n  p=subprocess.run([sys.executable,"-u","test_btc15_kalshi_parity_shadow_gateway_v1_static.py"],capture_output=True,text=True,timeout=10)\n  print((p.stdout.strip() or ("BRTI_PARITY_GATEWAY_SHADOW_STATIC_FAIL | rc=%s | NO ORDERS"%p.returncode)),flush=True)\n threading.Thread(target=parity_shadow_proof,daemon=True,name="brti-parity-shadow-static-proof").start()\n ThreadingHTTPServer(("0.0.0.0",port),H).serve_forever()
 if __name__=="__main__":main()
 
