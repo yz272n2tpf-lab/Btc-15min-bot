@@ -39,6 +39,9 @@ import btc15_scalp_blueprint_forward_v1 as forward
 VERSION = "BTC15_SCALP_UNARMED_LIVE_TAPE_VALIDATOR_V1_5"
 PORT = int(os.environ.get("PORT", "8080"))
 POLL_SEC = max(20, int(os.environ.get("SCALP_UNARMED_LIVE_POLL_SEC", "45")))
+MIN_REANALYZE_SEC = max(POLL_SEC, int(os.environ.get("SCALP_UNARMED_MIN_REANALYZE_SEC", "300")))
+_LAST_SOURCE_SHA = ""
+_LAST_ANALYSIS_AT = 0.0
 
 # Deliberately hard-failed until the user visually accepts the integrated timer.
 # This service is not allowed to infer visual acceptance from backend telemetry.
@@ -255,16 +258,30 @@ def summarize(
 
 
 def cycle() -> dict[str, Any]:
-    rows, sha = forward.fetch_csv_rows()
+    global _LAST_SOURCE_SHA, _LAST_ANALYSIS_AT
+    raw, sha = forward.fetch_csv_raw()
+    now = time.time()
+    if sha and sha == _LAST_SOURCE_SHA and (now - _LAST_ANALYSIS_AT) < MIN_REANALYZE_SEC:
+        del raw
+        with LOCK:
+            cached = dict(STATE)
+        cached["analysis_skipped_unchanged_source"] = True
+        return cached
+    rows = forward.parse_csv_raw(raw)
+    del raw
     # Build a fresh local backend-timer evidence series for this consolidated
     # reviewer. It starts at zero after deploy by design rather than borrowing
     # unverifiable historical counts from another service.
     forward.poll_timer_status()
     fwd = forward.build_summary(rows, sha)
     summary = summarize(rows, sha, fwd)
+    _LAST_SOURCE_SHA = sha
+    _LAST_ANALYSIS_AT = now
     with LOCK:
         STATE.clear()
         STATE.update(summary)
+    # Release the largest raw input before logging/sleep; summaries retain only required evidence.
+    del rows
 
     print(
         "SCALP UNARMED LIVE TAPE | "
