@@ -90,13 +90,14 @@ def main():
    time.sleep(60)
  threading.Thread(target=consumer_proof,daemon=True,name="brti-consumer-loopback-proof").start()
  def parity_shadow_proof():
-  import subprocess,sys
+  import subprocess,sys,os
   time.sleep(75)
   p=subprocess.run([sys.executable,"-u","test_btc15_kalshi_parity_shadow_gateway_v1_static.py"],capture_output=True,text=True,timeout=10)
   detail=(p.stderr.strip() or p.stdout.strip()).replace(chr(10)," ")[:500]
   print(p.stdout.strip() if p.returncode==0 else "BRTI_PARITY_GATEWAY_SHADOW_STATIC_FAIL | rc=%s | detail=%s | NO ORDERS"%(p.returncode,detail),flush=True)
   if p.returncode==0:
-   env=dict(os.environ);env["BTC15_BRTI_GATEWAY_URL"]="http://127.0.0.1:%s"%port\n   q=subprocess.run([sys.executable,"-u","btc15_kalshi_parity_shadow_gateway_v1.py","--once"],capture_output=True,text=True,timeout=20,env=env)
+   env=dict(os.environ);env["BTC15_BRTI_GATEWAY_URL"]="http://127.0.0.1:%s"%port
+   q=subprocess.run([sys.executable,"-u","btc15_kalshi_parity_shadow_gateway_v1.py","--once"],capture_output=True,text=True,timeout=20,env=env)
    out=(q.stdout.strip() or q.stderr.strip()).replace(chr(10)," | ")[:1200]
    print("BRTI_PARITY_GATEWAY_RUNTIME | rc=%s | %s | NO ORDERS"%(q.returncode,out),flush=True)
  threading.Thread(target=parity_shadow_proof,daemon=True,name="brti-parity-shadow-static-proof").start()
