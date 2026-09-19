@@ -53,7 +53,7 @@ async def owner():
       if prev and ts<prev["source_ts_ms"]:STATE["ooo"]+=1;continue
       STATE["sequence"]+=1
       obs={"schema_version":1,"index_id":"BRTI","value":str(v),"source_ts_ms":ts,"receive_ts_ms":recv,"owner_epoch":epoch,"sequence":STATE["sequence"],"orders":False,"signal_only":True}
-      RING.append(obs);STATE["latest"]=obs;STATE["reason"]="PRIMARY_OK";STATE["ready"]=True
+      RING.append(obs);STATE["latest"]=obs;STATE["reason"]="PRIMARY_OK";STATE["ready"]=True\n      if force_after and not forced and STATE["sequence"]>=force_after:\n       forced=True;print("BRTI_GATEWAY TEST DISCONNECT | seq=%s | WAIT REQUIRED | NO ORDERS"%STATE["sequence"],flush=True);await ws.close(code=1000,reason="gateway reconnect qualification")
   except Exception as exc:
    fail("UPSTREAM_DISCONNECTED")
    with LOCK:STATE["reconnects"]+=1
