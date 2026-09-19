@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Read-only current production dashboard-state probe. NO ORDERS."""
 import json,os,urllib.request
-BASE=os.environ["BTC15_PRODUCTION_STATE_BASE"].rstrip("/")
+BASE=os.environ["BTC15_PRODUCTION_STATE_BASE"].rstrip("/")\nif "://" not in BASE: BASE="https://"+BASE
 with urllib.request.urlopen(BASE+"/dashboard_state.json",timeout=3) as r:d=json.load(r)
 def pick(o,*ks):
  for k in ks:
