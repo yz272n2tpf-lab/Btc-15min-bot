@@ -1556,40 +1556,27 @@ DIRECT_BRTI_AUTH_MAX_AGE_SECONDS = 5.0
 DIRECT_BRTI_AUTH_WAIT_DOLLARS = 11.0
 
 def _direct_brti_authority_fetch():
-    # Use Kalshi's documented CF Benchmarks passthrough endpoint.
+    if os.getenv("BTC15_USE_SHARED_BRTI","").strip() == "1":
+        from btc15_brti_shared_consumer_v1 import read_shared_brti
+        _s = read_shared_brti()
+        if _s["status"] != "PRIMARY_OK":
+            raise RuntimeError("shared BRTI latest upstream attempt not PRIMARY_OK")
+        return float(_s["value"]), float(_s["age_seconds"])
+
+    # Protected direct transport remains the control when canary switch is OFF.
     _path = "/trade-api/v2/cfbenchmarks/values"
     _base = "https://external-api.kalshi.com"
     _resp = requests.get(
-        _base + _path,
-        headers=kalshi_headers("GET", _path),
-        params={"id": "BRTI", "maxResolution": "PER_SECOND"},
-        timeout=8,
+        _base + _path, headers=kalshi_headers("GET", _path),
+        params={"id": "BRTI", "maxResolution": "PER_SECOND"}, timeout=8,
     )
     _resp.raise_for_status()
-    _obj = _resp.json()
-    _data = _obj.get("data", _obj) if isinstance(_obj, dict) else {}
+    _obj = _resp.json(); _data = _obj.get("data", _obj) if isinstance(_obj, dict) else {}
     _payload = _data.get("payload") if isinstance(_data, dict) else None
-
-    # /values returns recent values in ascending publication time.
-    if not isinstance(_payload, list) or not _payload:
-        raise RuntimeError("direct BRTI /values payload missing")
-
-    _item = None
-    for _candidate in reversed(_payload):
-        if not isinstance(_candidate, dict):
-            continue
-        if _candidate.get("value") is None or _candidate.get("time") is None:
-            continue
-        _item = _candidate
-        break
-
-    if _item is None:
-        raise RuntimeError("direct BRTI /values has no usable BRTI item")
-
-    _value = float(_item["value"])
-    _cf_ts = int(_item["time"]) / 1000.0
-    _age = max(0.0, time.time() - _cf_ts)
-    return _value, _age
+    if not isinstance(_payload, list) or not _payload: raise RuntimeError("direct BRTI /values payload missing")
+    _item = next((_c for _c in reversed(_payload) if isinstance(_c,dict) and _c.get("value") is not None and _c.get("time") is not None),None)
+    if _item is None: raise RuntimeError("direct BRTI /values has no usable BRTI item")
+    return float(_item["value"]), max(0.0,time.time()-(int(_item["time"])/1000.0))
 
 try:
     if _audit_target is None:
