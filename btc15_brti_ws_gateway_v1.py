@@ -27,6 +27,8 @@ def fail(reason):
  with LOCK: STATE["ready"]=False;STATE["connected"]=False;STATE["reason"]=reason
 async def owner():
  backoff=1
+ force_after=int(os.getenv("BRTI_GATEWAY_FORCE_DISCONNECT_AFTER_TICKS","0"))
+ forced=False
  while True:
   epoch=str(uuid.uuid4())
   try:
