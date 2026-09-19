@@ -20,6 +20,20 @@ import os
 import sys
 import traceback
 
+# Isolated canaries/builders may not have the production /data volume.
+# Redirect only literal /data Paths to a private temp root when explicitly enabled.
+if os.getenv("BTC15_ISOLATED_CANARY_LOCAL_DATA","").strip() == "1":
+    _OriginalPath = Path
+    _canary_data_root = _OriginalPath("/tmp/btc15_canary_data")
+    _canary_data_root.mkdir(parents=True, exist_ok=True)
+    def Path(value="."):
+        p = _OriginalPath(value)
+        if str(p) == "/data":
+            return _canary_data_root
+        if str(p).startswith("/data/"):
+            return _canary_data_root / str(p)[6:]
+        return p
+
 KALSHI_KEY_ID = (
     os.getenv("KALSHI_KEY_ID")
     or Path.home().joinpath(".kalshi/key_id").read_text()
