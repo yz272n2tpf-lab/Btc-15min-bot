@@ -421,7 +421,12 @@ def main() -> int:
         "READ ONLY | SIGNAL ONLY | NO ORDERS",
         flush=True,
     )
-    server = ThreadingHTTPServer(("0.0.0.0", PORT), Handler)\n    threading.Thread(target=server.serve_forever, name="scalp-unarmed-health", daemon=True).start()\n    # Start health immediately; then run the first heavy analysis in the worker.\n    threading.Thread(target=worker, name="scalp-unarmed-live-tape", daemon=True).start()\n    while True:\n        time.sleep(3600)
+    server = ThreadingHTTPServer(("0.0.0.0", PORT), Handler)
+    threading.Thread(target=server.serve_forever, name="scalp-unarmed-health", daemon=True).start()
+    # Start health immediately; then run the first heavy analysis in the worker.
+    threading.Thread(target=worker, name="scalp-unarmed-live-tape", daemon=True).start()
+    while True:
+        time.sleep(3600)
     return 0
 
 
