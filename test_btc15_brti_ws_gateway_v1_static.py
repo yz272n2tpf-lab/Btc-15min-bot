@@ -20,7 +20,8 @@ assert accept(1000,1000)=="DUP";assert accept(2000,1000)=="OOO";assert accept(10
 # Old publications remain old; consumer/read time never rewrites source time.
 source=1_000_000; now=1_300_000
 assert now-source==300_000 and not eligible(now-source)
-print("BRTI_WS_GATEWAY_STATIC_SAFETY_PASS | 4999 PASS | 5000 PASS | 5001 WAIT | 300S OLD WAIT | DUP/OOO REJECT | DISCONNECT WAIT | NO ORDERS")
 
-# Invalid upstream payloads must escape the receive loop so the owner reconnects; never call fail() while LOCK is held.
+
+# Invalid upstream payloads must escape the receive loop so the owner reconnects.
 assert 'raise RuntimeError("invalid_data")' in s
+print("BRTI_WS_GATEWAY_STATIC_SAFETY_PASS | 4999 PASS | 5000 PASS | 5001 WAIT | 300S OLD WAIT | DUP/OOO REJECT | INVALID RECONNECT | DISCONNECT WAIT | NO ORDERS")
