@@ -87,7 +87,14 @@ def fetch_csv_raw() -> tuple[bytes, str]:
     raw = r.content
     if not raw or b"record_type" not in raw[:4096]:
         raise ValueError("unexpected event export")
-    return raw, hashlib.sha256(raw).hexdigest()\n\ndef parse_csv_raw(raw: bytes) -> list[dict[str, str]]:\n    return list(csv.DictReader(io.StringIO(raw.decode("utf-8", "replace"))))\n\ndef fetch_csv_rows() -> tuple[list[dict[str, str]], str]:\n    raw, sha = fetch_csv_raw()\n    return parse_csv_raw(raw), sha
+    return raw, hashlib.sha256(raw).hexdigest()
+
+def parse_csv_raw(raw: bytes) -> list[dict[str, str]]:
+    return list(csv.DictReader(io.StringIO(raw.decode("utf-8", "replace"))))
+
+def fetch_csv_rows() -> tuple[list[dict[str, str]], str]:
+    raw, sha = fetch_csv_raw()
+    return parse_csv_raw(raw), sha
 
 
 def completed_ids(rows: list[Mapping[str, Any]]) -> set[str]:
