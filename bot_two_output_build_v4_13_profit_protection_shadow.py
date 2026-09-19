@@ -118,14 +118,17 @@ def _railway_verified_credential_diagnostic_v14():
         )
         print("RAILWAY AUTH BALANCE HTTP:", _rb.status_code)
 
-        _brti_path = "/trade-api/v2/cfbenchmarks/values"
-        _rr = requests.get(
-            _base + _brti_path,
-            headers=kalshi_headers("GET", _brti_path),
-            params={"id": "BRTI", "maxResolution": "PER_SECOND"},
-            timeout=8,
-        )
-        print("RAILWAY AUTH BRTI HTTP:", _rr.status_code)
+        if os.getenv("BTC15_USE_SHARED_BRTI","").strip() == "1":
+            print("RAILWAY AUTH BRTI HTTP: SKIPPED | shared BRTI transport owns upstream")
+        else:
+            _brti_path = "/trade-api/v2/cfbenchmarks/values"
+            _rr = requests.get(
+                _base + _brti_path,
+                headers=kalshi_headers("GET", _brti_path),
+                params={"id": "BRTI", "maxResolution": "PER_SECOND"},
+                timeout=8,
+            )
+            print("RAILWAY AUTH BRTI HTTP:", _rr.status_code)
 
     except Exception as _exc_v14:
         print("RAILWAY AUTH DIAGNOSTIC ERROR:", type(_exc_v14).__name__)
@@ -1470,40 +1473,27 @@ DIRECT_BRTI_AUTH_MAX_AGE_SECONDS = 5.0
 DIRECT_BRTI_AUTH_WAIT_DOLLARS = 11.0
 
 def _direct_brti_authority_fetch():
-    # Use Kalshi's documented CF Benchmarks passthrough endpoint.
+    if os.getenv("BTC15_USE_SHARED_BRTI","").strip() == "1":
+        from btc15_brti_shared_consumer_v1 import read_shared_brti
+        _s = read_shared_brti()
+        if _s["status"] != "PRIMARY_OK":
+            raise RuntimeError("shared BRTI latest upstream attempt not PRIMARY_OK")
+        return float(_s["value"]), float(_s["age_seconds"])
+
+    # Protected direct transport remains the control when canary switch is OFF.
     _path = "/trade-api/v2/cfbenchmarks/values"
     _base = "https://external-api.kalshi.com"
     _resp = requests.get(
-        _base + _path,
-        headers=kalshi_headers("GET", _path),
-        params={"id": "BRTI", "maxResolution": "PER_SECOND"},
-        timeout=8,
+        _base + _path, headers=kalshi_headers("GET", _path),
+        params={"id": "BRTI", "maxResolution": "PER_SECOND"}, timeout=8,
     )
     _resp.raise_for_status()
-    _obj = _resp.json()
-    _data = _obj.get("data", _obj) if isinstance(_obj, dict) else {}
+    _obj = _resp.json(); _data = _obj.get("data", _obj) if isinstance(_obj, dict) else {}
     _payload = _data.get("payload") if isinstance(_data, dict) else None
-
-    # /values returns recent values in ascending publication time.
-    if not isinstance(_payload, list) or not _payload:
-        raise RuntimeError("direct BRTI /values payload missing")
-
-    _item = None
-    for _candidate in reversed(_payload):
-        if not isinstance(_candidate, dict):
-            continue
-        if _candidate.get("value") is None or _candidate.get("time") is None:
-            continue
-        _item = _candidate
-        break
-
-    if _item is None:
-        raise RuntimeError("direct BRTI /values has no usable BRTI item")
-
-    _value = float(_item["value"])
-    _cf_ts = int(_item["time"]) / 1000.0
-    _age = max(0.0, time.time() - _cf_ts)
-    return _value, _age
+    if not isinstance(_payload, list) or not _payload: raise RuntimeError("direct BRTI /values payload missing")
+    _item = next((_c for _c in reversed(_payload) if isinstance(_c,dict) and _c.get("value") is not None and _c.get("time") is not None),None)
+    if _item is None: raise RuntimeError("direct BRTI /values has no usable BRTI item")
+    return float(_item["value"]), max(0.0,time.time()-(int(_item["time"])/1000.0))
 
 try:
     if _audit_target is None:
@@ -1778,7 +1768,7 @@ if "_strict_error_text" in globals():
 # AUTOMATIC V4 LIVE SNAPSHOT LOG
 # New filename avoids mixing the V3 and V4 CSV schemas.
 # ============================================================
-_snapshot_log = Path("/data/kalshi_two_output_live_log_v4_13.csv")
+_snapshot_log = _btc15_data_path("kalshi_two_output_live_log_v4_13.csv")
 _snapshot_fields = [
     'timestamp_utc','contract','elapsed_min','time_left_min',
     'btc_price','kalshi_target','target_gap_dollars',
@@ -1928,9 +1918,9 @@ EVENT_SAMPLE_SPACING_SECONDS = 15
 STOP_LOSS = 0.10
 TARGETS = [0.08, 0.10, 0.15, 0.20]
 
-SNAPSHOT_LOG = Path("/data/kalshi_scalp_shadow_snapshots_v1.csv")
-EVENT_LOG = Path("/data/kalshi_scalp_shadow_events_v1.csv")
-STATE_FILE = Path("/data/kalshi_scalp_shadow_state_v1.json")
+SNAPSHOT_LOG = _btc15_data_path("kalshi_scalp_shadow_snapshots_v1.csv")
+EVENT_LOG = _btc15_data_path("kalshi_scalp_shadow_events_v1.csv")
+STATE_FILE = _btc15_data_path("kalshi_scalp_shadow_state_v1.json")
 
 KEY_ID = KALSHI_KEY_ID
 PRIVATE_KEY_PATH = KALSHI_PRIVATE_KEY_PATH
@@ -2148,6 +2138,15 @@ def _parse_direct_brti_response(obj):
     return None
 
 def _fetch_direct_brti_once():
+    if os.getenv("BTC15_USE_SHARED_BRTI","").strip() == "1":
+        from btc15_brti_shared_consumer_v1 import read_shared_brti
+        _s = read_shared_brti()
+        if _s["status"] != "PRIMARY_OK":
+            raise RuntimeError("shared BRTI latest upstream attempt not PRIMARY_OK")
+        _cf_ts = datetime.fromisoformat(
+            str(_s["success_timestamp_utc"]).replace("Z","+00:00")
+        ).timestamp()
+        return float(_s["value"]), float(_cf_ts)
     r = requests.get(
         BRTI_KALSHI_BASE_URL + BRTI_PATH,
         headers=kalshi_headers("GET", BRTI_PATH),
