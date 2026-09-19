@@ -355,14 +355,17 @@ print("Target balance:", y_test.mean())
 from sklearn.ensemble import RandomForestClassifier, HistGradientBoostingClassifier
 from sklearn.metrics import accuracy_score
 
-model = RandomForestClassifier(
-    n_estimators=1200,
-    max_depth=8,
-    random_state=42,
-    class_weight="balanced"
-)
-
-model.fit(X_train, y_train)
+if _BTC15_ARTIFACT_MODE:
+    model = _BTC15_CERTIFIED["general_model"]
+    print("GENERAL RF: CERTIFIED FITTED ARTIFACT | RETRAIN SKIPPED")
+else:
+    model = RandomForestClassifier(
+        n_estimators=1200,
+        max_depth=8,
+        random_state=42,
+        class_weight="balanced"
+    )
+    model.fit(X_train, y_train)
 
 pred = model.predict(X_test)
 
