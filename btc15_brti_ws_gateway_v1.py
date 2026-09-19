@@ -100,7 +100,7 @@ def main():
    q=subprocess.run([sys.executable,"-u","btc15_kalshi_parity_shadow_gateway_v1.py","--once"],capture_output=True,text=True,timeout=20,env=env)
    out=(q.stdout.strip() or q.stderr.strip()).replace(chr(10)," | ")[:1200]
    print("BRTI_PARITY_GATEWAY_RUNTIME | rc=%s | %s | NO ORDERS"%(q.returncode,out),flush=True)
- threading.Thread(target=parity_shadow_proof,daemon=True,name="brti-parity-shadow-static-proof").start()
+ threading.Thread(target=parity_shadow_proof,daemon=True,name="brti-parity-shadow-static-proof").start()\n def production_state_probe():\n  import subprocess,sys,os\n  time.sleep(20)\n  p=subprocess.run([sys.executable,"-u","btc15_production_state_probe_v1.py"],capture_output=True,text=True,timeout=8,env=dict(os.environ))\n  out=(p.stdout.strip() or p.stderr.strip()).replace(chr(10)," ")[:1500]\n  print("BTC15_PRODUCTION_STATE_PROBE_RUNTIME | rc=%s | %s | NO ORDERS"%(p.returncode,out),flush=True)\n threading.Thread(target=production_state_probe,daemon=True,name="btc15-production-state-probe").start()
  ThreadingHTTPServer(("0.0.0.0",port),H).serve_forever()
 if __name__=="__main__":main()
 
