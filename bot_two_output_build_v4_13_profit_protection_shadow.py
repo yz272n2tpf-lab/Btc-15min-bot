@@ -267,8 +267,13 @@ print("Direction score:", direction_score)
 _BTC15_ARTIFACT_PATH = os.getenv("BTC15_CERTIFIED_MODEL_ARTIFACT_PATH","").strip()
 _BTC15_ARTIFACT_SHA = os.getenv("BTC15_CERTIFIED_MODEL_ARTIFACT_SHA256","").strip()
 _BTC15_ARTIFACT_MODE = bool(_BTC15_ARTIFACT_PATH)
+_BTC15_CERTIFIED = None
 if _BTC15_ARTIFACT_MODE:
-    print("BTC15 CERTIFIED ARTIFACT MODE REQUESTED | fail-closed | NO ORDERS")
+    if not _BTC15_ARTIFACT_SHA:
+        raise RuntimeError("CERTIFIED ARTIFACT MODE REQUIRES SHA256")
+    import btc15_certified_model_artifact_v1 as _btc15_art
+    _BTC15_CERTIFIED = _btc15_art.load_bundle(Path(_BTC15_ARTIFACT_PATH), _BTC15_ARTIFACT_SHA)
+    print("BTC15 CERTIFIED ARTIFACT LOADED | SHA VERIFIED | NO ORDERS")
 training_data = coinbase_history(60, 900)
 print("Training rows:", len(training_data))
 training_data["future_open"] = training_data["Open"].shift(-1)
