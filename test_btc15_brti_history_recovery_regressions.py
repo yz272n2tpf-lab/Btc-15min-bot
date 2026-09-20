@@ -302,6 +302,34 @@ class HistoryRecovery(unittest.TestCase):
         self.assertEqual(self.snapshot()['final60_count'], 60)
         self.assertIsNone(self.p._brti_last_error)
 
+    def test_live_canary_orchestration_with_deterministic_io(self):
+        prior = dict(ticker='KXBTC15M-PREVIOUS', close_time=self.close.isoformat(), floor_strike=99990.)
+        next_market = dict(ticker='KXBTC15M-NEXT', open_time=self.close.isoformat(),
+                           close_time=(self.close+timedelta(minutes=15)).isoformat(), floor_strike=100029.5)
+        parity = types.ModuleType('btc15_kalshi_parity_shadow_v1')
+        parity.kalshi_get = Mock(return_value={'market':prior})
+        parity.MARKETS_PATH = '/trade-api/v2/markets'
+        parity.active_market = Mock(return_value=next_market)
+        parity.parse_dt = lambda x: datetime.fromisoformat(x)
+        parity.market_target = lambda x: x['floor_strike']
+        shared = types.ModuleType('btc15_brti_shared_consumer_v1')
+        shared.read_shared_brti = Mock(return_value=dict(status='PRIMARY_OK',age_seconds=1.,
+            value=100123.,source_ts_ms=int((self.end+2)*1000)))
+        self.gateway.ticks.return_value = [dict(index_id='BRTI',source_ts_ms=int(t*1000),value=v) for t,v in self.points]
+        frozen_now = self.close+timedelta(seconds=3)
+        class FrozenDate(datetime):
+            @classmethod
+            def now(cls, tz=None): return frozen_now
+        with patch.dict(sys.modules, btc15_kalshi_parity_shadow_v1=parity,
+                        btc15_brti_shared_consumer_v1=shared), \
+             patch.dict(os.environ, BTC15_ISOLATED_CANARY_LOCAL_DATA='1'), \
+             patch('time.time', return_value=self.end+3), \
+             patch(__name__+'.datetime', FrozenDate):
+            run_live_history_canary(prior['ticker'])
+        self.assertIn('BRTI LIVE RECOVERY CANARY PASS', self.output.getvalue())
+        self.assertIn('59/60 retained after next contract active', self.output.getvalue())
+        self.assertEqual(self.gateway.ticks.call_count, 2)
+
     def test_runtime_retries_before_market_fetch_and_preserves_no_orders(self):
         source=SOURCE.read_text()
         loop=source[source.index('iteration = 0'):]
@@ -315,5 +343,84 @@ class HistoryRecovery(unittest.TestCase):
         self.assertIn('NO ORDERS', source)
 
 
+def run_live_history_canary(previous_ticker):
+    """Controlled replay of REAL gateway publications; isolated in-memory ledger.
+
+    This never changes the gateway, running bot data, or publication timestamps.
+    Hold one real reading out of a test collector, activate the real next
+    contract, then let the production collector recover it through /ticks.
+    """
+    import time as real_time
+    for name, required in {
+        'BTC15_ISOLATED_CANARY_LOCAL_DATA': '1',
+        'BTC15_USE_SHARED_BRTI': '1',
+        'BTC15_BRTI_TRANSPORT': 'websocket_gateway',
+    }.items():
+        if os.getenv(name, '').strip() != required:
+            raise RuntimeError('isolated WebSocket canary guard')
+    from btc15_brti_shared_consumer_v1 import read_shared_brti
+    from btc15_brti_ws_gateway_client_v1 import ticks
+    from btc15_kalshi_parity_shadow_v1 import (
+        kalshi_get, MARKETS_PATH, active_market, parse_dt, market_target,
+    )
+    if not previous_ticker.startswith('KXBTC15M-'):
+        raise RuntimeError('invalid canary contract')
+    previous = kalshi_get(MARKETS_PATH + '/' + previous_ticker)['market']
+    following = active_market()
+    close = parse_dt(previous['close_time'])
+    now = datetime.now(timezone.utc)
+    if (following is None or parse_dt(following['open_time']) != close
+            or parse_dt(following['close_time']) != close + timedelta(minutes=15)
+            or not close + timedelta(seconds=2) <= now < close + timedelta(seconds=600)):
+        raise RuntimeError('canary requires adjacent actual contracts inside recovery deadline')
+    p = load_functions()
+    p.time = real_time
+    def fetch_qualified():
+        point = read_shared_brti()
+        if point['status'] != 'PRIMARY_OK' or not 0 <= float(point['age_seconds']) <= 5:
+            raise RuntimeError('canary BRTI source not qualified')
+        return float(point['value']), int(point['source_ts_ms']) / 1000.0
+    p._fetch_direct_brti_once = fetch_qualified
+    value, _ = fetch_qualified()
+    raw = ticks(timeout=0.8)
+    publications = [(int(x['source_ts_ms'])/1000., float(x['value']))
+                    for x in raw if x.get('index_id') == 'BRTI']
+    conflicts = set()
+    real_points = p._merge_brti_publications([], publications, conflicts, real_time.time())
+    real_points = [(ts, val) for ts, val in real_points if close.timestamp()-60 <= ts < close.timestamp()]
+    if len(real_points) != 60:
+        raise RuntimeError('gateway lacks 60 real previous-contract seconds for controlled replay')
+    rows = []
+    p._log_brti_parity = lambda *args: rows.append(args)
+    p._track_brti_contract(previous_ticker, market_target(previous), close, value)
+    p._store_brti_publications(real_points[:-1])
+    p._retry_brti_closeouts(datetime.now(timezone.utc))
+    assert len(p._brti_pending_contracts[previous_ticker]['samples']) == 59
+    next_ticker = following['ticker']
+    p._track_brti_contract(next_ticker, market_target(following), parse_dt(following['close_time']), value)
+    p._retry_brti_closeouts(datetime.now(timezone.utc))
+    assert previous_ticker in p._brti_pending_contracts and next_ticker in p._brti_pending_contracts
+    assert not p._brti_finalized_contracts
+    p._collect_brti_once()  # REAL qualified /state + REAL /ticks; no mocks.
+    p._retry_brti_closeouts(datetime.now(timezone.utc))
+    assert p._brti_finalized_contracts == {previous_ticker}
+    assert set(p._brti_pending_contracts) == {next_ticker}
+    assert len(rows) == 1 and rows[0][1] == previous_ticker
+    result = rows[0][-1]
+    assert result['final60_count'] == 60 and result['final60_complete']
+    assert result['final60_avg'] == sum(v for _, v in real_points)/60
+    assert all(close.timestamp()-60 <= ts < close.timestamp() for ts, _ in real_points)
+    print(f"BRTI LIVE RECOVERY CANARY PASS | {previous_ticker} -> {next_ticker} | "
+          "59/60 retained after next contract active | real /ticks restored 60/60 | "
+          "original timestamps | no cross-contract readings | in-memory replay | NO ORDERS", flush=True)
+
+
 if __name__ == '__main__':
-    unittest.main()
+    if len(sys.argv) == 3 and sys.argv[1] == '--live-history-canary':
+        try:
+            run_live_history_canary(sys.argv[2])
+        except Exception as exc:
+            print('BRTI LIVE RECOVERY CANARY FAIL | ' + type(exc).__name__ + ' | NO ORDERS', flush=True)
+            raise SystemExit(1)
+    else:
+        unittest.main()
