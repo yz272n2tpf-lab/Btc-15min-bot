@@ -44,6 +44,19 @@ def proof():
 
 
 class Quotes(unittest.TestCase):
+    def test_missing_snapshot_field_reports_exact_safe_path(self):
+        for field in ('yes_dollars_fp', 'no_dollars_fp'):
+            event=snapshot();del event['msg'][field]
+            with self.assertRaises(q.MissingQuoteField) as caught:
+                q.Book(TICKER).apply(event)
+            self.assertEqual(caught.exception.field,field)
+            self.assertIn('Book.apply->Book._apply/orderbook_snapshot',str(caught.exception))
+
+    def test_missing_field_diagnostics_never_echo_unknown_values(self):
+        exc=q.MissingQuoteField('secret-value', 'secret-payload')
+        self.assertNotIn('secret',str(exc))
+        self.assertIn('UNKNOWN_FIELD',str(exc))
+
     def test_exact_timestamp_sequence_replay(self):
         values, identity=q.replay(proof(),'collector',TICKER,CLOSE,NOW)
         self.assertEqual(values,(.49,.50,.50,.51))

@@ -45,6 +45,21 @@ def integer(value):
     return value
 
 
+class MissingQuoteField(KeyError):
+    """Only approved schema keys may appear in diagnostics; never raw values."""
+    def __init__(self, key, event_type):
+        allowed = {'msg', 'market_ticker', 'market_id', 'sid', 'seq', 'type',
+                   'yes_dollars_fp', 'no_dollars_fp', 'ts_ms', 'ts',
+                   'price_dollars', 'delta_fp', 'side'}
+        self.field = key if isinstance(key, str) and key in allowed else 'UNKNOWN_FIELD'
+        kind = event_type if event_type in {'orderbook_snapshot', 'orderbook_delta'} else 'unknown'
+        self.path = 'Book.apply->Book._apply/' + kind
+        super().__init__(self.field)
+
+    def __str__(self):
+        return 'missing_field=' + self.field + ' | path=' + self.path
+
+
 class Book:
     def __init__(self, ticker):
         self.ticker = ticker
@@ -56,6 +71,9 @@ class Book:
     def apply(self, event):
         try:
             return self._apply(event)
+        except KeyError as exc:
+            self.valid = False
+            raise MissingQuoteField(exc.args[0] if exc.args else None, event.get("type")) from None
         except Exception:
             self.valid = False
             raise
@@ -237,7 +255,7 @@ class Provider:
                             self.book, self.events, self.epoch = book, events, epoch
             except Exception as exc:
                 status = getattr(getattr(exc, 'response', None), 'status_code', 'n/a')
-                reason = str(exc) if type(exc) is ValueError else type(exc).__name__
+                reason = str(exc) if type(exc) in (ValueError, MissingQuoteField) else type(exc).__name__
                 print('KALSHI QUOTE UNVERIFIED | ' + reason + ' | http=' + str(status) + ' | reconnect requires snapshot | NO ORDERS', flush=True)
             finally:
                 with self.lock:
