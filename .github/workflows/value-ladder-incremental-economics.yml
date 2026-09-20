@@ -1,0 +1,78 @@
+name: Compare value-ladder incremental economics
+
+on:
+  push:
+    branches: [scalp-false-start-development-20260920]
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Compare exact V2 lane additions
+        run: |
+          python - <<'PY'
+          import json, urllib.request, statistics
+          base='https://scalp-nextgen-shadow-v2-production.up.railway.app'
+          with urllib.request.urlopen(base+'/state',timeout=20) as r: state=json.load(r)
+          with urllib.request.urlopen(base+'/audit',timeout=20) as r: audit=json.load(r)
+          lanes=audit['audit_records']['selective_pullback_v2']
+          def key(x): return (x.get('contract'),x.get('candidate_id'),int(x.get('opportunity_index') or 0))
+          def num(v):
+              try:return float(v)
+              except:return None
+          def rate(xs):
+              return None if not xs else sum(bool(x) for x in xs)/len(xs)
+          def avg(xs):
+              a=[float(x) for x in xs if x is not None]
+              return None if not a else sum(a)/len(a)
+          def med(xs):
+              a=[float(x) for x in xs if x is not None]
+              return None if not a else statistics.median(a)
+          def fee(x,lot):
+              try:return num(x['fee_scenarios'][str(lot)]['TAKER_TAKER']['net_gain_c_per_contract'])
+              except:return None
+          def summary(name,rows):
+              asks=[num(x.get('entry_ask')) for x in rows]
+              asks=[x for x in asks if x is not None]
+              protected=[x for x in rows if x.get('protected_exit_observed') is True]
+              print('VALUE_SET',json.dumps({
+                'name':name,'n':len(rows),'contracts':len({x.get('contract') for x in rows}),
+                'avg_entry_ask_c':None if not asks else 100*avg(asks),
+                'median_entry_ask_c':None if not asks else 100*med(asks),
+                'le35_share':None if not asks else sum(x<=.35+1e-12 for x in asks)/len(asks),
+                'le50_share':None if not asks else sum(x<=.50+1e-12 for x in asks)/len(asks),
+                'gt50_share':None if not asks else sum(x>.50+1e-12 for x in asks)/len(asks),
+                'avg_delay_sec':avg(num(x.get('entry_elapsed_sec')) for x in rows),
+                'avg_seconds_left':avg(num(x.get('seconds_left')) for x in rows),
+                'plus5_rate':rate(x.get('plus5') for x in rows),
+                'plus10_rate':rate(x.get('plus10') for x in rows),
+                'plus20_rate':rate(x.get('plus20') for x in rows),
+                'protected_exit_rate':rate(x.get('protected_exit_observed') for x in rows),
+                'avg_gross_protected_gain_c':avg(num(x.get('gross_protected_gain_c')) for x in protected),
+                'one_lot_taker_net_c':avg(fee(x,1) for x in protected),
+                'ten_lot_taker_net_c':avg(fee(x,10) for x in protected),
+              },sort_keys=True))
+          names=['V1_IMMEDIATE_CONTROL','V1_LE50_30S','V1_LE50_60S','V2_PRICE_DISCIPLINED','V2_BALANCED']
+          maps={n:{key(x):x for x in lanes[n]} for n in names}
+          print('VALUE_STATE',json.dumps({
+             'future_full_contracts':state.get('future_full_contracts'),
+             'serial_signals':state.get('serial_signals'),
+             'source_sha256':state.get('source_sha256'),
+             'code_sha256':state.get('code_sha256'),
+             'status':state.get('status'),
+             'orders':state.get('orders')
+          },sort_keys=True))
+          for n in names: summary(n,list(maps[n].values()))
+          pairs=[
+             ('BALANCED_EXTRA_OVER_DISCIPLINED','V2_BALANCED','V2_PRICE_DISCIPLINED'),
+             ('LE50_60_EXTRA_OVER_30','V1_LE50_60S','V1_LE50_30S'),
+             ('DISCIPLINED_EXTRA_OVER_LE50_30','V2_PRICE_DISCIPLINED','V1_LE50_30S'),
+             ('LE50_30_MISSING_FROM_DISCIPLINED','V1_LE50_30S','V2_PRICE_DISCIPLINED'),
+          ]
+          for label,a,b in pairs:
+              rows=[v for k,v in maps[a].items() if k not in maps[b]]
+              summary(label,rows)
+          PY
