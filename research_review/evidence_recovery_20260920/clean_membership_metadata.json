@@ -1,0 +1,52 @@
+{
+  "complete_contract_status_not_inferred": true,
+  "contracts": [
+    {
+      "contract": "KXBTC15M-26SEP201515-15",
+      "first_observed_utc": "2026-09-20T19:05:35.172109+00:00",
+      "last_observed_utc": "2026-09-20T19:14:07.229022+00:00"
+    },
+    {
+      "contract": "KXBTC15M-26SEP201530-30",
+      "first_observed_utc": "2026-09-20T19:16:11.203877+00:00",
+      "last_observed_utc": "2026-09-20T19:29:38.306539+00:00"
+    },
+    {
+      "contract": "KXBTC15M-26SEP201545-45",
+      "first_observed_utc": "2026-09-20T19:30:48.306371+00:00",
+      "last_observed_utc": "2026-09-20T19:45:40.373890+00:00"
+    },
+    {
+      "contract": "KXBTC15M-26SEP201600-00",
+      "first_observed_utc": "2026-09-20T19:45:57.365903+00:00",
+      "last_observed_utc": "2026-09-20T20:00:31.446952+00:00"
+    },
+    {
+      "contract": "KXBTC15M-26SEP201615-15",
+      "first_observed_utc": "2026-09-20T20:00:47.448569+00:00",
+      "last_observed_utc": "2026-09-20T20:14:33.525810+00:00"
+    },
+    {
+      "contract": "KXBTC15M-26SEP201630-30",
+      "first_observed_utc": "2026-09-20T20:15:57.547513+00:00",
+      "last_observed_utc": "2026-09-20T20:29:06.620168+00:00"
+    },
+    {
+      "contract": "KXBTC15M-26SEP201645-45",
+      "first_observed_utc": "2026-09-20T20:31:03.627311+00:00",
+      "last_observed_utc": "2026-09-20T20:31:09.605652+00:00"
+    }
+  ],
+  "development_disjointness_verified": false,
+  "fields_inspected": [
+    "contract",
+    "timestamp_utc"
+  ],
+  "first_observed_utc": "2026-09-20T19:05:35.172109+00:00",
+  "holdout_eligible": false,
+  "last_observed_utc": "2026-09-20T20:31:09.605652+00:00",
+  "observed_contract_ids": 7,
+  "performance_inspected": false,
+  "physical_csv_records": 1927,
+  "source_sha256": "f380e55ff9e87dfbe3279d0f750d299afd1a052edb47b48713e5454c963bff5d"
+}

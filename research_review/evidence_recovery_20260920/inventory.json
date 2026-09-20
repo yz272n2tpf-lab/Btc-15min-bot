@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "task": "Evidence recovery only; no strategy selection",
+  "review_checkpoint": "47b5b20c553873b4c84bc797efa8b69e6481be7b",
+  "candidate_freeze": {
+    "commit": "e86075aa058d0e6f90c6f97e818748a2c7351457",
+    "utc": "2026-09-20T19:44:37Z",
+    "changed": false
+  },
+  "required_historical_source": {
+    "sha256": "8dbd61e1e04057b8d123760209c108ccf14d58fd342fbcbe6a82907eda35927a",
+    "full_contracts": 352,
+    "opportunities": 563,
+    "raw_bytes_recovered": 0,
+    "original_byte_boundary": null,
+    "byte_boundary_status": "Not recorded in recovered closeout/manifests; cannot infer from row counts",
+    "complete_contract_membership_recovered": false
+  },
+  "other_development_cohorts": [
+    {
+      "full_contracts": 349,
+      "opportunities": 560,
+      "sha256": null,
+      "membership_recovered": false
+    },
+    {
+      "entries": 609,
+      "development_entries": 373,
+      "holdout_entries": 236,
+      "sha256": null,
+      "membership_recovered": false
+    }
+  ],
+  "historical_access": {
+    "service": {
+      "id": "8b40a28c-1beb-4020-bdc2-e7e236fe3501",
+      "name": "scalp-move-shadow-v1"
+    },
+    "source": {
+      "repo": "yz272n2tpf-lab/Btc-15min-bot",
+      "branch": "scalp-move-shadow-v1-20260912",
+      "checkSuites": false
+    },
+    "volumeMounts": {
+      "656da4af-6a3f-4907-95da-2c0c0000cf29": {
+        "mountPath": "/data"
+      }
+    },
+    "export_token_name_present": true,
+    "variable_values_redacted": true,
+    "http_status": 401,
+    "cli_installed": false,
+    "cli_auth_present": false,
+    "browser_authenticated": false,
+    "secure_sign_in_completed": false,
+    "volume_files_listed": false,
+    "volume_backups_listed": false
+  },
+  "clean_collector": {
+    "service": {
+      "id": "b369287c-d8a1-4427-84de-25e39fe9fdf7",
+      "name": "scalp-finalprod-clean-v1"
+    },
+    "source": {
+      "repo": "yz272n2tpf-lab/Btc-15min-bot",
+      "branch": "scalp-finalprod-clean-v1-20260920",
+      "checkSuites": false
+    },
+    "volumeMounts": {},
+    "performance_not_read": true
+  },
+  "deployments": [
+    {
+      "id": "8b40a28c-1beb-4020-bdc2-e7e236fe3501",
+      "latestDeployment": {
+        "id": "88ffe129-a6dd-418d-8261-f95bbe453fbf",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-15T04:28:23.885Z",
+        "url": null
+      },
+      "volumes": [
+        {
+          "id": "656da4af-6a3f-4907-95da-2c0c0000cf29",
+          "name": "scalp-move-shadow-v1-volume",
+          "mountPath": "/data",
+          "sizeMB": 5000,
+          "region": "iad"
+        }
+      ]
+    },
+    {
+      "id": "b369287c-d8a1-4427-84de-25e39fe9fdf7",
+      "latestDeployment": {
+        "id": "93f2b49c-9078-4653-bd27-567d093df57a",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-20T19:04:37.386Z",
+        "url": null
+      },
+      "volumes": []
+    }
+  ],
+  "clean_backup": {
+    "file_name": "BTC15_CLEAN_RAW_BACKUP_20260920T203114Z.zip",
+    "durable_save_status": "succeeded",
+    "zip_bytes": 126484,
+    "zip_sha256": "2cc0000be3624885ccc5044e64d490fdd1f1ec5c64261d57cf906f939f8b017d",
+    "raw_bytes": 1077238,
+    "raw_sha256": "f380e55ff9e87dfbe3279d0f750d299afd1a052edb47b48713e5454c963bff5d",
+    "source_header_sha256_matches_body": true,
+    "zip_member_rehash_matches": true,
+    "download_started_utc": "2026-09-20T20:31:00.186312+00:00",
+    "download_finished_utc": "2026-09-20T20:31:14.344019+00:00",
+    "performance_inspected": false
+  },
+  "comparison": {
+    "archived_reproduction": "BLOCKED_MISSING_EXACT_RAW_TAPE",
+    "latest_lifecycle": "NO_NEW_SCORER_OR_MARKET_COMPARISON; prior synthetic characterization only",
+    "strategy_tests_rerun": 0,
+    "prior_review_test_total": 48
+  },
+  "validation": {
+    "collection_boundary_utc": "2026-09-20T19:05:17.147189Z",
+    "provisional_reservation_utc": "2026-09-20T20:15:00Z",
+    "eligibility": "PROVISIONAL",
+    "exclusions": "All contract IDs used in every development cohort, across every service. Complete list remains unavailable.",
+    "clean_performance_inspected": false
+  },
+  "railway_mutations": [],
+  "recommendation": "BLOCKED: original /data/scalp_move_shadow_v1_events.csv remains inaccessible through current authenticated routes",
+  "smallest_recovery_request": "Upload a read-only export of /data/scalp_move_shadow_v1_events.csv from original scalp-move-shadow-v1 service. If rotated, include corresponding rotations/backups. No credentials requested.",
+  "supported_download_documentation": "https://docs.railway.com/cli/volume#download-a-file-from-a-volume"
+}
