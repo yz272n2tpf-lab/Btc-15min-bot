@@ -1,0 +1,66 @@
+name: Clean final-production V2 score
+
+on:
+  push:
+    branches: [scalp-nextgen-finalprod-clean-v2-20260920]
+
+permissions:
+  contents: read
+
+jobs:
+  score:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Score clean prospective tape with frozen V2
+        env:
+          SCALP_PATH_EXPORT_URL: https://scalp-finalprod-clean-v1-production.up.railway.app/research/path-export
+          SCALP_PATH_EXPORT_TOKEN: ""
+        run: |
+          cd shadow_diagnostics
+          python - <<'PY'
+          import json
+          import scalp_specialist_union_live_review_v1 as source
+          import scalp_nextgen_shadow_v2 as v2
+          cutoff='2026-09-20T19:05:17.147189+00:00'
+          rows,sha,size=source.fetch_rows()
+          state=v2.analyze_rows(rows,sha,size,cutoff_text=cutoff,development=True)
+          print('CLEAN_V2_STATE',json.dumps({
+            'status':state.get('status'),
+            'ok':state.get('ok'),
+            'cutoff_utc':state.get('cutoff_utc'),
+            'code_sha256':state.get('code_sha256'),
+            'source_sha256':state.get('source_sha256'),
+            'source_rows':state.get('source_rows'),
+            'future_full_contracts':state.get('future_full_contracts'),
+            'serial_signals':state.get('serial_signals'),
+            'orders':state.get('orders'),
+            'runtime_integrity':state.get('runtime_integrity'),
+          },sort_keys=True))
+          for fam in ('scalp2_economics_v2','candidate_verify_v2','selective_pullback_v2'):
+            for lane,x in (state.get(fam) or {}).items():
+              print('CLEAN_V2_LANE',json.dumps({
+                'family':fam,'lane':lane,
+                'signals':x.get('signals'),'contracts':x.get('contracts'),
+                'true_contract_coverage':x.get('true_contract_coverage'),
+                'avg_entry_ask_c':x.get('avg_entry_ask_c'),
+                'plus5_rate':x.get('plus5_rate'),
+                'plus10_rate':x.get('plus10_rate'),
+                'protected_exit_rate':x.get('protected_exit_rate'),
+                'one_lot_net_c':x.get('one_lot_taker_taker_avg_net_c'),
+                'ten_lot_net_c':x.get('ten_lot_taker_taker_avg_net_c'),
+              },sort_keys=True))
+          for lane,x in (state.get('watch_exit_v2') or {}).items():
+              print('CLEAN_V2_WATCH',json.dumps({
+                'lane':lane,'signals':x.get('signals'),
+                'warnings':x.get('warning_signals'),
+                'exits':x.get('frozen_exit_signals'),
+                'avg_lead_sec':x.get('avg_warning_to_exit_lead_sec'),
+                'unresolved':x.get('unresolved_warnings'),
+              },sort_keys=True))
+          PY
