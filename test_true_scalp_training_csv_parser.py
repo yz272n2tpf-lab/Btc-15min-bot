@@ -2,6 +2,7 @@
 """Focused regression tests for frozen True Scalp CSV loading. NO ORDERS."""
 import ast
 import csv
+import hashlib
 from pathlib import Path
 import tempfile
 import types
@@ -23,13 +24,14 @@ FIELDS = [
 ]
 CUTOFF = pd.Timestamp("2026-09-03T14:24:57.562191+00:00")
 
-def load_helper():
+def load_module():
     tree=ast.parse(SOURCE.read_text())
-    fn=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=="_load_true_scalp_training_events")
+    wanted={"_git_blob_sha","_load_true_scalp_training_events"}
+    fns=[n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name in wanted]
     m=types.ModuleType("loader_under_test")
-    m.__dict__.update(csv=csv,pd=pd,EVENT_FIELDS=FIELDS)
-    exec(compile(ast.Module(body=[fn],type_ignores=[]),str(SOURCE),"exec"),m.__dict__)
-    return m._load_true_scalp_training_events
+    m.__dict__.update(csv=csv,pd=pd,hashlib=hashlib,EVENT_FIELDS=FIELDS)
+    exec(compile(ast.Module(body=fns,type_ignores=[]),str(SOURCE),"exec"),m.__dict__)
+    return m
 
 def row(ts, extra=0):
     r=[""]*len(FIELDS)
@@ -38,7 +40,8 @@ def row(ts, extra=0):
 
 class Parser(unittest.TestCase):
     def setUp(self):
-        self.load=load_helper()
+        self.m=load_module()
+        self.load=self.m._load_true_scalp_training_events
 
     def write(self, rows, header=FIELDS):
         td=tempfile.TemporaryDirectory(); self.addCleanup(td.cleanup)
@@ -46,6 +49,16 @@ class Parser(unittest.TestCase):
         with p.open("w",newline="") as f:
             w=csv.writer(f); w.writerow(header); w.writerows(rows)
         return p
+
+    def test_committed_frozen_source_blob_and_pre_cutoff_count(self):
+        p=SOURCE.with_name("kalshi_scalp_shadow_events_v1.csv")
+        self.assertEqual(
+            self.m._git_blob_sha(p),
+            "c579fd22127e5af3bd14e287cb27b631459fbcd7",
+        )
+        d=self.load(p,CUTOFF)
+        ts=pd.to_datetime(d["entry_timestamp_utc"],errors="coerce",utc=True)
+        self.assertEqual(int((ts.notna() & (ts <= CUTOFF)).sum()),1474)
 
     def test_valid_frozen_rows_preserved(self):
         p=self.write([row("2026-09-03T14:00:00+00:00")])

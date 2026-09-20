@@ -1905,7 +1905,7 @@ This does NOT modify bot.py and does NOT change FINAL/Tier-1 entry.
 
 from pathlib import Path
 from datetime import datetime, timezone
-import time, base64, csv, json, math, signal, sys, threading
+import time, base64, csv, json, math, signal, sys, threading, hashlib
 from collections import deque
 import re
 
@@ -3183,6 +3183,12 @@ print(f"Unified sub-minute log: {UNIFIED_SUBMINUTE_LOG}")
 TRUE_SCALP_TRAIN_CUTOFF = pd.Timestamp(
     "2026-09-03T14:24:57.562191+00:00"
 )
+# Frozen development source. Live EVENT_LOG remains on /data for forward
+# collection; model fitting must not drift with that mutable file.
+TRUE_SCALP_TRAIN_EVENT_LOG = Path(__file__).with_name(
+    "kalshi_scalp_shadow_events_v1.csv"
+)
+TRUE_SCALP_TRAIN_EVENT_GIT_BLOB_SHA = "c579fd22127e5af3bd14e287cb27b631459fbcd7"
 TRUE_SCALP_THRESHOLD = 0.925
 TRUE_SCALP_MIN_SECONDS_LEFT = 120.0
 TRUE_SCALP_MAX_ASK = 0.45
@@ -3461,6 +3467,11 @@ print(f"Profit-protection forward log: {PROFIT_SHADOW_LOG}")
 def _truthy(v):
     return str(v).strip().lower() in ("true","1","yes")
 
+def _git_blob_sha(path):
+    data = path.read_bytes()
+    prefix = f"blob {len(data)}\0".encode("utf-8")
+    return hashlib.sha1(prefix + data).hexdigest()
+
 def _load_true_scalp_training_events(path, cutoff):
     """Load only trustworthy rows for the frozen training window.
 
@@ -3503,12 +3514,19 @@ def _load_true_scalp_training_events(path, cutoff):
 def _train_true_scalp_candidate():
     global _true_scalp_model, _true_scalp_medians, _true_scalp_ready
 
-    if not EVENT_LOG.exists():
-        print("TRUE SCALP SHADOW: training event log missing — disabled")
+    if not TRUE_SCALP_TRAIN_EVENT_LOG.exists():
+        print("TRUE SCALP SHADOW: frozen training event log missing — disabled")
         return
 
     try:
-        d = _load_true_scalp_training_events(EVENT_LOG, TRUE_SCALP_TRAIN_CUTOFF)
+        actual_blob = _git_blob_sha(TRUE_SCALP_TRAIN_EVENT_LOG)
+        if actual_blob != TRUE_SCALP_TRAIN_EVENT_GIT_BLOB_SHA:
+            raise RuntimeError(
+                "frozen true-scalp training source hash mismatch"
+            )
+        d = _load_true_scalp_training_events(
+            TRUE_SCALP_TRAIN_EVENT_LOG, TRUE_SCALP_TRAIN_CUTOFF
+        )
         d["entry_timestamp_utc"] = pd.to_datetime(
             d["entry_timestamp_utc"], errors="coerce", utc=True
         )
@@ -3582,7 +3600,8 @@ def _train_true_scalp_candidate():
             "TRUE SCALP FORWARD SHADOW READY | "
             f"frozen events {len(d)} | "
             f"threshold {TRUE_SCALP_THRESHOLD:.3f} | "
-            "target +10c before -10c"
+            "target +10c before -10c | "
+            f"source blob {TRUE_SCALP_TRAIN_EVENT_GIT_BLOB_SHA[:12]}"
         )
 
     except Exception as exc:
