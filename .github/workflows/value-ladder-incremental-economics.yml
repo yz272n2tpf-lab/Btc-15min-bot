@@ -77,3 +77,29 @@ jobs:
               rows=[v for k,v in maps[a].items() if k not in maps[b]]
               summary(label,rows)
           PY
+      - name: Price-zone telemetry for frozen 30s value lane
+        run: |
+          python - <<'PY'
+          import json,urllib.request
+          base='https://scalp-nextgen-shadow-v2-production.up.railway.app'
+          with urllib.request.urlopen(base+'/audit',timeout=20) as r:a=json.load(r)
+          rows=a['audit_records']['selective_pullback_v2']['V1_LE50_30S']
+          def f(v):
+              try:return float(v)
+              except:return None
+          bands=[
+            ('LE15',0,.15),('15_25',.15,.25),('25_35_IDEAL',.25,.35),('35_50_ACCEPTABLE',.35,.5000001)
+          ]
+          for name,lo,hi in bands:
+              z=[x for x in rows if f(x.get('entry_ask')) is not None and f(x.get('entry_ask'))>lo-1e-12 and f(x.get('entry_ask'))<=hi+1e-12]
+              def rate(k):
+                  return None if not z else sum(bool(x.get(k)) for x in z)/len(z)
+              print('VALUE_ZONE',json.dumps({
+                'zone':name,'n':len(z),'contracts':len({x.get('contract') for x in z}),
+                'avg_entry_c':None if not z else 100*sum(f(x.get('entry_ask')) for x in z)/len(z),
+                'plus5':rate('plus5'),'plus10':rate('plus10'),'plus20':rate('plus20'),
+                'protected_exit':rate('protected_exit_observed'),
+                'avg_delay_sec':None if not z else sum((f(x.get('entry_elapsed_sec')) or 0) for x in z)/len(z)
+              },sort_keys=True))
+          PY
+
