@@ -15,7 +15,13 @@ import requests
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding
 
-DATA_ROOT = Path("/data") if Path("/data").exists() else Path(".")
+# Keep dashboard-canary evidence isolated from production while allowing all
+# children to share the same canary-local feed.
+if os.getenv("BTC15_ISOLATED_CANARY_LOCAL_DATA","").strip() == "1":
+    DATA_ROOT = Path("/tmp/btc15-canary-data")
+else:
+    DATA_ROOT = Path(os.getenv("BTC15_DATA_DIR","/data"))
+DATA_ROOT.mkdir(parents=True,exist_ok=True)
 UNIFIED = DATA_ROOT / "kalshi_subminute_unified_v1_1.csv"
 BRTI_LOG = DATA_ROOT / "kalshi_direct_brti_parity_v1.csv"
 OUT = DATA_ROOT / "kalshi_app_parity_shadow_v1.csv"
