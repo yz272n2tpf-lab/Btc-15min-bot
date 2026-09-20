@@ -1,7 +1,9 @@
-# Isolated generalized scalp shadow service only.
+# Isolated scalp-unarmed-live-tape-v1 research service.
 [build]
 builder = "railpack"
 
 [deploy]
-startCommand = '''/bin/sh -c 'if [ -z "$KALSHI_KEY_ID" ] || [ -z "$KALSHI_PRIVATE_KEY_B64" ]; then echo "SCALP MOVE WAITING FOR VARIABLES | NO ORDERS"; sleep 31536000; else exec python -u scalp_path_export_bridge_v1.py; fi' '''
+startCommand = "python -m unittest -q test_btc15_scalp_unarmed_live_tape_validator_v1.py test_BTC15_SCALP_TRIGGER_TIGHTENING_RESEARCH_V1.py test_BTC15_SCALP_FAILED_PREARM_RESET_TOURNAMENT_V1.py test_BTC15_SCALP_BLUEPRINT_REVIEW_GATE_V1.py test_BTC15_SCALP_PROTECTION_AUDIT_V1.py test_BTC15_SCALP_BLUEPRINT_COVERAGE_AUDIT_V1.py test_scalp_unarmed_memory_opt_behavior_v1.py && python -u test_scalp_unarmed_memory_opt_static_v1.py && python -u test_scalp_unarmed_supervisor_static_v1.py && exec python -u btc15_scalp_unarmed_supervisor_v1.py"
+healthcheckPath = "/health"
+healthcheckTimeout = 360
 restartPolicyType = "never"
