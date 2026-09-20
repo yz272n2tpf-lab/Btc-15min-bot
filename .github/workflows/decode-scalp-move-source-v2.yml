@@ -1,0 +1,33 @@
+name: Decode frozen scalp move source V2
+
+on:
+  push:
+    branches: [clean-ladder-source-audit-v2-20260920]
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Decode exact frozen move collector
+        run: |
+          python - <<'PY'
+          import ast,base64,gzip,hashlib
+          p='scalp_move_shadow_v1.py'
+          src=open(p).read(); tree=ast.parse(src)
+          payload=None
+          for n in tree.body:
+              if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='PAYLOAD' for t in n.targets):
+                  payload=ast.literal_eval(n.value); break
+          raw=gzip.decompress(base64.b64decode(payload)).decode()
+          print('RAW_SHA',hashlib.sha256(raw.encode()).hexdigest())
+          print('RAW_LINES',len(raw.splitlines()))
+          for needle in ['POLL_SECONDS','def brti','def get_active_market','def get_btc_spot','def get_kalshi','def snapshot','def snap','def main','while True','EVENT_FIELDS','CANDIDATE']:
+              i=raw.find(needle)
+              if i>=0:
+                  print('---',needle,'---')
+                  print(raw[max(0,i-1800):i+5200])
+          PY
