@@ -24,6 +24,7 @@ jobs:
               try:return float(v)
               except:return None
           def rate(xs):
+              xs=list(xs)
               return None if not xs else sum(bool(x) for x in xs)/len(xs)
           def avg(xs):
               a=[float(x) for x in xs if x is not None]
