@@ -1,0 +1,69 @@
+name: Nextgen V2 live read-only review
+
+on:
+  push:
+    branches: [nextgen-v2-review-run-20260920]
+
+permissions:
+  contents: read
+
+jobs:
+  review:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Capture and validate frozen V2 live snapshot
+        run: |
+          rm -rf /tmp/v2-review
+          python research_review/nextgen_v2_review.py --output /tmp/v2-review
+      - name: Print concise ladder baseline
+        run: |
+          python - <<'PY'
+          import json
+          b=json.load(open('/tmp/v2-review/bundle.json'))
+          r=json.load(open('/tmp/v2-review/review.json'))
+          s=b['state']
+          audit=b['audit']['audit_records']
+          print('V2_BASELINE_COUNTS', json.dumps({
+              'captured_utc': b.get('captured_utc'),
+              'status': r.get('status'),
+              'valid_snapshot': r.get('valid_snapshot'),
+              'future_full_contracts': s.get('future_full_contracts'),
+              'serial_signals': s.get('serial_signals'),
+              'source_sha256': s.get('source_sha256'),
+              'code_sha256': s.get('code_sha256'),
+              'window_id': s.get('window_id'),
+              'orders': s.get('orders'),
+              'runtime_integrity': s.get('runtime_integrity'),
+          }, sort_keys=True))
+          for fam in ('scalp2_economics_v2','candidate_verify_v2','selective_pullback_v2'):
+              for lane, v in s[fam].items():
+                  rows=audit[fam][lane]
+                  scored=[x for x in rows if x.get('movement_scoreable', True)]
+                  plus20=sum(bool(x.get('plus20')) for x in scored)/len(scored) if scored else None
+                  print('V2_LANE', json.dumps({
+                      'family':fam,'lane':lane,
+                      'signals':v.get('signals'),'contracts':v.get('contracts'),
+                      'true_contract_coverage':v.get('true_contract_coverage'),
+                      'avg_entry_ask_c':v.get('avg_entry_ask_c'),
+                      'avg_entry_delay_sec':v.get('avg_entry_delay_sec'),
+                      'avg_entry_improvement_c_vs_candidate':v.get('avg_entry_improvement_c_vs_candidate'),
+                      'plus5_rate':v.get('plus5_rate'),'plus10_rate':v.get('plus10_rate'),
+                      'plus20_rate':plus20,
+                      'protected_exit_rate':v.get('protected_exit_rate'),
+                      'avg_gross_protected_gain_c':v.get('avg_gross_protected_gain_c'),
+                      'one_lot_taker_taker_avg_net_c':v.get('one_lot_taker_taker_avg_net_c'),
+                      'ten_lot_taker_taker_avg_net_c':v.get('ten_lot_taker_taker_avg_net_c'),
+                      'without_protected_exit':v.get('without_protected_exit'),
+                  }, sort_keys=True))
+          for lane,v in s['watch_exit_v2'].items():
+              print('V2_WATCH', json.dumps({'lane':lane, **v}, sort_keys=True))
+          for x in r.get('comparisons', []):
+              print('V2_COMPARE', json.dumps(x, sort_keys=True))
+          print('V2_REVIEW_MD_BEGIN')
+          print(open('/tmp/v2-review/review.md').read())
+          print('V2_REVIEW_MD_END')
+          PY
