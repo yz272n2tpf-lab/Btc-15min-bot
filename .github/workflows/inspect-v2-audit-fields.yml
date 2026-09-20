@@ -1,0 +1,42 @@
+name: Inspect V2 candidate-time audit fields
+
+on:
+  push:
+    branches: [scalp-false-start-development-20260920]
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Inspect live V2 audit schema
+        run: |
+          python - <<'PY'
+          import json,urllib.request,collections
+          base='https://scalp-nextgen-shadow-v2-production.up.railway.app'
+          with urllib.request.urlopen(base+'/state',timeout=20) as r: state=json.load(r)
+          with urllib.request.urlopen(base+'/audit',timeout=20) as r: audit=json.load(r)
+          print('STATE_COUNTS',json.dumps({
+            'future_full_contracts':state.get('future_full_contracts'),
+            'serial_signals':state.get('serial_signals'),
+            'status':state.get('status'),
+            'code_sha256':state.get('code_sha256'),
+          },sort_keys=True))
+          recs=audit.get('audit_records') or {}
+          for fam,lanes in recs.items():
+              for lane,rows in lanes.items():
+                  keys=collections.Counter()
+                  for x in rows[:50]: keys.update(x.keys())
+                  print('AUDIT_SCHEMA',json.dumps({
+                    'family':fam,'lane':lane,'rows':len(rows),
+                    'keys':sorted(keys),
+                    'sample':rows[0] if rows else None
+                  },sort_keys=True))
+                  break
+          PY
