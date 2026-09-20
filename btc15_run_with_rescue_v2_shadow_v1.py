@@ -6,14 +6,16 @@ BTC15 existing bot + frozen Rescue V2 PROVISIONAL SHADOW.
 - Rescue V2 remains shadow-only.
 - Frozen thresholds are not retuned.
 - No orders.
-- Fresh candidate/resolution records persist under /data.
+- Fresh candidate/resolution records use the shared runtime data root.
 """
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
 import csv, json, math, signal, subprocess, sys, time
 
 BOT = Path("bot_two_output_build_v4_13_profit_protection_shadow.py")
-DATA_ROOT = Path("/data") if Path("/data").exists() else Path(".")
+from btc15_data_paths_v1 import _btc15_data_root
+
+DATA_ROOT = _btc15_data_root(legacy_cwd_fallback=True)
 UNIFIED = DATA_ROOT / "kalshi_subminute_unified_v1_1.csv"
 OUT = DATA_ROOT / "kalshi_rescue_v2_shadow_v1.csv"
 STATE = DATA_ROOT / "kalshi_rescue_v2_shadow_state_v1.json"

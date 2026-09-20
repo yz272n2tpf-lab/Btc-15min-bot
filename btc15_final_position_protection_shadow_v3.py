@@ -12,7 +12,9 @@ from pathlib import Path
 from datetime import datetime, timezone
 import csv, json, math, sys, time
 
-DATA_ROOT = Path("/data") if Path("/data").exists() else Path(".")
+from btc15_data_paths_v1 import _btc15_data_root
+
+DATA_ROOT = _btc15_data_root(legacy_cwd_fallback=True)
 SOURCE = DATA_ROOT / "kalshi_subminute_unified_v1_1.csv"
 OUT = DATA_ROOT / "kalshi_final_position_protection_shadow_v3.csv"
 STATE = DATA_ROOT / "kalshi_final_position_protection_shadow_v3_state.json"

@@ -68,15 +68,8 @@ def _btc15_safe_excepthook(exc_type, exc, tb):
 
 sys.excepthook = _btc15_safe_excepthook
 
-# Isolated/runtime-safe data path. Production uses its mounted data directory;
-# canaries can opt into local /tmp storage so missing volumes never crash logging.
-def _btc15_data_path(filename):
-    if os.getenv("BTC15_ISOLATED_CANARY_LOCAL_DATA","").strip() == "1":
-        base = Path("/tmp/btc15-canary-data")
-    else:
-        base = Path(os.getenv("BTC15_DATA_DIR","/data"))
-    base.mkdir(parents=True, exist_ok=True)
-    return base / filename
+# Shared data-root selection for the bot, collectors, and embedded dashboard.
+from btc15_data_paths_v1 import _btc15_data_path
 
 KALSHI_BASE_URL = "https://api.elections.kalshi.com"
 def kalshi_headers(method, path):
@@ -1193,7 +1186,7 @@ _ladder_direction = _model_15m_direction
 _ladder_confidence = float(current_confidence)
 _ladder_reason = "Every-contract raw 15-minute forecast"
 _ladder_contract_ticker = None
-_ladder_state_path = Path("/data/kalshi_15m_ladder_state.json")
+_ladder_state_path = _btc15_data_path("kalshi_15m_ladder_state.json")
 _ladder_state = {}
 
 try:
@@ -2676,7 +2669,7 @@ def _live_fair_shadow(now, ticker, target, btc_spot, up_ask, down_ask):
         "dist_over_range5": float(_snap["dist_over_range5"]),
     }
 
-EARLY_CONF_LOG = Path("/data/kalshi_early_conf_shadow_v1_2.csv")
+EARLY_CONF_LOG = _btc15_data_path("kalshi_early_conf_shadow_v1_2.csv")
 EARLY_CONF_FIELDS = [
     "timestamp_utc","contract","target","seconds_left",
     "btc_price","btc_gap","preferred_side","preferred_ask",
@@ -3132,7 +3125,7 @@ TRUE_SCALP_HORIZON_SECONDS = 180.0
 TRUE_SCALP_STOP = 0.10
 TRUE_SCALP_TARGETS = [0.10, 0.15, 0.20]
 
-TRUE_SCALP_LOG = Path("/data/kalshi_true_scalp_forward_shadow_v1.csv")
+TRUE_SCALP_LOG = _btc15_data_path("kalshi_true_scalp_forward_shadow_v1.csv")
 TRUE_SCALP_FIELDS = [
     "signal_id","contract","side","signal_timestamp_utc",
     "scalp_probability","entry_ask","entry_bid",
@@ -3195,7 +3188,7 @@ PROFIT_SHADOW_FLOOR = 0.06
 PROFIT_SHADOW_TRAIL = 0.04
 PROFIT_SHADOW_HORIZON_SECONDS = 180.0
 
-PROFIT_SHADOW_LOG = Path("/data/kalshi_profit_protection_forward_shadow_v1.csv")
+PROFIT_SHADOW_LOG = _btc15_data_path("kalshi_profit_protection_forward_shadow_v1.csv")
 PROFIT_SHADOW_FIELDS = [
     "signal_id","contract","side",
     "entry_timestamp_utc","entry_ask",
