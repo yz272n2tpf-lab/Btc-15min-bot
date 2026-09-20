@@ -2100,6 +2100,7 @@ BRTI_PARITY_FIELDS = [
 
 _brti_lock = threading.Lock()
 _brti_samples = deque(maxlen=600)
+_brti_conflicting_seconds = set()
 _brti_last_error = None
 _brti_last_error_print = 0.0
 
@@ -2162,31 +2163,93 @@ def _fetch_direct_brti_once():
         raise RuntimeError("BRTI response missing usable /values payload")
     return parsed
 
+def _merge_brti_publications(samples, incoming, conflicts, now_ts):
+    """Keep real source timestamps; one reading per second, conflicts fail closed."""
+    by_second = {}
+    by_timestamp = {}
+    for cf_ts, value in list(samples) + list(incoming):
+        try:
+            cf_ts, value = float(cf_ts), float(value)
+        except (TypeError, ValueError):
+            continue
+        if not (math.isfinite(cf_ts) and math.isfinite(value) and 0 < cf_ts <= now_ts):
+            continue
+        second = int(cf_ts)
+        if cf_ts in by_timestamp and by_timestamp[cf_ts] != value:
+            conflicts.add(second)
+        by_timestamp[cf_ts] = value
+        if second not in by_second or cf_ts > by_second[second][0]:
+            by_second[second] = (cf_ts, value)
+    return [by_second[k] for k in sorted(by_second) if k not in conflicts]
+
+
+def _retain_brti_window(meta, incoming, conflicts, now_ts):
+    # Caller owns _brti_lock. No publication at/after close can enter this ledger.
+    close_ts = meta["close_dt"].timestamp()
+    start60 = close_ts - 60.0
+    rejected = meta.setdefault("conflicts", set())
+    rejected.update(k for k in conflicts if start60 <= k < close_ts)
+    points = [(ts, value) for ts, value in incoming if start60 <= ts < close_ts]
+    meta["samples"] = _merge_brti_publications(
+        meta.get("samples", []), points, rejected, now_ts
+    )
+
+
+def _store_brti_publications(incoming):
+    with _brti_lock:
+        now_ts = time.time()
+        cutoff = now_ts - _brti_samples.maxlen
+        _brti_conflicting_seconds.intersection_update(
+            second for second in _brti_conflicting_seconds if second >= int(cutoff)
+        )
+        before = {int(ts) for ts, _ in _brti_samples}
+        merged = _merge_brti_publications(
+            _brti_samples, incoming, _brti_conflicting_seconds, now_ts
+        )
+        # Save pending windows before trimming the rolling live buffer. Actual
+        # delayed history remains recoverable even near the retry deadline.
+        for meta in _brti_pending_contracts.values():
+            _retain_brti_window(meta, merged, _brti_conflicting_seconds, now_ts)
+        _brti_samples.clear()
+        _brti_samples.extend(point for point in merged if point[0] >= cutoff)
+        return len({int(ts) for ts, _ in _brti_samples} - before)
+
+
+def _collect_brti_once():
+    # The existing qualified /state path still owns live freshness/readiness.
+    value, cf_ts = _fetch_direct_brti_once()
+    _store_brti_publications([(cf_ts, value)])
+    if (os.getenv("BTC15_USE_SHARED_BRTI", "").strip() == "1"
+            and os.getenv("BTC15_BRTI_TRANSPORT", "").strip().lower() == "websocket_gateway"):
+        from btc15_brti_ws_gateway_client_v1 import ticks
+        # Recover actual publications skipped between latest-state polls. This
+        # is history ingestion, never interpolation or copying the latest price.
+        history_points = []
+        for item in ticks(timeout=0.8):
+            try:
+                if item.get("index_id") != "BRTI":
+                    continue
+                history_points.append((int(item["source_ts_ms"]) / 1000.0, float(item["value"])))
+            except (AttributeError, KeyError, TypeError, ValueError, OverflowError):
+                continue
+        recovered = _store_brti_publications(history_points)
+        if recovered:
+            print(f"BRTI HISTORY RECOVERED | {recovered} publication seconds | NO ORDERS", flush=True)
+
+
 def _brti_poller():
     global _brti_last_error, _brti_last_error_print
-    last_seen_cf_ts = None
-
     while running:
         cycle = time.time()
         try:
-            value, cf_ts = _fetch_direct_brti_once()
-
-            # Store one publication per CF timestamp; do not duplicate the same
-            # BRTI point if a poll returns the previous second's value.
-            if last_seen_cf_ts != cf_ts:
-                with _brti_lock:
-                    _brti_samples.append((cf_ts, value))
-                last_seen_cf_ts = cf_ts
-
+            _collect_brti_once()
             _brti_last_error = None
-
         except Exception as exc:
-            _brti_last_error = f"{type(exc).__name__}: {exc}"
-            # Avoid flooding the terminal if entitlement/API is unavailable.
+            # No request contents or credentials in diagnostics.
+            _brti_last_error = type(exc).__name__
             if time.time() - _brti_last_error_print >= 30:
                 print("DIRECT BRTI WARNING:", _brti_last_error)
                 _brti_last_error_print = time.time()
-
         elapsed = time.time() - cycle
         time.sleep(max(0.05, BRTI_POLL_SECONDS - elapsed))
 
@@ -2204,7 +2267,7 @@ def _latest_brti():
         "ready": bool(age <= BRTI_MAX_AGE_SECONDS),
     }
 
-def _brti_contract_snapshot(close_dt, target, coinbase_spot):
+def _brti_contract_snapshot(close_dt, target, coinbase_spot, retained=None):
     latest = _latest_brti()
     if latest is None:
         return None
@@ -2214,6 +2277,9 @@ def _brti_contract_snapshot(close_dt, target, coinbase_spot):
 
     with _brti_lock:
         samples = list(_brti_samples)
+        if retained is not None:
+            _retain_brti_window(retained, samples, _brti_conflicting_seconds, time.time())
+            samples = list(retained["samples"])
 
     # CF BRTI is PER_SECOND here. Deduplicate by publication second.
     by_second = {}
@@ -2247,7 +2313,7 @@ def _brti_contract_snapshot(close_dt, target, coinbase_spot):
         "final60_avg": avg60,
         "final60_gap": avg_gap,
         "final60_side": avg_side,
-        "final60_complete": bool(count >= 60),
+        "final60_complete": bool(count == 60),
     }
 
 def _log_brti_parity(now, ticker, target, seconds_left, btc, close_dt, b):
@@ -3711,18 +3777,43 @@ print(f"True scalp forward log: {TRUE_SCALP_LOG}")
 
 
 
-# V4.9.2: retain the just-ended contract long enough to write the complete
-# 60-reading CF Benchmarks settlement window after Kalshi removes it from the
-# active-market list.
-_brti_last_contract_meta = None
+# Retain every unfinished closeout across active-contract rollovers. Only real
+# publications inside that contract's [close - 60s, close) window count.
 _brti_finalized_contracts = set()
+_brti_failed_contracts = set()
+_brti_pending_contracts = {}
+# Recovery lifetime uses the existing 600-second collector retention budget.
+# This is a closeout retry deadline, not a signal/model/freshness threshold.
+BRTI_CLOSEOUT_RECOVERY_SECONDS = _brti_samples.maxlen
+
+
+def _track_brti_contract(ticker, target, close_dt, btc):
+    with _brti_lock:
+        if ticker in _brti_finalized_contracts or ticker in _brti_failed_contracts:
+            return
+        meta = _brti_pending_contracts.setdefault(ticker, {
+            "ticker": ticker, "target": float(target), "close_dt": close_dt,
+        })
+        if meta["close_dt"] != close_dt or meta["target"] != float(target):
+            raise RuntimeError("BRTI closeout contract metadata changed")
+        meta["last_btc"] = float(btc)
+        _retain_brti_window(meta, list(_brti_samples), _brti_conflicting_seconds, time.time())
+
+
+def _retry_brti_closeouts(now):
+    with _brti_lock:
+        pending_closeouts = list(_brti_pending_contracts.items())
+    for ticker, meta in pending_closeouts:
+        if _try_finalize_brti_contract(meta, now):
+            with _brti_lock:
+                del _brti_pending_contracts[ticker]
 
 def _try_finalize_brti_contract(meta, now):
     if not meta:
         return False
 
     ticker = meta["ticker"]
-    if ticker in _brti_finalized_contracts:
+    if ticker in _brti_finalized_contracts or ticker in _brti_failed_contracts:
         return True
 
     close_dt = meta["close_dt"]
@@ -3730,22 +3821,26 @@ def _try_finalize_brti_contract(meta, now):
     if now < close_dt + timedelta(seconds=2):
         return False
 
-    try:
-        btc_now = get_btc_spot()
-    except Exception:
-        btc_now = meta.get("last_btc")
-        if btc_now is None:
+    # Coinbase is diagnostic only here. Keep the contract's last observed spot;
+    # a separate network request must not block BRTI closeout recovery.
+    btc_now = meta["last_btc"]
+    b = _brti_contract_snapshot(close_dt, meta["target"], btc_now, retained=meta)
+    complete = b is not None and b["final60_count"] == 60 and b["final60_complete"]
+    if not complete:
+        if now < close_dt + timedelta(seconds=BRTI_CLOSEOUT_RECOVERY_SECONDS):
+            if not meta.get("pending_logged"):
+                count = 0 if b is None else b["final60_count"]
+                print(f"BRTI CLOSEOUT PENDING | {ticker} | {count}/60 readings | "
+                      "retry retained across rollover | NO ORDERS", flush=True)
+                meta["pending_logged"] = True
             return False
-
-    b = _brti_contract_snapshot(
-        close_dt, meta["target"], btc_now
-    )
-    if b is None:
-        return False
-
-    # Do not declare success until the exact 60 one-second readings exist.
-    if b["final60_count"] < 60:
-        return False
+        # Never publish a successful settlement for 59/60 or invented values.
+        _log_brti_parity(now, ticker, meta["target"], 0.0, btc_now, close_dt, b)
+        count = 0 if b is None else b["final60_count"]
+        print(f"BRTI CLOSEOUT FAILED | {ticker} | {count}/60 readings | "
+              "complete False | RECOVERY_EXPIRED | NO ORDERS", flush=True)
+        _brti_failed_contracts.add(ticker)
+        return True
 
     _log_brti_parity(
         now,
@@ -3783,10 +3878,9 @@ iteration = 0
 while running:
     cycle_start = time.time()
     try:
+        _retry_brti_closeouts(datetime.now(timezone.utc))
         market = get_active_market()
         if market is None:
-            _now_gap = datetime.now(timezone.utc)
-            _try_finalize_brti_contract(_brti_last_contract_meta, _now_gap)
             print("NO ACTIVE KXBTC15M CONTRACT — retrying...")
             time.sleep(POLL_SECONDS)
             continue
@@ -3805,25 +3899,11 @@ while running:
         if target is None or close_dt is None:
             raise RuntimeError("Active market missing target/clock after exact-market fallback")
 
-        # If Kalshi has already rolled to a new contract, finalize the previous
-        # contract from the retained direct-BRTI buffer before replacing it.
-        if (
-            _brti_last_contract_meta is not None
-            and _brti_last_contract_meta["ticker"] != ticker
-        ):
-            _try_finalize_brti_contract(_brti_last_contract_meta, now)
-
-        _brti_last_contract_meta = {
-            "ticker": ticker,
-            "target": float(target),
-            "close_dt": close_dt,
-            "last_btc": float(btc),
-        }
+        # Tracking a new active contract never overwrites unfinished closeouts.
+        _track_brti_contract(ticker, target, close_dt, btc)
 
         seconds_left = max(0.0, (close_dt-now).total_seconds())
         btc_gap = btc-target
-        if _brti_last_contract_meta is not None:
-            _brti_last_contract_meta["last_btc"] = float(btc)
 
         # On rollover, clear short rolling history so deltas never cross contracts.
         if history and history[-1]["contract"] != ticker:
