@@ -2784,7 +2784,7 @@ print()
 # No orders. No FINAL/Tier-1/scalp authority changes.
 # =====================================================================
 
-UNIFIED_SUBMINUTE_LOG = Path("/data/kalshi_subminute_unified_v1_1.csv")
+UNIFIED_SUBMINUTE_LOG = _btc15_data_path("kalshi_subminute_unified_v1_1.csv")
 UNIFIED_SUBMINUTE_FIELDS = [
     "timestamp_utc","contract","side","side_num",
     "target","seconds_left","minutes_left",
