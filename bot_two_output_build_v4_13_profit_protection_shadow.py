@@ -3461,6 +3461,45 @@ print(f"Profit-protection forward log: {PROFIT_SHADOW_LOG}")
 def _truthy(v):
     return str(v).strip().lower() in ("true","1","yes")
 
+def _load_true_scalp_training_events(path, cutoff):
+    """Load only trustworthy rows for the frozen training window.
+
+    Historical/post-cutoff rows are irrelevant to this frozen model. A malformed
+    row after the cutoff is ignored with an explicit diagnostic; a malformed row
+    that could belong to the frozen window fails closed so training data is never
+    silently altered.
+    """
+    valid_rows = []
+    skipped_post_cutoff = 0
+    with path.open("r", newline="") as stream:
+        reader = csv.reader(stream)
+        header = next(reader, None)
+        if header != EVENT_FIELDS:
+            raise RuntimeError(
+                f"true-scalp event header mismatch: expected {len(EVENT_FIELDS)} fields"
+            )
+        ts_index = header.index("entry_timestamp_utc")
+        for line_no, row in enumerate(reader, start=2):
+            if len(row) != len(header):
+                raw_ts = row[ts_index] if len(row) > ts_index else ""
+                row_ts = pd.to_datetime(raw_ts, errors="coerce", utc=True)
+                if pd.notna(row_ts) and row_ts > cutoff:
+                    skipped_post_cutoff += 1
+                    continue
+                raise RuntimeError(
+                    f"frozen true-scalp training row malformed at line {line_no}: "
+                    f"expected {len(header)} fields, got {len(row)}"
+                )
+            valid_rows.append(row)
+
+    if skipped_post_cutoff:
+        print(
+            "TRUE SCALP TRAIN INPUT CLEANUP | "
+            f"ignored {skipped_post_cutoff} malformed post-cutoff row(s) | "
+            "frozen training rows unchanged"
+        )
+    return pd.DataFrame(valid_rows, columns=header)
+
 def _train_true_scalp_candidate():
     global _true_scalp_model, _true_scalp_medians, _true_scalp_ready
 
@@ -3469,7 +3508,7 @@ def _train_true_scalp_candidate():
         return
 
     try:
-        d = pd.read_csv(EVENT_LOG)
+        d = _load_true_scalp_training_events(EVENT_LOG, TRUE_SCALP_TRAIN_CUTOFF)
         d["entry_timestamp_utc"] = pd.to_datetime(
             d["entry_timestamp_utc"], errors="coerce", utc=True
         )
