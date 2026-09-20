@@ -386,11 +386,29 @@ def audit():
     quote_match = ""  # Unknown, not a proven mismatch.
     notes = ["MEASUREMENT_V4", "QUOTES_ASYNC_UNVERIFIED"]
     failures = []
+    if os.getenv("BTC15_KALSHI_QUOTE_PROVENANCE_CANARY", "").strip() == "1":
+        from btc15_kalshi_quote_provenance_v1 import enabled, validate
+        notes = ["MEASUREMENT_V5", "QUOTES_WS_UNVERIFIED"]
+        try:
+            enabled()
+            reference, identity = validate(st.isoformat(), uc, int(close.timestamp() * 1000), int(now.timestamp() * 1000))
+            aupb, aupa, adnb, adna = reference
+            qds = [fd(lupb, aupb), fd(lupa, aupa), fd(ldnb, adnb), fd(ldna, adna)]
+            qmax = max(qds) if all(math.isfinite(v) for v in qds) else math.nan
+            quote_recent = context_ok and 0.0 <= age <= QUOTE_MAX_AGE_SEC and math.isfinite(qmax)
+            quote_scorable = quote_recent
+            quote_match = (qmax == 0.0) if quote_scorable else ""
+            if quote_scorable:
+                notes = ["MEASUREMENT_V5", "QUOTES_WS_STATE_MATCH", identity]
+                if not quote_match:
+                    failures.append("QUOTES_WS_VALUE_MISMATCH")
+        except Exception as exc:
+            notes.append("QUOTE_PROOF_UNAVAILABLE=" + type(exc).__name__)
     if not contract_ok: notes.append("CONTRACT")
     if not source_ok: notes.append("SOURCE_AGE_INVALID")
     if not frame_ok: notes.append("SNAPSHOT_INCOMPLETE")
     if not quote_recent: notes.append("QUOTE_STALE_OR_INCOMPLETE")
-    if quote_recent and qmax > QUOTE_TOLERANCE: notes.append("QUOTE_ASYNC_DRIFT")
+    if quote_recent and qmax > QUOTE_TOLERANCE and "QUOTES_ASYNC_UNVERIFIED" in notes: notes.append("QUOTE_ASYNC_DRIFT")
     if context_ok:
         if not math.isfinite(clock_delta): notes.append("CLOCK_UNVERIFIED")
         elif not clock_ok: failures.append("CLOCK")
@@ -409,9 +427,9 @@ def audit():
         notes.append("BRTI_UNVERIFIED")
     notes.extend(failures)
     # A verified component failure stays FAIL even if quote parity is unknown.
-    # Otherwise this schema cannot establish a full PASS; never greenwash it.
+    # Full PASS also requires an exact, replayable WebSocket quote state.
     scorable = context_ok and brti_scorable and quote_scorable
-    status = "FAIL" if failures else "WAIT"
+    status = "FAIL" if failures else ("PASS" if scorable and clock_ok and target_ok and brti_ok and quote_match else "WAIT")
     publication_text = bot_publication.isoformat() if bot_publication else "missing"
     notes.extend([
         "bot_publication=" + publication_text,
@@ -445,7 +463,7 @@ def audit():
     btxt = f"${bdelta:.2f}" if math.isfinite(bdelta) else "N/A"
     print(
         f"PARITY {status} | {ac} | age {age:.1f}s | clock Δ{clock_delta:.1f}s | "
-        f"target Δ${target_delta:.2f} | quotes ASYNC Δ{qtxt} | BRTI Δ{btxt} @ {btd:.3f}s"
+        f"target Δ${target_delta:.2f} | quotes {'WS' if quote_scorable else 'UNVERIFIED'} Δ{qtxt} | BRTI Δ{btxt} @ {btd:.3f}s"
         + " | " + "|".join(notes),
         flush=True
     )

@@ -3902,6 +3902,16 @@ while running:
         # Tracking a new active contract never overwrites unfinished closeouts.
         _track_brti_contract(ticker, target, close_dt, btc)
 
+        # Isolated quote-provenance input only; BRTI recovery above still runs while waiting.
+        if os.getenv("BTC15_KALSHI_QUOTE_PROVENANCE_CANARY", "").strip() == "1":
+            from btc15_kalshi_quote_provenance_v1 import consume as consume_ws_quotes
+            quotes = consume_ws_quotes(ticker, now.isoformat(), int(close_dt.timestamp() * 1000))
+            if quotes is None:
+                print("KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS", flush=True)
+                time.sleep(POLL_SECONDS)
+                continue
+            up_bid, up_ask, down_bid, down_ask = quotes
+
         seconds_left = max(0.0, (close_dt-now).total_seconds())
         btc_gap = btc-target
 

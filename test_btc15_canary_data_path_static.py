@@ -145,6 +145,15 @@ def audit(sources, payloads):
             allow(name, binding(trees[name], variable, f"DATA_ROOT / {filename!r}"))
     allow(DASHBOARD, binding(trees[DASHBOARD], "FILES", repr(DASHBOARD_FILES)))
 
+    quote_module = "btc15_kalshi_quote_provenance_v1.py"
+    require(quote_module in trees, "quote provenance module missing from runtime audit")
+    for node in ast.walk(trees[quote_module]):
+        if isinstance(node, ast.Call) and dump(node) in {
+            expr("_btc15_data_path('kalshi_quote_provenance_v1.json')"),
+            expr("path.with_suffix('.tmp')"),
+        }:
+            allow(quote_module, node)
+
     # Only these two packaged historical/model inputs are deliberately not data-root files.
     binding(trees[BOT], "_fair_cache_path", "Path('btc_35d_live_cache.csv')")
     for node in ast.walk(trees[BOT]):

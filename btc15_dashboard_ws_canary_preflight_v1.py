@@ -19,6 +19,8 @@ gates=[
  "test_btc15_brti_ws_adapter_compat_static.py",
  "test_btc15_canary_data_path_static.py",
 ]
+if os.getenv("BTC15_KALSHI_QUOTE_PROVENANCE_CANARY", "").strip() == "1":
+ gates.append("test_btc15_kalshi_quote_provenance_regressions.py")
 for g in gates:
  rc=subprocess.run([sys.executable,g]).returncode
  if rc: raise SystemExit("STOP gate failed: "+g)
