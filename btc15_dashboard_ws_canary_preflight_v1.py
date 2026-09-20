@@ -12,6 +12,7 @@ if not os.getenv("BTC15_BRTI_GATEWAY_URL","").strip():
  raise SystemExit("STOP BTC15_BRTI_GATEWAY_URL missing")
 gates=[
  "test_btc15_dashboard_ws_canary_static.py",
+ "test_btc15_dashboard_ws_runner_static.py",
  "test_brti_main_cutover_static_gate_v1.py",
  "test_btc15_brti_ws_gateway_client_v1_static.py",
  "test_btc15_brti_ws_adapter_compat_static.py",
