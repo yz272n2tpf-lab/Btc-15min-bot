@@ -167,6 +167,36 @@ def active_market():
     return active[0][1]
 
 def direct_brti_payload():
+    # Dashboard-canary cutover: parity uses the same qualified authoritative
+    # transport as the bot. Keep direct HTTP below as OFF-mode rollback only.
+    if os.getenv("BTC15_USE_SHARED_BRTI","").strip() == "1":
+        from btc15_brti_shared_consumer_v1 import read_shared_brti
+        if os.getenv("BTC15_BRTI_TRANSPORT","").strip().lower() == "websocket_gateway":
+            from btc15_brti_ws_gateway_client_v1 import ticks
+            raw = ticks(timeout=0.8)
+            out = []
+            for item in raw:
+                try:
+                    if item.get("index_id") != "BRTI":
+                        continue
+                    out.append((
+                        datetime.fromtimestamp(int(item["source_ts_ms"])/1000.0, tz=timezone.utc),
+                        float(item["value"])
+                    ))
+                except Exception:
+                    pass
+            if not out:
+                # Fail closed unless a fresh PRIMARY_OK point is available.
+                point = read_shared_brti()
+                if point.get("status") != "PRIMARY_OK" or float(point.get("age_seconds",99)) > 5.0:
+                    raise RuntimeError("shared BRTI parity source not PRIMARY_OK/fresh")
+                out=[(datetime.fromtimestamp(int(point["source_ts_ms"])/1000.0,tz=timezone.utc),float(point["value"]))]
+            return out
+        point = read_shared_brti()
+        if point.get("status") != "PRIMARY_OK" or float(point.get("age_seconds",99)) > 5.0:
+            raise RuntimeError("shared BRTI parity source not PRIMARY_OK/fresh")
+        return [(datetime.fromtimestamp(int(point["source_ts_ms"])/1000.0,tz=timezone.utc),float(point["value"]))]
+
     obj = kalshi_get(BRTI_PATH, {"id":"BRTI","maxResolution":"PER_SECOND"})
     data = obj.get("data", obj) if isinstance(obj, dict) else {}
     payload = data.get("payload") if isinstance(data, dict) else None
