@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """
-BTC15 KALSHI/BRTI PARITY SHADOW V3 — LOW MEMORY
+BTC15 KALSHI/BRTI PARITY SHADOW V4 — PUBLICATION-MATCHED MEASUREMENT
 
-Same parity validation as before, but it reads only a bounded tail of the
-growing Railway CSVs instead of loading the full files every poll.
+Match BRTI by its true publication timestamp, within the same bot frame.
+Independent REST quotes lack a shared observation ID/timestamp: their delta
+is diagnostic only and full quote parity remains unverified (overall WAIT).
+Bounded CSV tails; existing output schema and numeric tolerances retained.
 
 READ-ONLY. NO CORE LOGIC CHANGES. NO TRADING THRESHOLD CHANGES. NO ORDERS.
 """
@@ -15,7 +17,9 @@ import requests
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding
 
-DATA_ROOT = Path("/data") if Path("/data").exists() else Path(".")
+from btc15_data_paths_v1 import _btc15_data_root
+
+DATA_ROOT = _btc15_data_root()
 UNIFIED = DATA_ROOT / "kalshi_subminute_unified_v1_1.csv"
 BRTI_LOG = DATA_ROOT / "kalshi_direct_brti_parity_v1.csv"
 OUT = DATA_ROOT / "kalshi_app_parity_shadow_v1.csv"
@@ -35,6 +39,8 @@ TARGET_TOLERANCE_DOLLARS = 1.00
 QUOTE_TOLERANCE = 0.06
 BRTI_TIME_TOLERANCE_SEC = 6.0
 BRTI_VALUE_TOLERANCE_DOLLARS = 2.00
+# Retained legacy tolerances for audit history; exact joins below supersede
+# nearest-within-window matching. They must not authorize different samples.
 SNAPSHOT_JOIN_TOLERANCE_SEC = 2.0
 
 FIELDS = [
@@ -77,6 +83,7 @@ def side(x):
     s = str(x or "").strip().upper()
     if s in {"UP","YES","Y","HIGHER","ABOVE","TRUE","1"}: return "UP"
     if s in {"DOWN","NO","N","LOWER","BELOW","FALSE","0"}: return "DOWN"
+    if s == "FLAT": return "FLAT"
     return ""
 
 def first(r, names):
@@ -167,6 +174,38 @@ def active_market():
     return active[0][1]
 
 def direct_brti_payload():
+    # Dashboard-canary cutover: parity uses the same qualified authoritative
+    # transport as the bot. Keep direct HTTP below as OFF-mode rollback only.
+    if os.getenv("BTC15_USE_SHARED_BRTI","").strip() == "1":
+        from btc15_brti_shared_consumer_v1 import read_shared_brti
+        # A nonempty /ticks history is not proof of current gateway readiness.
+        # Keep the existing qualified transport and source-age guard in force.
+        point = read_shared_brti()
+        point_age = num(point.get("age_seconds"))
+        if point.get("status") != "PRIMARY_OK" or not (0.0 <= point_age <= 5.0):
+            raise RuntimeError("shared BRTI parity source not PRIMARY_OK/fresh")
+        if os.getenv("BTC15_BRTI_TRANSPORT","").strip().lower() == "websocket_gateway":
+            from btc15_brti_ws_gateway_client_v1 import ticks
+            raw = ticks(timeout=0.8)
+            out = []
+            for item in raw:
+                try:
+                    if item.get("index_id") != "BRTI":
+                        continue
+                    value = float(item["value"])
+                    if math.isfinite(value):
+                        out.append((
+                            datetime.fromtimestamp(int(item["source_ts_ms"])/1000.0, tz=timezone.utc),
+                            value
+                        ))
+                except Exception:
+                    pass
+            if not out:
+                # Fail closed unless a fresh PRIMARY_OK point is available.
+                out=[(datetime.fromtimestamp(int(point["source_ts_ms"])/1000.0,tz=timezone.utc),float(point["value"]))]
+            return out
+        return [(datetime.fromtimestamp(int(point["source_ts_ms"])/1000.0,tz=timezone.utc),float(point["value"]))]
+
     obj = kalshi_get(BRTI_PATH, {"id":"BRTI","maxResolution":"PER_SECOND"})
     data = obj.get("data", obj) if isinstance(obj, dict) else {}
     payload = data.get("payload") if isinstance(data, dict) else None
@@ -211,7 +250,9 @@ def latest_unified_snapshot():
     if not timed:
         return None
     latest_t, latest_c, latest_r = max(timed, key=lambda x:x[0])
-    near = [r for t,c,r in timed if c == latest_c and abs((t-latest_t).total_seconds()) <= SNAPSHOT_JOIN_TOLERANCE_SEC]
+    # UP and DOWN are written with one identical collector timestamp. Never
+    # backfill a partially appended newest frame with an older side.
+    near = [r for t,c,r in timed if c == latest_c and t == latest_t]
     snap = dict(latest_r)
     for r in near:
         sd = side(r.get("side"))
@@ -224,41 +265,29 @@ def latest_unified_snapshot():
             if str(ask).strip(): snap["down_ask"] = ask
     snap["_source_timestamp"] = latest_t
     snap["_snapshot_rows"] = len(near)
+    snap["_snapshot_complete"] = len(near) == 2 and {side(r.get("side")) for r in near} == {"UP", "DOWN"}
     return snap
 
-def nearest_api_brti(payload, source_ts):
-    if not payload or source_ts is None:
+def api_brti_at_publication(payload, publication_ts):
+    """Only compare the SAME upstream publication; missing history is unknown."""
+    if not payload or publication_ts is None:
         return math.nan, math.nan
-    t,val = min(payload, key=lambda z: abs((z[0]-source_ts).total_seconds()))
-    return val, abs((t-source_ts).total_seconds())
+    values = {val for t, val in payload if t == publication_ts and math.isfinite(val)}
+    if len(values) != 1:
+        return math.nan, math.nan
+    return values.pop(), 0.0
 
-def nearest_logged_brti(source_ts, api_target):
+def logged_brti_at_snapshot(source_ts, contract):
+    """Join the bot's BRTI record to its exact contract/collector frame."""
     rows = tail_csv_rows(BRTI_LOG, TAIL_BYTES_BRTI)
-    if not rows or source_ts is None:
-        return math.nan, "", math.nan, math.nan
-    time_names = ["timestamp_utc","source_timestamp_utc","time_utc","timestamp","observed_utc","collector_timestamp_utc"]
-    value_names = ["brti_value","brti_price","direct_brti","direct_brti_value","value","price","benchmark_value"]
-    gap_names = ["brti_gap","gap","distance","target_gap"]
-    side_names = ["brti_side","side","benchmark_side"]
+    matches = [r for r in rows if str(r.get("contract", "")).strip() == contract
+               and parse_dt(r.get("timestamp_utc")) == source_ts]
+    return matches[0] if len(matches) == 1 else None
 
-    cand = []
-    for r in rows:
-        t = parse_dt(first(r,time_names))
-        if t:
-            cand.append((abs((t-source_ts).total_seconds()),r))
-    if not cand:
-        return math.nan, "", math.nan, math.nan
-    d,r = min(cand, key=lambda z:z[0])
-    val = num(first(r,value_names))
-    gap = num(first(r,gap_names))
-    sd = side(first(r,side_names))
-    if not math.isfinite(val) and math.isfinite(gap) and math.isfinite(api_target):
-        val = api_target + gap
-    if not math.isfinite(gap) and math.isfinite(val) and math.isfinite(api_target):
-        gap = val - api_target
-    if not sd and math.isfinite(gap):
-        sd = "UP" if gap >= 0 else "DOWN"
-    return val, sd, gap, d
+def target_side(value, target):
+    if not (math.isfinite(value) and math.isfinite(target)):
+        return ""
+    return "UP" if value > target else ("DOWN" if value < target else "FLAT")
 
 def append(rec):
     new = not OUT.exists()
@@ -271,7 +300,9 @@ def fd(a,b):
     return abs(a-b) if math.isfinite(a) and math.isfinite(b) else math.nan
 
 def audit():
+    quote_request_started = now_utc()
     m = active_market()
+    quote_response_received = now_utc()
     if m is None:
         print("PARITY WAIT | no active contract", flush=True); return
 
@@ -279,85 +310,161 @@ def audit():
     if r is None:
         print("PARITY WAIT | unified tail empty", flush=True); return
 
-    now = now_utc()
     st = r["_source_timestamp"]
-    uc = str(r.get("contract","")).strip()
-    ac = str(m.get("ticker","")).strip()
-    age = (now-st).total_seconds()
-
+    uc = str(r.get("contract", "")).strip()
+    ac = str(m.get("ticker", "")).strip()
     close = parse_dt(m.get("close_time"))
-    rem = num(first(r,["seconds_left"]))
+    rem = num(first(r, ["seconds_left"]))
     if not math.isfinite(rem):
-        ml = num(first(r,["minutes_left"]))
-        rem = ml*60 if math.isfinite(ml) else math.nan
-    api_rem = (close-st).total_seconds() if close else math.nan
-    clock_delta = fd(rem,api_rem)
+        ml = num(first(r, ["minutes_left"]))
+        rem = ml * 60 if math.isfinite(ml) else math.nan
+    api_rem = (close - st).total_seconds() if close else math.nan
+    clock_delta = fd(rem, api_rem)
 
     target = market_target(m)
-    btc, gap = num(first(r,["btc_price"])), num(first(r,["btc_gap"]))
-    logged_target = btc-gap if math.isfinite(btc) and math.isfinite(gap) else math.nan
-    target_delta = fd(logged_target,target)
+    btc, gap = num(first(r, ["btc_price"])), num(first(r, ["btc_gap"]))
+    logged_target = btc - gap if math.isfinite(btc) and math.isfinite(gap) else math.nan
+    target_delta = fd(logged_target, target)
 
-    lupb,lupa = prob(first(r,["up_bid","yes_bid"])),prob(first(r,["up_ask","yes_ask"]))
-    ldnb,ldna = prob(first(r,["down_bid","no_bid"])),prob(first(r,["down_ask","no_ask"]))
-    aupb,aupa,adnb,adna = qv(m,"UP","bid"),qv(m,"UP","ask"),qv(m,"DOWN","bid"),qv(m,"DOWN","ask")
-    qds = [fd(lupb,aupb),fd(lupa,aupa),fd(ldnb,adnb),fd(ldna,adna)]
+    lupb, lupa = prob(first(r, ["up_bid", "yes_bid"])), prob(first(r, ["up_ask", "yes_ask"]))
+    ldnb, ldna = prob(first(r, ["down_bid", "no_bid"])), prob(first(r, ["down_ask", "no_ask"]))
+    aupb, aupa, adnb, adna = qv(m, "UP", "bid"), qv(m, "UP", "ask"), qv(m, "DOWN", "bid"), qv(m, "DOWN", "ask")
+    qds = [fd(lupb, aupb), fd(lupa, aupa), fd(ldnb, adnb), fd(ldna, adna)]
     qds = [x for x in qds if math.isfinite(x)]
     qmax = max(qds) if qds else math.nan
-    qsc = age <= QUOTE_MAX_AGE_SEC and len(qds)>=2
 
-    api_brti, api_td = nearest_api_brti(direct_brti_payload(),st)
-    bot_brti, bot_side, bot_gap, bot_td = nearest_logged_brti(st,target)
-    tds = [x for x in [api_td,bot_td] if math.isfinite(x)]
-    btd = max(tds) if tds else math.nan
-    api_side = "UP" if math.isfinite(api_brti) and math.isfinite(target) and api_brti>=target else ("DOWN" if math.isfinite(api_brti) and math.isfinite(target) else "")
-    bdelta = fd(bot_brti,api_brti)
+    bot = logged_brti_at_snapshot(st, uc) or {}
+    bot_brti = num(bot.get("direct_brti"))
+    bot_side = side(bot.get("brti_side"))
+    bot_gap = num(bot.get("brti_gap_to_target"))
+    bot_target = num(bot.get("target"))
+    bot_publication = parse_dt(bot.get("brti_timestamp_utc"))
+    bot_age = num(bot.get("brti_age_seconds"))
+    reference_error = ""
+    try:
+        payload = direct_brti_payload()
+    except Exception as exc:
+        # Record missing/failed reference as unknown, never fall back to HTTP
+        # or leak request/credential content into diagnostics.
+        payload = []
+        reference_error = type(exc).__name__
+    api_brti, btd = api_brti_at_publication(payload, bot_publication)
+    bdelta = fd(bot_brti, api_brti)
+    # Compare sides against ONE target, independently of target parity.
+    api_side = target_side(api_brti, bot_target)
+    now = now_utc()
+    age = (now - st).total_seconds()
 
-    contract_ok = (uc==ac)
+    contract_ok = uc == ac
+    frame_ok = r.get("_snapshot_complete") is True
+    source_ok = 0.0 <= age <= SOURCE_MAX_AGE_SEC
+    context_ok = source_ok and contract_ok and frame_ok
     clock_ok = math.isfinite(clock_delta) and clock_delta <= CLOCK_TOLERANCE_SEC
     target_ok = math.isfinite(target_delta) and target_delta <= TARGET_TOLERANCE_DOLLARS
-    quote_ok = qsc and math.isfinite(qmax) and qmax <= QUOTE_TOLERANCE
-    brti_ok = (
-        math.isfinite(btd) and btd <= BRTI_TIME_TOLERANCE_SEC
-        and math.isfinite(bdelta) and bdelta <= BRTI_VALUE_TOLERANCE_DOLLARS
-        and bot_side in {"UP","DOWN"} and bot_side == api_side
+    bot_target_delta = fd(bot_target, target)
+    bot_fresh = bool(
+        bot_publication is not None and bot_publication <= now
+        and (st - bot_publication).total_seconds() <= 5.0
+        and 0.0 <= bot_age <= 5.0
+        and str(bot.get("direct_brti_ready", "")).strip().lower() == "true"
     )
-    scorable = age <= SOURCE_MAX_AGE_SEC and contract_ok and qsc and math.isfinite(bdelta) and math.isfinite(btd)
-    status = "PASS" if scorable and clock_ok and target_ok and quote_ok and brti_ok else ("FAIL" if scorable else "WAIT")
+    brti_scorable = bool(
+        context_ok and bot_fresh and math.isfinite(bot_target)
+        and math.isfinite(bdelta) and math.isfinite(btd)
+    )
+    brti_ok = brti_scorable and (
+        bdelta <= BRTI_VALUE_TOLERANCE_DOLLARS
+        and bot_side in {"UP", "DOWN", "FLAT"} and bot_side == api_side
+    )
 
-    notes=[]
+    # Collector age is not quote-to-quote synchronization. Neither input records
+    # an exchange quote timestamp/sequence that can identify a common response.
+    # Keep the old 6c diagnostic threshold, but do not claim matched quote parity,
+    # even when two asynchronous responses happen to have identical prices.
+    quote_recent = context_ok and 0.0 <= age <= QUOTE_MAX_AGE_SEC and len(qds) == 4
+    quote_scorable = False
+    quote_match = ""  # Unknown, not a proven mismatch.
+    notes = ["MEASUREMENT_V4", "QUOTES_ASYNC_UNVERIFIED"]
+    failures = []
+    if os.getenv("BTC15_KALSHI_QUOTE_PROVENANCE_CANARY", "").strip() == "1":
+        from btc15_kalshi_quote_provenance_v1 import enabled, validate
+        notes = ["MEASUREMENT_V5", "QUOTES_WS_UNVERIFIED"]
+        try:
+            enabled()
+            reference, identity = validate(st.isoformat(), uc, int(close.timestamp() * 1000), int(now.timestamp() * 1000))
+            aupb, aupa, adnb, adna = reference
+            qds = [fd(lupb, aupb), fd(lupa, aupa), fd(ldnb, adnb), fd(ldna, adna)]
+            qmax = max(qds) if all(math.isfinite(v) for v in qds) else math.nan
+            quote_recent = context_ok and 0.0 <= age <= QUOTE_MAX_AGE_SEC and math.isfinite(qmax)
+            quote_scorable = quote_recent
+            quote_match = (qmax == 0.0) if quote_scorable else ""
+            if quote_scorable:
+                notes = ["MEASUREMENT_V5", "QUOTES_WS_STATE_MATCH", identity]
+                if not quote_match:
+                    failures.append("QUOTES_WS_VALUE_MISMATCH")
+        except Exception as exc:
+            notes.append("QUOTE_PROOF_UNAVAILABLE=" + type(exc).__name__)
     if not contract_ok: notes.append("CONTRACT")
-    if scorable and not clock_ok: notes.append("CLOCK")
-    if scorable and not target_ok: notes.append("TARGET")
-    if qsc and not quote_ok: notes.append("QUOTES")
-    if scorable and not brti_ok: notes.append("BRTI")
-    if not qsc: notes.append("QUOTE_STALE")
-    if not scorable: notes.append("NOT_SCORABLE")
+    if not source_ok: notes.append("SOURCE_AGE_INVALID")
+    if not frame_ok: notes.append("SNAPSHOT_INCOMPLETE")
+    if not quote_recent: notes.append("QUOTE_STALE_OR_INCOMPLETE")
+    if quote_recent and qmax > QUOTE_TOLERANCE and "QUOTES_ASYNC_UNVERIFIED" in notes: notes.append("QUOTE_ASYNC_DRIFT")
+    if context_ok:
+        if not math.isfinite(clock_delta): notes.append("CLOCK_UNVERIFIED")
+        elif not clock_ok: failures.append("CLOCK")
+        if not math.isfinite(target_delta): notes.append("TARGET_UNVERIFIED")
+        elif not target_ok: failures.append("TARGET")
+        if math.isfinite(bot_target_delta) and bot_target_delta > TARGET_TOLERANCE_DOLLARS:
+            failures.append("BRTI_LOG_TARGET")
+    if not bot: notes.append("BRTI_FRAME_MISSING_OR_AMBIGUOUS")
+    elif not bot_fresh: notes.append("BRTI_NOT_FRESH_AT_COLLECTION")
+    if reference_error: notes.append("BRTI_REFERENCE_UNAVAILABLE=" + reference_error)
+    elif not math.isfinite(api_brti): notes.append("BRTI_PUBLICATION_MISSING_OR_AMBIGUOUS")
+    if brti_scorable:
+        if not brti_ok: failures.append("BRTI")
+        else: notes.append("BRTI_PUBLICATION_MATCH")
+    else:
+        notes.append("BRTI_UNVERIFIED")
+    notes.extend(failures)
+    # A verified component failure stays FAIL even if quote parity is unknown.
+    # Full PASS also requires an exact, replayable WebSocket quote state.
+    scorable = context_ok and brti_scorable and quote_scorable
+    status = "FAIL" if failures else ("PASS" if scorable and clock_ok and target_ok and brti_ok and quote_match else "WAIT")
+    publication_text = bot_publication.isoformat() if bot_publication else "missing"
+    notes.extend([
+        "bot_publication=" + publication_text,
+        "reference_publication=" + (publication_text if math.isfinite(api_brti) else "missing"),
+        f"bot_age_at_collection={bot_age:.3f}s",
+        f"bot_target={bot_target}",
+        "quote_request_started=" + quote_request_started.isoformat(),
+        "quote_response_received=" + quote_response_received.isoformat(),
+    ])
 
     append({
-        "audit_timestamp_utc":now.isoformat(),
-        "source_timestamp_utc":st.isoformat(),
-        "source_age_sec":round(age,3),
-        "unified_contract":uc,"api_contract":ac,"contract_match":contract_ok,
-        "logged_remaining_sec":rem,"api_remaining_at_source_sec":api_rem,
-        "clock_delta_sec":clock_delta,"clock_match":clock_ok,
-        "logged_target_inferred":logged_target,"api_target":target,
-        "target_delta":target_delta,"target_match":target_ok,
-        "logged_up_bid":lupb,"api_up_bid":aupb,"logged_up_ask":lupa,"api_up_ask":aupa,
-        "logged_down_bid":ldnb,"api_down_bid":adnb,"logged_down_ask":ldna,"api_down_ask":adna,
-        "quote_max_delta":qmax,"quote_scorable":qsc,"quote_match":quote_ok,
-        "logged_brti_gap":bot_gap,"logged_brti_side":bot_side,"logged_brti_value_inferred":bot_brti,
-        "api_brti_value_near_source":api_brti,"api_brti_side_near_source":api_side,
-        "brti_time_delta_sec":btd,"brti_value_delta":bdelta,"brti_match":brti_ok,
-        "row_scorable":scorable,"overall_status":status,"notes":"|".join(notes),
+        "audit_timestamp_utc": now.isoformat(),
+        "source_timestamp_utc": st.isoformat(),
+        "source_age_sec": round(age, 3),
+        "unified_contract": uc, "api_contract": ac, "contract_match": contract_ok,
+        "logged_remaining_sec": rem, "api_remaining_at_source_sec": api_rem,
+        "clock_delta_sec": clock_delta, "clock_match": clock_ok,
+        "logged_target_inferred": logged_target, "api_target": target,
+        "target_delta": target_delta, "target_match": target_ok,
+        "logged_up_bid": lupb, "api_up_bid": aupb, "logged_up_ask": lupa, "api_up_ask": aupa,
+        "logged_down_bid": ldnb, "api_down_bid": adnb, "logged_down_ask": ldna, "api_down_ask": adna,
+        "quote_max_delta": qmax, "quote_scorable": quote_scorable, "quote_match": quote_match,
+        "logged_brti_gap": bot_gap, "logged_brti_side": bot_side, "logged_brti_value_inferred": bot_brti,
+        "api_brti_value_near_source": api_brti, "api_brti_side_near_source": api_side,
+        "brti_time_delta_sec": btd, "brti_value_delta": bdelta,
+        "brti_match": brti_ok if brti_scorable else "",
+        "row_scorable": scorable, "overall_status": status, "notes": "|".join(notes),
     })
 
-    qtxt = f"{qmax*100:.1f}c" if math.isfinite(qmax) else "N/A"
+    qtxt = f"{qmax * 100:.1f}c" if math.isfinite(qmax) else "N/A"
     btxt = f"${bdelta:.2f}" if math.isfinite(bdelta) else "N/A"
     print(
         f"PARITY {status} | {ac} | age {age:.1f}s | clock Δ{clock_delta:.1f}s | "
-        f"target Δ${target_delta:.2f} | quotes Δ{qtxt} | BRTI Δ{btxt} @ {btd:.1f}s"
-        + (f" | {'|'.join(notes)}" if notes else ""),
+        f"target Δ${target_delta:.2f} | quotes {'WS' if quote_scorable else 'UNVERIFIED'} Δ{qtxt} | BRTI Δ{btxt} @ {btd:.3f}s"
+        + " | " + "|".join(notes),
         flush=True
     )
 
@@ -373,8 +480,8 @@ def main():
         print("SELF-TEST: PASS")
         return 0
 
-    print("BTC15 KALSHI/BRTI PARITY SHADOW V3 LOW-MEM: STARTING", flush=True)
-    print("Bounded CSV tails only. NO ORDERS.", flush=True)
+    print("BTC15 KALSHI/BRTI PARITY SHADOW V4 PUBLICATION-MATCHED: STARTING", flush=True)
+    print("Exact BRTI publication join; quote parity unverified. NO ORDERS.", flush=True)
     while True:
         try: audit()
         except KeyboardInterrupt: break
