@@ -202,15 +202,34 @@ def main():
     if nominee:
         hold_nom=score(hold,nominee["rule"],RULES[nominee["rule"]])
         supported=hold_ok(hold_nom)
-    print("MICRO_CONFIRM_RESULT "+json.dumps({
-      "version":VERSION,"source_sha256":sha,"source_rows":len(rows),"records":len(recs),
-      "development_n":len(dev),"holdout_n":len(hold),
-      "development_baseline":dev_base,"development_frontier":frontier,
-      "development_nominee":nominee,"holdout_baseline":hold_base,
-      "holdout_nominee":hold_nom,"holdout_support":supported,
-      "freeze_for_clean_forward_validation":bool(supported),
-      "no_price_gate":True,"no_time_gate":True,"orders":False,"auto_promote":False,
-    },sort_keys=True),flush=True)
+    print(
+      f"MICRO_BASELINE | dev_n={len(dev)} | dev_+10={dev_base.get('plus10_rate')} | "
+      f"hold_n={len(hold)} | hold_+10={hold_base.get('plus10_rate')} | "
+      f"source_rows={len(rows)} | NO ORDERS",
+      flush=True,
+    )
+    for m in frontier:
+        print(
+          "MICRO_RULE | "
+          f"rule={m['rule']} | n={m['n']} | share={m.get('selected_share_retained')} | "
+          f"winner_retention={m.get('original_winner_retention')} | "
+          f"false_start_reject={m.get('false_start_rejection_rate')} | "
+          f"delayed_+10={m.get('delayed_plus10_rate')} | lift={m.get('plus10_lift_vs_original_baseline')} | "
+          f"delay={m.get('avg_delay_sec')} | ask_delta={m.get('avg_entry_change_vs_candidate')} | "
+          f"dev_eligible={m.get('development_eligible')} | NO ORDERS",
+          flush=True,
+        )
+    print(
+      "MICRO_SUMMARY | "
+      f"nominee={None if nominee is None else nominee.get('rule')} | "
+      f"hold_support={supported} | "
+      f"hold_n={None if hold_nom is None else hold_nom.get('n')} | "
+      f"hold_winner_retention={None if hold_nom is None else hold_nom.get('original_winner_retention')} | "
+      f"hold_+10={None if hold_nom is None else hold_nom.get('delayed_plus10_rate')} | "
+      f"hold_lift={None if hold_nom is None else hold_nom.get('plus10_lift_vs_original_baseline')} | "
+      f"freeze={bool(supported)} | NO PRICE GATE | NO TIME GATE | NO ORDERS",
+      flush=True,
+    )
     return 0
 
 if __name__=="__main__":
