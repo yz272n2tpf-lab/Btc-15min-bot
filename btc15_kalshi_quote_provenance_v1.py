@@ -1,4 +1,4 @@
-"""Opt-in isolated, read-only Kalshi orderbook provenance. NO ORDERS.
+"""Opt-in read-only Kalshi orderbook provenance. NO ORDERS.
 
 A proof contains upstream snapshot/deltas, not a second copy of bot prices.
 The parity process replays it and joins the exact collector frame and market.
@@ -21,11 +21,10 @@ WS_PATH = '/trade-api/ws/v2'
 
 
 def enabled():
-    if os.getenv(FLAG, '').strip() != '1':
-        return False
-    if os.getenv('BTC15_ISOLATED_CANARY_LOCAL_DATA', '').strip() != '1':
-        raise ValueError('quote provenance requires isolated canary data')
-    return True
+    # Historical env name retained for compatibility. The qualified quote
+    # provenance path is read-only and may run against either the isolated
+    # canary data root or the normal production data root.
+    return os.getenv(FLAG, '').strip() == '1'
 
 
 def proof_path():

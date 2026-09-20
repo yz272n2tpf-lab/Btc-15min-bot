@@ -160,11 +160,13 @@ class Quotes(unittest.TestCase):
             self.assertEqual(provider.consume(TICKER,'collector',CLOSE),(.49,.5,.5,.51))
             self.assertEqual(q.validate('collector',TICKER,CLOSE,NOW)[0],(.49,.5,.5,.51))
 
-    def test_canary_guard_and_default_off(self):
-        with patch.dict(os.environ,{},clear=True):self.assertFalse(q.enabled())
+    def test_opt_in_default_off_and_both_data_roots_supported(self):
+        with patch.dict(os.environ,{},clear=True):
+            self.assertFalse(q.enabled())
         with patch.dict(os.environ,{q.FLAG:'1'},clear=True):
-            with self.assertRaises(ValueError):q.enabled()
-        with patch.dict(os.environ,{q.FLAG:'1','BTC15_ISOLATED_CANARY_LOCAL_DATA':'1'},clear=True):self.assertTrue(q.enabled())
+            self.assertTrue(q.enabled())
+        with patch.dict(os.environ,{q.FLAG:'1','BTC15_ISOLATED_CANARY_LOCAL_DATA':'1'},clear=True):
+            self.assertTrue(q.enabled())
 
     def test_read_only_wire_and_unchanged_brti_loop_order(self):
         self.assertEqual(q.subscription(TICKER),{'id':1,'cmd':'subscribe','params':{'channels':['orderbook_delta'],'market_tickers':[TICKER]}})
