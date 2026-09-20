@@ -1,0 +1,38 @@
+{
+  "clean_window_performance_read": false,
+  "exact_source_sha256_reported_not_bytes_verified": "8dbd61e1e04057b8d123760209c108ccf14d58fd342fbcbe6a82907eda35927a",
+  "false_start_feature_join_completed": false,
+  "files_sha256": {
+    "CLOSEOUT.md": "d522df6d0841f0a5c417b4ed71b628121b6700f27444616edf9fbb318db0d82e",
+    "archived_workflow_evidence.json": "681c8aabcb2a476cee92ac7ae44715513d01f7a7a388f9dc28cc666f879a855b",
+    "recovered_scorecard.json": "63dcbfec0074d58d1b686fc36bd5c42add0922a6ef017bc460248ecdd114cd89",
+    "review.py": "2a612a5b07680ef478c09434641fbc3bc7d1140a0d19b41c4fec8272b01d436c",
+    "test_review.py": "4a09fd89208f57a9355cf3daea01a3bbbb6ffd9c9f340d835ddc7c37ea011abe"
+  },
+  "frozen_dependencies_sha256": "7f901c87774dd418db79a29f513b05245488a6ba0cedd6e7a8572ac9865ce55f",
+  "holdout_membership_certified": false,
+  "orders": false,
+  "python_version": "3.12.14",
+  "raw_tape_replayed": false,
+  "review_base_commit": "e86075aa058d0e6f90c6f97e818748a2c7351457",
+  "review_branch": "scalp-ladder-evidence-review-20260920",
+  "runtime_files_changed": false,
+  "scope": "offline review only",
+  "service_actions": [],
+  "tests": {
+    "existing": {
+      "command": "PYTHONPATH=shadow_diagnostics:/workspace/scratch/3371f11974f7/pydeps python -m unittest -q test_scalp_pullback_entry_forward_v1 test_scalp_nextgen_shadow_v2",
+      "failed": 0,
+      "passed": 35
+    },
+    "initial_import_attempt": "2 module-import errors: requests absent from default path; resolved using existing installed pydeps; not counted as executed tests",
+    "review": {
+      "command": "PYTHONPATH=/workspace/scratch/3371f11974f7/pydeps python -m unittest discover -s research_review/ladder_20260920 -p test_review.py -v",
+      "failed": 0,
+      "passed": 13
+    },
+    "total_failed": 0,
+    "total_passed": 48,
+    "total_skipped": 0
+  }
+}
