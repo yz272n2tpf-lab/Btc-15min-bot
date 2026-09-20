@@ -1,0 +1,24 @@
+name: Clean ladder production-state probe
+
+on:
+  push:
+    branches: [clean-ladder-score-probe-20260920]
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Read final production state
+        run: |
+          python - <<'PY'
+          import json, urllib.request
+          u='https://btc-15min-bot-production.up.railway.app/dashboard_state.json'
+          req=urllib.request.Request(u,headers={'Cache-Control':'no-cache','User-Agent':'btc15-clean-score-probe'})
+          with urllib.request.urlopen(req,timeout=10) as r:
+              d=json.load(r)
+          print('PROD_STATE_KEYS',json.dumps(sorted(d.keys())))
+          print('PROD_STATE',json.dumps(d,sort_keys=True))
+          PY
