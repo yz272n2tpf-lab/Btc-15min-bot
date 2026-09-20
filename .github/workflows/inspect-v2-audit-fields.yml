@@ -40,3 +40,20 @@ jobs:
                   },sort_keys=True))
                   break
           PY
+      - name: Probe current raw source export without credentials
+        run: |
+          python - <<'PY'
+          import urllib.request,urllib.error,csv,io,json
+          u='https://scalp-move-shadow-v1-production.up.railway.app/research/path-export'
+          try:
+              with urllib.request.urlopen(urllib.request.Request(u,headers={'Cache-Control':'no-cache'}),timeout=20) as r:
+                  raw=r.read()
+                  print('RAW_SOURCE_HTTP',r.status)
+                  print('RAW_SOURCE_BYTES',len(raw))
+                  text=raw.decode('utf-8','replace')
+                  rows=list(csv.DictReader(io.StringIO(text)))
+                  print('RAW_SOURCE_META',json.dumps({'rows':len(rows),'header':list(rows[0].keys()) if rows else []}))
+          except urllib.error.HTTPError as e:
+              print('RAW_SOURCE_HTTP',e.code)
+          PY
+
