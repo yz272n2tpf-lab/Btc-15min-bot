@@ -2093,7 +2093,7 @@ BRTI_PARAMS = {"id": "BRTI", "maxResolution": "PER_SECOND"}
 BRTI_POLL_SECONDS = 1.0
 BRTI_MAX_AGE_SECONDS = 5.0
 
-BRTI_PARITY_LOG = Path("/data/kalshi_direct_brti_parity_v1.csv")
+BRTI_PARITY_LOG = _btc15_data_path("kalshi_direct_brti_parity_v1.csv")
 BRTI_PARITY_LOG.parent.mkdir(parents=True, exist_ok=True)
 BRTI_PARITY_FIELDS = [
     "timestamp_utc","contract","target","seconds_left",
