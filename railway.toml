@@ -1,7 +1,8 @@
-# Isolated generalized scalp shadow service only.
+# Isolated clean prospective ladder collector only.
 [build]
 builder = "railpack"
 
 [deploy]
-startCommand = '''/bin/sh -c 'if [ -z "$KALSHI_KEY_ID" ] || [ -z "$KALSHI_PRIVATE_KEY_B64" ]; then echo "SCALP MOVE WAITING FOR VARIABLES | NO ORDERS"; sleep 31536000; else exec python -u scalp_path_export_bridge_v1.py; fi' '''
-restartPolicyType = "never"
+startCommand = "python -m unittest -q test_scalp_move_finalprod_clean_static.py && exec env SCALP_COLLECTOR_SCRIPT=scalp_move_shadow_v2_finalprod_clean.py python -u scalp_path_export_bridge_v1.py"
+healthcheckPath = "/health"
+healthcheckTimeout = 120
