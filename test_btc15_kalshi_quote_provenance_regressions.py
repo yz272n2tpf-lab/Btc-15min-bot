@@ -45,7 +45,7 @@ def proof():
 
 class Quotes(unittest.TestCase):
     def test_missing_snapshot_field_reports_exact_safe_path(self):
-        for field in ('yes_dollars_fp', 'no_dollars_fp'):
+        for field in ('market_ticker',):
             event=snapshot();del event['msg'][field]
             with self.assertRaises(q.MissingQuoteField) as caught:
                 q.Book(TICKER).apply(event)
@@ -169,7 +169,8 @@ class Quotes(unittest.TestCase):
     def test_read_only_wire_and_unchanged_brti_loop_order(self):
         self.assertEqual(q.subscription(TICKER),{'id':1,'cmd':'subscribe','params':{'channels':['orderbook_delta'],'market_tickers':[TICKER]}})
         source=Path(q.__file__).read_text()
-        self.assertEqual(source.count('ws.send('),1)
+        self.assertEqual(source.count('ws.send('),2)
+        self.assertEqual(q.snapshot_request(TICKER,2,3),{'id':3,'cmd':'update_subscription','params':{'sid':2,'market_tickers':[TICKER],'action':'get_snapshot'}})
         self.assertNotIn('/portfolio/',source)
         main=Path('bot_two_output_build_v4_13_profit_protection_shadow.py').read_text()
         self.assertLess(main.index('_retry_brti_closeouts(datetime.now(timezone.utc))'),main.index('quotes = consume_ws_quotes('))
@@ -207,7 +208,150 @@ class QuoteParity(unittest.TestCase):
         self.assertEqual(record['overall_status'],'FAIL')
 
 
+class Retention(unittest.TestCase):
+    def evidence(self):
+        e=q.Evidence(TICKER);e.accept(snapshot());e.accept(delta())
+        return e
+
+    def request(self,e):
+        e.size=q.MAX_BYTES//4
+        return e.refresh(10)
+
+    def reply(self,e):
+        event=snapshot();event.update(id=e.pending,seq=e.book.seq+1)
+        return event
+
+    def test_omitted_empty_sides_are_not_keyerrors_or_quotes(self):
+        for side in ('yes','no'):
+            event=snapshot();del event['msg'][side+'_dollars_fp']
+            book=q.Book(TICKER);book.apply(event);book.apply(delta(side=side,delta_fp='0'))
+            with self.assertRaises(ValueError):book.quotes(NOW,CLOSE)
+            self.assertTrue(book.valid)
+
+    def test_empty_side_recovers_only_from_real_contiguous_update(self):
+        event=snapshot();del event['msg']['no_dollars_fp']
+        book=q.Book(TICKER);book.apply(event)
+        with self.assertRaises(ValueError):book.quotes(NOW,CLOSE)
+        book.apply(delta(side='no',price_dollars='.50',delta_fp='2'))
+        self.assertEqual(book.quotes(NOW,CLOSE),(.49,.50,.50,.51))
+
+    def test_missing_deprecated_ts_uses_real_ts_ms(self):
+        event=delta();del event['msg']['ts']
+        book=q.Book(TICKER);book.apply(snapshot());book.apply(event)
+        self.assertEqual(book.ts_ms,NOW-200)
+
+    def test_missing_required_timestamp_diagnostic_and_invalidation(self):
+        e=self.evidence();event=delta(seq=4);del event['msg']['ts_ms']
+        with self.assertRaises(q.MissingQuoteField) as caught:e.accept(event)
+        self.assertEqual(caught.exception.field,'ts_ms')
+        self.assertFalse(e.book.valid)
+        self.assertFalse(e.events)
+
+    def test_retention_requests_snapshot_without_discarding_current_evidence(self):
+        e=self.evidence();events=e.events.copy();command=self.request(e)
+        self.assertEqual(command['params']['action'],'get_snapshot')
+        self.assertEqual(e.events,events)
+        self.assertEqual(e.book.quotes(NOW,CLOSE),(.49,.50,.50,.51))
+        self.assertIsNone(e.refresh(11))
+
+    def test_rebase_starts_at_actual_exchange_snapshot_and_waits_for_timestamp(self):
+        e=self.evidence();self.request(e);reply=self.reply(e)
+        self.assertTrue(e.accept(reply));self.assertEqual(e.events,[reply])
+        with self.assertRaises(ValueError):e.book.quotes(NOW,CLOSE)
+        e.accept(delta(seq=5))
+        p=proof();p['events']=e.events;p['identity'][2]=5
+        self.assertEqual(q.replay(p,'collector',TICKER,CLOSE,NOW)[0],(.49,.50,.50,.51))
+
+    def test_gap_cannot_be_hidden_by_rebase(self):
+        e=self.evidence();self.request(e);reply=self.reply(e);reply['seq']+=1
+        with self.assertRaises(ValueError):e.accept(reply)
+        with self.assertRaises(ValueError):e.book.quotes(NOW,CLOSE)
+
+    def test_rebase_rejects_cross_market_sid_and_wrong_command(self):
+        for key in ('market','sid','id'):
+            e=self.evidence();self.request(e);reply=self.reply(e)
+            if key=='market':reply['msg']['market_ticker']='NEXT'
+            else:reply[key]+=1
+            with self.assertRaises(ValueError):e.accept(reply)
+            self.assertFalse(e.book.valid)
+
+    def test_duplicate_snapshot_does_not_reset_retention_or_refresh(self):
+        e=q.Evidence(TICKER);event=snapshot();e.accept(event);before=e.size
+        self.assertFalse(e.accept(event));self.assertEqual(e.size,before)
+        self.assertEqual(len(e.events),1)
+
+    def test_duplicate_delta_preserves_timestamp_and_size(self):
+        e=self.evidence();before=e.size;e.accept(delta())
+        self.assertEqual(e.size,before);self.assertEqual(e.book.ts_ms,NOW-200)
+
+    def test_overflow_waits_for_snapshot_without_inventing_replay_base(self):
+        e=self.evidence();self.request(e);e.size=q.MAX_BYTES
+        e.accept(delta(seq=4));self.assertTrue(e.overflow);self.assertEqual(e.events,[])
+        reply=self.reply(e);e.accept(reply)
+        self.assertFalse(e.overflow);self.assertEqual(e.events,[reply])
+        self.assertIsNone(e.book.ts_ms)
+
+    def test_unresponsive_snapshot_request_fails_closed(self):
+        e=self.evidence();self.request(e)
+        with self.assertRaises(ValueError):e.refresh(21)
+        self.assertFalse(e.book.valid)
+
+    def test_sequenced_acknowledgement_counts_but_never_freshens(self):
+        e=self.evidence();command=self.request(e)
+        e.accept(dict(type='ok',id=command['id'],sid=2,seq=4,msg={'market_tickers':[TICKER]}))
+        self.assertEqual(e.book.seq,4);self.assertEqual(e.book.ts_ms,NOW-200)
+        e.accept(self.reply(e));e.accept(delta(seq=6))
+        p=proof();p['events']=e.events;p['identity'][2]=6
+        self.assertEqual(q.replay(p,'collector',TICKER,CLOSE,NOW)[0],(.49,.50,.50,.51))
+
+    def test_reconnect_recovery_does_not_reuse_old_book(self):
+        old=self.evidence();self.request(old)
+        fresh=q.Evidence(TICKER)
+        with self.assertRaises(ValueError):fresh.accept(delta(seq=4))
+        fresh=q.Evidence(TICKER);fresh.accept(snapshot());fresh.accept(delta())
+        self.assertEqual(fresh.book.seq,3);self.assertIsNone(fresh.pending)
+
+    def test_near_close_empty_book_and_exact_rollover(self):
+        e=self.evidence();e.accept(delta(seq=4,delta_fp='-21'))
+        with self.assertRaises(ValueError):e.book.quotes(NOW,CLOSE)
+        e.accept(delta(seq=5,delta_fp='1'))
+        with self.assertRaises(ValueError):e.book.quotes(CLOSE,CLOSE)
+        with self.assertRaises(ValueError):e.accept(delta(seq=6,market_ticker='NEXT'))
+
+    def test_actual_session_many_rebases_no_reconnect_or_order_commands(self):
+        provider=object.__new__(q.Provider)
+        provider.lock=threading.Lock();provider.ticker=TICKER;provider.close_ms=CLOSE
+        provider.book=None;provider.events=[];provider.epoch=None
+        class Wire:
+            def __init__(self):self.sent=[];self.seq=1;self.pending=None;self.steps=0;self.done=False
+            def send(self,raw):
+                command=json.loads(raw);self.sent.append(command)
+                if command['cmd']=='update_subscription':self.pending=command['id']
+            def recv(self,timeout):
+                self.seq+=1;self.steps+=1
+                if self.seq==2 or self.pending is not None:
+                    event=snapshot();event['seq']=self.seq
+                    if self.pending is not None:event['id']=self.pending;self.pending=None
+                else:
+                    event=delta(seq=self.seq);event['msg']['fixture_padding']='x'*1500
+                if self.steps==80:provider.ticker='NEXT'
+                return json.dumps(event)
+        wire=Wire()
+        import contextlib,io
+        out=io.StringIO()
+        with patch.object(q,'MAX_BYTES',16384),patch.object(q.time,'time',return_value=NOW/1000),contextlib.redirect_stdout(out):
+            provider.session(wire,TICKER)
+        self.assertEqual(out.getvalue().count('WS CONNECT'),1)
+        self.assertGreater(out.getvalue().count('EVIDENCE REBASE'),10)
+        self.assertEqual(sum(c['cmd']=='subscribe' for c in wire.sent),1)
+        for command in wire.sent[1:]:
+            self.assertEqual(command['params']['action'],'get_snapshot')
+            self.assertEqual(command['params']['market_tickers'],[TICKER])
+        self.assertLess(len(json.dumps(provider.events)),16384)
+
+
+
 if __name__=='__main__':
-    suite=unittest.TestSuite(unittest.defaultTestLoader.loadTestsFromTestCase(c) for c in (Quotes,QuoteParity))
+    suite=unittest.TestSuite(unittest.defaultTestLoader.loadTestsFromTestCase(c) for c in (Quotes,QuoteParity,Retention))
     result=unittest.TextTestRunner(verbosity=2).run(suite)
     raise SystemExit(not result.wasSuccessful())
