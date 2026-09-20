@@ -1,0 +1,33 @@
+name: Inspect preserved scalp raw data
+
+on:
+  push:
+    branches: [scalp-false-start-raw-audit-20260920]
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect preserved data package
+        run: |
+          python - <<'PY'
+          import zipfile,os,csv,json,glob
+          z='scalp_overnight_data.zip'
+          with zipfile.ZipFile(z) as q:
+              print('ZIP_MEMBERS',json.dumps([(x.filename,x.file_size) for x in q.infolist()]))
+              q.extractall('/tmp/scalpdata')
+          for p in glob.glob('/tmp/scalpdata/**/*',recursive=True):
+              if not os.path.isfile(p): continue
+              print('FILE',p,os.path.getsize(p))
+              if p.lower().endswith('.csv'):
+                  with open(p,newline='',encoding='utf-8',errors='replace') as f:
+                      r=csv.reader(f)
+                      h=next(r,[])
+                      rows=0
+                      for _ in r: rows+=1
+                  print('CSV_META',json.dumps({'path':p,'rows':rows,'header':h}))
+          PY
