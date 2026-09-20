@@ -10,4 +10,6 @@ for x in ['BTC15_ISOLATED_CANARY_LOCAL_DATA','/tmp/btc15-canary-data','UNIFIED =
  if x not in q: raise SystemExit("STOP parity canary data-path invariant: "+x)
 if 'UNIFIED_SUBMINUTE_LOG = _btc15_data_path("kalshi_subminute_unified_v1_1.csv")' not in s:
  raise SystemExit("STOP unified collector bypasses isolated data path")
+if 'BRTI_PARITY_LOG = _btc15_data_path("kalshi_direct_brti_parity_v1.csv")' not in s:
+ raise SystemExit("STOP BRTI parity log bypasses isolated data path")
 print("BTC15_CANARY_DATA_PATH_GATE_PASS | BOT+PARITY SHARED ISOLATED /tmp | NO ORDERS")
