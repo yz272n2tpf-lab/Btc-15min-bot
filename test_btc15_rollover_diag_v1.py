@@ -110,7 +110,7 @@ class RolloverDiagTests(unittest.TestCase):
     def test_active_market_selection_predicate_unchanged(self):
         text = MAIN.read_text()
         self.assertIn("and op <= now < cl", text)
-        self.assertIn('params={"status":"open","series_ticker":"KXBTC15M","limit":1000}', text)
+        self.assertIn('_discovery_params = {"status":"open","series_ticker":"KXBTC15M","limit":1000}', text)
         self.assertIn('return _selected', text)
 
     def test_protected_early_thresholds_unchanged(self):
