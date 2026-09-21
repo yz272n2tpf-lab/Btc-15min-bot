@@ -1,0 +1,266 @@
+{
+  "data_scope": "SYNTHETIC_ONLY",
+  "market_validation": "NONE",
+  "examples": [
+    {
+      "version": "BTC15_DIRECTIONAL_POSITION_MANAGER_V1",
+      "mode": "SHADOW",
+      "management_validation": "RESEARCH / UNVALIDATED",
+      "signal_only": true,
+      "manual_execution_only": true,
+      "orders_enabled": false,
+      "order_action": null,
+      "contract_id": "KXBTC15M-26JAN010715-15",
+      "position_id": "KXBTC15M-26JAN010715-15:UP:2026-01-01T12:05:00+00:00",
+      "state": "BUY",
+      "event": "BUY",
+      "action": {
+        "label": "BUY",
+        "actionable": true,
+        "reason": "PROTECTED_EARLY_QUALIFIED"
+      },
+      "early": {
+        "side": "UP",
+        "entry_status": "SHADOW_POSITION",
+        "entry_basis": "HYPOTHETICAL_OBSERVED_ASK_NO_FILL",
+        "entry_timestamp_utc": "2026-01-01T12:05:00+00:00",
+        "entry_ask_cents": 32.0,
+        "current_ask_cents": 32.0,
+        "current_bid_cents": 30.0,
+        "confidence_evidence": {
+          "entry_fair": 0.82,
+          "entry_edge": 0.5,
+          "current_side": "UP",
+          "current_fair": 0.82,
+          "current_edge": 0.5
+        },
+        "minutes_remaining": 10.0
+      },
+      "final": {
+        "visible": true,
+        "protected_view": {
+          "source": "FROZEN_V4_6_FINAL",
+          "ready": false,
+          "side": "UP",
+          "confidence": 0.82,
+          "recorded_final_call": false,
+          "recorded_side": null,
+          "recorded_confidence": null,
+          "conditions": {}
+        },
+        "protected_contract_id": "KXBTC15M-26JAN010715-15",
+        "safety_light": "CAUTION",
+        "fresh": true,
+        "light_latched_to_action": false
+      },
+      "levels": {
+        "status": "RESEARCH / UNVALIDATED",
+        "protect_zone_cents": null,
+        "exit_zone_cents": null,
+        "model_id": null,
+        "reason": "NO_VALIDATED_CENTS_MODEL"
+      },
+      "level_inputs_ready": true,
+      "quote_basis": "EXISTING_PRODUCTION_PAIRED_SNAPSHOT",
+      "source_timestamp_utc": "2026-01-01T12:05:00+00:00",
+      "seconds_remaining": 600.0,
+      "rollover_cleared_position": false,
+      "blocked_reason": null
+    },
+    {
+      "version": "BTC15_DIRECTIONAL_POSITION_MANAGER_V1",
+      "mode": "SHADOW",
+      "management_validation": "RESEARCH / UNVALIDATED",
+      "signal_only": true,
+      "manual_execution_only": true,
+      "orders_enabled": false,
+      "order_action": null,
+      "contract_id": "KXBTC15M-26JAN010715-15",
+      "position_id": "KXBTC15M-26JAN010715-15:UP:2026-01-01T12:05:00+00:00",
+      "state": "HOLD",
+      "event": "HOLD",
+      "action": {
+        "label": "HOLD",
+        "actionable": true,
+        "reason": "EXISTING_EARLY_POSITION"
+      },
+      "early": {
+        "side": "UP",
+        "entry_status": "SHADOW_POSITION",
+        "entry_basis": "HYPOTHETICAL_OBSERVED_ASK_NO_FILL",
+        "entry_timestamp_utc": "2026-01-01T12:05:00+00:00",
+        "entry_ask_cents": 32.0,
+        "current_ask_cents": 65.0,
+        "current_bid_cents": 63.0,
+        "confidence_evidence": {
+          "entry_fair": 0.82,
+          "entry_edge": 0.5,
+          "current_side": "UP",
+          "current_fair": 0.82,
+          "current_edge": 0.5
+        },
+        "minutes_remaining": 9.916666666666666
+      },
+      "final": {
+        "visible": true,
+        "protected_view": {
+          "source": "FROZEN_V4_6_FINAL",
+          "ready": true,
+          "side": "UP",
+          "confidence": 0.94,
+          "recorded_final_call": false,
+          "recorded_side": null,
+          "recorded_confidence": null,
+          "conditions": {}
+        },
+        "protected_contract_id": "KXBTC15M-26JAN010715-15",
+        "safety_light": "STRONG CONFIRMATION",
+        "fresh": true,
+        "light_latched_to_action": false
+      },
+      "levels": {
+        "status": "RESEARCH / UNVALIDATED",
+        "protect_zone_cents": null,
+        "exit_zone_cents": null,
+        "model_id": null,
+        "reason": "NO_VALIDATED_CENTS_MODEL"
+      },
+      "level_inputs_ready": true,
+      "quote_basis": "EXISTING_PRODUCTION_PAIRED_SNAPSHOT",
+      "source_timestamp_utc": "2026-01-01T12:05:05+00:00",
+      "seconds_remaining": 595.0,
+      "rollover_cleared_position": false,
+      "blocked_reason": null
+    },
+    {
+      "version": "BTC15_DIRECTIONAL_POSITION_MANAGER_V1",
+      "mode": "SHADOW",
+      "management_validation": "RESEARCH / UNVALIDATED",
+      "signal_only": true,
+      "manual_execution_only": true,
+      "orders_enabled": false,
+      "order_action": null,
+      "contract_id": "KXBTC15M-26JAN010715-15",
+      "position_id": "KXBTC15M-26JAN010715-15:UP:2026-01-01T12:05:00+00:00",
+      "state": "PROTECT",
+      "event": "PROTECT",
+      "action": {
+        "label": "PROTECT PROFITS",
+        "actionable": true,
+        "reason": "FINAL_DANGER_OR_CONFIRMATION_LOST_RESEARCH"
+      },
+      "early": {
+        "side": "UP",
+        "entry_status": "SHADOW_POSITION",
+        "entry_basis": "HYPOTHETICAL_OBSERVED_ASK_NO_FILL",
+        "entry_timestamp_utc": "2026-01-01T12:05:00+00:00",
+        "entry_ask_cents": 32.0,
+        "current_ask_cents": 61.0,
+        "current_bid_cents": 59.0,
+        "confidence_evidence": {
+          "entry_fair": 0.82,
+          "entry_edge": 0.5,
+          "current_side": "UP",
+          "current_fair": 0.82,
+          "current_edge": 0.5
+        },
+        "minutes_remaining": 9.833333333333334
+      },
+      "final": {
+        "visible": true,
+        "protected_view": {
+          "source": "FROZEN_V4_6_FINAL",
+          "ready": false,
+          "side": "UP",
+          "confidence": 0.82,
+          "recorded_final_call": false,
+          "recorded_side": null,
+          "recorded_confidence": null,
+          "conditions": {}
+        },
+        "protected_contract_id": "KXBTC15M-26JAN010715-15",
+        "safety_light": "PROTECT WARNING",
+        "fresh": true,
+        "light_latched_to_action": true
+      },
+      "levels": {
+        "status": "RESEARCH / UNVALIDATED",
+        "protect_zone_cents": null,
+        "exit_zone_cents": null,
+        "model_id": null,
+        "reason": "NO_VALIDATED_CENTS_MODEL"
+      },
+      "level_inputs_ready": true,
+      "quote_basis": "EXISTING_PRODUCTION_PAIRED_SNAPSHOT",
+      "source_timestamp_utc": "2026-01-01T12:05:10+00:00",
+      "seconds_remaining": 590.0,
+      "rollover_cleared_position": false,
+      "blocked_reason": null
+    },
+    {
+      "version": "BTC15_DIRECTIONAL_POSITION_MANAGER_V1",
+      "mode": "SHADOW",
+      "management_validation": "RESEARCH / UNVALIDATED",
+      "signal_only": true,
+      "manual_execution_only": true,
+      "orders_enabled": false,
+      "order_action": null,
+      "contract_id": "KXBTC15M-26JAN010715-15",
+      "position_id": "KXBTC15M-26JAN010715-15:UP:2026-01-01T12:05:00+00:00",
+      "state": "EXIT",
+      "event": "EXIT",
+      "action": {
+        "label": "EXIT",
+        "actionable": true,
+        "reason": "REVIEWED_SEVERE_DANGER:SYNTHETIC_SEVERE_DANGER_V1"
+      },
+      "early": {
+        "side": "UP",
+        "entry_status": "SHADOW_POSITION",
+        "entry_basis": "HYPOTHETICAL_OBSERVED_ASK_NO_FILL",
+        "entry_timestamp_utc": "2026-01-01T12:05:00+00:00",
+        "entry_ask_cents": 32.0,
+        "current_ask_cents": 47.0,
+        "current_bid_cents": 45.0,
+        "confidence_evidence": {
+          "entry_fair": 0.82,
+          "entry_edge": 0.5,
+          "current_side": "UP",
+          "current_fair": 0.82,
+          "current_edge": 0.5
+        },
+        "minutes_remaining": 9.75
+      },
+      "final": {
+        "visible": true,
+        "protected_view": {
+          "source": "FROZEN_V4_6_FINAL",
+          "ready": false,
+          "side": "DOWN",
+          "confidence": 0.82,
+          "recorded_final_call": false,
+          "recorded_side": null,
+          "recorded_confidence": null,
+          "conditions": {}
+        },
+        "protected_contract_id": "KXBTC15M-26JAN010715-15",
+        "safety_light": "EXIT WARNING",
+        "fresh": true,
+        "light_latched_to_action": true
+      },
+      "levels": {
+        "status": "RESEARCH / UNVALIDATED",
+        "protect_zone_cents": null,
+        "exit_zone_cents": null,
+        "model_id": null,
+        "reason": "NO_VALIDATED_CENTS_MODEL"
+      },
+      "level_inputs_ready": true,
+      "quote_basis": "EXISTING_PRODUCTION_PAIRED_SNAPSHOT",
+      "source_timestamp_utc": "2026-01-01T12:05:15+00:00",
+      "seconds_remaining": 585.0,
+      "rollover_cleared_position": false,
+      "blocked_reason": null
+    }
+  ]
+}
