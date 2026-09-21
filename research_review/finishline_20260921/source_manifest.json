@@ -1,0 +1,47 @@
+{
+  "clean_validation_accessed": false,
+  "preregistration_commit": "2339b23c94d8299f951ad60af8844fc9f2c0823a",
+  "raw_352_contract_source_reproduced": false,
+  "sources": [
+    {
+      "bytes": 12273752,
+      "commit": "d31922b4c72d5bc7efa590eb1b3c4f86da71fc0d",
+      "filename": "kalshi_scalp_shadow_snapshots_v1.csv",
+      "git_blob_sha1": "f744e29a007c1cf62b943a7f94978656d63c3fe1",
+      "repository": "yz272n2tpf-lab/Btc-15min-bot",
+      "role": "DEVELOPMENT ONLY",
+      "sha256": "d7c2dd36a5e0be197f5304fff0117f6fe340924e2436c60daf70806d84b00c4b",
+      "url": "https://github.com/yz272n2tpf-lab/Btc-15min-bot/blob/d31922b4c72d5bc7efa590eb1b3c4f86da71fc0d/kalshi_scalp_shadow_snapshots_v1.csv"
+    },
+    {
+      "bytes": 4285791,
+      "commit": "d31922b4c72d5bc7efa590eb1b3c4f86da71fc0d",
+      "filename": "kalshi_early_conf_shadow_v1_2.csv",
+      "git_blob_sha1": "d65447fa3a4657e555fd05b238fea63d689ac960",
+      "repository": "yz272n2tpf-lab/Btc-15min-bot",
+      "role": "DEVELOPMENT ONLY",
+      "sha256": "b49b55215a0ae1704cdea1f9aaf1f5db2edcab72eaf3576d68fbae3aa77a43a2",
+      "url": "https://github.com/yz272n2tpf-lab/Btc-15min-bot/blob/d31922b4c72d5bc7efa590eb1b3c4f86da71fc0d/kalshi_early_conf_shadow_v1_2.csv"
+    },
+    {
+      "bytes": 1797,
+      "commit": "d31922b4c72d5bc7efa590eb1b3c4f86da71fc0d",
+      "filename": "subminute_official_truth_cache.csv",
+      "git_blob_sha1": "568f6331c1ebec1adb0b4152792a98fdec64df67",
+      "repository": "yz272n2tpf-lab/Btc-15min-bot",
+      "role": "DEVELOPMENT ONLY",
+      "sha256": "50915c34044658c0a9871c04a57290bb3e7987ef8414aa51cc48ef79f927fab7",
+      "url": "https://github.com/yz272n2tpf-lab/Btc-15min-bot/blob/d31922b4c72d5bc7efa590eb1b3c4f86da71fc0d/subminute_official_truth_cache.csv"
+    },
+    {
+      "bytes": 42518872,
+      "filename": "scalp_move_shadow_v1_events.csv",
+      "library_created_at": "2026-09-14T02:25:46.330915Z",
+      "library_file_id": "libfile_964929005e0081918006ac9117588689",
+      "library_path": "/BTC 15min Bot/scalp_move_shadow_v1_events.csv",
+      "role": "DEVELOPMENT ONLY",
+      "sha256": "47148d03418810fb96985d8f5db9e5f062d963b42fac8cfd062599118d43c437",
+      "source_interval": "2026-09-13T03:57:56.982055Z to 2026-09-14T02:24:03.366238Z"
+    }
+  ]
+}
