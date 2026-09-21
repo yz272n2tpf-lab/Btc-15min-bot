@@ -24,14 +24,16 @@ def emit(path,status,headers,obj):
  print(json.dumps({"ts":now(),"probe":path,"http":status,"tickers":tickers(obj),
  "cache":{"age":headers.get("age"),"x-cache":headers.get("x-cache"),"cache-control":headers.get("cache-control")},
  "signal_only":True,"orders":False},sort_keys=True),flush=True)
-while True:
- for name,path,params in [
+def run_forever():
+ while True:
+  for name,path,params in [
   ("markets_open","/trade-api/v2/markets",{"series_ticker":SERIES,"status":"open","limit":1000}),
   ("markets_unopened","/trade-api/v2/markets",{"series_ticker":SERIES,"status":"unopened","limit":1000}),
   ("markets_all","/trade-api/v2/markets",{"series_ticker":SERIES,"limit":1000}),
   ("events_nested","/trade-api/v2/events",{"series_ticker":SERIES,"with_nested_markets":"true","limit":200})]:
-  try:
-   s,h,o=get(path,params);emit(name,s,h,o)
-  except Exception as e:
-   print(json.dumps({"ts":now(),"probe":name,"error":type(e).__name__,"signal_only":True,"orders":False}),flush=True)
- time.sleep(POLL)
+   try:
+    s,h,o=get(path,params);emit(name,s,h,o)
+   except Exception as e:
+    print(json.dumps({"ts":now(),"probe":name,"error":type(e).__name__,"signal_only":True,"orders":False}),flush=True)
+  time.sleep(POLL)
+if __name__=="__main__": run_forever()
