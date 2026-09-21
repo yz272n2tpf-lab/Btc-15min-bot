@@ -1,0 +1,27 @@
+name: BTC15 Scalp Developing Move V1 Tests
+on:
+  push:
+    branches:
+      - research/scalp-developing-move-filter-v1-20260921
+permissions:
+  contents: read
+jobs:
+  frozen-filter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m py_compile score_scalp_developing_move_filter_v1.py test_score_scalp_developing_move_filter_v1.py
+      - run: python -m unittest -v test_score_scalp_developing_move_filter_v1.py
+      - name: NO ORDERS static guard
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          t=Path("score_scalp_developing_move_filter_v1.py").read_text().lower()
+          banned=["create_order","place_order","/orders"]
+          found=[x for x in banned if x in t]
+          if found: raise SystemExit("order action found: "+",".join(found))
+          print("NO ORDERS: PASS")
+          PY
