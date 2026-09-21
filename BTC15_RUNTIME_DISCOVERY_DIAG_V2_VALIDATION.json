@@ -1,0 +1,31 @@
+{
+  "status": "CI_PASSED_NOT_DEPLOYED",
+  "repository": "yz272n2tpf-lab/Btc-15min-bot",
+  "branch": "diag/runtime-discovery-binding-v2-20260921",
+  "tested_commit": "8064a6a12c1676c8f31b4ec22aca5da83192cd4a",
+  "production_base_commit": "191fa114b9910b4a02c8ed201a29fd3d41d4e268",
+  "workflow_run": 35629756130,
+  "job_id": 106432800185,
+  "job_conclusion": "success",
+  "new_tests": {"passed": 30, "failed": 0, "skipped": 0},
+  "existing_tests": {"reported_executions": 102, "failed": 0, "note": "Includes repeated loading of the 22 parity test methods. Do not report 102 unique tests."},
+  "dashboard_static_gate": "PASS",
+  "full_source_scope_gate": "PASS",
+  "changed_runtime_scope_in_disposable_checkout": "Final top-level kalshi_get definition only",
+  "production_imported_in_new_tests": false,
+  "deployed": false,
+  "orders": false,
+  "source_blobs": {"base": "5893985d7f4f442ef48f64e38f9da92bc171dd76", "proposed": "526c9fa3e0d8a05646c3ba832a065b41315985b0"},
+  "proposed_main_sha256": "4dca075f858b05ff8a7b8cde9be5a8ab0eaec2e3f7df908b60d21caab0704f80",
+  "delivered_files_sha256": {
+    "btc15_rollover_discovery_diag_v2.py": "35a7f1be0cce9645ffe97c460ebe519f48712dd61601d9ba2e2af3c3150fe06c",
+    "apply_btc15_rollover_discovery_diag_v2.py": "7f56bd9d94842015a956f3487b7fed69b4cf23eec87bd225b37650f216bbb160",
+    "test_btc15_rollover_discovery_diag_v2.py": "1baef9dccdc47afc852565c65aaefe06b7195ed73aef8415247ad5ba71395939"
+  },
+  "limits": [
+    "This corrects missing diagnostics, not the underlying rollover delay.",
+    "No live V2 discovery events have been observed.",
+    "Tests establish specified software behavior, not zero runtime overhead or trading performance.",
+    "No claim that preexisting clean samples are unaffected by earlier upstream restarts."
+  ]
+}
