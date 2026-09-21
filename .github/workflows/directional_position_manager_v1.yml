@@ -10,8 +10,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: "3.11"}
-      - run: python -m py_compile btc15_directional_position_manager_v1.py test_btc15_directional_position_manager_v1.py
-      - run: python -m unittest -v test_btc15_directional_position_manager_v1.py test_btc15_signal_integration_v1.py test_btc15_main_protected_state_adapter_v1.py
+      - run: python -m py_compile btc15_directional_position_manager_v1.py test_btc15_directional_position_manager_v1.py btc15_dashboard_state_contract_v1.py test_btc15_dashboard_state_contract_v1.py
+      - run: python -m unittest -v test_btc15_directional_position_manager_v1.py test_btc15_dashboard_state_contract_v1.py test_btc15_signal_integration_v1.py test_btc15_main_protected_state_adapter_v1.py
       - name: NO ORDERS guard
         run: |
           python - <<'PY'
