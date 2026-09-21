@@ -89,6 +89,15 @@ class RolloverDiagTests(unittest.TestCase):
         self.assertIn('print("NO ACTIVE KXBTC15M CONTRACT — retrying...")\n            time.sleep(POLL_SECONDS)', text)
         self.assertIn('print("KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS", flush=True)\n                time.sleep(POLL_SECONDS)', text)
 
+    def test_runtime_market_discovery_is_instrumented(self):
+        text = MAIN.read_text()
+        runtime = text.rsplit("def kalshi_get(path, params=None):", 1)[1]
+        runtime = runtime.split("def parse_dt(value):", 1)[0]
+        self.assertIn('"main.market_discovery", "MARKET_LIST_RESPONSE"', runtime)
+        self.assertIn('"safe_cache_headers": rollover_diag.safe_headers(r.headers)', runtime)
+        self.assertIn('"expected_open_present": bool(_diag_open)', runtime)
+        self.assertIn("return data", runtime)
+
     def test_active_market_selection_predicate_unchanged(self):
         text = MAIN.read_text()
         self.assertIn("and op <= now < cl", text)
