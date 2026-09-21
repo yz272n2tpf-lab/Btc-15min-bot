@@ -19,6 +19,7 @@ from datetime import datetime, timezone, timedelta
 import os
 import sys
 import traceback
+import btc15_rollover_diag_v1 as rollover_diag
 
 KALSHI_KEY_ID = (
     os.getenv("KALSHI_KEY_ID")
@@ -140,6 +141,7 @@ _railway_verified_credential_diagnostic_v14()
 # === RAILWAY VERIFIED-CREDENTIAL DIAGNOSTIC V14 END ===
 
 def kalshi_get(path, params=None):
+    _diag_started = datetime.now(timezone.utc)
     response = requests.get(
         KALSHI_BASE_URL + path,
         headers=kalshi_headers("GET", path),
@@ -147,7 +149,42 @@ def kalshi_get(path, params=None):
         timeout=10,
     )
     response.raise_for_status()
-    return response.json()
+    data = response.json()
+    # Diagnostic-only rollover metadata. Never affects discovery or selection.
+    try:
+        if (
+            path == "/trade-api/v2/markets"
+            and isinstance(params, dict)
+            and str(params.get("series_ticker", "")) == "KXBTC15M"
+        ):
+            _diag_received = datetime.now(timezone.utc)
+            _diag_boundary = rollover_diag.rollover_boundary(_diag_received)
+            if _diag_boundary is not None:
+                _diag_open = []
+                for _diag_market in data.get("markets", []):
+                    _diag_op = parse_dt(_diag_market.get("open_time")) if "parse_dt" in globals() else None
+                    if _diag_op is not None and abs((_diag_op - _diag_boundary).total_seconds()) <= 1.0:
+                        _diag_open.append(str(_diag_market.get("ticker", "")))
+                rollover_diag.emit(
+                    "main.market_discovery",
+                    "MARKET_LIST_RESPONSE",
+                    at=_diag_received,
+                    expected_open=_diag_boundary,
+                    details={
+                        "request_started_utc": _diag_started,
+                        "response_received_utc": _diag_received,
+                        "latency_ms": round((_diag_received - _diag_started).total_seconds() * 1000.0, 3),
+                        "http_status": int(response.status_code),
+                        "safe_cache_headers": rollover_diag.safe_headers(response.headers),
+                        "market_count": len(data.get("markets", [])),
+                        "opening_tickers": _diag_open,
+                        "expected_open_present": bool(_diag_open),
+                    },
+                    dedupe_key="market-list:" + rollover_diag._iso(_diag_boundary) + ":" + str(bool(_diag_open)),
+                )
+    except Exception:
+        pass
+    return data
 
 def get_kalshi_btc_markets():
     data = kalshi_get(
@@ -2003,9 +2040,25 @@ def get_active_market():
             and op <= now < cl
         ):
             active.append(m)
+    _diag_boundary = rollover_diag.rollover_boundary(now)
     if not active:
+        if _diag_boundary is not None:
+            rollover_diag.emit(
+                "main.market_selection", "NO_ACTIVE_MARKET", at=now,
+                expected_open=_diag_boundary,
+                details={"returned_markets": len(data.get("markets", [])), "active_count": 0},
+                dedupe_key="selection:" + rollover_diag._iso(_diag_boundary) + ":none",
+            )
         return None
-    return min(active, key=lambda m: parse_dt(m.get("close_time")))
+    _selected = min(active, key=lambda m: parse_dt(m.get("close_time")))
+    if _diag_boundary is not None:
+        rollover_diag.emit(
+            "main.market_selection", "ACTIVE_MARKET_SELECTED", at=now,
+            expected_open=_diag_boundary, ticker=_selected.get("ticker"),
+            details={"returned_markets": len(data.get("markets", [])), "active_count": len(active)},
+            dedupe_key="selection:" + rollover_diag._iso(_diag_boundary) + ":" + str(_selected.get("ticker", "")),
+        )
+    return _selected
 
 def extract_target(market):
     # Preferred source: Kalshi's numeric strike field.
@@ -3954,6 +4007,15 @@ while running:
         down_ask = num(market.get("no_ask_dollars"))
         btc = get_btc_spot()
 
+        _diag_open = None if close_dt is None else close_dt - timedelta(seconds=900)
+        if _diag_open is not None:
+            rollover_diag.emit(
+                "main.readiness", "TARGET_AND_BTC_READY", at=datetime.now(timezone.utc),
+                expected_open=_diag_open, ticker=ticker,
+                details={"target_ready": target is not None, "btc_ready": btc is not None},
+                dedupe_key="ready:" + ticker + ":target-btc",
+            )
+
         if target is None or close_dt is None:
             raise RuntimeError("Active market missing target/clock after exact-market fallback")
 
@@ -3965,10 +4027,22 @@ while running:
             from btc15_kalshi_quote_provenance_v1 import consume as consume_ws_quotes
             quotes = consume_ws_quotes(ticker, now.isoformat(), int(close_dt.timestamp() * 1000))
             if quotes is None:
+                rollover_diag.emit(
+                    "main.quote_consumption", "QUOTE_WAIT", at=datetime.now(timezone.utc),
+                    expected_open=_diag_open, ticker=ticker,
+                    details={"contiguous_timestamped_evidence": False},
+                    dedupe_key="quote:" + ticker + ":wait",
+                )
                 print("KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS", flush=True)
                 time.sleep(POLL_SECONDS)
                 continue
             up_bid, up_ask, down_bid, down_ask = quotes
+            rollover_diag.emit(
+                "main.quote_consumption", "QUOTES_USABLE", at=datetime.now(timezone.utc),
+                expected_open=_diag_open, ticker=ticker,
+                details={"contiguous_timestamped_evidence": True},
+                dedupe_key="quote:" + ticker + ":usable",
+            )
 
         seconds_left = max(0.0, (close_dt-now).total_seconds())
         btc_gap = btc-target
@@ -4019,6 +4093,12 @@ while running:
             )
 
         append_csv(SNAPSHOT_LOG, SNAPSHOT_FIELDS, snap)
+        rollover_diag.emit(
+            "main.publication_source", "SOURCE_SNAPSHOT_WRITTEN", at=datetime.now(timezone.utc),
+            expected_open=_diag_open, ticker=ticker,
+            details={"seconds_left": snap.get("seconds_left")},
+            dedupe_key="source-snapshot:" + ticker,
+        )
 
         # V4.9 direct BRTI parity shadow — observation only.
         _brti_contract = None
