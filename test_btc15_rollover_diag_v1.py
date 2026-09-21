@@ -98,10 +98,19 @@ class RolloverDiagTests(unittest.TestCase):
         self.assertIn('"expected_open_present": bool(_diag_open)', runtime)
         self.assertIn("return data", runtime)
 
+    def test_rollover_discovery_cache_bypass_is_bounded(self):
+        text = MAIN.read_text()
+        block = text.split("def get_active_market():", 1)[1].split("def extract_target(", 1)[0]
+        self.assertIn('if _rollover_boundary is not None and now >= _rollover_boundary:', block)
+        self.assertIn('_discovery_params["_btc15_rollover_probe"]', block)
+        self.assertIn('"status":"open"', block)
+        self.assertIn('"series_ticker":"KXBTC15M"', block)
+        self.assertIn('"limit":1000', block)
+
     def test_active_market_selection_predicate_unchanged(self):
         text = MAIN.read_text()
         self.assertIn("and op <= now < cl", text)
-        self.assertIn('params={"status":"open","series_ticker":"KXBTC15M","limit":1000}', text)
+        self.assertIn('_discovery_params = {"status":"open","series_ticker":"KXBTC15M","limit":1000}', text)
         self.assertIn('return _selected', text)
 
     def test_protected_early_thresholds_unchanged(self):

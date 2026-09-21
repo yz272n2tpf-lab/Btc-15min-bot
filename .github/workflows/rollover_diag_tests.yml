@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - diag/rollover-instrumentation-v1-20260921
+      - fix/rollover-discovery-v1-20260921
   workflow_dispatch:
 
 permissions:
