@@ -1,0 +1,109 @@
+{
+  "candidate": "BREAKOUT_RETEST_RECLAIM_V1",
+  "coverage": {
+    "called_contracts": 51,
+    "original_eligible_contracts": 147,
+    "percent": 34.69387755102041
+  },
+  "entry_ask_cents": {
+    "average": 29.272549019607844,
+    "maximum": 47.0,
+    "median": 31.0,
+    "minimum": 2.1
+  },
+  "groups": {
+    "25_to_35c": {
+      "accuracy_percent": 45.45454545454545,
+      "calls": 11,
+      "correct": 5,
+      "settled": 11,
+      "unresolved": 0,
+      "wrong": 6
+    },
+    "36_to_40c": {
+      "accuracy_percent": 75.0,
+      "calls": 8,
+      "correct": 6,
+      "settled": 8,
+      "unresolved": 0,
+      "wrong": 2
+    },
+    "41_to_50c": {
+      "accuracy_percent": 58.333333333333336,
+      "calls": 12,
+      "correct": 7,
+      "settled": 12,
+      "unresolved": 0,
+      "wrong": 5
+    },
+    "6_to_under_8_minutes": {
+      "accuracy_percent": 43.75,
+      "calls": 16,
+      "correct": 7,
+      "settled": 16,
+      "unresolved": 0,
+      "wrong": 9
+    },
+    "DOWN": {
+      "accuracy_percent": 32.0,
+      "calls": 25,
+      "correct": 8,
+      "settled": 25,
+      "unresolved": 0,
+      "wrong": 17
+    },
+    "UP": {
+      "accuracy_percent": 46.15384615384615,
+      "calls": 26,
+      "correct": 12,
+      "settled": 26,
+      "unresolved": 0,
+      "wrong": 14
+    },
+    "at_least_8_minutes": {
+      "accuracy_percent": 37.142857142857146,
+      "calls": 35,
+      "correct": 13,
+      "settled": 35,
+      "unresolved": 0,
+      "wrong": 22
+    },
+    "below_25c": {
+      "accuracy_percent": 10.0,
+      "calls": 20,
+      "correct": 2,
+      "settled": 20,
+      "unresolved": 0,
+      "wrong": 18
+    }
+  },
+  "minutes_remaining": {
+    "average": 8.70202614379085,
+    "median": 8.9195
+  },
+  "overall": {
+    "accuracy_percent": 39.21568627450981,
+    "calls": 51,
+    "correct": 20,
+    "settled": 51,
+    "unresolved": 0,
+    "wrong": 31
+  },
+  "seconds_remaining": {
+    "average": 522.121568627451,
+    "median": 535.17
+  },
+  "source_commit": "543e7d960f1b8aeb9f7c7de2645f46d5b1e181ab",
+  "verification": {
+    "clean_validation_window_accessed": false,
+    "detector_run_or_tuned": false,
+    "maximum_remaining_time_difference_seconds": 0.00482802391053383,
+    "newly_resolved_calls": 28,
+    "official_finalized_responses": 51,
+    "orders_created": false,
+    "original_snapshot_matches": 51,
+    "prior_cache_conflicts": [],
+    "prior_cache_matches": 23,
+    "unchanged_calls_sha256": "7b26852ee6b148761003fee6fa8ac90ba2d19bee5e78774f7800f91d126e6eb1"
+  }
+}

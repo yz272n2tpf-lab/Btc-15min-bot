@@ -1,0 +1,415 @@
+{
+  "rows": [
+    {
+      "ask": "0.14",
+      "contract": "KXBTC15M-26SEP030145-45",
+      "seconds_left": "604.9",
+      "side": "DOWN",
+      "source_csv_line": 1038,
+      "timestamp_utc": "2026-09-03T05:34:55.101335+00:00"
+    },
+    {
+      "ask": "0.24",
+      "contract": "KXBTC15M-26SEP030230-30",
+      "seconds_left": "548.82",
+      "side": "DOWN",
+      "source_csv_line": 1574,
+      "timestamp_utc": "2026-09-03T06:20:51.180596+00:00"
+    },
+    {
+      "ask": "0.41",
+      "contract": "KXBTC15M-26SEP030245-45",
+      "seconds_left": "553.41",
+      "side": "DOWN",
+      "source_csv_line": 1747,
+      "timestamp_utc": "2026-09-03T06:35:46.594401+00:00"
+    },
+    {
+      "ask": "0.47",
+      "contract": "KXBTC15M-26SEP030545-45",
+      "seconds_left": "392.39",
+      "side": "DOWN",
+      "source_csv_line": 2480,
+      "timestamp_utc": "2026-09-03T09:38:27.608974+00:00"
+    },
+    {
+      "ask": "0.2",
+      "contract": "KXBTC15M-26SEP030615-15",
+      "seconds_left": "361.71",
+      "side": "DOWN",
+      "source_csv_line": 2836,
+      "timestamp_utc": "2026-09-03T10:08:58.293593+00:00"
+    },
+    {
+      "ask": "0.29",
+      "contract": "KXBTC15M-26SEP030715-15",
+      "seconds_left": "455.89",
+      "side": "DOWN",
+      "source_csv_line": 3523,
+      "timestamp_utc": "2026-09-03T11:07:24.111563+00:00"
+    },
+    {
+      "ask": "0.11",
+      "contract": "KXBTC15M-26SEP030730-30",
+      "seconds_left": "545.45",
+      "side": "DOWN",
+      "source_csv_line": 3679,
+      "timestamp_utc": "2026-09-03T11:20:54.546378+00:00"
+    },
+    {
+      "ask": "0.41",
+      "contract": "KXBTC15M-26SEP030800-00",
+      "seconds_left": "474.73",
+      "side": "UP",
+      "source_csv_line": 4043,
+      "timestamp_utc": "2026-09-03T11:52:05.266282+00:00"
+    },
+    {
+      "ask": "0.26",
+      "contract": "KXBTC15M-26SEP030900-00",
+      "seconds_left": "623.39",
+      "side": "DOWN",
+      "source_csv_line": 4714,
+      "timestamp_utc": "2026-09-03T12:49:36.611366+00:00"
+    },
+    {
+      "ask": "0.12",
+      "contract": "KXBTC15M-26SEP030915-15",
+      "seconds_left": "392.3",
+      "side": "UP",
+      "source_csv_line": 4938,
+      "timestamp_utc": "2026-09-03T13:08:27.704828+00:00"
+    },
+    {
+      "ask": "0.22",
+      "contract": "KXBTC15M-26SEP030945-45",
+      "seconds_left": "626.63",
+      "side": "DOWN",
+      "source_csv_line": 5240,
+      "timestamp_utc": "2026-09-03T13:34:33.368018+00:00"
+    },
+    {
+      "ask": "0.41",
+      "contract": "KXBTC15M-26SEP031000-00",
+      "seconds_left": "481.15",
+      "side": "DOWN",
+      "source_csv_line": 5442,
+      "timestamp_utc": "2026-09-03T13:51:58.854484+00:00"
+    },
+    {
+      "ask": "0.37",
+      "contract": "KXBTC15M-26SEP031015-15",
+      "seconds_left": "385.8",
+      "side": "DOWN",
+      "source_csv_line": 5637,
+      "timestamp_utc": "2026-09-03T14:08:34.197901+00:00"
+    },
+    {
+      "ask": "0.41",
+      "contract": "KXBTC15M-26SEP031445-45",
+      "seconds_left": "642.0",
+      "side": "DOWN",
+      "source_csv_line": 6063,
+      "timestamp_utc": "2026-09-03T18:34:17.996439+00:00"
+    },
+    {
+      "ask": "0.44",
+      "contract": "KXBTC15M-26SEP031515-15",
+      "seconds_left": "641.75",
+      "side": "UP",
+      "source_csv_line": 6418,
+      "timestamp_utc": "2026-09-03T19:04:18.253961+00:00"
+    },
+    {
+      "ask": "0.072",
+      "contract": "KXBTC15M-26SEP031545-45",
+      "seconds_left": "381.24",
+      "side": "UP",
+      "source_csv_line": 6823,
+      "timestamp_utc": "2026-09-03T19:38:38.764193+00:00"
+    },
+    {
+      "ask": "0.35",
+      "contract": "KXBTC15M-26SEP031600-00",
+      "seconds_left": "566.11",
+      "side": "UP",
+      "source_csv_line": 6964,
+      "timestamp_utc": "2026-09-03T19:50:33.889840+00:00"
+    },
+    {
+      "ask": "0.28",
+      "contract": "KXBTC15M-26SEP031615-15",
+      "seconds_left": "600.57",
+      "side": "UP",
+      "source_csv_line": 7129,
+      "timestamp_utc": "2026-09-03T20:04:59.428818+00:00"
+    },
+    {
+      "ask": "0.43",
+      "contract": "KXBTC15M-26SEP031630-30",
+      "seconds_left": "580.24",
+      "side": "UP",
+      "source_csv_line": 7308,
+      "timestamp_utc": "2026-09-03T20:20:19.760799+00:00"
+    },
+    {
+      "ask": "0.36",
+      "contract": "KXBTC15M-26SEP031730-30",
+      "seconds_left": "599.2",
+      "side": "UP",
+      "source_csv_line": 8010,
+      "timestamp_utc": "2026-09-03T21:20:00.797411+00:00"
+    },
+    {
+      "ask": "0.33",
+      "contract": "KXBTC15M-26SEP031745-45",
+      "seconds_left": "363.63",
+      "side": "DOWN",
+      "source_csv_line": 8228,
+      "timestamp_utc": "2026-09-03T21:38:56.367993+00:00"
+    },
+    {
+      "ask": "0.3",
+      "contract": "KXBTC15M-26SEP031845-45",
+      "seconds_left": "525.03",
+      "side": "UP",
+      "source_csv_line": 8586,
+      "timestamp_utc": "2026-09-03T22:36:14.965432+00:00"
+    },
+    {
+      "ask": "0.34",
+      "contract": "KXBTC15M-26SEP031945-45",
+      "seconds_left": "476.65",
+      "side": "UP",
+      "source_csv_line": 9132,
+      "timestamp_utc": "2026-09-03T23:37:03.354472+00:00"
+    },
+    {
+      "ask": "0.39",
+      "contract": "KXBTC15M-26SEP032345-45",
+      "seconds_left": "533.36",
+      "side": "UP",
+      "source_csv_line": 10212,
+      "timestamp_utc": "2026-09-04T03:36:06.641836+00:00"
+    },
+    {
+      "ask": "0.44",
+      "contract": "KXBTC15M-26SEP040100-00",
+      "seconds_left": "621.18",
+      "side": "DOWN",
+      "source_csv_line": 11067,
+      "timestamp_utc": "2026-09-04T04:49:38.823245+00:00"
+    },
+    {
+      "ask": "0.19",
+      "contract": "KXBTC15M-26SEP040130-30",
+      "seconds_left": "570.91",
+      "side": "DOWN",
+      "source_csv_line": 11435,
+      "timestamp_utc": "2026-09-04T05:20:29.089844+00:00"
+    },
+    {
+      "ask": "0.021",
+      "contract": "KXBTC15M-26SEP040845-45",
+      "seconds_left": "400.13",
+      "side": "UP",
+      "source_csv_line": 12176,
+      "timestamp_utc": "2026-09-04T12:38:19.869591+00:00"
+    },
+    {
+      "ask": "0.2",
+      "contract": "KXBTC15M-26SEP040900-00",
+      "seconds_left": "614.74",
+      "side": "UP",
+      "source_csv_line": 12310,
+      "timestamp_utc": "2026-09-04T12:49:45.259126+00:00"
+    },
+    {
+      "ask": "0.46",
+      "contract": "KXBTC15M-26SEP040945-45",
+      "seconds_left": "632.57",
+      "side": "DOWN",
+      "source_csv_line": 12821,
+      "timestamp_utc": "2026-09-04T13:34:27.433557+00:00"
+    },
+    {
+      "ask": "0.23",
+      "contract": "KXBTC15M-26SEP041000-00",
+      "seconds_left": "427.14",
+      "side": "DOWN",
+      "source_csv_line": 13039,
+      "timestamp_utc": "2026-09-04T13:52:52.859744+00:00"
+    },
+    {
+      "ask": "0.21",
+      "contract": "KXBTC15M-26SEP041015-15",
+      "seconds_left": "526.75",
+      "side": "DOWN",
+      "source_csv_line": 13196,
+      "timestamp_utc": "2026-09-04T14:06:13.250469+00:00"
+    },
+    {
+      "ask": "0.13",
+      "contract": "KXBTC15M-26SEP041030-30",
+      "seconds_left": "516.03",
+      "side": "UP",
+      "source_csv_line": 13369,
+      "timestamp_utc": "2026-09-04T14:21:23.972122+00:00"
+    },
+    {
+      "ask": "0.34",
+      "contract": "KXBTC15M-26SEP041045-45",
+      "seconds_left": "530.25",
+      "side": "DOWN",
+      "source_csv_line": 13540,
+      "timestamp_utc": "2026-09-04T14:36:09.745959+00:00"
+    },
+    {
+      "ask": "0.24",
+      "contract": "KXBTC15M-26SEP041100-00",
+      "seconds_left": "464.85",
+      "side": "UP",
+      "source_csv_line": 13730,
+      "timestamp_utc": "2026-09-04T14:52:15.148739+00:00"
+    },
+    {
+      "ask": "0.31",
+      "contract": "KXBTC15M-26SEP041130-30",
+      "seconds_left": "593.9",
+      "side": "DOWN",
+      "source_csv_line": 14055,
+      "timestamp_utc": "2026-09-04T15:20:06.103438+00:00"
+    },
+    {
+      "ask": "0.39",
+      "contract": "KXBTC15M-26SEP041145-45",
+      "seconds_left": "578.39",
+      "side": "UP",
+      "source_csv_line": 14234,
+      "timestamp_utc": "2026-09-04T15:35:21.609963+00:00"
+    },
+    {
+      "ask": "0.19",
+      "contract": "KXBTC15M-26SEP041200-00",
+      "seconds_left": "567.81",
+      "side": "UP",
+      "source_csv_line": 14409,
+      "timestamp_utc": "2026-09-04T15:50:32.190674+00:00"
+    },
+    {
+      "ask": "0.46",
+      "contract": "KXBTC15M-26SEP041215-15",
+      "seconds_left": "571.88",
+      "side": "UP",
+      "source_csv_line": 14581,
+      "timestamp_utc": "2026-09-04T16:05:28.117783+00:00"
+    },
+    {
+      "ask": "0.066",
+      "contract": "KXBTC15M-26SEP041245-45",
+      "seconds_left": "470.78",
+      "side": "DOWN",
+      "source_csv_line": 14951,
+      "timestamp_utc": "2026-09-04T16:37:09.219406+00:00"
+    },
+    {
+      "ask": "0.35",
+      "contract": "KXBTC15M-26SEP041300-00",
+      "seconds_left": "510.66",
+      "side": "UP",
+      "source_csv_line": 15122,
+      "timestamp_utc": "2026-09-04T16:51:29.336389+00:00"
+    },
+    {
+      "ask": "0.22",
+      "contract": "KXBTC15M-26SEP041345-45",
+      "seconds_left": "414.41",
+      "side": "UP",
+      "source_csv_line": 15667,
+      "timestamp_utc": "2026-09-04T17:38:05.588712+00:00"
+    },
+    {
+      "ask": "0.16",
+      "contract": "KXBTC15M-26SEP041430-30",
+      "seconds_left": "523.18",
+      "side": "DOWN",
+      "source_csv_line": 16173,
+      "timestamp_utc": "2026-09-04T18:21:16.822704+00:00"
+    },
+    {
+      "ask": "0.15",
+      "contract": "KXBTC15M-26SEP041445-45",
+      "seconds_left": "572.95",
+      "side": "DOWN",
+      "source_csv_line": 16338,
+      "timestamp_utc": "2026-09-04T18:35:27.045653+00:00"
+    },
+    {
+      "ask": "0.37",
+      "contract": "KXBTC15M-26SEP041630-30",
+      "seconds_left": "552.67",
+      "side": "DOWN",
+      "source_csv_line": 16498,
+      "timestamp_utc": "2026-09-04T20:20:47.330944+00:00"
+    },
+    {
+      "ask": "0.38",
+      "contract": "KXBTC15M-26SEP041645-45",
+      "seconds_left": "367.03",
+      "side": "DOWN",
+      "source_csv_line": 16710,
+      "timestamp_utc": "2026-09-04T20:38:52.973670+00:00"
+    },
+    {
+      "ask": "0.39",
+      "contract": "KXBTC15M-26SEP041845-45",
+      "seconds_left": "535.17",
+      "side": "UP",
+      "source_csv_line": 18081,
+      "timestamp_utc": "2026-09-04T22:36:04.834405+00:00"
+    },
+    {
+      "ask": "0.36",
+      "contract": "KXBTC15M-26SEP042215-15",
+      "seconds_left": "599.74",
+      "side": "UP",
+      "source_csv_line": 19046,
+      "timestamp_utc": "2026-09-05T02:05:00.264108+00:00"
+    },
+    {
+      "ask": "0.22",
+      "contract": "KXBTC15M-26SEP050015-15",
+      "seconds_left": "606.8",
+      "side": "UP",
+      "source_csv_line": 20454,
+      "timestamp_utc": "2026-09-05T04:04:53.202368+00:00"
+    },
+    {
+      "ask": "0.42",
+      "contract": "KXBTC15M-26SEP050130-30",
+      "seconds_left": "575.27",
+      "side": "UP",
+      "source_csv_line": 21343,
+      "timestamp_utc": "2026-09-05T05:20:24.726944+00:00"
+    },
+    {
+      "ask": "0.27",
+      "contract": "KXBTC15M-26SEP050200-00",
+      "seconds_left": "519.1",
+      "side": "UP",
+      "source_csv_line": 21703,
+      "timestamp_utc": "2026-09-05T05:51:20.897107+00:00"
+    },
+    {
+      "ask": "0.41",
+      "contract": "KXBTC15M-26SEP050245-45",
+      "seconds_left": "407.56",
+      "side": "UP",
+      "source_csv_line": 22250,
+      "timestamp_utc": "2026-09-05T06:38:12.441633+00:00"
+    }
+  ],
+  "source_commit": "d31922b4c72d5bc7efa590eb1b3c4f86da71fc0d",
+  "source_path": "kalshi_scalp_shadow_snapshots_v1.csv",
+  "source_sha256": "d7c2dd36a5e0be197f5304fff0117f6fe340924e2436c60daf70806d84b00c4b"
+}
