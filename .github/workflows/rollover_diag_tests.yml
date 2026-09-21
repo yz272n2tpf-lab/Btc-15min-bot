@@ -1,0 +1,38 @@
+name: BTC15 Rollover Diagnostic Tests
+
+on:
+  push:
+    branches:
+      - diag/rollover-instrumentation-v1-20260921
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile changed Python
+        run: |
+          python -m py_compile             btc15_rollover_diag_v1.py             btc15_kalshi_quote_provenance_v1.py             bot_two_output_build_v4_13_profit_protection_shadow.py             test_btc15_rollover_diag_v1.py
+      - name: Run diagnostic regressions
+        run: python -m unittest -v test_btc15_rollover_diag_v1.py
+      - name: Verify no order endpoints added
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          helper = Path("btc15_rollover_diag_v1.py").read_text().lower()
+          banned = ["/orders", "create_order", "place_order"]
+          found = [x for x in banned if x in helper]
+          if found:
+              raise SystemExit("FAIL: order action found in diagnostic helper: " + ",".join(found))
+          print("NO ORDERS diagnostic helper check: PASS")
+          PY
