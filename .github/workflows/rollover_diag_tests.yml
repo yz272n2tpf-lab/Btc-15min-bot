@@ -24,7 +24,9 @@ jobs:
         run: |
           python -m py_compile             btc15_rollover_diag_v1.py             btc15_kalshi_quote_provenance_v1.py             bot_two_output_build_v4_13_profit_protection_shadow.py             test_btc15_rollover_diag_v1.py
       - name: Run diagnostic regressions
-        run: python -m unittest -v test_btc15_rollover_diag_v1.py
+        run: |
+          python -m unittest -v             test_btc15_rollover_diag_v1.py             test_btc15_kalshi_quote_provenance_regressions.py             test_btc15_parity_measurement_regressions.py
+          python test_btc15_dashboard_parity_ws_static.py
       - name: Verify no order endpoints added
         run: |
           python - <<'PY'
