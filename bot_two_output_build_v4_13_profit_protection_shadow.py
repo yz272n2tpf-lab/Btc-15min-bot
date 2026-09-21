@@ -2059,11 +2059,19 @@ def num(v):
         return None
 
 def get_active_market():
+    now = datetime.now(timezone.utc)
+    _rollover_boundary = rollover_diag.rollover_boundary(now)
+    _discovery_params = {"status":"open","series_ticker":"KXBTC15M","limit":1000}
+    # CloudFront caches the canonical market-list response for 15 seconds.
+    # Only inside the proven rollover window, use a unique harmless query value
+    # to prevent stale list-cache reuse. The server still receives the exact
+    # same status/series/limit selection inputs.
+    if _rollover_boundary is not None and now >= _rollover_boundary:
+        _discovery_params["_btc15_rollover_probe"] = str(int(now.timestamp() * 1000))
     data = kalshi_get(
         "/trade-api/v2/markets",
-        params={"status":"open","series_ticker":"KXBTC15M","limit":1000},
+        params=_discovery_params,
     )
-    now = datetime.now(timezone.utc)
     active = []
     for m in data.get("markets", []):
         ticker = str(m.get("ticker",""))
