@@ -2000,6 +2000,7 @@ def kalshi_headers(method, path):
     }
 
 def kalshi_get(path, params=None):
+    _diag_started = datetime.now(timezone.utc)
     r = requests.get(
         KALSHI_BASE_URL + path,
         headers=kalshi_headers("GET", path),
@@ -2007,7 +2008,41 @@ def kalshi_get(path, params=None):
         timeout=10,
     )
     r.raise_for_status()
-    return r.json()
+    data = r.json()
+    # Diagnostic-only rollover metadata on the runtime discovery path.
+    # Never affects discovery, selection, polling, retries, or strategy.
+    try:
+        if (
+            path == "/trade-api/v2/markets"
+            and isinstance(params, dict)
+            and str(params.get("series_ticker", "")) == "KXBTC15M"
+        ):
+            _diag_received = datetime.now(timezone.utc)
+            _diag_boundary = rollover_diag.rollover_boundary(_diag_received)
+            if _diag_boundary is not None:
+                _diag_open = []
+                for _diag_market in data.get("markets", []):
+                    _diag_op = parse_dt(_diag_market.get("open_time"))
+                    if _diag_op is not None and abs((_diag_op - _diag_boundary).total_seconds()) <= 1.0:
+                        _diag_open.append(str(_diag_market.get("ticker", "")))
+                rollover_diag.emit(
+                    "main.market_discovery", "MARKET_LIST_RESPONSE",
+                    at=_diag_received, expected_open=_diag_boundary,
+                    details={
+                        "request_started_utc": _diag_started,
+                        "response_received_utc": _diag_received,
+                        "latency_ms": round((_diag_received - _diag_started).total_seconds() * 1000.0, 3),
+                        "http_status": int(r.status_code),
+                        "safe_cache_headers": rollover_diag.safe_headers(r.headers),
+                        "market_count": len(data.get("markets", [])),
+                        "opening_tickers": _diag_open,
+                        "expected_open_present": bool(_diag_open),
+                    },
+                    dedupe_key="runtime-market-list:" + rollover_diag._iso(_diag_boundary) + ":" + str(bool(_diag_open)),
+                )
+    except Exception:
+        pass
+    return data
 
 def parse_dt(value):
     if not value:
