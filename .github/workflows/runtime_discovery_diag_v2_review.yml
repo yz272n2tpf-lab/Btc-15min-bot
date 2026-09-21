@@ -1,0 +1,61 @@
+name: BTC15 Runtime Discovery Diagnostic V2 Review
+
+on:
+  push:
+    branches:
+      - diag/runtime-discovery-binding-v2-20260921
+    paths:
+      - btc15_rollover_discovery_diag_v2.py
+      - apply_btc15_rollover_discovery_diag_v2.py
+      - test_btc15_rollover_discovery_diag_v2.py
+      - .github/workflows/runtime_discovery_diag_v2_review.yml
+
+permissions:
+  contents: read
+
+jobs:
+  validate-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout review branch
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: New regressions including exact full-source gate
+        env:
+          BTC15_REQUIRE_FULL_SOURCE: '1'
+        run: python test_btc15_rollover_discovery_diag_v2.py -v
+      - name: Apply proposal only in disposable runner checkout
+        run: python apply_btc15_rollover_discovery_diag_v2.py
+      - name: Compile without executing production
+        run: python -m py_compile btc15_rollover_discovery_diag_v2.py btc15_rollover_diag_v1.py btc15_kalshi_quote_provenance_v1.py bot_two_output_build_v4_13_profit_protection_shadow.py
+      - name: Existing diagnostic and protected protocol regressions
+        run: |
+          python -m unittest -v test_btc15_rollover_diag_v1.py test_btc15_kalshi_quote_provenance_regressions.py test_btc15_parity_measurement_regressions.py
+          python test_btc15_dashboard_parity_ws_static.py
+      - name: Verify only intended runtime hook changed
+        run: |
+          git diff --check
+          python - <<'PY'
+          import ast, hashlib, subprocess
+          from pathlib import Path
+          import apply_btc15_rollover_discovery_diag_v2 as p
+          changed = subprocess.check_output(['git', 'diff', '--name-only'], text=True).splitlines()
+          assert changed == [p.MAIN], changed
+          original = subprocess.check_output(['git', 'show', 'HEAD:' + p.MAIN]).decode()
+          candidate = Path(p.MAIN).read_text()
+          assert candidate == p.replace_last_binding(original)
+          before, after = ast.parse(original).body, ast.parse(candidate).body
+          assert len(before) == len(after)
+          changes = [i for i, (a, b) in enumerate(zip(before, after)) if ast.dump(a) != ast.dump(b)]
+          allowed = [i for i, n in enumerate(before) if isinstance(n, ast.FunctionDef) and n.name == 'kalshi_get'][-1]
+          assert changes == [allowed], changes
+          for name in (p.MAIN, 'btc15_rollover_discovery_diag_v2.py', 'apply_btc15_rollover_discovery_diag_v2.py', 'test_btc15_rollover_discovery_diag_v2.py'):
+              print('SHA256', name, hashlib.sha256(Path(name).read_bytes()).hexdigest())
+          print('FULL_SOURCE_SCOPE_GATE_PASS; NO DEPLOYMENT; NO ORDERS')
+          PY
