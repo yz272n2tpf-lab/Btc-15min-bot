@@ -1,17 +1,24 @@
 name: BTC15 Rollover Alternate Discovery Probe V1
 on:
   push:
-    branches: [research/rollover-alternate-discovery-probe-v1-20260921]
-permissions: {contents: read}
+    branches:
+      - research/rollover-alternate-discovery-probe-v1-20260921
+permissions:
+  contents: read
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with: {python-version: "3.11"}
-      - run: python -m pip install requests\n      - run: python -m py_compile btc15_rollover_alternate_discovery_probe_v1.py test_btc15_rollover_alternate_discovery_probe_v1.py
-      - run: python -m unittest -v test_btc15_rollover_alternate_discovery_probe_v1.py
+        with:
+          python-version: "3.11"
+      - name: Install dependency
+        run: python -m pip install requests
+      - name: Compile
+        run: python -m py_compile btc15_rollover_alternate_discovery_probe_v1.py test_btc15_rollover_alternate_discovery_probe_v1.py
+      - name: Unit tests
+        run: python -m unittest -v test_btc15_rollover_alternate_discovery_probe_v1.py
       - name: NO ORDERS guard
         run: |
           python - <<'PY'
@@ -19,6 +26,7 @@ jobs:
           t=Path("btc15_rollover_alternate_discovery_probe_v1.py").read_text().lower()
           banned=["create_order","place_order","/orders"]
           found=[x for x in banned if x in t]
-          if found: raise SystemExit("order action found: "+",".join(found))
+          if found:
+              raise SystemExit("order action found: "+",".join(found))
           print("NO ORDERS: PASS")
           PY
