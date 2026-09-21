@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "per_policy_entry_records_checked": 1358,
+  "distinct_entry_rows_checked": 77,
+  "official_labels": 420,
+  "label_conflicts": 0,
+  "fixed_target_mismatch_rows": 0,
+  "zero_gap_rows_with_unrecoverable_derived_target": 2,
+  "source_bytes_match_pinned_commit": true,
+  "tier1_august_calls": 38,
+  "tier1_august_correct": 36,
+  "tier1_august_7to10_calls": 14,
+  "tier1_august_7to10_correct": 13,
+  "oracle_independently_recomputed": true,
+  "no_post_cutoff_contracts": true,
+  "signal_only": true,
+  "orders": false,
+  "production_imports": false,
+  "no_service_access_or_mutation": true
+}

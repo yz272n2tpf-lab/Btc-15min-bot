@@ -1,0 +1,22 @@
+{
+  "captured_context": "before study",
+  "reference_heads": [
+    {
+      "branch": "directional-position-manager-v1-shadow-20260921",
+      "sha": "750cd2298d21405aa51987d32f232779ae71d294"
+    },
+    {
+      "branch": "main",
+      "sha": "7339b87624e35314b9d2b94e8a4feefef02715dd"
+    },
+    {
+      "branch": "scalp-finalprod-clean-v1-20260920",
+      "sha": "f59276fd4733bbc374be53aaa4bb8063ed0f81ab"
+    },
+    {
+      "branch": "scalp-move-shadow-v1-20260912",
+      "sha": "672f83a07a0be2cec3ff0b13cfab25f514952948"
+    }
+  ],
+  "actions": "GitHub source reads, isolated new research branch only. No Railway, dashboard, observer, collector or Position Manager calls."
+}
