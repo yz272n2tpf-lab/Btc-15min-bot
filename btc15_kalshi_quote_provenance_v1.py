@@ -9,7 +9,8 @@ import os
 import threading
 import time
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
+import btc15_rollover_diag_v1 as rollover_diag
 from decimal import Decimal
 from btc15_data_paths_v1 import _btc15_data_path
 
@@ -276,6 +277,16 @@ class Provider:
             self.close_ms = close_ms
             if ticker != self.ticker:
                 self.ticker, self.book, self.events = ticker, None, []
+                try:
+                    _diag_open = datetime.fromtimestamp((int(close_ms) - 900000) / 1000.0, timezone.utc)
+                    rollover_diag.emit(
+                        "quote_provider", "TICKER_SWITCH_BOOK_RESET",
+                        at=datetime.now(timezone.utc), expected_open=_diag_open, ticker=ticker,
+                        details={"book_reset": True},
+                        dedupe_key="quote-provider:" + str(ticker) + ":switch",
+                    )
+                except Exception:
+                    pass
                 return None
             if self.book is None:
                 return None
@@ -298,9 +309,25 @@ class Provider:
             return quotes
 
     def session(self, ws, ticker):
+        _diag_open = None
+        try:
+            _diag_open = datetime.fromtimestamp((int(self.close_ms) - 900000) / 1000.0, timezone.utc)
+        except Exception:
+            pass
         ws.send(json.dumps(subscription(ticker)))
+        rollover_diag.emit(
+            "quote_provider", "SUBSCRIBE_SENT", at=datetime.now(timezone.utc),
+            expected_open=_diag_open, ticker=ticker,
+            details={"channel": "orderbook_delta"},
+            dedupe_key="quote-provider:" + str(ticker) + ":subscribe",
+        )
         evidence = Evidence(ticker)
         epoch = str(uuid.uuid4())
+        _diag_first_market_data = False
+        _diag_yes_ready = False
+        _diag_no_ready = False
+        _diag_both_ready = False
+        _diag_usable = False
         print('KALSHI QUOTE WS CONNECT | ' + ticker + ' | epoch=' + epoch + ' | NO ORDERS', flush=True)
         while True:
             with self.lock:
@@ -316,6 +343,12 @@ class Provider:
             if event.get('type') == 'subscribed':
                 if event.get('msg', {}).get('channel') != 'orderbook_delta':
                     raise ValueError('unexpected subscription acknowledgement')
+                rollover_diag.emit(
+                    "quote_provider", "SUBSCRIBE_ACK", at=datetime.now(timezone.utc),
+                    expected_open=_diag_open, ticker=ticker,
+                    details={"channel": "orderbook_delta"},
+                    dedupe_key="quote-provider:" + str(ticker) + ":ack",
+                )
                 continue
             if event.get('type') not in {'orderbook_snapshot', 'orderbook_delta', 'ok'}:
                 raise ValueError('unexpected market-data message')
@@ -325,6 +358,52 @@ class Provider:
                 rebased = evidence.accept(event)
                 self.book = None if evidence.overflow else evidence.book
                 self.events, self.epoch = evidence.events, epoch
+                if not _diag_first_market_data and event.get('type') in {'orderbook_snapshot', 'orderbook_delta'}:
+                    _diag_first_market_data = True
+                    rollover_diag.emit(
+                        "quote_provider", "FIRST_MARKET_DATA_MESSAGE", at=datetime.now(timezone.utc),
+                        expected_open=_diag_open, ticker=ticker,
+                        details={"message_type": event.get("type")},
+                        dedupe_key="quote-provider:" + str(ticker) + ":first-market-data",
+                    )
+                _yes = bool(evidence.book.levels['yes'])
+                _no = bool(evidence.book.levels['no'])
+                if _yes and not _diag_yes_ready:
+                    _diag_yes_ready = True
+                    rollover_diag.emit(
+                        "quote_provider", "YES_SIDE_READY", at=datetime.now(timezone.utc),
+                        expected_open=_diag_open, ticker=ticker,
+                        details={"level_count": len(evidence.book.levels['yes'])},
+                        dedupe_key="quote-provider:" + str(ticker) + ":yes-ready",
+                    )
+                if _no and not _diag_no_ready:
+                    _diag_no_ready = True
+                    rollover_diag.emit(
+                        "quote_provider", "NO_SIDE_READY", at=datetime.now(timezone.utc),
+                        expected_open=_diag_open, ticker=ticker,
+                        details={"level_count": len(evidence.book.levels['no'])},
+                        dedupe_key="quote-provider:" + str(ticker) + ":no-ready",
+                    )
+                if _yes and _no and not _diag_both_ready:
+                    _diag_both_ready = True
+                    rollover_diag.emit(
+                        "quote_provider", "BOTH_SIDES_READY", at=datetime.now(timezone.utc),
+                        expected_open=_diag_open, ticker=ticker,
+                        details={"yes_levels": len(evidence.book.levels['yes']), "no_levels": len(evidence.book.levels['no'])},
+                        dedupe_key="quote-provider:" + str(ticker) + ":both-ready",
+                    )
+                if _diag_both_ready and not _diag_usable and evidence.book.ts_ms is not None:
+                    try:
+                        evidence.book.quotes(int(time.time() * 1000), self.close_ms)
+                        _diag_usable = True
+                        rollover_diag.emit(
+                            "quote_provider", "TIMESTAMPED_BOOK_USABLE", at=datetime.now(timezone.utc),
+                            expected_open=_diag_open, ticker=ticker,
+                            details={"exchange_ts_ms": evidence.book.ts_ms},
+                            dedupe_key="quote-provider:" + str(ticker) + ":usable",
+                        )
+                    except ValueError:
+                        pass
                 if rebased:
                     print('KALSHI QUOTE EVIDENCE REBASE | ' + ticker + ' | epoch=' + epoch
                           + ' | seq=' + str(evidence.book.seq) + ' | count=' + str(evidence.rebases)
