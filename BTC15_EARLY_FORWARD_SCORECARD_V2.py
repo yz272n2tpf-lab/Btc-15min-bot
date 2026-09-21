@@ -220,7 +220,11 @@ class Observer:
                     raise ValueError("contract rollback rejected")
                 initial = self.current is None
                 previous = self.contracts.get(self.current)
-                full_rollover = (not initial and not gap
+                # A gap in the preceding (possibly excluded startup) contract
+                # cannot contaminate a new contract observed from its opening.
+                # The new source must still arrive within the opening grace,
+                # and skipped contracts cannot be reconstructed or backfilled.
+                full_rollover = (not initial
                     and frame["start"] == dt(previous["close_utc"])
                     and self.started < frame["start"]
                     and 0 <= (source - frame["start"]).total_seconds() <= ROLLOVER_GRACE_SEC)

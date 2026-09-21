@@ -84,6 +84,25 @@ class ObserverTests(unittest.TestCase):
         self.o.observe(frame(next_start, 5), next_start + timedelta(seconds=6))
         self.assertEqual(self.o.forward_start, m.iso(next_start))
 
+    def test_stale_excluded_startup_does_not_disqualify_fresh_new_opening(self):
+        self.o = m.Observer(START - timedelta(seconds=70), self.events.append)
+        previous = START - timedelta(minutes=15)
+        self.o.observe(frame(previous, 840), START - timedelta(seconds=59))
+        # The excluded preceding contract goes stale; the new one arrives fresh
+        # at its opening, as in the live deployment plumbing check.
+        self.feed(25)
+        self.assertEqual(self.o.forward_start, m.iso(START))
+        self.assertEqual(self.o.summary()["eligible_contracts"], 1)
+        self.assertFalse(self.o.calls)
+
+    def test_skipped_contract_is_not_treated_as_full_rollover(self):
+        self.o = m.Observer(START - timedelta(minutes=20), self.events.append)
+        previous = START - timedelta(minutes=30)
+        self.o.observe(frame(previous, 890), START - timedelta(minutes=15, seconds=9))
+        self.feed(5)
+        self.assertIsNone(self.o.forward_start)
+        self.assertEqual(self.o.summary()["eligible_contracts"], 0)
+
     def test_new_process_ignores_bootstrap_and_all_previous_sample(self):
         self.arm()
         ticker = self.advance(300, ready=True)

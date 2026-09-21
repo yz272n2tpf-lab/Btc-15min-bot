@@ -32,6 +32,9 @@ contract start, first observed UTC time, source timestamp, commit and deployment
 The rounded quarter-hour close is checked against both the source timer and the
 contract's Eastern-time ticker before deriving its exact start. Raw source times
 are retained. A missed rollover waits for the next fully observed rollover.
+Fresh opening data for the new contract is evaluated independently of stale
+data in the preceding excluded startup contract; a prior gap cannot disqualify
+an otherwise fully observed new opening. Skipped contracts remain excluded.
 
 Capture the first protected call exactly once per eligible contract, even when
 outside the study slice. Score it only if its source timer is inclusively
