@@ -20,6 +20,7 @@ import os
 import sys
 import traceback
 import btc15_rollover_diag_v1 as rollover_diag
+import btc15_rollover_production_canary_v1 as rollover_canary
 
 KALSHI_KEY_ID = (
     os.getenv("KALSHI_KEY_ID")
