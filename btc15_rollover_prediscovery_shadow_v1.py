@@ -26,10 +26,22 @@ def main():
  while True:
   t=now()
   try:
+   # Once boundary is reached, hold the staged ticker until OPEN verifies it.
+   # Temporary HTTP failures must never allow a newer UNOPENED ticker to replace it.
+   if staged is not None and t >= staged["open"]:
+    try:
+     opens=get("open")
+     present=any(x.get("ticker")==staged["ticker"] for x in opens)
+     print(json.dumps({"event":"BOUNDARY_VERIFICATION","ticker":staged["ticker"],"seconds_from_open":round((t-staged["open"]).total_seconds(),3),"open_endpoint_present":present,"activated":False,"published":False,"signal_only":True,"orders":False}),flush=True)
+     if present: staged=None
+    except Exception as e:
+     print(json.dumps({"event":"BOUNDARY_VERIFY_RETRY","ticker":staged["ticker"],"error":type(e).__name__,"held":True,"orders":False}),flush=True)
+    if staged is not None:
+     time.sleep(POLL); continue
    q=choose_next(get("unopened"),t)
    if q:
     o,c,m=q; ticker=m["ticker"]
-    if staged is None or staged["ticker"]!=ticker:
+    if staged is None:
      staged={"ticker":ticker,"open":o,"close":c,"staged_at":t}
      print(json.dumps({"event":"NEXT_TICKER_STAGED","ticker":ticker,"open_utc":o.isoformat(),"seconds_before_open":round((o-t).total_seconds(),3),"signal_only":True,"orders":False}),flush=True)
   except Exception as e: print(json.dumps({"event":"WAIT","error":type(e).__name__,"orders":False}),flush=True)
