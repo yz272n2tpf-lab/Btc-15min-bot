@@ -9,9 +9,12 @@ def observe(kalshi_get,parse_dt,now=None,emit=print):
  now=now or datetime.now(timezone.utc)
  try:
   data=kalshi_get("/trade-api/v2/markets",params={"status":"unopened","series_ticker":"KXBTC15M","limit":1000})
+  raw=data.get("markets",[])
+  emit(f"ROLLOVER CANARY UNOPENED RESPONSE | count={len(raw)} | OBSERVE ONLY | NO ORDERS")
   rows=[]
-  for m in data.get("markets",[]):
+  for m in raw:
    t=str(m.get("ticker",""));op=parse_dt(m.get("open_time"));cl=parse_dt(m.get("close_time"))
+   emit("ROLLOVER CANARY UNOPENED ITEM | ticker={} | open={} | close={} | status={} | OBSERVE ONLY | NO ORDERS".format(t,m.get("open_time"),m.get("close_time"),m.get("status")))
    if t.startswith("KXBTC15M") and op and cl and op>now and (cl-op).total_seconds()==900 and op.minute%15==0 and op.second==0:
     rows.append((op,cl,t))
   if rows:
@@ -31,5 +34,3 @@ def compare(actual_ticker,now=None,emit=print):
   emit(f"ROLLOVER CANARY COMPARE | staged {st['ticker']} | actual {actual_ticker} | match {ok} | +{(now-st['open']).total_seconds():.3f}s | OBSERVE ONLY | NO ORDERS")
   _state["last_report"]=key
  return ok
-
-# PREDEPLOY_CHECK_TRIGGER_20260922
