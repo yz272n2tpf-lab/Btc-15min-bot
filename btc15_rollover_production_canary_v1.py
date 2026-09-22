@@ -9,9 +9,8 @@ def observe(kalshi_get,parse_dt,now=None,emit=print):
  now=now or datetime.now(timezone.utc)
  try:
   data=kalshi_get("/trade-api/v2/markets",params={"status":"unopened","series_ticker":"KXBTC15M","limit":1000})
-  rows=[]
-  for m in data.get("markets",[]):
-   t=str(m.get("ticker",""));op=parse_dt(m.get("open_time"));cl=parse_dt(m.get("close_time"))
+  raw=data.get("markets",[])\n  emit(f"ROLLOVER CANARY UNOPENED RESPONSE | count={len(raw)} | OBSERVE ONLY | NO ORDERS")\n  rows=[]\n  for m in raw:
+   t=str(m.get("ticker",""));op=parse_dt(m.get("open_time"));cl=parse_dt(m.get("close_time"))\n   emit("ROLLOVER CANARY UNOPENED ITEM | ticker={} | open={} | close={} | status={} | OBSERVE ONLY | NO ORDERS".format(t,m.get("open_time"),m.get("close_time"),m.get("status")))
    if t.startswith("KXBTC15M") and op and cl and op>now and (cl-op).total_seconds()==900 and op.minute%15==0 and op.second==0:
     rows.append((op,cl,t))
   if rows:
