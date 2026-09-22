@@ -32,11 +32,6 @@ def main():
     if staged is None or staged["ticker"]!=ticker:
      staged={"ticker":ticker,"open":o,"close":c,"staged_at":t}
      print(json.dumps({"event":"NEXT_TICKER_STAGED","ticker":ticker,"open_utc":o.isoformat(),"seconds_before_open":round((o-t).total_seconds(),3),"signal_only":True,"orders":False}),flush=True)
-    # Activation proof only: do not subscribe/publish; verify OPEN after official boundary.
-    if t>=staged["open"]:
-     opens=get("open"); present=any(x.get("ticker")==staged["ticker"] for x in opens)
-     print(json.dumps({"event":"BOUNDARY_VERIFICATION","ticker":staged["ticker"],"seconds_from_open":round((t-staged["open"]).total_seconds(),3),"open_endpoint_present":present,"activated":False,"published":False,"orders":False}),flush=True)
-     staged=None
   except Exception as e: print(json.dumps({"event":"WAIT","error":type(e).__name__,"orders":False}),flush=True)
   time.sleep(POLL)
 if __name__=="__main__":main()
