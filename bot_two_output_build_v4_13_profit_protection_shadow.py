@@ -20,6 +20,7 @@ import os
 import sys
 import traceback
 import btc15_rollover_diag_v1 as rollover_diag
+import btc15_rollover_production_canary_v1 as rollover_canary
 
 KALSHI_KEY_ID = (
     os.getenv("KALSHI_KEY_ID")
@@ -2060,6 +2061,7 @@ def num(v):
 
 def get_active_market():
     now = datetime.now(timezone.utc)
+    rollover_canary.observe(kalshi_get, parse_dt, now)
     _rollover_boundary = rollover_diag.rollover_boundary(now)
     _discovery_params = {"status":"open","series_ticker":"KXBTC15M","limit":1000}
     # CloudFront caches the canonical market-list response for 15 seconds.
@@ -2094,6 +2096,7 @@ def get_active_market():
             )
         return None
     _selected = min(active, key=lambda m: parse_dt(m.get("close_time")))
+    rollover_canary.compare(_selected.get("ticker"), now)
     if _diag_boundary is not None:
         rollover_diag.emit(
             "main.market_selection", "ACTIVE_MARKET_SELECTED", at=now,
