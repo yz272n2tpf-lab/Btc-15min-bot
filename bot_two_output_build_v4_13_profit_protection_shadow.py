@@ -2075,6 +2075,12 @@ def get_active_market():
         "/trade-api/v2/markets",
         params=_discovery_params,
     )
+    _staged = rollover_canary.eligible(now)
+    if _staged is not None:
+        _staged_data = kalshi_get("/trade-api/v2/markets/" + _staged["ticker"])
+        _staged_market = _staged_data.get("market", _staged_data)
+        if str(_staged_market.get("ticker","")) == _staged["ticker"]:
+            return _staged_market
     active = []
     for m in data.get("markets", []):
         ticker = str(m.get("ticker",""))
