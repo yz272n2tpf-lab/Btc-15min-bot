@@ -40,3 +40,5 @@ def main():
   except Exception as e: print(json.dumps({"event":"WAIT","error":type(e).__name__,"orders":False}),flush=True)
   time.sleep(POLL)
 if __name__=="__main__":main()
+
+# RAILWAY_SHADOW_DEPLOY_TRIGGER_20260922
