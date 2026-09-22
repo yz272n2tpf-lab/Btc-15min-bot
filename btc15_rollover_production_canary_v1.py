@@ -15,7 +15,7 @@ def observe(kalshi_get,parse_dt,now=None,emit=print):
   for m in raw:
    t=str(m.get("ticker",""));op=parse_dt(m.get("open_time"));cl=parse_dt(m.get("close_time"))
    emit("ROLLOVER CANARY UNOPENED ITEM | ticker={} | open={} | close={} | status={} | OBSERVE ONLY | NO ORDERS".format(t,m.get("open_time"),m.get("close_time"),m.get("status")))
-   if t.startswith("KXBTC15M") and op and cl and op>now and (cl-op).total_seconds()==900:
+   if t.startswith("KXBTC15M") and op and cl and op>now and abs((cl-op).total_seconds()-900)<0.001:
     rows.append((op,cl,t))
   if rows:
    op,cl,t=min(rows)
