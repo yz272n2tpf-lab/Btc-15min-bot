@@ -2080,6 +2080,7 @@ def get_active_market():
         _staged_data = kalshi_get("/trade-api/v2/markets/" + _staged["ticker"])
         _staged_market = _staged_data.get("market", _staged_data)
         if str(_staged_market.get("ticker","")) == _staged["ticker"]:
+            print("ROLLOVER STAGED HANDOFF | ticker={} | +{:.3f}s | VERIFIED EXACT TICKER | NO ORDERS".format(_staged["ticker"],(now-_staged["open"]).total_seconds()), flush=True)
             return _staged_market
     active = []
     for m in data.get("markets", []):
