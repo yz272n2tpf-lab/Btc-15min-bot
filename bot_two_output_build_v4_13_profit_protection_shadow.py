@@ -2062,6 +2062,8 @@ def num(v):
 def get_active_market():
     print(f"BTC15 RUNTIME IDENTITY | file={Path(__file__).resolve()} | pid={os.getpid()} | function=get_active_market | OBSERVE ONLY | NO ORDERS", flush=True)
     now = datetime.now(timezone.utc)
+    # Capture the opening candidate before observe stages the next future contract.
+    _staged = rollover_canary.eligible(now)
     rollover_canary.observe(kalshi_get, parse_dt, now)
     _rollover_boundary = rollover_diag.rollover_boundary(now)
     _discovery_params = {"status":"open","series_ticker":"KXBTC15M","limit":1000}
@@ -2075,7 +2077,6 @@ def get_active_market():
         "/trade-api/v2/markets",
         params=_discovery_params,
     )
-    _staged = rollover_canary.eligible(now)
     if _staged is not None:
         _staged_data = kalshi_get("/trade-api/v2/markets/" + _staged["ticker"])
         _staged_market = _staged_data.get("market", _staged_data)
