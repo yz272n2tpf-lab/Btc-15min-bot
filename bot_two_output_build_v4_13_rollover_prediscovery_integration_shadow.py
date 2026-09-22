@@ -2092,6 +2092,7 @@ def _verified_staged_market(now):
 
 def get_active_market():
     now = datetime.now(timezone.utc)
+    rollover_canary.observe(kalshi_get, parse_dt, now)
     _prediscover_next_market(now)
     _staged = _verified_staged_market(now)
     if _staged is not None:
@@ -2130,6 +2131,7 @@ def get_active_market():
             )
         return None
     _selected = min(active, key=lambda m: parse_dt(m.get("close_time")))
+    rollover_canary.compare(_selected.get("ticker"), now)
     if _diag_boundary is not None:
         rollover_diag.emit(
             "main.market_selection", "ACTIVE_MARKET_SELECTED", at=now,
