@@ -25,6 +25,12 @@ def observe(kalshi_get,parse_dt,now=None,emit=print):
     emit(f"ROLLOVER CANARY STAGED | {t} | open {op.isoformat()} | OBSERVE ONLY | NO ORDERS")
  except Exception as exc:
   emit(f"ROLLOVER CANARY WAIT | {type(exc).__name__} | OBSERVE ONLY | NO ORDERS")
+def eligible(now=None):
+ now=now or datetime.now(timezone.utc);st=_state["staged"]
+ if not st:return None
+ if now<st["open"] or now>=st["close"]:return None
+ return dict(st)
+
 def compare(actual_ticker,now=None,emit=print):
  now=now or datetime.now(timezone.utc);st=_state["staged"]
  if not st or now<st["open"]:return None
