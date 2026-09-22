@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+"""Combined offline rollover regression suite. No network. No orders."""
+import unittest
+MODULES=[
+"test_btc15_rollover_handoff_model_v1",
+"test_btc15_rollover_stage_selector_v1",
+"test_btc15_rollover_static_regression_gate_v1",
+"test_expose_btc15_generated_runtime_v1",
+]
+if __name__=="__main__":
+ suite=unittest.TestSuite()
+ loader=unittest.defaultTestLoader
+ for m in MODULES:suite.addTests(loader.loadTestsFromName(m))
+ r=unittest.TextTestRunner(verbosity=2).run(suite)
+ if not r.wasSuccessful():raise SystemExit(1)
+ print("BTC15 ROLLOVER REGRESSION SUITE PASS | OFFLINE | SIGNAL ONLY | NO ORDERS")
