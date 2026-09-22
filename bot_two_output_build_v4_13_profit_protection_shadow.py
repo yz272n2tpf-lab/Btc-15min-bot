@@ -2060,6 +2060,7 @@ def num(v):
         return None
 
 def get_active_market():
+    print(f"BTC15 RUNTIME IDENTITY | file={Path(__file__).resolve()} | pid={os.getpid()} | function=get_active_market | OBSERVE ONLY | NO ORDERS", flush=True)
     now = datetime.now(timezone.utc)
     rollover_canary.observe(kalshi_get, parse_dt, now)
     _rollover_boundary = rollover_diag.rollover_boundary(now)
