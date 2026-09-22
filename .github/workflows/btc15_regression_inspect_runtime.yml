@@ -1,0 +1,34 @@
+name: BTC15 regression inspect generated runtime
+on:
+  workflow_dispatch:
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: research/rollover-production-regression-v1-20260922
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Safety test
+        run: python -m unittest -q test_expose_btc15_generated_runtime_v1.py
+      - name: Expose generated wrapper
+        run: python expose_btc15_generated_runtime_v1.py > /tmp/generated_runtime.py
+      - name: Print safe structural trace
+        run: |
+          python - <<'PY'
+          import ast
+          p='/tmp/generated_runtime.py'
+          s=open(p,encoding='utf-8').read(); t=ast.parse(s)
+          print('imports:')
+          for n in ast.walk(t):
+            if isinstance(n,(ast.Import,ast.ImportFrom)):
+              print(ast.unparse(n))
+          print('launch-like calls:')
+          for n in ast.walk(t):
+            if isinstance(n,ast.Call):
+              x=ast.unparse(n.func)
+              if any(k in x for k in ('exec','run','Popen','main','install')):
+                print(ast.unparse(n)[:500])
+          PY
