@@ -19,7 +19,7 @@ MODULES=[
   "test_btc15_rollover_stage_immutability_gate_v1",
   "test_btc15_rollover_outage_policy_v1",
   "test_btc15_rollover_promotion_gate_v1",
-  "test_btc15_rollover_evidence_snapshot_v1"
+  "test_btc15_rollover_evidence_snapshot_v1",\n  "test_btc15_rollover_core_integration_shadow_v1"
 ]
 if __name__=="__main__":
  suite=unittest.TestSuite(); loader=unittest.defaultTestLoader
