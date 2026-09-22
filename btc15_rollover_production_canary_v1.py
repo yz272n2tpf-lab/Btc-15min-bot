@@ -31,3 +31,5 @@ def compare(actual_ticker,now=None,emit=print):
   emit(f"ROLLOVER CANARY COMPARE | staged {st['ticker']} | actual {actual_ticker} | match {ok} | +{(now-st['open']).total_seconds():.3f}s | OBSERVE ONLY | NO ORDERS")
   _state["last_report"]=key
  return ok
+
+# PREDEPLOY_CHECK_TRIGGER_20260922
