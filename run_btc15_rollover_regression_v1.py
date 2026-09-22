@@ -21,6 +21,8 @@ MODULES=[
     "test_btc15_rollover_promotion_gate_v1",
     "test_btc15_rollover_evidence_snapshot_v1",
     "test_btc15_rollover_core_integration_shadow_v1",
+    "test_btc15_rollover_production_canary_v1",
+    "test_btc15_rollover_canary_wiring_v1",
 ]
 if __name__=="__main__":
     suite=unittest.TestSuite()
