@@ -69,11 +69,23 @@ def main():
                 snapshots_by_role={k:len(v) for k,v in groups.items()},
                 identical_refit_weight_hashes=models,max_prediction_difference=difference,
                 historical_evaluation_is_new_holdout=False,production_promoted=False,
-                remaining=['Live provenance capture and integration are not implemented.',
-                           'No new qualified common-universe forward cohort exists.',
+                remaining=['Online model-shadow integration and native publication equivalence remain unverified.',
+                           'A registered common universe still needs meaningful separated forward evidence.',
                            'No EARLY/FINAL/SCALP threshold or weight optimization is justified.'])
     (root/'completion_audit/frozen_model_candidate_verification.json').write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(result),flush=True)
+    forward_path=root/'completion_audit/forward_features_development_20260923.json'
+    if forward_path.exists():
+        from fair_forward_shadow import predict
+        forward=json.loads(forward_path.read_text())
+        output=dict(scope='Offline fixed-model replay of prospectively captured DEVELOPMENT inputs only',
+                    model_weights_sha256=models[-1],runtime_versions=result['runtime_versions'],
+                    forward_features_sha256=hashlib.sha256(forward_path.read_bytes()).hexdigest(),
+                    predictions=predict(forest,sigmoid,features,forward['decisions']),
+                    missing_feature_cuts=sum(r['status']!='READY'for r in forward['decisions']),
+                    certified_performance=False,production_promoted=False,orders=False)
+        (root/'completion_audit/fair_forward_shadow_result.json').write_text(json.dumps(output,indent=2)+'\n')
+        print('FROZEN_FORWARD_SHADOW '+json.dumps(output),flush=True)
 
 
 if __name__=='__main__':main()

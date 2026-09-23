@@ -51,21 +51,28 @@ def features_at(rows, decision, builder):
 
 
 def replay(journal, source, start, end, stride_seconds=30):
+    from bisect import bisect_left, bisect_right
     damage=[];rows=[];results=[];last={};builder=feature_builder(source)
     for member in scan(journal,damage):
         row=member['record']
         if row.get('record_type')=='SNAPSHOT_INPUT':rows.append(row)
     rows.sort(key=lambda row:utc(row['observed_utc']))
+    times=[utc(row['observed_utc']) for row in rows]
     for decision in rows:
         cut=utc(decision['observed_utc']);ticker=decision['ticker']
         if not utc(start)<=cut<utc(end):continue
         if ticker in last and (cut-last[ticker]).total_seconds()<stride_seconds:continue
         last[ticker]=cut
         try:
-            features,status=features_at(rows,decision,builder)
+            lower=bisect_left(times,cut-pd.Timedelta(minutes=21))
+            upper=bisect_right(times,cut)
+            features,status=features_at(rows[lower:upper],decision,builder)
         except ValueError as exc:
             features,status=None,'INVALID_INPUT:'+str(exc)
-        results.append(dict(ticker=ticker,observed_utc=cut.isoformat(),status=status,features=features))
+        results.append(dict(ticker=ticker,observed_utc=cut.isoformat(),status=status,features=features,
+                            inputs={k:decision.get(k) for k in ('target','close_utc','btc_price','btc_source_utc',
+                                'btc_received_utc','brti_source_ts_ms','brti_value','owner_epoch',
+                                'up_bid','up_ask','down_bid','down_ask','quote_transport','quote_validation_utc')}))
     return dict(scope='Forward feature integrity only; not model performance or complete market coverage',
                 source_sha256=hashlib.sha256(Path(source).read_bytes()).hexdigest(),
                 stride_seconds=stride_seconds,journal_damage=damage,decisions=results,
