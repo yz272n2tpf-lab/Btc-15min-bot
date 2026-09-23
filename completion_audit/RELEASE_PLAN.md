@@ -1,6 +1,6 @@
-# Coordinated release candidate — approval required
+# Coordinated release candidate — approved rollout in progress
 
-No merge, deployment, service stop, variable edit, credential operation or deletion has been performed.
+Eric approved the documented infrastructure rollout and non-destructive parking. Owner v2 is deployed; remaining services follow the owner-first gates. No deletion, credential operation or strategy tuning is authorized in this stage.
 
 ## Review scope
 
@@ -26,3 +26,9 @@ No merge, deployment, service stop, variable edit, credential operation or delet
 The audit register remains authoritative. Candidate tests are not production acceptance. Outstanding: approved coordinated deployment/parking; raw reference expressions inaccessible beyond externally confirmed repaired credential chain; current-source/429 live stability; new container/recovery evidence; historical scoreboard qualification/calibration and complete common-universe ladder contribution; EARLY coverage and entry evidence; integrated SCALP exit/profit-protection choice and prospective validation; scoring job crash causes; clean/research persistence; several corrected live rollovers. Existing invalid/opened holdouts must not be reused for tuning and claimed as fresh evaluation.
 
 A strategy decision is required only if valid forward evidence shows incompatible goals. No threshold or weight change is proposed now. Final visual app development remains a separate phase.
+
+## Approved rollout checkpoint
+
+Owner PR16 merged at37735e737690096edea31beb2faff6842770ac4f; deployment b73bdf23-af30-4150-883e-1a300229538e SUCCESS. Live schema2 source age1.873s;3600 distinct one-second true publications; /ready503 on429 and200 on recovery. Settings2/5/30 retained. Duplicate callers have not yet all been migrated, so reliability acceptance remains open. V8.1 PR17 merged at1aa353ca46fc4348bfe6855325d544a02af20f8a with direct shared-owner URL, shared=1, legacy transport.
+
+Persistent main and generalized scalp startup will run btc15_preserve_evidence_v1.py before collector launch. It archives exact starting byte prefixes of known signal CSV/JSON families with SHA256 manifests into a validated ZIP on the existing volume; no original is removed/modified. Existing valid archive is reused on restart, preserving cutover identity. Missing mount, incomplete archive or insufficient headroom blocks startup. Clean collector remains unchanged until durable retention is established.
