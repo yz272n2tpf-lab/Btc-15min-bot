@@ -1,0 +1,17 @@
+name: Offline V81 exit candidates
+on:
+  pull_request:
+    paths:
+      - 'completion_audit/*v81_exit*'
+      - '.github/workflows/v81-exit-candidate.yml'
+permissions:
+  contents: read
+jobs:
+  lifecycle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s completion_audit -p 'test_v81_exit*.py' -v
