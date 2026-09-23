@@ -32,6 +32,7 @@ import os
 import random
 import threading
 import time
+import uuid
 
 import requests
 from cryptography.hazmat.primitives import hashes, serialization
@@ -55,23 +56,28 @@ def _num(v: Any) -> Optional[float]:
         return None
 
 
-def brti_value(obj: Any) -> Optional[float]:
-    vals = []
-
-    def walk(x: Any) -> None:
-        if isinstance(x, dict):
-            if "value" in x:
-                v = _num(x.get("value"))
-                if v is not None and 1000 < v < 1_000_000:
-                    vals.append(v)
-            for y in x.values():
-                walk(y)
-        elif isinstance(x, list):
-            for y in x:
-                walk(y)
-
-    walk(obj)
-    return vals[-1] if vals else None
+def brti_publications(obj: Any) -> list[dict]:
+    """Parse the requested BRTI /values payload; never use receipt time."""
+    data = obj.get("data", obj) if isinstance(obj, dict) else None
+    if not isinstance(data, dict) or data.get("id", "BRTI") != "BRTI":
+        raise ValueError("invalid BRTI envelope")
+    payload = data.get("payload")
+    if not isinstance(payload, list) or not payload:
+        raise ValueError("missing BRTI publications")
+    points = {}
+    for item in payload:
+        if not isinstance(item, dict) or item.get("id", "BRTI") != "BRTI":
+            raise ValueError("invalid BRTI publication")
+        ts, value = _num(item.get("time")), _num(item.get("value"))
+        if (ts is None or ts != int(ts) or ts <= 0 or value is None
+                or not 1000 < value < 1_000_000 or isinstance(item.get("time"), bool)):
+            raise ValueError("invalid BRTI source timestamp/value")
+        ts = int(ts)
+        if ts in points and points[ts] != value:
+            raise ValueError("conflicting BRTI publication")
+        points[ts] = value
+    return [dict(index_id="BRTI", source_ts_ms=ts, value=v)
+            for ts, v in sorted(points.items())]
 
 
 def classify_exception(exc: Exception) -> str:
@@ -127,7 +133,7 @@ class SharedBrtiPoller:
 
     def __init__(
         self,
-        fetch_once: Callable[[], Optional[float]],
+        fetch_once: Callable[[], list[dict]],
         poll_interval_s: float = 1.0,
         max_qualification_age_s: float = 1.35,
         max_429_backoff_s: float = 30.0,
@@ -135,7 +141,7 @@ class SharedBrtiPoller:
     ) -> None:
         self.fetch_once = fetch_once
         self.poll_interval_s = max(0.25, float(poll_interval_s))
-        self.max_qualification_age_s = max(self.poll_interval_s, float(max_qualification_age_s))
+        self.max_qualification_age_s = min(5.0, max(0.0, float(max_qualification_age_s)))
         self.max_429_backoff_s = max(self.poll_interval_s, float(max_429_backoff_s))
         self.jitter_s = max(0.0, float(jitter_s))
 
@@ -143,6 +149,8 @@ class SharedBrtiPoller:
         self._stop = threading.Event()
         self._thread: Optional[threading.Thread] = None
 
+        self.owner_epoch = uuid.uuid4().hex
+        self.publications = {}
         self.value: Optional[float] = None
         self.status = "BOOTING"
         self.sequence = 0
@@ -191,16 +199,31 @@ class SharedBrtiPoller:
             self.counters["upstream_attempts"] += 1
 
         try:
-            value = self.fetch_once()
-            if not self._valid(value):
-                raise ValueError("BRTI primary returned missing/invalid value")
-            value = float(value)
+            batch = self.fetch_once()
+            received_wall = time.time()
+            if not isinstance(batch, list) or not batch:
+                raise ValueError("BRTI source-timestamped publications required")
+            additions = {}
+            for item in batch:
+                ts, value = item.get("source_ts_ms"), _num(item.get("value"))
+                if (item.get("index_id") != "BRTI" or type(ts) is not int or ts <= 0
+                        or ts > received_wall * 1000 or value is None
+                        or not 1000 < value < 1_000_000):
+                    raise ValueError("invalid BRTI source publication")
+                old = additions.get(ts, self.publications.get(ts))
+                if old is not None and old != value:
+                    raise ValueError("conflicting BRTI source publication")
+                additions[ts] = value
+            latest_ts = max(additions)
+            if self.last_success_wall is not None and latest_ts < self.last_success_wall * 1000:
+                raise ValueError("BRTI source moved backwards")
+            value = additions[latest_ts]
         except Exception as exc:
             et = classify_exception(exc)
             with self._lock:
                 self.status = "PRIMARY_ERROR"
                 self.last_error_type = et
-                self.last_error_text = str(exc)[:180]
+                self.last_error_text = type(exc).__name__
                 self.consecutive_errors += 1
                 self.counters["upstream_errors"] += 1
                 if et == "http_429":
@@ -213,32 +236,36 @@ class SharedBrtiPoller:
                     self.counters["connection_errors"] += 1
                 else:
                     self.counters["other_errors"] += 1
-                self._schedule_after_error(et, now_mono)
+                self._schedule_after_error(et, time.monotonic())
             return True
 
         with self._lock:
             self.value = value
             self.status = "PRIMARY_OK"
-            self.sequence += 1
-            self.last_success_mono = now_mono
-            self.last_success_wall = wall
+            if self.last_success_wall is None or latest_ts > self.last_success_wall * 1000:
+                self.sequence += 1
+            self.last_success_mono = time.monotonic()
+            self.last_success_wall = latest_ts / 1000.0
+            self.publications.update(additions)
+            cutoff = received_wall * 1000 - 3_600_000
+            self.publications = {ts: v for ts, v in self.publications.items() if ts >= cutoff}
             self.last_error_type = None
             self.last_error_text = None
             self.consecutive_errors = 0
             self.counters["upstream_ok"] += 1
-            self.next_due_mono = now_mono + self.poll_interval_s
+            self.next_due_mono = time.monotonic() + self.poll_interval_s
         return True
 
     def snapshot(self) -> Dict[str, Any]:
         now_mono = time.monotonic()
         now_wall = time.time()
         with self._lock:
-            age_ms = None if self.last_success_mono is None else max(0.0, (now_mono - self.last_success_mono) * 1000.0)
+            age_ms = None if self.last_success_wall is None else (now_wall - self.last_success_wall) * 1000.0
             clean = (
                 self.status == "PRIMARY_OK"
                 and self.value is not None
                 and age_ms is not None
-                and age_ms <= self.max_qualification_age_s * 1000.0
+                and 0.0 <= age_ms <= self.max_qualification_age_s * 1000.0
             )
             snap = FeedSnapshot(
                 value=self.value,
@@ -264,7 +291,17 @@ class SharedBrtiPoller:
                 other_errors=self.counters["other_errors"],
                 server_timestamp_utc=_utc_iso(now_wall),
             )
-        return asdict(snap)
+            result = asdict(snap)
+            result.update(schema_version=2, index_id="BRTI", owner_epoch=self.owner_epoch,
+                          source_ts_ms=None if self.last_success_wall is None else round(self.last_success_wall * 1000))
+        return result
+
+    def history(self) -> Dict[str, Any]:
+        with self._lock:
+            return dict(schema_version=2, index_id="BRTI", owner_epoch=self.owner_epoch,
+                        signal_only=True, orders=False,
+                        ticks=[dict(index_id="BRTI", source_ts_ms=ts, value=v)
+                               for ts, v in sorted(self.publications.items())])
 
     def _run(self) -> None:
         while not self._stop.is_set():
@@ -309,7 +346,7 @@ class KalshiBrtiFetcher:
             "KALSHI-ACCESS-TIMESTAMP": ts,
         }
 
-    def fetch_once(self) -> Optional[float]:
+    def fetch_once(self) -> list[dict]:
         r = self.http.get(
             EXT + BRTI_PATH,
             headers=self._hdr(),
@@ -317,7 +354,7 @@ class KalshiBrtiFetcher:
             timeout=self.timeout_s,
         )
         r.raise_for_status()
-        return brti_value(r.json())
+        return brti_publications(r.json())
 
 
 class FeedHandler(BaseHTTPRequestHandler):
@@ -334,6 +371,9 @@ class FeedHandler(BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:
         path = self.path.split("?", 1)[0]
+        if path == "/ticks":
+            self._write(200, self.poller.history())
+            return
         if path == "/state":
             self._write(200, self.poller.snapshot())
             return
