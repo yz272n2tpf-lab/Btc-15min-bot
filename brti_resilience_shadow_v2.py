@@ -14,6 +14,7 @@ Signal-only. NO ORDERS. Production behavior is untouched.
 from dataclasses import dataclass, asdict
 from typing import Callable, Optional, Any, Dict, Tuple
 import time
+import os
 
 
 @dataclass
@@ -28,6 +29,7 @@ class BrtiSample:
     last_good_age_s: Optional[float]
     last_error_type: Optional[str] = None
     last_error_text: Optional[str] = None
+    source_ts_ms: Optional[int] = None
 
     @property
     def clean_for_qualification(self) -> bool:
@@ -100,6 +102,33 @@ class BrtiResilienceGuard:
         verifier_fetch: Optional[Callable[[], Optional[float]]] = None,
         now: Optional[float] = None,
     ) -> BrtiSample:
+        if os.getenv("BTC15_USE_SHARED_BRTI", "").strip() == "1":
+            # The same detector receives only a qualified shared primary point.
+            # Neither primary_fetch nor verifier_fetch may run in shared mode.
+            from btc15_brti_shared_consumer_v1 import read_shared_brti
+            start = time.monotonic()
+            self.counters['samples'] += 1
+            try:
+                point = read_shared_brti()
+                self.counters['primary_ok'] += 1
+                self.last_good_value = point['value']
+                self.last_good_ts = point['source_ts_ms'] / 1000.0
+                return BrtiSample(
+                    value=point['value'], status='PRIMARY_OK', attempts=1,
+                    latency_ms=(time.monotonic()-start)*1000,
+                    verifier_value=None, verifier_status='NOT_RUN',
+                    last_good_value=point['value'], last_good_age_s=point['age_seconds'],
+                    source_ts_ms=point['source_ts_ms'])
+            except Exception as exc:
+                self.counters['primary_error'] += 1
+                self.counters['error_other'] += 1
+                return BrtiSample(
+                    value=None, status='PRIMARY_ERROR', attempts=1,
+                    latency_ms=(time.monotonic()-start)*1000,
+                    verifier_value=None, verifier_status='NOT_RUN',
+                    last_good_value=None, last_good_age_s=None,
+                    last_error_type=type(exc).__name__, last_error_text=None)
+
         start = time.monotonic()
         wall_now = time.time() if now is None else float(now)
         self.counters['samples'] += 1
