@@ -47,3 +47,9 @@ KEEP: main bot, durable shared owner, useful live diagnostic/scalp data owners u
 ## Coordinated correction scope and acceptance
 
 First candidate: timestamp-preserving owner/history, matching strict legacy consumer, both history consumers, exact readonly canary training allowance, regressions and CI. No strategy, fixed target, timing or settlement changes. Further candidates require duplicate-owner migration, restart supervision, publication-qualified scoring and frozen forward acceptance. Owner-first schema rollout must be approved; old owner cannot satisfy new strict consumer. Do not merge/deploy a consumer-only change. Deployment approval is required only after concrete tested diffs are ready. No production restart, variable mutation or deploy performed by this audit.
+
+## Evidence qualification details recorded before promotion
+
+Reproducing the Sep6 union script gives FINAL30/56,EARLY4/56 and SCALP0, but the committed scalp rows after its17-row cutoff cover Sep4–5, not Sep6. The zero cannot establish SCALP contribution; the three-way union is not a valid common-universe result.
+
+The entry-profit reviewer at14ef7cf calls freeze.audit(policy_grid) during each refreshed ladder.analyze(rows). freeze.audit re-selects roles from validation summaries; changing source hashes and role choices are visible across hourly logs. Preserve those reports as research and require an immutable cohort/policy manifest before claiming a frozen holdout. This refines blocker9(scoring/split integrity); no strategy promotion or retuning was performed.
