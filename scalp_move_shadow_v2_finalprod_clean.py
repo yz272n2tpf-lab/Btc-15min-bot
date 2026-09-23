@@ -173,9 +173,48 @@ def snap():
     try:
         c = _clean_http.get(CB, timeout=3.0)
         c.raise_for_status()
-        btc = float(c.json()["price"])
+        btc_response = c.json()
+        btc = float(btc_response["price"])
+        btc_received_utc = datetime.now(timezone.utc).isoformat()
     except Exception:
         return None
+
+    # Recheck source age after the BTC request; receipt time never refreshes BRTI.
+    final_time = datetime.now(timezone.utc)
+    source_ms = b.get('source_ts_ms')
+    if type(source_ms) is not int or not 0 <= final_time.timestamp()-source_ms/1000.0 <= 5:
+        _clean_stats['brti_waits'] += 1
+        return None
+    if not 0 < (close-final_time).total_seconds() <= 900:
+        _clean_stats['metadata_waits'] += 1
+        return None
+    quotes = consume_ws_quotes(ticker, final_time.isoformat(), int(close.timestamp()*1000))
+    if quotes is None:
+        _clean_stats['quote_waits'] += 1
+        return None
+    ub,ua,db,da=quotes
+    if not all(valid_quote(v) for v in quotes) or ub>ua or db>da:
+        _clean_stats['quote_waits'] += 1
+        return None
+    final_time = datetime.now(timezone.utc)
+    if not 0 <= final_time.timestamp()-source_ms/1000.0 <= 5:
+        _clean_stats['brti_waits'] += 1
+        return None
+    if not 0 < (close-final_time).total_seconds() <= 900:
+        _clean_stats['metadata_waits'] += 1
+        return None
+
+    evidence_path = os.getenv('BTC15_COMMON_OBSERVATIONS')
+    if evidence_path:
+        from btc15_common_observer_v1 import append_record
+        append_record(evidence_path, dict(schema_version=1, record_type='SNAPSHOT_INPUT',
+            run_id=os.getenv('BTC15_CLEAN_RUN_ID'), observed_utc=final_time.isoformat(),
+            ticker=ticker, target=target, close_utc=close.isoformat(),
+            brti_source_ts_ms=source_ms, brti_value=bval, owner_epoch=b.get('owner_epoch'),
+            btc_price=btc, btc_source_utc=btc_response.get('time'), btc_received_utc=btc_received_utc,
+            quote_validation_utc=final_time.isoformat(), quote_transport='timestamped_contiguous_ws',
+            up_bid=ub, up_ask=ua, down_bid=db, down_ask=da,
+            source_time_missing_is_not_replaced=True, signal_only=True, orders=False))
 
     _clean_stats["accepted_frames"] += 1
     health["snapshots"] += 1
@@ -184,7 +223,7 @@ def snap():
         "ts": time.time(),
         "ticker": ticker,
         "contract_close_utc": close.isoformat(),
-        "left": max(0.0, (close - now).total_seconds()),
+        "left": max(0.0, (close - final_time).total_seconds()),
         "target": float(target),
         "btc": btc,
         "brti": bval,
@@ -200,7 +239,7 @@ def snap():
 
 print(
     "SCALP FINALPROD CLEAN SOURCE | frozen_v2_sha=" + V2_SHA256
-    + " | qualified BRTI WS | timestamped Kalshi quote WS | production PASS guard"
+    + " | qualified shared BRTI source v2 | timestamped Kalshi quote WS | production PASS guard"
     + " | SIGNAL ONLY | NO ORDERS",
     flush=True,
 )
