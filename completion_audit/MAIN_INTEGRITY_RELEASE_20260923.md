@@ -33,3 +33,5 @@ does not select one or alter V8.1 exit thresholds without prospective corrected
 entry evidence.
 
 Artifact preservation run 35935624296 reproduced both registered identities and committed the exact binary on the release branch.
+
+The artifact-bearing runtime source and generated manifest are sealed at release head `992faed0ece2f739f7ad639fc843310df1f76c2e`; this note triggers final same-tree acceptance.
