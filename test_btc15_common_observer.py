@@ -26,6 +26,30 @@ class CommonEvidence(unittest.TestCase):
         records=[json.loads(line) for line in gzip.decompress(self.path.read_bytes()).splitlines()]
         self.assertEqual(records[0],first);self.assertEqual(records[1]['brti_source_ts_ms'],123)
 
+    def test_observation_loop_uses_one_second_cached_reads_only(self):
+        class Stop:
+            waits=[]
+            def is_set(self):return bool(self.waits)
+            def wait(self,seconds):self.waits.append(seconds)
+        stop=Stop()
+        with patch.object(module,'read_source',side_effect=lambda item:dict(service=item[0],state={})) as read, \
+             patch.object(module.time,'monotonic',side_effect=[10.,10.2]),patch.object(module,'append_record') as append:
+            module.observe_forever(self.path,'new-run',stop)
+        self.assertAlmostEqual(stop.waits[0],.8)
+        self.assertEqual(read.call_count,4)
+        self.assertEqual({call.args[0][1] for call in read.call_args_list},set(module.URLS.values()))
+        record=append.call_args.args[1]
+        self.assertEqual(record['sampling_seconds'],1.)
+        self.assertTrue(record['observer_epoch']);self.assertFalse(record['orders'])
+
+    def test_sampler_cannot_remain_at_one_stale_five_second_phase(self):
+        # Reproduces the measured4.7s observer phase against a5s producer.
+        # Available states with true source age<5 occupied the early cycle.
+        old_phases=[(4.7+5*i)%5 for i in range(20)]
+        new_phases=[(4.7+module.OBSERVATION_INTERVAL_SECONDS*i)%5 for i in range(20)]
+        self.assertFalse(any(phase<2 for phase in old_phases))
+        self.assertTrue(any(phase<2 for phase in new_phases))
+
     def test_bounded_incremental_export_reassembles_identical_bytes(self):
         module.append_record(self.path,dict(value='first',orders=False))
         m,a=module.export_chunk(self.path,0,10)
@@ -71,6 +95,28 @@ class CommonEvidence(unittest.TestCase):
                 self.assertEqual(error.exception.code,400)
             finally:
                 server.shutdown();server.server_close();thread.join()
+
+    def test_retained_run_selector_rejects_arbitrary_paths(self):
+        import scalp_path_export_bridge_v1 as bridge
+        with patch.dict(os.environ,BTC15_DATA_DIR=str(self.root),BTC15_CLEAN_RUN_ID='new-run'):
+            old=bridge.selected_run_path({'run_id':['clean-source-v2-20260923']},'common',self.path)
+            self.assertEqual(old,self.root/'scalp_clean-source-v2-20260923_common.jsonl.gz')
+            for value in ('../credentials','unlisted',''):
+                with self.assertRaises(ValueError):bridge.selected_run_path({'run_id':[value]},'events',self.path)
+
+    def test_retained_csv_http_exports_exact_hashed_prefix(self):
+        from http.server import ThreadingHTTPServer
+        import scalp_path_export_bridge_v1 as bridge
+        old=self.root/'scalp_clean-source-v2-20260923_events.csv';raw=b'a,b\n1,2\n'*20000;old.write_bytes(raw)
+        with patch.object(bridge,'TOKEN',''),patch.object(bridge,'EXPORT_ENABLE',True),patch.dict(os.environ,BTC15_DATA_DIR=str(self.root)):
+            server=ThreadingHTTPServer(('127.0.0.1',0),bridge.Handler)
+            thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
+            try:
+                url='http://127.0.0.1:'+str(server.server_port)+'/research/path-export?run_id=clean-source-v2-20260923'
+                with urllib.request.urlopen(url)as response:
+                    self.assertEqual(response.read(),raw)
+                    self.assertEqual(response.headers['X-Source-SHA256'],hashlib.sha256(raw).hexdigest())
+            finally:server.shutdown();server.server_close();thread.join()
 
 
 if __name__ == '__main__':unittest.main()

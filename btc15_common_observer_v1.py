@@ -12,6 +12,7 @@ import os
 from pathlib import Path
 import threading
 import time
+import uuid
 import requests
 
 URLS = {
@@ -23,6 +24,7 @@ URLS = {
 MAX_RESPONSE_BYTES = 250_000
 MAX_EXPORT_BYTES = 4_000_000
 APPEND_LOCK = threading.Lock()
+OBSERVATION_INTERVAL_SECONDS = 1.0
 
 
 def utc_now(): return datetime.now(timezone.utc).isoformat()
@@ -71,19 +73,20 @@ def export_chunk(path, offset=0, limit=MAX_EXPORT_BYTES):
 def observe_forever(path, run_id, stop=None):
     stop=stop or threading.Event()
     sequence=0
+    observer_epoch=str(uuid.uuid4())
     with ThreadPoolExecutor(max_workers=len(URLS)) as pool:
         while not stop.is_set():
             began=time.monotonic();sequence+=1
             states=list(pool.map(read_source,URLS.items()))
             record=dict(schema_version=1,record_type='OBSERVATION',run_id=run_id,
-                        recorded_utc=utc_now(),sequence_in_process=sequence,sources=states,
-                        sampling_seconds=5,actual_browser_delivery_verified=False,
+                        recorded_utc=utc_now(),sequence_in_process=sequence,observer_epoch=observer_epoch,sources=states,
+                        sampling_seconds=OBSERVATION_INTERVAL_SECONDS,actual_browser_delivery_verified=False,
                         signal_only=True,orders=False)
             append_record(path,record)
-            if sequence%12==1:
+            if sequence%60==1:
                 print('COMMON OBSERVER | '+json.dumps(dict(run_id=run_id,sequence=sequence,
                     source_successes=sum('state' in x for x in states),sources=len(URLS),orders=False)),flush=True)
-            stop.wait(max(.1,5-(time.monotonic()-began)))
+            stop.wait(max(.1,OBSERVATION_INTERVAL_SECONDS-(time.monotonic()-began)))
 
 
 def start(path, run_id):
