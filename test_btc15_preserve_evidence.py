@@ -3,6 +3,8 @@ from pathlib import Path
 import tempfile
 import unittest
 import zipfile
+from unittest.mock import patch
+from collections import namedtuple
 from btc15_preserve_evidence_v1 import preserve
 
 class EvidenceArchive(unittest.TestCase):
@@ -29,5 +31,21 @@ class EvidenceArchive(unittest.TestCase):
             with self.assertRaises(RuntimeError):preserve(root,'pre-v2')
             self.assertEqual(data.read_text(),'evidence')
             with self.assertRaises(ValueError):preserve(root/'missing','pre-v2')
+
+    def test_compressed_size_preflight_preserves_low_headroom_volume(self):
+        usage = namedtuple('Usage', 'total used free')
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d); data=root/'kalshi_compressible.csv'
+            payload=b'contract,price,signal_only\n'*500000
+            data.write_bytes(payload)
+            with patch('btc15_preserve_evidence_v1.shutil.disk_usage',return_value=usage(20000000,9000000,11000000)):
+                result=preserve(root,'compressed')
+            self.assertLess(result['archive_bytes'],1000000)
+            with zipfile.ZipFile(result['archive']) as z:
+                self.assertEqual(z.read(data.name),payload)
+            self.assertEqual(data.read_bytes(),payload)
+            with patch('btc15_preserve_evidence_v1.shutil.disk_usage',return_value=usage(20000000,19999999,1)):
+                with self.assertRaises(RuntimeError):preserve(root,'too-full')
+            self.assertFalse((root/'btc15-evidence-too-full.partial').exists())
 
 if __name__=='__main__': unittest.main()
