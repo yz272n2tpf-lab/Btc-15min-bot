@@ -12,7 +12,7 @@ class PublishedEventReplay(unittest.TestCase):
             return dict(record_type='SNAPSHOT_INPUT',run_id='test',ticker='KXBTC15M-A',close_utc='2026-09-23T20:45:00Z',
                         observed_utc=ts,quote_validation_utc=ts,quote_transport='timestamped_contiguous_ws',
                         brti_source_ts_ms=int((epoch(ts)-1)*1000),target=84362.95,
-                        up_bid=bid,down_bid=bid,up_ask=max(.35,bid+.01),down_ask=max(.35,bid+.01),signal_only=True,orders=False)
+                        up_bid=bid,down_bid=bid,up_ask=round(max(.35,bid+.01),4),down_ask=round(max(.35,bid+.01),4),signal_only=True,orders=False)
         receipt='2026-09-23T20:31:04Z'if late else'2026-09-23T20:31:01Z'
         event=dict(contract='KXBTC15M-A',side='DOWN',entry_price=.35,signal_timestamp_utc='2026-09-23T20:31:00Z')
         t=epoch(event['signal_timestamp_utc']);event['signal_ts']=t
