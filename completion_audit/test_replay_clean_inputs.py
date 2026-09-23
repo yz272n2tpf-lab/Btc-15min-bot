@@ -1,8 +1,11 @@
 import copy
+import gzip
+import json
+import tempfile
 from pathlib import Path
 import unittest
 import pandas as pd
-from replay_clean_inputs import feature_builder, features_at
+from replay_clean_inputs import feature_builder, features_at, replay
 
 
 class ForwardAvailability(unittest.TestCase):
@@ -47,6 +50,23 @@ class ForwardAvailability(unittest.TestCase):
     def test_future_source_at_receipt_is_rejected(self):
         self.rows[0]['btc_source_utc']='2026-09-23T20:36:01Z'
         with self.assertRaisesRegex(ValueError,'Future BTC'):features_at(self.rows,self.decision,self.builder)
+
+    def test_mixed_run_rejected_even_before_feature_window(self):
+        source=Path(__file__).resolve().parents[1]/'bot_two_output_build_v4_13_profit_protection_shadow.py'
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'journal.gz'
+            path.write_bytes(gzip.compress(json.dumps(dict(record_type='OBSERVATION',run_id='old')).encode()))
+            with self.assertRaisesRegex(ValueError,'Mixed collector'):
+                replay(path,source,'2026-09-23T21:15:00Z','2026-09-23T21:30:00Z',run_id='new')
+
+    def test_all_input_replay_keeps_every_captured_decision(self):
+        source=Path(__file__).resolve().parents[1]/'bot_two_output_build_v4_13_profit_protection_shadow.py'
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'journal.gz'
+            path.write_bytes(b''.join(gzip.compress(json.dumps(dict(row,run_id='new')).encode())for row in self.rows))
+            result=replay(path,source,'2026-09-23T20:45:00Z','2026-09-23T21:00:00Z',0,run_id='new')
+            self.assertEqual(len(result['decisions']),13)
+            self.assertEqual(result['run_id'],'new')
 
 
 if __name__=='__main__':unittest.main()

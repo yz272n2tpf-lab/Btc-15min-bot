@@ -50,11 +50,17 @@ def features_at(rows, decision, builder):
     return result,'READY' if result is not None else 'INSUFFICIENT_PAST_AVAILABLE_HISTORY'
 
 
-def replay(journal, source, start, end, stride_seconds=30):
+def replay(journal, source, start, end, stride_seconds=30, *, run_id):
     from bisect import bisect_left, bisect_right
+    if not isinstance(run_id,str) or not run_id:
+        raise ValueError('Explicit collector run identity required')
+    if stride_seconds < 0:
+        raise ValueError('Negative replay stride')
     damage=[];rows=[];results=[];last={};builder=feature_builder(source)
     for member in scan(journal,damage):
         row=member['record']
+        if row.get('run_id') != run_id:
+            raise ValueError('Mixed collector run identities')
         if row.get('record_type')=='SNAPSHOT_INPUT':rows.append(row)
     rows.sort(key=lambda row:utc(row['observed_utc']))
     times=[utc(row['observed_utc']) for row in rows]
@@ -75,7 +81,7 @@ def replay(journal, source, start, end, stride_seconds=30):
                                 'up_bid','up_ask','down_bid','down_ask','quote_transport','quote_validation_utc')}))
     return dict(scope='Forward feature integrity only; not model performance or complete market coverage',
                 source_sha256=hashlib.sha256(Path(source).read_bytes()).hexdigest(),
-                stride_seconds=stride_seconds,journal_damage=damage,decisions=results,
+                run_id=run_id,stride_seconds=stride_seconds,journal_damage=damage,decisions=results,
                 fitted=False,production_changed=False,orders=False)
 
 
@@ -83,7 +89,10 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('journal',type=Path)
     parser.add_argument('--source',type=Path,required=True);parser.add_argument('--start',required=True)
     parser.add_argument('--end',required=True);parser.add_argument('--output',type=Path,required=True)
-    args=parser.parse_args();result=replay(args.journal,args.source,args.start,args.end)
+    parser.add_argument('--run-id',required=True)
+    parser.add_argument('--stride-seconds',type=float,default=0,
+                        help='Zero retains every captured input; positive values are explicitly sampled research')
+    args=parser.parse_args();result=replay(args.journal,args.source,args.start,args.end,args.stride_seconds,run_id=args.run_id)
     with args.output.open('x')as stream:json.dump(result,stream,indent=2,allow_nan=False)
     from collections import Counter
     print(json.dumps(dict(decisions=len(result['decisions']),statuses=dict(Counter(x['status']for x in result['decisions'])),orders=False)))
