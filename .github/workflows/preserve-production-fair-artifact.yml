@@ -34,3 +34,5 @@ jobs:
           git add completion_audit/model_artifact/frozen_fair_candidate.joblib completion_audit/model_artifact/manifest.json
           git commit -m "Preserve verified production fair artifact"
           git push origin HEAD:${GITHUB_REF_NAME}
+
+# Triggered only on the immutable release-candidate branch.
