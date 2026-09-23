@@ -2,6 +2,10 @@
 
 Production weights and thresholds are unchanged. These findings block strategy certification, even if infrastructure rollovers pass.
 
+September23 continuation: current main c482468 started at12:59 with **56 calibration contracts /784 snapshots**, independently retrieved from that deployment's startup log. The57/798 reproduction below belongs to the earlier12:26 runtime and must not identify the later model. The exact support-expiry reproduction finds the existing20-contract calibration floor fails immediately after **September25 12:45:00 UTC**. Actual live weight bytes are not currently exported; any main restart invalidates the registered runtime identity.
+
+Draft PR25's completed-candle/frozen-support candidate remains offline. Hosted run35865718174 ran11 tests successfully with production pins numpy2.5.2/pandas3.0.5/sklearn1.9.0. Both independent331-contract fits produced weight SHA256 `95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6`; prediction difference2.7755575615628914e-16. This proves deterministic fitting in that environment, not forward accuracy or readiness for promotion. Live clean input capture now retains BTC source/receipt and BRTI source/epoch; full paired model integration/evaluation remains outstanding.
+
 ## Restart changes the supposedly frozen fitting universe
 
 The fair engine loads fixed August15–22 labels and a fixed BTC cache ending September2. At startup it discards BTC history older than wall-clock now minus35 days, then recomputes its50% fitting /20% calibration split over the surviving contracts. Thus a restart changes the fitted model without a code or threshold change. Eventually it removes all labeled support.

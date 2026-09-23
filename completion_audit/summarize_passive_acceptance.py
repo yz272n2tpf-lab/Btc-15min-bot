@@ -43,7 +43,72 @@ def wilson(correct, total):
     return [center-half, center+half]
 
 
-def analyze(records, start, end, official):
+def observed_path(main, call, close, horizon_seconds=None):
+    """Descriptive bid path, never a fill, complete excursion or net profit."""
+    began = stamp(call['observed_utc'])
+    ends = close
+    if horizon_seconds is not None:
+        from datetime import timedelta
+        ends = min(ends, began + timedelta(seconds=horizon_seconds))
+    points = []
+    for now, data, obs in main:
+        if (data.get('contract') != call['contract'] or not began <= now < ends
+                or not obs['usable_frame']):
+            continue
+        bid = data.get('market', {}).get(call['side'].lower() + '_bid')
+        if isinstance(bid, (int, float)) and math.isfinite(bid) and 0 <= bid <= 1:
+            points.append((now, bid-call['entry_ask']))
+    return {'sample_count': len(points), 'horizon_end_utc': ends.isoformat(),
+            'observed_mfe': max((gain for _,gain in points), default=None),
+            'observed_mae': min((gain for _,gain in points), default=None),
+            'last_sample_utc': points[-1][0].isoformat() if points else None,
+            'max_observed_gap_seconds': max(((b[0]-a[0]).total_seconds()
+                                             for a,b in zip(points,points[1:])), default=None),
+            'complete_path': False, 'realized_profit': False}
+
+
+def v81_events(frames, universe):
+    """One identity per entry; never treat drifting metadata as extra signals."""
+    events = {}
+    for frame in sorted(frames, key=lambda d: str(d.get('generated_utc', ''))):
+        event = frame.get('last_signal_event')
+        if not isinstance(event, dict):
+            continue
+        ticker = event.get('contract') or frame.get('contract')
+        # Versions used different event time names. Unknown schemas stay visible
+        # as an accounting limitation, not a fabricated timestamp.
+        when = event.get('signal_timestamp_utc') or event.get('timestamp_utc') or event.get('generated_utc')
+        side = event.get('side')
+        entry = event.get('entry_price')
+        if ticker not in universe or not when or side not in ('UP', 'DOWN'):
+            continue
+        key = (ticker, side, when, entry)
+        if key not in events:
+            events[key] = dict(contract=ticker, side=side, entry_price=entry,
+                               signal_timestamp_utc=when, raw_event=event,
+                               observed_entry_seconds_left=[], active_bid_gains=[], statuses=[])
+        record = events[key]
+        left = event.get('seconds_left_at_signal')
+        if left is not None and left not in record['observed_entry_seconds_left']:
+            record['observed_entry_seconds_left'].append(left)
+        if frame.get('active') is True and frame.get('side') == side and frame.get('entry_price') == entry:
+            bid = frame.get('current_bid')
+            if isinstance(bid, (int, float)) and isinstance(entry, (int, float)):
+                record['active_bid_gains'].append(bid-entry)
+            if frame.get('status') not in record['statuses']:
+                record['statuses'].append(frame.get('status'))
+    for record in events.values():
+        gains = record.pop('active_bid_gains')
+        record['sampled_active_bid_gains'] = summary(gains)
+        record['entry_metadata_constant'] = len(record['observed_entry_seconds_left']) <= 1
+        record['seconds_to_official_close_at_signal'] = (
+            stamp(universe[record['contract']]['close_time'])-stamp(record['signal_timestamp_utc'])).total_seconds()
+    return list(events.values())
+
+
+def analyze(records, start, end, official, qualification_time='server_generated'):
+    if qualification_time not in ('server_generated', 'response_received'):
+        raise ValueError('Unknown qualification clock')
     counts = Counter()
     owner = defaultdict(list)
     main = []
@@ -62,7 +127,13 @@ def analyze(records, start, end, official):
         if service == 'owner':
             owner[data.get('owner_epoch')].append(data)
         elif service == 'main':
-            now = stamp(data['generated_utc'])
+            if qualification_time == 'response_received':
+                if not record.get('response_received_utc'):
+                    counts['main_missing_receipt_time'] += 1
+                    continue
+                now = stamp(record['response_received_utc'])
+            else:
+                now = stamp(data['generated_utc'])
             source = stamp(data['source_timestamp_utc'])
             if not start <= source < end:
                 counts['main_outside_source_window'] += 1
@@ -130,6 +201,10 @@ def analyze(records, start, end, official):
         brier = [ (c['confidence'] - int((c['side']=='UP') == (c['official_result']=='yes')))**2
                   for c in confidences]
         calls[lane] = qualified
+        for call in qualified.values():
+            call['sampled_bid_path'] = observed_path(
+                main, call, stamp(universe[call['contract']]['close_time']),
+                300 if lane == 'scalp' else None)
         lanes[lane] = {
             'official_universe_n': len(universe), 'raw_ready_contracts': sum(v>0 for v in raw.values()),
             'ui_eligible_contracts': sum(v>0 for v in ui.values()),
@@ -144,14 +219,32 @@ def analyze(records, start, end, official):
             'minutes_remaining': summary(c['minutes_remaining'] for c in qualified.values()),
             'brier_mean': statistics.mean(brier) if brier else None,
             'calls': list(qualified.values()),
+            'confidence_bins': [dict(lower=lo, upper=hi,
+                                    n=sum(lo<=c['confidence']<hi for c in confidences),
+                                    correct=sum(lo<=c['confidence']<hi and
+                                                ((c['side']=='UP')==(c['official_result']=='yes')) for c in confidences))
+                                for lo,hi in ((0.,.5),(.5,.7),(.7,.8),(.8,.9),(.9,.95),(.95,1.00000001))],
         }
     overlaps = Counter()
     for ticker in universe:
         overlaps['+'.join(lane for lane in calls if ticker in calls[lane]) or 'NONE'] += 1
+    for ticker, early_call in calls['early'].items():
+        final_call = calls['final'].get(ticker)
+        early_call['eventual_final_relationship'] = (
+            dict(side=final_call['side'], same_side=final_call['side']==early_call['side'],
+                 seconds_between_observed_calls=(stamp(final_call['observed_utc'])-stamp(early_call['observed_utc'])).total_seconds())
+            if final_call else None)
+    from datetime import timedelta
+    expected_slots = []
+    slot = start
+    while slot < end:
+        expected_slots.append(slot)
+        slot += timedelta(minutes=15)
+    official_slots = {stamp(m['open_time']) for m in universe.values()}
     gaps = [(b[0]-a[0]).total_seconds() for a,b in zip(main,main[1:])]
     return {
         'window': {'start': start.isoformat(), 'end': end.isoformat()},
-        'qualification_basis': 'reconstructed at server generation; incomplete external samples',
+        'qualification_basis': qualification_time + '; sampled API observations, not browser delivery',
         'counts': dict(counts), 'owner_by_epoch': owner_stats,
         'main': {'samples': len(main), 'usable_frame_samples': sum(o['usable_frame'] for _,_,o in main),
                  'brti_fresh_samples': sum(o['brti_fresh'] for _,_,o in main),
@@ -161,9 +254,12 @@ def analyze(records, start, end, official):
                  'signal_only_all': bool(main) and all(d.get('safety',{}).get('read_only') is True
                                         and d.get('safety',{}).get('orders_enabled') is False for _,d,_ in main)},
         'lanes': lanes, 'overlap_counts': dict(overlaps),
+        'scheduled_universe': {'slots': len(expected_slots),
+                               'missing_official_slots': [t.isoformat() for t in expected_slots if t not in official_slots],
+                               'scheduled_coverage': {lane: len(calls[lane])/len(expected_slots) if expected_slots else None for lane in calls}},
         'v81': {'sampled_active_frames': sum(d.get('active') is True for d in v81),
-                'last_signal_events': list({json.dumps(d.get('last_signal_event'),sort_keys=True)
-                                            for d in v81 if d.get('last_signal_event')})},
+                'last_signal_events': v81_events(v81, universe),
+                'qualification': 'descriptive feed events; actual main-overlay delivery not verified'},
         'serial_research': {'sampled_states': dict(Counter(d.get('state') for d in serial)),
                             'sampled_exit_frames': sum(d.get('exit_triggered') is True for d in serial)},
         'certified_performance': False,

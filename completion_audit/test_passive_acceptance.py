@@ -45,5 +45,54 @@ class PassiveEvidenceAccounting(unittest.TestCase):
         r=analyze([],self.start,self.end,self.markets)
         self.assertFalse(r['main']['signal_only_all'])
 
+    def test_excursions_use_bids_preserve_adverse_results_and_exclude_other_ticker(self):
+        initial=copy.deepcopy(self.state)
+        initial['market']['up_bid']=.39
+        later=copy.deepcopy(initial)
+        later['generated_utc']='2026-09-23T12:38:02+00:00'
+        later['market']['up_bid']=.25
+        stale=copy.deepcopy(later)
+        stale['generated_utc']='2026-09-23T12:38:03+00:00'
+        stale['parity']['status']='WAIT'
+        stale['market']['up_bid']=.99
+        r=analyze(self.records(initial)+self.records(later)+self.records(stale),self.start,self.end,self.markets)
+        path=r['lanes']['final']['calls'][0]['sampled_bid_path']
+        self.assertEqual(path['sample_count'],2)
+        self.assertAlmostEqual(path['observed_mfe'],-.01)
+        self.assertAlmostEqual(path['observed_mae'],-.15)
+        self.assertFalse(path['complete_path'])
+
+    def test_drifting_v81_metadata_is_one_signal_and_records_defect(self):
+        event=dict(contract='KXBTC15M-A',side='UP',entry_price=.35,
+                   signal_timestamp_utc='2026-09-23T12:38:00Z',seconds_left_at_signal=420)
+        states=[dict(service='v81',start_epoch=self.start.timestamp()+481,
+                     state=dict(generated_utc='2026-09-23T12:38:01Z',last_signal_event=copy.deepcopy(event)))]
+        event['seconds_left_at_signal']=410
+        states.append(dict(service='v81',start_epoch=self.start.timestamp()+490,
+                           state=dict(generated_utc='2026-09-23T12:38:10Z',last_signal_event=event)))
+        r=analyze(states,self.start,self.end,self.markets)
+        self.assertEqual(len(r['v81']['last_signal_events']),1)
+        self.assertFalse(r['v81']['last_signal_events'][0]['entry_metadata_constant'])
+        self.assertEqual(r['v81']['last_signal_events'][0]['seconds_to_official_close_at_signal'],420)
+
+    def test_missing_official_slot_is_explicit_and_does_not_shrink_scheduled_denominator(self):
+        r=analyze(self.records(self.state),self.start,self.end,self.markets[:1])
+        self.assertEqual(r['scheduled_universe']['slots'],2)
+        self.assertEqual(r['scheduled_universe']['scheduled_coverage']['final'],.5)
+        self.assertEqual(len(r['scheduled_universe']['missing_official_slots']),1)
+
+    def test_network_receipt_cannot_inherit_server_freshness(self):
+        records=self.records(self.state)
+        records[0]['response_received_utc']='2026-09-23T12:38:05Z'
+        server=analyze(records,self.start,self.end,self.markets)
+        received=analyze(records,self.start,self.end,self.markets,qualification_time='response_received')
+        self.assertEqual(server['lanes']['final']['strict_qualified_contracts'],1)
+        self.assertEqual(received['lanes']['final']['strict_qualified_contracts'],0)
+
+    def test_missing_receipt_is_explicit_not_substituted(self):
+        received=analyze(self.records(self.state),self.start,self.end,self.markets,qualification_time='response_received')
+        self.assertEqual(received['counts']['main_missing_receipt_time'],1)
+        self.assertEqual(received['lanes']['final']['strict_qualified_contracts'],0)
+
 
 if __name__=='__main__':unittest.main()

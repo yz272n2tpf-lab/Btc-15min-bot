@@ -1,10 +1,14 @@
-# Forward evidence protocol — prepared, not activated
+# Forward evidence protocol — prospective registration September 23
 
 This protocol changes no production strategy. Infrastructure acceptance observations are developmental evidence, not untouched performance holdout. Do not relabel them later.
 
 ## Activation gates
 
-Record a UTC activation time at a future official 15-minute open only after: corrected four-rollover acceptance; source/quote/fixed-target checks; restart recovery; enough persistent storage for the full collection period; clean collector migration; and verified retrieval of the local qualified-observation log. Preserve the pre-cutover exports and all originals. The current main volume has insufficient headroom and the clean collector has no mount, so this protocol is not active.
+Main storage has been resized to 10 GB in place. The clean collector has persistent /data, corrected shared transport, an immutable run manifest and a restart-tested append-only common journal. Four consecutive corrected data-path rollovers have official target/outcome, contiguous quotes, true-source freshness and parity evidence. Their actual browser delivery is not retrospectively certified.
+
+`cohort_20260923T203000Z.json` registers development from September23 20:30 UTC through September24 20:30, a separate next-day validation window, then a reserved fourteen-day untouched holdout ending October9 20:30 UTC. Every scheduled slot remains in its denominator. These are prospective baseline/research windows, not production certification. Main's restart-dependent fitting support, publication freshness, incomplete browser evidence and unvalidated V8.1 exits remain explicit blockers. A changed runtime/model identity closes its cohort; replacement data cannot be silently pooled or retagged. Holdout evaluation refuses to run before its fixed end.
+
+The common journal is a durable cross-service API sample every five seconds, plus accepted clean input provenance. It is not an export of main's local observer CSV and cannot guarantee capture of every short-lived signal. Fixed-phase sampling can alias freshness. Qualification for new cohort calls uses actual response receipt time; server generation qualification remains a separate diagnostic.
 
 Freeze an immutable manifest containing main/owner/V8.1/generalized-SCALP/clean commit hashes, effective entrypoints, data schemas, model/training file hashes, strategy and publication gates, source-age ceiling, collection cadence, start/end UTC, universe rule, phase role, analysis-code hash and artifact hashes. Save it before the first eligible contract opens. Any revision change closes that cohort; it does not silently update its identity.
 

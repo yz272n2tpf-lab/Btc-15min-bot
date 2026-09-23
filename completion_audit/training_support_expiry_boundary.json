@@ -1,0 +1,40 @@
+{
+  "status": "REPRODUCED_CURRENT_CODE_UNCHANGED",
+  "results": [
+    {
+      "restart_utc": "2026-09-25T12:30:00Z",
+      "eligible_contracts": 100,
+      "calibration_contracts": 20,
+      "gate_pass": true,
+      "first": "KXBTC15M-26AUG210845-45"
+    },
+    {
+      "restart_utc": "2026-09-25T12:30:00.001Z",
+      "eligible_contracts": 99,
+      "calibration_contracts": 20,
+      "gate_pass": true,
+      "first": "KXBTC15M-26AUG210900-00"
+    },
+    {
+      "restart_utc": "2026-09-25T12:45:00Z",
+      "eligible_contracts": 99,
+      "calibration_contracts": 20,
+      "gate_pass": true,
+      "first": "KXBTC15M-26AUG210900-00"
+    },
+    {
+      "restart_utc": "2026-09-25T12:45:00.001Z",
+      "eligible_contracts": 98,
+      "calibration_contracts": 19,
+      "gate_pass": false,
+      "first": "KXBTC15M-26AUG210915-15"
+    },
+    {
+      "restart_utc": "2026-09-25T13:00:00Z",
+      "eligible_contracts": 98,
+      "calibration_contracts": 19,
+      "gate_pass": false,
+      "first": "KXBTC15M-26AUG210915-15"
+    }
+  ]
+}
