@@ -184,6 +184,20 @@ def base_signal_now(r, ps, ask, fair, edge, ml, gap, ratio):
     )
     return tier1 or final or strong_scalp_entry
 
+def new_source_rows(source, started, last_ts):
+    """Keep the existing timestamp filter without materializing retained history."""
+    batch = []
+    with source.open(newline="", encoding="utf-8-sig", errors="ignore") as stream:
+        for row in csv.DictReader(stream):
+            stamp = parse_dt(row.get("timestamp_utc"))
+            if not stamp or stamp < started:
+                continue
+            if last_ts is not None and stamp <= last_ts:
+                continue
+            batch.append((stamp, row))
+    return batch
+
+
 def shadow_loop(bot_proc):
     s = load_state()
     started = parse_dt(s.get("started_utc")) or utcnow()
@@ -209,17 +223,7 @@ def shadow_loop(bot_proc):
                 time.sleep(POLL_SECONDS)
                 continue
 
-            with UNIFIED.open(newline="", encoding="utf-8-sig", errors="ignore") as f:
-                rows = list(csv.DictReader(f))
-
-            batch = []
-            for r in rows:
-                t = parse_dt(r.get("timestamp_utc"))
-                if not t or t < started:
-                    continue
-                if last_ts is not None and t <= last_ts:
-                    continue
-                batch.append((t, r))
+            batch = new_source_rows(UNIFIED, started, last_ts)
 
             if not batch:
                 time.sleep(POLL_SECONDS)
