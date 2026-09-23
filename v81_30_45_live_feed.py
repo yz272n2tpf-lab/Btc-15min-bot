@@ -126,7 +126,7 @@ def publish_wait(contract=None, seconds_left=None, diagnostics=None, reason=None
           'primary_wait_reason':reason or _primary_reason(diagnostics or []),
         })
 
-def publish_signal(row, side, route, entry, bid, ts, diagnostics=None):
+def publish_signal(row, side, route, entry, bid, ts, diagnostics=None, entry_seconds_left=None):
     gain=None if bid is None else bid-entry
     if gain is None: status='WATCH'
     elif gain>=.20: status='PROTECT'
@@ -137,7 +137,7 @@ def publish_signal(row, side, route, entry, bid, ts, diagnostics=None):
     event={
       'contract':row['ticker'],'side':side,'route':route,'entry_price':round(entry,4),
       'signal_timestamp_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime(ts)),
-      'seconds_left_at_signal':round(float(row['left']),1),
+      'seconds_left_at_signal':round(float(row['left'] if entry_seconds_left is None else entry_seconds_left),1),
     }
     with STATE_LOCK:
         STATE.update({
@@ -191,7 +191,7 @@ def loop():
 
                 if active and active['ticker']==row['ticker']:
                     bid=row[active['side'].lower()+'_bid']
-                    publish_signal(row,active['side'],active['route'],active['entry'],bid,active['ts'],diagnostics)
+                    publish_signal(row,active['side'],active['route'],active['entry'],bid,active['ts'],diagnostics,entry_seconds_left=active['entry_left'])
                     if row['left']<=0 or row['ts']-active['ts']>180:
                         active=None
                         publish_wait(row['ticker'],row['left'],diagnostics)
@@ -216,7 +216,7 @@ def loop():
                             k=(row['ticker'],side,'HIGH_30_45')
                             if row['ts']-last_signal.get(k,0)>=20:
                                 last_signal[k]=row['ts']
-                                active={'ticker':row['ticker'],'side':side,'route':route,'entry':ask,'ts':row['ts']}
+                                active={'ticker':row['ticker'],'side':side,'route':route,'entry':ask,'ts':row['ts'],'entry_left':float(row['left'])}
                                 publish_signal(row,side,route,ask,bid,row['ts'],diagnostics)
                                 print('V81 FEED SIGNAL | %s | %s | %s | ask %.3f | left %.0fs'%(row['ticker'],side,route,ask,row['left']),flush=True)
                                 break
@@ -261,3 +261,4 @@ def main():
     srv.serve_forever()
 
 if __name__=='__main__': raise SystemExit(main())
+
