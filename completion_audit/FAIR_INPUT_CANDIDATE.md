@@ -1,0 +1,13 @@
+# Separate model-input candidate — not production
+
+The active production fair engine changes its fitting/calibration universe on restart because a wall-clock 35-day cutoff removes support for the fixed August labels. The exact existing safety gate fails just after **2026-09-25 12:45:00 UTC**: 98 eligible contracts produce only 19 calibration contracts. The engine then stays unready; no calibration minimum has been lowered. A running process retaining weights is not restart readiness.
+
+Completed historical Coinbase candles are also indexed at bucket start instead of the time their close/high/low can be known. The input candidate shifts full one-minute candles to bucket end, verifies immutable input hashes and explicit membership, and rejects missing support instead of repartitioning it. The original 331 fit /133 calibration /199 previously opened evaluation contracts remain distinct. No newly available labels enter training.
+
+`fair_input_candidate.py` is isolated research code. No production launcher imports it. It has an explicit prototype boundary for live samples carrying source time, observation time and price; these times remain distinct. Exact boundary, future input, delayed receipt, stale source and mutated artifact cases are covered. `verify_frozen_model_candidate.py` runs two independent deterministic fits using the existing RF and calibration parameters and checks model weights and prediction reproducibility. It imports only extracted pure feature functions, never the live bot.
+
+Local verification used numpy2.3.5 /pandas2.2.3 /scikit-learn1.8.0. Its two weight hashes match; maximum prediction difference is 3.33e-16. Hosted verification must use the production-pinned requirements before comparing runtime equivalence. Eleven input tests pass locally. These checks establish reproducible input handling, not predictive acceptance.
+
+Remaining integration work is explicit: capture BTC ticker source and receipt provenance without fabricating missing source time; integrate completed and partial bars in a separately identified shadow model; preserve production target, clock, gates and ladder outputs; collect the candidate alongside the incumbent in a durable, immutable common universe. The current production `get_btc_spot` returns only the price, so its existing output cannot supply the missing provenance.
+
+Historical evaluation has already been opened and lacks contemporaneous executable quotes/BRTI. It is developmental evidence. The completed-candle replay changed probabilities materially; no EARLY/FINAL/SCALP tuning, promotion or accuracy claim is justified by it. Promotion is blocked by live integration, durable retention and new separated forward evidence, not an additional blanket approval request.
