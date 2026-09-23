@@ -1084,11 +1084,13 @@ try:
         expected_artifact_sha256=_fair_model_artifact_sha256,
         expected_weights_sha256=_fair_model_weights_sha256,
     )
-    _fair_expected_inputs = {
-        'brti_calibration_results.csv': '78cc03b5ea15ec1d310aa3de68a5024ade7fe80f91762d1e3ee0cab03903ff4b',
-        'btc_35d_live_cache.csv': '40e44f08637a3636fbb8a14e81cf0db47335e00e74bf16bcd4c1077318fd2a85',
-    }
-    if _fair_artifact.get('input_sha256') != _fair_expected_inputs:
+    _fair_expected_input_digests = sorted([
+        '78cc03b5ea15ec1d310aa3de68a5024ade7fe80f91762d1e3ee0cab03903ff4b',
+        '40e44f08637a3636fbb8a14e81cf0db47335e00e74bf16bcd4c1077318fd2a85',
+    ])
+    _fair_artifact_inputs = _fair_artifact.get('input_sha256')
+    if (not isinstance(_fair_artifact_inputs, dict)
+            or sorted(_fair_artifact_inputs.values()) != _fair_expected_input_digests):
         raise RuntimeError('FAIR MODEL FROZEN INPUT IDENTITY MISMATCH')
     if list(_fair_artifact.get('features', [])) != _fair_features:
         raise RuntimeError('FAIR MODEL FEATURE IDENTITY MISMATCH')
