@@ -17,6 +17,12 @@ from collections import defaultdict, deque
 _src=open('scalp_lead_unified_v8.py','r',encoding='utf-8').read()
 _prefix=_src.split("def _self_test_unified_gate():",1)[0]
 exec(compile(_prefix,'scalp_lead_unified_v8.py','exec'),globals())
+from btc15_v81_qualified_inputs_v1 import (
+    QualifiedInputs, InputUnavailable, require_qualified, publication_view,
+)
+
+_qualified_inputs = QualifiedInputs(market, target, requests.get, CB)
+snap = _qualified_inputs.snapshot
 
 STATE_LOCK=threading.Lock()
 STATE={
@@ -28,6 +34,7 @@ STATE={
   'targets':None,'generated_utc':None,
   'diagnostic_version':'V81_GATE_DIAG_V1','primary_wait_reason':'STARTING',
   'diagnostics':[],'last_signal_event':None,
+  'input_provenance':None,
 }
 
 confirm=defaultdict(deque)
@@ -50,7 +57,7 @@ class Handler(BaseHTTPRequestHandler):
               'orders':False,'diagnostic_version':'V81_GATE_DIAG_V1'
             })
         if self.path.startswith('/state'):
-            with STATE_LOCK: payload=dict(STATE)
+            with STATE_LOCK: payload=publication_view(STATE,time.time())
             return self._send(200,payload)
         return self._send(404,{'error':'not_found'})
     def log_message(self,*args): pass
@@ -114,7 +121,7 @@ def _primary_reason(diags):
     d=inside[0]
     return f"{d['side']}:{d['reason']}"
 
-def publish_wait(contract=None, seconds_left=None, diagnostics=None, reason=None):
+def publish_wait(contract=None, seconds_left=None, diagnostics=None, reason=None, input_provenance=None):
     now=time.time()
     with STATE_LOCK:
         STATE.update({
@@ -124,20 +131,34 @@ def publish_wait(contract=None, seconds_left=None, diagnostics=None, reason=None
           'generated_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime(now)),
           'diagnostics':diagnostics or [],
           'primary_wait_reason':reason or _primary_reason(diagnostics or []),
+          'input_provenance':input_provenance,
         })
 
-def publish_signal(row, side, route, entry, bid, ts, diagnostics=None, entry_seconds_left=None):
+def publish_signal(row, side, route, entry, bid, ts, diagnostics=None, entry_seconds_left=None, entry_provenance=None):
+    now=time.time()
+    provenance=require_qualified(row,now)
+    if not 0<=now-ts<=180:
+        raise InputUnavailable('SIGNAL_HORIZON_EXPIRED')
+    original=entry_provenance if entry_provenance is not None else provenance
+    original_row=dict(original['quote'],ticker=row['ticker'],target=row['target'],
+                      brti=original['brti']['value'],input_provenance=original)
+    require_qualified(original_row,ts)
+    if side not in ('UP','DOWN') or entry!=original['quote'][side.lower()+'_ask']:
+        raise InputUnavailable('ENTRY_QUOTE_MISMATCH')
+    if bid!=row[side.lower()+'_bid']:
+        raise InputUnavailable('CURRENT_BID_MISMATCH')
     gain=None if bid is None else bid-entry
     if gain is None: status='WATCH'
     elif gain>=.20: status='PROTECT'
     elif gain>=.10: status='ACTIONABLE_EXPANSION'
     elif gain>=.05: status='ACTIONABLE'
     else: status='WATCH'
-    now=time.time()
     event={
       'contract':row['ticker'],'side':side,'route':route,'entry_price':round(entry,4),
       'signal_timestamp_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime(ts)),
       'seconds_left_at_signal':round(float(row['left'] if entry_seconds_left is None else entry_seconds_left),1),
+      'signal_ts':ts,
+      'entry_provenance':original,
     }
     with STATE_LOCK:
         STATE.update({
@@ -148,6 +169,7 @@ def publish_signal(row, side, route, entry, bid, ts, diagnostics=None, entry_sec
           'generated_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime(now)),
           'diagnostics':diagnostics or [],'primary_wait_reason':'ACTIVE_SIGNAL',
           'last_signal_event':event,
+          'input_provenance':provenance,
         })
 
 def quality_30_45(row,side,f):
@@ -191,10 +213,11 @@ def loop():
 
                 if active and active['ticker']==row['ticker']:
                     bid=row[active['side'].lower()+'_bid']
-                    publish_signal(row,active['side'],active['route'],active['entry'],bid,active['ts'],diagnostics,entry_seconds_left=active['entry_left'])
                     if row['left']<=0 or row['ts']-active['ts']>180:
                         active=None
-                        publish_wait(row['ticker'],row['left'],diagnostics)
+                        publish_wait(row['ticker'],row['left'],diagnostics,input_provenance=row['input_provenance'])
+                    else:
+                        publish_signal(row,active['side'],active['route'],active['entry'],bid,active['ts'],diagnostics,entry_seconds_left=active['entry_left'],entry_provenance=active['entry_provenance'])
 
                 if active is None:
                     for side in ('UP','DOWN'):
@@ -215,18 +238,25 @@ def loop():
                             ask=row[side.lower()+'_ask']; bid=row[side.lower()+'_bid']
                             k=(row['ticker'],side,'HIGH_30_45')
                             if row['ts']-last_signal.get(k,0)>=20:
-                                last_signal[k]=row['ts']
-                                active={'ticker':row['ticker'],'side':side,'route':route,'entry':ask,'ts':row['ts'],'entry_left':float(row['left'])}
                                 publish_signal(row,side,route,ask,bid,row['ts'],diagnostics)
+                                last_signal[k]=row['ts']
+                                active={'ticker':row['ticker'],'side':side,'route':route,'entry':ask,'ts':row['ts'],'entry_left':float(row['left']),'entry_provenance':row['input_provenance']}
                                 print('V81 FEED SIGNAL | %s | %s | %s | ask %.3f | left %.0fs'%(row['ticker'],side,route,ask,row['left']),flush=True)
                                 break
                 if active is None:
                     reason=_primary_reason(diagnostics)
-                    publish_wait(row['ticker'],row['left'],diagnostics,reason)
+                    publish_wait(row['ticker'],row['left'],diagnostics,reason,input_provenance=row['input_provenance'])
                     if int(row['ts'])%30==0:
                         print('V81 GATE DIAG | %s | %s | %s'%(row['ticker'],reason,json.dumps(diagnostics,separators=(',',':'),allow_nan=False)),flush=True)
         except Exception as e:
-            print('V81 FEED WARNING | %s: %s'%(type(e).__name__,e),flush=True)
+            # No row means no fresh recommendation. Keep any original active
+            # lifecycle for recovery; never invent an exit or a replacement entry.
+            confirm.clear()
+            reason=str(e) if isinstance(e,InputUnavailable) else 'SOURCE_READ_FAILED'
+            publish_wait(_qualified_inputs.last_ticker,reason=reason)
+            if not isinstance(e,InputUnavailable) or reason!=getattr(loop,'last_wait',None):
+                print('V81 SOURCE WAIT | %s | %s | NO ORDERS'%(type(e).__name__,reason),flush=True)
+            loop.last_wait=reason
         time.sleep(max(.05,POLL-(time.time()-t)))
 
 def self_test():
@@ -261,4 +291,3 @@ def main():
     srv.serve_forever()
 
 if __name__=='__main__': raise SystemExit(main())
-
