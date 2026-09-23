@@ -1,7 +1,7 @@
 {
   "status": "OFFLINE_CANDIDATE_ONLY_NOT_DEPLOYED",
   "manifest_sha256": "53c72049f66eaa7c77275d8eb27405578f07d699f1aa51e86826a58ab02033fe",
-  "pure_feature_source_sha256": "d854bd0d097e49bb1f2d94a10ad1c37097e413c5caa194e560c23eeb1006f07e",
+  "pure_feature_source_sha256": "6d063271d9bbea90b7888db34fe639be109107dbfdcc734a9f0aa026d51c0af7",
   "input_sha256": {
     "brti_calibration_results.csv": "78cc03b5ea15ec1d310aa3de68a5024ade7fe80f91762d1e3ee0cab03903ff4b",
     "btc_35d_live_cache.csv": "40e44f08637a3636fbb8a14e81cf0db47335e00e74bf16bcd4c1077318fd2a85"
