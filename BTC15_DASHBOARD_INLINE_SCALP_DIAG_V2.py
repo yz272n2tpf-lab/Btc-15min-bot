@@ -44,7 +44,10 @@ DIAG_JS = r'''<script id="v81-inline-scalp-script">
     if(!Number.isFinite(age)||age<0||age>185)return false;
     return true;
   }
-  function feedFresh(){return lastOkMs>0&&(Date.now()-lastOkMs)<=3500;}
+  function feedFresh(){
+    const now=Date.now(),generated=Date.parse(feed&&feed.generated_utc),sourceAge=now-generated;
+    return lastOkMs>0&&(now-lastOkMs)<=3500&&Number.isFinite(generated)&&sourceAge>=0&&sourceAge<=3500;
+  }
   function pretty(r){
     const m={
       NO_SIDE_IN_30_45C:'no side priced 30–45¢',PRICE_OUTSIDE_30_45C:'outside 30–45¢',
