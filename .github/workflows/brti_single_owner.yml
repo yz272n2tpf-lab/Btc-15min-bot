@@ -11,4 +11,4 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install requests==2.32.5
-      - run: python -m unittest test_brti_single_owner_consumers -v
+      - run: python -m unittest test_brti_single_owner_consumers test_btc15_preserve_evidence -v

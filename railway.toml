@@ -1,7 +1,9 @@
-# Isolated generalized scalp shadow service only.
+# Generalized scalp: preserve existing evidence before the unchanged combined bridge.
 [build]
 builder = "railpack"
 
 [deploy]
-startCommand = '''/bin/sh -c 'if [ -z "$KALSHI_KEY_ID" ] || [ -z "$KALSHI_PRIVATE_KEY_B64" ]; then echo "SCALP MOVE WAITING FOR VARIABLES | NO ORDERS"; sleep 31536000; else exec python -u scalp_path_export_bridge_v1.py; fi' '''
+startCommand = '''/bin/sh -c 'if [ -z "$KALSHI_KEY_ID" ] || [ -z "$KALSHI_PRIVATE_KEY_B64" ]; then echo "SCALP MOVE WAITING FOR VARIABLES | NO ORDERS"; sleep 31536000; else python btc15_preserve_evidence_v1.py --root /data --label pre-source-v2-20260923 && python -m unittest -q test_scalp_live_event_cache_v1.py test_btc15_combined_state_bridge_v4.py test_btc15_combined_state_bridge_v3.py test_btc15_main_protected_state_adapter_v1.py test_btc15_cross_service_payload_v4.py test_scalp_integration_state_bridge_v4.py test_scalp_integration_state_bridge_v3.py test_btc15_protected_module_adapter_v1.py test_BTC15_SCALP_SERIAL_STATE_BRIDGE_SHADOW_V1.py test_scalp_integration_state_bridge_v5.py test_btc15_combined_state_bridge_v5.py && exec python -u btc15_combined_state_bridge_v5.py; fi''''
 restartPolicyType = "never"
+healthcheckPath = "/state"
+healthcheckTimeout = 120
