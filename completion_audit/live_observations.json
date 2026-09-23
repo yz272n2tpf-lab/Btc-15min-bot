@@ -1,0 +1,838 @@
+{
+  "handoffs": {
+    "deploymentId": "d770038d-5716-46af-8f85-926cb8d63e82",
+    "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+    "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+    "status": "SUCCESS",
+    "deploy": [
+      {
+        "timestamp": "2026-09-23T00:30:00.984571169Z",
+        "severity": "info",
+        "message": "ROLLOVER STAGED HANDOFF | ticker=KXBTC15M-26SEP222045-45 | +0.870s | VERIFIED EXACT TICKER | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T00:45:01.440608745Z",
+        "severity": "info",
+        "message": "ROLLOVER STAGED HANDOFF | ticker=KXBTC15M-26SEP222100-00 | +1.339s | VERIFIED EXACT TICKER | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T01:00:01.737314481Z",
+        "severity": "info",
+        "message": "ROLLOVER STAGED HANDOFF | ticker=KXBTC15M-26SEP222115-15 | +1.602s | VERIFIED EXACT TICKER | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T01:15:03.305575244Z",
+        "severity": "info",
+        "message": "ROLLOVER STAGED HANDOFF | ticker=KXBTC15M-26SEP222130-30 | +3.185s | VERIFIED EXACT TICKER | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T01:30:04.643592436Z",
+        "severity": "info",
+        "message": "ROLLOVER STAGED HANDOFF | ticker=KXBTC15M-26SEP222145-45 | +4.511s | VERIFIED EXACT TICKER | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T01:45:01.804189542Z",
+        "severity": "info",
+        "message": "ROLLOVER STAGED HANDOFF | ticker=KXBTC15M-26SEP222200-00 | +1.702s | VERIFIED EXACT TICKER | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:00:02.584856687Z",
+        "severity": "info",
+        "message": "ROLLOVER STAGED HANDOFF | ticker=KXBTC15M-26SEP222215-15 | +2.455s | VERIFIED EXACT TICKER | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:15:03.020069184Z",
+        "severity": "info",
+        "message": "ROLLOVER STAGED HANDOFF | ticker=KXBTC15M-26SEP222230-30 | +2.911s | VERIFIED EXACT TICKER | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:30:04.585823681Z",
+        "severity": "info",
+        "message": "ROLLOVER STAGED HANDOFF | ticker=KXBTC15M-26SEP222245-45 | +4.452s | VERIFIED EXACT TICKER | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:45:00.939370377Z",
+        "severity": "info",
+        "message": "ROLLOVER STAGED HANDOFF | ticker=KXBTC15M-26SEP222300-00 | +0.816s | VERIFIED EXACT TICKER | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      }
+    ]
+  },
+  "owner": {
+    "deploymentId": "7b6bdfcb-c42a-4b01-92e4-3c544a8201a3",
+    "serviceId": "0fe5d048-873e-4c1c-a3d4-8e7216e44f3e",
+    "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+    "status": "SUCCESS",
+    "deploy": [
+      {
+        "timestamp": "2026-09-23T01:52:17.339941660Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_ERROR | clean=False | age_ms=41995 | seq=10 | upstream_ok=10/14 (71.4%) | 429=4 | errors=4 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T01:53:17.306649867Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_ERROR | clean=False | age_ms=23871 | seq=20 | upstream_ok=20/27 (74.1%) | 429=7 | errors=7 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T01:54:17.379340991Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_ERROR | clean=False | age_ms=83871 | seq=20 | upstream_ok=20/29 (69.0%) | 429=9 | errors=9 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T01:55:17.443195560Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_ERROR | clean=False | age_ms=143871 | seq=20 | upstream_ok=20/31 (64.5%) | 429=11 | errors=11 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T01:56:17.499347421Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1603 | seq=47 | upstream_ok=47/58 (81.0%) | 429=11 | errors=11 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T01:57:17.620617036Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1599 | seq=77 | upstream_ok=77/88 (87.5%) | 429=11 | errors=11 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T01:58:17.619044956Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1596 | seq=107 | upstream_ok=107/118 (90.7%) | 429=11 | errors=11 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T01:59:17.624210225Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1593 | seq=137 | upstream_ok=137/148 (92.6%) | 429=11 | errors=11 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:00:20.146761042Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1575 | seq=167 | upstream_ok=167/178 (93.8%) | 429=11 | errors=11 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:01:18.114852439Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1572 | seq=197 | upstream_ok=197/208 (94.7%) | 429=11 | errors=11 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:02:18.109220075Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1567 | seq=227 | upstream_ok=227/238 (95.4%) | 429=11 | errors=11 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:03:18.123326530Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1564 | seq=257 | upstream_ok=257/268 (95.9%) | 429=11 | errors=11 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:04:18.185448159Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1550 | seq=287 | upstream_ok=287/298 (96.3%) | 429=11 | errors=11 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:05:18.255669679Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1547 | seq=317 | upstream_ok=317/328 (96.6%) | 429=11 | errors=11 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:06:18.301533982Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1540 | seq=347 | upstream_ok=347/358 (96.9%) | 429=11 | errors=11 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:07:18.315942174Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1537 | seq=377 | upstream_ok=377/388 (97.2%) | 429=11 | errors=11 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:08:18.378329786Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1528 | seq=407 | upstream_ok=407/418 (97.4%) | 429=11 | errors=11 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:09:18.408817563Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1525 | seq=437 | upstream_ok=437/448 (97.5%) | 429=11 | errors=11 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:10:18.443986401Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1522 | seq=467 | upstream_ok=467/478 (97.7%) | 429=11 | errors=11 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:11:18.495685635Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1496 | seq=495 | upstream_ok=495/507 (97.6%) | 429=12 | errors=12 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:12:18.509191548Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1493 | seq=525 | upstream_ok=525/537 (97.8%) | 429=12 | errors=12 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:13:18.650267944Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_ERROR | clean=False | age_ms=11420 | seq=544 | upstream_ok=544/560 (97.1%) | 429=16 | errors=16 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:14:18.690813144Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1319 | seq=571 | upstream_ok=571/588 (97.1%) | 429=17 | errors=17 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:15:18.746939344Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1310 | seq=601 | upstream_ok=601/618 (97.2%) | 429=17 | errors=17 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:16:18.773608121Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1306 | seq=631 | upstream_ok=631/648 (97.4%) | 429=17 | errors=17 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:17:18.805407742Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1303 | seq=661 | upstream_ok=661/678 (97.5%) | 429=17 | errors=17 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:18:18.934508835Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1300 | seq=691 | upstream_ok=691/708 (97.6%) | 429=17 | errors=17 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:19:18.936653472Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1291 | seq=721 | upstream_ok=721/738 (97.7%) | 429=17 | errors=17 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:20:19.014946967Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1279 | seq=751 | upstream_ok=751/768 (97.8%) | 429=17 | errors=17 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:21:19.073198535Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_ERROR | clean=False | age_ms=9270 | seq=777 | upstream_ok=777/796 (97.6%) | 429=19 | errors=19 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:22:19.179214356Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_ERROR | clean=False | age_ms=69270 | seq=777 | upstream_ok=777/799 (97.2%) | 429=22 | errors=22 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:23:19.171780236Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1029 | seq=797 | upstream_ok=797/819 (97.3%) | 429=22 | errors=22 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:24:19.228659841Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1026 | seq=827 | upstream_ok=827/849 (97.4%) | 429=22 | errors=22 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:25:19.336115270Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1023 | seq=857 | upstream_ok=857/879 (97.5%) | 429=22 | errors=22 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:26:19.398914385Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1020 | seq=887 | upstream_ok=887/909 (97.6%) | 429=22 | errors=22 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:27:19.404664158Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1012 | seq=917 | upstream_ok=917/939 (97.7%) | 429=22 | errors=22 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:28:19.437336190Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1009 | seq=947 | upstream_ok=947/969 (97.7%) | 429=22 | errors=22 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:29:19.460952414Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1006 | seq=977 | upstream_ok=977/999 (97.8%) | 429=22 | errors=22 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:30:20.353813564Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1003 | seq=1007 | upstream_ok=1007/1029 (97.9%) | 429=22 | errors=22 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:31:19.638381695Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1000 | seq=1037 | upstream_ok=1037/1059 (97.9%) | 429=22 | errors=22 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:32:19.702463056Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=997 | seq=1067 | upstream_ok=1067/1089 (98.0%) | 429=22 | errors=22 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:33:19.659790871Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=994 | seq=1097 | upstream_ok=1097/1119 (98.0%) | 429=22 | errors=22 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:34:19.843310049Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_ERROR | clean=False | age_ms=4992 | seq=1125 | upstream_ok=1125/1148 (98.0%) | 429=23 | errors=23 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:35:20.039291114Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_ERROR | clean=False | age_ms=54959 | seq=1128 | upstream_ok=1128/1155 (97.7%) | 429=27 | errors=27 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:36:20.206554566Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=763 | seq=1156 | upstream_ok=1156/1183 (97.7%) | 429=27 | errors=27 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:37:20.200470310Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=759 | seq=1186 | upstream_ok=1186/1213 (97.8%) | 429=27 | errors=27 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:38:20.284213553Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=756 | seq=1216 | upstream_ok=1216/1243 (97.8%) | 429=27 | errors=27 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:39:20.474165979Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=753 | seq=1246 | upstream_ok=1246/1273 (97.9%) | 429=27 | errors=27 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:40:20.559638553Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=750 | seq=1276 | upstream_ok=1276/1303 (97.9%) | 429=27 | errors=27 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:41:20.656375302Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=738 | seq=1306 | upstream_ok=1306/1333 (98.0%) | 429=27 | errors=27 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:42:20.681885898Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=732 | seq=1336 | upstream_ok=1336/1363 (98.0%) | 429=27 | errors=27 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:43:20.731268984Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=729 | seq=1366 | upstream_ok=1366/1393 (98.1%) | 429=27 | errors=27 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:44:20.937504204Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=718 | seq=1396 | upstream_ok=1396/1423 (98.1%) | 429=27 | errors=27 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:45:20.998802621Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=715 | seq=1426 | upstream_ok=1426/1453 (98.1%) | 429=27 | errors=27 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:46:21.058256224Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=709 | seq=1456 | upstream_ok=1456/1483 (98.2%) | 429=27 | errors=27 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:47:21.168647983Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=706 | seq=1486 | upstream_ok=1486/1513 (98.2%) | 429=27 | errors=27 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:48:21.264581930Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=703 | seq=1516 | upstream_ok=1516/1543 (98.3%) | 429=27 | errors=27 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:49:21.261085807Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=700 | seq=1546 | upstream_ok=1546/1573 (98.3%) | 429=27 | errors=27 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:50:21.289710647Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=697 | seq=1576 | upstream_ok=1576/1603 (98.3%) | 429=27 | errors=27 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:51:21.368573707Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=694 | seq=1606 | upstream_ok=1606/1633 (98.3%) | 429=27 | errors=27 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:52:21.418898202Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=690 | seq=1636 | upstream_ok=1636/1663 (98.4%) | 429=27 | errors=27 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      },
+      {
+        "timestamp": "2026-09-23T02:53:21.554026732Z",
+        "severity": "info",
+        "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=684 | seq=1666 | upstream_ok=1666/1693 (98.4%) | 429=27 | errors=27 | NO ORDERS",
+        "attributes": [
+          {
+            "key": "level",
+            "value": "\"info\""
+          }
+        ]
+      }
+    ]
+  },
+  "immutable_metrics": {
+    "service": {
+      "id": "0bda3f3d-90b7-4934-8636-d16a45a3dc32",
+      "name": "v81-immutable-test"
+    },
+    "environment": {
+      "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+      "name": "production"
+    },
+    "metrics": [
+      {
+        "measurement": "CPU_USAGE",
+        "current": 0,
+        "average": 0,
+        "min": 0,
+        "max": 0,
+        "sampleCount": 61
+      },
+      {
+        "measurement": "MEMORY_USAGE_GB",
+        "current": 0,
+        "average": 0,
+        "min": 0,
+        "max": 0,
+        "sampleCount": 61
+      }
+    ]
+  }
+}

@@ -12,13 +12,15 @@ import signal
 import subprocess
 import sys
 import time
+from btc15_shadow_supervisor_v1 import ShadowChild
 
 CORE = Path("btc15_run_with_rescue_v2_and_parity_v1.py")
 PROTECT = Path("btc15_final_position_protection_shadow_v3.py")
+OBSERVER = Path("btc15_qualified_forward_observer_v1.py")
 
 def main():
     if "--self-test" in sys.argv:
-        missing = [str(p) for p in (CORE,PROTECT) if not p.exists()]
+        missing = [str(p) for p in (CORE,PROTECT,OBSERVER) if not p.exists()]
         if missing:
             raise SystemExit("SELF-TEST FAIL: missing " + ", ".join(missing))
         print("BTC15 FULL VALIDATION RUNNER SELF-TEST: PASS")
@@ -27,7 +29,7 @@ def main():
         print("Orders enabled: NO")
         return 0
 
-    for p in (CORE,PROTECT):
+    for p in (CORE,PROTECT,OBSERVER):
         if not p.exists():
             raise SystemExit(f"STOP: missing {p}")
 
@@ -39,35 +41,31 @@ def main():
     print("="*88, flush=True)
 
     core = subprocess.Popen([sys.executable,"-u",str(CORE)])
-    protect = subprocess.Popen([sys.executable,"-u",str(PROTECT)])
+    protect = ShadowChild(PROTECT)
+    observer = ShadowChild(OBSERVER)
 
     def stop(signum, frame):
-        for p in (protect,core):
-            if p.poll() is None:
-                p.terminate()
+        protect.stop()
+        observer.stop()
+        if core.poll() is None:
+            core.terminate()
 
     signal.signal(signal.SIGTERM,stop)
     signal.signal(signal.SIGINT,stop)
 
-    protect_exit_reported = False
     try:
         while True:
             rc = core.poll()
             if rc is not None:
                 break
 
-            prc = protect.poll()
-            if prc is not None and not protect_exit_reported:
-                print(
-                    f"POSITION-PROTECTION PROCESS EXITED rc={prc}; core continues untouched.",
-                    flush=True,
-                )
-                protect_exit_reported = True
+            protect.maintain()
+            observer.maintain()
 
             time.sleep(2)
     finally:
-        if protect.poll() is None:
-            protect.terminate()
+        protect.stop()
+        observer.stop()
         if core.poll() is None:
             core.terminate()
 

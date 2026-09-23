@@ -33,6 +33,7 @@ BOT_FILES = {
     "PROFIT_SHADOW_LOG": "kalshi_profit_protection_forward_shadow_v1.csv",
 }
 ROOT_FILES = {
+    "btc15_qualified_forward_observer_v1.py": {"OUT": "btc15_qualified_forward_v1.csv"},
     RESCUE: {"UNIFIED": BOT_FILES["UNIFIED_SUBMINUTE_LOG"],
              "OUT": "kalshi_rescue_v2_shadow_v1.csv",
              "STATE": "kalshi_rescue_v2_shadow_state_v1.json"},
@@ -153,6 +154,31 @@ def audit(sources, payloads):
             expr("path.with_suffix('.tmp')"),
         }:
             allow(quote_module, node)
+
+    observer = "btc15_qualified_forward_observer_v1.py"
+    require(observer in trees, "qualified forward observer missing")
+    allow(observer, binding(trees[observer], "url",
+          "'http://127.0.0.1:' + os.getenv('PORT', '8080') + '/dashboard_state.json'"))
+
+    # Exact immutable input added by the frozen-training repair. This does not
+    # allow arbitrary packaged paths, aliases or writes to the training source.
+    training = binding(trees[BOT], "TRUE_SCALP_TRAIN_EVENT_LOG",
+                       "Path(__file__).with_name('kalshi_scalp_shadow_events_v1.csv')")
+    allow(BOT, training)
+    binding(trees[BOT], "TRUE_SCALP_TRAIN_EVENT_GIT_BLOB_SHA",
+            repr("c579fd22127e5af3bd14e287cb27b631459fbcd7"))
+    allowed_reads = set()
+    for node in ast.walk(trees[BOT]):
+        if isinstance(node, ast.Call) and dump(node) in {
+            expr("TRUE_SCALP_TRAIN_EVENT_LOG.exists()"),
+            expr("_git_blob_sha(TRUE_SCALP_TRAIN_EVENT_LOG)"),
+            expr("_load_true_scalp_training_events(TRUE_SCALP_TRAIN_EVENT_LOG, TRUE_SCALP_TRAIN_CUTOFF)"),
+        }:
+            allowed_reads.update(id(n) for n in ast.walk(node))
+    for node in ast.walk(trees[BOT]):
+        if isinstance(node, ast.Name) and node.id == "TRUE_SCALP_TRAIN_EVENT_LOG":
+            require(id(node) in allowed_nodes[BOT] or id(node) in allowed_reads,
+                    "unreviewed frozen training source access")
 
     # Only these two packaged historical/model inputs are deliberately not data-root files.
     binding(trees[BOT], "_fair_cache_path", "Path('btc_35d_live_cache.csv')")

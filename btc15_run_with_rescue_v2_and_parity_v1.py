@@ -12,6 +12,7 @@ import signal
 import subprocess
 import sys
 import time
+from btc15_shadow_supervisor_v1 import ShadowChild
 
 CORE = Path("btc15_run_with_rescue_v2_shadow_v1.py")
 PARITY = Path("btc15_kalshi_parity_shadow_v1.py")
@@ -39,35 +40,27 @@ def main():
     print("="*84, flush=True)
 
     core = subprocess.Popen([sys.executable,"-u",str(CORE)])
-    parity = subprocess.Popen([sys.executable,"-u",str(PARITY)])
+    parity = ShadowChild(PARITY)
 
     def stop(signum, frame):
-        for p in (parity,core):
-            if p.poll() is None:
-                p.terminate()
+        parity.stop()
+        if core.poll() is None:
+            core.terminate()
 
     signal.signal(signal.SIGTERM,stop)
     signal.signal(signal.SIGINT,stop)
 
-    parity_exit_reported = False
     try:
         while True:
             rc = core.poll()
             if rc is not None:
                 break
 
-            prc = parity.poll()
-            if prc is not None and not parity_exit_reported:
-                print(
-                    f"PARITY PROCESS EXITED rc={prc}; existing Rescue/core continues untouched.",
-                    flush=True,
-                )
-                parity_exit_reported = True
+            parity.maintain()
 
             time.sleep(2)
     finally:
-        if parity.poll() is None:
-            parity.terminate()
+        parity.stop()
         if core.poll() is None:
             core.terminate()
 

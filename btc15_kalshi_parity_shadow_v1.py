@@ -182,7 +182,7 @@ def direct_brti_payload():
         # Keep the existing qualified transport and source-age guard in force.
         point = read_shared_brti()
         point_age = num(point.get("age_seconds"))
-        if point.get("status") != "PRIMARY_OK" or not (0.0 <= point_age <= 5.0):
+        if point.get("status") != "PRIMARY_OK" or point.get("clean_for_qualification") is not True or not (0.0 <= point_age <= 5.0):
             raise RuntimeError("shared BRTI parity source not PRIMARY_OK/fresh")
         if os.getenv("BTC15_BRTI_TRANSPORT","").strip().lower() == "websocket_gateway":
             from btc15_brti_ws_gateway_client_v1 import ticks
@@ -204,7 +204,10 @@ def direct_brti_payload():
                 # Fail closed unless a fresh PRIMARY_OK point is available.
                 out=[(datetime.fromtimestamp(int(point["source_ts_ms"])/1000.0,tz=timezone.utc),float(point["value"]))]
             return out
-        return [(datetime.fromtimestamp(int(point["source_ts_ms"])/1000.0,tz=timezone.utc),float(point["value"]))]
+        from btc15_brti_shared_consumer_v1 import read_shared_brti_ticks
+        history = read_shared_brti_ticks(owner_epoch=point["owner_epoch"])
+        return [(datetime.fromtimestamp(item["source_ts_ms"]/1000.0,tz=timezone.utc), item["value"])
+                for item in history]
 
     obj = kalshi_get(BRTI_PATH, {"id":"BRTI","maxResolution":"PER_SECOND"})
     data = obj.get("data", obj) if isinstance(obj, dict) else {}

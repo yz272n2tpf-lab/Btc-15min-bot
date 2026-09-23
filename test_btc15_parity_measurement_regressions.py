@@ -258,7 +258,7 @@ class ParityMeasurements(unittest.TestCase):
 
     def test_qualified_gateway_uses_true_timestamps_and_no_direct_http(self):
         source_ms = int(self.pub.timestamp()*1000)
-        point = dict(status='PRIMARY_OK', age_seconds=1., source_ts_ms=source_ms, value=100000.)
+        point = dict(status='PRIMARY_OK', clean_for_qualification=True, age_seconds=1., source_ts_ms=source_ms, value=100000.)
         raw = [dict(index_id='BRTI', source_ts_ms=source_ms, value=100000.),
                dict(index_id='OTHER', source_ts_ms=source_ms, value=3.),
                dict(index_id='BRTI', source_ts_ms=source_ms+1000, value='nan')]
