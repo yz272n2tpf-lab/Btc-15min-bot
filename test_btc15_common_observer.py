@@ -26,6 +26,30 @@ class CommonEvidence(unittest.TestCase):
         records=[json.loads(line) for line in gzip.decompress(self.path.read_bytes()).splitlines()]
         self.assertEqual(records[0],first);self.assertEqual(records[1]['brti_source_ts_ms'],123)
 
+    def test_observation_loop_uses_one_second_cached_reads_only(self):
+        class Stop:
+            waits=[]
+            def is_set(self):return bool(self.waits)
+            def wait(self,seconds):self.waits.append(seconds)
+        stop=Stop()
+        with patch.object(module,'read_source',side_effect=lambda item:dict(service=item[0],state={})) as read, \
+             patch.object(module.time,'monotonic',side_effect=[10.,10.2]),patch.object(module,'append_record') as append:
+            module.observe_forever(self.path,'new-run',stop)
+        self.assertAlmostEqual(stop.waits[0],.8)
+        self.assertEqual(read.call_count,4)
+        self.assertEqual({call.args[0][1] for call in read.call_args_list},set(module.URLS.values()))
+        record=append.call_args.args[1]
+        self.assertEqual(record['sampling_seconds'],1.)
+        self.assertTrue(record['observer_epoch']);self.assertFalse(record['orders'])
+
+    def test_sampler_cannot_remain_at_one_stale_five_second_phase(self):
+        # Reproduces the measured4.7s observer phase against a5s producer.
+        # Available states with true source age<5 occupied the early cycle.
+        old_phases=[(4.7+5*i)%5 for i in range(20)]
+        new_phases=[(4.7+module.OBSERVATION_INTERVAL_SECONDS*i)%5 for i in range(20)]
+        self.assertFalse(any(phase<2 for phase in old_phases))
+        self.assertTrue(any(phase<2 for phase in new_phases))
+
     def test_bounded_incremental_export_reassembles_identical_bytes(self):
         module.append_record(self.path,dict(value='first',orders=False))
         m,a=module.export_chunk(self.path,0,10)
