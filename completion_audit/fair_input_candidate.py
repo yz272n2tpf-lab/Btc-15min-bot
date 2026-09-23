@@ -146,7 +146,8 @@ def frame_at_cut(completed, ticks, cutoff):
             base.loc[when, 'source_utc'] = p['source_utc']
         base.loc[when, 'High'] = max(b['High'], p['High'])
         base.loc[when, 'Low'] = min(b['Low'], p['Low'])
-    merged = pd.concat([base, partial.loc[~partial.index.isin(base.index)]]).sort_index()
+    pieces = [part for part in (base, partial.loc[~partial.index.isin(base.index)]) if not part.empty]
+    merged = pd.concat(pieces).sort_index()
     if merged.index.has_duplicates:
         raise ValueError('Ambiguous availability')
     return merged
