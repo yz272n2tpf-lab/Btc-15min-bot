@@ -1,0 +1,84 @@
+{
+  "cutoff_utc": "2026-09-23T12:35:00+00:00",
+  "mutated_bucket_start_utc": "2026-09-23T12:35:00+00:00",
+  "bucket_complete_utc": "2026-09-23T12:36:00+00:00",
+  "existing_future_guard_raised": false,
+  "changed_features": {
+    "dist_target": {
+      "before": 0.0,
+      "after": 50.0
+    },
+    "abs_dist_target": {
+      "before": 0.0,
+      "after": 50.0
+    },
+    "dist_target_pct": {
+      "before": 0.0,
+      "after": 0.5
+    },
+    "move_from_start": {
+      "before": 0.0,
+      "after": 50.0
+    },
+    "move_from_start_pct": {
+      "before": 0.0,
+      "after": 0.5
+    },
+    "move1": {
+      "before": 0.0,
+      "after": 50.0
+    },
+    "move2": {
+      "before": 0.0,
+      "after": 50.0
+    },
+    "move3": {
+      "before": 0.0,
+      "after": 50.0
+    },
+    "move5": {
+      "before": 0.0,
+      "after": 50.0
+    },
+    "support1": {
+      "before": 0.0,
+      "after": 50.0
+    },
+    "support2": {
+      "before": 0.0,
+      "after": 50.0
+    },
+    "support3": {
+      "before": 0.0,
+      "after": 50.0
+    },
+    "support5": {
+      "before": 0.0,
+      "after": 50.0
+    },
+    "range5": {
+      "before": 2.0,
+      "after": 52.0
+    },
+    "vol5": {
+      "before": 0.0,
+      "after": 0.21650635094610965
+    },
+    "dist_per_min_remaining": {
+      "before": 0.0,
+      "after": 5.0
+    },
+    "dist_over_range5": {
+      "before": 0.0,
+      "after": 0.9615384615384616
+    },
+    "current_coinbase_close": {
+      "before": 100.0,
+      "after": 150.0
+    }
+  },
+  "conclusion": "Historical completed bucket values alter features at bucket start, before their availability.",
+  "source": "https://docs.cdp.coinbase.com/api-reference/exchange-api/rest-api/products/get-product-candles",
+  "production_changed": false,
+  "orders": false
+}
