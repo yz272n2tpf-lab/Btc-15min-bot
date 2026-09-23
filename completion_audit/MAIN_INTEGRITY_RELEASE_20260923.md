@@ -31,3 +31,5 @@ unchanged; each row must retain its actual revision and qualification status.
 PR26's four exit hypotheses remain predeclared research policies. This release
 does not select one or alter V8.1 exit thresholds without prospective corrected
 entry evidence.
+
+Artifact preservation run 35935624296 reproduced both registered identities and committed the exact binary on the release branch.
