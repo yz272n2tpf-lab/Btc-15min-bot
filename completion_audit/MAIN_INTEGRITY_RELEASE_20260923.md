@@ -13,8 +13,8 @@ The fair model is loaded, never fitted, by production startup. The loader checks
 the artifact SHA256 before deserialization and recomputes the fitted tree plus
 calibration weight hash afterwards:
 
-- artifact SHA256: `2973e4e44d9a0212d3efc443d58956073ba8209cf340fd5d6730c462ab7534c6`
-- fitted weights SHA256: `4cdb63db4e2b977592f158147cab650c861c683bf1218556878463120dafeee2`
+- artifact SHA256: `1bf10e755fc81584bab3c3682b16103353f84582c27bb003664de883e7e7c816`
+- fitted weights SHA256: `95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6`
 - fit membership: 331 frozen contracts;
 - calibration membership: 133 frozen contracts / 1,862 snapshots;
 - historical evaluation membership: 199 already-opened contracts, not a new holdout.

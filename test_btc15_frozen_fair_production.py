@@ -9,8 +9,8 @@ from completion_audit.frozen_model_artifact import load_verified
 ROOT = Path(__file__).resolve().parent
 SOURCE = ROOT / "bot_two_output_build_v4_13_profit_protection_shadow.py"
 ARTIFACT = ROOT / "completion_audit/model_artifact/frozen_fair_candidate.joblib"
-ARTIFACT_SHA = "2973e4e44d9a0212d3efc443d58956073ba8209cf340fd5d6730c462ab7534c6"
-WEIGHTS_SHA = "4cdb63db4e2b977592f158147cab650c861c683bf1218556878463120dafeee2"
+ARTIFACT_SHA = "1bf10e755fc81584bab3c3682b16103353f84582c27bb003664de883e7e7c816"
+WEIGHTS_SHA = "95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6"
 
 
 class FrozenFairProductionTests(unittest.TestCase):

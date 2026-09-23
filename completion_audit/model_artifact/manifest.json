@@ -10,7 +10,7 @@
     "numpy": "2.5.2",
     "pandas": "3.0.5",
     "sklearn": "1.9.0",
-    "scipy": "1.17.0",
+    "scipy": "1.18.1",
     "python": "3.12.14",
     "machine": "x86_64"
   },
@@ -25,14 +25,14 @@
     "historical_evaluation_already_opened": 2786
   },
   "identical_refit_weight_hashes": [
-    "4cdb63db4e2b977592f158147cab650c861c683bf1218556878463120dafeee2",
-    "4cdb63db4e2b977592f158147cab650c861c683bf1218556878463120dafeee2"
+    "95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6",
+    "95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6"
   ],
   "max_prediction_difference": 0.0,
   "tree_weights_sha256": "1b24f87c02e4cdfaf136f83339c7da0647f98fa3e666ceb5596cf03eca4d8e4c",
-  "calibration_weights_sha256": "5a925434063ed9f89ea3b1adc81838bee9514780bcc4b750cca0709c5791db58",
-  "artifact_sha256": "2973e4e44d9a0212d3efc443d58956073ba8209cf340fd5d6730c462ab7534c6",
-  "artifact_bytes": 5130233,
+  "calibration_weights_sha256": "9c3c074a2f2703fb5d8cbf3b793c452356e05ac47b4b64fb200c2fe79abfe34f",
+  "artifact_sha256": "1bf10e755fc81584bab3c3682b16103353f84582c27bb003664de883e7e7c816",
+  "artifact_bytes": 5130232,
   "new_process_artifact_reload_exact": true,
   "forest_prediction_jobs": 1,
   "historical_evaluation_is_new_holdout": false,

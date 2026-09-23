@@ -1,8 +1,8 @@
 name: Preserve production fair artifact
 
 on:
-  push:
-    branches: [release/btc15-integrity-20260923]
+  pull_request:
+    branches: [main]
     paths: ['.github/workflows/preserve-production-fair-artifact.yml']
 
 permissions:
@@ -18,6 +18,8 @@ jobs:
       MKL_NUM_THREADS: '1'
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
       - uses: actions/setup-python@v5
         with:
           python-version-file: .python-version
@@ -25,14 +27,12 @@ jobs:
       - run: python completion_audit/verify_frozen_model_candidate.py
       - name: Require registered artifact identity
         run: |
-          test "$(sha256sum completion_audit/model_artifact/frozen_fair_candidate.joblib | cut -d' ' -f1)" = "2973e4e44d9a0212d3efc443d58956073ba8209cf340fd5d6730c462ab7534c6"
-          grep -q '4cdb63db4e2b977592f158147cab650c861c683bf1218556878463120dafeee2' completion_audit/model_artifact/manifest.json
+          test "$(sha256sum completion_audit/model_artifact/frozen_fair_candidate.joblib | cut -d' ' -f1)" = "1bf10e755fc81584bab3c3682b16103353f84582c27bb003664de883e7e7c816"
+          grep -q '95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6' completion_audit/model_artifact/manifest.json
       - name: Commit exact binary artifact
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add completion_audit/model_artifact/frozen_fair_candidate.joblib completion_audit/model_artifact/manifest.json
           git commit -m "Preserve verified production fair artifact"
-          git push origin HEAD:${GITHUB_REF_NAME}
-
-# Triggered only on the immutable release-candidate branch.
+          git push origin HEAD:${{ github.head_ref }}

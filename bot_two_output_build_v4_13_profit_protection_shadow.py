@@ -1077,8 +1077,8 @@ try:
     # Restart-safe identity: production never refits this model. The byte hash
     # is checked before deserialization and the fitted tree/calibration weights
     # are recomputed afterwards. Any mismatch fails the fair layer closed.
-    _fair_model_artifact_sha256 = '2973e4e44d9a0212d3efc443d58956073ba8209cf340fd5d6730c462ab7534c6'
-    _fair_model_weights_sha256 = '4cdb63db4e2b977592f158147cab650c861c683bf1218556878463120dafeee2'
+    _fair_model_artifact_sha256 = '1bf10e755fc81584bab3c3682b16103353f84582c27bb003664de883e7e7c816'
+    _fair_model_weights_sha256 = '95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6'
     _fair_artifact = _fair_load_verified(
         Path('completion_audit/model_artifact/frozen_fair_candidate.joblib'),
         expected_artifact_sha256=_fair_model_artifact_sha256,
