@@ -38,6 +38,16 @@ PORT = int(os.environ.get("PORT", "8080"))
 EXPORT_ENABLE = os.environ.get("PATH_EXPORT_ENABLE", "0") == "1"
 TOKEN = os.environ.get("PATH_EXPORT_TOKEN", "").strip()
 
+def selected_run_path(query, kind, current):
+    """Export only the current run or the explicitly retained pre-cadence run."""
+    selected=query.get('run_id',[])
+    if not selected:return Path(current) if current else None
+    if len(selected)!=1 or selected[0] not in {
+            'clean-source-v2-20260923',os.getenv('BTC15_CLEAN_RUN_ID','')} or not selected[0]:
+        raise ValueError('Unknown retained run')
+    suffix={'manifest':'manifest.json','common':'common.jsonl.gz','events':'events.csv'}[kind]
+    return Path(os.getenv('BTC15_DATA_DIR','/data'))/('scalp_'+selected[0]+'_'+suffix)
+
 def file_sha256(path: Path) -> str | None:
     if not path.exists():
         return None
@@ -126,8 +136,15 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(401, {"ok": False, "error": "unauthorized", "orders": False})
 
         path = urlparse(self.path).path
+        query=parse_qs(urlparse(self.path).query)
+        try:
+            manifest_path=selected_run_path(query,'manifest',os.getenv('BTC15_RUN_MANIFEST'))
+            common_path=selected_run_path(query,'common',os.getenv('BTC15_COMMON_OBSERVATIONS'))
+            event_path=selected_run_path(query,'events',EVENT_CSV)
+        except ValueError:
+            return self._json(400, {'ok':False,'error':'unknown_run','orders':False})
         if path == '/research/run-manifest':
-            name = os.getenv('BTC15_RUN_MANIFEST')
+            name = manifest_path
             if not name or not Path(name).is_file():
                 return self._json(404, {'ok':False,'error':'run_manifest_missing','orders':False})
             return self._json(200, json.loads(Path(name).read_text()))
@@ -135,7 +152,7 @@ class Handler(BaseHTTPRequestHandler):
         if path == '/research/common-export':
             if not EXPORT_ENABLE:
                 return self._json(403, {'ok':False,'error':'export_disabled','orders':False})
-            name = os.getenv('BTC15_COMMON_OBSERVATIONS')
+            name = common_path
             if not name:
                 return self._json(404, {'ok':False,'error':'common_evidence_unconfigured','orders':False})
             from btc15_common_observer_v1 import export_chunk
@@ -173,18 +190,29 @@ class Handler(BaseHTTPRequestHandler):
                     "error": "PATH_EXPORT_ENABLE is not 1",
                     "orders": False,
                 })
-            if not EVENT_CSV.exists():
+            if not event_path.exists():
                 return self._json(404, {"ok": False, "error": "event_csv_missing", "orders": False})
 
-            raw = EVENT_CSV.read_bytes()
-            self.send_response(200)
-            self.send_header("Content-Type", "text/csv; charset=utf-8")
-            self.send_header("Content-Disposition", 'attachment; filename="scalp_move_shadow_v1_events.csv"')
-            self.send_header("Content-Length", str(len(raw)))
-            self.send_header("Cache-Control", "no-store")
-            self.send_header("X-Source-SHA256", file_sha256(EVENT_CSV) or "")
-            self.end_headers()
-            self.wfile.write(raw)
+            # Hash and stream one fixed append-only prefix, not two different
+            # growing-file views or a full in-memory copy.
+            with event_path.open('rb') as stream:
+                size=os.fstat(stream.fileno()).st_size;left=size;digest=hashlib.sha256()
+                while left:
+                    chunk=stream.read(min(65536,left))
+                    if not chunk:raise RuntimeError('Evidence file shortened')
+                    digest.update(chunk);left-=len(chunk)
+                stream.seek(0)
+                self.send_response(200)
+                self.send_header("Content-Type", "text/csv; charset=utf-8")
+                self.send_header("Content-Disposition", 'attachment; filename="'+event_path.name+'"')
+                self.send_header("Content-Length", str(size))
+                self.send_header("Cache-Control", "no-store")
+                self.send_header("X-Source-SHA256", digest.hexdigest())
+                self.end_headers();left=size
+                while left:
+                    chunk=stream.read(min(65536,left))
+                    if not chunk:raise RuntimeError('Evidence file shortened')
+                    self.wfile.write(chunk);left-=len(chunk)
             return
 
         return self._json(404, {"ok": False, "error": "not_found", "orders": False})

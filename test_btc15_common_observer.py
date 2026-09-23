@@ -96,5 +96,27 @@ class CommonEvidence(unittest.TestCase):
             finally:
                 server.shutdown();server.server_close();thread.join()
 
+    def test_retained_run_selector_rejects_arbitrary_paths(self):
+        import scalp_path_export_bridge_v1 as bridge
+        with patch.dict(os.environ,BTC15_DATA_DIR=str(self.root),BTC15_CLEAN_RUN_ID='new-run'):
+            old=bridge.selected_run_path({'run_id':['clean-source-v2-20260923']},'common',self.path)
+            self.assertEqual(old,self.root/'scalp_clean-source-v2-20260923_common.jsonl.gz')
+            for value in ('../credentials','unlisted',''):
+                with self.assertRaises(ValueError):bridge.selected_run_path({'run_id':[value]},'events',self.path)
+
+    def test_retained_csv_http_exports_exact_hashed_prefix(self):
+        from http.server import ThreadingHTTPServer
+        import scalp_path_export_bridge_v1 as bridge
+        old=self.root/'scalp_clean-source-v2-20260923_events.csv';raw=b'a,b\n1,2\n'*20000;old.write_bytes(raw)
+        with patch.object(bridge,'TOKEN',''),patch.object(bridge,'EXPORT_ENABLE',True),patch.dict(os.environ,BTC15_DATA_DIR=str(self.root)):
+            server=ThreadingHTTPServer(('127.0.0.1',0),bridge.Handler)
+            thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
+            try:
+                url='http://127.0.0.1:'+str(server.server_port)+'/research/path-export?run_id=clean-source-v2-20260923'
+                with urllib.request.urlopen(url)as response:
+                    self.assertEqual(response.read(),raw)
+                    self.assertEqual(response.headers['X-Source-SHA256'],hashlib.sha256(raw).hexdigest())
+            finally:server.shutdown();server.server_close();thread.join()
+
 
 if __name__ == '__main__':unittest.main()
