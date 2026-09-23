@@ -11,6 +11,8 @@ on:
       - 'completion_audit/test_replay_clean_inputs.py'
       - 'completion_audit/fair_forward_shadow.py'
       - 'completion_audit/test_fair_forward_shadow.py'
+      - 'completion_audit/frozen_model_artifact.py'
+      - 'completion_audit/test_frozen_model_artifact.py'
       - 'completion_audit/forward_features_development_20260923.json'
       - '.github/workflows/fair-input-candidate.yml'
   workflow_dispatch:
@@ -31,6 +33,7 @@ jobs:
       - run: python -m unittest discover -s completion_audit -p test_fair_input_candidate.py -v
       - run: python -m unittest discover -s completion_audit -p test_replay_clean_inputs.py -v
       - run: python -m unittest discover -s completion_audit -p test_fair_forward_shadow.py -v
+      - run: python -m unittest discover -s completion_audit -p test_frozen_model_artifact.py -v
       - run: python completion_audit/verify_frozen_model_candidate.py
       - uses: actions/upload-artifact@v4
         with:

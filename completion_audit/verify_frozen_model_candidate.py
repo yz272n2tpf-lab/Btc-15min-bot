@@ -80,12 +80,15 @@ def main():
     np.save(artifact_dir/'verification_features.npy',evaluate[features].to_numpy())
     np.save(artifact_dir/'expected_predictions.npy',predictions[-1])
     subprocess.run([sys.executable,'-c',
-        "import joblib,numpy as np,pandas as pd,sys;from pathlib import Path;"
-        "p=Path(sys.argv[1]);m=joblib.load(p/'frozen_fair_candidate.joblib');"
+        "import numpy as np,pandas as pd,sys;from pathlib import Path;"
+        "sys.path.insert(0,sys.argv[4]);from frozen_model_artifact import load_verified;"
+        "p=Path(sys.argv[1]);m=load_verified(p/'frozen_fair_candidate.joblib',"
+        "expected_artifact_sha256=sys.argv[2],expected_weights_sha256=sys.argv[3]);"
         "x=pd.DataFrame(np.load(p/'verification_features.npy'),columns=m['features']);"
         "r=m['sigmoid'].predict_proba(m['forest'].predict_proba(x)[:,1].reshape(-1,1))[:,1];"
         "assert np.array_equal(r,np.load(p/'expected_predictions.npy'));"
-        "print('FROZEN_ARTIFACT_RELOAD_EXACT_PASS')",str(artifact_dir)],check=True)
+        "print('FROZEN_ARTIFACT_RELOAD_EXACT_PASS')",str(artifact_dir),
+        hashlib.sha256(artifact.read_bytes()).hexdigest(),models[-1],str(root/'completion_audit')],check=True)
     result=dict(status='OFFLINE_CANDIDATE_ONLY_NOT_DEPLOYED',
                 manifest_sha256=hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
                 pure_feature_source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),
