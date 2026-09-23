@@ -48,6 +48,29 @@ DIAG_JS = r'''<script id="v81-inline-scalp-script">
     const now=Date.now(),generated=Date.parse(feed&&feed.generated_utc),sourceAge=now-generated;
     return lastOkMs>0&&(now-lastOkMs)<=3500&&Number.isFinite(generated)&&sourceAge>=0&&sourceAge<=3500;
   }
+  function inputFresh(d,main){
+    const p=d.input_provenance,q=p&&p.quote,b=p&&p.brti,now=Date.now()/1000;
+    const finite=x=>typeof x==='number'&&Number.isFinite(x);
+    const ageOk=(ts,limit)=>Number.isSafeInteger(ts)&&ts>0&&now>=ts/1000&&now-ts/1000<=limit;
+    if(!p||p.schema!=='V81_TIMESTAMPED_INPUTS_V1'||p.signal_only!==true||p.orders!==false||!q||!b)return false;
+    if(p.ticker!==d.contract||q.ticker!==d.contract||!main.market||p.target!==main.market.target)return false;
+    if(!finite(p.open_ts)||!finite(p.close_ts)||p.close_ts-p.open_ts!==900||p.open_ts%900!==0||now<p.open_ts||now>=p.close_ts)return false;
+    if(q.transport!=='timestamped_contiguous_ws'||!q.epoch||!q.market_id||!Number.isSafeInteger(q.sid)||!Number.isSafeInteger(q.sequence))return false;
+    if(!ageOk(q.source_ts_ms,6)||!Number.isSafeInteger(q.validated_at_ms)||q.validated_at_ms<q.source_ts_ms||q.validated_at_ms/1000>now||q.source_ts_ms/1000<p.open_ts)return false;
+    if(!ageOk(b.source_ts_ms,5)||b.status!=='PRIMARY_OK'||b.clean_for_qualification!==true||!b.owner_epoch||!finite(b.value))return false;
+    for(const k of ['up_bid','up_ask','down_bid','down_ask'])if(!finite(q[k])||q[k]<0||q[k]>1)return false;
+    if(q.up_bid>q.up_ask||q.down_bid>q.down_ask)return false;
+    const e=d.last_signal_event,side=String(d.side||'').toLowerCase();
+    if(!e||!finite(e.signal_ts)||now<e.signal_ts||now-e.signal_ts>180||e.contract!==d.contract||e.side!==d.side||e.entry_price!==d.entry_price)return false;
+    const original=e.entry_provenance,oq=original&&original.quote;
+    if(!original||original.schema!==p.schema||original.ticker!==p.ticker||original.target!==p.target||!oq||oq[side+'_ask']!==d.entry_price)return false;
+    const ob=original.brti,at=e.signal_ts;
+    if(original.open_ts!==p.open_ts||original.close_ts!==p.close_ts||at<p.open_ts||at>=p.close_ts||original.signal_only!==true||original.orders!==false)return false;
+    if(oq.transport!=='timestamped_contiguous_ws'||oq.ticker!==p.ticker||!oq.epoch||!oq.market_id||!Number.isSafeInteger(oq.source_ts_ms)||!Number.isSafeInteger(oq.validated_at_ms))return false;
+    if(oq.source_ts_ms/1000<p.open_ts||oq.source_ts_ms>oq.validated_at_ms||oq.validated_at_ms/1000>at||at-oq.source_ts_ms/1000>6)return false;
+    if(!ob||!Number.isSafeInteger(ob.source_ts_ms)||ob.source_ts_ms/1000>at||at-ob.source_ts_ms/1000>5||ob.status!=='PRIMARY_OK'||ob.clean_for_qualification!==true||!ob.owner_epoch)return false;
+    return q[side+'_bid']===d.current_bid;
+  }
   function pretty(r){
     const m={
       NO_SIDE_IN_30_45C:'no side priced 30–45¢',PRICE_OUTSIDE_30_45C:'outside 30–45¢',
@@ -70,6 +93,12 @@ DIAG_JS = r'''<script id="v81-inline-scalp-script">
   function renderWait(d){
     const q=bestDiag(d);
     setPill('WATCHING',false);
+    if(!d.input_provenance&&d.primary_wait_reason&&d.primary_wait_reason!=='NO_SIDE_IN_30_45C'){
+      text('scalpEntry','V8.1 WAIT · source data unavailable');
+      text('scalpLadderHold','Waiting for qualified market data');
+      flow('V8.1 WAIT · source data unavailable','warn');
+      return true;
+    }
     if(!q){
       text('scalpEntry','V8.1 waiting · no 30–45¢ side');
       text('scalpLadderEntry','V8.1 lane 30–45¢');
@@ -107,6 +136,7 @@ DIAG_JS = r'''<script id="v81-inline-scalp-script">
     if(!main||!envelope(d)||!feedFresh()||d.contract!==main.contract)return false;
     try{if(typeof usableFrame==='function'&&!usableFrame(main))return false;}catch(_e){return false;}
     try{if(typeof freshBrti==='function'&&!freshBrti(main))return false;}catch(_e){return false;}
+    if(d.active===true&&!inputFresh(d,main))return false;
     return activePayload(d)?renderActive(d):renderWait(d);
   };
 
