@@ -1,0 +1,23 @@
+name: BTC15 signal-only completion regressions
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-system:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements.txt
+      - name: Offline regressions including real local owner HTTP and consumers
+        run: python -m unittest discover -p 'test*.py' -v
+      - name: Packaged runtime path and authority gates
+        run: |
+          python test_btc15_canary_data_path_static.py
+          python test_btc15_dashboard_parity_ws_static.py
+          python test_brti_main_cutover_static_gate_v1.py

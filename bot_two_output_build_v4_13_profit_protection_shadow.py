@@ -2327,9 +2327,13 @@ def _collect_brti_once():
     # The existing qualified /state path still owns live freshness/readiness.
     value, cf_ts = _fetch_direct_brti_once()
     _store_brti_publications([(cf_ts, value)])
-    if (os.getenv("BTC15_USE_SHARED_BRTI", "").strip() == "1"
-            and os.getenv("BTC15_BRTI_TRANSPORT", "").strip().lower() == "websocket_gateway"):
-        from btc15_brti_ws_gateway_client_v1 import ticks
+    if os.getenv("BTC15_USE_SHARED_BRTI", "").strip() == "1":
+        if os.getenv("BTC15_BRTI_TRANSPORT", "").strip().lower() == "websocket_gateway":
+            from btc15_brti_ws_gateway_client_v1 import ticks
+        else:
+            from btc15_brti_shared_consumer_v1 import read_shared_brti_ticks
+            def ticks(timeout):
+                return read_shared_brti_ticks(timeout_s=timeout)
         # Recover actual publications skipped between latest-state polls. This
         # is history ingestion, never interpolation or copying the latest price.
         history_points = []
@@ -2367,12 +2371,12 @@ def _latest_brti():
             return None
         cf_ts, value = _brti_samples[-1]
 
-    age = max(0.0, time.time() - cf_ts)
+    age = time.time() - cf_ts
     return {
         "value": float(value),
         "cf_ts": float(cf_ts),
         "age": float(age),
-        "ready": bool(age <= BRTI_MAX_AGE_SECONDS),
+        "ready": bool(_brti_last_error is None and 0.0 <= age <= BRTI_MAX_AGE_SECONDS),
     }
 
 def _brti_contract_snapshot(close_dt, target, coinbase_spot, retained=None):

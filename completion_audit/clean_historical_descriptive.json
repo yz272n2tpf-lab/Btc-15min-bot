@@ -1,0 +1,43 @@
+{
+  "evidence": "historical descriptive; not fresh holdout; no retuning",
+  "rows": 49574,
+  "contracts_observed": 126,
+  "signals": 169,
+  "signal_contracts": 81,
+  "results": 169,
+  "sides": {
+    "UP": 84,
+    "DOWN": 85
+  },
+  "entry_ask": {
+    "mean": 0.5135443786982249,
+    "median": 0.84,
+    "n": 169
+  },
+  "seconds_left": {
+    "mean": 235.0740728994083,
+    "median": 197.102255,
+    "n": 169
+  },
+  "peak_exec_gain": {
+    "mean": 0.02527810650887574,
+    "median": 0.0030000000000000027,
+    "n": 169
+  },
+  "max_adverse": {
+    "mean": -0.01389940828402367,
+    "median": -0.004,
+    "n": 169
+  },
+  "horizon_exec_gain": {
+    "mean": 0.0060710059171597665,
+    "median": -0.001,
+    "n": 169
+  },
+  "hit5_sec": 12,
+  "hit10_sec": 8,
+  "hit15_sec": 5,
+  "hit20_sec": 5,
+  "coverage_observed_pct": 64.28571428571429,
+  "entry_lte50": 83
+}

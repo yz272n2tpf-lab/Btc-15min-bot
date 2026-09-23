@@ -36,6 +36,18 @@ class CanaryDataPaths(unittest.TestCase):
             with self.subTest(child=name):
                 self.rejected(name, 'DATA_ROOT = ' + old, 'DATA_ROOT = Path("/data")')
 
+    def test_frozen_training_source_is_not_writeable_or_redirectable(self):
+        self.rejected(gate.BOT,
+                      'Path(__file__).with_name(\n    "kalshi_scalp_shadow_events_v1.csv"\n)',
+                      '_btc15_data_path("kalshi_scalp_shadow_events_v1.csv")')
+        for statement in ('TRUE_SCALP_TRAIN_EVENT_LOG.write_text("bad")',
+                          'alias = TRUE_SCALP_TRAIN_EVENT_LOG',
+                          'open(TRUE_SCALP_TRAIN_EVENT_LOG, "w")'):
+            sources = dict(self.sources)
+            sources[gate.BOT] += '\n' + statement + '\n'
+            with self.subTest(statement=statement), self.assertRaises(ValueError):
+                gate.audit(sources, self.payloads)
+
     def test_new_runtime_child_is_discovered_and_rejected(self):
         sources = dict(self.sources)
         sources[gate.RUNNER] += '\nimport btc15_unreviewed_child\n'

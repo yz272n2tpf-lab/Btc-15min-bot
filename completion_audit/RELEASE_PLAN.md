@@ -1,0 +1,34 @@
+# Coordinated release candidate — approved rollout in progress
+
+Eric approved the documented infrastructure rollout and non-destructive parking. Owner v2 is deployed; remaining services follow the owner-first gates. No deletion, credential operation or strategy tuning is authorized in this stage.
+
+## Review scope
+
+- Main: strict source-timestamped legacy consumer, actual publication history ingestion in collector and parity, immediate unready state after collector errors, readonly frozen-training path gate repair, restarted parity/protection children, persistent raw-versus-publication-eligible forward observations, PR regression workflow.
+- Shared owner: true source timestamps, bounded one-hour publication history, repeated-source detection, future/conflict rejection, five-second maximum qualification, fail-closed upstream errors, HTTP reads never fetch upstream. Receipt/poll time is never a substitute for source time.
+- V8.1 and generalized scalp consumer revisions: shared-mode branch in existing resilience guard. It never invokes authenticated primary or verifier callbacks or retry bursts in shared mode. Detector thresholds/confirmations/serial ladder lifecycle are untouched.
+- Clean collector: same strict shared consumer; preserve the frozen detector payload and its hash. Reconfigure its transport to match the durable owner if still on the retired gateway. No data deletion.
+- Observation log is append-only, fsynced, on the existing data root. It preserves raw readiness separately from server-observed UI eligibility and stricter source qualification. It does not certify actual browser delivery, add settlement labels, or overwrite prior scorecards. Five-second sampling can miss brief states; count this as observation uncertainty, not guaranteed complete signal recall.
+
+## Exact operational sequence after explicit approval
+
+1. Snapshot current main/owner/scalp serving revisions, configuration and persistent datasets. Existing downloaded clean export SHA256: 9c82646867c34b4534e6cf72b498bb760e08d531cf10187757a130e7a6911a3a (49,574 rows, 2026-09-20 19:05:35 through Sep22 02:22:25 UTC). No volume currently exists for that collector; preserve export before restart. Do not reset old scorecards.
+2. Deploy only the owner candidate to brti-shared-feed-v1, retaining direct production credential references, 2.0s polling /5.0s qualification /30s 429 backoff, one replica. Use ON_FAILURE restart policy instead of NEVER. Read-only verify schema_version=2, source timestamps and real history. Fail closed if the upstream payload is not the documented time/value schema; never add receipt-time fallback.
+3. Deploy the two existing useful scalp services' candidate revisions with BTC15_USE_SHARED_BRTI=1, BTC15_BRTI_TRANSPORT=legacy_shared_http and BTC15_BRTI_SHARED_URL pointing directly to the shared owner. Keep their existing URLs and strategy entrypoints. Confirm direct upstream request counters stop increasing there. Do not park v81-live-diagnostics: the current main overlay depends on it. Preserve scalp-move-shadow-v1 /data.
+4. Park execution (do not delete service or evidence) of v81-final-isolated-test using an explicit idle entrypoint. Its existing park variable is ineffective. v81-immutable-test has zero CPU and memory across61 one-hour samples; verify it remains inactive and does not restart into its direct-polling code.
+5. Deploy main candidate only after owner v2 is proven. Keep known-good staged handoff and fixed-target definitions. New consumer deliberately rejects old receipt-time owner schema. Main rollback SHA:662873c41fde364a994b6a22dc0bb18f21d43fdc. Restoring the old owner after deploying the new main requires coordinated rollback or maintained WAIT.
+6. Update clean collector consumer/config only after preserving evidence and providing durable retention. Restore research scorecard jobs separately after identifying crash cause and preserving prior run identity; do not silently mix restarted samples with old scorecards.
+7. Verify process/container restart, upstream interruption/recovery, exact-ticker quotes/target, owner count, schema, source timestamps, no stale qualification, and >=4 consecutive real rollovers with qualified publication. Record staged handoff, target readiness, first usable quotes and first publishable data separately. Historical10 consecutive handoffs do not accept the corrected build.
+8. Freeze the corrected data and strategy revisions for forward evidence. One complete shared contract universe; record missed/offline intervals and late joins. Preserve EARLY≤45c existing preference; report all entry distributions. FINAL outcome accuracy, coverage, timing, calibration and high-price entries separately. SCALP UP/DOWN counts, executable ask→bid MFE/MAE, false positives and actual connected exit behavior separately. No performance target is deemed achieved by the present aggregate scorecards.
+
+## Remaining acceptance blockers
+
+The audit register remains authoritative. Candidate tests are not production acceptance. Outstanding: approved coordinated deployment/parking; raw reference expressions inaccessible beyond externally confirmed repaired credential chain; current-source/429 live stability; new container/recovery evidence; historical scoreboard qualification/calibration and complete common-universe ladder contribution; EARLY coverage and entry evidence; integrated SCALP exit/profit-protection choice and prospective validation; scoring job crash causes; clean/research persistence; several corrected live rollovers. Existing invalid/opened holdouts must not be reused for tuning and claimed as fresh evaluation.
+
+A strategy decision is required only if valid forward evidence shows incompatible goals. No threshold or weight change is proposed now. Final visual app development remains a separate phase.
+
+## Approved rollout checkpoint
+
+Owner PR16 merged at37735e737690096edea31beb2faff6842770ac4f; deployment b73bdf23-af30-4150-883e-1a300229538e SUCCESS. Live schema2 source age1.873s;3600 distinct one-second true publications; /ready503 on429 and200 on recovery. Settings2/5/30 retained. Duplicate callers have not yet all been migrated, so reliability acceptance remains open. V8.1 PR17 merged at1aa353ca46fc4348bfe6855325d544a02af20f8a with direct shared-owner URL, shared=1, legacy transport.
+
+Persistent main and generalized scalp startup will run btc15_preserve_evidence_v1.py before collector launch. It archives exact starting byte prefixes of known signal CSV/JSON families with SHA256 manifests into a validated ZIP on the existing volume; no original is removed/modified. Existing valid archive is reused on restart, preserving cutover identity. Missing mount, incomplete archive or insufficient headroom blocks startup. Clean collector remains unchanged until durable retention is established.
