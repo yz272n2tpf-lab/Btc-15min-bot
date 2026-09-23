@@ -1,0 +1,45 @@
+{
+  "status": "OFFLINE_CANDIDATE_ONLY_NOT_DEPLOYED",
+  "manifest_sha256": "53c72049f66eaa7c77275d8eb27405578f07d699f1aa51e86826a58ab02033fe",
+  "pure_feature_source_sha256": "d854bd0d097e49bb1f2d94a10ad1c37097e413c5caa194e560c23eeb1006f07e",
+  "input_sha256": {
+    "brti_calibration_results.csv": "78cc03b5ea15ec1d310aa3de68a5024ade7fe80f91762d1e3ee0cab03903ff4b",
+    "btc_35d_live_cache.csv": "40e44f08637a3636fbb8a14e81cf0db47335e00e74bf16bcd4c1077318fd2a85"
+  },
+  "runtime_versions": {
+    "numpy": "2.5.2",
+    "pandas": "3.0.5",
+    "sklearn": "1.9.0",
+    "scipy": "1.17.0",
+    "python": "3.12.14",
+    "machine": "x86_64"
+  },
+  "contracts_by_role": {
+    "fit": 331,
+    "calibration": 133,
+    "historical_evaluation_already_opened": 199
+  },
+  "snapshots_by_role": {
+    "fit": 4634,
+    "calibration": 1862,
+    "historical_evaluation_already_opened": 2786
+  },
+  "identical_refit_weight_hashes": [
+    "4cdb63db4e2b977592f158147cab650c861c683bf1218556878463120dafeee2",
+    "4cdb63db4e2b977592f158147cab650c861c683bf1218556878463120dafeee2"
+  ],
+  "max_prediction_difference": 0.0,
+  "tree_weights_sha256": "1b24f87c02e4cdfaf136f83339c7da0647f98fa3e666ceb5596cf03eca4d8e4c",
+  "calibration_weights_sha256": "5a925434063ed9f89ea3b1adc81838bee9514780bcc4b750cca0709c5791db58",
+  "artifact_sha256": "2973e4e44d9a0212d3efc443d58956073ba8209cf340fd5d6730c462ab7534c6",
+  "artifact_bytes": 5130233,
+  "new_process_artifact_reload_exact": true,
+  "forest_prediction_jobs": 1,
+  "historical_evaluation_is_new_holdout": false,
+  "production_promoted": false,
+  "remaining": [
+    "Online model-shadow integration and native publication equivalence remain unverified.",
+    "A registered common universe still needs meaningful separated forward evidence.",
+    "No EARLY/FINAL/SCALP threshold or weight optimization is justified."
+  ]
+}
