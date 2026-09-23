@@ -126,6 +126,34 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(401, {"ok": False, "error": "unauthorized", "orders": False})
 
         path = urlparse(self.path).path
+        if path == '/research/run-manifest':
+            name = os.getenv('BTC15_RUN_MANIFEST')
+            if not name or not Path(name).is_file():
+                return self._json(404, {'ok':False,'error':'run_manifest_missing','orders':False})
+            return self._json(200, json.loads(Path(name).read_text()))
+
+        if path == '/research/common-export':
+            if not EXPORT_ENABLE:
+                return self._json(403, {'ok':False,'error':'export_disabled','orders':False})
+            name = os.getenv('BTC15_COMMON_OBSERVATIONS')
+            if not name:
+                return self._json(404, {'ok':False,'error':'common_evidence_unconfigured','orders':False})
+            from btc15_common_observer_v1 import export_chunk
+            try:
+                query=parse_qs(urlparse(self.path).query)
+                meta,raw=export_chunk(name,int(query.get('offset',['0'])[0]),int(query.get('limit',['4000000'])[0]))
+            except ValueError:
+                return self._json(400, {'ok':False,'error':'invalid_range','orders':False})
+            if not meta['exists']:
+                return self._json(404,meta)
+            self.send_response(200)
+            self.send_header('Content-Type','application/octet-stream')
+            self.send_header('Content-Length',str(len(raw)))
+            self.send_header('Cache-Control','no-store')
+            for key in ('offset','next_offset','total_bytes','sha256'):
+                self.send_header('X-Evidence-'+key.replace('_','-'),str(meta[key]))
+            self.end_headers();self.wfile.write(raw)
+            return
         if path == "/health":
             return self._json(200, {
                 "ok": True,
