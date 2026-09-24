@@ -1,0 +1,118 @@
+{
+  "run_id": "clean-source-v2-1s-20260923",
+  "start": "2026-09-24T00:15:00+00:00",
+  "end": "2026-09-24T12:15:00+00:00",
+  "journal_bytes": 410496309,
+  "journal_sha256": "decabbc24c8ec0fedcd7b4eb1f0b538c38d07249d977bebd0d20e8d7b4726bde",
+  "members_crc_checked": 84266,
+  "damage": [],
+  "first": "2026-09-23T20:53:15.259274+00:00",
+  "last": "2026-09-24T12:32:28.631680+00:00",
+  "samples": {
+    "main": {
+      "samples": 43194,
+      "http_failures": 0,
+      "usable": 32160,
+      "brti_fresh": 16512,
+      "qualified": 15883,
+      "early_raw": 4,
+      "final_raw": 1360,
+      "scalp_raw": 234
+    },
+    "owner": {
+      "samples": 43194,
+      "http_failures": 0,
+      "status:PRIMARY_OK": 43180,
+      "http_429_max": 0,
+      "errors_max": 7,
+      "status:PRIMARY_ERROR": 14
+    },
+    "v81": {
+      "samples": 43194,
+      "http_failures": 0,
+      "active": 0,
+      "reason:TIMESTAMPED_QUOTES_UNAVAILABLE": 2124,
+      "reason:OFFICIAL_MARKET_UNAVAILABLE": 8242,
+      "reason:DOWN:FEATURES_NOT_READY": 248,
+      "reason:DOWN:BASE_NOT_READY": 5025,
+      "reason:NO_SIDE_IN_30_45C": 20553,
+      "reason:UP:BASE_NOT_READY": 6836,
+      "reason:UP:FEATURES_NOT_READY": 116,
+      "reason:UP:STRUCTURE_BLOCK": 1,
+      "reason:SOURCE_READ_FAILED": 14,
+      "reason:UP:EVIDENCE_BELOW_CORE_SURGE": 3,
+      "reason:DOWN:EVIDENCE_BELOW_CORE_SURGE": 2,
+      "reason:OFFICIAL_MARKET_UNQUALIFIED": 30
+    },
+    "serial": {
+      "samples": 43194,
+      "http_failures": 0
+    }
+  },
+  "derived_rows": {
+    "main": 12932,
+    "v81": 43061,
+    "inputs": 20661
+  },
+  "request_gaps": {
+    "main": {
+      "n": 43193,
+      "min": 0.9871249198913574,
+      "median": 1.0001099109649658,
+      "p95": 1.0003011226654053,
+      "max": 1.2016379833221436
+    },
+    "owner": {
+      "n": 43193,
+      "min": 0.9801280498504639,
+      "median": 1.0001118183135986,
+      "p95": 1.0011498928070068,
+      "max": 1.2024619579315186
+    },
+    "v81": {
+      "n": 43193,
+      "min": 0.9803519248962402,
+      "median": 1.0001189708709717,
+      "p95": 1.0014254093170165,
+      "max": 1.200773000717163
+    },
+    "serial": {
+      "n": 43193,
+      "min": 0.9798440933227539,
+      "median": 1.0001230239868164,
+      "p95": 1.001695156097412,
+      "max": 1.200087070465088
+    }
+  },
+  "gaps_over_1_5": {
+    "main": 0,
+    "owner": 0,
+    "v81": 0,
+    "serial": 0
+  },
+  "ages": {
+    "main_source": {
+      "n": 43194,
+      "min": 0.05517697334289551,
+      "median": 3.35379958152771,
+      "p95": 5111.525216031073,
+      "max": 7271.480766057968
+    },
+    "main_brti": {
+      "n": 43194,
+      "min": 0.5782976150512695,
+      "median": 5.7912245988845825,
+      "p95": 5114.859725880621,
+      "max": 7274.8152759075165
+    },
+    "owner_brti": {
+      "n": 43194,
+      "min": 0.23600506782531738,
+      "median": 1.9057310819625854,
+      "p95": 3.07383793592453,
+      "max": 13.180935382843018
+    }
+  },
+  "continuous_availability": false,
+  "orders": false
+}
