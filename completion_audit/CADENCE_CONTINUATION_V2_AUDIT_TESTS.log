@@ -1,0 +1,40 @@
+test_boundary_tick_keeps_preceding_candle_range (test_fair_input_candidate.AvailabilityCandidate.test_boundary_tick_keeps_preceding_candle_range) ... ok
+test_completion_boundary_is_exact (test_fair_input_candidate.AvailabilityCandidate.test_completion_boundary_is_exact) ... ok
+test_future_and_late_observed_ticks_do_not_change_earlier_cut (test_fair_input_candidate.AvailabilityCandidate.test_future_and_late_observed_ticks_do_not_change_earlier_cut) ... ok
+test_invalid_historical_schema_fails_closed (test_fair_input_candidate.AvailabilityCandidate.test_invalid_historical_schema_fails_closed) ... ok
+test_partial_tick_preserves_source_and_receipt_separately (test_fair_input_candidate.AvailabilityCandidate.test_partial_tick_preserves_source_and_receipt_separately) ... ok
+test_receipt_cannot_refresh_old_spot (test_fair_input_candidate.AvailabilityCandidate.test_receipt_cannot_refresh_old_spot) ... ok
+test_received_future_source_is_rejected (test_fair_input_candidate.AvailabilityCandidate.test_received_future_source_is_rejected) ... ok
+test_unavailable_completed_candle_cannot_change_any_feature (test_fair_input_candidate.AvailabilityCandidate.test_unavailable_completed_candle_cannot_change_any_feature) ... ok
+test_changed_artifact_is_rejected (test_fair_input_candidate.FrozenSupportCandidate.test_changed_artifact_is_rejected) ... ok
+test_committed_frozen_support_does_not_depend_on_wall_clock (test_fair_input_candidate.FrozenSupportCandidate.test_committed_frozen_support_does_not_depend_on_wall_clock) ... ok
+test_missing_membership_never_resplits (test_fair_input_candidate.FrozenSupportCandidate.test_missing_membership_never_resplits) ... ok
+test_corrupt_bytes_rejected_before_deserialization (test_frozen_model_artifact.ArtifactTests.test_corrupt_bytes_rejected_before_deserialization) ... ok
+test_no_implicit_trust_of_adjacent_manifest (test_frozen_model_artifact.ArtifactTests.test_no_implicit_trust_of_adjacent_manifest) ... ok
+test_reload_preserves_exact_predictions_without_fit (test_frozen_model_artifact.ArtifactTests.test_reload_preserves_exact_predictions_without_fit) ... /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/joblib/numpy_pickle.py:207: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+  array.shape = self.shape
+ok
+test_wrong_policy_weight_is_rejected (test_frozen_model_artifact.ArtifactTests.test_wrong_policy_weight_is_rejected) ... /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/joblib/numpy_pickle.py:207: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+  array.shape = self.shape
+ok
+test_both_directions_arm_then_protect_using_bid (test_v81_exit_candidate.ExitLifecycle.test_both_directions_arm_then_protect_using_bid) ... ok
+test_future_or_out_of_order_observations_do_not_update_peak (test_v81_exit_candidate.ExitLifecycle.test_future_or_out_of_order_observations_do_not_update_peak) ... ok
+test_late_horizon_does_not_fabricate_exit_fill (test_v81_exit_candidate.ExitLifecycle.test_late_horizon_does_not_fabricate_exit_fill) ... ok
+test_negative_excursions_are_not_clamped_to_zero (test_v81_exit_candidate.ExitLifecycle.test_negative_excursions_are_not_clamped_to_zero) ... ok
+test_no_cross_contract_bid_leakage (test_v81_exit_candidate.ExitLifecycle.test_no_cross_contract_bid_leakage) ... ok
+test_stale_entry_is_not_recreated_from_latched_event (test_v81_exit_candidate.ExitLifecycle.test_stale_entry_is_not_recreated_from_latched_event) ... ok
+test_stale_quote_cannot_arm_or_trigger (test_v81_exit_candidate.ExitLifecycle.test_stale_quote_cannot_arm_or_trigger) ... ok
+test_stop_and_target_are_connected_and_terminal (test_v81_exit_candidate.ExitLifecycle.test_stop_and_target_are_connected_and_terminal) ... ok
+test_first_observed_ask_above_entry_is_not_replaced_by_later_dip (test_v81_exit_replay.PublishedEventReplay.test_first_observed_ask_above_entry_is_not_replaced_by_later_dip) ... ok
+test_late_event_keeps_rejection_instead_of_backdating_entry (test_v81_exit_replay.PublishedEventReplay.test_late_event_keeps_rejection_instead_of_backdating_entry) ... ok
+test_legacy_40c_signal_cannot_invent_immediate_16c_gain (test_v81_exit_replay.PublishedEventReplay.test_legacy_40c_signal_cannot_invent_immediate_16c_gain) ... ok
+test_missing_ask_or_stale_entry_brti_remains_unscored (test_v81_exit_replay.PublishedEventReplay.test_missing_ask_or_stale_entry_brti_remains_unscored) ... ok
+test_mixed_runs_cannot_be_silently_joined (test_v81_exit_replay.PublishedEventReplay.test_mixed_runs_cannot_be_silently_joined) ... ok
+test_real_event_schema_connects_to_bid_protection_state_machine (test_v81_exit_replay.PublishedEventReplay.test_real_event_schema_connects_to_bid_protection_state_machine) ... ok
+
+----------------------------------------------------------------------
+Ran 29 tests in 1.838s
+
+OK
