@@ -1,0 +1,2117 @@
+{
+  "recorded_utc": "2026-09-24T01:59:45.563Z",
+  "signal_only": true,
+  "orders": false,
+  "main_commit": "d54321927626529612b7309576d7dc90b84fe224",
+  "v81_commit": "b05723ec622f901a05402ecf27f4d33505753ef1",
+  "main_deployment": "0b2ef3ff-1499-432a-ac70-52b997bb2e26",
+  "v81_deployment": "4105da0a-e5a2-4a76-8abc-242b0bab5ad8",
+  "owner_recovery": [
+    {
+      "timestamp": "2026-09-24T01:28:19.132157508Z",
+      "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=2661 | seq=20483 | upstream_ok=20483/20484 (100.0%) | 429=0 | errors=1 | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T01:29:22.356402446Z",
+      "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_ERROR | clean=False | age_ms=3662 | seq=20509 | upstream_ok=20509/20511 (100.0%) | 429=0 | errors=2 | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T01:30:14.409526107Z",
+      "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=2662 | seq=20531 | upstream_ok=20531/20537 (100.0%) | 429=0 | errors=6 | NO ORDERS"
+    }
+  ],
+  "finalization": [
+    {
+      "timestamp": "2026-09-24T00:15:06.075096339Z",
+      "message": "BRTI FINALIZED | KXBTC15M-26SEP232015-15 | 60/60 readings | avg $84,345.33 | side DOWN | complete True"
+    },
+    {
+      "timestamp": "2026-09-24T00:30:06.202850745Z",
+      "message": "BRTI FINALIZED | KXBTC15M-26SEP232030-30 | 60/60 readings | avg $84,341.96 | side DOWN | complete True"
+    },
+    {
+      "timestamp": "2026-09-24T00:45:06.904019231Z",
+      "message": "BRTI FINALIZED | KXBTC15M-26SEP232045-45 | 60/60 readings | avg $84,342.32 | side UP | complete True"
+    },
+    {
+      "timestamp": "2026-09-24T01:00:02.415305724Z",
+      "message": "BRTI FINALIZED | KXBTC15M-26SEP232100-00 | 60/60 readings | avg $84,310.98 | side DOWN | complete True"
+    },
+    {
+      "timestamp": "2026-09-24T01:15:03.786335832Z",
+      "message": "BRTI FINALIZED | KXBTC15M-26SEP232115-15 | 60/60 readings | avg $84,266.56 | side DOWN | complete True"
+    },
+    {
+      "timestamp": "2026-09-24T01:30:04.495308855Z",
+      "message": "BRTI FINALIZED | KXBTC15M-26SEP232130-30 | 60/60 readings | avg $84,263.40 | side DOWN | complete True"
+    },
+    {
+      "timestamp": "2026-09-24T01:45:05.639888199Z",
+      "message": "BRTI FINALIZED | KXBTC15M-26SEP232145-45 | 60/60 readings | avg $84,156.90 | side DOWN | complete True"
+    }
+  ],
+  "model_startup": [
+    {
+      "timestamp": "2026-09-24T00:04:49.659576807Z",
+      "message": "FAIR MODEL IMMUTABLE: 95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6 | ARTIFACT: 1bf10e755fc81584bab3c3682b16103353f84582c27bb003664de883e7e7c816 | NO STARTUP FIT"
+    }
+  ],
+  "handoffs": [
+    {
+      "timestamp": "2026-09-24T00:15:01.219911621Z",
+      "message": "ROLLOVER STAGED HANDOFF | ticker=KXBTC15M-26SEP232030-30 | +1.061s | VERIFIED EXACT TICKER | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T00:30:01.381394648Z",
+      "message": "ROLLOVER STAGED HANDOFF | ticker=KXBTC15M-26SEP232045-45 | +1.181s | VERIFIED EXACT TICKER | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T00:45:01.849237764Z",
+      "message": "ROLLOVER STAGED HANDOFF | ticker=KXBTC15M-26SEP232100-00 | +1.745s | VERIFIED EXACT TICKER | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T01:00:02.528613484Z",
+      "message": "ROLLOVER STAGED HANDOFF | ticker=KXBTC15M-26SEP232115-15 | +2.410s | VERIFIED EXACT TICKER | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T01:15:03.916895254Z",
+      "message": "ROLLOVER STAGED HANDOFF | ticker=KXBTC15M-26SEP232130-30 | +3.780s | VERIFIED EXACT TICKER | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T01:30:04.587632389Z",
+      "message": "ROLLOVER STAGED HANDOFF | ticker=KXBTC15M-26SEP232145-45 | +4.468s | VERIFIED EXACT TICKER | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T01:45:00.739656547Z",
+      "message": "ROLLOVER STAGED HANDOFF | ticker=KXBTC15M-26SEP232200-00 | +0.628s | VERIFIED EXACT TICKER | NO ORDERS"
+    }
+  ],
+  "rollovers": {
+    "00:15": {
+      "diagnostics": [
+        {
+          "component": "main.market_discovery",
+          "details": {
+            "expected_open_present": true,
+            "http_status": 200,
+            "latency_ms": 67.952,
+            "market_count": 103,
+            "opening_tickers": [
+              "KXBTC15M-26SEP232030-30"
+            ],
+            "request_started_utc": "2026-09-24T00:15:01.060659Z",
+            "response_received_utc": "2026-09-24T00:15:01.128611Z",
+            "safe_cache_headers": {
+              "age": "6",
+              "cache-control": "public, max-age=15",
+              "date": "Thu, 24 Sep 2026 00:14:55 GMT",
+              "via": "1.1 dae540c6121ab0f2f867854a764ebbb0.cloudfront.net (CloudFront)",
+              "x-cache": "Hit from cloudfront"
+            }
+          },
+          "event": "MARKET_LIST_RESPONSE",
+          "expected_open_utc": "2026-09-24T00:15:00Z",
+          "ms_from_open": 1128.611,
+          "orders": false,
+          "signal_only": true,
+          "ticker": null,
+          "timestamp_utc": "2026-09-24T00:15:01.128611Z"
+        },
+        {
+          "component": "main.readiness",
+          "details": {
+            "btc_ready": true,
+            "target_ready": false
+          },
+          "event": "TARGET_AND_BTC_READY",
+          "expected_open_utc": "2026-09-24T00:15:00Z",
+          "ms_from_open": 1280.634,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232030-30",
+          "timestamp_utc": "2026-09-24T00:15:01.280634Z"
+        },
+        {
+          "component": "main.market_selection",
+          "details": {
+            "active_count": 1,
+            "returned_markets": 1
+          },
+          "event": "ACTIVE_MARKET_SELECTED",
+          "expected_open_utc": "2026-09-24T00:15:00Z",
+          "ms_from_open": 6062.026,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232030-30",
+          "timestamp_utc": "2026-09-24T00:15:06.062026Z"
+        },
+        {
+          "component": "main.readiness",
+          "details": {
+            "btc_ready": true,
+            "target_ready": true
+          },
+          "event": "TARGET_AND_BTC_READY",
+          "expected_open_utc": "2026-09-24T00:15:00Z",
+          "ms_from_open": 6156.482,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232030-30",
+          "timestamp_utc": "2026-09-24T00:15:06.156482Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "book_reset": true
+          },
+          "event": "TICKER_SWITCH_BOOK_RESET",
+          "expected_open_utc": "2026-09-24T00:15:00Z",
+          "ms_from_open": 6157.554,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232030-30",
+          "timestamp_utc": "2026-09-24T00:15:06.157554Z"
+        },
+        {
+          "component": "main.quote_consumption",
+          "details": {
+            "contiguous_timestamped_evidence": false
+          },
+          "event": "QUOTE_WAIT",
+          "expected_open_utc": "2026-09-24T00:15:00Z",
+          "ms_from_open": 6157.605,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232030-30",
+          "timestamp_utc": "2026-09-24T00:15:06.157605Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "channel": "orderbook_delta"
+          },
+          "event": "SUBSCRIBE_SENT",
+          "expected_open_utc": "2026-09-24T00:15:00Z",
+          "ms_from_open": 6289.568,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232030-30",
+          "timestamp_utc": "2026-09-24T00:15:06.289568Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "channel": "orderbook_delta"
+          },
+          "event": "SUBSCRIBE_ACK",
+          "expected_open_utc": "2026-09-24T00:15:00Z",
+          "ms_from_open": 6308.971,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232030-30",
+          "timestamp_utc": "2026-09-24T00:15:06.308971Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "message_type": "orderbook_snapshot"
+          },
+          "event": "FIRST_MARKET_DATA_MESSAGE",
+          "expected_open_utc": "2026-09-24T00:15:00Z",
+          "ms_from_open": 6309.718,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232030-30",
+          "timestamp_utc": "2026-09-24T00:15:06.309718Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "level_count": 147
+          },
+          "event": "YES_SIDE_READY",
+          "expected_open_utc": "2026-09-24T00:15:00Z",
+          "ms_from_open": 6309.758,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232030-30",
+          "timestamp_utc": "2026-09-24T00:15:06.309758Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "level_count": 119
+          },
+          "event": "NO_SIDE_READY",
+          "expected_open_utc": "2026-09-24T00:15:00Z",
+          "ms_from_open": 6309.779,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232030-30",
+          "timestamp_utc": "2026-09-24T00:15:06.309779Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "no_levels": 119,
+            "yes_levels": 147
+          },
+          "event": "BOTH_SIDES_READY",
+          "expected_open_utc": "2026-09-24T00:15:00Z",
+          "ms_from_open": 6309.794,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232030-30",
+          "timestamp_utc": "2026-09-24T00:15:06.309794Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "exchange_ts_ms": 1790208906294
+          },
+          "event": "TIMESTAMPED_BOOK_USABLE",
+          "expected_open_utc": "2026-09-24T00:15:00Z",
+          "ms_from_open": 6311.102,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232030-30",
+          "timestamp_utc": "2026-09-24T00:15:06.311102Z"
+        },
+        {
+          "component": "main.quote_consumption",
+          "details": {
+            "contiguous_timestamped_evidence": true
+          },
+          "event": "QUOTES_USABLE",
+          "expected_open_utc": "2026-09-24T00:15:00Z",
+          "ms_from_open": 11267.683,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232030-30",
+          "timestamp_utc": "2026-09-24T00:15:11.267683Z"
+        },
+        {
+          "component": "main.publication_source",
+          "details": {
+            "seconds_left": 888.76
+          },
+          "event": "SOURCE_SNAPSHOT_WRITTEN",
+          "expected_open_utc": "2026-09-24T00:15:00Z",
+          "ms_from_open": 11267.957,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232030-30",
+          "timestamp_utc": "2026-09-24T00:15:11.267957Z"
+        }
+      ],
+      "diagnostics_total_retrieved": 50,
+      "parity_first_pass": {
+        "timestamp": "2026-09-24T00:15:25.764876786Z",
+        "message": "PARITY PASS | KXBTC15M-26SEP232030-30 | age 4.5s | clock \u03940.0s | target \u0394$0.00 | quotes WS \u03940.0c | BRTI \u0394$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=cdea3795-fbc9-4a86-b2c1-78c63f95c654,sid=1,seq=6706,ts_ms=1790208921215|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T00:15:18+00:00|reference_publication=2026-09-24T00:15:18+00:00|bot_age_at_collection=3.242s|bot_target=84345.33|quote_request_started=2026-09-24T00:15:25.600772+00:00|quote_response_received=2026-09-24T00:15:25.667626+00:00"
+      },
+      "parity_retrieved_count": 4
+    },
+    "00:30": {
+      "diagnostics": [
+        {
+          "component": "main.market_discovery",
+          "details": {
+            "expected_open_present": true,
+            "http_status": 200,
+            "latency_ms": 27.086,
+            "market_count": 102,
+            "opening_tickers": [
+              "KXBTC15M-26SEP232045-45"
+            ],
+            "request_started_utc": "2026-09-24T00:30:01.181481Z",
+            "response_received_utc": "2026-09-24T00:30:01.208567Z",
+            "safe_cache_headers": {
+              "age": "5",
+              "cache-control": "public, max-age=15",
+              "date": "Thu, 24 Sep 2026 00:29:56 GMT",
+              "via": "1.1 412b51478c24c00d9c9185312b00ffd0.cloudfront.net (CloudFront)",
+              "x-cache": "Hit from cloudfront"
+            }
+          },
+          "event": "MARKET_LIST_RESPONSE",
+          "expected_open_utc": "2026-09-24T00:30:00Z",
+          "ms_from_open": 1208.567,
+          "orders": false,
+          "signal_only": true,
+          "ticker": null,
+          "timestamp_utc": "2026-09-24T00:30:01.208567Z"
+        },
+        {
+          "component": "main.readiness",
+          "details": {
+            "btc_ready": true,
+            "target_ready": false
+          },
+          "event": "TARGET_AND_BTC_READY",
+          "expected_open_utc": "2026-09-24T00:30:00Z",
+          "ms_from_open": 1372.889,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232045-45",
+          "timestamp_utc": "2026-09-24T00:30:01.372889Z"
+        },
+        {
+          "component": "main.market_selection",
+          "details": {
+            "active_count": 0,
+            "returned_markets": 1
+          },
+          "event": "NO_ACTIVE_MARKET",
+          "expected_open_utc": "2026-09-24T00:30:00Z",
+          "ms_from_open": 6182.904,
+          "orders": false,
+          "signal_only": true,
+          "ticker": null,
+          "timestamp_utc": "2026-09-24T00:30:06.182904Z"
+        },
+        {
+          "component": "main.market_selection",
+          "details": {
+            "active_count": 1,
+            "returned_markets": 1
+          },
+          "event": "ACTIVE_MARKET_SELECTED",
+          "expected_open_utc": "2026-09-24T00:30:00Z",
+          "ms_from_open": 36610.625,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232045-45",
+          "timestamp_utc": "2026-09-24T00:30:36.610625Z"
+        },
+        {
+          "component": "main.readiness",
+          "details": {
+            "btc_ready": true,
+            "target_ready": true
+          },
+          "event": "TARGET_AND_BTC_READY",
+          "expected_open_utc": "2026-09-24T00:30:00Z",
+          "ms_from_open": 36700.055,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232045-45",
+          "timestamp_utc": "2026-09-24T00:30:36.700055Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "book_reset": true
+          },
+          "event": "TICKER_SWITCH_BOOK_RESET",
+          "expected_open_utc": "2026-09-24T00:30:00Z",
+          "ms_from_open": 36703.638,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232045-45",
+          "timestamp_utc": "2026-09-24T00:30:36.703638Z"
+        },
+        {
+          "component": "main.quote_consumption",
+          "details": {
+            "contiguous_timestamped_evidence": false
+          },
+          "event": "QUOTE_WAIT",
+          "expected_open_utc": "2026-09-24T00:30:00Z",
+          "ms_from_open": 36703.696,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232045-45",
+          "timestamp_utc": "2026-09-24T00:30:36.703696Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "channel": "orderbook_delta"
+          },
+          "event": "SUBSCRIBE_SENT",
+          "expected_open_utc": "2026-09-24T00:30:00Z",
+          "ms_from_open": 36925.236,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232045-45",
+          "timestamp_utc": "2026-09-24T00:30:36.925236Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "channel": "orderbook_delta"
+          },
+          "event": "SUBSCRIBE_ACK",
+          "expected_open_utc": "2026-09-24T00:30:00Z",
+          "ms_from_open": 36942.806,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232045-45",
+          "timestamp_utc": "2026-09-24T00:30:36.942806Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "message_type": "orderbook_snapshot"
+          },
+          "event": "FIRST_MARKET_DATA_MESSAGE",
+          "expected_open_utc": "2026-09-24T00:30:00Z",
+          "ms_from_open": 36943.745,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232045-45",
+          "timestamp_utc": "2026-09-24T00:30:36.943745Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "level_count": 134
+          },
+          "event": "YES_SIDE_READY",
+          "expected_open_utc": "2026-09-24T00:30:00Z",
+          "ms_from_open": 36943.793,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232045-45",
+          "timestamp_utc": "2026-09-24T00:30:36.943793Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "level_count": 138
+          },
+          "event": "NO_SIDE_READY",
+          "expected_open_utc": "2026-09-24T00:30:00Z",
+          "ms_from_open": 36943.816,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232045-45",
+          "timestamp_utc": "2026-09-24T00:30:36.943816Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "no_levels": 138,
+            "yes_levels": 134
+          },
+          "event": "BOTH_SIDES_READY",
+          "expected_open_utc": "2026-09-24T00:30:00Z",
+          "ms_from_open": 36943.832,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232045-45",
+          "timestamp_utc": "2026-09-24T00:30:36.943832Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "exchange_ts_ms": 1790209836939
+          },
+          "event": "TIMESTAMPED_BOOK_USABLE",
+          "expected_open_utc": "2026-09-24T00:30:00Z",
+          "ms_from_open": 36953.057,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232045-45",
+          "timestamp_utc": "2026-09-24T00:30:36.953057Z"
+        },
+        {
+          "component": "main.quote_consumption",
+          "details": {
+            "contiguous_timestamped_evidence": true
+          },
+          "event": "QUOTES_USABLE",
+          "expected_open_utc": "2026-09-24T00:30:00Z",
+          "ms_from_open": 41789.385,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232045-45",
+          "timestamp_utc": "2026-09-24T00:30:41.789385Z"
+        },
+        {
+          "component": "main.publication_source",
+          "details": {
+            "seconds_left": 858.24
+          },
+          "event": "SOURCE_SNAPSHOT_WRITTEN",
+          "expected_open_utc": "2026-09-24T00:30:00Z",
+          "ms_from_open": 41789.677,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232045-45",
+          "timestamp_utc": "2026-09-24T00:30:41.789677Z"
+        }
+      ],
+      "diagnostics_total_retrieved": 45,
+      "parity_first_pass": {
+        "timestamp": "2026-09-24T00:30:48.555717054Z",
+        "message": "PARITY PASS | KXBTC15M-26SEP232045-45 | age 1.8s | clock \u03940.0s | target \u0394$0.00 | quotes WS \u03940.0c | BRTI \u0394$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=92882ab1-c30a-4ce6-800c-a62a8815b7f1,sid=1,seq=8120,ts_ms=1790209846780|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T00:30:45+00:00|reference_publication=2026-09-24T00:30:45+00:00|bot_age_at_collection=1.805s|bot_target=84341.96|quote_request_started=2026-09-24T00:30:48.435061+00:00|quote_response_received=2026-09-24T00:30:48.495675+00:00"
+      },
+      "parity_retrieved_count": 5
+    },
+    "00:45": {
+      "diagnostics": [
+        {
+          "component": "main.market_discovery",
+          "details": {
+            "expected_open_present": true,
+            "http_status": 200,
+            "latency_ms": 22.22,
+            "market_count": 101,
+            "opening_tickers": [
+              "KXBTC15M-26SEP232100-00"
+            ],
+            "request_started_utc": "2026-09-24T00:45:01.745384Z",
+            "response_received_utc": "2026-09-24T00:45:01.767604Z",
+            "safe_cache_headers": {
+              "age": "5",
+              "cache-control": "public, max-age=15",
+              "date": "Thu, 24 Sep 2026 00:44:56 GMT",
+              "via": "1.1 bc862a5bfbcccce5fea70670be9c092a.cloudfront.net (CloudFront)",
+              "x-cache": "Hit from cloudfront"
+            }
+          },
+          "event": "MARKET_LIST_RESPONSE",
+          "expected_open_utc": "2026-09-24T00:45:00Z",
+          "ms_from_open": 1767.604,
+          "orders": false,
+          "signal_only": true,
+          "ticker": null,
+          "timestamp_utc": "2026-09-24T00:45:01.767604Z"
+        },
+        {
+          "component": "main.readiness",
+          "details": {
+            "btc_ready": true,
+            "target_ready": true
+          },
+          "event": "TARGET_AND_BTC_READY",
+          "expected_open_utc": "2026-09-24T00:45:00Z",
+          "ms_from_open": 1900.562,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232100-00",
+          "timestamp_utc": "2026-09-24T00:45:01.900562Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "book_reset": true
+          },
+          "event": "TICKER_SWITCH_BOOK_RESET",
+          "expected_open_utc": "2026-09-24T00:45:00Z",
+          "ms_from_open": 1901.123,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232100-00",
+          "timestamp_utc": "2026-09-24T00:45:01.901123Z"
+        },
+        {
+          "component": "main.quote_consumption",
+          "details": {
+            "contiguous_timestamped_evidence": false
+          },
+          "event": "QUOTE_WAIT",
+          "expected_open_utc": "2026-09-24T00:45:00Z",
+          "ms_from_open": 1901.153,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232100-00",
+          "timestamp_utc": "2026-09-24T00:45:01.901153Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "channel": "orderbook_delta"
+          },
+          "event": "SUBSCRIBE_SENT",
+          "expected_open_utc": "2026-09-24T00:45:00Z",
+          "ms_from_open": 3070.438,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232100-00",
+          "timestamp_utc": "2026-09-24T00:45:03.070438Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "channel": "orderbook_delta"
+          },
+          "event": "SUBSCRIBE_ACK",
+          "expected_open_utc": "2026-09-24T00:45:00Z",
+          "ms_from_open": 3089.938,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232100-00",
+          "timestamp_utc": "2026-09-24T00:45:03.089938Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "message_type": "orderbook_snapshot"
+          },
+          "event": "FIRST_MARKET_DATA_MESSAGE",
+          "expected_open_utc": "2026-09-24T00:45:00Z",
+          "ms_from_open": 3090.712,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232100-00",
+          "timestamp_utc": "2026-09-24T00:45:03.090712Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "level_count": 124
+          },
+          "event": "YES_SIDE_READY",
+          "expected_open_utc": "2026-09-24T00:45:00Z",
+          "ms_from_open": 3090.77,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232100-00",
+          "timestamp_utc": "2026-09-24T00:45:03.090770Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "level_count": 135
+          },
+          "event": "NO_SIDE_READY",
+          "expected_open_utc": "2026-09-24T00:45:00Z",
+          "ms_from_open": 3090.793,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232100-00",
+          "timestamp_utc": "2026-09-24T00:45:03.090793Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "no_levels": 135,
+            "yes_levels": 124
+          },
+          "event": "BOTH_SIDES_READY",
+          "expected_open_utc": "2026-09-24T00:45:00Z",
+          "ms_from_open": 3090.809,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232100-00",
+          "timestamp_utc": "2026-09-24T00:45:03.090809Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "exchange_ts_ms": 1790210703076
+          },
+          "event": "TIMESTAMPED_BOOK_USABLE",
+          "expected_open_utc": "2026-09-24T00:45:00Z",
+          "ms_from_open": 3092.35,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232100-00",
+          "timestamp_utc": "2026-09-24T00:45:03.092350Z"
+        },
+        {
+          "component": "main.market_selection",
+          "details": {
+            "active_count": 0,
+            "returned_markets": 1
+          },
+          "event": "NO_ACTIVE_MARKET",
+          "expected_open_utc": "2026-09-24T00:45:00Z",
+          "ms_from_open": 6901.826,
+          "orders": false,
+          "signal_only": true,
+          "ticker": null,
+          "timestamp_utc": "2026-09-24T00:45:06.901826Z"
+        },
+        {
+          "component": "main.market_selection",
+          "details": {
+            "active_count": 1,
+            "returned_markets": 1
+          },
+          "event": "ACTIVE_MARKET_SELECTED",
+          "expected_open_utc": "2026-09-24T00:45:00Z",
+          "ms_from_open": 17067.393,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232100-00",
+          "timestamp_utc": "2026-09-24T00:45:17.067393Z"
+        },
+        {
+          "component": "main.quote_consumption",
+          "details": {
+            "contiguous_timestamped_evidence": true
+          },
+          "event": "QUOTES_USABLE",
+          "expected_open_utc": "2026-09-24T00:45:00Z",
+          "ms_from_open": 17158.944,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232100-00",
+          "timestamp_utc": "2026-09-24T00:45:17.158944Z"
+        },
+        {
+          "component": "main.publication_source",
+          "details": {
+            "seconds_left": 882.87
+          },
+          "event": "SOURCE_SNAPSHOT_WRITTEN",
+          "expected_open_utc": "2026-09-24T00:45:00Z",
+          "ms_from_open": 17159.437,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232100-00",
+          "timestamp_utc": "2026-09-24T00:45:17.159437Z"
+        }
+      ],
+      "diagnostics_total_retrieved": 49,
+      "parity_first_pass": {
+        "timestamp": "2026-09-24T00:45:26.012882309Z",
+        "message": "PARITY PASS | KXBTC15M-26SEP232100-00 | age 3.9s | clock \u03940.0s | target \u0394$0.00 | quotes WS \u03940.0c | BRTI \u0394$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=344ad53e-c883-4505-a739-0cf273bff9f6,sid=1,seq=5942,ts_ms=1790210722154|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T00:45:19+00:00|reference_publication=2026-09-24T00:45:19+00:00|bot_age_at_collection=3.180s|bot_target=84342.32|quote_request_started=2026-09-24T00:45:25.867594+00:00|quote_response_received=2026-09-24T00:45:25.937121+00:00"
+      },
+      "parity_retrieved_count": 4
+    },
+    "01:00": {
+      "diagnostics": [
+        {
+          "component": "main.market_discovery",
+          "details": {
+            "expected_open_present": true,
+            "http_status": 200,
+            "latency_ms": 33.065,
+            "market_count": 100,
+            "opening_tickers": [
+              "KXBTC15M-26SEP232115-15"
+            ],
+            "request_started_utc": "2026-09-24T01:00:02.409609Z",
+            "response_received_utc": "2026-09-24T01:00:02.442674Z",
+            "safe_cache_headers": {
+              "age": "5",
+              "cache-control": "public, max-age=15",
+              "date": "Thu, 24 Sep 2026 00:59:57 GMT",
+              "via": "1.1 9b283d80d8ea57cdfccedd6e3b45608c.cloudfront.net (CloudFront)",
+              "x-cache": "Hit from cloudfront"
+            }
+          },
+          "event": "MARKET_LIST_RESPONSE",
+          "expected_open_utc": "2026-09-24T01:00:00Z",
+          "ms_from_open": 2442.674,
+          "orders": false,
+          "signal_only": true,
+          "ticker": null,
+          "timestamp_utc": "2026-09-24T01:00:02.442674Z"
+        },
+        {
+          "component": "main.readiness",
+          "details": {
+            "btc_ready": true,
+            "target_ready": false
+          },
+          "event": "TARGET_AND_BTC_READY",
+          "expected_open_utc": "2026-09-24T01:00:00Z",
+          "ms_from_open": 2626.043,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232115-15",
+          "timestamp_utc": "2026-09-24T01:00:02.626043Z"
+        },
+        {
+          "component": "main.market_selection",
+          "details": {
+            "active_count": 0,
+            "returned_markets": 1
+          },
+          "event": "NO_ACTIVE_MARKET",
+          "expected_open_utc": "2026-09-24T01:00:00Z",
+          "ms_from_open": 7409.354,
+          "orders": false,
+          "signal_only": true,
+          "ticker": null,
+          "timestamp_utc": "2026-09-24T01:00:07.409354Z"
+        },
+        {
+          "component": "main.market_selection",
+          "details": {
+            "active_count": 1,
+            "returned_markets": 1
+          },
+          "event": "ACTIVE_MARKET_SELECTED",
+          "expected_open_utc": "2026-09-24T01:00:00Z",
+          "ms_from_open": 32850.385,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232115-15",
+          "timestamp_utc": "2026-09-24T01:00:32.850385Z"
+        },
+        {
+          "component": "main.readiness",
+          "details": {
+            "btc_ready": true,
+            "target_ready": true
+          },
+          "event": "TARGET_AND_BTC_READY",
+          "expected_open_utc": "2026-09-24T01:00:00Z",
+          "ms_from_open": 32952.64,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232115-15",
+          "timestamp_utc": "2026-09-24T01:00:32.952640Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "book_reset": true
+          },
+          "event": "TICKER_SWITCH_BOOK_RESET",
+          "expected_open_utc": "2026-09-24T01:00:00Z",
+          "ms_from_open": 32953.372,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232115-15",
+          "timestamp_utc": "2026-09-24T01:00:32.953372Z"
+        },
+        {
+          "component": "main.quote_consumption",
+          "details": {
+            "contiguous_timestamped_evidence": false
+          },
+          "event": "QUOTE_WAIT",
+          "expected_open_utc": "2026-09-24T01:00:00Z",
+          "ms_from_open": 32953.411,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232115-15",
+          "timestamp_utc": "2026-09-24T01:00:32.953411Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "channel": "orderbook_delta"
+          },
+          "event": "SUBSCRIBE_SENT",
+          "expected_open_utc": "2026-09-24T01:00:00Z",
+          "ms_from_open": 33125.994,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232115-15",
+          "timestamp_utc": "2026-09-24T01:00:33.125994Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "channel": "orderbook_delta"
+          },
+          "event": "SUBSCRIBE_ACK",
+          "expected_open_utc": "2026-09-24T01:00:00Z",
+          "ms_from_open": 33145.125,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232115-15",
+          "timestamp_utc": "2026-09-24T01:00:33.145125Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "message_type": "orderbook_snapshot"
+          },
+          "event": "FIRST_MARKET_DATA_MESSAGE",
+          "expected_open_utc": "2026-09-24T01:00:00Z",
+          "ms_from_open": 33145.986,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232115-15",
+          "timestamp_utc": "2026-09-24T01:00:33.145986Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "level_count": 139
+          },
+          "event": "YES_SIDE_READY",
+          "expected_open_utc": "2026-09-24T01:00:00Z",
+          "ms_from_open": 33146.032,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232115-15",
+          "timestamp_utc": "2026-09-24T01:00:33.146032Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "level_count": 134
+          },
+          "event": "NO_SIDE_READY",
+          "expected_open_utc": "2026-09-24T01:00:00Z",
+          "ms_from_open": 33146.053,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232115-15",
+          "timestamp_utc": "2026-09-24T01:00:33.146053Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "no_levels": 134,
+            "yes_levels": 139
+          },
+          "event": "BOTH_SIDES_READY",
+          "expected_open_utc": "2026-09-24T01:00:00Z",
+          "ms_from_open": 33146.07,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232115-15",
+          "timestamp_utc": "2026-09-24T01:00:33.146070Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "exchange_ts_ms": 1790211633131
+          },
+          "event": "TIMESTAMPED_BOOK_USABLE",
+          "expected_open_utc": "2026-09-24T01:00:00Z",
+          "ms_from_open": 33146.321,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232115-15",
+          "timestamp_utc": "2026-09-24T01:00:33.146321Z"
+        },
+        {
+          "component": "main.quote_consumption",
+          "details": {
+            "contiguous_timestamped_evidence": true
+          },
+          "event": "QUOTES_USABLE",
+          "expected_open_utc": "2026-09-24T01:00:00Z",
+          "ms_from_open": 38069.884,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232115-15",
+          "timestamp_utc": "2026-09-24T01:00:38.069884Z"
+        },
+        {
+          "component": "main.publication_source",
+          "details": {
+            "seconds_left": 861.96
+          },
+          "event": "SOURCE_SNAPSHOT_WRITTEN",
+          "expected_open_utc": "2026-09-24T01:00:00Z",
+          "ms_from_open": 38070.227,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232115-15",
+          "timestamp_utc": "2026-09-24T01:00:38.070227Z"
+        }
+      ],
+      "diagnostics_total_retrieved": 46,
+      "parity_first_pass": {
+        "timestamp": "2026-09-24T01:00:49.103816640Z",
+        "message": "PARITY PASS | KXBTC15M-26SEP232115-15 | age 1.0s | clock \u03940.0s | target \u0394$0.00 | quotes WS \u03940.0c | BRTI \u0394$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=79e51339-c9c2-4dbe-a18e-a47ae337cb17,sid=1,seq=9304,ts_ms=1790211648021|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T01:00:45+00:00|reference_publication=2026-09-24T01:00:45+00:00|bot_age_at_collection=3.047s|bot_target=84310.98|quote_request_started=2026-09-24T01:00:48.885043+00:00|quote_response_received=2026-09-24T01:00:48.952149+00:00"
+      },
+      "parity_retrieved_count": 5
+    },
+    "01:15": {
+      "diagnostics": [
+        {
+          "component": "main.market_discovery",
+          "details": {
+            "expected_open_present": true,
+            "http_status": 200,
+            "latency_ms": 52.018,
+            "market_count": 99,
+            "opening_tickers": [
+              "KXBTC15M-26SEP232130-30"
+            ],
+            "request_started_utc": "2026-09-24T01:15:03.780190Z",
+            "response_received_utc": "2026-09-24T01:15:03.832208Z",
+            "safe_cache_headers": {
+              "cache-control": "public, max-age=15",
+              "date": "Thu, 24 Sep 2026 01:15:03 GMT",
+              "via": "1.1 d125bf8405e840aa51a88ae3d8d91fb2.cloudfront.net (CloudFront)",
+              "x-cache": "Miss from cloudfront"
+            }
+          },
+          "event": "MARKET_LIST_RESPONSE",
+          "expected_open_utc": "2026-09-24T01:15:00Z",
+          "ms_from_open": 3832.208,
+          "orders": false,
+          "signal_only": true,
+          "ticker": null,
+          "timestamp_utc": "2026-09-24T01:15:03.832208Z"
+        },
+        {
+          "component": "main.readiness",
+          "details": {
+            "btc_ready": true,
+            "target_ready": false
+          },
+          "event": "TARGET_AND_BTC_READY",
+          "expected_open_utc": "2026-09-24T01:15:00Z",
+          "ms_from_open": 3974.226,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232130-30",
+          "timestamp_utc": "2026-09-24T01:15:03.974226Z"
+        },
+        {
+          "component": "main.market_selection",
+          "details": {
+            "active_count": 0,
+            "returned_markets": 1
+          },
+          "event": "NO_ACTIVE_MARKET",
+          "expected_open_utc": "2026-09-24T01:15:00Z",
+          "ms_from_open": 8779.944,
+          "orders": false,
+          "signal_only": true,
+          "ticker": null,
+          "timestamp_utc": "2026-09-24T01:15:08.779944Z"
+        },
+        {
+          "component": "main.market_selection",
+          "details": {
+            "active_count": 1,
+            "returned_markets": 1
+          },
+          "event": "ACTIVE_MARKET_SELECTED",
+          "expected_open_utc": "2026-09-24T01:15:00Z",
+          "ms_from_open": 29043.289,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232130-30",
+          "timestamp_utc": "2026-09-24T01:15:29.043289Z"
+        },
+        {
+          "component": "main.readiness",
+          "details": {
+            "btc_ready": true,
+            "target_ready": true
+          },
+          "event": "TARGET_AND_BTC_READY",
+          "expected_open_utc": "2026-09-24T01:15:00Z",
+          "ms_from_open": 29130.543,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232130-30",
+          "timestamp_utc": "2026-09-24T01:15:29.130543Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "book_reset": true
+          },
+          "event": "TICKER_SWITCH_BOOK_RESET",
+          "expected_open_utc": "2026-09-24T01:15:00Z",
+          "ms_from_open": 29133.276,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232130-30",
+          "timestamp_utc": "2026-09-24T01:15:29.133276Z"
+        },
+        {
+          "component": "main.quote_consumption",
+          "details": {
+            "contiguous_timestamped_evidence": false
+          },
+          "event": "QUOTE_WAIT",
+          "expected_open_utc": "2026-09-24T01:15:00Z",
+          "ms_from_open": 29133.345,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232130-30",
+          "timestamp_utc": "2026-09-24T01:15:29.133345Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "channel": "orderbook_delta"
+          },
+          "event": "SUBSCRIBE_SENT",
+          "expected_open_utc": "2026-09-24T01:15:00Z",
+          "ms_from_open": 29298.119,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232130-30",
+          "timestamp_utc": "2026-09-24T01:15:29.298119Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "level_count": 146
+          },
+          "event": "YES_SIDE_READY",
+          "expected_open_utc": "2026-09-24T01:15:00Z",
+          "ms_from_open": 29315.679,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232130-30",
+          "timestamp_utc": "2026-09-24T01:15:29.315679Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "level_count": 127
+          },
+          "event": "NO_SIDE_READY",
+          "expected_open_utc": "2026-09-24T01:15:00Z",
+          "ms_from_open": 29315.703,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232130-30",
+          "timestamp_utc": "2026-09-24T01:15:29.315703Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "channel": "orderbook_delta"
+          },
+          "event": "SUBSCRIBE_ACK",
+          "expected_open_utc": "2026-09-24T01:15:00Z",
+          "ms_from_open": 29314.857,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232130-30",
+          "timestamp_utc": "2026-09-24T01:15:29.314857Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "message_type": "orderbook_snapshot"
+          },
+          "event": "FIRST_MARKET_DATA_MESSAGE",
+          "expected_open_utc": "2026-09-24T01:15:00Z",
+          "ms_from_open": 29315.622,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232130-30",
+          "timestamp_utc": "2026-09-24T01:15:29.315622Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "no_levels": 127,
+            "yes_levels": 146
+          },
+          "event": "BOTH_SIDES_READY",
+          "expected_open_utc": "2026-09-24T01:15:00Z",
+          "ms_from_open": 29315.72,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232130-30",
+          "timestamp_utc": "2026-09-24T01:15:29.315720Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "exchange_ts_ms": 1790212529307
+          },
+          "event": "TIMESTAMPED_BOOK_USABLE",
+          "expected_open_utc": "2026-09-24T01:15:00Z",
+          "ms_from_open": 29327.84,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232130-30",
+          "timestamp_utc": "2026-09-24T01:15:29.327840Z"
+        },
+        {
+          "component": "main.quote_consumption",
+          "details": {
+            "contiguous_timestamped_evidence": true
+          },
+          "event": "QUOTES_USABLE",
+          "expected_open_utc": "2026-09-24T01:15:00Z",
+          "ms_from_open": 39335.022,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232130-30",
+          "timestamp_utc": "2026-09-24T01:15:39.335022Z"
+        },
+        {
+          "component": "main.publication_source",
+          "details": {
+            "seconds_left": 860.68
+          },
+          "event": "SOURCE_SNAPSHOT_WRITTEN",
+          "expected_open_utc": "2026-09-24T01:15:00Z",
+          "ms_from_open": 39335.2,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232130-30",
+          "timestamp_utc": "2026-09-24T01:15:39.335200Z"
+        }
+      ],
+      "diagnostics_total_retrieved": 46,
+      "parity_first_pass": {
+        "timestamp": "2026-09-24T01:15:41.439336225Z",
+        "message": "PARITY PASS | KXBTC15M-26SEP232130-30 | age 2.1s | clock \u03940.0s | target \u0394$0.00 | quotes WS \u03940.0c | BRTI \u0394$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=84967c4e-926a-457e-b8ed-323ba845031c,sid=1,seq=6205,ts_ms=1790212539317|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T01:15:37+00:00|reference_publication=2026-09-24T01:15:37+00:00|bot_age_at_collection=2.335s|bot_target=84266.56|quote_request_started=2026-09-24T01:15:41.314937+00:00|quote_response_received=2026-09-24T01:15:41.392329+00:00"
+      },
+      "parity_retrieved_count": 4
+    },
+    "01:30": {
+      "diagnostics": [
+        {
+          "component": "main.market_discovery",
+          "details": {
+            "expected_open_present": true,
+            "http_status": 200,
+            "latency_ms": 38.165,
+            "market_count": 98,
+            "opening_tickers": [
+              "KXBTC15M-26SEP232145-45"
+            ],
+            "request_started_utc": "2026-09-24T01:30:04.467957Z",
+            "response_received_utc": "2026-09-24T01:30:04.506122Z",
+            "safe_cache_headers": {
+              "cache-control": "public, max-age=15",
+              "date": "Thu, 24 Sep 2026 01:30:04 GMT",
+              "via": "1.1 359a68a211613a0b498b726183099110.cloudfront.net (CloudFront)",
+              "x-cache": "Miss from cloudfront"
+            }
+          },
+          "event": "MARKET_LIST_RESPONSE",
+          "expected_open_utc": "2026-09-24T01:30:00Z",
+          "ms_from_open": 4506.122,
+          "orders": false,
+          "signal_only": true,
+          "ticker": null,
+          "timestamp_utc": "2026-09-24T01:30:04.506122Z"
+        },
+        {
+          "component": "main.readiness",
+          "details": {
+            "btc_ready": true,
+            "target_ready": false
+          },
+          "event": "TARGET_AND_BTC_READY",
+          "expected_open_utc": "2026-09-24T01:30:00Z",
+          "ms_from_open": 4640.984,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232145-45",
+          "timestamp_utc": "2026-09-24T01:30:04.640984Z"
+        },
+        {
+          "component": "main.market_selection",
+          "details": {
+            "active_count": 1,
+            "returned_markets": 1
+          },
+          "event": "ACTIVE_MARKET_SELECTED",
+          "expected_open_utc": "2026-09-24T01:30:00Z",
+          "ms_from_open": 9467.735,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232145-45",
+          "timestamp_utc": "2026-09-24T01:30:09.467735Z"
+        },
+        {
+          "component": "main.readiness",
+          "details": {
+            "btc_ready": true,
+            "target_ready": true
+          },
+          "event": "TARGET_AND_BTC_READY",
+          "expected_open_utc": "2026-09-24T01:30:00Z",
+          "ms_from_open": 9569.843,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232145-45",
+          "timestamp_utc": "2026-09-24T01:30:09.569843Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "book_reset": true
+          },
+          "event": "TICKER_SWITCH_BOOK_RESET",
+          "expected_open_utc": "2026-09-24T01:30:00Z",
+          "ms_from_open": 9571.942,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232145-45",
+          "timestamp_utc": "2026-09-24T01:30:09.571942Z"
+        },
+        {
+          "component": "main.quote_consumption",
+          "details": {
+            "contiguous_timestamped_evidence": false
+          },
+          "event": "QUOTE_WAIT",
+          "expected_open_utc": "2026-09-24T01:30:00Z",
+          "ms_from_open": 9572.021,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232145-45",
+          "timestamp_utc": "2026-09-24T01:30:09.572021Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "channel": "orderbook_delta"
+          },
+          "event": "SUBSCRIBE_SENT",
+          "expected_open_utc": "2026-09-24T01:30:00Z",
+          "ms_from_open": 9706.74,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232145-45",
+          "timestamp_utc": "2026-09-24T01:30:09.706740Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "channel": "orderbook_delta"
+          },
+          "event": "SUBSCRIBE_ACK",
+          "expected_open_utc": "2026-09-24T01:30:00Z",
+          "ms_from_open": 9727.899,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232145-45",
+          "timestamp_utc": "2026-09-24T01:30:09.727899Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "message_type": "orderbook_snapshot"
+          },
+          "event": "FIRST_MARKET_DATA_MESSAGE",
+          "expected_open_utc": "2026-09-24T01:30:00Z",
+          "ms_from_open": 9728.524,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232145-45",
+          "timestamp_utc": "2026-09-24T01:30:09.728524Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "level_count": 120
+          },
+          "event": "YES_SIDE_READY",
+          "expected_open_utc": "2026-09-24T01:30:00Z",
+          "ms_from_open": 9728.564,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232145-45",
+          "timestamp_utc": "2026-09-24T01:30:09.728564Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "level_count": 150
+          },
+          "event": "NO_SIDE_READY",
+          "expected_open_utc": "2026-09-24T01:30:00Z",
+          "ms_from_open": 9728.578,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232145-45",
+          "timestamp_utc": "2026-09-24T01:30:09.728578Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "no_levels": 150,
+            "yes_levels": 120
+          },
+          "event": "BOTH_SIDES_READY",
+          "expected_open_utc": "2026-09-24T01:30:00Z",
+          "ms_from_open": 9728.589,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232145-45",
+          "timestamp_utc": "2026-09-24T01:30:09.728589Z"
+        },
+        {
+          "component": "quote_provider",
+          "details": {
+            "exchange_ts_ms": 1790213409714
+          },
+          "event": "TIMESTAMPED_BOOK_USABLE",
+          "expected_open_utc": "2026-09-24T01:30:00Z",
+          "ms_from_open": 9730.552,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232145-45",
+          "timestamp_utc": "2026-09-24T01:30:09.730552Z"
+        },
+        {
+          "component": "main.quote_consumption",
+          "details": {
+            "contiguous_timestamped_evidence": true
+          },
+          "event": "QUOTES_USABLE",
+          "expected_open_utc": "2026-09-24T01:30:00Z",
+          "ms_from_open": 14659.432,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232145-45",
+          "timestamp_utc": "2026-09-24T01:30:14.659432Z"
+        },
+        {
+          "component": "main.publication_source",
+          "details": {
+            "seconds_left": 885.37
+          },
+          "event": "SOURCE_SNAPSHOT_WRITTEN",
+          "expected_open_utc": "2026-09-24T01:30:00Z",
+          "ms_from_open": 14659.633,
+          "orders": false,
+          "signal_only": true,
+          "ticker": "KXBTC15M-26SEP232145-45",
+          "timestamp_utc": "2026-09-24T01:30:14.659633Z"
+        }
+      ],
+      "diagnostics_total_retrieved": 50,
+      "parity_first_pass": {
+        "timestamp": "2026-09-24T01:30:18.950471919Z",
+        "message": "PARITY PASS | KXBTC15M-26SEP232145-45 | age 4.2s | clock \u03940.0s | target \u0394$0.00 | quotes WS \u03940.0c | BRTI \u0394$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=4aa7892b-8df7-41f6-a626-69e0a2800ada,sid=1,seq=2066,ts_ms=1790213414640|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T01:30:12+00:00|reference_publication=2026-09-24T01:30:12+00:00|bot_age_at_collection=2.660s|bot_target=84263.4|quote_request_started=2026-09-24T01:30:18.697389+00:00|quote_response_received=2026-09-24T01:30:18.763705+00:00"
+      },
+      "parity_retrieved_count": 5
+    }
+  },
+  "metrics": {
+    "ab28dca6-7bea-4956-bdb9-dbb7b4c74635": {
+      "service": {
+        "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "name": "Btc-15min-bot"
+      },
+      "environment": {
+        "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "name": "production"
+      },
+      "metrics": [
+        {
+          "measurement": "DISK_USAGE_GB",
+          "current": 1.546559488,
+          "average": 1.5438453971570254,
+          "min": 1.539432448,
+          "max": 1.546846208,
+          "sampleCount": 121
+        }
+      ]
+    },
+    "b369287c-d8a1-4427-84de-25e39fe9fdf7": {
+      "service": {
+        "id": "b369287c-d8a1-4427-84de-25e39fe9fdf7",
+        "name": "scalp-finalprod-clean-v1"
+      },
+      "environment": {
+        "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "name": "production"
+      },
+      "metrics": [
+        {
+          "measurement": "DISK_USAGE_GB",
+          "current": 1.2389376,
+          "average": 1.202743042115703,
+          "min": 1.165787136,
+          "max": 1.2389376,
+          "sampleCount": 121
+        }
+      ]
+    },
+    "0bda3f3d-90b7-4934-8636-d16a45a3dc32": {
+      "service": {
+        "id": "0bda3f3d-90b7-4934-8636-d16a45a3dc32",
+        "name": "v81-immutable-test"
+      },
+      "environment": {
+        "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "name": "production"
+      },
+      "metrics": [
+        {
+          "measurement": "CPU_USAGE",
+          "current": 0,
+          "average": 0,
+          "min": 0,
+          "max": 0,
+          "sampleCount": 121
+        },
+        {
+          "measurement": "MEMORY_USAGE_GB",
+          "current": 0,
+          "average": 0,
+          "min": 0,
+          "max": 0,
+          "sampleCount": 121
+        }
+      ]
+    },
+    "10045980-cdd0-485a-a827-b50a3f0b4943": {
+      "service": {
+        "id": "10045980-cdd0-485a-a827-b50a3f0b4943",
+        "name": "v81-final-isolated-test"
+      },
+      "environment": {
+        "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "name": "production"
+      },
+      "metrics": [
+        {
+          "measurement": "CPU_USAGE",
+          "current": 0,
+          "average": 0,
+          "min": 0,
+          "max": 0,
+          "sampleCount": 121
+        },
+        {
+          "measurement": "MEMORY_USAGE_GB",
+          "current": 0.008708096,
+          "average": 0.008708096000000005,
+          "min": 0.008708096,
+          "max": 0.008708096,
+          "sampleCount": 121
+        }
+      ]
+    }
+  },
+  "configs": {
+    "ab28dca6-7bea-4956-bdb9-dbb7b4c74635": {
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "main",
+        "checkSuites": false
+      },
+      "networking": {
+        "serviceDomains": {
+          "btc-15min-bot-production.up.railway.app": {
+            "port": 8080
+          }
+        },
+        "privateNetworkEndpoint": "btc-15min-bot"
+      },
+      "build": {
+        "builder": "RAILPACK",
+        "buildEnvironment": "V3"
+      },
+      "deploy": {
+        "startCommand": "/bin/sh -c 'sleep 3; echo \"BTC15 VOLUME INVENTORY BEGIN\" >&2; du -ah /data 2>/dev/null | sort -hr | head -40 >&2; echo \"BTC15 VOLUME INVENTORY END\" >&2; sleep 1; python btc15_preserve_evidence_v1.py --root /data --label pre-source-v2-20260923 && exec python -u BTC15_DASHBOARD_INLINE_SCALP_DIAG_V2.py'",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 120,
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "volumeMounts": {
+        "6ced6b1a-3755-4518-a240-c895e936d443": {
+          "mountPath": "/data"
+        }
+      }
+    },
+    "0fe5d048-873e-4c1c-a3d4-8e7216e44f3e": {
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "brti-shared-feed-v1-20260913",
+        "checkSuites": false
+      },
+      "networking": {
+        "serviceDomains": {
+          "brti-shared-feed-v1-production.up.railway.app": {
+            "port": 8080
+          }
+        }
+      },
+      "build": {
+        "builder": "RAILPACK",
+        "buildEnvironment": "V3"
+      },
+      "deploy": {
+        "startCommand": "python -u brti_shared_feed_guarded_launcher_v1.py",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 120,
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      }
+    },
+    "568716be-9c96-446e-aecb-0fcd16158b8e": {
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "main",
+        "checkSuites": false
+      },
+      "build": {
+        "builder": "RAILPACK",
+        "buildEnvironment": "V3"
+      },
+      "deploy": {
+        "startCommand": "python -u -c \"import time; print('PARKED: V6 superseded during V8.1 production-rate-limit cleanup; no live Kalshi polling', flush=True); time.sleep(31536000)\"",
+        "restartPolicyType": "NEVER",
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      }
+    }
+  },
+  "raw_evidence_sha256": "7064b37e54a696cbd4d632df2d582d2b123e3b0a74397ffe9ba7d0b009274326",
+  "official_markets": [
+    {
+      "can_close_early": true,
+      "close_time": "2026-09-24T00:15:00Z",
+      "created_time": "2026-09-22T20:04:22.880186Z",
+      "custom_strike": {
+        "round_digits": "2"
+      },
+      "event_ticker": "KXBTC15M-26SEP232015",
+      "exchange_index": 2,
+      "expected_expiration_time": "2026-09-24T00:20:00Z",
+      "expiration_time": "2026-10-01T00:15:00Z",
+      "expiration_value": "84345.33",
+      "floor_strike": 84380.99,
+      "last_price_dollars": "0.0010",
+      "latest_expiration_time": "2026-10-01T00:15:00Z",
+      "liquidity_dollars": "0.0000",
+      "market_type": "binary",
+      "no_ask_dollars": "1.0000",
+      "no_bid_dollars": "0.0000",
+      "no_sub_title": "Target price: TBD",
+      "notional_value_dollars": "1.0000",
+      "occurrence_datetime": "2026-09-24T00:20:00Z",
+      "open_interest_fp": "752982.16",
+      "open_time": "2026-09-24T00:00:00Z",
+      "previous_price_dollars": "0.0000",
+      "previous_yes_ask_dollars": "0.0000",
+      "previous_yes_bid_dollars": "0.0000",
+      "price_level_structure": "tapered_deci_cent",
+      "price_ranges": [
+        {
+          "end": "0.1000",
+          "start": "0.0000",
+          "step": "0.0010"
+        },
+        {
+          "end": "0.9000",
+          "start": "0.1000",
+          "step": "0.0100"
+        },
+        {
+          "end": "1.0000",
+          "start": "0.9000",
+          "step": "0.0010"
+        }
+      ],
+      "result": "no",
+      "rules_primary": "If the simple average of the sixty seconds of CF Benchmarks' BRTI before 8:15 PM EDT on Sep 23, 2026 is at least the simple average of the sixty seconds of CF Benchmarks' BRTI before 8:00 PM EDT on September 23, 2026, then the market resolves to Yes.",
+      "rules_secondary": "Not all cryptocurrency price data is the same. While checking a source like Google or Coinbase may help guide your decision, the price used to determine this market is based on CF Benchmarks' corresponding Real Time Index (RTI). At the last minute before expiration, 60 RTI prices are collected. The official and final value is the average of these prices, rounded to the nearest 2 decimal places.",
+      "settlement_timer_seconds": 1,
+      "settlement_ts": "2026-09-24T00:15:08.248021Z",
+      "settlement_value_dollars": "0.0000",
+      "status": "finalized",
+      "strike_type": "greater_or_equal",
+      "ticker": "KXBTC15M-26SEP232015-15",
+      "title": "BTC price up in next 15 mins?",
+      "updated_time": "2026-09-24T00:15:08.678514Z",
+      "volume_24h_fp": "3327961.16",
+      "volume_fp": "3327961.16",
+      "yes_ask_dollars": "1.0000",
+      "yes_ask_size_fp": "0.00",
+      "yes_bid_dollars": "0.0000",
+      "yes_bid_size_fp": "0.00",
+      "yes_sub_title": "Target Price: $84,380.99"
+    },
+    {
+      "can_close_early": true,
+      "close_time": "2026-09-24T00:30:00Z",
+      "created_time": "2026-09-22T20:04:23.124071Z",
+      "custom_strike": {
+        "round_digits": "2"
+      },
+      "event_ticker": "KXBTC15M-26SEP232030",
+      "exchange_index": 2,
+      "expected_expiration_time": "2026-09-24T00:35:00Z",
+      "expiration_time": "2026-10-01T00:30:00Z",
+      "expiration_value": "84341.96",
+      "floor_strike": 84345.33,
+      "last_price_dollars": "0.0010",
+      "latest_expiration_time": "2026-10-01T00:30:00Z",
+      "liquidity_dollars": "0.0000",
+      "market_type": "binary",
+      "no_ask_dollars": "1.0000",
+      "no_bid_dollars": "0.0000",
+      "no_sub_title": "Target price: TBD",
+      "notional_value_dollars": "1.0000",
+      "occurrence_datetime": "2026-09-24T00:35:00Z",
+      "open_interest_fp": "667968.49",
+      "open_time": "2026-09-24T00:15:00Z",
+      "previous_price_dollars": "0.0000",
+      "previous_yes_ask_dollars": "0.0000",
+      "previous_yes_bid_dollars": "0.0000",
+      "price_level_structure": "tapered_deci_cent",
+      "price_ranges": [
+        {
+          "end": "0.1000",
+          "start": "0.0000",
+          "step": "0.0010"
+        },
+        {
+          "end": "0.9000",
+          "start": "0.1000",
+          "step": "0.0100"
+        },
+        {
+          "end": "1.0000",
+          "start": "0.9000",
+          "step": "0.0010"
+        }
+      ],
+      "result": "no",
+      "rules_primary": "If the simple average of the sixty seconds of CF Benchmarks' BRTI before 8:30 PM EDT on Sep 23, 2026 is at least the simple average of the sixty seconds of CF Benchmarks' BRTI before 8:15 PM EDT on September 23, 2026, then the market resolves to Yes.",
+      "rules_secondary": "Not all cryptocurrency price data is the same. While checking a source like Google or Coinbase may help guide your decision, the price used to determine this market is based on CF Benchmarks' corresponding Real Time Index (RTI). At the last minute before expiration, 60 RTI prices are collected. The official and final value is the average of these prices, rounded to the nearest 2 decimal places.",
+      "settlement_timer_seconds": 1,
+      "settlement_ts": "2026-09-24T00:30:08.242632Z",
+      "settlement_value_dollars": "0.0000",
+      "status": "finalized",
+      "strike_type": "greater_or_equal",
+      "ticker": "KXBTC15M-26SEP232030-30",
+      "title": "BTC price up in next 15 mins?",
+      "updated_time": "2026-09-24T00:30:08.678076Z",
+      "volume_24h_fp": "3707374.07",
+      "volume_fp": "3707374.07",
+      "yes_ask_dollars": "1.0000",
+      "yes_ask_size_fp": "0.00",
+      "yes_bid_dollars": "0.0000",
+      "yes_bid_size_fp": "0.00",
+      "yes_sub_title": "Target Price: $84,345.33"
+    },
+    {
+      "can_close_early": true,
+      "close_time": "2026-09-24T00:45:00Z",
+      "created_time": "2026-09-22T20:04:23.460319Z",
+      "custom_strike": {
+        "round_digits": "2"
+      },
+      "event_ticker": "KXBTC15M-26SEP232045",
+      "exchange_index": 2,
+      "expected_expiration_time": "2026-09-24T00:50:00Z",
+      "expiration_time": "2026-10-01T00:45:00Z",
+      "expiration_value": "84342.32",
+      "floor_strike": 84341.96,
+      "last_price_dollars": "0.9990",
+      "latest_expiration_time": "2026-10-01T00:45:00Z",
+      "liquidity_dollars": "0.0000",
+      "market_type": "binary",
+      "no_ask_dollars": "1.0000",
+      "no_bid_dollars": "0.0000",
+      "no_sub_title": "Target price: TBD",
+      "notional_value_dollars": "1.0000",
+      "occurrence_datetime": "2026-09-24T00:50:00Z",
+      "open_interest_fp": "814639.70",
+      "open_time": "2026-09-24T00:30:00Z",
+      "previous_price_dollars": "0.0000",
+      "previous_yes_ask_dollars": "0.0000",
+      "previous_yes_bid_dollars": "0.0000",
+      "price_level_structure": "tapered_deci_cent",
+      "price_ranges": [
+        {
+          "end": "0.1000",
+          "start": "0.0000",
+          "step": "0.0010"
+        },
+        {
+          "end": "0.9000",
+          "start": "0.1000",
+          "step": "0.0100"
+        },
+        {
+          "end": "1.0000",
+          "start": "0.9000",
+          "step": "0.0010"
+        }
+      ],
+      "result": "yes",
+      "rules_primary": "If the simple average of the sixty seconds of CF Benchmarks' BRTI before 8:45 PM EDT on Sep 23, 2026 is at least the simple average of the sixty seconds of CF Benchmarks' BRTI before 8:30 PM EDT on September 23, 2026, then the market resolves to Yes.",
+      "rules_secondary": "Not all cryptocurrency price data is the same. While checking a source like Google or Coinbase may help guide your decision, the price used to determine this market is based on CF Benchmarks' corresponding Real Time Index (RTI). At the last minute before expiration, 60 RTI prices are collected. The official and final value is the average of these prices, rounded to the nearest 2 decimal places.",
+      "settlement_timer_seconds": 1,
+      "settlement_ts": "2026-09-24T00:45:08.247426Z",
+      "settlement_value_dollars": "1.0000",
+      "status": "finalized",
+      "strike_type": "greater_or_equal",
+      "ticker": "KXBTC15M-26SEP232045-45",
+      "title": "BTC price up in next 15 mins?",
+      "updated_time": "2026-09-24T00:45:08.677894Z",
+      "volume_24h_fp": "4014966.47",
+      "volume_fp": "4014966.47",
+      "yes_ask_dollars": "1.0000",
+      "yes_ask_size_fp": "0.00",
+      "yes_bid_dollars": "0.0000",
+      "yes_bid_size_fp": "0.00",
+      "yes_sub_title": "Target Price: $84,341.96"
+    },
+    {
+      "can_close_early": true,
+      "close_time": "2026-09-24T01:00:00Z",
+      "created_time": "2026-09-22T20:04:23.742056Z",
+      "custom_strike": {
+        "round_digits": "2"
+      },
+      "event_ticker": "KXBTC15M-26SEP232100",
+      "exchange_index": 2,
+      "expected_expiration_time": "2026-09-24T01:05:00Z",
+      "expiration_time": "2026-10-01T01:00:00Z",
+      "expiration_value": "84310.98",
+      "floor_strike": 84342.32,
+      "last_price_dollars": "0.0010",
+      "latest_expiration_time": "2026-10-01T01:00:00Z",
+      "liquidity_dollars": "0.0000",
+      "market_type": "binary",
+      "no_ask_dollars": "1.0000",
+      "no_bid_dollars": "0.0000",
+      "no_sub_title": "Target price: TBD",
+      "notional_value_dollars": "1.0000",
+      "occurrence_datetime": "2026-09-24T01:05:00Z",
+      "open_interest_fp": "820109.73",
+      "open_time": "2026-09-24T00:45:00Z",
+      "previous_price_dollars": "0.0000",
+      "previous_yes_ask_dollars": "0.0000",
+      "previous_yes_bid_dollars": "0.0000",
+      "price_level_structure": "tapered_deci_cent",
+      "price_ranges": [
+        {
+          "end": "0.1000",
+          "start": "0.0000",
+          "step": "0.0010"
+        },
+        {
+          "end": "0.9000",
+          "start": "0.1000",
+          "step": "0.0100"
+        },
+        {
+          "end": "1.0000",
+          "start": "0.9000",
+          "step": "0.0010"
+        }
+      ],
+      "result": "no",
+      "rules_primary": "If the simple average of the sixty seconds of CF Benchmarks' BRTI before 9:00 PM EDT on Sep 23, 2026 is at least the simple average of the sixty seconds of CF Benchmarks' BRTI before 8:45 PM EDT on September 23, 2026, then the market resolves to Yes.",
+      "rules_secondary": "Not all cryptocurrency price data is the same. While checking a source like Google or Coinbase may help guide your decision, the price used to determine this market is based on CF Benchmarks' corresponding Real Time Index (RTI). At the last minute before expiration, 60 RTI prices are collected. The official and final value is the average of these prices, rounded to the nearest 2 decimal places.",
+      "settlement_timer_seconds": 1,
+      "settlement_ts": "2026-09-24T01:00:08.251692Z",
+      "settlement_value_dollars": "0.0000",
+      "status": "finalized",
+      "strike_type": "greater_or_equal",
+      "ticker": "KXBTC15M-26SEP232100-00",
+      "title": "BTC price up in next 15 mins?",
+      "updated_time": "2026-09-24T01:00:08.678597Z",
+      "volume_24h_fp": "3554688.02",
+      "volume_fp": "3554688.02",
+      "yes_ask_dollars": "1.0000",
+      "yes_ask_size_fp": "0.00",
+      "yes_bid_dollars": "0.0000",
+      "yes_bid_size_fp": "0.00",
+      "yes_sub_title": "Target Price: $84,342.32"
+    },
+    {
+      "can_close_early": true,
+      "close_time": "2026-09-24T01:15:00Z",
+      "created_time": "2026-09-22T20:04:23.987595Z",
+      "custom_strike": {
+        "round_digits": "2"
+      },
+      "event_ticker": "KXBTC15M-26SEP232115",
+      "exchange_index": 2,
+      "expected_expiration_time": "2026-09-24T01:20:00Z",
+      "expiration_time": "2026-10-01T01:15:00Z",
+      "expiration_value": "84266.56",
+      "floor_strike": 84310.98,
+      "last_price_dollars": "0.0010",
+      "latest_expiration_time": "2026-10-01T01:15:00Z",
+      "liquidity_dollars": "0.0000",
+      "market_type": "binary",
+      "no_ask_dollars": "1.0000",
+      "no_bid_dollars": "0.0000",
+      "no_sub_title": "Target price: TBD",
+      "notional_value_dollars": "1.0000",
+      "occurrence_datetime": "2026-09-24T01:20:00Z",
+      "open_interest_fp": "914887.08",
+      "open_time": "2026-09-24T01:00:00Z",
+      "previous_price_dollars": "0.0000",
+      "previous_yes_ask_dollars": "0.0000",
+      "previous_yes_bid_dollars": "0.0000",
+      "price_level_structure": "tapered_deci_cent",
+      "price_ranges": [
+        {
+          "end": "0.1000",
+          "start": "0.0000",
+          "step": "0.0010"
+        },
+        {
+          "end": "0.9000",
+          "start": "0.1000",
+          "step": "0.0100"
+        },
+        {
+          "end": "1.0000",
+          "start": "0.9000",
+          "step": "0.0010"
+        }
+      ],
+      "result": "no",
+      "rules_primary": "If the simple average of the sixty seconds of CF Benchmarks' BRTI before 9:15 PM EDT on Sep 23, 2026 is at least the simple average of the sixty seconds of CF Benchmarks' BRTI before 9:00 PM EDT on September 23, 2026, then the market resolves to Yes.",
+      "rules_secondary": "Not all cryptocurrency price data is the same. While checking a source like Google or Coinbase may help guide your decision, the price used to determine this market is based on CF Benchmarks' corresponding Real Time Index (RTI). At the last minute before expiration, 60 RTI prices are collected. The official and final value is the average of these prices, rounded to the nearest 2 decimal places.",
+      "settlement_timer_seconds": 1,
+      "settlement_ts": "2026-09-24T01:15:08.246548Z",
+      "settlement_value_dollars": "0.0000",
+      "status": "finalized",
+      "strike_type": "greater_or_equal",
+      "ticker": "KXBTC15M-26SEP232115-15",
+      "title": "BTC price up in next 15 mins?",
+      "updated_time": "2026-09-24T01:15:08.67813Z",
+      "volume_24h_fp": "3305654.12",
+      "volume_fp": "3305654.12",
+      "yes_ask_dollars": "1.0000",
+      "yes_ask_size_fp": "0.00",
+      "yes_bid_dollars": "0.0000",
+      "yes_bid_size_fp": "0.00",
+      "yes_sub_title": "Target Price: $84,310.98"
+    },
+    {
+      "can_close_early": true,
+      "close_time": "2026-09-24T01:30:00Z",
+      "created_time": "2026-09-22T20:04:24.889781Z",
+      "custom_strike": {
+        "round_digits": "2"
+      },
+      "event_ticker": "KXBTC15M-26SEP232130",
+      "exchange_index": 2,
+      "expected_expiration_time": "2026-09-24T01:35:00Z",
+      "expiration_time": "2026-10-01T01:30:00Z",
+      "expiration_value": "84263.40",
+      "floor_strike": 84266.56,
+      "last_price_dollars": "0.0010",
+      "latest_expiration_time": "2026-10-01T01:30:00Z",
+      "liquidity_dollars": "0.0000",
+      "market_type": "binary",
+      "no_ask_dollars": "1.0000",
+      "no_bid_dollars": "0.0000",
+      "no_sub_title": "Target price: TBD",
+      "notional_value_dollars": "1.0000",
+      "occurrence_datetime": "2026-09-24T01:35:00Z",
+      "open_interest_fp": "653510.29",
+      "open_time": "2026-09-24T01:15:00Z",
+      "previous_price_dollars": "0.0000",
+      "previous_yes_ask_dollars": "0.0000",
+      "previous_yes_bid_dollars": "0.0000",
+      "price_level_structure": "tapered_deci_cent",
+      "price_ranges": [
+        {
+          "end": "0.1000",
+          "start": "0.0000",
+          "step": "0.0010"
+        },
+        {
+          "end": "0.9000",
+          "start": "0.1000",
+          "step": "0.0100"
+        },
+        {
+          "end": "1.0000",
+          "start": "0.9000",
+          "step": "0.0010"
+        }
+      ],
+      "result": "no",
+      "rules_primary": "If the simple average of the sixty seconds of CF Benchmarks' BRTI before 9:30 PM EDT on Sep 23, 2026 is at least the simple average of the sixty seconds of CF Benchmarks' BRTI before 9:15 PM EDT on September 23, 2026, then the market resolves to Yes.",
+      "rules_secondary": "Not all cryptocurrency price data is the same. While checking a source like Google or Coinbase may help guide your decision, the price used to determine this market is based on CF Benchmarks' corresponding Real Time Index (RTI). At the last minute before expiration, 60 RTI prices are collected. The official and final value is the average of these prices, rounded to the nearest 2 decimal places.",
+      "settlement_timer_seconds": 1,
+      "settlement_ts": "2026-09-24T01:30:08.248567Z",
+      "settlement_value_dollars": "0.0000",
+      "status": "finalized",
+      "strike_type": "greater_or_equal",
+      "ticker": "KXBTC15M-26SEP232130-30",
+      "title": "BTC price up in next 15 mins?",
+      "updated_time": "2026-09-24T01:30:08.67785Z",
+      "volume_24h_fp": "3617952.95",
+      "volume_fp": "3617952.95",
+      "yes_ask_dollars": "1.0000",
+      "yes_ask_size_fp": "0.00",
+      "yes_bid_dollars": "0.0000",
+      "yes_bid_size_fp": "0.00",
+      "yes_sub_title": "Target Price: $84,266.56"
+    },
+    {
+      "can_close_early": true,
+      "close_time": "2026-09-24T01:45:00Z",
+      "created_time": "2026-09-22T20:04:25.124564Z",
+      "custom_strike": {
+        "round_digits": "2"
+      },
+      "event_ticker": "KXBTC15M-26SEP232145",
+      "exchange_index": 2,
+      "expected_expiration_time": "2026-09-24T01:50:00Z",
+      "expiration_time": "2026-10-01T01:45:00Z",
+      "expiration_value": "84156.90",
+      "floor_strike": 84263.4,
+      "last_price_dollars": "0.0010",
+      "latest_expiration_time": "2026-10-01T01:45:00Z",
+      "liquidity_dollars": "0.0000",
+      "market_type": "binary",
+      "no_ask_dollars": "1.0000",
+      "no_bid_dollars": "0.0000",
+      "no_sub_title": "Target price: TBD",
+      "notional_value_dollars": "1.0000",
+      "occurrence_datetime": "2026-09-24T01:50:00Z",
+      "open_interest_fp": "1202638.33",
+      "open_time": "2026-09-24T01:30:00Z",
+      "previous_price_dollars": "0.0000",
+      "previous_yes_ask_dollars": "0.0000",
+      "previous_yes_bid_dollars": "0.0000",
+      "price_level_structure": "tapered_deci_cent",
+      "price_ranges": [
+        {
+          "end": "0.1000",
+          "start": "0.0000",
+          "step": "0.0010"
+        },
+        {
+          "end": "0.9000",
+          "start": "0.1000",
+          "step": "0.0100"
+        },
+        {
+          "end": "1.0000",
+          "start": "0.9000",
+          "step": "0.0010"
+        }
+      ],
+      "result": "no",
+      "rules_primary": "If the simple average of the sixty seconds of CF Benchmarks' BRTI before 9:45 PM EDT on Sep 23, 2026 is at least the simple average of the sixty seconds of CF Benchmarks' BRTI before 9:30 PM EDT on September 23, 2026, then the market resolves to Yes.",
+      "rules_secondary": "Not all cryptocurrency price data is the same. While checking a source like Google or Coinbase may help guide your decision, the price used to determine this market is based on CF Benchmarks' corresponding Real Time Index (RTI). At the last minute before expiration, 60 RTI prices are collected. The official and final value is the average of these prices, rounded to the nearest 2 decimal places.",
+      "settlement_timer_seconds": 1,
+      "settlement_ts": "2026-09-24T01:45:08.246858Z",
+      "settlement_value_dollars": "0.0000",
+      "status": "finalized",
+      "strike_type": "greater_or_equal",
+      "ticker": "KXBTC15M-26SEP232145-45",
+      "title": "BTC price up in next 15 mins?",
+      "updated_time": "2026-09-24T01:45:08.675385Z",
+      "volume_24h_fp": "2260593.95",
+      "volume_fp": "4492609.68",
+      "yes_ask_dollars": "1.0000",
+      "yes_ask_size_fp": "0.00",
+      "yes_bid_dollars": "0.0000",
+      "yes_bid_size_fp": "0.00",
+      "yes_sub_title": "Target Price: $84,263.40"
+    }
+  ]
+}
