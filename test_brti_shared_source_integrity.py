@@ -118,6 +118,7 @@ class SourceIntegrity(unittest.TestCase):
                 self.assertEqual(len(read_shared_brti_ticks(owner_epoch=state['owner_epoch'])),60)
                 with self.assertRaises(RuntimeError): read_shared_brti_ticks(owner_epoch='old')
                 collector=load_functions();collector.time.time.return_value=self.clock
+                collector._brti_fetch_epoch=state['owner_epoch']
                 collector._fetch_direct_brti_once.return_value=(state['value'],state['source_ts_ms']/1000)
                 collector._collect_brti_once()
                 self.assertEqual(len(collector._brti_samples),60)

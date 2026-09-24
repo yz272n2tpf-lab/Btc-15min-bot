@@ -1,0 +1,28 @@
+{
+  "purpose": "Independent live BRTI receipt ledger and retained-history recovery, coordinated with PR36 BTC-history repair.",
+  "parent_candidate": "eec6142cd569f2e27230c3b372340853663578d9",
+  "rollback_commit": "1730ceff180394fbd2ebae7a5fddc4acd1e76194",
+  "rollback_deployment": "454f53ad-b269-4133-b0f5-60098978db71",
+  "tuning_closed_utc": "2026-09-24T17:00:00Z",
+  "closed_evidence_sha256": "839f82afa9ed5546841d68fc4aa2aecac3bef1d055beac6a7d3969b7e5b27410",
+  "weights_sha256": "95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6",
+  "artifact_sha256": "1bf10e755fc81584bab3c3682b16103353f84582c27bb003664de883e7e7c816",
+  "diagnosis": [
+    "BTC history was written only after quote qualification; PR36 moves verified reads before WAIT without moving signal gates.",
+    "A serial live /state + retained /ticks loop delayed live reads and conflated history failures with live qualification.",
+    "Latest retained source history could own live readiness without its own current PRIMARY_OK observation; live receipt provenance was discarded.",
+    "BRTI age was measured later than the logged decision. The downstream age sum therefore over-aged by the measurement delay; newest buffered observations were not filtered at the decision receipt cutoff.",
+    "Five-second model publication cadence still causes a real expiry duty cycle: old publications must expire even when the owner has newer BRTI. No retimestamping, fill-forward qualification, faster strategy cadence or weakened TTL is introduced."
+  ],
+  "changes": [
+    "Separate one-second shared-state and one-second retained-history workers. Both only read the existing owner; no additional authenticated upstream poller.",
+    "Only qualified /state readings can enter the bounded live receipt ledger. Source, first main receipt and owner epoch remain distinct. Current primary failure invalidates live readiness.",
+    "Choose the latest qualified state actually received by original decision time, require <=5 seconds source age at both decision and use time; late history never retroactively changes a decision.",
+    "Retained history remains usable for original 60-second closeout rules, independent of live qualification; same-epoch legacy history reads enforced.",
+    "Log source/receipt/decision/check clocks separately; existing decision timestamps, main 5-second cadence, weights, thresholds and source freshness remain unchanged."
+  ],
+  "validation_rule": "No tuning after 17:00. Actual corrected startup closes the old runtime. Keep mixed restart and warmup contracts separate. First full prospective contract is first official boundary at least six minutes after corrected startup. Evaluate only this identity through fixed 21:15 UTC validation end; no pre-correction repaired replay success counted prospectively.",
+  "strategy_promoted": false,
+  "signal_only": true,
+  "orders": false
+}

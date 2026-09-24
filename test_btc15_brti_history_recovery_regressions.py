@@ -21,7 +21,7 @@ from unittest.mock import Mock, patch
 SOURCE = Path(__file__).with_name('bot_two_output_build_v4_13_profit_protection_shadow.py')
 FUNCTIONS = {
     '_merge_brti_publications', '_retain_brti_window', '_store_brti_publications',
-    '_collect_brti_once', '_brti_poller', '_latest_brti', '_brti_contract_snapshot',
+    '_collect_brti_once', '_recover_brti_history_once', '_brti_history_poller', '_brti_poller', '_latest_brti', '_brti_contract_snapshot',
     '_track_brti_contract', '_retry_brti_closeouts', '_try_finalize_brti_contract',
 }
 
@@ -32,7 +32,9 @@ def load_functions():
     assert {n.name for n in nodes} == FUNCTIONS
     module = types.ModuleType('brti_recovery_under_test')
     clock = types.SimpleNamespace(time=Mock(), sleep=Mock())
+    from btc15_brti_delivery_v1 import Delivery
     module.__dict__.update(
+        _brti_delivery=Delivery(), _brti_fetch_epoch="test-owner",
         datetime=datetime, timezone=timezone, timedelta=timedelta, math=math,
         os=os, time=clock, _brti_lock=threading.Lock(), _brti_samples=deque(maxlen=600),
         _brti_conflicting_seconds=set(), _brti_pending_contracts={},
@@ -299,6 +301,9 @@ class HistoryRecovery(unittest.TestCase):
         def stop(_): self.p.running = False
         self.p.time.sleep.side_effect = stop
         self.p._brti_poller()
+        self.gateway.ticks.assert_not_called()
+        self.p.running = True
+        self.p._brti_history_poller()
         self.assertEqual(self.snapshot()['final60_count'], 60)
         self.assertIsNone(self.p._brti_last_error)
 
@@ -424,3 +429,4 @@ if __name__ == '__main__':
             raise SystemExit(1)
     else:
         unittest.main()
+
