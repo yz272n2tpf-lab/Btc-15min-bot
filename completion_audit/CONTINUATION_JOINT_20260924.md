@@ -55,7 +55,7 @@ After tuning closes, quantify corrected input parity, each gate, shared failures
 
 Fresh corrected-runtime evidence is the next dependency for defensible performance selection. It does not erase the remaining engineering and acceptance work. Stop active waiting; Chat can monitor the fixed windows and resume evaluation when the evidence exists. Do not create a new automation or alter another task.
 
-## Structural completion and clarified ladder roles — September 24, 14:15 UTC checkpoint
+## Structural completion and clarified ladder roles — September 24 checkpoint
 
 This section extends the existing checkpoint. The original replay, manifests, 822-configuration search and release tests were reused, not recreated. EARLY is the value-entry ladder; SCALP is the bid-path movement ladder in either direction; FINAL is primarily high-accuracy confirmation and EARLY-position protection. A high FINAL quote is not itself a failure. Earlier/cheaper confirmation remains a secondary opportunity, subordinate to reliability, calibration and useful coverage.
 
