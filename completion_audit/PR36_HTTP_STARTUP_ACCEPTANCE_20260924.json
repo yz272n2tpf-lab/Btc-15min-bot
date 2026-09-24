@@ -1,0 +1,63 @@
+{
+  "schema": "BTC15_PR36_HTTP_ACCEPTANCE_V1",
+  "checked_utc": "2026-09-24T19:57:04.387173+00:00",
+  "serving_deployment": "f82466d0-70ab-4779-a0fd-58832ad31513",
+  "health": {
+    "ok": true,
+    "read_only": true
+  },
+  "journal_identity": "7b9f685f1a3bedfb3afed0dfdb7163806e42dc9ace3ac035ce08870713da0996",
+  "journal_snapshot_bytes": 4403902,
+  "ranges": [
+    {
+      "offset": 0,
+      "next_offset": 1047302,
+      "sha256": "8b821f35494c42e85f2c33faf8649b48161c96f0e5564d4a485c7cd306e3ab81",
+      "records": 757
+    },
+    {
+      "offset": 1047302,
+      "next_offset": 2095284,
+      "sha256": "6eea302b59d6f3a78a7012a03fc2eea960ea63e0f358b8a760cacd9521700c17",
+      "records": 757
+    },
+    {
+      "offset": 2095284,
+      "next_offset": 3143298,
+      "sha256": "c681b95d813ce8560d07ea06b23f542630dcbc9d6a5d2ca745549eb117a035fb",
+      "records": 756
+    },
+    {
+      "offset": 3143298,
+      "next_offset": 4191585,
+      "sha256": "50a3f83762ff48f381abe4b4925cf576216f38f505dbd987288eee958be07d43",
+      "records": 758
+    },
+    {
+      "offset": 4191585,
+      "next_offset": 4405306,
+      "sha256": "cb9b94e4d1588aa83ffd2c316e6dabbcde98227ad288643ee74520d5697ba43c",
+      "records": 154
+    }
+  ],
+  "old_rows_excluded": 3149,
+  "after_validation_excluded": 0,
+  "corrected_input_frames": 33,
+  "first_corrected_decision": "2026-09-24T19:54:24.113222+00:00",
+  "last_corrected_decision": "2026-09-24T19:57:04.133732+00:00",
+  "causal_clocks_pass": true,
+  "weights_match": true,
+  "signal_only": true,
+  "orders": false,
+  "warning": "Input integrity only, includes warmup; no outcomes, fitting or performance claim",
+  "contracts": {
+    "KXBTC15M-26SEP241600-00": {
+      "count": 33,
+      "targets": [
+        84439.63
+      ],
+      "first": "2026-09-24T19:54:24.113222+00:00",
+      "last": "2026-09-24T19:57:04.133732+00:00"
+    }
+  }
+}

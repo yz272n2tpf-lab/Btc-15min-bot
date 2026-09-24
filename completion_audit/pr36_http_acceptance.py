@@ -16,7 +16,7 @@ manifest=json.loads(get(BASE+"/research/fair-input-manifest")[1])
 assert manifest["serving_deployment"]==DEP
 assert manifest["signal_only"] is True and manifest["orders"] is False
 assert manifest["size_bytes"]<=16*1048576,"journal requires a registered larger bounded pass"
-offset=0;ranges=[];rows=[];old=0;after=0
+offset=4405306;ranges=[];rows=[];old=0;after=0
 while offset<manifest["size_bytes"]:
  query=urllib.parse.urlencode(dict(identity=manifest["identity"],offset=offset,limit=1048576))
  headers,body=get(BASE+"/research/fair-input-export?"+query)
@@ -51,4 +51,8 @@ for row in rows:
 for c in contracts.values():
  assert len(c["targets"])==1,"fixed target changed";c["targets"]=sorted(c["targets"])
 summary["contracts"]=contracts
+times=[utc(r["decision_utc"]) for r in rows]
+summary["max_input_gap_seconds"]=max(((b-a).total_seconds() for a,b in zip(times,times[1:])),default=None)
+summary["btc_source_age_max_seconds"]=max(((utc(r["decision_utc"])-utc(r["btc_source_utc"])).total_seconds() for r in rows),default=None)
+summary["incremental_resume_offset"]=4405306
 print("PR36_HTTP_ACCEPTANCE "+json.dumps(summary,separators=(",",":")))
