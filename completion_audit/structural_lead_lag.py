@@ -27,6 +27,8 @@ def prepare(vs,main):
         rs=grouped.get(r['ticker'],[]);i=bisect_right(times.get(r['ticker'],[]),r['t'])-1
         if i<0 or r['t']-rs[i]['t']>5:missing['main_asof_unavailable']+=1;continue
         m=rs[i]
+        if not 0<=r['t']-m['brti_source_t']<=5:
+            missing['asof_brti_now_stale']+=1;continue
         if m['target']!=r['target']:raise ValueError('Cross-source target mismatch')
         sign=1 if r['side']=='UP' else -1
         sigma=m['sigma'];left=r['receipt_left'];gap=sign*m['signed_gap']
@@ -57,6 +59,12 @@ def signals(rows,mode):
 
 def run(output):
     verify_inputs();main=enrich();clean=paths(load_rows(DATA/'inputs.jsonl.gz'))
+    clocks={}
+    for raw in load_rows(DATA/'main.jsonl.gz'):
+        d=raw['state'];m=d.get('market',{});stamp=d.get('source_timestamp_utc')
+        if stamp and m.get('brti_age_seconds') is not None:
+            clocks[d['contract'],epoch(stamp)]=epoch(stamp)-m['brti_age_seconds']
+    for r in main:r['brti_source_t']=clocks[r['ticker'],r['source_t']]
     result=dict(models=list(MODES),fit_parameters=False,threshold_search=False,
         purpose='Do economic units and lag direction help beyond absolute-dollar simultaneous impulse gates?',
         fixed_rule='30-45c, 2-10m; expected residual >= existing8c target + observed spread; positive BTC/BRTI, structure, two observations in4s',
