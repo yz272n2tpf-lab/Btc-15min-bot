@@ -1,0 +1,423 @@
+{
+  "actual_parity_interleaving": {
+    "1": {
+      "api_brti_side_near_source": "UP",
+      "api_brti_value_near_source": 100080,
+      "api_contract": "KXBTC15M-ENGINEERING",
+      "api_down_ask": 0.61,
+      "api_down_bid": 0.59,
+      "api_remaining_at_source_sec": 600.0,
+      "api_target": 100000.0,
+      "api_up_ask": 0.41,
+      "api_up_bid": 0.39,
+      "audit_timestamp_utc": "1970-01-01T00:05:02+00:00",
+      "brti_match": true,
+      "brti_time_delta_sec": 0.0,
+      "brti_value_delta": 0.0,
+      "clock_delta_sec": 0.0,
+      "clock_match": true,
+      "contract_match": true,
+      "logged_brti_gap": 80.0,
+      "logged_brti_side": "UP",
+      "logged_brti_value_inferred": 100080.0,
+      "logged_down_ask": 0.61,
+      "logged_down_bid": 0.59,
+      "logged_remaining_sec": 600.0,
+      "logged_target_inferred": 100000.0,
+      "logged_up_ask": 0.41,
+      "logged_up_bid": 0.39,
+      "notes": "MEASUREMENT_V5|QUOTES_WS_UNVERIFIED|QUOTE_PROOF_UNAVAILABLE=ValueError|BRTI_PUBLICATION_MATCH|bot_publication=1970-01-01T00:04:59+00:00|reference_publication=1970-01-01T00:04:59+00:00|bot_age_at_collection=1.000s|bot_target=100000.0|quote_request_started=1970-01-01T00:05:00+00:00|quote_response_received=1970-01-01T00:05:00+00:00",
+      "overall_status": "WAIT",
+      "quote_match": "",
+      "quote_max_delta": 0.0,
+      "quote_scorable": false,
+      "row_scorable": false,
+      "source_age_sec": 2.0,
+      "source_timestamp_utc": "1970-01-01T00:05:00+00:00",
+      "target_delta": 0.0,
+      "target_match": true,
+      "unified_contract": "KXBTC15M-ENGINEERING"
+    },
+    "5": {
+      "api_brti_side_near_source": "UP",
+      "api_brti_value_near_source": 100080,
+      "api_contract": "KXBTC15M-ENGINEERING",
+      "api_down_ask": 0.61,
+      "api_down_bid": 0.59,
+      "api_remaining_at_source_sec": 600.0,
+      "api_target": 100000.0,
+      "api_up_ask": 0.41,
+      "api_up_bid": 0.39,
+      "audit_timestamp_utc": "1970-01-01T00:05:02+00:00",
+      "brti_match": true,
+      "brti_time_delta_sec": 0.0,
+      "brti_value_delta": 0.0,
+      "clock_delta_sec": 0.0,
+      "clock_match": true,
+      "contract_match": true,
+      "logged_brti_gap": 80.0,
+      "logged_brti_side": "UP",
+      "logged_brti_value_inferred": 100080.0,
+      "logged_down_ask": 0.61,
+      "logged_down_bid": 0.59,
+      "logged_remaining_sec": 600.0,
+      "logged_target_inferred": 100000.0,
+      "logged_up_ask": 0.41,
+      "logged_up_bid": 0.39,
+      "notes": "MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=synthetic-quote-epoch,sid=1,seq=2,ts_ms=299000|BRTI_PUBLICATION_MATCH|bot_publication=1970-01-01T00:04:59+00:00|reference_publication=1970-01-01T00:04:59+00:00|bot_age_at_collection=1.000s|bot_target=100000.0|quote_request_started=1970-01-01T00:05:00+00:00|quote_response_received=1970-01-01T00:05:00+00:00",
+      "overall_status": "PASS",
+      "quote_match": true,
+      "quote_max_delta": 0.0,
+      "quote_scorable": true,
+      "row_scorable": true,
+      "source_age_sec": 2.0,
+      "source_timestamp_utc": "1970-01-01T00:05:00+00:00",
+      "target_delta": 0.0,
+      "target_match": true,
+      "unified_contract": "KXBTC15M-ENGINEERING"
+    }
+  },
+  "created_utc": "2026-09-24T22:59:44.429347+00:00",
+  "files_sha256": {
+    "completion_audit/cadence_projection_probe_v1.py": "986598a36bcbf7dc65b47e6c93dce781654017f7103040d4e41f395ed90e47a4",
+    "test_btc15_cadence_projection_probe.py": "1ace21d643b21e211e3d8bf4d1b6f8caad02a953aebc275f7c51000b57573f95"
+  },
+  "focused_tests": {
+    "meaning": "Tests establish component guarantees and rejection counterexamples, not full candidate equivalence.",
+    "passed": 30,
+    "run": 30
+  },
+  "frozen_oracle_commit": "3e552065e34a0a402bc3ca4598b57dff1f1c6e77",
+  "input_type": "SYNTHETIC_ENGINEERING_ONLY",
+  "orders": false,
+  "persistence_evaluation_phase": {
+    "appended_micro_rows": 0,
+    "isolated_projection_at_6": 2,
+    "legacy_emitted_at_5": 1,
+    "new_market_information": false
+  },
+  "production_changed": false,
+  "raw_gates_fixed_probability_fixtures": {
+    "new_brti_disagreement": {
+      "CORE_SCALP": true,
+      "EARLY": true,
+      "FINAL": false
+    },
+    "new_quote": {
+      "CORE_SCALP": false,
+      "EARLY": false,
+      "FINAL": true
+    },
+    "note": "Exact deployed display expressions, synthetic model-output fixtures. No fitted-model or performance equivalence claim.",
+    "unchanged": {
+      "CORE_SCALP": true,
+      "EARLY": true,
+      "FINAL": true
+    }
+  },
+  "release_regression_suite": "NOT_RUN_SEMANTIC_ACCEPTANCE_GATE_FAILED",
+  "schema": "BTC15_CADENCE_EQUIVALENCE_REJECTION_V1",
+  "signal_only": true,
+  "source_only_bounds": [
+    {
+      "assumptions": {
+        "delay": 0.4
+      },
+      "duration_seconds": 90,
+      "legacy": {
+        "causal_assertions_pass": true,
+        "observed": 700,
+        "percent": 82.0,
+        "publication_count": 18,
+        "qualified": 574
+      },
+      "observation_step_seconds": 0.1,
+      "projection_source_bound": {
+        "causal_assertions_pass": true,
+        "observed": 700,
+        "percent": 100.0,
+        "publication_count": 90,
+        "qualified": 700
+      },
+      "scenario": "receipt_0.4s",
+      "scored_interval_seconds": [
+        20,
+        90
+      ]
+    },
+    {
+      "assumptions": {
+        "delay": 1.4
+      },
+      "duration_seconds": 90,
+      "legacy": {
+        "causal_assertions_pass": true,
+        "observed": 700,
+        "percent": 62.0,
+        "publication_count": 18,
+        "qualified": 434
+      },
+      "observation_step_seconds": 0.1,
+      "projection_source_bound": {
+        "causal_assertions_pass": true,
+        "observed": 700,
+        "percent": 100.0,
+        "publication_count": 90,
+        "qualified": 700
+      },
+      "scenario": "receipt_1.4s",
+      "scored_interval_seconds": [
+        20,
+        90
+      ]
+    },
+    {
+      "assumptions": {
+        "delay": 2.4
+      },
+      "duration_seconds": 90,
+      "legacy": {
+        "causal_assertions_pass": true,
+        "observed": 700,
+        "percent": 42.0,
+        "publication_count": 18,
+        "qualified": 294
+      },
+      "observation_step_seconds": 0.1,
+      "projection_source_bound": {
+        "causal_assertions_pass": true,
+        "observed": 700,
+        "percent": 100.0,
+        "publication_count": 90,
+        "qualified": 700
+      },
+      "scenario": "receipt_2.4s",
+      "scored_interval_seconds": [
+        20,
+        90
+      ]
+    },
+    {
+      "assumptions": {
+        "delay": 4.4
+      },
+      "duration_seconds": 90,
+      "legacy": {
+        "causal_assertions_pass": true,
+        "observed": 700,
+        "percent": 2.0,
+        "publication_count": 18,
+        "qualified": 14
+      },
+      "observation_step_seconds": 0.1,
+      "projection_source_bound": {
+        "causal_assertions_pass": true,
+        "observed": 700,
+        "percent": 10.0,
+        "publication_count": 90,
+        "qualified": 70
+      },
+      "scenario": "receipt_4.4s",
+      "scored_interval_seconds": [
+        20,
+        90
+      ]
+    },
+    {
+      "assumptions": {
+        "jitter": 0.2
+      },
+      "duration_seconds": 90,
+      "legacy": {
+        "causal_assertions_pass": true,
+        "observed": 700,
+        "percent": 60.0,
+        "publication_count": 18,
+        "qualified": 420
+      },
+      "observation_step_seconds": 0.1,
+      "projection_source_bound": {
+        "causal_assertions_pass": true,
+        "observed": 700,
+        "percent": 100.0,
+        "publication_count": 90,
+        "qualified": 700
+      },
+      "scenario": "publication_jitter_0.2s",
+      "scored_interval_seconds": [
+        20,
+        90
+      ]
+    },
+    {
+      "assumptions": {
+        "outage": [
+          40,
+          48
+        ]
+      },
+      "duration_seconds": 90,
+      "legacy": {
+        "causal_assertions_pass": true,
+        "observed": 700,
+        "percent": 53.714285714285715,
+        "publication_count": 18,
+        "qualified": 376
+      },
+      "observation_step_seconds": 0.1,
+      "projection_source_bound": {
+        "causal_assertions_pass": true,
+        "observed": 700,
+        "percent": 87.71428571428571,
+        "publication_count": 90,
+        "qualified": 614
+      },
+      "scenario": "eight_second_transport_error",
+      "scored_interval_seconds": [
+        20,
+        90
+      ]
+    },
+    {
+      "assumptions": {
+        "quote_wait": [
+          40,
+          48
+        ]
+      },
+      "duration_seconds": 90,
+      "legacy": {
+        "causal_assertions_pass": true,
+        "observed": 700,
+        "percent": 53.142857142857146,
+        "publication_count": 18,
+        "qualified": 372
+      },
+      "observation_step_seconds": 0.1,
+      "projection_source_bound": {
+        "causal_assertions_pass": true,
+        "observed": 700,
+        "percent": 88.57142857142857,
+        "publication_count": 90,
+        "qualified": 620
+      },
+      "scenario": "eight_second_quote_wait",
+      "scored_interval_seconds": [
+        20,
+        90
+      ]
+    }
+  ],
+  "status": "REJECTED_NOT_DEPLOYABLE",
+  "unchanged_book_profit_exit": {
+    "DOWN": {
+      "1": [
+        {
+          "arm_seconds": 10.0,
+          "arm_timestamp_utc": "1970-01-01T00:00:00+00:00",
+          "armed": true,
+          "brti_agreed_at_exit": true,
+          "brti_ready_at_exit": true,
+          "brti_side_at_exit": "DOWN",
+          "contract": "A",
+          "entry_ask": 0.3,
+          "entry_timestamp_utc": "engineering",
+          "exit_bid": 0.51,
+          "exit_reason": "TARGET_20",
+          "exit_seconds": 11.0,
+          "exit_timestamp_utc": "1970-01-01T00:00:01+00:00",
+          "floor_profit_c": 6,
+          "notes": "FROZEN T20_F6_TR4_BRTI \u2014 FORWARD SHADOW ONLY",
+          "peak_profit_c": 21.0,
+          "profit_c": 21.0,
+          "roi_pct": 70.0,
+          "side": "DOWN",
+          "signal_id": "engineering",
+          "target_profit_c": 20,
+          "trail_c": 4
+        }
+      ],
+      "5": [
+        {
+          "arm_seconds": 10.0,
+          "arm_timestamp_utc": "1970-01-01T00:00:00+00:00",
+          "armed": true,
+          "brti_agreed_at_exit": true,
+          "brti_ready_at_exit": true,
+          "brti_side_at_exit": "DOWN",
+          "contract": "A",
+          "entry_ask": 0.3,
+          "entry_timestamp_utc": "engineering",
+          "exit_bid": 0.51,
+          "exit_reason": "TARGET_20",
+          "exit_seconds": 15.0,
+          "exit_timestamp_utc": "1970-01-01T00:00:05+00:00",
+          "floor_profit_c": 6,
+          "notes": "FROZEN T20_F6_TR4_BRTI \u2014 FORWARD SHADOW ONLY",
+          "peak_profit_c": 21.0,
+          "profit_c": 21.0,
+          "roi_pct": 70.0,
+          "side": "DOWN",
+          "signal_id": "engineering",
+          "target_profit_c": 20,
+          "trail_c": 4
+        }
+      ]
+    },
+    "UP": {
+      "1": [
+        {
+          "arm_seconds": 10.0,
+          "arm_timestamp_utc": "1970-01-01T00:00:00+00:00",
+          "armed": true,
+          "brti_agreed_at_exit": true,
+          "brti_ready_at_exit": true,
+          "brti_side_at_exit": "UP",
+          "contract": "A",
+          "entry_ask": 0.3,
+          "entry_timestamp_utc": "engineering",
+          "exit_bid": 0.51,
+          "exit_reason": "TARGET_20",
+          "exit_seconds": 11.0,
+          "exit_timestamp_utc": "1970-01-01T00:00:01+00:00",
+          "floor_profit_c": 6,
+          "notes": "FROZEN T20_F6_TR4_BRTI \u2014 FORWARD SHADOW ONLY",
+          "peak_profit_c": 21.0,
+          "profit_c": 21.0,
+          "roi_pct": 70.0,
+          "side": "UP",
+          "signal_id": "engineering",
+          "target_profit_c": 20,
+          "trail_c": 4
+        }
+      ],
+      "5": [
+        {
+          "arm_seconds": 10.0,
+          "arm_timestamp_utc": "1970-01-01T00:00:00+00:00",
+          "armed": true,
+          "brti_agreed_at_exit": true,
+          "brti_ready_at_exit": true,
+          "brti_side_at_exit": "UP",
+          "contract": "A",
+          "entry_ask": 0.3,
+          "entry_timestamp_utc": "engineering",
+          "exit_bid": 0.51,
+          "exit_reason": "TARGET_20",
+          "exit_seconds": 15.0,
+          "exit_timestamp_utc": "1970-01-01T00:00:05+00:00",
+          "floor_profit_c": 6,
+          "notes": "FROZEN T20_F6_TR4_BRTI \u2014 FORWARD SHADOW ONLY",
+          "peak_profit_c": 21.0,
+          "profit_c": 21.0,
+          "roi_pct": 70.0,
+          "side": "UP",
+          "signal_id": "engineering",
+          "target_profit_c": 20,
+          "trail_c": 4
+        }
+      ]
+    }
+  },
+  "validation_or_holdout_rows_loaded": 0
+}
