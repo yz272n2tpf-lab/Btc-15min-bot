@@ -2735,6 +2735,15 @@ def _live_fair_shadow(now, ticker, target, btc_spot, up_ask, down_ask,
     if _snap is None:
         return None
 
+    from btc15_decision_clock_v1 import record_model_input
+    record_model_input(
+        _btc15_data_path("kalshi_fair_input_frames_v1.jsonl"),
+        ticker=ticker, target=target, decision=_cut.to_pydatetime(),
+        btc_source=btc_source_utc, btc_observed=btc_observed_utc,
+        btc_price=btc_spot, features=_snap, feature_names=_fair_features,
+        weights_sha256=_fair_model_weights_sha256,
+        artifact_sha256=_fair_model_artifact_sha256,
+    )
     _frame = pd.DataFrame([_snap])
     _raw_flip = float(
         _fair_rf.predict_proba(_frame[_fair_features])[0, 1]
@@ -3989,6 +3998,19 @@ while running:
         down_bid = num(market.get("no_bid_dollars"))
         down_ask = num(market.get("no_ask_dollars"))
         btc = get_btc_spot()
+
+        # The feature cutoff must follow BTC receipt. Capturing it before the
+        # network read excluded the current tick while target/entry gates used
+        # that same tick. Keep the exchange source clock and receipt clock; this
+        # is a decision timestamp, never a replacement source timestamp.
+        from btc15_decision_clock_v1 import decision_time
+        now = decision_time(
+            market.get("open_time"), market.get("close_time"),
+            _btc_spot_provenance["source_utc"],
+            _btc_spot_provenance["observed_utc"],
+            datetime.now(timezone.utc),
+        )
+        now_ts = now.timestamp()
 
         _diag_open = None if close_dt is None else close_dt - timedelta(seconds=900)
         if _diag_open is not None:
