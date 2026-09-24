@@ -1,0 +1,35 @@
+{
+  "registered_utc": "2026-09-24T17:46:27.595661+00:00",
+  "purpose": "Repair lost causal BTC input history and expose the retained exact feature journal; no strategy tuning.",
+  "parent_runtime": {
+    "commit": "1730ceff180394fbd2ebae7a5fddc4acd1e76194",
+    "deployment": "454f53ad-b269-4133-b0f5-60098978db71"
+  },
+  "rollback_commit": "1730ceff180394fbd2ebae7a5fddc4acd1e76194",
+  "weights_sha256": "95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6",
+  "artifact_sha256": "1bf10e755fc81584bab3c3682b16103353f84582c27bb003664de883e7e7c816",
+  "tuning_closed_utc": "2026-09-24T17:00:00Z",
+  "closed_evidence_sha256": "839f82afa9ed5546841d68fc4aa2aecac3bef1d055beac6a7d3969b7e5b27410",
+  "candidate_forecaster_promoted": false,
+  "calibration_or_strategy_changes": false,
+  "freshness_changes": false,
+  "new_upstream_polls": false,
+  "production_changes": [
+    "Capture the already verified BTC tick before target/book WAIT; existing live call remains idempotent.",
+    "Include unchanged tested PR35 bounded exact-input export."
+  ],
+  "runtime_rule": "Actual startup closes prior runtime identity. Keep all preceding validation slots under old identity. Do not pool. Record mixed restart contract and warmup. First full prospective contract is first official boundary at least six minutes after startup, with source qualification still required.",
+  "validation_fixed_end": "2026-09-24T21:15:00Z",
+  "untouched_holdout_end": "2026-10-09T21:15:00Z",
+  "acceptance": [
+    "Hosted candidate CI green before merge",
+    "Main preserved evidence archive and /data mount",
+    "Identical weight/artifact hashes and NO STARTUP FIT",
+    "Bounded exact-feature journal export hash and source<=receipt<=decision; do not inspect post17 tuning rows",
+    "Quote WAIT still prevents signal publication",
+    "New input-history identity evaluated on future contracts, with old and new runtime results separated"
+  ],
+  "signal_only": true,
+  "orders": false,
+  "sha256": "b8f1f6e26965a8474fd92308e58e383f87be9f56cf214193ac3507d3c7174be8"
+}

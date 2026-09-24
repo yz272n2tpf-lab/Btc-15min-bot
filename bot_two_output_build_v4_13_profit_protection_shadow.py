@@ -2166,6 +2166,9 @@ _brti_samples = deque(maxlen=600)
 _brti_conflicting_seconds = set()
 _brti_last_error = None
 _brti_last_error_print = 0.0
+from btc15_brti_delivery_v1 import Delivery
+_brti_delivery = Delivery()
+_brti_fetch_epoch = "direct"
 
 if not BRTI_PARITY_LOG.exists():
     with BRTI_PARITY_LOG.open("w", newline="") as _bf:
@@ -2205,11 +2208,13 @@ def _parse_direct_brti_response(obj):
     return None
 
 def _fetch_direct_brti_once():
+    global _brti_fetch_epoch
     if os.getenv("BTC15_USE_SHARED_BRTI","").strip() == "1":
         from btc15_brti_shared_consumer_v1 import read_shared_brti
         _s = read_shared_brti()
         if _s["status"] != "PRIMARY_OK":
             raise RuntimeError("shared BRTI latest upstream attempt not PRIMARY_OK")
+        _brti_fetch_epoch = _s["owner_epoch"]
         _cf_ts = datetime.fromisoformat(
             str(_s["success_timestamp_utc"]).replace("Z","+00:00")
         ).timestamp()
@@ -2261,6 +2266,7 @@ def _retain_brti_window(meta, incoming, conflicts, now_ts):
 def _store_brti_publications(incoming):
     with _brti_lock:
         now_ts = time.time()
+        _brti_delivery.remember(incoming, now_ts)
         cutoff = now_ts - _brti_samples.maxlen
         _brti_conflicting_seconds.intersection_update(
             second for second in _brti_conflicting_seconds if second >= int(cutoff)
@@ -2278,17 +2284,33 @@ def _store_brti_publications(incoming):
         return len({int(ts) for ts, _ in _brti_samples} - before)
 
 
-def _collect_brti_once():
-    # The existing qualified /state path still owns live freshness/readiness.
-    value, cf_ts = _fetch_direct_brti_once()
+def _collect_brti_once(include_history=True):
+    # Live /state qualifies immediately; /ticks can never promote live authority.
+    global _brti_last_error
+    try:
+        value, cf_ts = _fetch_direct_brti_once()
+        _brti_delivery.accept(value, cf_ts, time.time(), _brti_fetch_epoch)
+        _brti_last_error = None
+    except Exception as exc:
+        _brti_delivery.fail(time.time())
+        _brti_last_error = type(exc).__name__
+        raise
     _store_brti_publications([(cf_ts, value)])
+    if include_history:
+        _recover_brti_history_once()
+
+
+def _recover_brti_history_once():
+    epoch = _brti_delivery.epoch
+    if epoch is None:
+        return
     if os.getenv("BTC15_USE_SHARED_BRTI", "").strip() == "1":
         if os.getenv("BTC15_BRTI_TRANSPORT", "").strip().lower() == "websocket_gateway":
             from btc15_brti_ws_gateway_client_v1 import ticks
         else:
             from btc15_brti_shared_consumer_v1 import read_shared_brti_ticks
             def ticks(timeout):
-                return read_shared_brti_ticks(timeout_s=timeout)
+                return read_shared_brti_ticks(timeout_s=timeout, owner_epoch=epoch)
         # Recover actual publications skipped between latest-state polls. This
         # is history ingestion, never interpolation or copying the latest price.
         history_points = []
@@ -2299,6 +2321,8 @@ def _collect_brti_once():
                 history_points.append((int(item["source_ts_ms"]) / 1000.0, float(item["value"])))
             except (AttributeError, KeyError, TypeError, ValueError, OverflowError):
                 continue
+        if _brti_delivery.epoch != epoch:
+            raise RuntimeError("BRTI owner changed during history recovery")
         recovered = _store_brti_publications(history_points)
         if recovered:
             print(f"BRTI HISTORY RECOVERED | {recovered} publication seconds | NO ORDERS", flush=True)
@@ -2309,8 +2333,7 @@ def _brti_poller():
     while running:
         cycle = time.time()
         try:
-            _collect_brti_once()
-            _brti_last_error = None
+            _collect_brti_once(include_history=False)
         except Exception as exc:
             # No request contents or credentials in diagnostics.
             _brti_last_error = type(exc).__name__
@@ -2320,22 +2343,41 @@ def _brti_poller():
         elapsed = time.time() - cycle
         time.sleep(max(0.05, BRTI_POLL_SECONDS - elapsed))
 
-def _latest_brti():
+def _brti_history_poller():
+    last_warning = 0.0
+    while running:
+        cycle = time.time()
+        try:
+            _recover_brti_history_once()
+        except Exception as exc:
+            if time.time() - last_warning >= 30:
+                print("BRTI HISTORY WARNING:", type(exc).__name__, "| live state independent | NO ORDERS")
+                last_warning = time.time()
+        time.sleep(max(0.05, BRTI_POLL_SECONDS - (time.time()-cycle)))
+
+
+def _latest_brti(as_of=None):
+    checked = time.time()
+    cut = checked if as_of is None else as_of.timestamp()
+    latest = _brti_delivery.select(cut, checked)
+    if latest is not None:
+        with _brti_lock:
+            if int(latest["cf_ts"]) in _brti_conflicting_seconds:
+                latest["ready"] = False
+                latest["reason"] = "CONFLICTING_SOURCE"
+        return latest
+    # Retained history is useful for closeouts, never a substitute live state.
+    if as_of is not None:
+        return None
     with _brti_lock:
         if not _brti_samples:
             return None
         cf_ts, value = _brti_samples[-1]
+    return dict(value=value, cf_ts=cf_ts, age=checked-cf_ts, ready=False)
 
-    age = time.time() - cf_ts
-    return {
-        "value": float(value),
-        "cf_ts": float(cf_ts),
-        "age": float(age),
-        "ready": bool(_brti_last_error is None and 0.0 <= age <= BRTI_MAX_AGE_SECONDS),
-    }
 
-def _brti_contract_snapshot(close_dt, target, coinbase_spot, retained=None):
-    latest = _latest_brti()
+def _brti_contract_snapshot(close_dt, target, coinbase_spot, retained=None, as_of=None):
+    latest = _latest_brti(as_of)
     if latest is None:
         return None
 
@@ -2351,7 +2393,8 @@ def _brti_contract_snapshot(close_dt, target, coinbase_spot, retained=None):
     # CF BRTI is PER_SECOND here. Deduplicate by publication second.
     by_second = {}
     for cf_ts, value in samples:
-        if start60 <= cf_ts < close_ts:
+        if (start60 <= cf_ts < close_ts and
+                (as_of is None or _brti_delivery.known_at(cf_ts, value, as_of.timestamp()))):
             by_second[int(cf_ts)] = float(value)
 
     vals = [by_second[k] for k in sorted(by_second)]
@@ -2373,6 +2416,7 @@ def _brti_contract_snapshot(close_dt, target, coinbase_spot, retained=None):
         "cf_ts": latest["cf_ts"],
         "age": latest["age"],
         "ready": latest["ready"],
+        "delivery": {k: latest.get(k) for k in ("observed_ts", "decision_ts", "checked_ts", "current_age", "owner_epoch", "reason")},
         "minus_coinbase": brti_value - float(coinbase_spot),
         "gap": brti_gap,
         "side": brti_side,
@@ -2681,7 +2725,9 @@ def _ec_append_btc_tick(source_utc, observed_utc, btc_spot):
     _source, _observed = _source.tz_convert("UTC"), _observed.tz_convert("UTC")
     if _source > _observed or (_observed-_source).total_seconds() > 10:
         raise RuntimeError("BTC tick source timestamp unqualified")
-    _ec_btc_ticks.append((_source, _observed, float(btc_spot)))
+    _point = (_source, _observed, float(btc_spot))
+    if not _ec_btc_ticks or _ec_btc_ticks[-1] != _point:
+        _ec_btc_ticks.append(_point)
     _cutoff = _observed - pd.Timedelta(minutes=20)
     while _ec_btc_ticks and _ec_btc_ticks[0][1] < _cutoff:
         _ec_btc_ticks.popleft()
@@ -3976,6 +4022,8 @@ _brti_thread = threading.Thread(
     daemon=True,
 )
 _brti_thread.start()
+if os.getenv("BTC15_USE_SHARED_BRTI", "").strip() == "1":
+    threading.Thread(target=_brti_history_poller, name="retained-brti-history", daemon=True).start()
 
 iteration = 0
 while running:
@@ -4011,6 +4059,16 @@ while running:
             datetime.now(timezone.utc),
         )
         now_ts = now.timestamp()
+
+        # Preserve a qualified BTC observation even while the Kalshi target or
+        # book is warming/recovering. Otherwise quote waits erase the historical
+        # BTC reference needed by the next contract's unchanged fair features.
+        # This only ingests the read already made above: no new poll, model fit,
+        # target substitute or signal publication. Quote gates below still apply.
+        _ec_append_btc_tick(
+            _btc_spot_provenance["source_utc"],
+            _btc_spot_provenance["observed_utc"], btc,
+        )
 
         _diag_open = None if close_dt is None else close_dt - timedelta(seconds=900)
         if _diag_open is not None:
@@ -4110,8 +4168,16 @@ while running:
         _brti_row = None
         try:
             _brti_contract = _brti_contract_snapshot(
-                close_dt, target, btc
+                close_dt, target, btc, as_of=now
             )
+            import json as _delivery_json
+            print("BRTI DELIVERY | " + _delivery_json.dumps(dict(
+                schema="BTC15_BRTI_DELIVERY_V1", ticker=ticker, decision_utc=now.isoformat(),
+                source_ts=None if _brti_contract is None else _brti_contract["cf_ts"],
+                age_at_decision=None if _brti_contract is None else _brti_contract["age"],
+                ready=False if _brti_contract is None else _brti_contract["ready"],
+                delivery={} if _brti_contract is None else _brti_contract["delivery"],
+                signal_only=True, orders=False), separators=(",", ":")), flush=True)
             _brti_row = _log_brti_parity(
                 now, ticker, target, seconds_left, btc, close_dt,
                 _brti_contract,
@@ -4267,3 +4333,4 @@ save_state()
 print("SCALP SHADOW STOPPED CLEANLY")
 print(f"Snapshots: {SNAPSHOT_LOG}")
 print(f"Events: {EVENT_LOG}")
+
