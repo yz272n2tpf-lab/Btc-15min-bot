@@ -45,7 +45,8 @@ def run(output):
         model_entries=scalp_calls(vr,model)
         existing=json.loads((ROOT/'STRUCTURAL_LEAD_LAG_STRICT_20260924.json').read_text())[part]['policies']
         # Entries already frozen by the earlier fixed policy; paths cannot select entry times.
-        policies={name:m['entries'] for name,m in existing.items()}
+        policies={name:[dict(e,target=truth[e['ticker']]['floor_strike'],receipt_left=e['minutes_left'])
+                        for e in m['entries']] for name,m in existing.items()}
         policies['native_first_passage_head']=model_entries
         result[part]={name:dict(native=score_entries(entries,truth,n,'v81',native),
                                independent=score_entries(entries,truth,n,'v81',independent)) for name,entries in policies.items()}
