@@ -4,7 +4,7 @@ from structural_position_protection import held_probability, position_flags, qua
 
 class PositionProtectionTests(unittest.TestCase):
     def entry(self, **updates):
-        return dict(dict(ticker='A',target=100.,side='UP',ask=.31,t=100.),**updates)
+        return dict(dict(ticker='A',target=100.,side='UP',ask=.31,t=100.,fair=.8),**updates)
 
     def row(self, **updates):
         return dict(dict(ticker='A',target=100.,side='UP',fair=.92,brti_authority=True,
@@ -18,20 +18,20 @@ class PositionProtectionTests(unittest.TestCase):
     def test_confirmation_does_not_require_cheap_final_quote(self):
         f=position_flags(self.entry(),self.row(),.96,.97)
         self.assertTrue(f['final_confirmation'])
-        self.assertFalse(f['authoritative_flip'])
+        self.assertFalse(f['authoritative_opposed'])
 
     def test_qualified_opposite_side_is_not_original_confirmation(self):
         f=position_flags(self.entry(),self.row(side='DOWN',brti_gap=-80.,signed_gap=-80.),.20,.75)
-        self.assertTrue(f['final_opposition']);self.assertTrue(f['authoritative_flip'])
+        self.assertTrue(f['final_opposition']);self.assertTrue(f['authoritative_opposed'])
         self.assertFalse(f['final_confirmation'])
 
     def test_flip_requires_authority_not_just_low_model_probability(self):
         f=position_flags(self.entry(),self.row(side='DOWN',brti_authority=False,brti_gap=-80.),.20,.75)
-        self.assertTrue(f['model_flip']);self.assertFalse(f['authoritative_flip'])
+        self.assertTrue(f['model_opposed']);self.assertFalse(f['authoritative_opposed'])
 
     def test_guard_is_warning_without_forcing_thesis_exit(self):
         f=position_flags(self.entry(),self.row(signed_gap=50.,receipt_left=2.9),.60,.61)
-        self.assertTrue(f['guard_3m']);self.assertFalse(f['authoritative_flip'])
+        self.assertTrue(f['guard_3m']);self.assertFalse(f['authoritative_opposed'])
 
     def test_profit_warning_requires_armed_observed_bid_and_deterioration(self):
         f=position_flags(self.entry(),self.row(fair=.70),.43,.48)
@@ -57,6 +57,17 @@ class PositionProtectionTests(unittest.TestCase):
         one=evaluate(e,[self.row(fair=.7)],q,m)
         two=evaluate(e,[self.row(fair=.7)],q,dict(m,result='no'))
         self.assertEqual({k:v['t'] for k,v in one['events'].items()}, {k:v['t'] for k,v in two['events'].items()})
+
+    def test_initial_opposition_is_not_a_flip_and_underwater_warning_has_no_positive_lead(self):
+        e=self.entry(fair=None)
+        q=[dict(t=t,target=100.,up_bid=.2,up_ask=.31) for t in (101.,102.)]
+        m=dict(open_time='1970-01-01T00:00:00Z',close_time='1970-01-01T00:15:00Z',floor_strike=100.,result='no')
+        r=self.row(side='DOWN',brti_gap=-80.,signed_gap=-80.)
+        one=evaluate(e,[r],q,m)
+        self.assertNotIn('model_flip',one['events']);self.assertIn('model_opposed',one['events'])
+        self.assertIsNone(one['events']['model_opposed']['seconds_before_later_observed_breakeven_loss'])
+        two=evaluate(dict(e,fair=.8),[r],q,m)
+        self.assertIn('model_flip',two['events'])
 
 
 if __name__=='__main__':unittest.main()

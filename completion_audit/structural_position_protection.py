@@ -19,8 +19,8 @@ RULES = {
     'position_identity': 'Original side, ticker, fixed target and entry time never follow the preferred side',
     'confirmation': 'Unchanged production FINAL gates; no cheap-entry constraint on FINAL',
     'deterioration': 'Held-side probability below existing EARLY 0.75 confidence',
-    'model_flip': 'Held-side probability <0.5; diagnostic alternative only',
-    'authoritative_flip': 'Model flip plus qualified BRTI >=11 dollars against original side',
+    'model_flip': 'Observed support >=0.5 followed by held-side probability <0.5; opposition at first observation alone is not a flip',
+    'authoritative_flip': 'Post-support model opposition plus qualified BRTI >=11 dollars against original side',
     'late_guards': 'First causal observation at/below 5m and 3m; signed BTC distance <=75 from frozen specs',
     'profit_warning': 'Existing shadow +10c arm, +6c minimum bid profit, -4c trail; requires deterioration or BRTI disagreement',
     'safety': 'As-of main <=5s, its true BRTI source <=5s, native quotes <=6s, native publication <=3.5s; same ticker/target/window',
@@ -50,7 +50,7 @@ def position_flags(entry, row, bid, peak_bid):
                       and (deterioration or against)
                       and (profit <= max(.06, peak_bid-entry['ask']-.04)+1e-9 or against))
     return dict(held_probability=p, probability_deterioration=deterioration,
-                model_flip=p < .5, authoritative_flip=p < .5 and against,
+                model_opposed=p < .5, authoritative_opposed=p < .5 and against,
                 profit_warning=profit_warning,
                 final_confirmation=final_ready and row['side'] == entry['side'],
                 final_opposition=final_ready and row['side'] != entry['side'],
@@ -75,6 +75,7 @@ def evaluate(entry, main, tape, official):
     mt = [r['t'] for r in main]
     ps = [q for q in tape if entry['t'] <= q['t'] < close]
     events = {}; counts = Counter(); samples = []; peak = None; previous = entry['t']
+    support_seen = entry.get('fair') is not None and entry['fair'] >= .5
     original_correct = (entry['side'] == 'UP') == (official['result'] == 'yes')
     for q in ps:
         if q['target'] != entry['target']:
@@ -89,6 +90,9 @@ def evaluate(entry, main, tape, official):
             counts['probability_unavailable'] += 1; continue
         row = dict(row, receipt_left=(close-q['t'])/60)
         flags = position_flags(entry, row, bid, peak)
+        flags['model_flip'] = support_seen and flags['model_opposed']
+        flags['authoritative_flip'] = support_seen and flags['authoritative_opposed']
+        support_seen = support_seen or flags['held_probability'] >= .5
         counts['qualified_position_samples'] += 1
         sample = dict(t=q['t'], bid=bid, peak_bid=peak, **flags)
         samples.append(sample)
@@ -103,7 +107,8 @@ def evaluate(entry, main, tape, official):
     for event in events.values():
         lost = next((q for q in ps if q['t'] > event['t'] and
                      q[entry['side'].lower()+'_bid'] <= entry['ask']), None)
-        event['seconds_before_later_observed_breakeven_loss'] = lost['t']-event['t'] if lost else None
+        event['already_at_or_below_entry'] = event['gain'] <= 0
+        event['seconds_before_later_observed_breakeven_loss'] = lost['t']-event['t'] if lost and event['gain'] > 0 else None
     final_opposed_samples = sum(s['final_opposition'] for s in samples)
     return dict(ticker=entry['ticker'], side=entry['side'], t=entry['t'], ask=entry['ask'],
         correct=original_correct, minutes_left=(close-entry['t'])/60, counts=dict(counts),
@@ -151,6 +156,7 @@ def run(output):
     native,_=native_paths(load_rows(DATA/'v81.jsonl.gz'))
     previous=json.loads((ROOT/'STRUCTURAL_LEAD_LAG_STRICT_20260924.json').read_text())
     result=dict(rules=RULES, signal_only=True, orders=False, production_promotion=False,
+        schema=2, supersedes='STRUCTURAL_POSITION_PROTECTION_20260924.json: distinguish initial opposition from a later flip; no positive warning lead when already at/below entry',
         status='exploratory previously opened challenge, corrected-runtime reserved validation untouched',
         no_new_threshold_search=True)
     for part,start,end,n in [('tuning','2026-09-24T00:15Z','2026-09-24T06:45Z',26),
