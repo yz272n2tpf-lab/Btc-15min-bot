@@ -1,0 +1,15 @@
+name: PR36 read-only live acceptance
+on:
+  push:
+    branches: [audit/pr36-prospective-rollout-20260924]
+    paths: [completion_audit/pr36_http_acceptance.py, .github/workflows/pr36-live-acceptance.yml]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify live identity, bounded export hashes and causal input clocks
+        run: python3 completion_audit/pr36_http_acceptance.py
