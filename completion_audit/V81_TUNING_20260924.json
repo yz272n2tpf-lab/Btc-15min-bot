@@ -1,0 +1,1634 @@
+{
+  "in_band_source_frames": 8059,
+  "features_ready": 7828,
+  "failed_gates": {
+    "features": 231,
+    "brti_features": 231,
+    "btc5": 7250,
+    "btc15": 7122,
+    "brti5": 7147,
+    "accel": 5971,
+    "ask5": 3025,
+    "ask15": 2453,
+    "structure": 5634,
+    "route": 7996,
+    "left": 175
+  },
+  "sole_blocking_gate": {
+    "route": 3,
+    "ask5": 1
+  },
+  "failure_patterns": {
+    "features|brti_features|btc5|btc15|brti5|accel|ask5|ask15|structure|route": 231,
+    "btc5|btc15|brti5|accel|structure|route": 2909,
+    "btc5|btc15|brti5|accel|route": 546,
+    "btc5|btc15|brti5|accel|ask5|ask15|structure|route": 179,
+    "ask5|ask15|route": 175,
+    "btc5|accel|ask5|ask15|route": 59,
+    "btc5|brti5|accel|ask15|route": 205,
+    "btc5|brti5|accel|ask5|ask15|route": 129,
+    "btc5|brti5|accel|route": 23,
+    "btc5|btc15|brti5|accel|ask5|structure|route": 557,
+    "btc5|btc15|brti5|accel|ask5|route": 116,
+    "btc5|btc15|brti5|ask5|structure|route": 413,
+    "btc5|btc15|brti5|accel|ask15|structure|route": 142,
+    "btc5|btc15|brti5|accel|ask5|ask15|route": 220,
+    "brti5|ask5|ask15|route": 42,
+    "ask15|route": 15,
+    "btc5|accel|ask15|route": 37,
+    "btc5|btc15|brti5|accel|ask15|route": 264,
+    "brti5|accel|ask5|ask15|route": 22,
+    "btc5|btc15|brti5|ask5|route": 28,
+    "btc15|brti5|structure|route": 10,
+    "btc5|btc15|brti5|structure|route": 570,
+    "btc5|btc15|accel|ask15|structure|route": 6,
+    "btc5|btc15|structure|route": 16,
+    "btc15|ask5|ask15|route": 92,
+    "accel|ask15|route": 12,
+    "btc15|brti5|ask5|ask15|route": 38,
+    "left|btc5|btc15|brti5|accel|ask5|ask15|route": 7,
+    "left|btc5|brti5|accel|ask15|route": 3,
+    "left|btc5|btc15|brti5|structure|route": 13,
+    "left|btc5|btc15|brti5|accel|structure|route": 62,
+    "left|btc5|btc15|brti5|accel|ask5|structure|route": 10,
+    "left|btc5|btc15|brti5|accel|route": 12,
+    "left|btc5|btc15|brti5|accel|ask15|route": 10,
+    "left|btc5|btc15|ask5|ask15|route": 1,
+    "left|btc5|btc15|ask15|route": 1,
+    "left|btc5|btc15|brti5|accel|ask15|structure|route": 11,
+    "btc5|btc15|accel|ask15|route": 18,
+    "ask5|ask15": 62,
+    "brti5|accel|ask15|route": 4,
+    "btc15|brti5|ask5|ask15|structure|route": 31,
+    "btc5|btc15|accel|ask5|structure|route": 12,
+    "btc5|btc15|ask5|structure|route": 42,
+    "btc15|ask5|ask15|structure|route": 34,
+    "btc15|brti5|ask5|structure|route": 61,
+    "btc5|btc15|accel|ask5|ask15|route": 26,
+    "btc5|btc15|ask5|ask15|structure|route": 25,
+    "btc5|btc15|brti5|ask5|ask15|structure|route": 73,
+    "brti5|ask5|ask15|structure|route": 14,
+    "btc5|btc15|brti5|ask5|ask15|route": 61,
+    "left|btc5|btc15|brti5|ask5|structure|route": 19,
+    "left|btc15|ask5|structure|route": 1,
+    "left|btc15|brti5|ask5|structure|route": 1,
+    "left|route": 1,
+    "left|btc15|structure|route": 1,
+    "left|btc5|btc15|structure|route": 1,
+    "left|btc5|btc15|accel|structure|route": 1,
+    "left|btc5|btc15|brti5|route": 3,
+    "btc5|btc15|accel|ask5|ask15|structure|route": 8,
+    "ask5|ask15|structure|route": 28,
+    "brti5|accel|ask5|ask15|structure|route": 2,
+    "btc5|brti5|accel|ask5|ask15|structure|route": 14,
+    "btc5|brti5|accel|ask15|structure|route": 12,
+    "btc15|ask5|route": 15,
+    "btc5|btc15|accel|ask5|route": 13,
+    "btc5|btc15|ask5|ask15|route": 27,
+    "btc5|btc15|ask15|route": 6,
+    "btc5|btc15|brti5|ask15|route": 6,
+    "btc15|ask5|structure|route": 55,
+    "brti5|accel|ask15|structure|route": 1,
+    "btc15|brti5|ask15|route": 6,
+    "brti5|ask5|route": 2,
+    "btc5|ask5|ask15|route": 2,
+    "brti5|ask15|route": 8,
+    "btc15|ask15|route": 6,
+    "btc5|btc15|accel|route": 8,
+    "btc15|structure|route": 5,
+    "btc5|btc15|accel|structure|route": 15,
+    "structure|route": 1,
+    "brti5|route": 2,
+    "btc15|route": 7,
+    "left|btc5|btc15|ask5|structure|route": 3,
+    "left|btc5|btc15|brti5|ask5|ask15|structure|route": 2,
+    "left|btc5|btc15|brti5|accel|ask5|ask15|structure|route": 8,
+    "left|btc5|btc15|brti5|accel|ask5|route": 2,
+    "left|btc5|btc15|brti5|ask5|ask15|route": 1,
+    "btc5|btc15|route": 4,
+    "btc5|btc15|brti5|route": 23,
+    "btc5|btc15|brti5|ask15|structure|route": 7,
+    "accel|ask5|ask15|route": 37,
+    "route": 3,
+    "left|btc15|brti5|structure|route": 1,
+    "btc5|accel|ask15|structure|route": 3,
+    "btc15|brti5|ask5|route": 3,
+    "btc5|brti5|accel|structure|route": 2,
+    "btc5|accel|ask5|ask15|structure|route": 7,
+    "btc5|accel|structure|route": 1,
+    "btc5|btc15|ask5|route": 9,
+    "ask5": 1,
+    "btc15|ask15|structure|route": 2,
+    "btc5|brti5|accel|ask5|route": 1,
+    "ask15|structure|route": 2,
+    "accel|ask5|ask15|structure|route": 2,
+    "btc5|accel|ask5|structure|route": 2,
+    "btc15|brti5|ask15|structure|route": 4,
+    "btc5|brti5|ask15|route": 1,
+    "btc5|btc15|ask15|structure|route": 2
+  },
+  "features": {
+    "btc5": {
+      "n": 7828,
+      "min": -64.74,
+      "mean": -0.928948645886561,
+      "median": 0.0,
+      "p95": 14.95,
+      "max": 53.13
+    },
+    "btc15": {
+      "n": 7828,
+      "min": -102.95,
+      "mean": -2.960820132856413,
+      "median": -2.12,
+      "p95": 24.216499999999996,
+      "max": 62.67
+    },
+    "btc30": {
+      "n": 7604,
+      "min": -99.5,
+      "mean": -5.294834297738032,
+      "median": -5.02,
+      "p95": 34.25,
+      "max": 87.72
+    },
+    "brti5": {
+      "n": 7828,
+      "min": -62.32,
+      "mean": -0.9132230454777721,
+      "median": -0.3,
+      "p95": 13.702999999999992,
+      "max": 52.56
+    },
+    "brti15": {
+      "n": 7828,
+      "min": -115.25,
+      "mean": -2.825104752171691,
+      "median": -2.245,
+      "p95": 21.96,
+      "max": 62.25
+    },
+    "accel": {
+      "n": 7828,
+      "min": -51.29,
+      "mean": 0.058028870720490545,
+      "median": 0.01,
+      "p95": 12.4,
+      "max": 49.36
+    },
+    "ask5": {
+      "n": 7828,
+      "min": -0.58,
+      "mean": -0.0065173735309146654,
+      "median": 0.0,
+      "p95": 0.06,
+      "max": 0.296
+    },
+    "ask15": {
+      "n": 7828,
+      "min": -0.35,
+      "mean": -0.015459759836484416,
+      "median": -0.01,
+      "p95": 0.09,
+      "max": 0.385
+    },
+    "evidence_ratio": {
+      "n": 3029,
+      "min": -2.533,
+      "mean": -0.17904754044239024,
+      "median": -0.177,
+      "p95": 0.696,
+      "max": 2.49
+    }
+  },
+  "baseline": {
+    "calls": 0,
+    "contracts": 0,
+    "wins": 0,
+    "accuracy": null,
+    "wilson95": null,
+    "scheduled": 26,
+    "official": 26,
+    "coverage_scheduled": 0.0,
+    "coverage_official": 0.0,
+    "sides": {},
+    "entry": {
+      "n": 0
+    },
+    "entry_le50": 0,
+    "entry_25_35": 0,
+    "minutes_left": {
+      "n": 0
+    },
+    "brier": null,
+    "mfe": {
+      "n": 0
+    },
+    "mae": {
+      "n": 0
+    },
+    "positive_movement": 0,
+    "hit8": 0,
+    "hit10": 0,
+    "path_samples": 0,
+    "worst_path_gap": null,
+    "executable_fill_proven": false,
+    "entries": []
+  },
+  "leave_one_strategy_gate_out": {
+    "left": {
+      "calls": 0,
+      "contracts": 0,
+      "wins": 0,
+      "accuracy": null,
+      "wilson95": null,
+      "scheduled": 26,
+      "official": 26,
+      "coverage_scheduled": 0.0,
+      "coverage_official": 0.0,
+      "sides": {},
+      "entry": {
+        "n": 0
+      },
+      "entry_le50": 0,
+      "entry_25_35": 0,
+      "minutes_left": {
+        "n": 0
+      },
+      "brier": null,
+      "mfe": {
+        "n": 0
+      },
+      "mae": {
+        "n": 0
+      },
+      "positive_movement": 0,
+      "hit8": 0,
+      "hit10": 0,
+      "path_samples": 0,
+      "worst_path_gap": null,
+      "executable_fill_proven": false
+    },
+    "btc5": {
+      "calls": 0,
+      "contracts": 0,
+      "wins": 0,
+      "accuracy": null,
+      "wilson95": null,
+      "scheduled": 26,
+      "official": 26,
+      "coverage_scheduled": 0.0,
+      "coverage_official": 0.0,
+      "sides": {},
+      "entry": {
+        "n": 0
+      },
+      "entry_le50": 0,
+      "entry_25_35": 0,
+      "minutes_left": {
+        "n": 0
+      },
+      "brier": null,
+      "mfe": {
+        "n": 0
+      },
+      "mae": {
+        "n": 0
+      },
+      "positive_movement": 0,
+      "hit8": 0,
+      "hit10": 0,
+      "path_samples": 0,
+      "worst_path_gap": null,
+      "executable_fill_proven": false
+    },
+    "btc15": {
+      "calls": 0,
+      "contracts": 0,
+      "wins": 0,
+      "accuracy": null,
+      "wilson95": null,
+      "scheduled": 26,
+      "official": 26,
+      "coverage_scheduled": 0.0,
+      "coverage_official": 0.0,
+      "sides": {},
+      "entry": {
+        "n": 0
+      },
+      "entry_le50": 0,
+      "entry_25_35": 0,
+      "minutes_left": {
+        "n": 0
+      },
+      "brier": null,
+      "mfe": {
+        "n": 0
+      },
+      "mae": {
+        "n": 0
+      },
+      "positive_movement": 0,
+      "hit8": 0,
+      "hit10": 0,
+      "path_samples": 0,
+      "worst_path_gap": null,
+      "executable_fill_proven": false
+    },
+    "brti5": {
+      "calls": 0,
+      "contracts": 0,
+      "wins": 0,
+      "accuracy": null,
+      "wilson95": null,
+      "scheduled": 26,
+      "official": 26,
+      "coverage_scheduled": 0.0,
+      "coverage_official": 0.0,
+      "sides": {},
+      "entry": {
+        "n": 0
+      },
+      "entry_le50": 0,
+      "entry_25_35": 0,
+      "minutes_left": {
+        "n": 0
+      },
+      "brier": null,
+      "mfe": {
+        "n": 0
+      },
+      "mae": {
+        "n": 0
+      },
+      "positive_movement": 0,
+      "hit8": 0,
+      "hit10": 0,
+      "path_samples": 0,
+      "worst_path_gap": null,
+      "executable_fill_proven": false
+    },
+    "accel": {
+      "calls": 0,
+      "contracts": 0,
+      "wins": 0,
+      "accuracy": null,
+      "wilson95": null,
+      "scheduled": 26,
+      "official": 26,
+      "coverage_scheduled": 0.0,
+      "coverage_official": 0.0,
+      "sides": {},
+      "entry": {
+        "n": 0
+      },
+      "entry_le50": 0,
+      "entry_25_35": 0,
+      "minutes_left": {
+        "n": 0
+      },
+      "brier": null,
+      "mfe": {
+        "n": 0
+      },
+      "mae": {
+        "n": 0
+      },
+      "positive_movement": 0,
+      "hit8": 0,
+      "hit10": 0,
+      "path_samples": 0,
+      "worst_path_gap": null,
+      "executable_fill_proven": false
+    },
+    "ask5": {
+      "calls": 0,
+      "contracts": 0,
+      "wins": 0,
+      "accuracy": null,
+      "wilson95": null,
+      "scheduled": 26,
+      "official": 26,
+      "coverage_scheduled": 0.0,
+      "coverage_official": 0.0,
+      "sides": {},
+      "entry": {
+        "n": 0
+      },
+      "entry_le50": 0,
+      "entry_25_35": 0,
+      "minutes_left": {
+        "n": 0
+      },
+      "brier": null,
+      "mfe": {
+        "n": 0
+      },
+      "mae": {
+        "n": 0
+      },
+      "positive_movement": 0,
+      "hit8": 0,
+      "hit10": 0,
+      "path_samples": 0,
+      "worst_path_gap": null,
+      "executable_fill_proven": false
+    },
+    "ask15": {
+      "calls": 0,
+      "contracts": 0,
+      "wins": 0,
+      "accuracy": null,
+      "wilson95": null,
+      "scheduled": 26,
+      "official": 26,
+      "coverage_scheduled": 0.0,
+      "coverage_official": 0.0,
+      "sides": {},
+      "entry": {
+        "n": 0
+      },
+      "entry_le50": 0,
+      "entry_25_35": 0,
+      "minutes_left": {
+        "n": 0
+      },
+      "brier": null,
+      "mfe": {
+        "n": 0
+      },
+      "mae": {
+        "n": 0
+      },
+      "positive_movement": 0,
+      "hit8": 0,
+      "hit10": 0,
+      "path_samples": 0,
+      "worst_path_gap": null,
+      "executable_fill_proven": false
+    },
+    "structure": {
+      "calls": 0,
+      "contracts": 0,
+      "wins": 0,
+      "accuracy": null,
+      "wilson95": null,
+      "scheduled": 26,
+      "official": 26,
+      "coverage_scheduled": 0.0,
+      "coverage_official": 0.0,
+      "sides": {},
+      "entry": {
+        "n": 0
+      },
+      "entry_le50": 0,
+      "entry_25_35": 0,
+      "minutes_left": {
+        "n": 0
+      },
+      "brier": null,
+      "mfe": {
+        "n": 0
+      },
+      "mae": {
+        "n": 0
+      },
+      "positive_movement": 0,
+      "hit8": 0,
+      "hit10": 0,
+      "path_samples": 0,
+      "worst_path_gap": null,
+      "executable_fill_proven": false
+    },
+    "route": {
+      "calls": 0,
+      "contracts": 0,
+      "wins": 0,
+      "accuracy": null,
+      "wilson95": null,
+      "scheduled": 26,
+      "official": 26,
+      "coverage_scheduled": 0.0,
+      "coverage_official": 0.0,
+      "sides": {},
+      "entry": {
+        "n": 0
+      },
+      "entry_le50": 0,
+      "entry_25_35": 0,
+      "minutes_left": {
+        "n": 0
+      },
+      "brier": null,
+      "mfe": {
+        "n": 0
+      },
+      "mae": {
+        "n": 0
+      },
+      "positive_movement": 0,
+      "hit8": 0,
+      "hit10": 0,
+      "path_samples": 0,
+      "worst_path_gap": null,
+      "executable_fill_proven": false
+    }
+  },
+  "batch": {
+    "configuration_count": 54,
+    "unique_call_sets": 16,
+    "results": [
+      {
+        "parameters": {
+          "scale": 0.5,
+          "ask5": 0.005,
+          "ask15": 0.015,
+          "confirm": 1,
+          "structure": true
+        },
+        "equivalent_configurations": 3,
+        "metrics": {
+          "calls": 2,
+          "contracts": 2,
+          "wins": 0,
+          "accuracy": 0.0,
+          "wilson95": [
+            0.0,
+            0.6576280471103807
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.07692307692307693,
+          "coverage_official": 0.07692307692307693,
+          "sides": {
+            "UP": 1,
+            "DOWN": 1
+          },
+          "entry": {
+            "n": 2,
+            "min": 0.4,
+            "mean": 0.42000000000000004,
+            "median": 0.42000000000000004,
+            "p95": 0.438,
+            "max": 0.44
+          },
+          "entry_le50": 2,
+          "entry_25_35": 0,
+          "minutes_left": {
+            "n": 2,
+            "min": 9.658631666501362,
+            "mean": 9.867768200238546,
+            "median": 9.867768200238546,
+            "p95": 10.055991080602011,
+            "max": 10.076904733975729
+          },
+          "brier": null,
+          "mfe": {
+            "n": 2,
+            "min": 0.08999999999999997,
+            "mean": 0.16999999999999996,
+            "median": 0.16999999999999996,
+            "p95": 0.24199999999999994,
+            "max": 0.24999999999999994
+          },
+          "mae": {
+            "n": 2,
+            "min": -0.21000000000000002,
+            "mean": -0.11500000000000002,
+            "median": -0.11500000000000002,
+            "p95": -0.029500000000000026,
+            "max": -0.020000000000000018
+          },
+          "positive_movement": 2,
+          "hit8": 2,
+          "hit10": 1,
+          "path_samples": 256,
+          "worst_path_gap": 4.04246187210083,
+          "executable_fill_proven": false
+        }
+      },
+      {
+        "parameters": {
+          "scale": 0.5,
+          "ask5": 0.005,
+          "ask15": 0.015,
+          "confirm": 2,
+          "structure": true
+        },
+        "equivalent_configurations": 34,
+        "metrics": {
+          "calls": 0,
+          "contracts": 0,
+          "wins": 0,
+          "accuracy": null,
+          "wilson95": null,
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.0,
+          "coverage_official": 0.0,
+          "sides": {},
+          "entry": {
+            "n": 0
+          },
+          "entry_le50": 0,
+          "entry_25_35": 0,
+          "minutes_left": {
+            "n": 0
+          },
+          "brier": null,
+          "mfe": {
+            "n": 0
+          },
+          "mae": {
+            "n": 0
+          },
+          "positive_movement": 0,
+          "hit8": 0,
+          "hit10": 0,
+          "path_samples": 0,
+          "worst_path_gap": null,
+          "executable_fill_proven": false
+        }
+      },
+      {
+        "parameters": {
+          "scale": 0.5,
+          "ask5": 0.005,
+          "ask15": 0.03,
+          "confirm": 1,
+          "structure": true
+        },
+        "equivalent_configurations": 1,
+        "metrics": {
+          "calls": 3,
+          "contracts": 3,
+          "wins": 0,
+          "accuracy": 0.0,
+          "wilson95": [
+            0.0,
+            0.5615060804490177
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.11538461538461539,
+          "coverage_official": 0.11538461538461539,
+          "sides": {
+            "UP": 1,
+            "DOWN": 2
+          },
+          "entry": {
+            "n": 3,
+            "min": 0.4,
+            "mean": 0.42333333333333334,
+            "median": 0.43,
+            "p95": 0.439,
+            "max": 0.44
+          },
+          "entry_le50": 3,
+          "entry_25_35": 0,
+          "minutes_left": {
+            "n": 3,
+            "min": 9.323163898785909,
+            "mean": 9.686233433087667,
+            "median": 9.658631666501362,
+            "p95": 10.035077427228293,
+            "max": 10.076904733975729
+          },
+          "brier": null,
+          "mfe": {
+            "n": 3,
+            "min": 0.08999999999999997,
+            "mean": 0.1633333333333333,
+            "median": 0.14999999999999997,
+            "p95": 0.23999999999999994,
+            "max": 0.24999999999999994
+          },
+          "mae": {
+            "n": 3,
+            "min": -0.21000000000000002,
+            "mean": -0.09666666666666668,
+            "median": -0.06,
+            "p95": -0.02400000000000002,
+            "max": -0.020000000000000018
+          },
+          "positive_movement": 3,
+          "hit8": 3,
+          "hit10": 2,
+          "path_samples": 358,
+          "worst_path_gap": 4.04837703704834,
+          "executable_fill_proven": false
+        }
+      },
+      {
+        "parameters": {
+          "scale": 0.5,
+          "ask5": 0.005,
+          "ask15": 0.05,
+          "confirm": 1,
+          "structure": true
+        },
+        "equivalent_configurations": 1,
+        "metrics": {
+          "calls": 5,
+          "contracts": 5,
+          "wins": 0,
+          "accuracy": 0.0,
+          "wilson95": [
+            -2.7755575615628914e-17,
+            0.43449149475208104
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.19230769230769232,
+          "coverage_official": 0.19230769230769232,
+          "sides": {
+            "UP": 3,
+            "DOWN": 2
+          },
+          "entry": {
+            "n": 5,
+            "min": 0.4,
+            "mean": 0.418,
+            "median": 0.41,
+            "p95": 0.438,
+            "max": 0.44
+          },
+          "entry_le50": 5,
+          "entry_25_35": 0,
+          "minutes_left": {
+            "n": 5,
+            "min": 9.323163898785909,
+            "mean": 10.54419466972351,
+            "median": 10.076904733975729,
+            "p95": 12.098528089523315,
+            "max": 12.276789132754008
+          },
+          "brier": null,
+          "mfe": {
+            "n": 5,
+            "min": 0.020000000000000018,
+            "mean": 0.10799999999999998,
+            "median": 0.08999999999999997,
+            "p95": 0.22999999999999993,
+            "max": 0.24999999999999994
+          },
+          "mae": {
+            "n": 5,
+            "min": -0.21000000000000002,
+            "mean": -0.13799999999999998,
+            "median": -0.18999999999999997,
+            "p95": -0.02800000000000002,
+            "max": -0.020000000000000018
+          },
+          "positive_movement": 5,
+          "hit8": 3,
+          "hit10": 2,
+          "path_samples": 592,
+          "worst_path_gap": 4.2297210693359375,
+          "executable_fill_proven": false
+        }
+      },
+      {
+        "parameters": {
+          "scale": 0.5,
+          "ask5": 0.015,
+          "ask15": 0.03,
+          "confirm": 1,
+          "structure": true
+        },
+        "equivalent_configurations": 1,
+        "metrics": {
+          "calls": 3,
+          "contracts": 3,
+          "wins": 0,
+          "accuracy": 0.0,
+          "wilson95": [
+            0.0,
+            0.5615060804490177
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.11538461538461539,
+          "coverage_official": 0.11538461538461539,
+          "sides": {
+            "UP": 1,
+            "DOWN": 2
+          },
+          "entry": {
+            "n": 3,
+            "min": 0.38,
+            "mean": 0.4166666666666667,
+            "median": 0.43,
+            "p95": 0.439,
+            "max": 0.44
+          },
+          "entry_le50": 3,
+          "entry_25_35": 0,
+          "minutes_left": {
+            "n": 3,
+            "min": 9.323163898785909,
+            "mean": 9.85846228864458,
+            "median": 9.658631666501362,
+            "p95": 10.500095337231954,
+            "max": 10.593591300646464
+          },
+          "brier": null,
+          "mfe": {
+            "n": 3,
+            "min": 0.06,
+            "mean": 0.1533333333333333,
+            "median": 0.14999999999999997,
+            "p95": 0.23999999999999994,
+            "max": 0.24999999999999994
+          },
+          "mae": {
+            "n": 3,
+            "min": -0.19,
+            "mean": -0.09000000000000001,
+            "median": -0.06,
+            "p95": -0.02400000000000002,
+            "max": -0.020000000000000018
+          },
+          "positive_movement": 3,
+          "hit8": 2,
+          "hit10": 2,
+          "path_samples": 365,
+          "worst_path_gap": 4.04837703704834,
+          "executable_fill_proven": false
+        }
+      },
+      {
+        "parameters": {
+          "scale": 0.5,
+          "ask5": 0.015,
+          "ask15": 0.05,
+          "confirm": 1,
+          "structure": true
+        },
+        "equivalent_configurations": 1,
+        "metrics": {
+          "calls": 6,
+          "contracts": 6,
+          "wins": 0,
+          "accuracy": 0.0,
+          "wilson95": [
+            0.0,
+            0.3903430336530645
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.23076923076923078,
+          "coverage_official": 0.23076923076923078,
+          "sides": {
+            "UP": 3,
+            "DOWN": 3
+          },
+          "entry": {
+            "n": 6,
+            "min": 0.3,
+            "mean": 0.395,
+            "median": 0.41,
+            "p95": 0.4375,
+            "max": 0.44
+          },
+          "entry_le50": 6,
+          "entry_25_35": 1,
+          "minutes_left": {
+            "n": 6,
+            "min": 9.323163898785909,
+            "mean": 10.56816224389606,
+            "median": 10.38245242436727,
+            "p95": 12.053962828715642,
+            "max": 12.276789132754008
+          },
+          "brier": null,
+          "mfe": {
+            "n": 6,
+            "min": 0.020000000000000018,
+            "mean": 0.11666666666666665,
+            "median": 0.10499999999999998,
+            "p95": 0.23499999999999996,
+            "max": 0.24999999999999994
+          },
+          "mae": {
+            "n": 6,
+            "min": -0.20999999999999996,
+            "mean": -0.11499999999999999,
+            "median": -0.12499999999999999,
+            "p95": -0.019999999999999976,
+            "max": -0.019999999999999962
+          },
+          "positive_movement": 6,
+          "hit8": 3,
+          "hit10": 3,
+          "path_samples": 702,
+          "worst_path_gap": 4.2297210693359375,
+          "executable_fill_proven": false
+        }
+      },
+      {
+        "parameters": {
+          "scale": 0.5,
+          "ask5": 0.03,
+          "ask15": 0.03,
+          "confirm": 1,
+          "structure": true
+        },
+        "equivalent_configurations": 1,
+        "metrics": {
+          "calls": 5,
+          "contracts": 4,
+          "wins": 1,
+          "accuracy": 0.2,
+          "wilson95": [
+            0.03622316096978745,
+            0.6244717358814613
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.15384615384615385,
+          "coverage_official": 0.15384615384615385,
+          "sides": {
+            "UP": 3,
+            "DOWN": 2
+          },
+          "entry": {
+            "n": 5,
+            "min": 0.31,
+            "mean": 0.39999999999999997,
+            "median": 0.43,
+            "p95": 0.44,
+            "max": 0.44
+          },
+          "entry_le50": 5,
+          "entry_25_35": 1,
+          "minutes_left": {
+            "n": 5,
+            "min": 7.658409984906514,
+            "mean": 10.406332727273304,
+            "median": 10.593591300646464,
+            "p95": 12.738465887705484,
+            "max": 13.190432918071746
+          },
+          "brier": null,
+          "mfe": {
+            "n": 5,
+            "min": 0.06,
+            "mean": 0.16599999999999998,
+            "median": 0.14999999999999997,
+            "p95": 0.25000000000000006,
+            "max": 0.25000000000000006
+          },
+          "mae": {
+            "n": 5,
+            "min": -0.25,
+            "mean": -0.12200000000000003,
+            "median": -0.09000000000000002,
+            "p95": -0.02800000000000002,
+            "max": -0.020000000000000018
+          },
+          "positive_movement": 5,
+          "hit8": 4,
+          "hit10": 4,
+          "path_samples": 644,
+          "worst_path_gap": 4.070823907852173,
+          "executable_fill_proven": false
+        }
+      },
+      {
+        "parameters": {
+          "scale": 0.5,
+          "ask5": 0.03,
+          "ask15": 0.03,
+          "confirm": 2,
+          "structure": true
+        },
+        "equivalent_configurations": 1,
+        "metrics": {
+          "calls": 1,
+          "contracts": 1,
+          "wins": 0,
+          "accuracy": 0.0,
+          "wilson95": [
+            0.0,
+            0.7934567085261071
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.038461538461538464,
+          "coverage_official": 0.038461538461538464,
+          "sides": {
+            "UP": 1
+          },
+          "entry": {
+            "n": 1,
+            "min": 0.4,
+            "mean": 0.4,
+            "median": 0.4,
+            "p95": 0.4,
+            "max": 0.4
+          },
+          "entry_le50": 1,
+          "entry_25_35": 0,
+          "minutes_left": {
+            "n": 1,
+            "min": 10.443597133954366,
+            "mean": 10.443597133954366,
+            "median": 10.443597133954366,
+            "p95": 10.443597133954366,
+            "max": 10.443597133954366
+          },
+          "brier": null,
+          "mfe": {
+            "n": 1,
+            "min": 0.06999999999999995,
+            "mean": 0.06999999999999995,
+            "median": 0.06999999999999995,
+            "p95": 0.06999999999999995,
+            "max": 0.06999999999999995
+          },
+          "mae": {
+            "n": 1,
+            "min": -0.21000000000000002,
+            "mean": -0.21000000000000002,
+            "median": -0.21000000000000002,
+            "p95": -0.21000000000000002,
+            "max": -0.21000000000000002
+          },
+          "positive_movement": 1,
+          "hit8": 0,
+          "hit10": 0,
+          "path_samples": 113,
+          "worst_path_gap": 4.04246187210083,
+          "executable_fill_proven": false
+        }
+      },
+      {
+        "parameters": {
+          "scale": 0.5,
+          "ask5": 0.03,
+          "ask15": 0.05,
+          "confirm": 1,
+          "structure": true
+        },
+        "equivalent_configurations": 1,
+        "metrics": {
+          "calls": 10,
+          "contracts": 9,
+          "wins": 1,
+          "accuracy": 0.1,
+          "wilson95": [
+            0.01787574951572113,
+            0.4041563854975721
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.34615384615384615,
+          "coverage_official": 0.34615384615384615,
+          "sides": {
+            "UP": 7,
+            "DOWN": 3
+          },
+          "entry": {
+            "n": 10,
+            "min": 0.3,
+            "mean": 0.4,
+            "median": 0.42,
+            "p95": 0.44,
+            "max": 0.44
+          },
+          "entry_le50": 10,
+          "entry_25_35": 2,
+          "minutes_left": {
+            "n": 10,
+            "min": 7.316406965255737,
+            "mean": 10.635689148108165,
+            "median": 10.76209453344345,
+            "p95": 13.185259801546733,
+            "max": 13.207095615069072
+          },
+          "brier": null,
+          "mfe": {
+            "n": 10,
+            "min": 0.020000000000000018,
+            "mean": 0.13499999999999998,
+            "median": 0.13999999999999996,
+            "p95": 0.25,
+            "max": 0.25000000000000006
+          },
+          "mae": {
+            "n": 10,
+            "min": -0.29000000000000004,
+            "mean": -0.149,
+            "median": -0.18,
+            "p95": -0.019999999999999987,
+            "max": -0.019999999999999962
+          },
+          "positive_movement": 10,
+          "hit8": 7,
+          "hit10": 7,
+          "path_samples": 1230,
+          "worst_path_gap": 16.03887701034546,
+          "executable_fill_proven": false
+        }
+      },
+      {
+        "parameters": {
+          "scale": 0.5,
+          "ask5": 0.03,
+          "ask15": 0.05,
+          "confirm": 2,
+          "structure": true
+        },
+        "equivalent_configurations": 1,
+        "metrics": {
+          "calls": 2,
+          "contracts": 2,
+          "wins": 0,
+          "accuracy": 0.0,
+          "wilson95": [
+            0.0,
+            0.6576280471103807
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.07692307692307693,
+          "coverage_official": 0.07692307692307693,
+          "sides": {
+            "UP": 1,
+            "DOWN": 1
+          },
+          "entry": {
+            "n": 2,
+            "min": 0.4,
+            "mean": 0.42000000000000004,
+            "median": 0.42000000000000004,
+            "p95": 0.438,
+            "max": 0.44
+          },
+          "entry_le50": 2,
+          "entry_25_35": 0,
+          "minutes_left": {
+            "n": 2,
+            "min": 10.443597133954366,
+            "mean": 11.817015026013056,
+            "median": 11.817015026013056,
+            "p95": 13.053091128865876,
+            "max": 13.190432918071746
+          },
+          "brier": null,
+          "mfe": {
+            "n": 2,
+            "min": 0.06999999999999995,
+            "mean": 0.10999999999999996,
+            "median": 0.10999999999999996,
+            "p95": 0.14599999999999996,
+            "max": 0.14999999999999997
+          },
+          "mae": {
+            "n": 2,
+            "min": -0.21000000000000002,
+            "mean": -0.15000000000000002,
+            "median": -0.15000000000000002,
+            "p95": -0.09600000000000003,
+            "max": -0.09000000000000002
+          },
+          "positive_movement": 2,
+          "hit8": 1,
+          "hit10": 1,
+          "path_samples": 226,
+          "worst_path_gap": 4.04246187210083,
+          "executable_fill_proven": false
+        }
+      },
+      {
+        "parameters": {
+          "scale": 0.75,
+          "ask5": 0.005,
+          "ask15": 0.015,
+          "confirm": 1,
+          "structure": true
+        },
+        "equivalent_configurations": 4,
+        "metrics": {
+          "calls": 1,
+          "contracts": 1,
+          "wins": 0,
+          "accuracy": 0.0,
+          "wilson95": [
+            0.0,
+            0.7934567085261071
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.038461538461538464,
+          "coverage_official": 0.038461538461538464,
+          "sides": {
+            "UP": 1
+          },
+          "entry": {
+            "n": 1,
+            "min": 0.4,
+            "mean": 0.4,
+            "median": 0.4,
+            "p95": 0.4,
+            "max": 0.4
+          },
+          "entry_le50": 1,
+          "entry_25_35": 0,
+          "minutes_left": {
+            "n": 1,
+            "min": 10.076904733975729,
+            "mean": 10.076904733975729,
+            "median": 10.076904733975729,
+            "p95": 10.076904733975729,
+            "max": 10.076904733975729
+          },
+          "brier": null,
+          "mfe": {
+            "n": 1,
+            "min": 0.08999999999999997,
+            "mean": 0.08999999999999997,
+            "median": 0.08999999999999997,
+            "p95": 0.08999999999999997,
+            "max": 0.08999999999999997
+          },
+          "mae": {
+            "n": 1,
+            "min": -0.21000000000000002,
+            "mean": -0.21000000000000002,
+            "median": -0.21000000000000002,
+            "p95": -0.21000000000000002,
+            "max": -0.21000000000000002
+          },
+          "positive_movement": 1,
+          "hit8": 1,
+          "hit10": 0,
+          "path_samples": 107,
+          "worst_path_gap": 4.04246187210083,
+          "executable_fill_proven": false
+        }
+      },
+      {
+        "parameters": {
+          "scale": 0.75,
+          "ask5": 0.005,
+          "ask15": 0.05,
+          "confirm": 1,
+          "structure": true
+        },
+        "equivalent_configurations": 1,
+        "metrics": {
+          "calls": 2,
+          "contracts": 2,
+          "wins": 0,
+          "accuracy": 0.0,
+          "wilson95": [
+            0.0,
+            0.6576280471103807
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.07692307692307693,
+          "coverage_official": 0.07692307692307693,
+          "sides": {
+            "UP": 2
+          },
+          "entry": {
+            "n": 2,
+            "min": 0.4,
+            "mean": 0.405,
+            "median": 0.405,
+            "p95": 0.4095,
+            "max": 0.41
+          },
+          "entry_le50": 2,
+          "entry_25_35": 0,
+          "minutes_left": {
+            "n": 2,
+            "min": 10.076904733975729,
+            "mean": 11.176846933364867,
+            "median": 11.176846933364867,
+            "p95": 12.166794912815094,
+            "max": 12.276789132754008
+          },
+          "brier": null,
+          "mfe": {
+            "n": 2,
+            "min": 0.030000000000000027,
+            "mean": 0.06,
+            "median": 0.06,
+            "p95": 0.08699999999999997,
+            "max": 0.08999999999999997
+          },
+          "mae": {
+            "n": 2,
+            "min": -0.21000000000000002,
+            "mean": -0.2,
+            "median": -0.2,
+            "p95": -0.19099999999999998,
+            "max": -0.18999999999999997
+          },
+          "positive_movement": 2,
+          "hit8": 1,
+          "hit10": 0,
+          "path_samples": 215,
+          "worst_path_gap": 4.04630184173584,
+          "executable_fill_proven": false
+        }
+      },
+      {
+        "parameters": {
+          "scale": 0.75,
+          "ask5": 0.015,
+          "ask15": 0.03,
+          "confirm": 1,
+          "structure": true
+        },
+        "equivalent_configurations": 1,
+        "metrics": {
+          "calls": 1,
+          "contracts": 1,
+          "wins": 0,
+          "accuracy": 0.0,
+          "wilson95": [
+            0.0,
+            0.7934567085261071
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.038461538461538464,
+          "coverage_official": 0.038461538461538464,
+          "sides": {
+            "UP": 1
+          },
+          "entry": {
+            "n": 1,
+            "min": 0.38,
+            "mean": 0.38,
+            "median": 0.38,
+            "p95": 0.38,
+            "max": 0.38
+          },
+          "entry_le50": 1,
+          "entry_25_35": 0,
+          "minutes_left": {
+            "n": 1,
+            "min": 10.593591300646464,
+            "mean": 10.593591300646464,
+            "median": 10.593591300646464,
+            "p95": 10.593591300646464,
+            "max": 10.593591300646464
+          },
+          "brier": null,
+          "mfe": {
+            "n": 1,
+            "min": 0.06,
+            "mean": 0.06,
+            "median": 0.06,
+            "p95": 0.06,
+            "max": 0.06
+          },
+          "mae": {
+            "n": 1,
+            "min": -0.19,
+            "mean": -0.19,
+            "median": -0.19,
+            "p95": -0.19,
+            "max": -0.19
+          },
+          "positive_movement": 1,
+          "hit8": 0,
+          "hit10": 0,
+          "path_samples": 114,
+          "worst_path_gap": 4.04246187210083,
+          "executable_fill_proven": false
+        }
+      },
+      {
+        "parameters": {
+          "scale": 0.75,
+          "ask5": 0.015,
+          "ask15": 0.05,
+          "confirm": 1,
+          "structure": true
+        },
+        "equivalent_configurations": 1,
+        "metrics": {
+          "calls": 3,
+          "contracts": 3,
+          "wins": 0,
+          "accuracy": 0.0,
+          "wilson95": [
+            0.0,
+            0.5615060804490177
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.11538461538461539,
+          "coverage_official": 0.11538461538461539,
+          "sides": {
+            "UP": 2,
+            "DOWN": 1
+          },
+          "entry": {
+            "n": 3,
+            "min": 0.3,
+            "mean": 0.3633333333333333,
+            "median": 0.38,
+            "p95": 0.407,
+            "max": 0.41
+          },
+          "entry_le50": 3,
+          "entry_25_35": 1,
+          "minutes_left": {
+            "n": 3,
+            "min": 10.171313548088074,
+            "mean": 11.013897993829517,
+            "median": 10.593591300646464,
+            "p95": 12.108469349543252,
+            "max": 12.276789132754008
+          },
+          "brier": null,
+          "mfe": {
+            "n": 3,
+            "min": 0.030000000000000027,
+            "mean": 0.09333333333333334,
+            "median": 0.06,
+            "p95": 0.177,
+            "max": 0.19
+          },
+          "mae": {
+            "n": 3,
+            "min": -0.19,
+            "mean": -0.1333333333333333,
+            "median": -0.18999999999999997,
+            "p95": -0.03699999999999998,
+            "max": -0.019999999999999962
+          },
+          "positive_movement": 3,
+          "hit8": 1,
+          "hit10": 1,
+          "path_samples": 325,
+          "worst_path_gap": 4.0583271980285645,
+          "executable_fill_proven": false
+        }
+      },
+      {
+        "parameters": {
+          "scale": 0.75,
+          "ask5": 0.03,
+          "ask15": 0.03,
+          "confirm": 1,
+          "structure": true
+        },
+        "equivalent_configurations": 1,
+        "metrics": {
+          "calls": 2,
+          "contracts": 2,
+          "wins": 1,
+          "accuracy": 0.5,
+          "wilson95": [
+            0.09452865480086614,
+            0.9054713451991339
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.07692307692307693,
+          "coverage_official": 0.07692307692307693,
+          "sides": {
+            "UP": 2
+          },
+          "entry": {
+            "n": 2,
+            "min": 0.38,
+            "mean": 0.405,
+            "median": 0.405,
+            "p95": 0.4275,
+            "max": 0.43
+          },
+          "entry_le50": 2,
+          "entry_25_35": 0,
+          "minutes_left": {
+            "n": 2,
+            "min": 7.658409984906514,
+            "mean": 9.12600064277649,
+            "median": 9.12600064277649,
+            "p95": 10.446832234859466,
+            "max": 10.593591300646464
+          },
+          "brier": null,
+          "mfe": {
+            "n": 2,
+            "min": 0.06,
+            "mean": 0.15500000000000003,
+            "median": 0.15500000000000003,
+            "p95": 0.24050000000000005,
+            "max": 0.25000000000000006
+          },
+          "mae": {
+            "n": 2,
+            "min": -0.25,
+            "mean": -0.22,
+            "median": -0.22,
+            "p95": -0.193,
+            "max": -0.19
+          },
+          "positive_movement": 2,
+          "hit8": 1,
+          "hit10": 1,
+          "path_samples": 260,
+          "worst_path_gap": 4.04246187210083,
+          "executable_fill_proven": false
+        }
+      },
+      {
+        "parameters": {
+          "scale": 0.75,
+          "ask5": 0.03,
+          "ask15": 0.05,
+          "confirm": 1,
+          "structure": true
+        },
+        "equivalent_configurations": 1,
+        "metrics": {
+          "calls": 4,
+          "contracts": 4,
+          "wins": 1,
+          "accuracy": 0.25,
+          "wilson95": [
+            0.045586062644636216,
+            0.6993639475573634
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.15384615384615385,
+          "coverage_official": 0.15384615384615385,
+          "sides": {
+            "UP": 3,
+            "DOWN": 1
+          },
+          "entry": {
+            "n": 4,
+            "min": 0.3,
+            "mean": 0.37999999999999995,
+            "median": 0.395,
+            "p95": 0.427,
+            "max": 0.43
+          },
+          "entry_le50": 4,
+          "entry_25_35": 1,
+          "minutes_left": {
+            "n": 4,
+            "min": 7.658409984906514,
+            "mean": 10.175025991598766,
+            "median": 10.38245242436727,
+            "p95": 12.024309457937875,
+            "max": 12.276789132754008
+          },
+          "brier": null,
+          "mfe": {
+            "n": 4,
+            "min": 0.030000000000000027,
+            "mean": 0.1325,
+            "median": 0.125,
+            "p95": 0.24100000000000002,
+            "max": 0.25000000000000006
+          },
+          "mae": {
+            "n": 4,
+            "min": -0.25,
+            "mean": -0.16249999999999998,
+            "median": -0.19,
+            "p95": -0.04550000000000003,
+            "max": -0.019999999999999962
+          },
+          "positive_movement": 4,
+          "hit8": 2,
+          "hit10": 2,
+          "path_samples": 471,
+          "worst_path_gap": 4.0583271980285645,
+          "executable_fill_proven": false
+        }
+      }
+    ]
+  },
+  "wait_reasons": {
+    "TIMESTAMPED_QUOTES_UNAVAILABLE": 1490,
+    "OFFICIAL_MARKET_UNAVAILABLE": 755,
+    "DOWN:FEATURES_NOT_READY": 167,
+    "DOWN:BASE_NOT_READY": 3097,
+    "NO_SIDE_IN_30_45C": 13057,
+    "UP:BASE_NOT_READY": 4727,
+    "UP:FEATURES_NOT_READY": 64,
+    "UP:STRUCTURE_BLOCK": 1,
+    "SOURCE_READ_FAILED": 13,
+    "UP:EVIDENCE_BELOW_CORE_SURGE": 2,
+    "DOWN:EVIDENCE_BELOW_CORE_SURGE": 1
+  },
+  "source_rejections": {
+    "unqualified_source_or_publication": 2258
+  },
+  "phase": "development_only",
+  "orders": false
+}

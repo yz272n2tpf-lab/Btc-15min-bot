@@ -1,0 +1,68 @@
+{
+  "pr": 32,
+  "head": "79ac5a0276b0d3d3336ebfc4c9b0b0a351e01c40",
+  "merge": "1730ceff180394fbd2ebae7a5fddc4acd1e76194",
+  "deployment": "454f53ad-b269-4133-b0f5-60098978db71",
+  "status": "SUCCESS",
+  "prior_deployment": "0b2ef3ff-1499-432a-ac70-52b997bb2e26",
+  "prior_commit": "d54321927626529612b7309576d7dc90b84fe224",
+  "ci_run": 36001671100,
+  "ci_conclusion": "success",
+  "logs": [
+    {
+      "timestamp": "2026-09-24T12:54:43.752856839Z",
+      "message": "FAIR MODEL IMMUTABLE: 95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6 | ARTIFACT: 1bf10e755fc81584bab3c3682b16103353f84582c27bb003664de883e7e7c816 | NO STARTUP FIT"
+    },
+    {
+      "timestamp": "2026-09-24T12:54:11.868891883Z",
+      "message": "BTC15 EVIDENCE PRESERVED | {\"status\": \"PRESERVED_EXISTING\", \"archive\": \"/data/btc15-evidence-pre-source-v2-20260923.zip\"} | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T12:54:55.639088564Z",
+      "message": "BTC15_ROLLOVER_DIAG | {\"component\":\"main.publication_source\",\"details\":{\"seconds_left\":305.3},\"event\":\"SOURCE_SNAPSHOT_WRITTEN\",\"expected_open_utc\":\"2026-09-24T12:45:00Z\",\"ms_from_open\":595635.746,\"orders\":false,\"signal_only\":true,\"ticker\":\"KXBTC15M-26SEP240900-00\",\"timestamp_utc\":\"2026-09-24T12:54:55.635746Z\"}"
+    },
+    {
+      "timestamp": "2026-09-24T12:54:59.843165480Z",
+      "message": "BTC15_ROLLOVER_DIAG | {\"component\":\"main.publication_source\",\"details\":{\"seconds_left\":300.29},\"event\":\"SOURCE_SNAPSHOT_WRITTEN\",\"expected_open_utc\":\"2026-09-24T12:45:00Z\",\"ms_from_open\":599715.155,\"orders\":false,\"signal_only\":true,\"ticker\":\"KXBTC15M-26SEP240900-00\",\"timestamp_utc\":\"2026-09-24T12:54:59.715155Z\"}"
+    },
+    {
+      "timestamp": "2026-09-24T12:55:04.924069382Z",
+      "message": "BTC15_ROLLOVER_DIAG | {\"component\":\"main.publication_source\",\"details\":{\"seconds_left\":295.28},\"event\":\"SOURCE_SNAPSHOT_WRITTEN\",\"expected_open_utc\":\"2026-09-24T12:45:00Z\",\"ms_from_open\":604726.693,\"orders\":false,\"signal_only\":true,\"ticker\":\"KXBTC15M-26SEP240900-00\",\"timestamp_utc\":\"2026-09-24T12:55:04.726693Z\"}"
+    },
+    {
+      "timestamp": "2026-09-24T12:55:09.731261246Z",
+      "message": "BTC15_ROLLOVER_DIAG | {\"component\":\"main.publication_source\",\"details\":{\"seconds_left\":290.29},\"event\":\"SOURCE_SNAPSHOT_WRITTEN\",\"expected_open_utc\":\"2026-09-24T12:45:00Z\",\"ms_from_open\":609715.828,\"orders\":false,\"signal_only\":true,\"ticker\":\"KXBTC15M-26SEP240900-00\",\"timestamp_utc\":\"2026-09-24T12:55:09.715828Z\"}"
+    },
+    {
+      "timestamp": "2026-09-24T12:55:14.719273517Z",
+      "message": "BTC15_ROLLOVER_DIAG | {\"component\":\"main.publication_source\",\"details\":{\"seconds_left\":285.29},\"event\":\"SOURCE_SNAPSHOT_WRITTEN\",\"expected_open_utc\":\"2026-09-24T12:45:00Z\",\"ms_from_open\":614714.108,\"orders\":false,\"signal_only\":true,\"ticker\":\"KXBTC15M-26SEP240900-00\",\"timestamp_utc\":\"2026-09-24T12:55:14.714108Z\"}"
+    },
+    {
+      "timestamp": "2026-09-24T12:54:59.323594113Z",
+      "message": "PARITY PASS | KXBTC15M-26SEP240900-00 | age 4.6s | clock Δ0.0s | target Δ$0.00 | quotes WS Δ0.0c | BRTI Δ$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=b0ebbc79-116a-4816-a5df-8416837bc5d7,sid=1,seq=2746,ts_ms=1790254494686|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T12:54:53+00:00|reference_publication=2026-09-24T12:54:53+00:00|bot_age_at_collection=2.636s|bot_target=83456.74|quote_request_started=2026-09-24T12:54:59.179397+00:00|quote_response_received=2026-09-24T12:54:59.240190+00:00"
+    },
+    {
+      "timestamp": "2026-09-24T12:55:14.449448593Z",
+      "message": "PARITY PASS | KXBTC15M-26SEP240900-00 | age 4.7s | clock Δ0.0s | target Δ$0.00 | quotes WS Δ0.0c | BRTI Δ$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=b0ebbc79-116a-4816-a5df-8416837bc5d7,sid=1,seq=17013,ts_ms=1790254509688|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T12:55:07+00:00|reference_publication=2026-09-24T12:55:07+00:00|bot_age_at_collection=2.716s|bot_target=83456.74|quote_request_started=2026-09-24T12:55:14.312851+00:00|quote_response_received=2026-09-24T12:55:14.375715+00:00"
+    },
+    {
+      "timestamp": "2026-09-24T12:55:29.586083010Z",
+      "message": "PARITY PASS | KXBTC15M-26SEP240900-00 | age 4.9s | clock Δ0.0s | target Δ$0.00 | quotes WS Δ0.0c | BRTI Δ$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=b0ebbc79-116a-4816-a5df-8416837bc5d7,sid=1,seq=28996,ts_ms=1790254524691|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T12:55:23+00:00|reference_publication=2026-09-24T12:55:23+00:00|bot_age_at_collection=1.718s|bot_target=83456.74|quote_request_started=2026-09-24T12:55:29.444303+00:00|quote_response_received=2026-09-24T12:55:29.509908+00:00"
+    },
+    {
+      "timestamp": "2026-09-24T12:55:44.723612794Z",
+      "message": "PARITY PASS | KXBTC15M-26SEP240900-00 | age 5.0s | clock Δ0.0s | target Δ$0.00 | quotes WS Δ0.0c | BRTI Δ$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=b0ebbc79-116a-4816-a5df-8416837bc5d7,sid=1,seq=39690,ts_ms=1790254539691|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T12:55:39+00:00|reference_publication=2026-09-24T12:55:39+00:00|bot_age_at_collection=0.717s|bot_target=83456.74|quote_request_started=2026-09-24T12:55:44.583399+00:00|quote_response_received=2026-09-24T12:55:44.643419+00:00"
+    },
+    {
+      "timestamp": "2026-09-24T12:56:14.947506864Z",
+      "message": "PARITY PASS | KXBTC15M-26SEP240900-00 | age 0.2s | clock Δ0.0s | target Δ$0.00 | quotes WS Δ0.0c | BRTI Δ$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=b0ebbc79-116a-4816-a5df-8416837bc5d7,sid=1,seq=63818,ts_ms=1790254574700|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T12:56:13+00:00|reference_publication=2026-09-24T12:56:13+00:00|bot_age_at_collection=1.726s|bot_target=83456.74|quote_request_started=2026-09-24T12:56:14.823913+00:00|quote_response_received=2026-09-24T12:56:14.882952+00:00"
+    },
+    {
+      "timestamp": "2026-09-24T12:56:30.078000696Z",
+      "message": "PARITY PASS | KXBTC15M-26SEP240900-00 | age 0.4s | clock Δ0.0s | target Δ$0.00 | quotes WS Δ0.0c | BRTI Δ$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=b0ebbc79-116a-4816-a5df-8416837bc5d7,sid=1,seq=80619,ts_ms=1790254589698|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T12:56:27+00:00|reference_publication=2026-09-24T12:56:27+00:00|bot_age_at_collection=2.722s|bot_target=83456.74|quote_request_started=2026-09-24T12:56:29.943651+00:00|quote_response_received=2026-09-24T12:56:30.009289+00:00"
+    }
+  ],
+  "thresholds_changed": false,
+  "weights_changed": false,
+  "orders": false
+}

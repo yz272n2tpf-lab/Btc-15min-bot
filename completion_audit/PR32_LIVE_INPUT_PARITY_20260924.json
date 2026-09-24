@@ -1,0 +1,222 @@
+{
+  "raw_sample_file_sha256": "1ec4a68d29a36c15f8c98f7f65743db305a2b1b4ff355ab35022d06e6be65d57",
+  "attempts": {
+    "main": 71,
+    "owner": 71
+  },
+  "local_client_read_timeouts": {
+    "main": 42,
+    "owner": 49
+  },
+  "limitation": "External sampling includes client-path timeouts; not attributed to production downtime. Durable internal clean collector remains authority. Samples do not establish continuous availability.",
+  "post_restart_distinct_frames": 22,
+  "skew": {
+    "n": 22,
+    "min": 0.0,
+    "mean": 2.5837917664003644e-15,
+    "median": 0.0,
+    "p95": 1.4210854715202004e-14,
+    "max": 1.4210854715202004e-14
+  },
+  "frames": {
+    "2026-09-24T12:54:59.710301+00:00": {
+      "gap": 3.4099999999889405,
+      "fair_distance_abs": 3.4099999999889405,
+      "skew": 0.0,
+      "parity": "PASS",
+      "brti_age_at_generation": 3.3824261462402343,
+      "orders": false,
+      "received_utc": "2026-09-24T12:55:01.598042+00:00"
+    },
+    "2026-09-24T12:55:04.720041+00:00": {
+      "gap": 18.360000000000582,
+      "fair_distance_abs": 18.360000000000582,
+      "skew": 0.0,
+      "parity": "PASS",
+      "brti_age_at_generation": 4.77613147328186,
+      "orders": false,
+      "received_utc": "2026-09-24T12:55:06.901713+00:00"
+    },
+    "2026-09-24T12:55:14.709923+00:00": {
+      "gap": 13.789999999993597,
+      "fair_distance_abs": 13.789999999993597,
+      "skew": 0.0,
+      "parity": "PASS",
+      "brti_age_at_generation": 5.133228905609131,
+      "orders": false,
+      "received_utc": "2026-09-24T12:55:19.245779+00:00"
+    },
+    "2026-09-24T12:55:24.714554+00:00": {
+      "gap": 6.539999999993597,
+      "fair_distance_abs": 6.539999999993597,
+      "skew": 0.0,
+      "parity": "PASS",
+      "brti_age_at_generation": 1.897148220779419,
+      "orders": false,
+      "received_utc": "2026-09-24T12:55:25.009836+00:00"
+    },
+    "2026-09-24T12:55:44.714695+00:00": {
+      "gap": 20.089999999996508,
+      "fair_distance_abs": 20.089999999996508,
+      "skew": 0.0,
+      "parity": "PASS",
+      "brti_age_at_generation": 5.05048018296814,
+      "orders": false,
+      "received_utc": "2026-09-24T12:55:48.165505+00:00"
+    },
+    "2026-09-24T12:55:54.706321+00:00": {
+      "gap": 33.83999999999651,
+      "fair_distance_abs": 33.83999999999651,
+      "skew": 0.0,
+      "parity": "PASS",
+      "brti_age_at_generation": 3.454378079055786,
+      "orders": false,
+      "received_utc": "2026-09-24T12:55:55.561737+00:00"
+    },
+    "2026-09-24T12:55:59.723074+00:00": {
+      "gap": 33.83999999999651,
+      "fair_distance_abs": 33.83999999999651,
+      "skew": 0.0,
+      "parity": "WAIT",
+      "brti_age_at_generation": 3.222288511291504,
+      "orders": false,
+      "received_utc": "2026-09-24T12:56:00.338143+00:00"
+    },
+    "2026-09-24T12:56:04.728443+00:00": {
+      "gap": 61.06999999999243,
+      "fair_distance_abs": 61.06999999999243,
+      "skew": 0.0,
+      "parity": "WAIT",
+      "brti_age_at_generation": 4.120628248947144,
+      "orders": false,
+      "received_utc": "2026-09-24T12:56:06.230197+00:00"
+    },
+    "2026-09-24T12:56:09.703647+00:00": {
+      "gap": 52.279999999998836,
+      "fair_distance_abs": 52.279999999998836,
+      "skew": 0.0,
+      "parity": "WAIT",
+      "brti_age_at_generation": 6.1335784036407475,
+      "orders": false,
+      "received_utc": "2026-09-24T12:56:14.248186+00:00"
+    },
+    "2026-09-24T12:56:14.718909+00:00": {
+      "gap": 53.30999999999767,
+      "fair_distance_abs": 53.30999999999767,
+      "skew": 0.0,
+      "parity": "PASS",
+      "brti_age_at_generation": 6.147706380828858,
+      "orders": false,
+      "received_utc": "2026-09-24T12:56:19.298284+00:00"
+    },
+    "2026-09-24T12:56:24.732895+00:00": {
+      "gap": 73.69999999999709,
+      "fair_distance_abs": 73.69999999999709,
+      "skew": 0.0,
+      "parity": "PASS",
+      "brti_age_at_generation": 3.2795876013641356,
+      "orders": false,
+      "received_utc": "2026-09-24T12:56:25.384532+00:00"
+    },
+    "2026-09-24T12:56:29.720249+00:00": {
+      "gap": 64.14999999999418,
+      "fair_distance_abs": 64.14999999999418,
+      "skew": 0.0,
+      "parity": "PASS",
+      "brti_age_at_generation": 4.906270695175171,
+      "orders": false,
+      "received_utc": "2026-09-24T12:56:32.058426+00:00"
+    },
+    "2026-09-24T12:56:34.726911+00:00": {
+      "gap": 73.70999999999185,
+      "fair_distance_abs": 73.70999999999185,
+      "skew": 0.0,
+      "parity": "PASS",
+      "brti_age_at_generation": 4.832202274490356,
+      "orders": false,
+      "received_utc": "2026-09-24T12:56:37.944083+00:00"
+    },
+    "2026-09-24T12:56:39.703032+00:00": {
+      "gap": 109.20999999999185,
+      "fair_distance_abs": 109.20999999999187,
+      "skew": 1.4210854715202004e-14,
+      "parity": "PASS",
+      "brti_age_at_generation": 4.52819055607605,
+      "orders": false,
+      "received_utc": "2026-09-24T12:56:42.678032+00:00"
+    },
+    "2026-09-24T12:56:44.707132+00:00": {
+      "gap": 101.2899999999936,
+      "fair_distance_abs": 101.2899999999936,
+      "skew": 0.0,
+      "parity": "PASS",
+      "brti_age_at_generation": 6.27872186076355,
+      "orders": false,
+      "received_utc": "2026-09-24T12:56:49.388871+00:00"
+    },
+    "2026-09-24T12:56:49.703671+00:00": {
+      "gap": 113.16999999999825,
+      "fair_distance_abs": 113.16999999999827,
+      "skew": 1.4210854715202004e-14,
+      "parity": "PASS",
+      "brti_age_at_generation": 7.6762727865448,
+      "orders": false,
+      "received_utc": "2026-09-24T12:56:54.788915+00:00"
+    },
+    "2026-09-24T12:56:59.724862+00:00": {
+      "gap": 103.44999999999709,
+      "fair_distance_abs": 103.44999999999709,
+      "skew": 0.0,
+      "parity": "PASS",
+      "brti_age_at_generation": 6.706040831436157,
+      "orders": false,
+      "received_utc": "2026-09-24T12:57:04.816588+00:00"
+    },
+    "2026-09-24T12:57:09.700628+00:00": {
+      "gap": 110.41999999999825,
+      "fair_distance_abs": 110.41999999999825,
+      "skew": 0.0,
+      "parity": "PASS",
+      "brti_age_at_generation": 3.447190354293823,
+      "orders": false,
+      "received_utc": "2026-09-24T12:57:11.602703+00:00"
+    },
+    "2026-09-24T12:57:14.708301+00:00": {
+      "gap": 120.47999999999593,
+      "fair_distance_abs": 120.47999999999591,
+      "skew": 1.4210854715202004e-14,
+      "parity": "PASS",
+      "brti_age_at_generation": 4.5301958641357425,
+      "orders": false,
+      "received_utc": "2026-09-24T12:57:16.642176+00:00"
+    },
+    "2026-09-24T12:57:19.748563+00:00": {
+      "gap": 124.13999999999942,
+      "fair_distance_abs": 124.13999999999942,
+      "skew": 0.0,
+      "parity": "PASS",
+      "brti_age_at_generation": 5.976539773971558,
+      "orders": false,
+      "received_utc": "2026-09-24T12:57:23.122124+00:00"
+    },
+    "2026-09-24T12:57:24.716802+00:00": {
+      "gap": 125.56999999999243,
+      "fair_distance_abs": 125.56999999999242,
+      "skew": 1.4210854715202004e-14,
+      "parity": "PASS",
+      "brti_age_at_generation": 4.993593343170167,
+      "orders": false,
+      "received_utc": "2026-09-24T12:57:28.146219+00:00"
+    },
+    "2026-09-24T12:57:29.727202+00:00": {
+      "gap": 143.25,
+      "fair_distance_abs": 143.25,
+      "skew": 0.0,
+      "parity": "PASS",
+      "brti_age_at_generation": 5.998369480529785,
+      "orders": false,
+      "received_utc": "2026-09-24T12:57:34.107852+00:00"
+    }
+  },
+  "orders": false
+}
