@@ -21,6 +21,12 @@ import sys
 import traceback
 import btc15_rollover_diag_v1 as rollover_diag
 import btc15_rollover_production_canary_v1 as rollover_canary
+from completion_audit.fair_input_candidate import (
+    completed_candles as _fair_completed_candles,
+    frame_at_cut as _fair_frame_at_cut,
+    price_at_or_before as _fair_price_at_or_before,
+)
+from completion_audit.frozen_model_artifact import load_verified as _fair_load_verified
 
 KALSHI_KEY_ID = (
     os.getenv("KALSHI_KEY_ID")
@@ -932,6 +938,8 @@ _fair_distance_target = None
 _fair_dist_over_range5 = None
 _fair_calibration_contracts = 0
 _fair_calibration_snapshots = 0
+_fair_model_weights_sha256 = None
+_fair_model_artifact_sha256 = None
 
 try:
     _fair_cal = _v3_cal.copy()
@@ -958,24 +966,28 @@ try:
         else:
             _fair_live_rows.index = _fair_live_rows.index.tz_convert("UTC")
 
-        _fair_btc = pd.concat([_fair_cached, _fair_live_rows])
-        _fair_btc = (
-            _fair_btc[~_fair_btc.index.duplicated(keep="last")]
+        _fair_raw_btc = pd.concat([_fair_cached, _fair_live_rows])
+        _fair_raw_btc = (
+            _fair_raw_btc[~_fair_raw_btc.index.duplicated(keep="last")]
             .sort_index()
         )
-        _fair_cutoff = pd.Timestamp(datetime.now(timezone.utc)) - pd.Timedelta(days=35)
-        _fair_btc = _fair_btc[_fair_btc.index >= _fair_cutoff]
     else:
-        _fair_btc = data_1m.copy()
+        _fair_raw_btc = data_1m.copy()
 
-    if _fair_btc.index.tz is None:
-        _fair_btc.index = _fair_btc.index.tz_localize('UTC')
+    if _fair_raw_btc.index.tz is None:
+        _fair_raw_btc.index = _fair_raw_btc.index.tz_localize('UTC')
     else:
-        _fair_btc.index = _fair_btc.index.tz_convert('UTC')
+        _fair_raw_btc.index = _fair_raw_btc.index.tz_convert('UTC')
 
     for _c in ['Open','High','Low','Close','Volume']:
-        if _c in _fair_btc.columns:
-            _fair_btc[_c] = pd.to_numeric(_fair_btc[_c], errors='coerce')
+        if _c in _fair_raw_btc.columns:
+            _fair_raw_btc[_c] = pd.to_numeric(_fair_raw_btc[_c], errors='coerce')
+
+    # A one-minute candle is not available at its bucket start. The immutable
+    # model was fitted on this exact end-of-bucket availability convention.
+    # Current partial prices enter separately below with true source and
+    # observation timestamps; neither clock is relabelled.
+    _fair_btc = _fair_completed_candles(_fair_raw_btc)
 
     _fair_months = {m:i+1 for i,m in enumerate(
         ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC']
@@ -995,15 +1007,6 @@ try:
         )
         _close = _wall.tz_localize(ZoneInfo('America/New_York')).tz_convert('UTC')
         return _close-pd.Timedelta(minutes=15), _close
-
-    def _fair_price_at_or_before(_df, _ts):
-        _i = _df.index.searchsorted(_ts, side='right') - 1
-        if _i < 0:
-            return np.nan, pd.NaT
-        _ti = _df.index[_i]
-        if _ts - _ti > pd.Timedelta(minutes=2):
-            return np.nan, pd.NaT
-        return float(_df.iloc[_i]['Close']), _ti
 
     def _fair_build_snapshot(_df, _start, _target, _final_side=None, _elapsed=None, _cut=None):
         if _cut is None:
@@ -1071,81 +1074,30 @@ try:
         'range5','vol5','dist_per_min_remaining','dist_over_range5',
     ]
 
-    _fair_pairs = _fair_cal['ticker'].map(_fair_parse_contract_times)
-    _fair_cal['start'] = [_x[0] for _x in _fair_pairs]
-    _fair_cal['close'] = [_x[1] for _x in _fair_pairs]
-    _fair_cal['target_brti'] = pd.to_numeric(_fair_cal['target_brti'], errors='coerce')
-    _fair_cal['final_brti'] = pd.to_numeric(_fair_cal['final_brti'], errors='coerce')
-    _fair_cal['final_side'] = (
-        _fair_cal['result'].astype(str).str.lower().map({'yes':1,'no':0})
+    # Restart-safe identity: production never refits this model. The byte hash
+    # is checked before deserialization and the fitted tree/calibration weights
+    # are recomputed afterwards. Any mismatch fails the fair layer closed.
+    _fair_model_artifact_sha256 = '1bf10e755fc81584bab3c3682b16103353f84582c27bb003664de883e7e7c816'
+    _fair_model_weights_sha256 = '95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6'
+    _fair_artifact = _fair_load_verified(
+        Path('completion_audit/model_artifact/frozen_fair_candidate.joblib'),
+        expected_artifact_sha256=_fair_model_artifact_sha256,
+        expected_weights_sha256=_fair_model_weights_sha256,
     )
-    _fair_cal = _fair_cal.dropna(
-        subset=['start','close','target_brti','final_brti','final_side']
-    ).sort_values('start').reset_index(drop=True)
-
-    _fair_hist_rows = []
-    for _, _r in _fair_cal.iterrows():
-        for _elapsed in range(1,15):
-            _s = _fair_build_snapshot(
-                _fair_btc, _r['start'], float(_r['target_brti']),
-                _final_side=int(_r['final_side']), _elapsed=_elapsed,
-            )
-            if _s is not None:
-                _s['ticker'] = _r['ticker']
-                _s['start'] = _r['start']
-                _fair_hist_rows.append(_s)
-
-    _fair_hist = pd.DataFrame(_fair_hist_rows)
-    if _fair_hist.empty:
-        raise RuntimeError('No historical fair-value feature rows available')
-
-    _fair_coverage = _fair_hist.groupby('ticker')['elapsed'].nunique()
-    _fair_keep = _fair_coverage[_fair_coverage >= 10].index
-    _fair_hist = _fair_hist[_fair_hist['ticker'].isin(_fair_keep)].copy()
-    _fair_contracts = (
-        _fair_hist[['ticker','start']].drop_duplicates('ticker')
-        .sort_values('start').reset_index(drop=True)
-    )
-    # V4.6: exact chronology used by the offline tournament winner.
-    # First 50% = RF model training.
-    # Next 20%  = sigmoid probability calibration.
-    # Final 30% was reserved for validation + untouched holdout and therefore
-    # remains excluded from fitting so live behavior matches the tested model.
-    _fair_model_end = int(len(_fair_contracts)*0.50)
-    _fair_calib_end = int(len(_fair_contracts)*0.70)
-    if (
-        _fair_model_end <= 0
-        or _fair_calib_end <= _fair_model_end
-        or _fair_calib_end >= len(_fair_contracts)
-    ):
-        raise RuntimeError('Not enough contracts for tournament chronology split')
-
-    _fair_model_contracts = _fair_contracts.iloc[:_fair_model_end]
-    _fair_calib_contracts = _fair_contracts.iloc[_fair_model_end:_fair_calib_end]
-    if _fair_model_contracts['start'].max() >= _fair_calib_contracts['start'].min():
-        raise RuntimeError('FAIR ENGINE TRAIN/CALIBRATION CHRONOLOGY FAILURE')
-
-    _fair_model_ticks = set(_fair_model_contracts['ticker'])
-    _fair_calib_ticks = set(_fair_calib_contracts['ticker'])
-    _fair_train = _fair_hist[_fair_hist['ticker'].isin(_fair_model_ticks)].copy()
-    _fair_calibrate = _fair_hist[_fair_hist['ticker'].isin(_fair_calib_ticks)].copy()
-
-    if len(_fair_calib_contracts) < 20:
-        raise RuntimeError('FAIR ENGINE SAFETY FAILURE: fewer than 20 calibration contracts in current BTC cache')
-
-    _fair_rf = RandomForestClassifier(
-        n_estimators=900, max_depth=9, min_samples_leaf=12,
-        class_weight='balanced', random_state=42, n_jobs=-1,
-    )
-    _fair_rf.fit(_fair_train[_fair_features], _fair_train['flip'])
-    _fair_calib_raw = _fair_rf.predict_proba(_fair_calibrate[_fair_features])[:,1]
-
-    _fair_sigmoid = LogisticRegression(
-        solver='lbfgs', C=1.0, max_iter=1000, random_state=42,
-    )
-    _fair_sigmoid.fit(
-        _fair_calib_raw.reshape(-1,1), _fair_calibrate['flip'].astype(int)
-    )
+    _fair_expected_input_digests = sorted([
+        '78cc03b5ea15ec1d310aa3de68a5024ade7fe80f91762d1e3ee0cab03903ff4b',
+        '40e44f08637a3636fbb8a14e81cf0db47335e00e74bf16bcd4c1077318fd2a85',
+    ])
+    _fair_artifact_inputs = _fair_artifact.get('input_sha256')
+    if (not isinstance(_fair_artifact_inputs, dict)
+            or sorted(_fair_artifact_inputs.values()) != _fair_expected_input_digests):
+        raise RuntimeError('FAIR MODEL FROZEN INPUT IDENTITY MISMATCH')
+    if list(_fair_artifact.get('features', [])) != _fair_features:
+        raise RuntimeError('FAIR MODEL FEATURE IDENTITY MISMATCH')
+    _fair_rf = _fair_artifact['forest']
+    _fair_sigmoid = _fair_artifact['sigmoid']
+    _fair_calibration_contracts = 133
+    _fair_calibration_snapshots = 1862
 
     _fair_live_start = pd.Timestamp(_strict_active_open)
     if _fair_live_start.tzinfo is None:
@@ -1186,8 +1138,6 @@ try:
         _fair_preferred-_fair_preferred_ask
         if _fair_preferred_ask is not None else None
     )
-    _fair_calibration_contracts = len(_fair_calib_contracts)
-    _fair_calibration_snapshots = len(_fair_calibrate)
     _fair_ready = True
 
 except Exception as _fair_error:
@@ -1198,6 +1148,8 @@ print('\n--- TARGET-AWARE FAIR-VALUE ENTRY ENGINE ---')
 print('READY:', 'YES' if _fair_ready else 'NO')
 print('BTC HISTORY SOURCE:', '35-DAY CACHE + FRESH 1M' if Path("btc_35d_live_cache.csv").exists() else 'CURRENT BOT 1M HISTORY ONLY')
 if _fair_ready:
+    print('FAIR MODEL IMMUTABLE:', _fair_model_weights_sha256,
+          '| ARTIFACT:', _fair_model_artifact_sha256, '| NO STARTUP FIT')
     print('FAIR UP:', f'{_fair_up:.1%}')
     print('FAIR DOWN:', f'{_fair_down:.1%}')
     print('PREFERRED SIDE:', _fair_preferred_side)
@@ -1822,6 +1774,7 @@ _snapshot_fields = [
     'expected_final_outcome','final_status','final_side','final_confidence','final_call_source','decisive_fair_ready','required_gap','dist_over_range5','legacy_final_ready',
     'strict_distance_pct','directional_agreement','confidence_change',
     'strict_model_ready','brti_kalshi_gate_ready',
+    'fair_model_weights_sha256','fair_model_artifact_sha256',
 ]
 
 try:
@@ -1888,6 +1841,8 @@ _snapshot_row = {
     'confidence_change': _strict_conf_change,
     'strict_model_ready': bool(_strict_model_ready),
     'brti_kalshi_gate_ready': bool(_v3_brti_gate_ready),
+    'fair_model_weights_sha256': _fair_model_weights_sha256,
+    'fair_model_artifact_sha256': _fair_model_artifact_sha256,
 }
 
 _snapshot_new_file = not _snapshot_log.exists() or _snapshot_log.stat().st_size == 0
@@ -2455,11 +2410,25 @@ def _log_brti_parity(now, ticker, target, seconds_left, btc, close_dt, b):
     return row
 
 
+_btc_spot_provenance = None
+
 def get_btc_spot():
+    global _btc_spot_provenance
     r = requests.get(COINBASE_TICKER, timeout=8)
     r.raise_for_status()
     data = r.json()
-    return float(data["price"])
+    observed = datetime.now(timezone.utc)
+    source = parse_dt(data.get("time"))
+    price = float(data["price"])
+    if source is None or source > observed or (observed-source).total_seconds() > 10:
+        _btc_spot_provenance = None
+        raise RuntimeError("COINBASE SPOT SOURCE TIMESTAMP UNQUALIFIED")
+    _btc_spot_provenance = {
+        "source_utc": source,
+        "observed_utc": observed,
+        "price": price,
+    }
+    return price
 
 def ensure_csv(path, fields):
     if not path.exists():
@@ -2704,30 +2673,29 @@ print("NO ORDERS — SHADOW DATA ONLY")
 # KXBTC15M contract rollovers without depending on a startup-only 1m snapshot.
 _ec_btc_ticks = deque()
 
-def _ec_append_btc_tick(now, btc_spot):
-    _ts = pd.Timestamp(now)
-    if _ts.tzinfo is None:
-        _ts = _ts.tz_localize("UTC")
-    else:
-        _ts = _ts.tz_convert("UTC")
-    _ec_btc_ticks.append((_ts, float(btc_spot)))
-    _cutoff = _ts - pd.Timedelta(minutes=20)
-    while _ec_btc_ticks and _ec_btc_ticks[0][0] < _cutoff:
+def _ec_append_btc_tick(source_utc, observed_utc, btc_spot):
+    _source = pd.Timestamp(source_utc)
+    _observed = pd.Timestamp(observed_utc)
+    if _source.tzinfo is None or _observed.tzinfo is None:
+        raise RuntimeError("BTC tick provenance requires timezone-aware clocks")
+    _source, _observed = _source.tz_convert("UTC"), _observed.tz_convert("UTC")
+    if _source > _observed or (_observed-_source).total_seconds() > 10:
+        raise RuntimeError("BTC tick source timestamp unqualified")
+    _ec_btc_ticks.append((_source, _observed, float(btc_spot)))
+    _cutoff = _observed - pd.Timedelta(minutes=20)
+    while _ec_btc_ticks and _ec_btc_ticks[0][1] < _cutoff:
         _ec_btc_ticks.popleft()
 
-def _ec_live_minute_bars():
+def _ec_live_ticks():
     if not _ec_btc_ticks:
-        return pd.DataFrame(columns=["Open","High","Low","Close","Volume"])
-    _ticks = pd.DataFrame(
-        list(_ec_btc_ticks), columns=["Datetime","price"]
-    ).set_index("Datetime").sort_index()
-    _bars = _ticks["price"].resample("1min").agg(
-        Open="first", High="max", Low="min", Close="last"
+        return pd.DataFrame(columns=["source_utc", "observed_utc", "price"])
+    return pd.DataFrame(
+        list(_ec_btc_ticks),
+        columns=["source_utc", "observed_utc", "price"],
     )
-    _bars["Volume"] = 0.0
-    return _bars.dropna(subset=["Close"])
 
-def _live_fair_shadow(now, ticker, target, btc_spot, up_ask, down_ask):
+def _live_fair_shadow(now, ticker, target, btc_spot, up_ask, down_ask,
+                      btc_source_utc, btc_observed_utc):
     """
     Recompute the preserved target-aware fair model at the current 5-second
     timestamp. Uses a synthetic current-minute OHLC row whose last price is the
@@ -2752,58 +2720,14 @@ def _live_fair_shadow(now, ticker, target, btc_spot, up_ask, down_ask):
     else:
         _cut = _cut.tz_convert("UTC")
 
-    # Merge the startup historical base with rolling live BTC minute bars.
-    # This is the V4.8.4 rollover fix: after the active contract changes,
-    # current bars continue to exist instead of the fair logger going stale.
-    _ec_append_btc_tick(_cut, btc_spot)
-    _live_bars = _ec_live_minute_bars()
-
-    _slice_start = _start - pd.Timedelta(minutes=6)
-    _base = _fair_btc.loc[
-        (_fair_btc.index >= _slice_start) & (_fair_btc.index <= _cut)
-    ].copy()
-
-    if not _live_bars.empty:
-        _live_part = _live_bars.loc[
-            (_live_bars.index >= _slice_start) & (_live_bars.index <= _cut)
-        ].copy()
-        _tmp = pd.concat([_base, _live_part])
-        _tmp = (
-            _tmp[~_tmp.index.duplicated(keep="last")]
-            .sort_index()
-        )
-    else:
-        _tmp = _base
-
+    # Completed bars retain their true end-of-bucket availability. Partial
+    # current-minute state is derived only from ticks actually observed by this
+    # process, carrying the exchange source clock and receipt clock separately.
+    _ec_append_btc_tick(btc_source_utc, btc_observed_utc, btc_spot)
+    _tmp = _fair_frame_at_cut(_fair_btc, _ec_live_ticks(), _cut)
+    _tmp = _tmp.loc[_tmp.index >= _start-pd.Timedelta(minutes=6)]
     if _tmp.empty:
         return None
-
-    _minute = _cut.floor("min")
-
-    # Update/append the in-progress minute with current BTC spot. The historical
-    # model is still the same 1-minute target-aware model; this gives the shadow
-    # logger sub-minute observation of its current state.
-    if _minute in _tmp.index:
-        _old = _tmp.loc[_minute]
-        if isinstance(_old, pd.DataFrame):
-            _old = _old.iloc[-1]
-        _open = float(_old.get("Open", btc_spot))
-        _high = max(float(_old.get("High", btc_spot)), float(btc_spot))
-        _low = min(float(_old.get("Low", btc_spot)), float(btc_spot))
-        _vol = float(_old.get("Volume", 0.0) or 0.0)
-    else:
-        _open = float(btc_spot)
-        _high = float(btc_spot)
-        _low = float(btc_spot)
-        _vol = 0.0
-
-    _tmp.loc[_minute, "Open"] = _open
-    _tmp.loc[_minute, "High"] = _high
-    _tmp.loc[_minute, "Low"] = _low
-    _tmp.loc[_minute, "Close"] = float(btc_spot)
-    if "Volume" in _tmp.columns:
-        _tmp.loc[_minute, "Volume"] = _vol
-    _tmp = _tmp.sort_index()
 
     _snap = _fair_build_snapshot(
         _tmp, _start, float(target), _cut=_cut
@@ -4179,7 +4103,9 @@ while running:
         _ec_live = None
         try:
             _ec_live = _live_fair_shadow(
-                now, ticker, target, btc, up_ask, down_ask
+                now, ticker, target, btc, up_ask, down_ask,
+                _btc_spot_provenance["source_utc"],
+                _btc_spot_provenance["observed_utc"],
             )
             if _ec_live is not None:
                 _ec_row = log_early_conf_shadow(

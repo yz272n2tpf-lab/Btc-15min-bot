@@ -17,11 +17,16 @@ class V81PublicationAge(unittest.TestCase):
 const vm=require('vm'),assert=require('assert');
 const script=JSON.parse(require('fs').readFileSync(0,'utf8'));
 async function check(age,ticker='KXBTC15M-TEST',manual=true){
- const now=Date.now(),els=new Map();
+ const now=Date.parse('2026-09-23T21:22:43.719Z'),els=new Map();class Clock extends Date {static now(){return now;}}
  const d={version:'V8.1_GRADUATED_30_45',entry_band:'30-45c',graduated:true,manual_execution_only:manual,order_action:null,owns_final_outcome:false,owns_early_opportunity:false,diagnostic_version:'V81_GATE_DIAG_V1',contract:ticker,active:true,status:'ACTIONABLE',side:'UP',route:'CORE',entry_price:.35,current_bid:.42,seconds_left:240,signal_age_sec:20,targets:{plus_5c:.4,plus_10c:.45,plus_20c:.55},generated_utc:age===null?undefined:new Date(now-age).toISOString()};
- const context={Date,Number,String,fetch:async()=>({ok:true,json:async()=>d}),setInterval:()=>0,usableFrame:()=>true,freshBrti:()=>true,window:{},document:{readyState:'complete',getElementById:id=>{if(!els.has(id))els.set(id,{textContent:'',classList:{add(){},remove(){}}});return els.get(id);}}};
+ const quote={ticker,epoch:'ws',market_id:'market',sid:1,sequence:3,source_ts_ms:now-1000,validated_at_ms:now-100,transport:'timestamped_contiguous_ws',up_bid:.42,up_ask:.43,down_bid:.57,down_ask:.58};
+ const opened=Math.floor(now/900000)*900;
+ const provenance={schema:'V81_TIMESTAMPED_INPUTS_V1',ticker,target:100000,open_ts:opened,close_ts:opened+900,quote,brti:{source_ts_ms:now-1000,status:'PRIMARY_OK',clean_for_qualification:true,owner_epoch:'owner',value:100001},signal_only:true,orders:false};
+ d.input_provenance=provenance;
+ d.last_signal_event={contract:ticker,side:'UP',entry_price:.35,signal_ts:now/1000-20,entry_provenance:{...provenance,quote:{...quote,up_ask:.35,source_ts_ms:now-21000,validated_at_ms:now-20100},brti:{...provenance.brti,source_ts_ms:now-21000}}};
+ const context={Date:Clock,Number,String,fetch:async()=>({ok:true,json:async()=>d}),setInterval:()=>0,usableFrame:()=>true,freshBrti:()=>true,window:{},document:{readyState:'complete',getElementById:id=>{if(!els.has(id))els.set(id,{textContent:'',classList:{add(){},remove(){}}});return els.get(id);}}};
  vm.runInNewContext(script,context);await new Promise(setImmediate);
- return context.window.renderV81ScalpInline({contract:'KXBTC15M-TEST'});
+ return context.window.renderV81ScalpInline({contract:'KXBTC15M-TEST',market:{target:100000}});
 }
 (async()=>{assert.strictEqual(await check(1000),true);for(const age of [600000,4000,-10000,null])assert.strictEqual(await check(age),false);assert.strictEqual(await check(1000,'OLD'),false);assert.strictEqual(await check(1000,'KXBTC15M-TEST',false),false);console.log('7 actual-script publication cases PASS');})().catch(e=>{console.error(e);process.exit(1);});
 '''

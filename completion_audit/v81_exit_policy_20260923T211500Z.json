@@ -1,0 +1,54 @@
+{
+  "policy_id": "v81-exits-prospective-20260923T211500Z",
+  "registered_utc": "2026-09-23T20:57:10.816881+00:00",
+  "start_utc": "2026-09-23T21:15:00Z",
+  "cohort_manifest_sha256": "fcc75fdc1ace0f31e959d59f5038cfaa530da6147e0870e5b811246ba2d0163e",
+  "policies": [
+    {
+      "name": "V81_BASELINE_180S",
+      "arm": null,
+      "giveback": null,
+      "stop": null,
+      "target": null,
+      "horizon": 180.0
+    },
+    {
+      "name": "V81_RESEARCH_PROTECT_5_2",
+      "arm": 0.05,
+      "giveback": 0.02,
+      "stop": null,
+      "target": null,
+      "horizon": 180.0
+    },
+    {
+      "name": "V81_RESEARCH_RUNNER_10_4",
+      "arm": 0.1,
+      "giveback": 0.04,
+      "stop": null,
+      "target": null,
+      "horizon": 180.0
+    },
+    {
+      "name": "V81_RESEARCH_CORE_TARGET8_STOP10",
+      "arm": null,
+      "giveback": null,
+      "stop": 0.1,
+      "target": 0.08,
+      "horizon": 180.0
+    }
+  ],
+  "source_sha256": {
+    "completion_audit/v81_exit_candidate.py": "22fdc4d682a9b661eabec5e3e52d5bb1d6f49247396149abe298049b1ada2439",
+    "completion_audit/replay_v81_exits.py": "31e72e32b795c2eea1d7fad9850870a32892ceb58e99a6b4497eba82cff33b80",
+    "completion_audit/common_journal.py": "ceb19dcc976ec73f5efd1311f7ffbd02c560b6f2199c29f4c69a1e1fd9d818b0"
+  },
+  "scope": "Offline shadow comparison only on same published V8.1 entries, not production policy selection, actual execution or full reversal/reentry detector replay.",
+  "hypothesis_provenance": "Existing PROTECT_5_2 and RUNNER_10_4 research plus core8c target/10c stop are hypotheses applied to the existing V8.1 180-second horizon, not validated equivalent strategies.",
+  "entry_rule": "First fresh active publication and event observed within3.5s; published ask30-45c. Late/missing entries are retained as rejected observations, never fabricated.",
+  "path_rule": "Only collector-validated timestamped contiguous WS bids at their validation time and true BRTI age<=5s; missing horizon quote has no exit gain; sampled excursions are not complete paths.",
+  "selection_rule": "No candidate selected on this small development slice. Common-universe validation and untouched holdout phases remain separate. Any amendment requires a new future identity.",
+  "production_connected": false,
+  "orders": false,
+  "run_id": "clean-source-v2-1s-20260923",
+  "supersedes_for_future_sampling_only": "v81-exits-prospective-20260923T203000Z"
+}
