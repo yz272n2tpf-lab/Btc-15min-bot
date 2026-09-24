@@ -1,0 +1,145 @@
+{
+  "schema": "BTC15_PUBLICATION_EXPIRY_MECHANISM_V1",
+  "evidence_role": "IMMUTABLE_VALIDATION_INFRASTRUCTURE_DIAGNOSIS_ONLY",
+  "window": [
+    "2026-09-24T20:15:00Z",
+    "2026-09-24T21:15:00Z"
+  ],
+  "input_sha256": {
+    "records.jsonl": "df6a75c765dd6441f0401af8a3a1f48297fde0788da90c7714dfe5629d2cfe0b",
+    "runtime_logs.json": "f5f0b50ea76faf57dc95427c3f2bfa8afa2d6ec538a1b0a81b03b2038e448343",
+    "fair_inputs.jsonl": "e4eae1499b684f17e01d3cf5065928b4726a4b47c04e1b5dee619a9cef16442d",
+    "detailed_validation.json": "e76dc1e820214dea7fe59cdc4c3c964e5e5c8c3578fe028f86e306fa3443e85a"
+  },
+  "counts": {
+    "rollover_prior_or_no_current_contract": 105,
+    "quote_parity_or_source_wait": 237,
+    "qualified": 1504,
+    "otherwise_usable_but_retained_brti_expired": 1754
+  },
+  "original_decisions": 668,
+  "original_decisions_fresh_causal": 668,
+  "retained_source_identity_mismatches": [],
+  "distinct_frames_observed_after_expiry": 649,
+  "expiry_observations_by_retention": {
+    "within_5_181s_snapshot_age": 1731,
+    "longer_retained_snapshot": 23
+  },
+  "source_to_main_receipt_seconds": {
+    "n": 668,
+    "minimum": 0.27005434036254883,
+    "median": 1.3291146755218506,
+    "p95": 1.720449447631836,
+    "maximum": 2.3038523197174072
+  },
+  "main_receipt_to_decision_seconds": {
+    "n": 668,
+    "minimum": 0.004439353942871094,
+    "median": 1.2496505975723267,
+    "p95": 2.4023799896240234,
+    "maximum": 2.997077226638794
+  },
+  "brti_age_at_decision_seconds": {
+    "n": 668,
+    "minimum": 0.6104710102081299,
+    "median": 2.4859085083007812,
+    "p95": 3.6313629150390625,
+    "maximum": 4.478168964385986
+  },
+  "original_decision_to_qualification_check_seconds": {
+    "n": 668,
+    "minimum": 0.0013949871063232422,
+    "median": 0.005529999732971191,
+    "p95": 0.009640216827392578,
+    "maximum": 0.1882634162902832
+  },
+  "decision_to_first_sampled_API_response_seconds": {
+    "n": 668,
+    "minimum": 0.24075984954833984,
+    "median": 0.5756739377975464,
+    "p95": 0.9567420482635498,
+    "maximum": 1.4199368953704834
+  },
+  "within_contract_decision_interval_seconds": {
+    "n": 664,
+    "minimum": 4.8097147941589355,
+    "median": 4.999325513839722,
+    "p95": 5.046020030975342,
+    "maximum": 5.180638074874878
+  },
+  "expiry_duration_until_next_same_contract_decision_seconds": {
+    "n": 664,
+    "minimum": 0.6107549667358398,
+    "median": 2.486114978790283,
+    "p95": 3.6311779022216797,
+    "maximum": 4.481208086013794
+  },
+  "expired_observation_excess_seconds": {
+    "n": 1754,
+    "minimum": 0.10030603408813477,
+    "median": 1.2958049774169922,
+    "p95": 3.3528530597686768,
+    "maximum": 10.216715097427368
+  },
+  "owner": {
+    "samples": 3600,
+    "fresh_samples": 3600,
+    "distinct_source_publications": 1574,
+    "new_successes": 1573,
+    "new_errors": 0,
+    "new_429": 0,
+    "distinct_source_step_seconds": {
+      "n": 1573,
+      "minimum": 2.0,
+      "median": 2.0,
+      "p95": 3.0,
+      "maximum": 3.0
+    }
+  },
+  "examples": [
+    {
+      "original_decision_utc": "2026-09-24T20:15:46.668321+00:00",
+      "source_epoch": 1790280944.0,
+      "main_first_receipt_epoch": 1790280945.1913753,
+      "observer_response_utc": "2026-09-24T20:15:49.105713+00:00",
+      "age_at_original_decision": 2.668320894241333,
+      "age_at_observation": 5.105712890625,
+      "expiry_epoch": 1790280949.0,
+      "next_decision_required": true
+    },
+    {
+      "original_decision_utc": "2026-09-24T20:15:46.668321+00:00",
+      "source_epoch": 1790280944.0,
+      "main_first_receipt_epoch": 1790280945.1913753,
+      "observer_response_utc": "2026-09-24T20:15:50.109440+00:00",
+      "age_at_original_decision": 2.668320894241333,
+      "age_at_observation": 6.109440088272095,
+      "expiry_epoch": 1790280949.0,
+      "next_decision_required": true
+    },
+    {
+      "original_decision_utc": "2026-09-24T20:15:46.668321+00:00",
+      "source_epoch": 1790280944.0,
+      "main_first_receipt_epoch": 1790280945.1913753,
+      "observer_response_utc": "2026-09-24T20:15:51.103368+00:00",
+      "age_at_original_decision": 2.668320894241333,
+      "age_at_observation": 7.103368043899536,
+      "expiry_epoch": 1790280949.0,
+      "next_decision_required": true
+    }
+  ],
+  "impossible_oracle_bound": {
+    "qualified_observation_instants": 2232,
+    "total": 3600,
+    "percent": 62.0,
+    "meaning": "Unattainable optimistic upper bound only: ignores receipt/transport delay, source-to-owner delay, API lag and ALL quote/parity waits; fixed real decision times and observed owner publications. NOT a proposed correction or causal replay."
+  },
+  "timing_identifiability": "Owner HTTP request completion and all main 1s receipts were not journaled. Do not attribute combined source-to-main latency to transport alone, or borrow observer receipts as main receipts.",
+  "proof": "At frozen decision d with source s<=receipt<=d, absolute deadline is s+5. Next complete decision d_next leaves max(0,d_next-(s+5)) expiry seconds. Repeating publication, resending state or relabeling generated_utc cannot change this deadline.",
+  "conclusion": "Frozen 5s complete-decision cadence produces structural publication expiry. Decision-time BRTI availability is already 668/668; continuous retained-frame freshness is a different metric. Faster consumer/browser polling alone cannot remove the cadence floor.",
+  "strategy_analysis": false,
+  "strategy_changes": false,
+  "production_changes": false,
+  "signal_only": true,
+  "orders": false
+}

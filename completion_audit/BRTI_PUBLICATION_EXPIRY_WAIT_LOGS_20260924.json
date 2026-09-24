@@ -1,0 +1,175 @@
+{
+  "deployment": "f82466d0-70ab-4779-a0fd-58832ad31513",
+  "window": [
+    "2026-09-24T20:15:00Z",
+    "2026-09-24T21:15:00Z"
+  ],
+  "quote_wait": [
+    {
+      "timestamp": "2026-09-24T20:15:31.592977107Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:29:31.713998548Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:29:36.779864369Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:29:41.858524738Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:29:46.942898108Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:29:52.033808986Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:29:57.104258427Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:30:31.102678708Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:43:27.743813508Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:43:32.800895101Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:43:37.874946214Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:43:42.952167346Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:43:48.023578338Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:43:53.102311521Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:43:58.196179301Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:44:03.263607239Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:44:08.358136196Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:44:13.470036610Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:44:18.547891070Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:44:23.608982024Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:44:28.720544113Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:44:33.795343802Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:44:38.847586627Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:44:43.962745228Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:44:49.046371483Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:44:54.125605444Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:44:59.196380118Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:45:14.403113893Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:59:39.496691683Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:59:44.595452898Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:59:49.654531511Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:59:54.717739465Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T20:59:59.823213344Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T21:00:09.879317398Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T21:14:45.017269424Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T21:14:50.076093106Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T21:14:55.157527997Z",
+      "message": "KALSHI QUOTE WAIT | timestamped contiguous evidence unavailable | NO ORDERS"
+    }
+  ],
+  "target_wait": [
+    {
+      "timestamp": "2026-09-24T20:15:01.293623363Z",
+      "message": "SHADOW WARNING: RuntimeError: Active market missing target/clock after exact-market fallback"
+    },
+    {
+      "timestamp": "2026-09-24T20:30:02.299086240Z",
+      "message": "SHADOW WARNING: RuntimeError: Active market missing target/clock after exact-market fallback"
+    },
+    {
+      "timestamp": "2026-09-24T20:45:04.366172041Z",
+      "message": "SHADOW WARNING: RuntimeError: Active market missing target/clock after exact-market fallback"
+    },
+    {
+      "timestamp": "2026-09-24T21:00:04.967367832Z",
+      "message": "SHADOW WARNING: RuntimeError: Active market missing target/clock after exact-market fallback"
+    }
+  ]
+}
