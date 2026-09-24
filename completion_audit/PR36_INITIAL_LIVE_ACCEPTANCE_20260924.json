@@ -1,0 +1,405 @@
+{
+  "schema": "BTC15_PR36_INITIAL_LIVE_ACCEPTANCE_V1",
+  "observation_cutoff_utc": "2026-09-24T20:01:30Z",
+  "production": {
+    "schema": "BTC15_PR36_PROSPECTIVE_BOUNDARY_V1",
+    "candidate_commit": "e02f7373415f42f2738825cd8720abbf45c69b68",
+    "production_commit": "3e552065e34a0a402bc3ca4598b57dff1f1c6e77",
+    "tree": "586f8cfd635d6ed817c63202cdec0b8bcc454e0c",
+    "deployment": "f82466d0-70ab-4779-a0fd-58832ad31513",
+    "deployment_created_utc": "2026-09-24T19:51:42.581Z",
+    "container_started_utc": "2026-09-24T19:53:40.642993804Z",
+    "runner_started_utc": "2026-09-24T19:53:46.605580681Z",
+    "railway_success_utc": "2026-09-24T19:53:51.576Z",
+    "core_loop_started_utc": "2026-09-24T19:54:18.990766070Z",
+    "first_btc_read_logged_utc": "2026-09-24T19:54:19.038391Z",
+    "first_full_prospective_contract_open_utc": "2026-09-24T20:15:00Z",
+    "boundary_rule": "Conservatively use observed core-loop startup plus six minutes, round up to next official 15-minute open. The 19:45 contract is mixed/restart and 20:00 is warmup/infrastructure-only; neither enters corrected performance validation.",
+    "validation_fixed_end_utc": "2026-09-24T21:15:00Z",
+    "reserved_validation_end_utc": "2026-09-25T21:15:00Z",
+    "untouched_holdout_end_utc": "2026-10-09T21:15:00Z",
+    "tuning_closed_utc": "2026-09-24T17:00:00Z",
+    "closed_evidence_sha256": "839f82afa9ed5546841d68fc4aa2aecac3bef1d055beac6a7d3969b7e5b27410",
+    "weights_sha256": "95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6",
+    "artifact_sha256": "1bf10e755fc81584bab3c3682b16103353f84582c27bb003664de883e7e7c816",
+    "owner_deployment": "b0ddbbbb-7d7a-43ba-888f-9d7e8c6b3fd8",
+    "owner_epoch": "37a1202f25614f39ae20a05ac8281966",
+    "clean_deployment": "df8385ff-46a2-4dfb-af0a-07c25e5382aa",
+    "clean_run_id": "clean-source-v2-1s-20260923",
+    "strategy_changes": false,
+    "freshness_limit_seconds": 5,
+    "signal_only": true,
+    "orders": false,
+    "rollback_commit": "1730ceff180394fbd2ebae7a5fddc4acd1e76194",
+    "rollback_deployment": "454f53ad-b269-4133-b0f5-60098978db71",
+    "rollback_branch": "rollback/btc15-before-pr36-20260924",
+    "test_results": {
+      "hosted_run": 36047874781,
+      "hosted_passed": 238,
+      "focused_passed": 44,
+      "focused_seconds": 3.378
+    }
+  },
+  "deployment_snapshot_id": "3819e9e0-5282-47f1-8b2b-4a52eb30a2a6",
+  "container_image_sha256": "24e8bf0d56efb740935e83e758fc581256649b1cac5a46ac387eb6a21e9d98e9",
+  "initial_live_acceptance": "PASS",
+  "performance_certification": "PENDING_PROSPECTIVE_EVIDENCE",
+  "checks": {
+    "exact_tested_tree": true,
+    "hosted_tests_passed": 238,
+    "focused_tests_passed": 44,
+    "cold_start": true,
+    "kalshi_authenticated_read_http": 200,
+    "main_authenticated_brti_upstream": "SKIPPED; shared owner only",
+    "evidence_archive_status": "PRESERVED_EXISTING",
+    "main_volume_size_mb": 10000,
+    "clean_volume_size_mb": 50000,
+    "fair_model_weights_unchanged": true,
+    "no_fair_model_startup_fit": true,
+    "readonly_health_http": 200,
+    "causal_feature_export_hashes_verified": true,
+    "brti_delivery": {
+      "sample_count": 72,
+      "ready": 72,
+      "interval_first": "2026-09-24T19:54:24.113222+00:00",
+      "interval_last": "2026-09-24T20:01:25.231306+00:00",
+      "max_logged_decision_gap_seconds": 71.05299997329712,
+      "source_age_min": 1.116128921508789,
+      "source_age_median": 2.156424045562744,
+      "source_age_max": 3.3534560203552246,
+      "violations": 0,
+      "warning": "Decision samples only; quote-WAIT intervals deliberately produce no qualified snapshot and do not count as available decisions."
+    },
+    "parity_counts": {
+      "pass": 22,
+      "wait": 6
+    },
+    "fair_value_heartbeat_count": 12,
+    "fair_value_heartbeat_missing_count": 0,
+    "quote_wait_fail_closed": true,
+    "source_recovery": "597 retained publication seconds recovered at cold start; live state independently qualified",
+    "parked_v6": "Auto-built from main by existing Railway subscription; PARKED no-polling command confirmed; did not become active upstream owner",
+    "orders": false
+  },
+  "rollover": {
+    "contract_open_utc": "2026-09-24T20:00:00Z",
+    "contract_close_utc": "2026-09-24T20:15:00Z",
+    "ticker": "KXBTC15M-26SEP241615-15",
+    "fixed_target": 84372.51,
+    "staged_handoff_seconds": 4.96,
+    "target_btc_ready_seconds": 5.104171,
+    "timestamped_book_seconds": 5.330056,
+    "contiguous_quotes_seconds": 10.2193,
+    "source_snapshot_seconds": 10.219678,
+    "first_causal_feature_decision_seconds": 10.217046,
+    "first_full_parity_seconds": 22.670826079,
+    "clock_delta_seconds": 0,
+    "target_delta_dollars": 0,
+    "quote_delta_cents": 0,
+    "brti_publication_match": true,
+    "full_prospective_performance_contract": false,
+    "note": "Warmup infrastructure-only rollover. Do not count toward four full corrected validation contracts."
+  },
+  "http_probes": [
+    {
+      "run_id": 36051568832,
+      "job_id": 107808135441,
+      "result": {
+        "schema": "BTC15_PR36_HTTP_ACCEPTANCE_V1",
+        "checked_utc": "2026-09-24T19:57:04.387173+00:00",
+        "serving_deployment": "f82466d0-70ab-4779-a0fd-58832ad31513",
+        "health": {
+          "ok": true,
+          "read_only": true
+        },
+        "journal_identity": "7b9f685f1a3bedfb3afed0dfdb7163806e42dc9ace3ac035ce08870713da0996",
+        "journal_snapshot_bytes": 4403902,
+        "ranges": [
+          {
+            "offset": 0,
+            "next_offset": 1047302,
+            "sha256": "8b821f35494c42e85f2c33faf8649b48161c96f0e5564d4a485c7cd306e3ab81",
+            "records": 757
+          },
+          {
+            "offset": 1047302,
+            "next_offset": 2095284,
+            "sha256": "6eea302b59d6f3a78a7012a03fc2eea960ea63e0f358b8a760cacd9521700c17",
+            "records": 757
+          },
+          {
+            "offset": 2095284,
+            "next_offset": 3143298,
+            "sha256": "c681b95d813ce8560d07ea06b23f542630dcbc9d6a5d2ca745549eb117a035fb",
+            "records": 756
+          },
+          {
+            "offset": 3143298,
+            "next_offset": 4191585,
+            "sha256": "50a3f83762ff48f381abe4b4925cf576216f38f505dbd987288eee958be07d43",
+            "records": 758
+          },
+          {
+            "offset": 4191585,
+            "next_offset": 4405306,
+            "sha256": "cb9b94e4d1588aa83ffd2c316e6dabbcde98227ad288643ee74520d5697ba43c",
+            "records": 154
+          }
+        ],
+        "old_rows_excluded": 3149,
+        "after_validation_excluded": 0,
+        "corrected_input_frames": 33,
+        "first_corrected_decision": "2026-09-24T19:54:24.113222+00:00",
+        "last_corrected_decision": "2026-09-24T19:57:04.133732+00:00",
+        "causal_clocks_pass": true,
+        "weights_match": true,
+        "signal_only": true,
+        "orders": false,
+        "warning": "Input integrity only, includes warmup; no outcomes, fitting or performance claim",
+        "contracts": {
+          "KXBTC15M-26SEP241600-00": {
+            "count": 33,
+            "targets": [
+              84439.63
+            ],
+            "first": "2026-09-24T19:54:24.113222+00:00",
+            "last": "2026-09-24T19:57:04.133732+00:00"
+          }
+        }
+      }
+    },
+    {
+      "run_id": 36051964425,
+      "job_id": 107809474711,
+      "result": {
+        "schema": "BTC15_PR36_HTTP_ACCEPTANCE_V1",
+        "checked_utc": "2026-09-24T20:00:41.129359+00:00",
+        "serving_deployment": "f82466d0-70ab-4779-a0fd-58832ad31513",
+        "health": {
+          "ok": true,
+          "read_only": true
+        },
+        "journal_identity": "7b9f685f1a3bedfb3afed0dfdb7163806e42dc9ace3ac035ce08870713da0996",
+        "journal_snapshot_bytes": 4446952,
+        "ranges": [
+          {
+            "offset": 4405306,
+            "next_offset": 4446952,
+            "sha256": "cd533ccc5d8ff8e8d32d5871c120d45ae72c37f9704c70719dec5ae57f821dbe",
+            "records": 30
+          }
+        ],
+        "old_rows_excluded": 0,
+        "after_validation_excluded": 0,
+        "corrected_input_frames": 30,
+        "first_corrected_decision": "2026-09-24T19:57:09.161577+00:00",
+        "last_corrected_decision": "2026-09-24T20:00:40.227602+00:00",
+        "causal_clocks_pass": true,
+        "weights_match": true,
+        "signal_only": true,
+        "orders": false,
+        "warning": "Input integrity only, includes warmup; no outcomes, fitting or performance claim",
+        "contracts": {
+          "KXBTC15M-26SEP241600-00": {
+            "count": 23,
+            "targets": [
+              84439.63
+            ],
+            "first": "2026-09-24T19:57:09.161577+00:00",
+            "last": "2026-09-24T19:58:59.164536+00:00"
+          },
+          "KXBTC15M-26SEP241615-15": {
+            "count": 7,
+            "targets": [
+              84372.51
+            ],
+            "first": "2026-09-24T20:00:10.217046+00:00",
+            "last": "2026-09-24T20:00:40.227602+00:00"
+          }
+        },
+        "max_input_gap_seconds": 71.05251,
+        "btc_source_age_max_seconds": 2.209637,
+        "incremental_resume_offset": 4405306
+      }
+    }
+  ],
+  "qualified_export_input_frames": 63,
+  "expected_gap_seconds": 71.05251,
+  "gap_reason": "Late prior-contract empty book and next-contract quote initialization; fail-closed gap retained, not filled or reclassified as continuous availability.",
+  "startup_http_note": "One localhost client disconnect produced BrokenPipeError at19:53:49; subsequent HTTP200, hosted /health and manifest/export checks passed; no persistent endpoint failure observed.",
+  "retained_clean_collector_checkpoints": [
+    {
+      "at": "2026-09-24T19:51:39.195806506Z",
+      "message": "COMMON OBSERVER | {\"run_id\": \"clean-source-v2-1s-20260923\", \"sequence\": 82681, \"source_successes\": 4, \"sources\": 4, \"orders\": false}"
+    },
+    {
+      "at": "2026-09-24T19:52:39.228261043Z",
+      "message": "COMMON OBSERVER | {\"run_id\": \"clean-source-v2-1s-20260923\", \"sequence\": 82741, \"source_successes\": 4, \"sources\": 4, \"orders\": false}"
+    },
+    {
+      "at": "2026-09-24T19:53:41.176528017Z",
+      "message": "COMMON OBSERVER | {\"run_id\": \"clean-source-v2-1s-20260923\", \"sequence\": 82801, \"source_successes\": 3, \"sources\": 4, \"orders\": false}"
+    },
+    {
+      "at": "2026-09-24T19:54:45.963300717Z",
+      "message": "COMMON OBSERVER | {\"run_id\": \"clean-source-v2-1s-20260923\", \"sequence\": 82861, \"source_successes\": 4, \"sources\": 4, \"orders\": false}"
+    },
+    {
+      "at": "2026-09-24T19:55:45.962667516Z",
+      "message": "COMMON OBSERVER | {\"run_id\": \"clean-source-v2-1s-20260923\", \"sequence\": 82921, \"source_successes\": 4, \"sources\": 4, \"orders\": false}"
+    },
+    {
+      "at": "2026-09-24T19:56:45.973109413Z",
+      "message": "COMMON OBSERVER | {\"run_id\": \"clean-source-v2-1s-20260923\", \"sequence\": 82981, \"source_successes\": 4, \"sources\": 4, \"orders\": false}"
+    },
+    {
+      "at": "2026-09-24T19:57:45.987649763Z",
+      "message": "COMMON OBSERVER | {\"run_id\": \"clean-source-v2-1s-20260923\", \"sequence\": 83041, \"source_successes\": 4, \"sources\": 4, \"orders\": false}"
+    },
+    {
+      "at": "2026-09-24T19:58:45.981799146Z",
+      "message": "COMMON OBSERVER | {\"run_id\": \"clean-source-v2-1s-20260923\", \"sequence\": 83101, \"source_successes\": 4, \"sources\": 4, \"orders\": false}"
+    },
+    {
+      "at": "2026-09-24T19:59:45.992758945Z",
+      "message": "COMMON OBSERVER | {\"run_id\": \"clean-source-v2-1s-20260923\", \"sequence\": 83161, \"source_successes\": 4, \"sources\": 4, \"orders\": false}"
+    },
+    {
+      "at": "2026-09-24T20:00:46.007857546Z",
+      "message": "COMMON OBSERVER | {\"run_id\": \"clean-source-v2-1s-20260923\", \"sequence\": 83221, \"source_successes\": 4, \"sources\": 4, \"orders\": false}"
+    }
+  ],
+  "owner_heartbeat_samples": [
+    {
+      "at": "2026-09-24T19:49:20.354044204Z",
+      "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=2911 | seq=49341 | upstream_ok=49341/49352 (100.0%) | 429=0 | errors=10 | NO ORDERS"
+    },
+    {
+      "at": "2026-09-24T19:50:15.489210999Z",
+      "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=912 | seq=49368 | upstream_ok=49368/49378 (100.0%) | 429=0 | errors=10 | NO ORDERS"
+    },
+    {
+      "at": "2026-09-24T19:51:19.875195948Z",
+      "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1913 | seq=49394 | upstream_ok=49394/49404 (100.0%) | 429=0 | errors=10 | NO ORDERS"
+    },
+    {
+      "at": "2026-09-24T19:52:17.461777929Z",
+      "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1913 | seq=49420 | upstream_ok=49420/49430 (100.0%) | 429=0 | errors=10 | NO ORDERS"
+    },
+    {
+      "at": "2026-09-24T19:53:18.249121183Z",
+      "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1914 | seq=49446 | upstream_ok=49446/49456 (100.0%) | 429=0 | errors=10 | NO ORDERS"
+    },
+    {
+      "at": "2026-09-24T19:54:14.244385327Z",
+      "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1914 | seq=49472 | upstream_ok=49472/49482 (100.0%) | 429=0 | errors=10 | NO ORDERS"
+    },
+    {
+      "at": "2026-09-24T19:55:19.299400693Z",
+      "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1917 | seq=49498 | upstream_ok=49498/49508 (100.0%) | 429=0 | errors=10 | NO ORDERS"
+    },
+    {
+      "at": "2026-09-24T19:56:23.044806228Z",
+      "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1919 | seq=49524 | upstream_ok=49524/49534 (100.0%) | 429=0 | errors=10 | NO ORDERS"
+    },
+    {
+      "at": "2026-09-24T19:57:19.791091802Z",
+      "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1920 | seq=49550 | upstream_ok=49550/49560 (100.0%) | 429=0 | errors=10 | NO ORDERS"
+    },
+    {
+      "at": "2026-09-24T19:58:20.251480261Z",
+      "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1920 | seq=49576 | upstream_ok=49576/49586 (100.0%) | 429=0 | errors=10 | NO ORDERS"
+    },
+    {
+      "at": "2026-09-24T19:59:18.636727707Z",
+      "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=1921 | seq=49602 | upstream_ok=49602/49612 (100.0%) | 429=0 | errors=10 | NO ORDERS"
+    },
+    {
+      "at": "2026-09-24T20:00:20.897634345Z",
+      "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=922 | seq=49628 | upstream_ok=49628/49638 (100.0%) | 429=0 | errors=10 | NO ORDERS"
+    },
+    {
+      "at": "2026-09-24T20:01:20.534869550Z",
+      "message": "BRTI_SHARED HEARTBEAT | status=PRIMARY_OK | clean=True | age_ms=922 | seq=49654 | upstream_ok=49654/49664 (100.0%) | 429=0 | errors=10 | NO ORDERS"
+    }
+  ],
+  "configuration": {
+    "service": {
+      "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+      "name": "Btc-15min-bot"
+    },
+    "environment": {
+      "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+      "name": "production"
+    },
+    "config": {
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "main",
+        "checkSuites": false
+      },
+      "networking": {
+        "serviceDomains": {
+          "btc-15min-bot-production.up.railway.app": {
+            "port": 8080
+          }
+        },
+        "privateNetworkEndpoint": "btc-15min-bot"
+      },
+      "build": {
+        "builder": "RAILPACK",
+        "buildEnvironment": "V3"
+      },
+      "deploy": {
+        "startCommand": "/bin/sh -c 'sleep 3; echo \"BTC15 VOLUME INVENTORY BEGIN\" >&2; du -ah /data 2>/dev/null | sort -hr | head -40 >&2; echo \"BTC15 VOLUME INVENTORY END\" >&2; sleep 1; python btc15_preserve_evidence_v1.py --root /data --label pre-source-v2-20260923 && exec python -u BTC15_DASHBOARD_INLINE_SCALP_DIAG_V2.py'",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 120,
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "volumeMounts": {
+        "6ced6b1a-3755-4518-a240-c895e936d443": {
+          "mountPath": "/data"
+        }
+      }
+    },
+    "variableNames": [
+      "BTC15_BRTI_GATEWAY_URL",
+      "BTC15_BRTI_SHARED_URL",
+      "BTC15_BRTI_TRANSPORT",
+      "BTC15_DASH_V13_Z1",
+      "BTC15_DASH_V13_Z2",
+      "BTC15_DASH_V13_Z3",
+      "BTC15_DASH_V13_Z4",
+      "BTC15_DASH_V13_Z5",
+      "BTC15_INLINE_SCALP_V1",
+      "BTC15_KALSHI_QUOTE_PROVENANCE_CANARY",
+      "BTC15_USE_SHARED_BRTI",
+      "BTC15_VOLUME_DIAG",
+      "KALSHI_KEY_ID",
+      "KALSHI_PRIVATE_KEY_B64",
+      "PORT",
+      "PYTHONUNBUFFERED"
+    ],
+    "staged": null
+  },
+  "configuration_limit": "Service configuration and variable names frozen; secret values are not fetched or recorded.",
+  "remaining_elapsed_evidence": [
+    "Four complete consecutive corrected-runtime contracts from20:15UTC, including downstream readiness, source qualification, parity and fair-value continuity.",
+    "Longer source/receipt/decision availability and interruption/recovery, keeping missing and quote-WAIT slots in denominators.",
+    "EARLY/FINAL/SCALP/V8.1 signals and connected lifecycle outcomes under this immutable runtime; no performance improvement claimed.",
+    "Preserve fixed21:15UTC validation end, later reserved validation and unopened holdout. No tuning after17:00UTC; any restart or code/config/model change closes this runtime identity."
+  ],
+  "next_incremental_feature_offset": 4446952,
+  "next_incremental_feature_identity": "7b9f685f1a3bedfb3afed0dfdb7163806e42dc9ace3ac035ce08870713da0996",
+  "rollback_performed": false,
+  "signal_only": true,
+  "orders": false,
+  "runtime_freeze_scope": "No code/config/strategy mutation after deployment. Exact frozen fair artifact recorded; general/scalp startup state is scoped to this uninterrupted process identity, not retrospectively pooled across restarts."
+}
