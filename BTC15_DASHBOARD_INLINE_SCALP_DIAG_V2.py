@@ -178,6 +178,8 @@ def replace_inline_script(path: Path) -> list[str]:
 def main() -> int:
     import BTC15_INSTALL_LIVE_DASHBOARD_V13 as installer
     d=installer.install();html=d/'BTC_Kalshi_App_Live_v13.html'
+    from btc15_fair_input_export_v1 import install_route
+    install_route(d)
     if not html.exists(): raise SystemExit(f'dashboard html missing: {html}')
     base=v1.base_fix.patch_html(html)
     v1.patch_inline(html)

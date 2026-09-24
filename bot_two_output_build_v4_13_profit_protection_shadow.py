@@ -2681,7 +2681,9 @@ def _ec_append_btc_tick(source_utc, observed_utc, btc_spot):
     _source, _observed = _source.tz_convert("UTC"), _observed.tz_convert("UTC")
     if _source > _observed or (_observed-_source).total_seconds() > 10:
         raise RuntimeError("BTC tick source timestamp unqualified")
-    _ec_btc_ticks.append((_source, _observed, float(btc_spot)))
+    _point = (_source, _observed, float(btc_spot))
+    if not _ec_btc_ticks or _ec_btc_ticks[-1] != _point:
+        _ec_btc_ticks.append(_point)
     _cutoff = _observed - pd.Timedelta(minutes=20)
     while _ec_btc_ticks and _ec_btc_ticks[0][1] < _cutoff:
         _ec_btc_ticks.popleft()
@@ -4011,6 +4013,16 @@ while running:
             datetime.now(timezone.utc),
         )
         now_ts = now.timestamp()
+
+        # Preserve a qualified BTC observation even while the Kalshi target or
+        # book is warming/recovering. Otherwise quote waits erase the historical
+        # BTC reference needed by the next contract's unchanged fair features.
+        # This only ingests the read already made above: no new poll, model fit,
+        # target substitute or signal publication. Quote gates below still apply.
+        _ec_append_btc_tick(
+            _btc_spot_provenance["source_utc"],
+            _btc_spot_provenance["observed_utc"], btc,
+        )
 
         _diag_open = None if close_dt is None else close_dt - timedelta(seconds=900)
         if _diag_open is not None:
