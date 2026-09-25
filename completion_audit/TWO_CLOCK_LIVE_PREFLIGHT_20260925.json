@@ -1,0 +1,1036 @@
+{
+  "retrieved_at": "2026-09-25T02:38:56.118Z",
+  "candidate": "06261dbfbe6d8336a6886a4f2b349f33b06b6202",
+  "production_mutations": [],
+  "data": {
+    "config": {
+      "service": {
+        "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "name": "Btc-15min-bot"
+      },
+      "environment": {
+        "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "name": "production"
+      },
+      "config": {
+        "source": {
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "main",
+          "checkSuites": false
+        },
+        "networking": {
+          "serviceDomains": {
+            "btc-15min-bot-production.up.railway.app": {
+              "port": 8080
+            }
+          },
+          "privateNetworkEndpoint": "btc-15min-bot"
+        },
+        "build": {
+          "builder": "RAILPACK",
+          "buildEnvironment": "V3"
+        },
+        "deploy": {
+          "startCommand": "/bin/sh -c 'sleep 3; echo \"BTC15 VOLUME INVENTORY BEGIN\" >&2; du -ah /data 2>/dev/null | sort -hr | head -40 >&2; echo \"BTC15 VOLUME INVENTORY END\" >&2; sleep 1; python btc15_preserve_evidence_v1.py --root /data --label pre-source-v2-20260923 && exec python -u BTC15_DASHBOARD_INLINE_SCALP_DIAG_V2.py'",
+          "healthcheckPath": "/health",
+          "healthcheckTimeout": 120,
+          "useLegacyStacker": false,
+          "ipv6EgressEnabled": false,
+          "runtime": "V2",
+          "multiRegionConfig": {
+            "iad": {
+              "numReplicas": 1
+            }
+          }
+        },
+        "volumeMounts": {
+          "6ced6b1a-3755-4518-a240-c895e936d443": {
+            "mountPath": "/data"
+          }
+        }
+      },
+      "variableNames": [
+        "BTC15_BRTI_GATEWAY_URL",
+        "BTC15_BRTI_SHARED_URL",
+        "BTC15_BRTI_TRANSPORT",
+        "BTC15_DASH_V13_Z1",
+        "BTC15_DASH_V13_Z2",
+        "BTC15_DASH_V13_Z3",
+        "BTC15_DASH_V13_Z4",
+        "BTC15_DASH_V13_Z5",
+        "BTC15_INLINE_SCALP_V1",
+        "BTC15_KALSHI_QUOTE_PROVENANCE_CANARY",
+        "BTC15_USE_SHARED_BRTI",
+        "BTC15_VOLUME_DIAG",
+        "KALSHI_KEY_ID",
+        "KALSHI_PRIVATE_KEY_B64",
+        "PORT",
+        "PYTHONUNBUFFERED"
+      ],
+      "staged": null
+    },
+    "status": {
+      "project": {
+        "id": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+        "name": "noble-warmth",
+        "workspaceName": "yz272n2tpf-lab's Projects"
+      },
+      "environment": {
+        "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "name": "production",
+        "unmergedChangesCount": null,
+        "stagedChanges": null
+      },
+      "services": [
+        {
+          "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+          "name": "Btc-15min-bot",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [
+            {
+              "id": "6ced6b1a-3755-4518-a240-c895e936d443",
+              "name": "btc-15min-bot-volume",
+              "mountPath": "/data",
+              "sizeMB": 10000,
+              "region": "iad"
+            }
+          ],
+          "latestDeployment": {
+            "id": "f82466d0-70ab-4779-a0fd-58832ad31513",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-24T19:51:42.581Z",
+            "url": null
+          }
+        },
+        {
+          "id": "90d3435e-c98c-43ae-880f-cd629b9606e2",
+          "name": "scalp-lead-shadow",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "bd1faafd-3d39-4ff1-bf69-8e3b1e364068",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-11T16:16:19.458Z",
+            "url": null
+          }
+        },
+        {
+          "id": "f6e62c87-ac2a-4340-8be2-72932ad4c486",
+          "name": "scalp-lead-qualified",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "87cf1c7f-2ff6-41f9-8fb8-d5dcad7f0994",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-11T16:16:12.461Z",
+            "url": null
+          }
+        },
+        {
+          "id": "ca605c00-4608-4b32-b0bb-d1ca9c6b42a5",
+          "name": "scalp-lead-v4",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "db0473b2-22cd-46f3-9f63-efce713112a7",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-11T16:16:04.670Z",
+            "url": null
+          }
+        },
+        {
+          "id": "7e643823-456a-414b-a369-0ee40462223f",
+          "name": "scalp-lead-v5-live",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "1c0c5ea0-67a4-453c-ba7f-752433b66d67",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-11T16:13:26.389Z",
+            "url": null
+          }
+        },
+        {
+          "id": "2b0060ac-e0d1-49a2-a2f6-b577fd9ac478",
+          "name": "scalp-lead-v5-main",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "c071ec85-f1d4-4fa5-865b-1ce21271ed58",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-11T16:16:27.603Z",
+            "url": null
+          }
+        },
+        {
+          "id": "ea6e520b-fa94-49bb-abf9-094817ae3d6b",
+          "name": "scalp-lead-v6",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "3f4649ce-535d-4fab-ab31-6756117187d7",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-11T19:10:31.099Z",
+            "url": null
+          }
+        },
+        {
+          "id": "568716be-9c96-446e-aecb-0fcd16158b8e",
+          "name": "scalp-lead-v6-main",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "cf93b94d-6fc1-4817-825c-5edf93a18673",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-24T19:51:42.581Z",
+            "url": null
+          }
+        },
+        {
+          "id": "2e63484b-e726-41fc-980a-a117b5efdcfd",
+          "name": "scalp-v81-sub30-shadow",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "8eb3020c-6f36-40b5-9242-bd7f04f0b501",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-13T05:09:38.027Z",
+            "url": null
+          }
+        },
+        {
+          "id": "b883a5e1-7cef-4d3d-b3f6-cffccde53053",
+          "name": "scalp-v81-sub30-shadow-v2",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "ac70c610-5c36-4cc2-8479-2e1ee489b747",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-12T02:12:11.760Z",
+            "url": null
+          }
+        },
+        {
+          "id": "0bda3f3d-90b7-4934-8636-d16a45a3dc32",
+          "name": "v81-immutable-test",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "a36a2a6b-3463-4093-a5e5-c68c1ab82245",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-12T01:12:12.787Z",
+            "url": null
+          }
+        },
+        {
+          "id": "10045980-cdd0-485a-a827-b50a3f0b4943",
+          "name": "v81-final-isolated-test",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "8ae6c679-ac45-4935-9b81-1f3f4cf5deb4",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-23T03:46:03.437Z",
+            "url": null
+          }
+        },
+        {
+          "id": "43e53181-102a-4759-a7cd-70875c605cf0",
+          "name": "v81-30-45-dashboard-validation-v3",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "242c233f-a16e-46a3-a373-6a536a6f199a",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-12T13:26:14.053Z",
+            "url": null
+          }
+        },
+        {
+          "id": "afd8f1f0-65f6-46f0-a79b-ef582f35293f",
+          "name": "v81-30-45-live-feed-v2",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "ae6976a2-fb93-449a-a05d-f45dc32bd478",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-12T20:07:15.383Z",
+            "url": null
+          }
+        },
+        {
+          "id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+          "name": "v81-live-diagnostics",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "4105da0a-e5a2-4a76-8abc-242b0bab5ad8",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-23T23:24:18.046Z",
+            "url": null
+          }
+        },
+        {
+          "id": "8b40a28c-1beb-4020-bdc2-e7e236fe3501",
+          "name": "scalp-move-shadow-v1",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [
+            {
+              "id": "656da4af-6a3f-4907-95da-2c0c0000cf29",
+              "name": "scalp-move-shadow-v1-volume",
+              "mountPath": "/data",
+              "sizeMB": 5000,
+              "region": "iad"
+            }
+          ],
+          "latestDeployment": {
+            "id": "009fce2f-af6d-4b3a-a4df-fff79e092c8b",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-23T03:44:45.779Z",
+            "url": null
+          }
+        },
+        {
+          "id": "0fe5d048-873e-4c1c-a3d4-8e7216e44f3e",
+          "name": "brti-shared-feed-v1",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "b0ddbbbb-7d7a-43ba-888f-9d7e8c6b3fd8",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-23T12:26:16.000Z",
+            "url": null
+          }
+        },
+        {
+          "id": "84f579fc-36d0-4170-8a28-6d26c01bb364",
+          "name": "v81-live-diag-shared-brti-shadow",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "1edca6fd-095d-4910-90af-a11c49c086db",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-13T05:18:39.829Z",
+            "url": null
+          }
+        },
+        {
+          "id": "142e0fe5-13ce-4cb7-a08b-d4a65539fb47",
+          "name": "combined-dashboard-shadow-v1",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "3296cc04-c5b0-4256-8108-47e4861fdf20",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-15T05:02:45.985Z",
+            "url": null
+          }
+        },
+        {
+          "id": "f020787f-00fb-4a46-a36c-710f18bbf31e",
+          "name": "scalp-coverage-audit-v1",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "60b67800-6709-45fa-a558-de51fa2d9ec0",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-15T21:25:19.515Z",
+            "url": null
+          }
+        },
+        {
+          "id": "cc7ca702-ddbc-4f61-8205-873e34b7d740",
+          "name": "scalp-unarmed-live-tape-v1",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "d4d5f692-356e-4fec-b4aa-e04f54fe8986",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-20T19:40:10.557Z",
+            "url": null
+          }
+        },
+        {
+          "id": "90046a79-3f57-493f-b473-18d0031e8f0d",
+          "name": "scalp-display-bridge-v6",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "52114b2d-2d17-44c3-9ee4-5454aec9222d",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-15T13:41:20.060Z",
+            "url": null
+          }
+        },
+        {
+          "id": "87801206-d705-43d6-8aa2-bfb1b11c1ff6",
+          "name": "combined-dashboard-shadow-v11",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "12a26d34-ffe5-46b5-a29e-5f8a43a12a17",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-15T14:03:08.725Z",
+            "url": null
+          }
+        },
+        {
+          "id": "fbe79688-25ed-4329-b0d6-c9b669559b17",
+          "name": "final-forward-scorecard-v1",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "48b86488-3688-40d3-82b4-ad5fe028a61f",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-15T19:55:38.110Z",
+            "url": null
+          }
+        },
+        {
+          "id": "e9399baa-25a8-4801-a374-ae6c5401060d",
+          "name": "combined-forward-scorecard-v1",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "4b23c967-5cae-49f0-b2de-7ee2aa74a8e1",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-15T19:49:39.005Z",
+            "url": null
+          }
+        },
+        {
+          "id": "b210d5f0-0616-4e39-9812-ce7b41b73d67",
+          "name": "combined-dashboard-shadow-v13",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "0df31206-238e-46aa-b0f8-ef79773889b7",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-15T18:39:18.394Z",
+            "url": null
+          }
+        },
+        {
+          "id": "efb56ace-8c0e-4672-a772-6dd3b8633078",
+          "name": "early-forward-scorecard-v1",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "764934d0-a646-4363-942d-bba62e94a1b3",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-21T03:32:42.199Z",
+            "url": null
+          }
+        },
+        {
+          "id": "174bd89d-264b-4882-8d5a-b8dbacf97181",
+          "name": "early-final-handoff-v1",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "43e32eee-afea-4986-a944-803a53945852",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-15T20:39:32.809Z",
+            "url": null
+          }
+        },
+        {
+          "id": "6b847381-fc63-4421-b7bd-e8111c844e2f",
+          "name": "early-excursion-forward-v1",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "b6c7e09a-e6bd-4c36-a98c-48a50e72d0cf",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-15T22:33:47.303Z",
+            "url": null
+          }
+        },
+        {
+          "id": "6c0ec9d5-2187-4623-97ec-44c3304b8074",
+          "name": "authoritative-scoreboard-v1",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "1bb0e9b5-a299-4516-bad4-79b57686b9ff",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-15T23:32:29.505Z",
+            "url": null
+          }
+        },
+        {
+          "id": "c1db8b80-f656-4295-ade8-812c129f6c72",
+          "name": "combined-dashboard-shadow-v14",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "95380505-ccb6-4489-bfec-299933596116",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-16T00:15:59.542Z",
+            "url": null
+          }
+        },
+        {
+          "id": "56b8496c-8dea-409b-a236-9e139a9c2e96",
+          "name": "final-v4-review-tooling-v1",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "bf74b182-7507-4ed8-9a25-9e7041d37e1f",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-16T02:22:35.698Z",
+            "url": null
+          }
+        },
+        {
+          "id": "4a7f7942-7701-4441-8061-d1c6148d0e81",
+          "name": "scalp-entry-profit-holdout-v1",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "82056b10-b4be-4016-83d5-4388017fd9ab",
+            "status": "CRASHED",
+            "createdAt": "2026-09-18T03:55:10.632Z",
+            "url": null
+          }
+        },
+        {
+          "id": "a0f417fe-9bfe-4d80-bcd0-5647a582a1e7",
+          "name": "scalp-reversal-reentry-holdout-v1",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "9933e54a-dad2-4c39-ae07-657d73eef847",
+            "status": "CRASHED",
+            "createdAt": "2026-09-18T03:21:39.535Z",
+            "url": null
+          }
+        },
+        {
+          "id": "f4d0996f-9dd1-47ba-a237-67353acd5bec",
+          "name": "scalp-incremental-disk-v2",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "657b6674-7641-4d43-b0f2-a4fe750d6041",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-18T19:15:30.699Z",
+            "url": null
+          }
+        },
+        {
+          "id": "b369287c-d8a1-4427-84de-25e39fe9fdf7",
+          "name": "scalp-finalprod-clean-v1",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [
+            {
+              "id": "93e974dc-b8bb-4658-bed5-dc4815308396",
+              "name": "scalp-finalprod-clean-v1-volume",
+              "mountPath": "/data",
+              "sizeMB": 50000,
+              "region": "iad"
+            }
+          ],
+          "latestDeployment": {
+            "id": "df8385ff-46a2-4dfb-af0a-07c25e5382aa",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-23T20:44:50.327Z",
+            "url": null
+          }
+        },
+        {
+          "id": "fcfb3a93-f007-4061-9cb8-bdae28f72cc2",
+          "name": "scalp-developing-move-v1-forward",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "8358775d-08d9-4bdb-af9d-fdf7b5d87f2f",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-21T20:13:55.574Z",
+            "url": null
+          }
+        },
+        {
+          "id": "5a3eda51-3074-42aa-9e46-06695d47a378",
+          "name": "rollover-alt-discovery-probe-v1",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "b6670de3-bc4c-413a-ba8d-dba49665959b",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-22T03:16:23.441Z",
+            "url": null
+          }
+        },
+        {
+          "id": "9a566a85-0b12-4ab7-9c95-cced457e3bf5",
+          "name": "rollover-prediscovery-shadow-v1",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "3a07cc28-7569-4192-9ad6-dd87c63eb8c9",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-22T13:53:00.494Z",
+            "url": null
+          }
+        },
+        {
+          "id": "331072c6-1ab4-47dc-a6b4-c3af053e4975",
+          "name": "rollover-regression-v1",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "ba81e05a-ad82-42f8-85d6-a233980e193b",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-22T18:35:26.613Z",
+            "url": null
+          }
+        },
+        {
+          "id": "ab491df9-2b75-43f2-92da-bc2a6db1cf6d",
+          "name": "rollover-core-integration-live-shadow",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "07204949-0f3a-4c5e-ae59-71da69f7a8c2",
+            "status": "CRASHED",
+            "createdAt": "2026-09-22T18:35:26.614Z",
+            "url": null
+          }
+        },
+        {
+          "id": "fd54c023-b855-4ccb-90ca-4cbf772bdf4a",
+          "name": "rollover-canary-predeploy-check",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "9ee22695-1157-4407-9586-ec84c7ff3a70",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-22T19:39:03.253Z",
+            "url": null
+          }
+        },
+        {
+          "id": "cf307d3c-064f-4675-a2d5-c61ec0429f62",
+          "name": "rollover-handoff-predeploy-check",
+          "numReplicas": null,
+          "cronSchedule": null,
+          "volumes": [],
+          "latestDeployment": {
+            "id": "d9fcf373-10ce-4ecd-8f6b-66a76f4c2803",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-22T21:25:18.516Z",
+            "url": null
+          }
+        }
+      ],
+      "buckets": [],
+      "pendingWork": [
+        {
+          "id": "patch:4bbc0865-2ccc-47f0-acfa-0b8d31fe2d50",
+          "kind": "EnvironmentPatch",
+          "status": "staged",
+          "changes": [],
+          "startedAt": "2026-09-24T19:46:39.565Z",
+          "workflowId": "commitChanges/61775c5d-c583-4dfc-af41-f25578856fd9/4bbc0865-2ccc-47f0-acfa-0b8d31fe2d50"
+        }
+      ]
+    },
+    "deployments": {
+      "deployments": [
+        {
+          "id": "f82466d0-70ab-4779-a0fd-58832ad31513",
+          "status": "SUCCESS",
+          "createdAt": "2026-09-24T19:51:42.581Z",
+          "updatedAt": "2026-09-24T19:53:51.576Z",
+          "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+          "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+          "url": null,
+          "snapshotId": "3819e9e0-5282-47f1-8b2b-4a52eb30a2a6",
+          "canRollback": true,
+          "canRedeploy": true,
+          "regions": [
+            "iad"
+          ],
+          "meta": {
+            "reason": "deploy",
+            "commitMessage": "Merge PR36: preserve BTC history and causal shared BRTI delivery\n\nEric-approved controlled rollout of e02f737. Exact candidate tree 586f8cfd635d6ed817c63202cdec0b8bcc454e0c passed hosted CI 36047874781 (238 tests) and 44 focused checks. No strategy weights/thresholds or freshness limits changed. Rollback:1730ceff180394fbd2ebae7a5fddc4acd1e76194 / Railway454f53ad-b269-4133-b0f5-60098978db71. Corrected runtime starts a new prospective cohort; no historical or pre-deployment pooling. SIGNAL ONLY / NO ORDERS.",
+            "commitHash": "3e552065e34a0a402bc3ca4598b57dff1f1c6e77",
+            "branch": "main"
+          }
+        },
+        {
+          "id": "454f53ad-b269-4133-b0f5-60098978db71",
+          "status": "REMOVED",
+          "createdAt": "2026-09-24T12:53:16.910Z",
+          "updatedAt": "2026-09-24T19:53:55.932Z",
+          "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+          "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+          "url": null,
+          "snapshotId": "580d19c6-e5c8-4e63-b3b6-91b156c76c14",
+          "canRollback": true,
+          "canRedeploy": true,
+          "regions": [
+            "iad"
+          ],
+          "meta": {
+            "reason": "deploy",
+            "commitMessage": "Align BTC fair-model cutoff with received inputs; preserve causal replay journal\n\nFix live fair cutoff excluding the BTC tick used by entry gates",
+            "commitHash": "1730ceff180394fbd2ebae7a5fddc4acd1e76194",
+            "branch": "main"
+          }
+        },
+        {
+          "id": "0b2ef3ff-1499-432a-ac70-52b997bb2e26",
+          "status": "REMOVED",
+          "createdAt": "2026-09-24T00:02:17.048Z",
+          "updatedAt": "2026-09-24T12:54:20.650Z",
+          "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+          "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+          "url": null,
+          "snapshotId": "ffbfe523-36be-4ef5-8f45-4e15346f4f69",
+          "canRollback": true,
+          "canRedeploy": true,
+          "regions": [
+            "iad"
+          ],
+          "meta": {
+            "reason": "deploy",
+            "commitMessage": "Coordinate V8.1 provenance, accounting, and frozen-model integrity\n\nApproved production integrity rollout. Hosted 201/201 regressions PASS; artifact preservation and exit/accounting checks PASS. Frozen model artifact and weights verified exactly. SIGNAL ONLY / NO ORDERS.",
+            "commitHash": "d54321927626529612b7309576d7dc90b84fe224",
+            "branch": "main"
+          }
+        }
+      ]
+    },
+    "baseline_metrics": {
+      "service": {
+        "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "name": "Btc-15min-bot"
+      },
+      "environment": {
+        "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "name": "production"
+      },
+      "metrics": [
+        {
+          "measurement": "CPU_USAGE",
+          "current": 1.0149560833333333,
+          "average": 0.8565829718579238,
+          "min": 0,
+          "max": 1.5891055666666667,
+          "sampleCount": 61
+        },
+        {
+          "measurement": "CPU_USAGE_2",
+          "current": null,
+          "average": null,
+          "min": null,
+          "max": null,
+          "sampleCount": 0
+        },
+        {
+          "measurement": "MEMORY_USAGE_GB",
+          "current": 0.931201024,
+          "average": 0.91247887947541,
+          "min": 0,
+          "max": 0.931577856,
+          "sampleCount": 61
+        },
+        {
+          "measurement": "DISK_USAGE_GB",
+          "current": 1.681125376,
+          "average": 1.64998214504918,
+          "min": 0,
+          "max": 1.681145856,
+          "sampleCount": 61
+        },
+        {
+          "measurement": "NETWORK_TX_GB",
+          "current": 0.004257029,
+          "average": 0.005407371344262296,
+          "min": 0,
+          "max": 0.01003448,
+          "sampleCount": 61
+        }
+      ]
+    },
+    "main_6h": {
+      "service": {
+        "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "name": "Btc-15min-bot"
+      },
+      "environment": {
+        "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "name": "production"
+      },
+      "metrics": [
+        {
+          "measurement": "CPU_USAGE",
+          "current": 0.6863728,
+          "average": 0.9409337605724837,
+          "min": 0.3360709666666667,
+          "max": 3.5616991166666665,
+          "sampleCount": 361
+        },
+        {
+          "measurement": "MEMORY_USAGE_GB",
+          "current": 0.9305088,
+          "average": 0.898814354792244,
+          "min": 0.803530752,
+          "max": 0.931577856,
+          "sampleCount": 361
+        },
+        {
+          "measurement": "DISK_USAGE_GB",
+          "current": 1.68132608,
+          "average": 1.659143539590027,
+          "min": 1.639432192,
+          "max": 1.68132608,
+          "sampleCount": 361
+        },
+        {
+          "measurement": "NETWORK_TX_GB",
+          "current": 0.002408742,
+          "average": 0.005453970977839338,
+          "min": 0.001321099,
+          "max": 0.010342022,
+          "sampleCount": 361
+        }
+      ]
+    },
+    "v81_6h": {
+      "service": {
+        "id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "name": "v81-live-diagnostics"
+      },
+      "environment": {
+        "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "name": "production"
+      },
+      "metrics": [
+        {
+          "measurement": "CPU_USAGE",
+          "current": 0.030877,
+          "average": 0.04971225526315791,
+          "min": 0.005855283333333333,
+          "max": 0.08639046666666667,
+          "sampleCount": 361
+        },
+        {
+          "measurement": "MEMORY_USAGE_GB",
+          "current": 0.062509056,
+          "average": 0.06223735277562325,
+          "min": 0.059070464,
+          "max": 0.066924544,
+          "sampleCount": 361
+        },
+        {
+          "measurement": "DISK_USAGE_GB",
+          "current": 0,
+          "average": 0,
+          "min": 0,
+          "max": 0,
+          "sampleCount": 361
+        },
+        {
+          "measurement": "NETWORK_TX_GB",
+          "current": 0.000651536,
+          "average": 0.0010917713795013852,
+          "min": 0.000160653,
+          "max": 0.001534172,
+          "sampleCount": 361
+        }
+      ]
+    },
+    "brti_6h": {
+      "service": {
+        "id": "0fe5d048-873e-4c1c-a3d4-8e7216e44f3e",
+        "name": "brti-shared-feed-v1"
+      },
+      "environment": {
+        "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "name": "production"
+      },
+      "metrics": [
+        {
+          "measurement": "CPU_USAGE",
+          "current": 0,
+          "average": 0.03368324136657434,
+          "min": 0,
+          "max": 0.05326221666666667,
+          "sampleCount": 361
+        },
+        {
+          "measurement": "MEMORY_USAGE_GB",
+          "current": 0.036466688,
+          "average": 0.035603288642659346,
+          "min": 0.035115008,
+          "max": 0.036995072,
+          "sampleCount": 361
+        },
+        {
+          "measurement": "DISK_USAGE_GB",
+          "current": 0,
+          "average": 0,
+          "min": 0,
+          "max": 0,
+          "sampleCount": 361
+        },
+        {
+          "measurement": "NETWORK_TX_GB",
+          "current": 0,
+          "average": 0.016481192362880887,
+          "min": 0,
+          "max": 0.022887121,
+          "sampleCount": 361
+        }
+      ]
+    },
+    "billing_retry": {
+      "threadId": "62538d09-8799-42ac-8ad9-452dc86712cd",
+      "response": "I'll check your workspace plan and billing information with minimal read operations.**Plan & Limits (PRO Tier)**\n- Per-replica: 24 vCPU, 24 GB RAM, 100 GB disk\n- Included monthly credit: **$0** (usage-based billing only)\n- Services: 100 max, Volumes: 20 max (1 TB each), Buckets: 100 max (unlimited workspace storage)\n\n**Billing data is not accessible via read-only tools.** The `getPlanLimitsTool` returns resource ceilings only, not current usage or charges. \n\n**To view your current billing period usage and projected charges against your $20 budget, you must:**\n1. Log in to Railway: https://railway.com/account/billing\n2. Check the **Billing** page for current usage (CPU hours, memory GB-hours, network egress, LLM tokens) and projected monthly total\n3. Compare to your $20 budget threshold\n\nI cannot retrieve usage/charges, current invoice totals, or run-rate projections with available read-only access.",
+      "toolCalls": [
+        {
+          "toolName": "getPlanLimitsTool",
+          "args": {},
+          "result": {
+            "planTier": "PRO",
+            "note": "These are the caller's own effective limits for this project's workspace, including any account-specific admin overrides or enterprise commitments \u2014 the same ceilings enforcement applies, so they match reality. They are per-replica / per-service / per-workspace maximums, NOT current usage. Usage-based spend and network egress are metered and billed separately and are NOT plan ceilings, so do not describe them as limits. workspaceMaxStorageGB of 0 (workspaceStorageUnlimited) or null project members (membersUnlimited) means unlimited.",
+            "limits": {
+              "perReplica": {
+                "cpuVCPU": 24,
+                "memoryGB": 24,
+                "diskGB": 100,
+                "minReplicaCpuVCPU": 4,
+                "minReplicaMemoryGB": 4
+              },
+              "replicasPerService": 42,
+              "volumes": {
+                "maxSizeGB": 1000,
+                "maxPerProject": 20,
+                "maxBackupsCount": 10
+              },
+              "buckets": {
+                "maxPerProject": 100,
+                "workspaceMaxStorageGB": 0,
+                "workspaceStorageUnlimited": true
+              },
+              "project": {
+                "services": 100,
+                "members": null,
+                "membersUnlimited": true
+              },
+              "projects": 100,
+              "networking": {
+                "customDomains": 20,
+                "emailForwardingAliases": 25,
+                "serviceDomains": 20,
+                "tcpProxies": 5
+              },
+              "includedUsageDollars": 0
+            }
+          },
+          "isError": false
+        }
+      ]
+    },
+    "github_candidate": {
+      "content": "{\"sha\":\"06261dbfbe6d8336a6886a4f2b349f33b06b6202\",\"node_id\":\"C_kwDOT2pnqNoAKDA2MjYxZGJmYmU2ZDgzMzZhNjg4NmE0ZjJiMzQ5ZjMzYjA2YjYyMDI\",\"url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/commits/06261dbfbe6d8336a6886a4f2b349f33b06b6202\",\"html_url\":\"https://github.com/yz272n2tpf-lab/Btc-15min-bot/commit/06261dbfbe6d8336a6886a4f2b349f33b06b6202\",\"author\":{\"name\":\"yz272n2tpf-lab\",\"email\":\"yz272n2tpf@privaterelay.appleid.com\",\"date\":\"2026-09-25T02:02:08Z\"},\"committer\":{\"name\":\"yz272n2tpf-lab\",\"email\":\"yz272n2tpf@privaterelay.appleid.com\",\"date\":\"2026-09-25T02:02:08Z\"},\"tree\":{\"sha\":\"196707359f1ce25786bacbf419f409b3564a51c5\",\"url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/trees/196707359f1ce25786bacbf419f409b3564a51c5\"},\"message\":\"Preserve native and telemetry child shutdown grace independently of supervisor exit\",\"parents\":[{\"sha\":\"c3559c3f166e8340e5ebe26105acfc6caa990c41\",\"url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/commits/c3559c3f166e8340e5ebe26105acfc6caa990c41\",\"html_url\":\"https://github.com/yz272n2tpf-lab/Btc-15min-bot/commit/c3559c3f166e8340e5ebe26105acfc6caa990c41\"}],\"verification\":{\"verified\":false,\"reason\":\"unsigned\",\"signature\":null,\"payload\":null,\"verified_at\":null}}",
+      "title": "06261dbfbe6d8336a6886a4f2b349f33b06b6202",
+      "modified_date": null,
+      "url": "https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/commits/06261dbfbe6d8336a6886a4f2b349f33b06b6202",
+      "display_url": "https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/commits/06261dbfbe6d8336a6886a4f2b349f33b06b6202",
+      "display_title": "06261dbfbe6d8336a6886a4f2b349f33b06b6202",
+      "structuredContent": {
+        "title": "06261dbfbe6d8336a6886a4f2b349f33b06b6202",
+        "content": "{\"sha\":\"06261dbfbe6d8336a6886a4f2b349f33b06b6202\",\"node_id\":\"C_kwDOT2pnqNoAKDA2MjYxZGJmYmU2ZDgzMzZhNjg4NmE0ZjJiMzQ5ZjMzYjA2YjYyMDI\",\"url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/commits/06261dbfbe6d8336a6886a4f2b349f33b06b6202\",\"html_url\":\"https://github.com/yz272n2tpf-lab/Btc-15min-bot/commit/06261dbfbe6d8336a6886a4f2b349f33b06b6202\",\"author\":{\"name\":\"yz272n2tpf-lab\",\"email\":\"yz272n2tpf@privaterelay.appleid.com\",\"date\":\"2026-09-25T02:02:08Z\"},\"committer\":{\"name\":\"yz272n2tpf-lab\",\"email\":\"yz272n2tpf@privaterelay.appleid.com\",\"date\":\"2026-09-25T02:02:08Z\"},\"tree\":{\"sha\":\"196707359f1ce25786bacbf419f409b3564a51c5\",\"url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/trees/196707359f1ce25786bacbf419f409b3564a51c5\"},\"message\":\"Preserve native and telemetry child shutdown grace independently of supervisor exit\",\"parents\":[{\"sha\":\"c3559c3f166e8340e5ebe26105acfc6caa990c41\",\"url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/commits/c3559c3f166e8340e5ebe26105acfc6caa990c41\",\"html_url\":\"https://github.com/yz272n2tpf-lab/Btc-15min-bot/commit/c3559c3f166e8340e5ebe26105acfc6caa990c41\"}],\"verification\":{\"verified\":false,\"reason\":\"unsigned\",\"signature\":null,\"payload\":null,\"verified_at\":null}}",
+        "display_url": "https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/commits/06261dbfbe6d8336a6886a4f2b349f33b06b6202"
+      }
+    },
+    "github_hosted_run": {
+      "content": "{\"id\":36084580891,\"name\":\"BTC15 signal-only completion regressions\",\"node_id\":\"WFR_kwLOT2pnqM8AAAAIZs8CGw\",\"head_branch\":\"audit/two-clock-integration-20260925\",\"head_sha\":\"06261dbfbe6d8336a6886a4f2b349f33b06b6202\",\"path\":\".github/workflows/btc15_completion_tests.yml\",\"display_title\":\"Preserve native and telemetry child shutdown grace independently of s\u2026\",\"run_number\":48,\"event\":\"push\",\"status\":\"completed\",\"conclusion\":\"success\",\"workflow_id\":364778003,\"check_suite_id\":97717319020,\"check_suite_node_id\":\"CS_kwDOT2pnqM8AAAAWwGf1bA\",\"url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/actions/runs/36084580891\",\"html_url\":\"https://github.com/yz272n2tpf-lab/Btc-15min-bot/actions/runs/36084580891\",\"pull_requests\":[],\"created_at\":\"2026-09-25T02:02:20Z\",\"updated_at\":\"2026-09-25T02:07:32Z\",\"actor\":{\"login\":\"yz272n2tpf-lab\",\"id\":316319613,\"node_id\":\"U_kgDOEtqnfQ\",\"avatar_url\":\"https://avatars.githubusercontent.com/u/316319613?v=4\",\"gravatar_id\":\"\",\"url\":\"https://api.github.com/users/yz272n2tpf-lab\",\"html_url\":\"https://github.com/yz272n2tpf-lab\",\"followers_url\":\"https://api.github.com/users/yz272n2tpf-lab/followers\",\"following_url\":\"https://api.github.com/users/yz272n2tpf-lab/following{/other_user}\",\"gists_url\":\"https://api.github.com/users/yz272n2tpf-lab/gists{/gist_id}\",\"starred_url\":\"https://api.github.com/users/yz272n2tpf-lab/starred{/owner}{/repo}\",\"subscriptions_url\":\"https://api.github.com/users/yz272n2tpf-lab/subscriptions\",\"organizations_url\":\"https://api.github.com/users/yz272n2tpf-lab/orgs\",\"repos_url\":\"https://api.github.com/users/yz272n2tpf-lab/repos\",\"events_url\":\"https://api.github.com/users/yz272n2tpf-lab/events{/privacy}\",\"received_events_url\":\"https://api.github.com/users/yz272n2tpf-lab/received_events\",\"type\":\"User\",\"user_view_type\":\"public\",\"site_admin\":false},\"run_attempt\":1,\"referenced_workflows\":[],\"run_started_at\":\"2026-09-25T02:02:20Z\",\"triggering_actor\":{\"login\":\"yz272n2tpf-lab\",\"id\":316319613,\"node_id\":\"U_kgDOEtqnfQ\",\"avatar_url\":\"https://avatars.githubusercontent.com/u/316319613?v=4\",\"gravatar_id\":\"\",\"url\":\"https://api.github.com/users/yz272n2tpf-lab\",\"html_url\":\"https://github.com/yz272n2tpf-lab\",\"followers_url\":\"https://api.github.com/users/yz272n2tpf-lab/followers\",\"following_url\":\"https://api.github.com/users/yz272n2tpf-lab/following{/other_user}\",\"gists_url\":\"https://api.github.com/users/yz272n2tpf-lab/gists{/gist_id}\",\"starred_url\":\"https://api.github.com/users/yz272n2tpf-lab/starred{/owner}{/repo}\",\"subscriptions_url\":\"https://api.github.com/users/yz272n2tpf-lab/subscriptions\",\"organizations_url\":\"https://api.github.com/users/yz272n2tpf-lab/orgs\",\"repos_url\":\"https://api.github.com/users/yz272n2tpf-lab/repos\",\"events_url\":\"https://api.github.com/users/yz272n2tpf-lab/events{/privacy}\",\"received_events_url\":\"https://api.github.com/users/yz272n2tpf-lab/received_events\",\"type\":\"User\",\"user_view_type\":\"public\",\"site_admin\":false},\"jobs_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/actions/runs/36084580891/jobs\",\"logs_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/actions/runs/36084580891/logs\",\"check_suite_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/check-suites/97717319020\",\"artifacts_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/actions/runs/36084580891/artifacts\",\"cancel_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/actions/runs/36084580891/cancel\",\"rerun_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/actions/runs/36084580891/rerun\",\"previous_attempt_url\":null,\"workflow_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/actions/workflows/364778003\",\"head_commit\":{\"id\":\"06261dbfbe6d8336a6886a4f2b349f33b06b6202\",\"tree_id\":\"196707359f1ce25786bacbf419f409b3564a51c5\",\"message\":\"Preserve native and telemetry child shutdown grace independently of supervisor exit\",\"timestamp\":\"2026-09-25T02:02:08Z\",\"author\":{\"name\":\"yz272n2tpf-lab\",\"email\":\"yz272n2tpf@privaterelay.appleid.com\"},\"committer\":{\"name\":\"yz272n2tpf-lab\",\"email\":\"yz272n2tpf@privaterelay.appleid.com\"}},\"repository\":{\"id\":1332373416,\"node_id\":\"R_kgDOT2pnqA\",\"name\":\"Btc-15min-bot\",\"full_name\":\"yz272n2tpf-lab/Btc-15min-bot\",\"private\":false,\"owner\":{\"login\":\"yz272n2tpf-lab\",\"id\":316319613,\"node_id\":\"U_kgDOEtqnfQ\",\"avatar_url\":\"https://avatars.githubusercontent.com/u/316319613?v=4\",\"gravatar_id\":\"\",\"url\":\"https://api.github.com/users/yz272n2tpf-lab\",\"html_url\":\"https://github.com/yz272n2tpf-lab\",\"followers_url\":\"https://api.github.com/users/yz272n2tpf-lab/followers\",\"following_url\":\"https://api.github.com/users/yz272n2tpf-lab/following{/other_user}\",\"gists_url\":\"https://api.github.com/users/yz272n2tpf-lab/gists{/gist_id}\",\"starred_url\":\"https://api.github.com/users/yz272n2tpf-lab/starred{/owner}{/repo}\",\"subscriptions_url\":\"https://api.github.com/users/yz272n2tpf-lab/subscriptions\",\"organizations_url\":\"https://api.github.com/users/yz272n2tpf-lab/orgs\",\"repos_url\":\"https://api.github.com/users/yz272n2tpf-lab/repos\",\"events_url\":\"https://api.github.com/users/yz272n2tpf-lab/events{/privacy}\",\"received_events_url\":\"https://api.github.com/users/yz272n2tpf-lab/received_events\",\"type\":\"User\",\"user_view_type\":\"public\",\"site_admin\":false},\"html_url\":\"https://github.com/yz272n2tpf-lab/Btc-15min-bot\",\"description\":null,\"fork\":false,\"url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot\",\"forks_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/forks\",\"keys_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/keys{/key_id}\",\"collaborators_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/collaborators{/collaborator}\",\"teams_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/teams\",\"hooks_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/hooks\",\"issue_events_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/issues/events{/number}\",\"events_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/events\",\"assignees_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/assignees{/user}\",\"branches_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/branches{/branch}\",\"tags_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/tags\",\"blobs_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/blobs{/sha}\",\"git_tags_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/tags{/sha}\",\"git_refs_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/refs{/sha}\",\"trees_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/trees{/sha}\",\"statuses_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/statuses/{sha}\",\"languages_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/languages\",\"stargazers_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/stargazers\",\"contributors_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/contributors\",\"subscribers_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/subscribers\",\"subscription_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/subscription\",\"commits_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/commits{/sha}\",\"git_commits_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/commits{/sha}\",\"comments_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/comments{/number}\",\"issue_comment_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/issues/comments{/number}\",\"contents_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/contents/{+path}\",\"compare_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/compare/{base}...{head}\",\"merges_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/merges\",\"archive_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/{archive_format}{/ref}\",\"downloads_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/downloads\",\"issues_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/issues{/number}\",\"pulls_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/pulls{/number}\",\"milestones_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/milestones{/number}\",\"notifications_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/notifications{?since,all,participating}\",\"labels_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/labels{/name}\",\"releases_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/releases{/id}\",\"deployments_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/deployments\"},\"head_repository\":{\"id\":1332373416,\"node_id\":\"R_kgDOT2pnqA\",\"name\":\"Btc-15min-bot\",\"full_name\":\"yz272n2tpf-lab/Btc-15min-bot\",\"private\":false,\"owner\":{\"login\":\"yz272n2tpf-lab\",\"id\":316319613,\"node_id\":\"U_kgDOEtqnfQ\",\"avatar_url\":\"https://avatars.githubusercontent.com/u/316319613?v=4\",\"gravatar_id\":\"\",\"url\":\"https://api.github.com/users/yz272n2tpf-lab\",\"html_url\":\"https://github.com/yz272n2tpf-lab\",\"followers_url\":\"https://api.github.com/users/yz272n2tpf-lab/followers\",\"following_url\":\"https://api.github.com/users/yz272n2tpf-lab/following{/other_user}\",\"gists_url\":\"https://api.github.com/users/yz272n2tpf-lab/gists{/gist_id}\",\"starred_url\":\"https://api.github.com/users/yz272n2tpf-lab/starred{/owner}{/repo}\",\"subscriptions_url\":\"https://api.github.com/users/yz272n2tpf-lab/subscriptions\",\"organizations_url\":\"https://api.github.com/users/yz272n2tpf-lab/orgs\",\"repos_url\":\"https://api.github.com/users/yz272n2tpf-lab/repos\",\"events_url\":\"https://api.github.com/users/yz272n2tpf-lab/events{/privacy}\",\"received_events_url\":\"https://api.github.com/users/yz272n2tpf-lab/received_events\",\"type\":\"User\",\"user_view_type\":\"public\",\"site_admin\":false},\"html_url\":\"https://github.com/yz272n2tpf-lab/Btc-15min-bot\",\"description\":null,\"fork\":false,\"url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot\",\"forks_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/forks\",\"keys_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/keys{/key_id}\",\"collaborators_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/collaborators{/collaborator}\",\"teams_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/teams\",\"hooks_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/hooks\",\"issue_events_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/issues/events{/number}\",\"events_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/events\",\"assignees_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/assignees{/user}\",\"branches_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/branches{/branch}\",\"tags_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/tags\",\"blobs_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/blobs{/sha}\",\"git_tags_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/tags{/sha}\",\"git_refs_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/refs{/sha}\",\"trees_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/trees{/sha}\",\"statuses_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/statuses/{sha}\",\"languages_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/languages\",\"stargazers_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/stargazers\",\"contributors_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/contributors\",\"subscribers_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/subscribers\",\"subscription_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/subscription\",\"commits_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/commits{/sha}\",\"git_commits_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/commits{/sha}\",\"comments_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/comments{/number}\",\"issue_comment_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/issues/comments{/number}\",\"contents_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/contents/{+path}\",\"compare_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/compare/{base}...{head}\",\"merges_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/merges\",\"archive_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/{archive_format}{/ref}\",\"downloads_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/downloads\",\"issues_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/issues{/number}\",\"pulls_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/pulls{/number}\",\"milestones_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/milestones{/number}\",\"notifications_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/notifications{?since,all,participating}\",\"labels_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/labels{/name}\",\"releases_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/releases{/id}\",\"deployments_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/deployments\"}}",
+      "title": "36084580891",
+      "modified_date": null,
+      "url": "https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/actions/runs/36084580891",
+      "display_url": "https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/actions/runs/36084580891",
+      "display_title": "36084580891",
+      "structuredContent": {
+        "title": "36084580891",
+        "content": "{\"id\":36084580891,\"name\":\"BTC15 signal-only completion regressions\",\"node_id\":\"WFR_kwLOT2pnqM8AAAAIZs8CGw\",\"head_branch\":\"audit/two-clock-integration-20260925\",\"head_sha\":\"06261dbfbe6d8336a6886a4f2b349f33b06b6202\",\"path\":\".github/workflows/btc15_completion_tests.yml\",\"display_title\":\"Preserve native and telemetry child shutdown grace independently of s\u2026\",\"run_number\":48,\"event\":\"push\",\"status\":\"completed\",\"conclusion\":\"success\",\"workflow_id\":364778003,\"check_suite_id\":97717319020,\"check_suite_node_id\":\"CS_kwDOT2pnqM8AAAAWwGf1bA\",\"url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/actions/runs/36084580891\",\"html_url\":\"https://github.com/yz272n2tpf-lab/Btc-15min-bot/actions/runs/36084580891\",\"pull_requests\":[],\"created_at\":\"2026-09-25T02:02:20Z\",\"updated_at\":\"2026-09-25T02:07:32Z\",\"actor\":{\"login\":\"yz272n2tpf-lab\",\"id\":316319613,\"node_id\":\"U_kgDOEtqnfQ\",\"avatar_url\":\"https://avatars.githubusercontent.com/u/316319613?v=4\",\"gravatar_id\":\"\",\"url\":\"https://api.github.com/users/yz272n2tpf-lab\",\"html_url\":\"https://github.com/yz272n2tpf-lab\",\"followers_url\":\"https://api.github.com/users/yz272n2tpf-lab/followers\",\"following_url\":\"https://api.github.com/users/yz272n2tpf-lab/following{/other_user}\",\"gists_url\":\"https://api.github.com/users/yz272n2tpf-lab/gists{/gist_id}\",\"starred_url\":\"https://api.github.com/users/yz272n2tpf-lab/starred{/owner}{/repo}\",\"subscriptions_url\":\"https://api.github.com/users/yz272n2tpf-lab/subscriptions\",\"organizations_url\":\"https://api.github.com/users/yz272n2tpf-lab/orgs\",\"repos_url\":\"https://api.github.com/users/yz272n2tpf-lab/repos\",\"events_url\":\"https://api.github.com/users/yz272n2tpf-lab/events{/privacy}\",\"received_events_url\":\"https://api.github.com/users/yz272n2tpf-lab/received_events\",\"type\":\"User\",\"user_view_type\":\"public\",\"site_admin\":false},\"run_attempt\":1,\"referenced_workflows\":[],\"run_started_at\":\"2026-09-25T02:02:20Z\",\"triggering_actor\":{\"login\":\"yz272n2tpf-lab\",\"id\":316319613,\"node_id\":\"U_kgDOEtqnfQ\",\"avatar_url\":\"https://avatars.githubusercontent.com/u/316319613?v=4\",\"gravatar_id\":\"\",\"url\":\"https://api.github.com/users/yz272n2tpf-lab\",\"html_url\":\"https://github.com/yz272n2tpf-lab\",\"followers_url\":\"https://api.github.com/users/yz272n2tpf-lab/followers\",\"following_url\":\"https://api.github.com/users/yz272n2tpf-lab/following{/other_user}\",\"gists_url\":\"https://api.github.com/users/yz272n2tpf-lab/gists{/gist_id}\",\"starred_url\":\"https://api.github.com/users/yz272n2tpf-lab/starred{/owner}{/repo}\",\"subscriptions_url\":\"https://api.github.com/users/yz272n2tpf-lab/subscriptions\",\"organizations_url\":\"https://api.github.com/users/yz272n2tpf-lab/orgs\",\"repos_url\":\"https://api.github.com/users/yz272n2tpf-lab/repos\",\"events_url\":\"https://api.github.com/users/yz272n2tpf-lab/events{/privacy}\",\"received_events_url\":\"https://api.github.com/users/yz272n2tpf-lab/received_events\",\"type\":\"User\",\"user_view_type\":\"public\",\"site_admin\":false},\"jobs_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/actions/runs/36084580891/jobs\",\"logs_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/actions/runs/36084580891/logs\",\"check_suite_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/check-suites/97717319020\",\"artifacts_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/actions/runs/36084580891/artifacts\",\"cancel_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/actions/runs/36084580891/cancel\",\"rerun_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/actions/runs/36084580891/rerun\",\"previous_attempt_url\":null,\"workflow_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/actions/workflows/364778003\",\"head_commit\":{\"id\":\"06261dbfbe6d8336a6886a4f2b349f33b06b6202\",\"tree_id\":\"196707359f1ce25786bacbf419f409b3564a51c5\",\"message\":\"Preserve native and telemetry child shutdown grace independently of supervisor exit\",\"timestamp\":\"2026-09-25T02:02:08Z\",\"author\":{\"name\":\"yz272n2tpf-lab\",\"email\":\"yz272n2tpf@privaterelay.appleid.com\"},\"committer\":{\"name\":\"yz272n2tpf-lab\",\"email\":\"yz272n2tpf@privaterelay.appleid.com\"}},\"repository\":{\"id\":1332373416,\"node_id\":\"R_kgDOT2pnqA\",\"name\":\"Btc-15min-bot\",\"full_name\":\"yz272n2tpf-lab/Btc-15min-bot\",\"private\":false,\"owner\":{\"login\":\"yz272n2tpf-lab\",\"id\":316319613,\"node_id\":\"U_kgDOEtqnfQ\",\"avatar_url\":\"https://avatars.githubusercontent.com/u/316319613?v=4\",\"gravatar_id\":\"\",\"url\":\"https://api.github.com/users/yz272n2tpf-lab\",\"html_url\":\"https://github.com/yz272n2tpf-lab\",\"followers_url\":\"https://api.github.com/users/yz272n2tpf-lab/followers\",\"following_url\":\"https://api.github.com/users/yz272n2tpf-lab/following{/other_user}\",\"gists_url\":\"https://api.github.com/users/yz272n2tpf-lab/gists{/gist_id}\",\"starred_url\":\"https://api.github.com/users/yz272n2tpf-lab/starred{/owner}{/repo}\",\"subscriptions_url\":\"https://api.github.com/users/yz272n2tpf-lab/subscriptions\",\"organizations_url\":\"https://api.github.com/users/yz272n2tpf-lab/orgs\",\"repos_url\":\"https://api.github.com/users/yz272n2tpf-lab/repos\",\"events_url\":\"https://api.github.com/users/yz272n2tpf-lab/events{/privacy}\",\"received_events_url\":\"https://api.github.com/users/yz272n2tpf-lab/received_events\",\"type\":\"User\",\"user_view_type\":\"public\",\"site_admin\":false},\"html_url\":\"https://github.com/yz272n2tpf-lab/Btc-15min-bot\",\"description\":null,\"fork\":false,\"url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot\",\"forks_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/forks\",\"keys_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/keys{/key_id}\",\"collaborators_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/collaborators{/collaborator}\",\"teams_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/teams\",\"hooks_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/hooks\",\"issue_events_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/issues/events{/number}\",\"events_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/events\",\"assignees_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/assignees{/user}\",\"branches_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/branches{/branch}\",\"tags_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/tags\",\"blobs_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/blobs{/sha}\",\"git_tags_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/tags{/sha}\",\"git_refs_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/refs{/sha}\",\"trees_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/trees{/sha}\",\"statuses_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/statuses/{sha}\",\"languages_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/languages\",\"stargazers_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/stargazers\",\"contributors_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/contributors\",\"subscribers_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/subscribers\",\"subscription_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/subscription\",\"commits_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/commits{/sha}\",\"git_commits_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/commits{/sha}\",\"comments_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/comments{/number}\",\"issue_comment_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/issues/comments{/number}\",\"contents_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/contents/{+path}\",\"compare_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/compare/{base}...{head}\",\"merges_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/merges\",\"archive_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/{archive_format}{/ref}\",\"downloads_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/downloads\",\"issues_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/issues{/number}\",\"pulls_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/pulls{/number}\",\"milestones_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/milestones{/number}\",\"notifications_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/notifications{?since,all,participating}\",\"labels_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/labels{/name}\",\"releases_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/releases{/id}\",\"deployments_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/deployments\"},\"head_repository\":{\"id\":1332373416,\"node_id\":\"R_kgDOT2pnqA\",\"name\":\"Btc-15min-bot\",\"full_name\":\"yz272n2tpf-lab/Btc-15min-bot\",\"private\":false,\"owner\":{\"login\":\"yz272n2tpf-lab\",\"id\":316319613,\"node_id\":\"U_kgDOEtqnfQ\",\"avatar_url\":\"https://avatars.githubusercontent.com/u/316319613?v=4\",\"gravatar_id\":\"\",\"url\":\"https://api.github.com/users/yz272n2tpf-lab\",\"html_url\":\"https://github.com/yz272n2tpf-lab\",\"followers_url\":\"https://api.github.com/users/yz272n2tpf-lab/followers\",\"following_url\":\"https://api.github.com/users/yz272n2tpf-lab/following{/other_user}\",\"gists_url\":\"https://api.github.com/users/yz272n2tpf-lab/gists{/gist_id}\",\"starred_url\":\"https://api.github.com/users/yz272n2tpf-lab/starred{/owner}{/repo}\",\"subscriptions_url\":\"https://api.github.com/users/yz272n2tpf-lab/subscriptions\",\"organizations_url\":\"https://api.github.com/users/yz272n2tpf-lab/orgs\",\"repos_url\":\"https://api.github.com/users/yz272n2tpf-lab/repos\",\"events_url\":\"https://api.github.com/users/yz272n2tpf-lab/events{/privacy}\",\"received_events_url\":\"https://api.github.com/users/yz272n2tpf-lab/received_events\",\"type\":\"User\",\"user_view_type\":\"public\",\"site_admin\":false},\"html_url\":\"https://github.com/yz272n2tpf-lab/Btc-15min-bot\",\"description\":null,\"fork\":false,\"url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot\",\"forks_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/forks\",\"keys_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/keys{/key_id}\",\"collaborators_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/collaborators{/collaborator}\",\"teams_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/teams\",\"hooks_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/hooks\",\"issue_events_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/issues/events{/number}\",\"events_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/events\",\"assignees_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/assignees{/user}\",\"branches_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/branches{/branch}\",\"tags_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/tags\",\"blobs_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/blobs{/sha}\",\"git_tags_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/tags{/sha}\",\"git_refs_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/refs{/sha}\",\"trees_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/trees{/sha}\",\"statuses_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/statuses/{sha}\",\"languages_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/languages\",\"stargazers_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/stargazers\",\"contributors_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/contributors\",\"subscribers_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/subscribers\",\"subscription_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/subscription\",\"commits_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/commits{/sha}\",\"git_commits_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/commits{/sha}\",\"comments_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/comments{/number}\",\"issue_comment_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/issues/comments{/number}\",\"contents_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/contents/{+path}\",\"compare_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/compare/{base}...{head}\",\"merges_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/merges\",\"archive_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/{archive_format}{/ref}\",\"downloads_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/downloads\",\"issues_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/issues{/number}\",\"pulls_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/pulls{/number}\",\"milestones_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/milestones{/number}\",\"notifications_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/notifications{?since,all,participating}\",\"labels_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/labels{/name}\",\"releases_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/releases{/id}\",\"deployments_url\":\"https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/deployments\"}}",
+        "display_url": "https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/actions/runs/36084580891"
+      }
+    },
+    "github_artifact": {
+      "artifacts": [
+        {
+          "id": 10843278145,
+          "name": "two-clock-integration-evidence",
+          "size_in_bytes": 18235,
+          "url": "https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/actions/artifacts/10843278145",
+          "archive_download_url": "https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/actions/artifacts/10843278145/zip",
+          "expired": false,
+          "created_at": "2026-09-25T02:07:29Z",
+          "expires_at": "2026-12-24T02:02:20Z",
+          "updated_at": "2026-09-25T02:07:29Z",
+          "digest": "sha256:54d4837469ed91ed4c7de8126b1851077090b9645ae499c275b1415e17ff7d56",
+          "workflow_run": {
+            "id": 36084580891,
+            "repository_id": 1332373416,
+            "head_repository_id": 1332373416,
+            "head_branch": "audit/two-clock-integration-20260925",
+            "head_sha": "06261dbfbe6d8336a6886a4f2b349f33b06b6202"
+          }
+        }
+      ]
+    },
+    "browser_billing_access": {
+      "url": "https://railway.com/workspace/billing",
+      "status": "LOGIN_REQUIRED",
+      "billing_data_read": false,
+      "interaction": "Read-only navigation. No sign-in attempted or account changes."
+    }
+  }
+}

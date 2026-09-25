@@ -1,0 +1,1824 @@
+{
+  "collected_at": "2026-09-25T02:39:35.830Z",
+  "window_hours": 6,
+  "sample_rate_seconds": 60,
+  "measurement_scope": "Existing Railway services before any two-clock deployment. Rolling windows queried within several minutes. Zero current/average samples reported as returned, not inferred from deployment status.",
+  "resource_pricing": {
+    "cpu_vcpu_month_usd": 20,
+    "memory_gb_month_usd": 10,
+    "volume_gb_month_usd": 0.15,
+    "network_egress_gb_usd": 0.05,
+    "source": "https://docs.railway.com/pricing/plans"
+  },
+  "monthly_estimate_scope": "30-day-equivalent steady-state resource run rate IF the measured averages persist. Excludes storage, network, taxes, account credits, subscription reconciliation and other projects. Not an invoice.",
+  "services": [
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "Btc-15min-bot",
+        "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "result": {
+          "service": {
+            "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+            "name": "Btc-15min-bot"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0.6164413833333333,
+              "average": 0.9390789952908585,
+              "min": 0.3360709666666667,
+              "max": 3.5616991166666665,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.927444992,
+              "average": 0.899012800886427,
+              "min": 0.803530752,
+              "max": 0.931577856,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "scalp-lead-shadow",
+        "id": "90d3435e-c98c-43ae-880f-cd629b9606e2",
+        "result": {
+          "service": {
+            "id": "90d3435e-c98c-43ae-880f-cd629b9606e2",
+            "name": "scalp-lead-shadow"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "scalp-lead-qualified",
+        "id": "f6e62c87-ac2a-4340-8be2-72932ad4c486",
+        "result": {
+          "service": {
+            "id": "f6e62c87-ac2a-4340-8be2-72932ad4c486",
+            "name": "scalp-lead-qualified"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "scalp-lead-v4",
+        "id": "ca605c00-4608-4b32-b0bb-d1ca9c6b42a5",
+        "result": {
+          "service": {
+            "id": "ca605c00-4608-4b32-b0bb-d1ca9c6b42a5",
+            "name": "scalp-lead-v4"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "scalp-lead-v5-live",
+        "id": "7e643823-456a-414b-a369-0ee40462223f",
+        "result": {
+          "service": {
+            "id": "7e643823-456a-414b-a369-0ee40462223f",
+            "name": "scalp-lead-v5-live"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "scalp-lead-v5-main",
+        "id": "2b0060ac-e0d1-49a2-a2f6-b577fd9ac478",
+        "result": {
+          "service": {
+            "id": "2b0060ac-e0d1-49a2-a2f6-b577fd9ac478",
+            "name": "scalp-lead-v5-main"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "scalp-lead-v6",
+        "id": "ea6e520b-fa94-49bb-abf9-094817ae3d6b",
+        "result": {
+          "service": {
+            "id": "ea6e520b-fa94-49bb-abf9-094817ae3d6b",
+            "name": "scalp-lead-v6"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "scalp-lead-v6-main",
+        "id": "568716be-9c96-446e-aecb-0fcd16158b8e",
+        "result": {
+          "service": {
+            "id": "568716be-9c96-446e-aecb-0fcd16158b8e",
+            "name": "scalp-lead-v6-main"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.00434176,
+              "average": 0.0043417599999999775,
+              "min": 0.00434176,
+              "max": 0.00434176,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "scalp-v81-sub30-shadow",
+        "id": "2e63484b-e726-41fc-980a-a117b5efdcfd",
+        "result": {
+          "service": {
+            "id": "2e63484b-e726-41fc-980a-a117b5efdcfd",
+            "name": "scalp-v81-sub30-shadow"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.004354048,
+              "average": 0.004354047999999997,
+              "min": 0.004354048,
+              "max": 0.004354048,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "scalp-v81-sub30-shadow-v2",
+        "id": "b883a5e1-7cef-4d3d-b3f6-cffccde53053",
+        "result": {
+          "service": {
+            "id": "b883a5e1-7cef-4d3d-b3f6-cffccde53053",
+            "name": "scalp-v81-sub30-shadow-v2"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "v81-immutable-test",
+        "id": "0bda3f3d-90b7-4934-8636-d16a45a3dc32",
+        "result": {
+          "service": {
+            "id": "0bda3f3d-90b7-4934-8636-d16a45a3dc32",
+            "name": "v81-immutable-test"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "v81-final-isolated-test",
+        "id": "10045980-cdd0-485a-a827-b50a3f0b4943",
+        "result": {
+          "service": {
+            "id": "10045980-cdd0-485a-a827-b50a3f0b4943",
+            "name": "v81-final-isolated-test"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.008708096,
+              "average": 0.008708095999999993,
+              "min": 0.008708096,
+              "max": 0.008708096,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "v81-30-45-dashboard-validation-v3",
+        "id": "43e53181-102a-4759-a7cd-70875c605cf0",
+        "result": {
+          "service": {
+            "id": "43e53181-102a-4759-a7cd-70875c605cf0",
+            "name": "v81-30-45-dashboard-validation-v3"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "v81-30-45-live-feed-v2",
+        "id": "afd8f1f0-65f6-46f0-a79b-ef582f35293f",
+        "result": {
+          "service": {
+            "id": "afd8f1f0-65f6-46f0-a79b-ef582f35293f",
+            "name": "v81-30-45-live-feed-v2"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0.014527983333333334,
+              "average": 0.027356458125577094,
+              "min": 0.006895733333333333,
+              "max": 0.04623475,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.05740544,
+              "average": 0.05352344181717451,
+              "min": 0.051585024,
+              "max": 0.058454016,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "v81-live-diagnostics",
+        "id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "result": {
+          "service": {
+            "id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+            "name": "v81-live-diagnostics"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0.04959926149584489,
+              "min": 0,
+              "max": 0.08105463333333333,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.062488576,
+              "average": 0.06224827922437671,
+              "min": 0.059070464,
+              "max": 0.066924544,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "scalp-move-shadow-v1",
+        "id": "8b40a28c-1beb-4020-bdc2-e7e236fe3501",
+        "result": {
+          "service": {
+            "id": "8b40a28c-1beb-4020-bdc2-e7e236fe3501",
+            "name": "scalp-move-shadow-v1"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0.12719056551246535,
+              "min": 0,
+              "max": 0.2454379,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 1.353506816,
+              "average": 0.9885771679556784,
+              "min": 0.910487552,
+              "max": 1.769746432,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "brti-shared-feed-v1",
+        "id": "0fe5d048-873e-4c1c-a3d4-8e7216e44f3e",
+        "result": {
+          "service": {
+            "id": "0fe5d048-873e-4c1c-a3d4-8e7216e44f3e",
+            "name": "brti-shared-feed-v1"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0.021629799999999998,
+              "average": 0.03364018545706372,
+              "min": 0.016896116666666666,
+              "max": 0.05326221666666667,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.036466688,
+              "average": 0.03561410162880894,
+              "min": 0.035115008,
+              "max": 0.036995072,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "v81-live-diag-shared-brti-shadow",
+        "id": "84f579fc-36d0-4170-8a28-6d26c01bb364",
+        "result": {
+          "service": {
+            "id": "84f579fc-36d0-4170-8a28-6d26c01bb364",
+            "name": "v81-live-diag-shared-brti-shadow"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0.031508434810710986,
+              "min": 0,
+              "max": 0.0470639,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.06176768,
+              "average": 0.06176068503047084,
+              "min": 0.061714432,
+              "max": 0.062287872,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "combined-dashboard-shadow-v1",
+        "id": "142e0fe5-13ce-4cb7-a08b-d4a65539fb47",
+        "result": {
+          "service": {
+            "id": "142e0fe5-13ce-4cb7-a08b-d4a65539fb47",
+            "name": "combined-dashboard-shadow-v1"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0.00004591666666666667,
+              "average": 0.00009564455216989846,
+              "min": 0.000041083333333333334,
+              "max": 0.0005209333333333333,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.03328,
+              "average": 0.03330398599445982,
+              "min": 0.03328,
+              "max": 0.033337344,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "scalp-coverage-audit-v1",
+        "id": "f020787f-00fb-4a46-a36c-710f18bbf31e",
+        "result": {
+          "service": {
+            "id": "f020787f-00fb-4a46-a36c-710f18bbf31e",
+            "name": "scalp-coverage-audit-v1"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0.002463233333333333,
+              "average": 0.0021899563711911376,
+              "min": 0,
+              "max": 0.00403285,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.157556736,
+              "average": 0.1569136356343486,
+              "min": 0,
+              "max": 0.158076928,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "scalp-unarmed-live-tape-v1",
+        "id": "cc7ca702-ddbc-4f61-8205-873e34b7d740",
+        "result": {
+          "service": {
+            "id": "cc7ca702-ddbc-4f61-8205-873e34b7d740",
+            "name": "scalp-unarmed-live-tape-v1"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0.4793349703601112,
+              "min": 0,
+              "max": 1.3010148166666666,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.033886208,
+              "average": 5.4186365064155115,
+              "min": 0.03207168,
+              "max": 11.50271488,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "scalp-display-bridge-v6",
+        "id": "90046a79-3f57-493f-b473-18d0031e8f0d",
+        "result": {
+          "service": {
+            "id": "90046a79-3f57-493f-b473-18d0031e8f0d",
+            "name": "scalp-display-bridge-v6"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0.00004193333333333333,
+              "average": 0.00007468144044321333,
+              "min": 0,
+              "max": 0.00009721666666666667,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.036278272,
+              "average": 0.03651001936842128,
+              "min": 0,
+              "max": 0.03667968,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "combined-dashboard-shadow-v11",
+        "id": "87801206-d705-43d6-8aa2-bfb1b11c1ff6",
+        "result": {
+          "service": {
+            "id": "87801206-d705-43d6-8aa2-bfb1b11c1ff6",
+            "name": "combined-dashboard-shadow-v11"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0.0000899,
+              "average": 0.00007971348107109881,
+              "min": 0,
+              "max": 0.00010345000000000001,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.041119744,
+              "average": 0.04157621540166181,
+              "min": 0,
+              "max": 0.042110976,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "final-forward-scorecard-v1",
+        "id": "fbe79688-25ed-4329-b0d6-c9b669559b17",
+        "result": {
+          "service": {
+            "id": "fbe79688-25ed-4329-b0d6-c9b669559b17",
+            "name": "final-forward-scorecard-v1"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0.00101775,
+              "average": 0.0018450915050784854,
+              "min": 0,
+              "max": 0.0026153833333333334,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.05640192,
+              "average": 0.056261436277008116,
+              "min": 0,
+              "max": 0.056918016,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "combined-forward-scorecard-v1",
+        "id": "e9399baa-25a8-4801-a374-ae6c5401060d",
+        "result": {
+          "service": {
+            "id": "e9399baa-25a8-4801-a374-ae6c5401060d",
+            "name": "combined-forward-scorecard-v1"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0.008584183333333332,
+              "average": 0.00880162710064635,
+              "min": 0,
+              "max": 0.0192787,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.045758464,
+              "average": 0.04573839246537396,
+              "min": 0,
+              "max": 0.047112192,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "combined-dashboard-shadow-v13",
+        "id": "b210d5f0-0616-4e39-9812-ce7b41b73d67",
+        "result": {
+          "service": {
+            "id": "b210d5f0-0616-4e39-9812-ce7b41b73d67",
+            "name": "combined-dashboard-shadow-v13"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0.00010396666666666667,
+              "average": 0.00009519593721144964,
+              "min": 0,
+              "max": 0.00014165,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.022368256,
+              "average": 0.022306294072022188,
+              "min": 0,
+              "max": 0.022368256,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "early-forward-scorecard-v1",
+        "id": "efb56ace-8c0e-4672-a772-6dd3b8633078",
+        "result": {
+          "service": {
+            "id": "efb56ace-8c0e-4672-a772-6dd3b8633078",
+            "name": "early-forward-scorecard-v1"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0.0013006415050784846,
+              "min": 0,
+              "max": 0.00263365,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.025612288,
+              "average": 0.026406395745152345,
+              "min": 0.025612288,
+              "max": 0.027308032,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "early-final-handoff-v1",
+        "id": "174bd89d-264b-4882-8d5a-b8dbacf97181",
+        "result": {
+          "service": {
+            "id": "174bd89d-264b-4882-8d5a-b8dbacf97181",
+            "name": "early-final-handoff-v1"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0.0012205333333333334,
+              "average": 0.0018791714219759917,
+              "min": 0.0008736833333333333,
+              "max": 0.0028126833333333334,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.050003968,
+              "average": 0.050036287822714756,
+              "min": 0.050003968,
+              "max": 0.0507904,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "early-excursion-forward-v1",
+        "id": "6b847381-fc63-4421-b7bd-e8111c844e2f",
+        "result": {
+          "service": {
+            "id": "6b847381-fc63-4421-b7bd-e8111c844e2f",
+            "name": "early-excursion-forward-v1"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0.002705152770083102,
+              "min": 0,
+              "max": 0.0037496,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.038674432,
+              "average": 0.038793425905816976,
+              "min": 0.038670336,
+              "max": 0.039747584,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "authoritative-scoreboard-v1",
+        "id": "6c0ec9d5-2187-4623-97ec-44c3304b8074",
+        "result": {
+          "service": {
+            "id": "6c0ec9d5-2187-4623-97ec-44c3304b8074",
+            "name": "authoritative-scoreboard-v1"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0.00003986666666666667,
+              "average": 0.0000840225761772853,
+              "min": 0.00003986666666666667,
+              "max": 0.00012773333333333334,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.024420352,
+              "average": 0.024420351999999933,
+              "min": 0.024420352,
+              "max": 0.024420352,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "combined-dashboard-shadow-v14",
+        "id": "c1db8b80-f656-4295-ade8-812c129f6c72",
+        "result": {
+          "service": {
+            "id": "c1db8b80-f656-4295-ade8-812c129f6c72",
+            "name": "combined-dashboard-shadow-v14"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0.00004273333333333333,
+              "average": 0.00007890281625115419,
+              "min": 0.00004021666666666667,
+              "max": 0.00010993333333333334,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.025645056,
+              "average": 0.02712232208310248,
+              "min": 0.025645056,
+              "max": 0.028110848,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "final-v4-review-tooling-v1",
+        "id": "56b8496c-8dea-409b-a236-9e139a9c2e96",
+        "result": {
+          "service": {
+            "id": "56b8496c-8dea-409b-a236-9e139a9c2e96",
+            "name": "final-v4-review-tooling-v1"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0.0000770062788550324,
+              "min": 0,
+              "max": 0.00012603333333333332,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.02420736,
+              "average": 0.024207360000000084,
+              "min": 0.02420736,
+              "max": 0.02420736,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "scalp-entry-profit-holdout-v1",
+        "id": "4a7f7942-7701-4441-8061-d1c6148d0e81",
+        "result": {
+          "service": {
+            "id": "4a7f7942-7701-4441-8061-d1c6148d0e81",
+            "name": "scalp-entry-profit-holdout-v1"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "scalp-reversal-reentry-holdout-v1",
+        "id": "a0f417fe-9bfe-4d80-bcd0-5647a582a1e7",
+        "result": {
+          "service": {
+            "id": "a0f417fe-9bfe-4d80-bcd0-5647a582a1e7",
+            "name": "scalp-reversal-reentry-holdout-v1"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "scalp-incremental-disk-v2",
+        "id": "f4d0996f-9dd1-47ba-a237-67353acd5bec",
+        "result": {
+          "service": {
+            "id": "f4d0996f-9dd1-47ba-a237-67353acd5bec",
+            "name": "scalp-incremental-disk-v2"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0.014137133333333333,
+              "average": 0.03891698139427516,
+              "min": 0,
+              "max": 0.08467060000000001,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.05033984,
+              "average": 0.086977884897507,
+              "min": 0,
+              "max": 0.9050112,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "scalp-finalprod-clean-v1",
+        "id": "b369287c-d8a1-4427-84de-25e39fe9fdf7",
+        "result": {
+          "service": {
+            "id": "b369287c-d8a1-4427-84de-25e39fe9fdf7",
+            "name": "scalp-finalprod-clean-v1"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0.04163135,
+              "average": 0.07376150743305632,
+              "min": 0.022064849999999997,
+              "max": 0.11242391666666667,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.890339328,
+              "average": 0.8110780404653742,
+              "min": 0.730599424,
+              "max": 0.890781696,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "scalp-developing-move-v1-forward",
+        "id": "fcfb3a93-f007-4061-9cb8-bdae28f72cc2",
+        "result": {
+          "service": {
+            "id": "fcfb3a93-f007-4061-9cb8-bdae28f72cc2",
+            "name": "scalp-developing-move-v1-forward"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0.008703766666666666,
+              "average": 0.016462660572483835,
+              "min": 0.0067043833333333335,
+              "max": 0.028409983333333333,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.252583936,
+              "average": 0.24458500396675847,
+              "min": 0.235638784,
+              "max": 0.310501376,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "rollover-alt-discovery-probe-v1",
+        "id": "5a3eda51-3074-42aa-9e46-06695d47a378",
+        "result": {
+          "service": {
+            "id": "5a3eda51-3074-42aa-9e46-06695d47a378",
+            "name": "rollover-alt-discovery-probe-v1"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0.01598695,
+              "average": 0.028394441228070163,
+              "min": 0.014480333333333335,
+              "max": 0.0389431,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.045641728,
+              "average": 0.045712761263157896,
+              "min": 0.045043712,
+              "max": 0.049270784,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "rollover-prediscovery-shadow-v1",
+        "id": "9a566a85-0b12-4ab7-9c95-cced457e3bf5",
+        "result": {
+          "service": {
+            "id": "9a566a85-0b12-4ab7-9c95-cced457e3bf5",
+            "name": "rollover-prediscovery-shadow-v1"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0.000723,
+              "average": 0.00131952756232687,
+              "min": 0.00042301666666666666,
+              "max": 0.0020441166666666667,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0.036339712,
+              "average": 0.036133805739612015,
+              "min": 0.036077568,
+              "max": 0.036339712,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "rollover-regression-v1",
+        "id": "331072c6-1ab4-47dc-a6b4-c3af053e4975",
+        "result": {
+          "service": {
+            "id": "331072c6-1ab4-47dc-a6b4-c3af053e4975",
+            "name": "rollover-regression-v1"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "rollover-core-integration-live-shadow",
+        "id": "ab491df9-2b75-43f2-92da-bc2a6db1cf6d",
+        "result": {
+          "service": {
+            "id": "ab491df9-2b75-43f2-92da-bc2a6db1cf6d",
+            "name": "rollover-core-integration-live-shadow"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "rollover-canary-predeploy-check",
+        "id": "fd54c023-b855-4ccb-90ca-4cbf772bdf4a",
+        "result": {
+          "service": {
+            "id": "fd54c023-b855-4ccb-90ca-4cbf772bdf4a",
+            "name": "rollover-canary-predeploy-check"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "service": "rollover-handoff-predeploy-check",
+        "id": "cf307d3c-064f-4675-a2d5-c61ec0429f62",
+        "result": {
+          "service": {
+            "id": "cf307d3c-064f-4675-a2d5-c61ec0429f62",
+            "name": "rollover-handoff-predeploy-check"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "metrics": [
+            {
+              "measurement": "CPU_USAGE",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            },
+            {
+              "measurement": "MEMORY_USAGE_GB",
+              "current": 0,
+              "average": 0,
+              "min": 0,
+              "max": 0,
+              "sampleCount": 361
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "summary": [
+    {
+      "service": "scalp-unarmed-live-tape-v1",
+      "id": "cc7ca702-ddbc-4f61-8205-873e34b7d740",
+      "cpu": 0.4793349703601112,
+      "gb": 5.4186365064155115,
+      "cpu_ram_monthly": 63.77306447135734
+    },
+    {
+      "service": "Btc-15min-bot",
+      "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+      "cpu": 0.9390789952908585,
+      "gb": 0.899012800886427,
+      "cpu_ram_monthly": 27.771707914681436
+    },
+    {
+      "service": "scalp-move-shadow-v1",
+      "id": "8b40a28c-1beb-4020-bdc2-e7e236fe3501",
+      "cpu": 0.12719056551246535,
+      "gb": 0.9885771679556784,
+      "cpu_ram_monthly": 12.429582989806091
+    },
+    {
+      "service": "scalp-finalprod-clean-v1",
+      "id": "b369287c-d8a1-4427-84de-25e39fe9fdf7",
+      "cpu": 0.07376150743305632,
+      "gb": 0.8110780404653742,
+      "cpu_ram_monthly": 9.586010553314868
+    },
+    {
+      "service": "scalp-developing-move-v1-forward",
+      "id": "fcfb3a93-f007-4061-9cb8-bdae28f72cc2",
+      "cpu": 0.016462660572483835,
+      "gb": 0.24458500396675847,
+      "cpu_ram_monthly": 2.7751032511172617
+    },
+    {
+      "service": "scalp-incremental-disk-v2",
+      "id": "f4d0996f-9dd1-47ba-a237-67353acd5bec",
+      "cpu": 0.03891698139427516,
+      "gb": 0.086977884897507,
+      "cpu_ram_monthly": 1.6481184768605732
+    },
+    {
+      "service": "v81-live-diagnostics",
+      "id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+      "cpu": 0.04959926149584489,
+      "gb": 0.06224827922437671,
+      "cpu_ram_monthly": 1.6144680221606649
+    },
+    {
+      "service": "scalp-coverage-audit-v1",
+      "id": "f020787f-00fb-4a46-a36c-710f18bbf31e",
+      "cpu": 0.0021899563711911376,
+      "gb": 0.1569136356343486,
+      "cpu_ram_monthly": 1.6129354837673087
+    },
+    {
+      "service": "v81-live-diag-shared-brti-shadow",
+      "id": "84f579fc-36d0-4170-8a28-6d26c01bb364",
+      "cpu": 0.031508434810710986,
+      "gb": 0.06176068503047084,
+      "cpu_ram_monthly": 1.2477755465189282
+    },
+    {
+      "service": "v81-30-45-live-feed-v2",
+      "id": "afd8f1f0-65f6-46f0-a79b-ef582f35293f",
+      "cpu": 0.027356458125577094,
+      "gb": 0.05352344181717451,
+      "cpu_ram_monthly": 1.082363580683287
+    },
+    {
+      "service": "brti-shared-feed-v1",
+      "id": "0fe5d048-873e-4c1c-a3d4-8e7216e44f3e",
+      "cpu": 0.03364018545706372,
+      "gb": 0.03561410162880894,
+      "cpu_ram_monthly": 1.0289447254293638
+    },
+    {
+      "service": "rollover-alt-discovery-probe-v1",
+      "id": "5a3eda51-3074-42aa-9e46-06695d47a378",
+      "cpu": 0.028394441228070163,
+      "gb": 0.045712761263157896,
+      "cpu_ram_monthly": 1.0250164371929822
+    },
+    {
+      "service": "combined-forward-scorecard-v1",
+      "id": "e9399baa-25a8-4801-a374-ae6c5401060d",
+      "cpu": 0.00880162710064635,
+      "gb": 0.04573839246537396,
+      "cpu_ram_monthly": 0.6334164666666666
+    },
+    {
+      "service": "final-forward-scorecard-v1",
+      "id": "fbe79688-25ed-4329-b0d6-c9b669559b17",
+      "cpu": 0.0018450915050784854,
+      "gb": 0.056261436277008116,
+      "cpu_ram_monthly": 0.5995161928716508
+    },
+    {
+      "service": "early-final-handoff-v1",
+      "id": "174bd89d-264b-4882-8d5a-b8dbacf97181",
+      "cpu": 0.0018791714219759917,
+      "gb": 0.050036287822714756,
+      "cpu_ram_monthly": 0.5379463066666673
+    },
+    {
+      "service": "early-excursion-forward-v1",
+      "id": "6b847381-fc63-4421-b7bd-e8111c844e2f",
+      "cpu": 0.002705152770083102,
+      "gb": 0.038793425905816976,
+      "cpu_ram_monthly": 0.4420373144598318
+    },
+    {
+      "service": "combined-dashboard-shadow-v11",
+      "id": "87801206-d705-43d6-8aa2-bfb1b11c1ff6",
+      "cpu": 0.00007971348107109881,
+      "gb": 0.04157621540166181,
+      "cpu_ram_monthly": 0.41735642363804004
+    },
+    {
+      "service": "rollover-prediscovery-shadow-v1",
+      "id": "9a566a85-0b12-4ab7-9c95-cced457e3bf5",
+      "cpu": 0.00131952756232687,
+      "gb": 0.036133805739612015,
+      "cpu_ram_monthly": 0.3877286086426575
+    },
+    {
+      "service": "scalp-display-bridge-v6",
+      "id": "90046a79-3f57-493f-b473-18d0031e8f0d",
+      "cpu": 0.00007468144044321333,
+      "gb": 0.03651001936842128,
+      "cpu_ram_monthly": 0.36659382249307704
+    },
+    {
+      "service": "combined-dashboard-shadow-v1",
+      "id": "142e0fe5-13ce-4cb7-a08b-d4a65539fb47",
+      "cpu": 0.00009564455216989846,
+      "gb": 0.03330398599445982,
+      "cpu_ram_monthly": 0.3349527509879962
+    },
+    {
+      "service": "early-forward-scorecard-v1",
+      "id": "efb56ace-8c0e-4672-a772-6dd3b8633078",
+      "cpu": 0.0013006415050784846,
+      "gb": 0.026406395745152345,
+      "cpu_ram_monthly": 0.29007678755309313
+    },
+    {
+      "service": "combined-dashboard-shadow-v14",
+      "id": "c1db8b80-f656-4295-ade8-812c129f6c72",
+      "cpu": 0.00007890281625115419,
+      "gb": 0.02712232208310248,
+      "cpu_ram_monthly": 0.27280127715604785
+    },
+    {
+      "service": "authoritative-scoreboard-v1",
+      "id": "6c0ec9d5-2187-4623-97ec-44c3304b8074",
+      "cpu": 0.0000840225761772853,
+      "gb": 0.024420351999999933,
+      "cpu_ram_monthly": 0.24588397152354505
+    },
+    {
+      "service": "final-v4-review-tooling-v1",
+      "id": "56b8496c-8dea-409b-a236-9e139a9c2e96",
+      "cpu": 0.0000770062788550324,
+      "gb": 0.024207360000000084,
+      "cpu_ram_monthly": 0.24361372557710148
+    },
+    {
+      "service": "combined-dashboard-shadow-v13",
+      "id": "b210d5f0-0616-4e39-9812-ce7b41b73d67",
+      "cpu": 0.00009519593721144964,
+      "gb": 0.022306294072022188,
+      "cpu_ram_monthly": 0.22496685946445086
+    },
+    {
+      "service": "v81-final-isolated-test",
+      "id": "10045980-cdd0-485a-a827-b50a3f0b4943",
+      "cpu": 0,
+      "gb": 0.008708095999999993,
+      "cpu_ram_monthly": 0.08708095999999993
+    },
+    {
+      "service": "scalp-v81-sub30-shadow",
+      "id": "2e63484b-e726-41fc-980a-a117b5efdcfd",
+      "cpu": 0,
+      "gb": 0.004354047999999997,
+      "cpu_ram_monthly": 0.043540479999999965
+    },
+    {
+      "service": "scalp-lead-v6-main",
+      "id": "568716be-9c96-446e-aecb-0fcd16158b8e",
+      "cpu": 0,
+      "gb": 0.0043417599999999775,
+      "cpu_ram_monthly": 0.04341759999999978
+    },
+    {
+      "service": "scalp-lead-shadow",
+      "id": "90d3435e-c98c-43ae-880f-cd629b9606e2",
+      "cpu": 0,
+      "gb": 0,
+      "cpu_ram_monthly": 0
+    },
+    {
+      "service": "scalp-lead-qualified",
+      "id": "f6e62c87-ac2a-4340-8be2-72932ad4c486",
+      "cpu": 0,
+      "gb": 0,
+      "cpu_ram_monthly": 0
+    },
+    {
+      "service": "scalp-lead-v4",
+      "id": "ca605c00-4608-4b32-b0bb-d1ca9c6b42a5",
+      "cpu": 0,
+      "gb": 0,
+      "cpu_ram_monthly": 0
+    },
+    {
+      "service": "scalp-lead-v5-live",
+      "id": "7e643823-456a-414b-a369-0ee40462223f",
+      "cpu": 0,
+      "gb": 0,
+      "cpu_ram_monthly": 0
+    },
+    {
+      "service": "scalp-lead-v5-main",
+      "id": "2b0060ac-e0d1-49a2-a2f6-b577fd9ac478",
+      "cpu": 0,
+      "gb": 0,
+      "cpu_ram_monthly": 0
+    },
+    {
+      "service": "scalp-lead-v6",
+      "id": "ea6e520b-fa94-49bb-abf9-094817ae3d6b",
+      "cpu": 0,
+      "gb": 0,
+      "cpu_ram_monthly": 0
+    },
+    {
+      "service": "scalp-v81-sub30-shadow-v2",
+      "id": "b883a5e1-7cef-4d3d-b3f6-cffccde53053",
+      "cpu": 0,
+      "gb": 0,
+      "cpu_ram_monthly": 0
+    },
+    {
+      "service": "v81-immutable-test",
+      "id": "0bda3f3d-90b7-4934-8636-d16a45a3dc32",
+      "cpu": 0,
+      "gb": 0,
+      "cpu_ram_monthly": 0
+    },
+    {
+      "service": "v81-30-45-dashboard-validation-v3",
+      "id": "43e53181-102a-4759-a7cd-70875c605cf0",
+      "cpu": 0,
+      "gb": 0,
+      "cpu_ram_monthly": 0
+    },
+    {
+      "service": "scalp-entry-profit-holdout-v1",
+      "id": "4a7f7942-7701-4441-8061-d1c6148d0e81",
+      "cpu": 0,
+      "gb": 0,
+      "cpu_ram_monthly": 0
+    },
+    {
+      "service": "scalp-reversal-reentry-holdout-v1",
+      "id": "a0f417fe-9bfe-4d80-bcd0-5647a582a1e7",
+      "cpu": 0,
+      "gb": 0,
+      "cpu_ram_monthly": 0
+    },
+    {
+      "service": "rollover-regression-v1",
+      "id": "331072c6-1ab4-47dc-a6b4-c3af053e4975",
+      "cpu": 0,
+      "gb": 0,
+      "cpu_ram_monthly": 0
+    },
+    {
+      "service": "rollover-core-integration-live-shadow",
+      "id": "ab491df9-2b75-43f2-92da-bc2a6db1cf6d",
+      "cpu": 0,
+      "gb": 0,
+      "cpu_ram_monthly": 0
+    },
+    {
+      "service": "rollover-canary-predeploy-check",
+      "id": "fd54c023-b855-4ccb-90ca-4cbf772bdf4a",
+      "cpu": 0,
+      "gb": 0,
+      "cpu_ram_monthly": 0
+    },
+    {
+      "service": "rollover-handoff-predeploy-check",
+      "id": "cf307d3c-064f-4675-a2d5-c61ec0429f62",
+      "cpu": 0,
+      "gb": 0,
+      "cpu_ram_monthly": 0
+    }
+  ]
+}

@@ -1,0 +1,522 @@
+{
+  "read_at": "2026-09-25T02:40:22.750Z",
+  "direct_main": {
+    "deployments": [
+      {
+        "id": "f82466d0-70ab-4779-a0fd-58832ad31513",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-24T19:51:42.581Z",
+        "updatedAt": "2026-09-24T19:53:51.576Z",
+        "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "url": null,
+        "snapshotId": "3819e9e0-5282-47f1-8b2b-4a52eb30a2a6",
+        "canRollback": true,
+        "canRedeploy": true,
+        "regions": [
+          "iad"
+        ],
+        "meta": {
+          "reason": "deploy",
+          "commitMessage": "Merge PR36: preserve BTC history and causal shared BRTI delivery\n\nEric-approved controlled rollout of e02f737. Exact candidate tree 586f8cfd635d6ed817c63202cdec0b8bcc454e0c passed hosted CI 36047874781 (238 tests) and 44 focused checks. No strategy weights/thresholds or freshness limits changed. Rollback:1730ceff180394fbd2ebae7a5fddc4acd1e76194 / Railway454f53ad-b269-4133-b0f5-60098978db71. Corrected runtime starts a new prospective cohort; no historical or pre-deployment pooling. SIGNAL ONLY / NO ORDERS.",
+          "commitHash": "3e552065e34a0a402bc3ca4598b57dff1f1c6e77",
+          "branch": "main"
+        }
+      }
+    ]
+  },
+  "direct_v81": {
+    "deployments": [
+      {
+        "id": "4105da0a-e5a2-4a76-8abc-242b0bab5ad8",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-23T23:24:18.046Z",
+        "updatedAt": "2026-09-23T23:25:42.756Z",
+        "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "url": null,
+        "snapshotId": "a880a6ac-188d-4f0d-9a46-3a88275e720a",
+        "canRollback": true,
+        "canRedeploy": true,
+        "regions": [
+          "iad"
+        ],
+        "meta": {
+          "reason": "deploy",
+          "commitMessage": "Require timestamped contiguous quotes for V8.1 source qualification\n\nPreserve strategy gates and source clocks. Fail closed on quote/BRTI gaps; keep immutable entry provenance. SIGNAL ONLY / NO ORDERS.",
+          "commitHash": "b05723ec622f901a05402ecf27f4d33505753ef1",
+          "branch": "v81-live-diagnostics-20260912"
+        }
+      }
+    ]
+  },
+  "final_config": {
+    "service": {
+      "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+      "name": "Btc-15min-bot"
+    },
+    "environment": {
+      "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+      "name": "production"
+    },
+    "config": {
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "main",
+        "checkSuites": false
+      },
+      "networking": {
+        "serviceDomains": {
+          "btc-15min-bot-production.up.railway.app": {
+            "port": 8080
+          }
+        },
+        "privateNetworkEndpoint": "btc-15min-bot"
+      },
+      "build": {
+        "builder": "RAILPACK",
+        "buildEnvironment": "V3"
+      },
+      "deploy": {
+        "startCommand": "/bin/sh -c 'sleep 3; echo \"BTC15 VOLUME INVENTORY BEGIN\" >&2; du -ah /data 2>/dev/null | sort -hr | head -40 >&2; echo \"BTC15 VOLUME INVENTORY END\" >&2; sleep 1; python btc15_preserve_evidence_v1.py --root /data --label pre-source-v2-20260923 && exec python -u BTC15_DASHBOARD_INLINE_SCALP_DIAG_V2.py'",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 120,
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "volumeMounts": {
+        "6ced6b1a-3755-4518-a240-c895e936d443": {
+          "mountPath": "/data"
+        }
+      }
+    },
+    "variableNames": [
+      "BTC15_BRTI_GATEWAY_URL",
+      "BTC15_BRTI_SHARED_URL",
+      "BTC15_BRTI_TRANSPORT",
+      "BTC15_DASH_V13_Z1",
+      "BTC15_DASH_V13_Z2",
+      "BTC15_DASH_V13_Z3",
+      "BTC15_DASH_V13_Z4",
+      "BTC15_DASH_V13_Z5",
+      "BTC15_INLINE_SCALP_V1",
+      "BTC15_KALSHI_QUOTE_PROVENANCE_CANARY",
+      "BTC15_USE_SHARED_BRTI",
+      "BTC15_VOLUME_DIAG",
+      "KALSHI_KEY_ID",
+      "KALSHI_PRIVATE_KEY_B64",
+      "PORT",
+      "PYTHONUNBUFFERED"
+    ],
+    "staged": null
+  },
+  "observations": {
+    "production_config_unchanged": true,
+    "export_flag_absent": true,
+    "mutations_performed": false,
+    "rollback_metadata_available": true,
+    "actual_rollback_invocation_not_tested": true,
+    "no_overlap_deployment_operation_not_established": true
+  },
+  "agent_tool_evidence": [
+    {
+      "toolName": "getDeploymentInfoTool",
+      "args": {
+        "deploymentId": "f82466d0-70ab-4779-a0fd-58832ad31513"
+      },
+      "result": {
+        "deploymentId": "f82466d0-70ab-4779-a0fd-58832ad31513",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-24T19:51:42.581Z",
+        "failureStage": null,
+        "failureError": null,
+        "failedReason": null,
+        "configErrors": null,
+        "builder": "RAILPACK",
+        "railpackInfo": {
+          "railpackVersion": "0.40.0",
+          "detectedProviders": [
+            "python"
+          ],
+          "resolvedPackages": {
+            "python": {
+              "requestedVersion": "3.12.14",
+              "resolvedVersion": "3.12.14"
+            }
+          },
+          "metadata": {
+            "providers": "python",
+            "pythonRuntime": "python",
+            "pythonPackageManager": "pip"
+          }
+        },
+        "configFile": null,
+        "propertyFileMapping": {
+          "deploy.restartPolicyType": "$.deploy.restartPolicyType",
+          "deploy.restartPolicyMaxRetries": "$.deploy.restartPolicyMaxRetries"
+        },
+        "fileServiceManifest": {},
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "main",
+        "commitHash": "3e552065e34a0a402bc3ca4598b57dff1f1c6e77",
+        "commitMessage": "Merge PR36: preserve BTC history and causal shared BRTI delivery\n\nEric-approved controlled rollout of e02f737. Exact candidate tree 586f8cfd635d6ed817c63202cdec0b8bcc454e0c passed hosted CI 36047874781 (238 tests) and 44 focused checks. No strategy weights/thresholds or freshness limits changed. Rollback:1730ceff180394fbd2ebae7a5fddc4acd1e76194 / Railway454f53ad-b269-4133-b0f5-60098978db71. Corrected runtime starts a new prospective cohort; no historical or pre-deployment pooling. SIGNAL ONLY / NO ORDERS.",
+        "commitAuthor": "yz272n2tpf-lab",
+        "rootDirectory": null,
+        "prNumber": null,
+        "prTitle": null,
+        "prUrl": null,
+        "sourceImage": null,
+        "imageType": "RAILPACK",
+        "dockerfilePath": null,
+        "startCommand": "/bin/sh -c 'sleep 3; echo \"BTC15 VOLUME INVENTORY BEGIN\" >&2; du -ah /data 2>/dev/null | sort -hr | head -40 >&2; echo \"BTC15 VOLUME INVENTORY END\" >&2; sleep 1; python btc15_preserve_evidence_v1.py --root /data --label pre-source-v2-20260923 && exec python -u BTC15_DASHBOARD_INLINE_SCALP_DIAG_V2.py'",
+        "healthcheckPath": "/health",
+        "cronSchedule": null,
+        "events": [
+          {
+            "step": "SNAPSHOT_CODE",
+            "status": "completed",
+            "error": null,
+            "createdAt": "2026-09-24T19:51:43.777Z",
+            "completedAt": "2026-09-24T19:53:19.586Z"
+          },
+          {
+            "step": "BUILD_IMAGE",
+            "status": "completed",
+            "error": null,
+            "createdAt": "2026-09-24T19:51:45.771Z",
+            "completedAt": "2026-09-24T19:53:19.592Z"
+          },
+          {
+            "step": "PUBLISH_IMAGE",
+            "status": "completed",
+            "error": null,
+            "createdAt": "2026-09-24T19:53:19.596Z",
+            "completedAt": "2026-09-24T19:53:19.468Z"
+          },
+          {
+            "step": "CREATE_CONTAINER",
+            "status": "completed",
+            "error": null,
+            "createdAt": "2026-09-24T19:53:27.443Z",
+            "completedAt": "2026-09-24T19:53:41.485Z"
+          },
+          {
+            "step": "HEALTHCHECK",
+            "status": "completed",
+            "error": null,
+            "createdAt": "2026-09-24T19:53:42.740Z",
+            "completedAt": "2026-09-24T19:53:47.766Z"
+          },
+          {
+            "step": "CONFIGURE_NETWORK",
+            "status": "completed",
+            "error": null,
+            "createdAt": "2026-09-24T19:53:48.028Z",
+            "completedAt": "2026-09-24T19:53:51.553Z"
+          }
+        ]
+      },
+      "isError": false
+    },
+    {
+      "toolName": "listDeploymentsTool",
+      "args": {
+        "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "limit": 20
+      },
+      "result": {
+        "deployments": [
+          {
+            "deploymentId": "f82466d0-70ab-4779-a0fd-58832ad31513",
+            "status": "SUCCESS",
+            "createdAt": "2026-09-24T19:51:42.581Z",
+            "commitHash": "3e552065e34a0a402bc3ca4598b57dff1f1c6e77",
+            "commitMessage": "Merge PR36: preserve BTC history and causal shared BRTI delivery\n\nEric-approved controlled rollout of e02f737. Exact candidate tree 586f8cfd635d6ed817c63202cdec0b8bcc454e0c passed hosted CI 36047874781 (238 tests) and 44 focused checks. No strategy weights/thresholds or freshness limits changed. Rollback:1730ceff180394fbd2ebae7a5fddc4acd1e76194 / Railway454f53ad-b269-4133-b0f5-60098978db71. Corrected runtime starts a new prospective cohort; no historical or pre-deployment pooling. SIGNAL ONLY / NO ORDERS.",
+            "branch": "main",
+            "diagnosis": null
+          },
+          {
+            "deploymentId": "454f53ad-b269-4133-b0f5-60098978db71",
+            "status": "REMOVED",
+            "createdAt": "2026-09-24T12:53:16.910Z",
+            "commitHash": "1730ceff180394fbd2ebae7a5fddc4acd1e76194",
+            "commitMessage": "Align BTC fair-model cutoff with received inputs; preserve causal replay journal\n\nFix live fair cutoff excluding the BTC tick used by entry gates",
+            "branch": "main",
+            "diagnosis": null
+          },
+          {
+            "deploymentId": "0b2ef3ff-1499-432a-ac70-52b997bb2e26",
+            "status": "REMOVED",
+            "createdAt": "2026-09-24T00:02:17.048Z",
+            "commitHash": "d54321927626529612b7309576d7dc90b84fe224",
+            "commitMessage": "Coordinate V8.1 provenance, accounting, and frozen-model integrity\n\nApproved production integrity rollout. Hosted 201/201 regressions PASS; artifact preservation and exit/accounting checks PASS. Frozen model artifact and weights verified exactly. SIGNAL ONLY / NO ORDERS.",
+            "branch": "main",
+            "diagnosis": null
+          },
+          {
+            "deploymentId": "5eb83c64-9329-4cf2-bb7b-6a5b42b222bf",
+            "status": "REMOVED",
+            "createdAt": "2026-09-23T12:54:29.839Z",
+            "commitHash": "c4824682bbb4ec1335bb65863aead52b72ae576c",
+            "commitMessage": "Require fresh V8.1 publication time before displaying a signal\n\nApproved infrastructure/data-integrity continuation.196/196 local regressions and hosted35862942368 PASS; actual inline script validates seven publication safety cases. V8.1 metadata correction deployed SUCCESS atb3951fb. Shared owner healthy with true source time and zero new429. Preserve3.5s publication limit,5s BRTI limit, all strategies/weights, fixed target, staged rollover and NO ORDERS.",
+            "branch": "main",
+            "diagnosis": null
+          },
+          {
+            "deploymentId": "dd140dca-2abc-4a86-8edd-eb84eb3d0804",
+            "status": "REMOVED",
+            "createdAt": "2026-09-23T12:25:06.345Z",
+            "commitHash": "26e9d09d4b82290dd930a73b686d573d88f3a03f",
+            "commitMessage": "Preserve Rescue V2 rules while streaming retained history\n\nApproved infrastructure/data-integrity continuation. Hosted CI 35859253575 SUCCESS; local 195/195. Source owner recovered with schema2, PRIMARY_OK, source age0.739s and17/17 upstream success after explicit-launch config deployment. No strategy thresholds, target, timing or NO ORDERS behavior changed; original retained data and rollback points preserved.",
+            "branch": "main",
+            "diagnosis": null
+          },
+          {
+            "deploymentId": "af1c398c-8e6d-4b5d-9339-a1e3b214707b",
+            "status": "REMOVED",
+            "createdAt": "2026-09-23T12:10:27.246Z",
+            "commitHash": "e09f295701266383209cad05370faa6c7294dcf1",
+            "commitMessage": "Restore main startup with measured compressed evidence sizing\n\nApproved infrastructure correction.193/193 local regressions and hosted run35858210008 PASS. Preserve originals, SHA256 prefix verification, ZIP validation and disk reserve. No strategy, freshness, target, clock, settlement or order behavior changes. SIGNAL ONLY / NO ORDERS.",
+            "branch": "main",
+            "diagnosis": null
+          },
+          {
+            "deploymentId": "fc6fcd54-851c-44c8-9882-293e057ca0e9",
+            "status": "REMOVED",
+            "createdAt": "2026-09-23T12:05:49.829Z",
+            "commitHash": "e09f295701266383209cad05370faa6c7294dcf1",
+            "commitMessage": "Restore main startup with measured compressed evidence sizing\n\nApproved infrastructure correction.193/193 local regressions and hosted run35858210008 PASS. Preserve originals, SHA256 prefix verification, ZIP validation and disk reserve. No strategy, freshness, target, clock, settlement or order behavior changes. SIGNAL ONLY / NO ORDERS.",
+            "branch": "main",
+            "diagnosis": null
+          },
+          {
+            "deploymentId": "55147fe6-0120-4b92-877f-f9db85c4842e",
+            "status": "FAILED",
+            "createdAt": "2026-09-23T03:47:32.735Z",
+            "commitHash": "03055fe21e9df9ea7c0da9e6ed5d354e8fe26e8c",
+            "commitMessage": "Release coordinated BTC15 source-integrity and recovery candidate\n\nEric-approved owner-first rollout. Owner v2 true timestamps/history,503 fail-closed and fresh recovery verified; duplicate useful consumers migrated; obsolete isolated execution parked. 192 regression tests pass locally and hosted. Startup preserves existing volume datasets before collection. No strategy thresholds, target/timing/settlement semantics or signal-only behavior changed. Corrected live rollover and performance acceptance still required.",
+            "branch": "main",
+            "diagnosis": {
+              "status": "completed",
+              "category": "deploy_error",
+              "summary": "This issue is already fixed in a later commit on the main branch, so redeploying should resolve it. The start command ran a data preservation script before launching the app, and that script failed with an incorrect disk space check, which meant the actual application server never started to respond to healthchecks.",
+              "suggestedFixes": []
+            }
+          },
+          {
+            "deploymentId": "d770038d-5716-46af-8f85-926cb8d63e82",
+            "status": "REMOVED",
+            "createdAt": "2026-09-23T00:21:53.609Z",
+            "commitHash": "662873c41fde364a994b6a22dc0bb18f21d43fdc",
+            "commitMessage": "Merge BTC15 staged handoff snapshot ordering fix\n\nMinimal ordering correction: retain eligible opening candidate before observe advances staging. Regression-tested. Signal-only. NO ORDERS.",
+            "branch": "main",
+            "diagnosis": null
+          },
+          {
+            "deploymentId": "84cb81bc-c4b9-476b-b83d-c7a9af90871f",
+            "status": "REMOVED",
+            "createdAt": "2026-09-23T00:00:16.655Z",
+            "commitHash": "662873c41fde364a994b6a22dc0bb18f21d43fdc",
+            "commitMessage": "Merge BTC15 staged handoff snapshot ordering fix\n\nMinimal ordering correction: retain eligible opening candidate before observe advances staging. Regression-tested. Signal-only. NO ORDERS.",
+            "branch": "main",
+            "diagnosis": null
+          },
+          {
+            "deploymentId": "3424034c-e4e7-47ed-bb3d-122ae5ce6970",
+            "status": "REMOVED",
+            "createdAt": "2026-09-22T22:45:44.047Z",
+            "commitHash": "662873c41fde364a994b6a22dc0bb18f21d43fdc",
+            "commitMessage": "Merge BTC15 staged handoff snapshot ordering fix\n\nMinimal ordering correction: retain eligible opening candidate before observe advances staging. Regression-tested. Signal-only. NO ORDERS.",
+            "branch": "main",
+            "diagnosis": null
+          },
+          {
+            "deploymentId": "2c571011-dec6-4171-a104-f1d6114a9931",
+            "status": "REMOVED",
+            "createdAt": "2026-09-22T22:06:13.281Z",
+            "commitHash": "b9e8fbd56988c7b86859e4d942862399186fb90e",
+            "commitMessage": "Merge concise rollover handoff proof logging V1\n\nLogging-only live proof marker. No behavior change. NO ORDERS.",
+            "branch": "main",
+            "diagnosis": null
+          },
+          {
+            "deploymentId": "2df2e894-db3c-412a-a42f-f6785dee1255",
+            "status": "REMOVED",
+            "createdAt": "2026-09-22T21:43:37.267Z",
+            "commitHash": "b469663bbee8c8d479e3c3ee73518a943fa34bed",
+            "commitMessage": "Merge BTC15 staged rollover handoff V1\n\nTested production rollover repair. Official-boundary gated exact-ticker handoff. Signal-only. NO ORDERS.",
+            "branch": "main",
+            "diagnosis": null
+          },
+          {
+            "deploymentId": "72639ef8-8c6b-4d11-8ddc-10401a041076",
+            "status": "REMOVED",
+            "createdAt": "2026-09-22T20:51:56.523Z",
+            "commitHash": "c61163e0f7ea062d9048383b291ca7e84731c818",
+            "commitMessage": "Merge rollover duration predicate correction V1\n\nObserve-only canary correction. Production selection unchanged. NO ORDERS.",
+            "branch": "main",
+            "diagnosis": null
+          },
+          {
+            "deploymentId": "303c160b-a222-4758-a45a-9af18aca43a4",
+            "status": "REMOVED",
+            "createdAt": "2026-09-22T20:44:37.899Z",
+            "commitHash": "a865af1a9a2f0cf376ddb300d677260dfbde7df8",
+            "commitMessage": "Merge rollover canary selector correction V1\n\nObserve-only nearest-future selector correction. Production selection unchanged. NO ORDERS.",
+            "branch": "main",
+            "diagnosis": null
+          },
+          {
+            "deploymentId": "35213579-a5d6-46cf-83a3-eeaf858c5082",
+            "status": "REMOVED",
+            "createdAt": "2026-09-22T20:38:33.276Z",
+            "commitHash": "09c6c7511b3fb63666f633f203b99eb481113d46",
+            "commitMessage": "Merge rollover UNOPENED response diagnostic V1\n\nRead-only response metadata instrumentation. No behavior change. NO ORDERS.",
+            "branch": "main",
+            "diagnosis": null
+          },
+          {
+            "deploymentId": "b5c0be80-0473-4c2e-a4be-304493abde9f",
+            "status": "REMOVED",
+            "createdAt": "2026-09-22T20:10:46.206Z",
+            "commitHash": "a293459ba76bf907f89730c6d26c571f8251087a",
+            "commitMessage": "Merge BTC15 runtime identity diagnostic V1\n\nOne-line read-only runtime identity marker. OBSERVE ONLY. NO ORDERS.",
+            "branch": "main",
+            "diagnosis": null
+          },
+          {
+            "deploymentId": "ca11a998-c6e4-4bd4-a2df-b65948593fb6",
+            "status": "REMOVED",
+            "createdAt": "2026-09-22T19:47:00.360Z",
+            "commitHash": "abc96660636c0d07dd11b862eeb9dffd54c41f0f",
+            "commitMessage": "Merge observe-only BTC15 rollover canary V1\n\nBehavior-neutral production instrumentation only. Existing active-market selection remains authoritative. OBSERVE ONLY. NO ORDERS.",
+            "branch": "main",
+            "diagnosis": null
+          },
+          {
+            "deploymentId": "eecf7b77-fc55-45ab-9299-64bc88f28f29",
+            "status": "REMOVED",
+            "createdAt": "2026-09-21T18:29:25.266Z",
+            "commitHash": "50021bd3209edad4cc243a1b4f37d62fd783646d",
+            "commitMessage": "Merge pull request #6 from yz272n2tpf-lab/fix/rollover-discovery-v1-20260921\n\nRepair BTC15 rollover discovery cache delay",
+            "branch": "main",
+            "diagnosis": null
+          },
+          {
+            "deploymentId": "1296cde5-a35a-4b53-b687-360010787933",
+            "status": "REMOVED",
+            "createdAt": "2026-09-21T17:55:32.162Z",
+            "commitHash": "f6e2114a8962ccd591248edf1e29485679e0494b",
+            "commitMessage": "Merge pull request #5 from yz272n2tpf-lab/diag/rollover-instrumentation-v1-20260921\n\nWire BTC15 rollover discovery diagnostics to runtime path",
+            "branch": "main",
+            "diagnosis": null
+          }
+        ],
+        "hasMore": true
+      },
+      "isError": false
+    },
+    {
+      "toolName": "getServiceConfigTool",
+      "args": {
+        "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635"
+      },
+      "result": {
+        "serviceName": "Btc-15min-bot",
+        "config": {
+          "source": {
+            "repo": "yz272n2tpf-lab/Btc-15min-bot",
+            "branch": "main"
+          },
+          "networking": {
+            "serviceDomains": {
+              "btc-15min-bot-production.up.railway.app": {
+                "port": 8080
+              }
+            }
+          },
+          "variables": {
+            "BTC15_USE_SHARED_BRTI": {
+              "value": "<hidden_from_agent>"
+            },
+            "BTC15_KALSHI_QUOTE_PROVENANCE_CANARY": {
+              "value": "<hidden_from_agent>"
+            },
+            "KALSHI_PRIVATE_KEY_B64": {
+              "value": "<hidden_from_agent>"
+            },
+            "KALSHI_KEY_ID": {
+              "value": "<hidden_from_agent>"
+            },
+            "BTC15_INLINE_SCALP_V1": {
+              "value": "<hidden_from_agent>"
+            },
+            "BTC15_DASH_V13_Z2": {
+              "value": "<hidden_from_agent>"
+            },
+            "BTC15_DASH_V13_Z4": {
+              "value": "<hidden_from_agent>"
+            },
+            "BTC15_DASH_V13_Z5": {
+              "value": "<hidden_from_agent>"
+            },
+            "BTC15_DASH_V13_Z1": {
+              "value": "<hidden_from_agent>"
+            },
+            "BTC15_DASH_V13_Z3": {
+              "value": "<hidden_from_agent>"
+            },
+            "PORT": {
+              "value": "<hidden_from_agent>"
+            },
+            "PYTHONUNBUFFERED": {
+              "value": "<hidden_from_agent>"
+            },
+            "BTC15_BRTI_GATEWAY_URL": {
+              "value": "<hidden_from_agent>"
+            },
+            "BTC15_VOLUME_DIAG": {
+              "value": "<hidden_from_agent>"
+            },
+            "BTC15_BRTI_SHARED_URL": {
+              "value": "<hidden_from_agent>"
+            },
+            "BTC15_BRTI_TRANSPORT": {
+              "value": "<hidden_from_agent>"
+            }
+          },
+          "volumeMounts": {
+            "6ced6b1a-3755-4518-a240-c895e936d443": {
+              "mountPath": "/data"
+            }
+          },
+          "deploy": {
+            "startCommand": "/bin/sh -c 'sleep 3; echo \"BTC15 VOLUME INVENTORY BEGIN\" >&2; du -ah /data 2>/dev/null | sort -hr | head -40 >&2; echo \"BTC15 VOLUME INVENTORY END\" >&2; sleep 1; python btc15_preserve_evidence_v1.py --root /data --label pre-source-v2-20260923 && exec python -u BTC15_DASHBOARD_INLINE_SCALP_DIAG_V2.py'",
+            "healthcheckPath": "/health",
+            "healthcheckTimeout": 120,
+            "ipv6EgressEnabled": false,
+            "multiRegionConfig": {
+              "iad": {
+                "numReplicas": 1
+              }
+            }
+          },
+          "build": {}
+        }
+      },
+      "isError": false
+    }
+  ],
+  "agent_narrative_rejected": [
+    "Agent discussed pre-PR36 454f53ad rather than the designated PR36 rollback f82466d0.",
+    "REMOVED does not imply expired image: direct Railway canRollback/canRedeploy fields and documented retention supersede that assertion.",
+    "No-overlap, drainingSeconds defaults and mutation tool signatures were not verified by returned read operations; do not execute based on those claims.",
+    "Agent statement that cost approval relates to token budget is unsupported. The governing cost constraint is the user's project operating-cost objective."
+  ]
+}

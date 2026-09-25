@@ -1,0 +1,47 @@
+{
+  "schema": "BTC15_TWO_CLOCK_LIVE_PREFLIGHT_GATE_V1",
+  "result": "BLOCKED_COST_PREFLIGHT",
+  "deployed": false,
+  "candidate_live_acceptance": "NOT_RUN",
+  "production_mutations": [],
+  "candidate_commit": "06261dbfbe6d8336a6886a4f2b349f33b06b6202",
+  "candidate_tree": "196707359f1ce25786bacbf419f409b3564a51c5",
+  "prior_evidence_commit": "ca03e4cd85037116a866d2b9108df0ad2365e738",
+  "production_and_rollback_commit": "3e552065e34a0a402bc3ca4598b57dff1f1c6e77",
+  "production_and_rollback_deployment": "f82466d0-70ab-4779-a0fd-58832ad31513",
+  "rollback_metadata": {
+    "canRollback": true,
+    "canRedeploy": true,
+    "invocation_tested": false
+  },
+  "hosted_identity_verified": true,
+  "hosted_regression_counts_reused": {
+    "root": 357,
+    "audit": 29,
+    "chromium": 9,
+    "static_gates": 3,
+    "topology_scenarios": 5
+  },
+  "service_metric_count": 43,
+  "resource_window_hours": 6,
+  "sample_interval_seconds": 60,
+  "cpu_cores_sum_of_service_means": 1.8658707969990767,
+  "ram_gb_sum_of_service_means": 9.34486050606094,
+  "existing_monthly_cpu_ram_run_rate_usd": 130.76602100059094,
+  "resource_run_rate_not_invoice": true,
+  "monthly_objective_usd": 20,
+  "actual_plan_tier": "PRO",
+  "actual_invoice_credits_projection_verified": false,
+  "candidate_incremental_live_usage_not_measured": true,
+  "safe_info_only_optimization_cannot_bridge_existing_baseline_gap": true,
+  "no_overlap_deployment_mechanism_verified": false,
+  "candidate_modified": false,
+  "orders": false,
+  "signal_only": true,
+  "evidence_sha256": {
+    "completion_audit/TWO_CLOCK_LIVE_GATE_REPORT_20260925.md": "e37cc4382c7adc7644271c76aa626e8d308f33d43e0f3f4fb99056bcaf920e2d",
+    "completion_audit/TWO_CLOCK_LIVE_PREFLIGHT_20260925.json": "ac6fc0b295b91b9bc061ed9bb0462ae39335c44499f2b1210c61fb7422561e09",
+    "completion_audit/TWO_CLOCK_LIVE_PRODUCTION_UNCHANGED_20260925.json": "406111fa667132ab49612c9495587a40b024fa11640caf9fb82a8317842f34ee",
+    "completion_audit/TWO_CLOCK_LIVE_RESOURCE_PREFLIGHT_20260925.json": "531ce2fbc3c90068c0aefa4c493f5e9f45c92547f16aafff963c00062167d8f5"
+  }
+}
