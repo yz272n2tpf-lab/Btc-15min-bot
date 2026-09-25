@@ -1,0 +1,55 @@
+name: BTC15 offpath quote proof candidate
+on:
+  push:
+    branches:
+      - audit/offpath-quote-proof-candidate-20260925
+  pull_request:
+    paths:
+      - 'btc15_quote_proof_offpath_v1.py'
+      - 'btc15_kalshi_quote_provenance_offpath_candidate.py'
+      - 'test_btc15_quote_proof_offpath_v1.py'
+      - 'test_btc15_kalshi_quote_provenance_offpath_candidate.py'
+jobs:
+  focused:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Two-clock model dependencies
+        run: pip install -q numpy pandas joblib scikit-learn
+      - name: Syntax
+        run: python -m py_compile btc15_quote_proof_offpath_v1.py btc15_kalshi_quote_provenance_offpath_candidate.py test_btc15_quote_proof_offpath_v1.py test_btc15_kalshi_quote_provenance_offpath_candidate.py
+      - name: Focused helper tests
+        run: python -m unittest -v test_btc15_quote_proof_offpath_v1.py
+      - name: Focused integration tests
+        run: python -m unittest -v test_btc15_kalshi_quote_provenance_offpath_candidate.py
+      - name: Existing quote provenance regressions
+        run: python -m unittest -v test_btc15_kalshi_quote_provenance_regressions.py
+      - name: Qualified two-clock original suites
+        run: python -m unittest -v test_btc15_information_v1.py test_btc15_information_static.py test_btc15_information_integration.py
+      - name: Combined two-clock off-path seam
+        run: python -m unittest -v test_btc15_two_clock_offpath_seam.py
+      - name: Large-proof and adversarial timing
+        run: python -m unittest -v test_btc15_quote_proof_offpath_timing.py
+      - name: BRTI regressions
+        run: python -m unittest -v test_btc15_brti_delivery_v1.py
+      - name: Decision clock stdlib smoke
+        run: |
+          python - <<'PY'
+          from datetime import datetime, timezone, timedelta
+          from btc15_decision_clock_v1 import decision_time
+          o=datetime(2026,9,25,16,0,tzinfo=timezone.utc); c=o+timedelta(minutes=15)
+          s=o+timedelta(minutes=1); r=s+timedelta(milliseconds=10); n=r+timedelta(milliseconds=10)
+          assert decision_time(o,c,s,r,n)==n
+          try:
+              decision_time(o,c,s,n+timedelta(seconds=1),n)
+          except ValueError:
+              pass
+          else:
+              raise AssertionError("future receipt accepted")
+          PY

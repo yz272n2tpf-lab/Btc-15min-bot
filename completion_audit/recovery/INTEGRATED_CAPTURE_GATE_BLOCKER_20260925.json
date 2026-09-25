@@ -1,0 +1,30 @@
+{
+  "schema": "BTC15_INTEGRATED_CAPTURE_GATE_BLOCKER_V1",
+  "parent_commit": "9b5b02744d8e31307516efb5a33c5190d8c74e90",
+  "gate1": "BLOCKED",
+  "gate2": "NOT_RUN",
+  "authentic_lifecycle": "NOT_RUN",
+  "continuous_ladder_scoring": "NOT_RUNNING",
+  "two_clock_live_acceptance": "NOT_RUN",
+  "through_wednesday_test": "NOT_RUNNING",
+  "blocker": "UNCHANGED_V2_CANNOT_BIND_DISTINCT_TRUE_CAPTURE_BUILD_AND_FROZEN_STRATEGY_IDENTITIES",
+  "new_counterexample_tests": 3,
+  "prior_unchanged_tests": 40,
+  "counterexample_rejections": [
+    "PR36_CONTEXT_REQUIRED",
+    "SCHEMA_FIELDS",
+    "NORMALIZED_EVIDENCE_MISMATCH"
+  ],
+  "synthetic_only": true,
+  "runtime_hooks_installed": false,
+  "production_mutations": false,
+  "production_rollback": "3e552065e34a0a402bc3ca4598b57dff1f1c6e77",
+  "two_clock_candidate": "06261dbfbe6d8336a6886a4f2b349f33b06b6202",
+  "two_clock_deployed": false,
+  "models_changed": false,
+  "thresholds_changed": false,
+  "scoring": false,
+  "tuning": false,
+  "signal_only": true,
+  "orders": false
+}
