@@ -6,6 +6,7 @@ The ingress is loopback to the opt-in native bridge, never an upstream feed.
 import argparse
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import re
+import signal
 import threading
 import time
 from urllib.request import urlopen
@@ -33,6 +34,27 @@ class LocalIngress:
 
     def health(self):
         return unpack(self.get('/information-health'))
+
+
+class HealthMirror:
+    """Display revalidation uses a bounded health lease, never client-driven polls.
+
+    Only the sampler refreshes this snapshot (four reads/sec); observed remains
+    the native owner's original timestamp. Outage clears it, slow sampling lets
+    its original one-second lease expire. No request can extend that lease.
+    """
+    def __init__(self, ingress):
+        self.ingress = ingress
+        self.raw = None
+
+    def refresh(self):
+        try: self.raw = pack(self.ingress.health())
+        except Exception: self.raw = None
+
+    def health(self):
+        raw = self.raw
+        if raw is None: raise Unavailable('HEALTH_UNAVAILABLE')
+        return unpack(raw)
 
 
 def step(publisher, ingress, clock=time.time):
@@ -89,7 +111,8 @@ def main():
     args = parser.parse_args()
     ingress = LocalIngress(args.native_port)
     publisher = InformationPublisher()
-    server = server_for(publisher, ingress, args.port)
+    mirror = HealthMirror(ingress)
+    server = server_for(publisher, mirror, args.port)
     stop = threading.Event()
     def worker():
         while not stop.is_set():
@@ -98,6 +121,17 @@ def main():
             stop.wait(max(.05, .25-(time.monotonic()-start)))
     thread = threading.Thread(target=worker, daemon=True, name='information-inference')
     thread.start()
+    def sample_health():
+        while not stop.is_set():
+            start = time.monotonic()
+            mirror.refresh()
+            stop.wait(max(.05, .25-(time.monotonic()-start)))
+    threading.Thread(target=sample_health, daemon=True, name='information-health').start()
+    def shutdown(*_):
+        stop.set()
+        threading.Thread(target=server.shutdown, daemon=True).start()
+    signal.signal(signal.SIGTERM, shutdown)
+    signal.signal(signal.SIGINT, shutdown)
     try:
         server.serve_forever()
     finally:
