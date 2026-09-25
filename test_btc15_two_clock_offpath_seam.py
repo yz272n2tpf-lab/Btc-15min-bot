@@ -27,4 +27,10 @@ class Seam(unittest.TestCase):
         for mod in (native,quote):
             ast.parse(inspect.getsource(mod))
 
+    def test_installer_binds_offpath_native(self):
+        import btc15_information_install_v1 as install
+        src=inspect.getsource(install.assemble)
+        self.assertIn("btc15_information_native_offpath_candidate.py",src)
+        self.assertNotIn("ROOT/'btc15_information_native_v1.py'",src)
+
 if __name__=="__main__":unittest.main()
