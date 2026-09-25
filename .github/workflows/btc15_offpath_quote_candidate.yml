@@ -28,6 +28,8 @@ jobs:
         run: python -m unittest -v test_btc15_kalshi_quote_provenance_offpath_candidate.py
       - name: Existing quote provenance regressions
         run: python -m unittest -v test_btc15_kalshi_quote_provenance_regressions.py
+      - name: Qualified two-clock original suites
+        run: python -m unittest -v test_btc15_information_v1.py test_btc15_information_static.py test_btc15_information_integration.py
       - name: Combined two-clock off-path seam
         run: python -m unittest -v test_btc15_two_clock_offpath_seam.py
       - name: Large-proof and adversarial timing
