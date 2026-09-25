@@ -297,12 +297,83 @@ class InformationTests(unittest.TestCase):
         self.assertFalse(rig.publish(pub))
         self.assertEqual(pub.reason,'QUOTE_CLOCK_RENEWAL_OR_CONFLICT')
 
+    def test_sequence_only_acknowledgement_does_not_publish_new_information(self):
+        rig,pub=self.make();rig.publish(pub);old=pub.latest
+        event=dict(type='ok',sid=rig.provider.book.sid,seq=rig.provider.book.seq+1,
+                   msg=dict(market_tickers=[TICKER]))
+        rig.provider.book.apply(event);rig.provider.events.append(event)
+        rig.at=OPEN+300.5
+        self.assertFalse(rig.publish(pub))
+        self.assertEqual(pub.latest,old)
+
     def test_fractional_native_cuts_match_frozen_probability_exactly(self):
         rig,pub=self.make()
         for cut in (305.17,310.02,315.2):
             rig.tick(cut,btc=100100.)
             self.assertTrue(rig.publish(pub))
             self.assertEqual(rig.read(pub)['probability_up'],rig.runtime.ns['_ec_live']['up_fair'])
+
+    def test_same_contract_target_cannot_change_even_after_brti_owner_restart(self):
+        rig,pub=self.make();rig.publish(pub)
+        rig.sources(301,epoch='restart')
+        a=unpack(rig.export.anchor[0]);a['target']+=1
+        rig.export.anchor=(pack(a),rig.export.anchor[1])
+        self.assertFalse(rig.publish(pub))
+        self.assertEqual(pub.reason,'FIXED_MARKET_CHANGED')
+
+    def test_information_reads_leave_owner_objects_and_original_sinks_untouched(self):
+        rig,pub=self.make()
+        owner=lambda:stable((rig.provider.ticker,rig.provider.epoch,rig.provider.events,
+            vars(rig.provider.book),rig.runtime.ns['_brti_delivery'].states,
+            rig.runtime.ns['_brti_delivery'].statuses,rig.runtime.ns['_brti_delivery'].seen,
+            rig.runtime.ns['_brti_delivery'].epoch,rig.runtime.records,rig.runtime.inputs,
+            rig.runtime.messages,rig.runtime.diag,rig.runtime.saves))
+        before=owner()
+        for _ in range(10):rig.publish(pub);rig.read(pub)
+        self.assertEqual(owner(),before)
+
+    def test_native_true_scalp_cooldown_state_equivalent_with_extra_information(self):
+        import numpy as np
+        @dataclass(frozen=True)
+        class Certain:
+            fixture_identity: str = 'SYNTHETIC_99_PERCENT_NOT_A_TRAINED_MODEL'
+            def predict_proba(self,frame):return np.array([[.01,.99]])
+        initial=self.initial.fork()
+        initial.ns.update(_true_scalp_model=Certain(),_true_scalp_medians={},_true_scalp_ready=True)
+        oracle=initial.fork();rig=Rig(initial,ask=.31);pub=InformationPublisher(self.fair)
+        expected=oracle.step(fixture(300,ask=.31))
+        self.assertEqual(stable(expected),stable(rig.output))
+        self.assertTrue(rig.runtime.ns['_true_scalp_pending'])
+        for t in (301,302):
+            rig.sources(t,ask=.71)
+            oracle.ns['_brti_delivery'].accept(*fixture(t,ask=.71)['brti_receipts'][0])
+            before=stable(rig.runtime.snapshot())
+            rig.publish(pub);rig.read(pub)
+            self.assertEqual(stable(rig.runtime.snapshot()),before)
+        inp,out=rig.tick(305,ask=.31)
+        expected=oracle.step(inp)
+        self.assertEqual(stable(expected),stable(out))
+        self.assertEqual(stable(rig.runtime.snapshot()),stable(oracle.snapshot()))
+
+    def test_unavailable_feature_support_never_carries_previous_probability(self):
+        rig,pub=self.make();rig.publish(pub)
+        rig.sources(301)
+        a=unpack(rig.export.anchor[0]);a['completed']=a['completed'][-1:]
+        rig.export.anchor=(pack(a),rig.export.anchor[1])
+        self.assertFalse(rig.publish(pub))
+        self.assertEqual(rig.read(pub)['status'],'WAIT')
+        self.assertIsNone(rig.read(pub)['probability_up'])
+
+    def test_quote_owner_restart_during_evaluation_fails_closed(self):
+        rig,pub=self.make()
+        class Restart:
+            def evaluate(_,f,q):
+                result=self.fair.evaluate(f,q)
+                rig.provider.epoch='restarted'
+                return result
+        pub.evaluator=Restart()
+        self.assertFalse(rig.publish(pub))
+        self.assertEqual(rig.read(pub)['status'],'WAIT')
 
     def test_exact_boundary_btc_quote_and_market_expiry(self):
         rig,pub=self.make();f=unpack(rig.export.capture());h=rig.export.health()
@@ -386,6 +457,34 @@ class InformationTests(unittest.TestCase):
         out=pub.read(rig.export.health(),OPEN+299)
         self.assertEqual(out['reason'],'CLOCK_REGRESSION')
         self.assertIsNone(out['probability_up'])
+
+    def test_separate_inference_process_uses_only_read_only_loopback_ingress(self):
+        import os
+        import subprocess
+        import sys
+        rig,_=self.make();native=native_server(rig.export)
+        thread=threading.Thread(target=native.serve_forever,daemon=True);thread.start()
+        before=stable(rig.runtime.snapshot())
+        script='''
+import json,os,sys
+from btc15_information_v1 import InformationPublisher,unpack
+from btc15_information_service_v1 import LocalIngress,step,response
+ingress=LocalIngress(int(sys.argv[1]));at=float(sys.argv[2])
+publisher=InformationPublisher()
+assert step(publisher,ingress,lambda:at)
+code,body=response(publisher,ingress,'/information',lambda:at)
+value=unpack(body)
+print(json.dumps(dict(pid=os.getpid(),status=value['status'],probability_up=value['probability_up'])))
+'''
+        try:
+            result=json.loads(subprocess.check_output([sys.executable,'-B','-c',script,
+                str(native.server_port),str(rig.at)],text=True,timeout=30))
+            self.assertNotEqual(result['pid'],os.getpid())
+            self.assertEqual(result['status'],'AVAILABLE')
+            self.assertEqual(result['probability_up'],rig.runtime.ns['_ec_live']['up_fair'])
+            self.assertEqual(stable(rig.runtime.snapshot()),before)
+        finally:
+            native.shutdown();native.server_close();thread.join(1)
 
 
 if __name__ == '__main__':

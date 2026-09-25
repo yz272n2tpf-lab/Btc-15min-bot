@@ -92,9 +92,14 @@ class NativeExport:
             proof = dict(ticker=a['ticker'], epoch=provider.epoch,
                          identity=[book.market_id, book.sid, book.seq, book.ts_ms])
             if with_events:
-                proof['events'] = deepcopy(provider.events)
+                # The pinned quote owner only appends/replaces the event list;
+                # accepted event dictionaries are never edited. Retain its list
+                # membership under lock, then detach dictionaries outside it.
+                proof['events'] = tuple(provider.events)
         finally:
             provider.lock.release()
+        if with_events:
+            proof['events'] = deepcopy(list(proof['events']))
         if not delivery.lock.acquire(blocking=False):
             raise Unavailable('BRTI_OWNER_BUSY')
         try:

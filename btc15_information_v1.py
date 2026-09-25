@@ -31,7 +31,7 @@ MAX_BYTES = 3 * 1024 * 1024
 HEALTH_LEASE = 1.0  # Infrastructure revocation lease, not a predictive gate.
 FIELDS = ('schema authority status reason signal_only orders frame_id anchor_id '
           'native_epoch native_decision_ts evaluated_ts published_ts checked_ts '
-          'expires_at ticker target btc_price btc_source_ts btc_received_ts '
+          'expires_at display_until ticker target btc_price btc_source_ts btc_received_ts '
           'brti_value brti_source_ts brti_received_ts brti_age_seconds brti_side '
           'quote_source_ts quote_received_ts up_bid up_ask down_bid down_ask '
           'probability_up probability_down model_flip_probability '
@@ -179,11 +179,14 @@ def source_key(f, quotes):
     a, b, p = f['anchor'], f['brti'], f['proof']
     return (a['epoch'], a['ticker'], b['epoch'], p['epoch'],
             a['btc']['source'], a['btc']['value'], b['source'], b['value'],
-            p['identity'][0], p['identity'][1], p['identity'][2], p['identity'][3], tuple(quotes))
+            p['identity'][0], p['identity'][1], p['identity'][2], p['identity'][3], tuple(quotes),
+            (a['opened'],a['closed'],a['target']))
 
 
 def progress(old, new):
     """No poll/receipt/health/evaluation clock is a source novelty token."""
+    if old is not None and old[:2] == new[:2] and old[13] != new[13]:
+        raise Unavailable('FIXED_MARKET_CHANGED')
     if old is None or old[:4] != new[:4]:
         return True
     if new[8:10] != old[8:10]:
@@ -196,7 +199,10 @@ def progress(old, new):
         raise Unavailable('QUOTE_REGRESSION')
     if new[10] == old[10] and new[11:] != old[11:]:
         raise Unavailable('QUOTE_CLOCK_RENEWAL_OR_CONFLICT')
-    return new != old
+    # Sequenced acknowledgements can advance seq without a new market
+    # timestamp or changed displayed book. They cannot justify re-evaluation.
+    return (new[4] > old[4] or new[6] > old[6] or new[11] > old[11]
+            or new[12] != old[12])
 
 
 class FairAssessment:
@@ -303,6 +309,7 @@ class InformationPublisher:
                            brti_gap=b['value']-a['target'], seconds_left=a['closed']-published,
                            artifact_sha256=ARTIFACT, weights_sha256=WEIGHTS, **values)
                 # Identity commits the complete immutable source bundle and evaluation.
+                out['display_until'] = min(out['expires_at'], h['observed']+HEALTH_LEASE)
                 frame_id = identity(pack(dict(input_sha256=identity(raw), output=out)))
                 out['frame_id'] = frame_id
                 encoded = pack(out)
@@ -334,7 +341,8 @@ class InformationPublisher:
             if checked < out['published_ts']:
                 raise Unavailable('PUBLICATION_IN_FUTURE')
             out.update(checked_ts=checked, brti_age_seconds=checked-f['brti']['source'],
-                       seconds_left=f['anchor']['closed']-checked)
+                       seconds_left=f['anchor']['closed']-checked,
+                       display_until=min(out['expires_at'],health['observed']+HEALTH_LEASE))
             return out
         except (ValueError, KeyError, TypeError, IndexError, OverflowError) as exc:
             return wait_view(checked, str(exc) if isinstance(exc, Unavailable) else 'INVALID_INPUT')

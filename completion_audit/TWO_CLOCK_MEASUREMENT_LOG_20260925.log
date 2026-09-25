@@ -1,0 +1,105 @@
+{
+  "schema": "BTC15_TWO_CLOCK_INFORMATION_MEASUREMENT_V1",
+  "scope": "Synthetic January 2020 source/clock replay; real frozen model and measured local inference/export costs",
+  "excluded": [
+    "live network latency",
+    "production resource contention",
+    "browser/network delivery latency",
+    "predictive or trading performance",
+    "validation cohort"
+  ],
+  "authoritative_clock_changed": false,
+  "production_measured_improvement": null,
+  "scenarios": [
+    {
+      "scenario": "representative_2_486s",
+      "duration_s": 30,
+      "grid_s": 0.01,
+      "brti_age_at_source_event_s": 2.486,
+      "source_updates_s": 1,
+      "native_cadence_s": 5,
+      "information_poll_phase_delay_s": 0.25,
+      "quote_interruption_s": null,
+      "information_available_samples": 2738,
+      "action_available_samples": 1408,
+      "samples": 3000,
+      "information_availability_pct": 91.26666666666667,
+      "authoritative_availability_pct": 46.93333333333333,
+      "improvement_percentage_points": 44.333333333333336,
+      "additional_information_publications": 24,
+      "native_decisions": 6,
+      "information_publications": 30,
+      "inference_and_health": {
+        "count": 30,
+        "median_s": 0.07323789596557617,
+        "max_s": 0.10895323753356934
+      },
+      "native_export_capture": {
+        "count": 30,
+        "median_s": 0.0004180585001449799,
+        "max_s": 0.0020546189989545383
+      }
+    },
+    {
+      "scenario": "quote_interruption_10_to_14s",
+      "duration_s": 30,
+      "grid_s": 0.01,
+      "brti_age_at_source_event_s": 2.486,
+      "source_updates_s": 1,
+      "native_cadence_s": 5,
+      "information_poll_phase_delay_s": 0.25,
+      "quote_interruption_s": [
+        10,
+        14
+      ],
+      "information_available_samples": 2333,
+      "action_available_samples": 1177,
+      "samples": 3000,
+      "information_availability_pct": 77.76666666666667,
+      "authoritative_availability_pct": 39.233333333333334,
+      "improvement_percentage_points": 38.53333333333333,
+      "additional_information_publications": 21,
+      "native_decisions": 5,
+      "information_publications": 26,
+      "inference_and_health": {
+        "count": 26,
+        "median_s": 0.07548105716705322,
+        "max_s": 0.09632730484008789
+      },
+      "native_export_capture": {
+        "count": 26,
+        "median_s": 0.00040869099939300213,
+        "max_s": 0.0005622549979307223
+      }
+    },
+    {
+      "scenario": "late_4_4s_source",
+      "duration_s": 30,
+      "grid_s": 0.01,
+      "brti_age_at_source_event_s": 4.4,
+      "source_updates_s": 1,
+      "native_cadence_s": 5,
+      "information_poll_phase_delay_s": 0.25,
+      "quote_interruption_s": null,
+      "information_available_samples": 769,
+      "action_available_samples": 279,
+      "samples": 3000,
+      "information_availability_pct": 25.633333333333333,
+      "authoritative_availability_pct": 9.3,
+      "improvement_percentage_points": 16.333333333333332,
+      "additional_information_publications": 23,
+      "native_decisions": 6,
+      "information_publications": 29,
+      "inference_and_health": {
+        "count": 29,
+        "median_s": 0.07362008094787598,
+        "max_s": 0.08758831024169922
+      },
+      "native_export_capture": {
+        "count": 29,
+        "median_s": 0.00041721500019775704,
+        "max_s": 0.000644894997094525
+      }
+    }
+  ]
+}

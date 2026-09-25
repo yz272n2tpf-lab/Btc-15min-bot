@@ -1,0 +1,59 @@
+[
+  {
+    "name": "audit",
+    "exit_code": 0,
+    "wall_seconds": 4.555518608998682,
+    "command": [
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "completion_audit",
+      "-p",
+      "test*.py",
+      "-v"
+    ],
+    "log": "TWO_CLOCK_AUDIT_TESTS_20260925.log"
+  },
+  {
+    "name": "data_path",
+    "exit_code": 0,
+    "wall_seconds": 1.2255067670012068,
+    "command": [
+      "-B",
+      "test_btc15_canary_data_path_static.py"
+    ],
+    "log": "TWO_CLOCK_STATIC_GATES_20260925.log"
+  },
+  {
+    "name": "parity",
+    "exit_code": 0,
+    "wall_seconds": 0.10860591500022565,
+    "command": [
+      "-B",
+      "test_btc15_dashboard_parity_ws_static.py"
+    ],
+    "log": "TWO_CLOCK_STATIC_GATES_20260925.log"
+  },
+  {
+    "name": "brti_cutover",
+    "exit_code": 0,
+    "wall_seconds": 0.2100055209994025,
+    "command": [
+      "-B",
+      "test_brti_main_cutover_static_gate_v1.py"
+    ],
+    "log": "TWO_CLOCK_STATIC_GATES_20260925.log"
+  },
+  {
+    "name": "availability",
+    "exit_code": 0,
+    "wall_seconds": 14.436377712001558,
+    "command": [
+      "-B",
+      "completion_audit/measure_two_clock_information_v1.py"
+    ],
+    "log": "TWO_CLOCK_MEASUREMENT_LOG_20260925.log"
+  }
+]
