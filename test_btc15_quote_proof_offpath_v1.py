@@ -5,7 +5,7 @@ from btc15_quote_proof_offpath_v1 import Witness, OffPathProofWriter
 
 class OffPath(unittest.TestCase):
     def witness(self):
-        return Witness("KXBTC15M-X","collector","epoch",1000,"m",2,3,900)
+        return Witness("KXBTC15M-X","collector","epoch",1000,"m",2,3,900,1500)
 
     def test_submit_never_serializes_payload(self):
         class Explodes(dict):
