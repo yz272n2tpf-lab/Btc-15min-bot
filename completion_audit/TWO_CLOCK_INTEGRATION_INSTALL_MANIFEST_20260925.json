@@ -1,0 +1,23 @@
+{
+  "installed_files": {
+    "BTC15_DASHBOARD_LIVE_SERVER_V1.py": "78b1085cd54dd785fbb4dc64d7a045463fbc9467bd7b25839fd00562ce550828",
+    "BTC15_DASHBOARD_STATE_V2.py": "66cdbaa21daa848f261e87e1528dce5a0cadd700fe3be22567f664f968f6d1b7",
+    "BTC15_RUN_FULL_VALIDATION_WITH_DASHBOARD_V1.py": "f6a4cc81b9067d96600fe85eca185a0e9a229b4382996de04a0137800b75b244",
+    "BTC_Kalshi_App_Live_v13.html": "97d4bc46c40f124cae027dedfc8e7f4310dfd6fbb454726c86571846894b76ce",
+    "README_LIVE_DASHBOARD_V13.txt": "6d609d12675a7022071d6525905969e326eca70941194f9c15ebd9e27b77bb89",
+    "btc15_data_paths_v1.py": "893960e1235abf64d2b551f72b04f727dbe9626192ce556918b85646fc255d5d",
+    "btc15_decision_clock_v1.py": "c22153098c04dd43dc3532f642987576d537bb811d0369e03575f2fc456716eb",
+    "btc15_fair_input_export_v1.py": "4223ee2eefc92a4870d6f19821562a2ee3b42406d20be5ece61a208d134d9a5f",
+    "btc15_information_fields_v1.json": "94f0471418961792c6d6f8dd934a1add2e7237f54b0c4a7204b29b5784197644",
+    "btc15_information_panel_v1.js": "27cf3ed5aaf3bfbe52dc7d3ddd67082dd7ab53034781e0a960954ae2c98060f2",
+    "btc15_information_proxy_v1.py": "107870b269bd2bfddb43e4481ff3ca8b1190a341529f2aeb57a0b48b17cdb2e3",
+    "btc15_information_view_v1.js": "292224e5380aaeb9f43b271a1c95fe343c1869d7059688f26055fd934ed9f484",
+    "btc15_run_full_validation_v1.py": "6b77821ef74661d50c6c30fe1cd19dceec081d0c9c0dbb1bc885927e483ed5b7",
+    "btc15_run_with_rescue_v2_and_parity_v1.py": "4ab25618f55160d37773c9035544ea64eeba05fec3e45df190391d250beff1dd",
+    "btc15_run_with_rescue_v2_shadow_v1.py": "840845c863ff60ce3e1dbabba2403d2ab840eaf8b96ee9a366dc997429d2ed9b"
+  },
+  "orders": false,
+  "original_patched_dashboard_sha256": "a8ad99d55d43afbb8e6c5e23fbaf887deda5e9b00b35f45537fc2f539e9d34ef",
+  "schema": "BTC15_INFORMATION_INSTALL_V1",
+  "signal_only": true
+}

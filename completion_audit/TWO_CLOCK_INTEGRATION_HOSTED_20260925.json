@@ -1,0 +1,48 @@
+{
+  "schema": "BTC15_INFORMATION_HOSTED_QUALIFICATION_V1",
+  "candidate_commit": "06261dbfbe6d8336a6886a4f2b349f33b06b6202",
+  "candidate_tree": "196707359f1ce25786bacbf419f409b3564a51c5",
+  "run_id": 36084580891,
+  "job_id": 107913492515,
+  "conclusion": "success",
+  "root_tests": 357,
+  "audit_tests": 29,
+  "browser_tests": 9,
+  "static_gates": 3,
+  "topology_scenarios": 5,
+  "artifact": {
+    "id": 10843278145,
+    "name": "two-clock-integration-evidence",
+    "size_in_bytes": 18235,
+    "url": "https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/actions/artifacts/10843278145",
+    "archive_download_url": "https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/actions/artifacts/10843278145/zip",
+    "expired": false,
+    "created_at": "2026-09-25T02:07:29Z",
+    "expires_at": "2026-12-24T02:02:20Z",
+    "updated_at": "2026-09-25T02:07:29Z",
+    "digest": "sha256:54d4837469ed91ed4c7de8126b1851077090b9645ae499c275b1415e17ff7d56",
+    "workflow_run": {
+      "id": 36084580891,
+      "repository_id": 1332373416,
+      "head_repository_id": 1332373416,
+      "head_branch": "audit/two-clock-integration-20260925",
+      "head_sha": "06261dbfbe6d8336a6886a4f2b349f33b06b6202"
+    }
+  },
+  "production_unchanged": [
+    {
+      "id": "f82466d0-70ab-4779-a0fd-58832ad31513",
+      "status": "SUCCESS",
+      "service_id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+      "commit": "3e552065e34a0a402bc3ca4598b57dff1f1c6e77",
+      "branch": "main"
+    },
+    {
+      "id": "4105da0a-e5a2-4a76-8abc-242b0bab5ad8",
+      "status": "SUCCESS",
+      "service_id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+      "commit": "b05723ec622f901a05402ecf27f4d33505753ef1",
+      "branch": "v81-live-diagnostics-20260912"
+    }
+  ]
+}

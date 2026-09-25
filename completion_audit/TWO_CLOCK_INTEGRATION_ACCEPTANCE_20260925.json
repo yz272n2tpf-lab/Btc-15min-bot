@@ -1,0 +1,694 @@
+{
+  "action_publication_expiry_solved": false,
+  "authoritative_equivalence": "PASS: original-clock outputs, sinks, 166-plus data bindings including model/source state; original AST plus one pure observer; installed supervisor AST/HTML identity and browser native-card invariance; faster-action rejection cases preserved",
+  "authority_field_count": 44,
+  "candidate_branch": "audit/two-clock-integration-20260925",
+  "candidate_commit": "06261dbfbe6d8336a6886a4f2b349f33b06b6202",
+  "candidate_tree": "196707359f1ce25786bacbf419f409b3564a51c5",
+  "code_sha256": {
+    "btc15_information_install_v1.py": "d0f8c52fb62c47f2bb25363e6fa56da1405b5d185a9a6b911ef983a96a0a17a0",
+    "btc15_information_native_v1.py": "0a2c0e179af669914704acce7465d89c1f232731bf402c5d540a2f2971b9ea6b",
+    "btc15_information_panel_v1.html": "5fec54f6939086f7fa3ad9103cffbeb477e5e082eb34a30ae399ba13291d269b",
+    "btc15_information_panel_v1.js": "27cf3ed5aaf3bfbe52dc7d3ddd67082dd7ab53034781e0a960954ae2c98060f2",
+    "btc15_information_proxy_v1.py": "107870b269bd2bfddb43e4481ff3ca8b1190a341529f2aeb57a0b48b17cdb2e3",
+    "btc15_information_service_v1.py": "ab730d767468be8a1d13ab41c446d3f046a46b16cb6e3707d774f39914b9334b",
+    "btc15_information_v1.py": "1396c2a00162ecc84370d29c710270889ff1b4a4413b87543a636ac980bf702d",
+    "btc15_information_view_v1.js": "292224e5380aaeb9f43b271a1c95fe343c1869d7059688f26055fd934ed9f484",
+    "btc15_information_worker_v1.py": "ac4f2204b4a3ad24927f7366c4c1bb2065e935628e8d8b714d17b5ecd3aef904",
+    "railway.information-candidate.json": "b6f7663c721575d3299a44eb5b6750938d0ac53b8b6535af044ff887086db36b"
+  },
+  "deployed": false,
+  "deployment_scope": "Single instance, controlled stop/start without overlapping native owners; tested small-client envelope below 20 information requests/s; Chat review required before deployment",
+  "evidence_checkpoint": "The later evidence-only commit containing this JSON; candidate runtime identity above remains frozen",
+  "evidence_sha256": {
+    "completion_audit/TWO_CLOCK_FIELD_AUTHORITY_20260925.md": "78bd549d59b1d9d79b141f447b689abfcd972047117a0de45ae63c1b489b1f64",
+    "completion_audit/TWO_CLOCK_INSTALL_AND_ROLLBACK_20260925.md": "77a29604be129b0829f7c5e7de51f0bba52d2dc0adba655333f158a73211df37",
+    "completion_audit/TWO_CLOCK_INTEGRATION_AUDIT_TESTS_20260925.log": "067196a30e1adef6144f75e1bee337381842000dd935825d89cc77770506e823",
+    "completion_audit/TWO_CLOCK_INTEGRATION_CHECKPOINT_20260925.md": "56c8ed9a82b0db9b2eb660f30e99e35ae678fde91a5fcb6c8d24fba912807252",
+    "completion_audit/TWO_CLOCK_INTEGRATION_FOCUSED_20260925.log": "cc15acc2cb2baa32a6995219a0f9ca772533bc6df97e34b3d384a5fb4dc9208e",
+    "completion_audit/TWO_CLOCK_INTEGRATION_HOSTED_06261db/audit-tests.log": "8e721eadc39afde0a7b652a44a04e0cd2ebac1726f70c3a772af10920713f466",
+    "completion_audit/TWO_CLOCK_INTEGRATION_HOSTED_06261db/browser-results.log": "5c0882dbc2f3c123169493f254fa3a5a532cd999f4bb23243252a967cfdae923",
+    "completion_audit/TWO_CLOCK_INTEGRATION_HOSTED_06261db/root-tests.log": "64cee9b2f103c848141d3128ef67e415de720dff78e32bb56a4da3b76871f4db",
+    "completion_audit/TWO_CLOCK_INTEGRATION_HOSTED_06261db/topology-resources.json": "b2555d043a7f55b0cff8346744ed46c5cbf58f211896762351eb81f15eb479a8",
+    "completion_audit/TWO_CLOCK_INTEGRATION_HOSTED_06261db/topology-resources.log": "a066a03b6786b4a601971250afe2a1a0afb82034d5798712396833c112d76d47",
+    "completion_audit/TWO_CLOCK_INTEGRATION_HOSTED_20260925.json": "12a60671c19bbabfc5722d7830c54f73c3d2bbe0a7e2422a2b1bed847a2859da",
+    "completion_audit/TWO_CLOCK_INTEGRATION_INSTALL_MANIFEST_20260925.json": "5efc5a27e89909797d5cb03426839ef6b08f091f00f0374cc8d5d8cc22aa8f4a",
+    "completion_audit/TWO_CLOCK_INTEGRATION_PRODUCTION_CONTEXT_20260925.json": "aea1b1f60fb6a9ecf1c4d2b025ac7d843a874e877204a6ce55beb4cb510fadf2",
+    "completion_audit/TWO_CLOCK_INTEGRATION_REPORT_20260925.md": "2026d68f0ef09be100256dcc99eea6195b0b7cbb80047d3ede1928e4d02b0784",
+    "completion_audit/TWO_CLOCK_INTEGRATION_RESOURCES_20260925.json": "b635399543facc35c2217b00e04bc4bcb48ae1cac6947a73a1f8a37624dd559e",
+    "completion_audit/TWO_CLOCK_INTEGRATION_RESOURCES_20260925.log": "4fdd313c430b858448f36df35aaa862a461915ab72ad9319fb373cf474718320",
+    "completion_audit/TWO_CLOCK_INTEGRATION_ROOT_TESTS_20260925.log": "17b6da7e4b9e7c031fea8447fcbc61c530407419128209b48198055f4587c014",
+    "completion_audit/TWO_CLOCK_INTEGRATION_STATIC_20260925.log": "8ffbce129c69801c1af25db027ad2135bd4e997be12b66b327c415c3ff53ff71",
+    "completion_audit/TWO_CLOCK_LIFECYCLE_SPEC_20260925.md": "634d9ba46c3518a7bd1ee80ebf7fc323d7ab4cfed174b869432fe8af4ecc777e"
+  },
+  "field_authority": {
+    "anchor_id": "INFORMATIONAL_READ_ONLY",
+    "artifact_sha256": "INFORMATIONAL_READ_ONLY",
+    "authority": "INFORMATIONAL_READ_ONLY",
+    "brti_age_seconds": "INFORMATIONAL_READ_ONLY",
+    "brti_agrees": "INFORMATIONAL_READ_ONLY",
+    "brti_gap": "INFORMATIONAL_READ_ONLY",
+    "brti_received_ts": "INFORMATIONAL_READ_ONLY",
+    "brti_side": "INFORMATIONAL_READ_ONLY",
+    "brti_source_ts": "INFORMATIONAL_READ_ONLY",
+    "brti_value": "INFORMATIONAL_READ_ONLY",
+    "btc_gap": "INFORMATIONAL_READ_ONLY",
+    "btc_price": "INFORMATIONAL_READ_ONLY",
+    "btc_received_ts": "INFORMATIONAL_READ_ONLY",
+    "btc_source_ts": "INFORMATIONAL_READ_ONLY",
+    "checked_ts": "INFORMATIONAL_READ_ONLY",
+    "display_until": "INFORMATIONAL_READ_ONLY",
+    "dist_over_range5": "INFORMATIONAL_READ_ONLY",
+    "down_ask": "INFORMATIONAL_READ_ONLY",
+    "down_bid": "INFORMATIONAL_READ_ONLY",
+    "evaluated_ts": "INFORMATIONAL_READ_ONLY",
+    "expires_at": "INFORMATIONAL_READ_ONLY",
+    "frame_id": "INFORMATIONAL_READ_ONLY",
+    "model_flip_probability": "INFORMATIONAL_READ_ONLY",
+    "native_decision_ts": "INFORMATIONAL_READ_ONLY",
+    "native_epoch": "INFORMATIONAL_READ_ONLY",
+    "orders": "INFORMATIONAL_READ_ONLY",
+    "preferred_side": "INFORMATIONAL_READ_ONLY",
+    "probability_down": "INFORMATIONAL_READ_ONLY",
+    "probability_up": "INFORMATIONAL_READ_ONLY",
+    "probability_up_change_since_native": "INFORMATIONAL_READ_ONLY",
+    "published_ts": "INFORMATIONAL_READ_ONLY",
+    "quote_received_ts": "INFORMATIONAL_READ_ONLY",
+    "quote_source_ts": "INFORMATIONAL_READ_ONLY",
+    "range5": "INFORMATIONAL_READ_ONLY",
+    "reason": "INFORMATIONAL_READ_ONLY",
+    "schema": "INFORMATIONAL_READ_ONLY",
+    "seconds_left": "INFORMATIONAL_READ_ONLY",
+    "signal_only": "INFORMATIONAL_READ_ONLY",
+    "status": "INFORMATIONAL_READ_ONLY",
+    "target": "INFORMATIONAL_READ_ONLY",
+    "ticker": "INFORMATIONAL_READ_ONLY",
+    "up_ask": "INFORMATIONAL_READ_ONLY",
+    "up_bid": "INFORMATIONAL_READ_ONLY",
+    "weights_sha256": "INFORMATIONAL_READ_ONLY"
+  },
+  "hosted": {
+    "artifact": {
+      "archive_download_url": "https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/actions/artifacts/10843278145/zip",
+      "created_at": "2026-09-25T02:07:29Z",
+      "digest": "sha256:54d4837469ed91ed4c7de8126b1851077090b9645ae499c275b1415e17ff7d56",
+      "expired": false,
+      "expires_at": "2026-12-24T02:02:20Z",
+      "id": 10843278145,
+      "name": "two-clock-integration-evidence",
+      "size_in_bytes": 18235,
+      "updated_at": "2026-09-25T02:07:29Z",
+      "url": "https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/actions/artifacts/10843278145",
+      "workflow_run": {
+        "head_branch": "audit/two-clock-integration-20260925",
+        "head_repository_id": 1332373416,
+        "head_sha": "06261dbfbe6d8336a6886a4f2b349f33b06b6202",
+        "id": 36084580891,
+        "repository_id": 1332373416
+      }
+    },
+    "audit_tests": 29,
+    "browser_tests": 9,
+    "candidate_commit": "06261dbfbe6d8336a6886a4f2b349f33b06b6202",
+    "candidate_tree": "196707359f1ce25786bacbf419f409b3564a51c5",
+    "conclusion": "success",
+    "job_id": 107913492515,
+    "production_unchanged": [
+      {
+        "branch": "main",
+        "commit": "3e552065e34a0a402bc3ca4598b57dff1f1c6e77",
+        "id": "f82466d0-70ab-4779-a0fd-58832ad31513",
+        "service_id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "status": "SUCCESS"
+      },
+      {
+        "branch": "v81-live-diagnostics-20260912",
+        "commit": "b05723ec622f901a05402ecf27f4d33505753ef1",
+        "id": "4105da0a-e5a2-4a76-8abc-242b0bab5ad8",
+        "service_id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "status": "SUCCESS"
+      }
+    ],
+    "root_tests": 357,
+    "run_id": 36084580891,
+    "schema": "BTC15_INFORMATION_HOSTED_QUALIFICATION_V1",
+    "static_gates": 3,
+    "topology_scenarios": 5
+  },
+  "hosted_browser_tests": 9,
+  "lifecycle_preserved": {
+    "core_position": "NOT_LINKED",
+    "final_shadow_only": true,
+    "shadow_protection_used_as_action": false,
+    "undefined_policies_promoted": false,
+    "v81_separate_owner": true
+  },
+  "local_tests": {
+    "audit": {
+      "count": 29,
+      "seconds": 1.977
+    },
+    "root": {
+      "count": 357,
+      "seconds": 138.98
+    }
+  },
+  "local_total": 386,
+  "merged": false,
+  "model_artifact_sha256": "1bf10e755fc81584bab3c3682b16103353f84582c27bb003664de883e7e7c816",
+  "model_weights_sha256": "95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6",
+  "native_action_clock_changed": false,
+  "new_integration_tests": 19,
+  "orders": false,
+  "original_files_verified_byte_identical": [
+    "bot_two_output_build_v4_13_profit_protection_shadow.py",
+    "btc15_brti_delivery_v1.py",
+    "btc15_kalshi_quote_provenance_v1.py",
+    "btc15_run_with_rescue_v2_shadow_v1.py",
+    "btc15_run_with_rescue_v2_and_parity_v1.py",
+    "btc15_run_full_validation_v1.py",
+    "btc15_final_position_protection_shadow_v3.py",
+    "btc15_qualified_forward_observer_v1.py",
+    "btc15_shadow_supervisor_v1.py",
+    "BTC15_DASHBOARD_INLINE_SCALP_DIAG_V2.py",
+    "BTC15_INSTALL_LIVE_DASHBOARD_V13.py",
+    "railway.json"
+  ],
+  "predictive_or_trading_improvement_claimed": false,
+  "preserved_previous_tests": 367,
+  "production_commit": "3e552065e34a0a402bc3ca4598b57dff1f1c6e77",
+  "production_deployment": "f82466d0-70ab-4779-a0fd-58832ad31513",
+  "production_tree": "586f8cfd635d6ed817c63202cdec0b8bcc454e0c",
+  "production_unchanged": true,
+  "ready_for_controlled_deployment": true,
+  "relevant_static_gates": 3,
+  "remaining_scope": [
+    "No production candidate timing/freshness measurement before deployment",
+    "Health revocation uses original observed time with at most one-second lease; original source deadlines never extended",
+    "Over-budget HTTP traffic fails closed and can sharply reduce information display availability",
+    "Not qualified for unrestricted concurrent viewers or overlapping native containers",
+    "EARLY/Core/FINAL lifecycle gaps and shadow-only policies remain unchanged"
+  ],
+  "resources_hosted": {
+    "scenarios": [
+      {
+        "availability_grid_s": 0.01,
+        "availability_viewer": 1,
+        "clients": 4,
+        "cpus": [
+          0
+        ],
+        "duration_s": 30.0,
+        "http_counts": {
+          "NATIVE": 60,
+          "unavailable_transport": 180
+        },
+        "http_p95_s": 0.0012919349999975793,
+        "information_display_availability_pct": 0.0,
+        "max_processes": 9,
+        "mean_cpu_cores": 0.01533333333333333,
+        "name": "baseline",
+        "native_source_qualified_availability_pct": 38.233333333333334,
+        "native_summary": {
+          "errors": [],
+          "history_rows": 50416,
+          "max_iteration_s": 0.05212350099999696,
+          "max_lateness_s": 8.637999999905333e-05,
+          "median_iteration_s": 0.04165027699998802,
+          "native_inputs": 1,
+          "native_records": 5,
+          "proof_bytes": 641,
+          "ticks": 7
+        },
+        "peak_tree_rss_mib": 364.078125,
+        "processes": [
+          "BTC15_DASHBOARD_LIVE_SERVER_V1.py",
+          "BTC15_RUN_FULL_VALIDATION_WITH_DASHBOARD_V1.py",
+          "btc15_final_position_protection_shadow_v3.py",
+          "btc15_kalshi_parity_shadow_v1.py",
+          "btc15_qualified_forward_observer_v1.py",
+          "btc15_run_full_validation_v1.py",
+          "btc15_run_with_rescue_v2_and_parity_v1.py",
+          "btc15_run_with_rescue_v2_shadow_v1.py",
+          "information_runtime_fixture.py"
+        ],
+        "proof_events": 2,
+        "shutdown_clean": true,
+        "worker_restart_pass": false
+      },
+      {
+        "availability_grid_s": 0.01,
+        "availability_viewer": 1,
+        "clients": 4,
+        "cpus": [
+          0
+        ],
+        "duration_s": 30.0,
+        "http_counts": {
+          "AVAILABLE": 174,
+          "NATIVE": 65,
+          "unavailable_transport": 21
+        },
+        "http_p95_s": 0.0017040359999782595,
+        "information_display_availability_pct": 96.53333333333333,
+        "max_processes": 11,
+        "mean_cpu_cores": 0.09033333333333332,
+        "name": "normal",
+        "native_source_qualified_availability_pct": 33.43333333333333,
+        "native_summary": {
+          "errors": [],
+          "history_rows": 50416,
+          "max_iteration_s": 0.059644892000022764,
+          "max_lateness_s": 8.312999997883708e-05,
+          "median_iteration_s": 0.04341429999999491,
+          "native_inputs": 1,
+          "native_records": 5,
+          "proof_bytes": 641,
+          "ticks": 7
+        },
+        "peak_tree_rss_mib": 589.5546875,
+        "processes": [
+          "BTC15_DASHBOARD_LIVE_SERVER_V1.py",
+          "BTC15_RUN_FULL_VALIDATION_WITH_DASHBOARD_V1.py",
+          "btc15_final_position_protection_shadow_v3.py",
+          "btc15_information_worker_v1.py",
+          "btc15_kalshi_parity_shadow_v1.py",
+          "btc15_qualified_forward_observer_v1.py",
+          "btc15_run_full_validation_v1.py",
+          "btc15_run_with_rescue_v2_and_parity_v1.py",
+          "btc15_run_with_rescue_v2_shadow_v1.py",
+          "information_runtime_fixture.py",
+          "run.py"
+        ],
+        "proof_events": 2,
+        "shutdown_clean": true,
+        "worker_restart_pass": true
+      },
+      {
+        "availability_grid_s": 0.01,
+        "availability_viewer": 1,
+        "clients": 24,
+        "cpus": [
+          0
+        ],
+        "duration_s": 30.0,
+        "http_counts": {
+          "AVAILABLE": 576,
+          "NATIVE": 1805,
+          "WAIT": 8,
+          "unavailable_transport": 4633
+        },
+        "http_p95_s": 0.018066618000005974,
+        "information_display_availability_pct": 13.0,
+        "max_processes": 11,
+        "mean_cpu_cores": 0.4313333333333333,
+        "name": "single_cpu_stress",
+        "native_source_qualified_availability_pct": 32.86666666666667,
+        "native_summary": {
+          "errors": [],
+          "history_rows": 50416,
+          "max_iteration_s": 0.07588998400001401,
+          "max_lateness_s": 0.001050993999996308,
+          "median_iteration_s": 0.05808787799998072,
+          "native_inputs": 1,
+          "native_records": 5,
+          "proof_bytes": 434207,
+          "ticks": 7
+        },
+        "peak_tree_rss_mib": 609.26953125,
+        "processes": [
+          "BTC15_DASHBOARD_LIVE_SERVER_V1.py",
+          "BTC15_RUN_FULL_VALIDATION_WITH_DASHBOARD_V1.py",
+          "btc15_final_position_protection_shadow_v3.py",
+          "btc15_information_worker_v1.py",
+          "btc15_kalshi_parity_shadow_v1.py",
+          "btc15_qualified_forward_observer_v1.py",
+          "btc15_run_full_validation_v1.py",
+          "btc15_run_with_rescue_v2_and_parity_v1.py",
+          "btc15_run_with_rescue_v2_shadow_v1.py",
+          "information_runtime_fixture.py",
+          "run.py"
+        ],
+        "proof_events": 2000,
+        "shutdown_clean": true,
+        "worker_restart_pass": true
+      },
+      {
+        "availability_grid_s": 0.01,
+        "availability_viewer": 1,
+        "clients": 24,
+        "cpus": [
+          0,
+          1
+        ],
+        "duration_s": 30.0,
+        "http_counts": {
+          "AVAILABLE": 599,
+          "NATIVE": 1854,
+          "WAIT": 17,
+          "unavailable_transport": 4785
+        },
+        "http_p95_s": 0.0143059780000101,
+        "information_display_availability_pct": 15.6,
+        "max_processes": 11,
+        "mean_cpu_cores": 0.4673333333333333,
+        "name": "two_cpu_stress",
+        "native_source_qualified_availability_pct": 28.666666666666668,
+        "native_summary": {
+          "errors": [],
+          "history_rows": 50416,
+          "max_iteration_s": 0.07268716300001188,
+          "max_lateness_s": 7.943200000681827e-05,
+          "median_iteration_s": 0.0569142809999903,
+          "native_inputs": 1,
+          "native_records": 5,
+          "proof_bytes": 434207,
+          "ticks": 7
+        },
+        "peak_tree_rss_mib": 606.26171875,
+        "processes": [
+          "BTC15_DASHBOARD_LIVE_SERVER_V1.py",
+          "BTC15_RUN_FULL_VALIDATION_WITH_DASHBOARD_V1.py",
+          "btc15_final_position_protection_shadow_v3.py",
+          "btc15_information_worker_v1.py",
+          "btc15_kalshi_parity_shadow_v1.py",
+          "btc15_qualified_forward_observer_v1.py",
+          "btc15_run_full_validation_v1.py",
+          "btc15_run_with_rescue_v2_and_parity_v1.py",
+          "btc15_run_with_rescue_v2_shadow_v1.py",
+          "information_runtime_fixture.py",
+          "run.py"
+        ],
+        "proof_events": 2000,
+        "shutdown_clean": true,
+        "worker_restart_pass": true
+      },
+      {
+        "availability_grid_s": 0.01,
+        "availability_viewer": 1,
+        "clients": 24,
+        "cpus": [
+          0,
+          1
+        ],
+        "duration_s": 30.0,
+        "http_counts": {
+          "AVAILABLE": 547,
+          "NATIVE": 1865,
+          "WAIT": 63,
+          "unavailable_transport": 4653
+        },
+        "http_p95_s": 0.08823555200001465,
+        "information_display_availability_pct": 8.833333333333334,
+        "max_processes": 11,
+        "mean_cpu_cores": 1.3866666666666667,
+        "name": "near_bound_proof_stress",
+        "native_source_qualified_availability_pct": 26.966666666666665,
+        "native_summary": {
+          "errors": [],
+          "history_rows": 50416,
+          "max_iteration_s": 0.17942514600002823,
+          "max_lateness_s": 0.008822235000025103,
+          "median_iteration_s": 0.10407528849998471,
+          "native_inputs": 1,
+          "native_records": 5,
+          "proof_bytes": 1519207,
+          "ticks": 6
+        },
+        "peak_tree_rss_mib": 670.60546875,
+        "processes": [
+          "BTC15_DASHBOARD_LIVE_SERVER_V1.py",
+          "BTC15_RUN_FULL_VALIDATION_WITH_DASHBOARD_V1.py",
+          "btc15_final_position_protection_shadow_v3.py",
+          "btc15_information_worker_v1.py",
+          "btc15_kalshi_parity_shadow_v1.py",
+          "btc15_qualified_forward_observer_v1.py",
+          "btc15_run_full_validation_v1.py",
+          "btc15_run_with_rescue_v2_and_parity_v1.py",
+          "btc15_run_with_rescue_v2_shadow_v1.py",
+          "information_runtime_fixture.py",
+          "run.py"
+        ],
+        "proof_events": 7000,
+        "shutdown_clean": true,
+        "worker_restart_pass": true
+      }
+    ],
+    "schema": "BTC15_INFORMATION_TOPOLOGY_QUALIFICATION_V1",
+    "scope": "Offline assembled production tree; native network and disk effects adapted; synthetic January 2020 sources"
+  },
+  "resources_local": {
+    "scenarios": [
+      {
+        "availability_grid_s": 0.01,
+        "availability_viewer": 1,
+        "clients": 4,
+        "cpus": [
+          0
+        ],
+        "duration_s": 30.0,
+        "http_counts": {
+          "NATIVE": 60,
+          "unavailable_transport": 180
+        },
+        "http_p95_s": 0.003165491001709597,
+        "information_display_availability_pct": 0.0,
+        "max_processes": 9,
+        "mean_cpu_cores": 0.03700000000000002,
+        "name": "baseline",
+        "native_source_qualified_availability_pct": 30.933333333333334,
+        "native_summary": {
+          "errors": [],
+          "history_rows": 50416,
+          "max_iteration_s": 0.16167090499948245,
+          "max_lateness_s": 0.0003781520026677754,
+          "median_iteration_s": 0.14063607999923988,
+          "native_inputs": 1,
+          "native_records": 5,
+          "proof_bytes": 641,
+          "ticks": 7
+        },
+        "peak_tree_rss_mib": 327.4765625,
+        "processes": [
+          "BTC15_DASHBOARD_LIVE_SERVER_V1.py",
+          "BTC15_RUN_FULL_VALIDATION_WITH_DASHBOARD_V1.py",
+          "btc15_final_position_protection_shadow_v3.py",
+          "btc15_kalshi_parity_shadow_v1.py",
+          "btc15_qualified_forward_observer_v1.py",
+          "btc15_run_full_validation_v1.py",
+          "btc15_run_with_rescue_v2_and_parity_v1.py",
+          "btc15_run_with_rescue_v2_shadow_v1.py",
+          "information_runtime_fixture.py"
+        ],
+        "proof_events": 2,
+        "shutdown_clean": true,
+        "worker_restart_pass": false
+      },
+      {
+        "availability_grid_s": 0.01,
+        "availability_viewer": 1,
+        "clients": 4,
+        "cpus": [
+          0
+        ],
+        "duration_s": 30.0,
+        "http_counts": {
+          "AVAILABLE": 159,
+          "NATIVE": 65,
+          "WAIT": 3,
+          "unavailable_transport": 30
+        },
+        "http_p95_s": 0.008057087998167844,
+        "information_display_availability_pct": 88.2,
+        "max_processes": 11,
+        "mean_cpu_cores": 0.2533333333333333,
+        "name": "normal",
+        "native_source_qualified_availability_pct": 33.766666666666666,
+        "native_summary": {
+          "errors": [],
+          "history_rows": 50416,
+          "max_iteration_s": 0.17701292100173305,
+          "max_lateness_s": 0.00014438699872698635,
+          "median_iteration_s": 0.1459755239993683,
+          "native_inputs": 1,
+          "native_records": 5,
+          "proof_bytes": 641,
+          "ticks": 7
+        },
+        "peak_tree_rss_mib": 537.83984375,
+        "processes": [
+          "BTC15_DASHBOARD_LIVE_SERVER_V1.py",
+          "BTC15_RUN_FULL_VALIDATION_WITH_DASHBOARD_V1.py",
+          "btc15_final_position_protection_shadow_v3.py",
+          "btc15_information_worker_v1.py",
+          "btc15_kalshi_parity_shadow_v1.py",
+          "btc15_qualified_forward_observer_v1.py",
+          "btc15_run_full_validation_v1.py",
+          "btc15_run_with_rescue_v2_and_parity_v1.py",
+          "btc15_run_with_rescue_v2_shadow_v1.py",
+          "information_runtime_fixture.py",
+          "run.py"
+        ],
+        "proof_events": 2,
+        "shutdown_clean": true,
+        "worker_restart_pass": true
+      },
+      {
+        "availability_grid_s": 0.01,
+        "availability_viewer": 1,
+        "clients": 24,
+        "cpus": [
+          0
+        ],
+        "duration_s": 30.0,
+        "http_counts": {
+          "AVAILABLE": 424,
+          "NATIVE": 1829,
+          "WAIT": 73,
+          "unavailable_transport": 4616
+        },
+        "http_p95_s": 0.1002454579975165,
+        "information_display_availability_pct": 11.866666666666667,
+        "max_processes": 11,
+        "mean_cpu_cores": 0.8353333333333333,
+        "name": "single_cpu_stress",
+        "native_source_qualified_availability_pct": 30.099999999999998,
+        "native_summary": {
+          "errors": [],
+          "history_rows": 50416,
+          "max_iteration_s": 0.2894176539994078,
+          "max_lateness_s": 0.003869674001180101,
+          "median_iteration_s": 0.24525403500229004,
+          "native_inputs": 1,
+          "native_records": 5,
+          "proof_bytes": 434207,
+          "ticks": 7
+        },
+        "peak_tree_rss_mib": 557.32421875,
+        "processes": [
+          "BTC15_DASHBOARD_LIVE_SERVER_V1.py",
+          "BTC15_RUN_FULL_VALIDATION_WITH_DASHBOARD_V1.py",
+          "btc15_final_position_protection_shadow_v3.py",
+          "btc15_information_worker_v1.py",
+          "btc15_kalshi_parity_shadow_v1.py",
+          "btc15_qualified_forward_observer_v1.py",
+          "btc15_run_full_validation_v1.py",
+          "btc15_run_with_rescue_v2_and_parity_v1.py",
+          "btc15_run_with_rescue_v2_shadow_v1.py",
+          "information_runtime_fixture.py",
+          "run.py"
+        ],
+        "proof_events": 2000,
+        "shutdown_clean": true,
+        "worker_restart_pass": true
+      },
+      {
+        "availability_grid_s": 0.01,
+        "availability_viewer": 1,
+        "clients": 24,
+        "cpus": [
+          0,
+          1
+        ],
+        "duration_s": 30.0,
+        "http_counts": {
+          "AVAILABLE": 573,
+          "NATIVE": 1793,
+          "WAIT": 42,
+          "unavailable_transport": 4575
+        },
+        "http_p95_s": 0.05275781199816265,
+        "information_display_availability_pct": 9.166666666666666,
+        "max_processes": 11,
+        "mean_cpu_cores": 0.9646666666666667,
+        "name": "two_cpu_stress",
+        "native_source_qualified_availability_pct": 22.866666666666667,
+        "native_summary": {
+          "errors": [],
+          "history_rows": 50416,
+          "max_iteration_s": 0.4129529870006081,
+          "max_lateness_s": 0.005340785999578657,
+          "median_iteration_s": 0.30681518900019,
+          "native_inputs": 1,
+          "native_records": 5,
+          "proof_bytes": 434207,
+          "ticks": 7
+        },
+        "peak_tree_rss_mib": 562.7890625,
+        "processes": [
+          "BTC15_DASHBOARD_LIVE_SERVER_V1.py",
+          "BTC15_RUN_FULL_VALIDATION_WITH_DASHBOARD_V1.py",
+          "btc15_final_position_protection_shadow_v3.py",
+          "btc15_information_worker_v1.py",
+          "btc15_kalshi_parity_shadow_v1.py",
+          "btc15_qualified_forward_observer_v1.py",
+          "btc15_run_full_validation_v1.py",
+          "btc15_run_with_rescue_v2_and_parity_v1.py",
+          "btc15_run_with_rescue_v2_shadow_v1.py",
+          "information_runtime_fixture.py",
+          "run.py"
+        ],
+        "proof_events": 2000,
+        "shutdown_clean": true,
+        "worker_restart_pass": true
+      },
+      {
+        "availability_grid_s": 0.01,
+        "availability_viewer": 1,
+        "clients": 24,
+        "cpus": [
+          0,
+          1
+        ],
+        "duration_s": 30.0,
+        "http_counts": {
+          "AVAILABLE": 75,
+          "NATIVE": 1787,
+          "WAIT": 102,
+          "unavailable_transport": 4356
+        },
+        "http_p95_s": 0.11663119399963762,
+        "information_display_availability_pct": 0.8333333333333334,
+        "max_processes": 11,
+        "mean_cpu_cores": 1.445,
+        "name": "near_bound_proof_stress",
+        "native_source_qualified_availability_pct": 14.733333333333334,
+        "native_summary": {
+          "errors": [],
+          "history_rows": 50416,
+          "max_iteration_s": 0.4957274779990257,
+          "max_lateness_s": 0.015729841001302702,
+          "median_iteration_s": 0.3414205340013723,
+          "native_inputs": 1,
+          "native_records": 5,
+          "proof_bytes": 1519207,
+          "ticks": 6
+        },
+        "peak_tree_rss_mib": 615.2265625,
+        "processes": [
+          "BTC15_DASHBOARD_LIVE_SERVER_V1.py",
+          "BTC15_RUN_FULL_VALIDATION_WITH_DASHBOARD_V1.py",
+          "btc15_final_position_protection_shadow_v3.py",
+          "btc15_information_worker_v1.py",
+          "btc15_kalshi_parity_shadow_v1.py",
+          "btc15_qualified_forward_observer_v1.py",
+          "btc15_run_full_validation_v1.py",
+          "btc15_run_with_rescue_v2_and_parity_v1.py",
+          "btc15_run_with_rescue_v2_shadow_v1.py",
+          "information_runtime_fixture.py",
+          "run.py"
+        ],
+        "proof_events": 7000,
+        "shutdown_clean": true,
+        "worker_restart_pass": true
+      }
+    ],
+    "schema": "BTC15_INFORMATION_TOPOLOGY_QUALIFICATION_V1",
+    "scope": "Offline assembled production tree; native network and disk effects adapted; synthetic January 2020 sources"
+  },
+  "result": "PASS_CONTROLLED_DEPLOYMENT_QUALIFICATION",
+  "schema": "BTC15_TWO_CLOCK_INTEGRATION_ACCEPTANCE_V1",
+  "signal_only": true,
+  "topology_scenarios_each_environment": 5,
+  "validation_cohort_used_for_selection": false
+}

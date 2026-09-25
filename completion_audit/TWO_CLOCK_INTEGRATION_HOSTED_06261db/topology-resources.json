@@ -1,0 +1,617 @@
+{
+  "schema": "BTC15_INFORMATION_TOPOLOGY_QUALIFICATION_V1",
+  "scope": "Offline assembled production tree; native network and disk effects adapted; synthetic January 2020 sources",
+  "scenarios": [
+    {
+      "name": "baseline",
+      "duration_s": 30.0,
+      "cpus": [
+        0
+      ],
+      "clients": 4,
+      "proof_events": 2,
+      "peak_tree_rss_mib": 364.078125,
+      "mean_cpu_cores": 0.01533333333333333,
+      "max_processes": 9,
+      "processes": [
+        "BTC15_DASHBOARD_LIVE_SERVER_V1.py",
+        "BTC15_RUN_FULL_VALIDATION_WITH_DASHBOARD_V1.py",
+        "btc15_final_position_protection_shadow_v3.py",
+        "btc15_kalshi_parity_shadow_v1.py",
+        "btc15_qualified_forward_observer_v1.py",
+        "btc15_run_full_validation_v1.py",
+        "btc15_run_with_rescue_v2_and_parity_v1.py",
+        "btc15_run_with_rescue_v2_shadow_v1.py",
+        "information_runtime_fixture.py"
+      ],
+      "http_counts": {
+        "NATIVE": 60,
+        "unavailable_transport": 180
+      },
+      "information_display_availability_pct": 0.0,
+      "native_source_qualified_availability_pct": 38.233333333333334,
+      "availability_grid_s": 0.01,
+      "availability_viewer": 1,
+      "http_p95_s": 0.0012919349999975793,
+      "native": {
+        "pid": 2229,
+        "information": false,
+        "proof_events": 2,
+        "proof_bytes": 641,
+        "history_rows": 50416,
+        "ticks": [
+          {
+            "decision": 1577837101.192,
+            "lateness_s": 4.036000007090479e-06,
+            "iteration_s": 0.05212350099999696,
+            "elapsed_s": 0.05216676499999551,
+            "published_monotonic": 98.628477928,
+            "published_clock": 1577837101.2447054,
+            "source_qualified_until": null,
+            "anchor_bytes": 0
+          },
+          {
+            "decision": 1577837106.192,
+            "lateness_s": 8.637999999905333e-05,
+            "iteration_s": 0.04155498899999088,
+            "elapsed_s": 5.041726054999998,
+            "published_monotonic": 103.618037218,
+            "published_clock": 1577837106.2342646,
+            "source_qualified_until": 1577837108.514,
+            "anchor_bytes": 0
+          },
+          {
+            "decision": 1577837111.192,
+            "lateness_s": 8.178999999586267e-05,
+            "iteration_s": 0.04128379700000551,
+            "elapsed_s": 10.041450623000003,
+            "published_monotonic": 108.617761786,
+            "published_clock": 1577837111.2339895,
+            "source_qualified_until": 1577837113.514,
+            "anchor_bytes": 0
+          },
+          {
+            "decision": 1577837116.192,
+            "lateness_s": 8.280699999829721e-05,
+            "iteration_s": 0.0410996009999991,
+            "elapsed_s": 15.041281624999996,
+            "published_monotonic": 113.617592788,
+            "published_clock": 1577837116.233821,
+            "source_qualified_until": 1577837118.514,
+            "anchor_bytes": 0
+          },
+          {
+            "decision": 1577837121.192,
+            "lateness_s": 8.255999999562391e-05,
+            "iteration_s": 0.04165027699998802,
+            "elapsed_s": 20.041818312999993,
+            "published_monotonic": 118.618129476,
+            "published_clock": 1577837121.234357,
+            "source_qualified_until": 1577837123.514,
+            "anchor_bytes": 0
+          },
+          {
+            "decision": 1577837126.192,
+            "lateness_s": 8.190900000215606e-05,
+            "iteration_s": 0.042290445000006116,
+            "elapsed_s": 25.042471051000007,
+            "published_monotonic": 123.618782214,
+            "published_clock": 1577837126.2350101,
+            "source_qualified_until": 1577837128.514,
+            "anchor_bytes": 0
+          },
+          {
+            "decision": 1577837131.192,
+            "lateness_s": 8.160999999518026e-05,
+            "iteration_s": 0.04181628800000681,
+            "elapsed_s": 30.04198683,
+            "published_monotonic": 128.618297993,
+            "published_clock": 1577837131.234525,
+            "source_qualified_until": 1577837133.514,
+            "anchor_bytes": 0
+          }
+        ],
+        "errors": [],
+        "native_records": 5,
+        "native_inputs": 1,
+        "messages": [
+          "BRTI DELIVERY | {\"schema\":\"BTC15_BRTI_DELIVERY_V1\",\"ticker\":\"KXBTC15M-19DEC311915-15\",\"decision_utc\":\"2020-01-01T00:05:31.192000+00:00\",\"source_ts\":1577837128.514,\"age_at_decision\":2.677999973297119,\"ready\":true,\"delivery\":{\"observed_ts\":1577837131.0060773,\"decision_ts\":1577837131.192,\"checked_ts\":1577837131.192,\"current_age\":2.677999973297119,\"owner_epoch\":\"owner\",\"reason\":\"QUALIFIED\"},\"signal_only\":true,\"orders\":false}"
+        ]
+      },
+      "worker_restart_pass": false,
+      "shutdown_clean": true,
+      "process_log_tail": "tate.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nPARITY WARNING | RuntimeError: Kalshi read-only credentials not available\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD PROCESS EXITED rc=-15; core + validation continue untouched.\n"
+    },
+    {
+      "name": "normal",
+      "duration_s": 30.0,
+      "cpus": [
+        0
+      ],
+      "clients": 4,
+      "proof_events": 2,
+      "peak_tree_rss_mib": 589.5546875,
+      "mean_cpu_cores": 0.09033333333333332,
+      "max_processes": 11,
+      "processes": [
+        "BTC15_DASHBOARD_LIVE_SERVER_V1.py",
+        "BTC15_RUN_FULL_VALIDATION_WITH_DASHBOARD_V1.py",
+        "btc15_final_position_protection_shadow_v3.py",
+        "btc15_information_worker_v1.py",
+        "btc15_kalshi_parity_shadow_v1.py",
+        "btc15_qualified_forward_observer_v1.py",
+        "btc15_run_full_validation_v1.py",
+        "btc15_run_with_rescue_v2_and_parity_v1.py",
+        "btc15_run_with_rescue_v2_shadow_v1.py",
+        "information_runtime_fixture.py",
+        "run.py"
+      ],
+      "http_counts": {
+        "NATIVE": 65,
+        "unavailable_transport": 21,
+        "AVAILABLE": 174
+      },
+      "information_display_availability_pct": 96.53333333333333,
+      "native_source_qualified_availability_pct": 33.43333333333333,
+      "availability_grid_s": 0.01,
+      "availability_viewer": 1,
+      "http_p95_s": 0.0017040359999782595,
+      "native": {
+        "pid": 2498,
+        "information": true,
+        "proof_events": 2,
+        "proof_bytes": 641,
+        "history_rows": 50416,
+        "ticks": [
+          {
+            "decision": 1577837101.477,
+            "lateness_s": 3.864999996494589e-06,
+            "iteration_s": 0.059644892000022764,
+            "elapsed_s": 0.059685811999997895,
+            "published_monotonic": 138.350434615,
+            "published_clock": 1577837101.5376556,
+            "source_qualified_until": null,
+            "anchor_bytes": 1390
+          },
+          {
+            "decision": 1577837106.478,
+            "lateness_s": 8.283399998276764e-05,
+            "iteration_s": 0.04341429999999491,
+            "elapsed_s": 5.043585744999973,
+            "published_monotonic": 143.334334548,
+            "published_clock": 1577837106.5215561,
+            "source_qualified_until": 1577837108.514,
+            "anchor_bytes": 1434
+          },
+          {
+            "decision": 1577837111.478,
+            "lateness_s": 8.157899998195717e-05,
+            "iteration_s": 0.04304896899998312,
+            "elapsed_s": 10.043219809999982,
+            "published_monotonic": 148.333968613,
+            "published_clock": 1577837111.5211904,
+            "source_qualified_until": 1577837113.514,
+            "anchor_bytes": 1475
+          },
+          {
+            "decision": 1577837116.478,
+            "lateness_s": 8.151299999781259e-05,
+            "iteration_s": 0.04310556499999052,
+            "elapsed_s": 15.043277491999987,
+            "published_monotonic": 153.334026295,
+            "published_clock": 1577837116.521248,
+            "source_qualified_until": 1577837118.514,
+            "anchor_bytes": 1516
+          },
+          {
+            "decision": 1577837121.478,
+            "lateness_s": 8.20829999952366e-05,
+            "iteration_s": 0.04284186600000339,
+            "elapsed_s": 20.043011948999975,
+            "published_monotonic": 158.333760752,
+            "published_clock": 1577837121.5209825,
+            "source_qualified_until": 1577837123.514,
+            "anchor_bytes": 1557
+          },
+          {
+            "decision": 1577837126.478,
+            "lateness_s": 8.210099997540965e-05,
+            "iteration_s": 0.046210743000017374,
+            "elapsed_s": 25.046386783999992,
+            "published_monotonic": 163.337135587,
+            "published_clock": 1577837126.5243573,
+            "source_qualified_until": 1577837128.514,
+            "anchor_bytes": 1597
+          },
+          {
+            "decision": 1577837131.478,
+            "lateness_s": 8.312999997883708e-05,
+            "iteration_s": 0.04746816299999068,
+            "elapsed_s": 30.04764546299998,
+            "published_monotonic": 168.338394266,
+            "published_clock": 1577837131.5256157,
+            "source_qualified_until": 1577837133.514,
+            "anchor_bytes": 1639
+          }
+        ],
+        "errors": [],
+        "native_records": 5,
+        "native_inputs": 1,
+        "messages": [
+          "BRTI DELIVERY | {\"schema\":\"BTC15_BRTI_DELIVERY_V1\",\"ticker\":\"KXBTC15M-19DEC311915-15\",\"decision_utc\":\"2020-01-01T00:05:31.478000+00:00\",\"source_ts\":1577837128.514,\"age_at_decision\":2.9639999866485596,\"ready\":true,\"delivery\":{\"observed_ts\":1577837131.0159662,\"decision_ts\":1577837131.478,\"checked_ts\":1577837131.478,\"current_age\":2.9639999866485596,\"owner_epoch\":\"owner\",\"reason\":\"QUALIFIED\"},\"signal_only\":true,\"orders\":false}"
+        ]
+      },
+      "worker_restart_pass": true,
+      "shutdown_clean": true,
+      "process_log_tail": " 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nPARITY WARNING | RuntimeError: Kalshi read-only credentials not available\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nSHADOW CHILD EXIT | /home/runner/work/Btc-15min-bot/Btc-15min-bot/btc15_information_worker_v1.py | rc=-9 | retry=2.0s | NO ORDERS\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD PROCESS EXITED rc=-15; core + validation continue untouched.\n"
+    },
+    {
+      "name": "single_cpu_stress",
+      "duration_s": 30.0,
+      "cpus": [
+        0
+      ],
+      "clients": 24,
+      "proof_events": 2000,
+      "peak_tree_rss_mib": 609.26953125,
+      "mean_cpu_cores": 0.4313333333333333,
+      "max_processes": 11,
+      "processes": [
+        "BTC15_DASHBOARD_LIVE_SERVER_V1.py",
+        "BTC15_RUN_FULL_VALIDATION_WITH_DASHBOARD_V1.py",
+        "btc15_final_position_protection_shadow_v3.py",
+        "btc15_information_worker_v1.py",
+        "btc15_kalshi_parity_shadow_v1.py",
+        "btc15_qualified_forward_observer_v1.py",
+        "btc15_run_full_validation_v1.py",
+        "btc15_run_with_rescue_v2_and_parity_v1.py",
+        "btc15_run_with_rescue_v2_shadow_v1.py",
+        "information_runtime_fixture.py",
+        "run.py"
+      ],
+      "http_counts": {
+        "NATIVE": 1805,
+        "unavailable_transport": 4633,
+        "WAIT": 8,
+        "AVAILABLE": 576
+      },
+      "information_display_availability_pct": 13.0,
+      "native_source_qualified_availability_pct": 32.86666666666667,
+      "availability_grid_s": 0.01,
+      "availability_viewer": 1,
+      "http_p95_s": 0.018066618000005974,
+      "native": {
+        "pid": 2813,
+        "information": true,
+        "proof_events": 2000,
+        "proof_bytes": 434207,
+        "history_rows": 50416,
+        "ticks": [
+          {
+            "decision": 1577837101.484,
+            "lateness_s": 5.909000009296506e-06,
+            "iteration_s": 0.07588998400001401,
+            "elapsed_s": 0.08304704100001459,
+            "published_monotonic": 177.556156347,
+            "published_clock": 1577837101.5679169,
+            "source_qualified_until": null,
+            "anchor_bytes": 1390
+          },
+          {
+            "decision": 1577837106.485,
+            "lateness_s": 0.001050993999996308,
+            "iteration_s": 0.06190258300000551,
+            "elapsed_s": 5.079037448000008,
+            "published_monotonic": 182.552146754,
+            "published_clock": 1577837106.5639076,
+            "source_qualified_until": 1577837108.514,
+            "anchor_bytes": 1434
+          },
+          {
+            "decision": 1577837111.484,
+            "lateness_s": 7.066800000643525e-05,
+            "iteration_s": 0.05808787799998072,
+            "elapsed_s": 10.066025394999997,
+            "published_monotonic": 187.539134701,
+            "published_clock": 1577837111.550896,
+            "source_qualified_until": 1577837113.514,
+            "anchor_bytes": 1475
+          },
+          {
+            "decision": 1577837116.484,
+            "lateness_s": 7.11080000144193e-05,
+            "iteration_s": 0.05342715399999065,
+            "elapsed_s": 15.06051395899999,
+            "published_monotonic": 192.533623265,
+            "published_clock": 1577837116.5453844,
+            "source_qualified_until": 1577837118.514,
+            "anchor_bytes": 1516
+          },
+          {
+            "decision": 1577837121.484,
+            "lateness_s": 6.696299999475741e-05,
+            "iteration_s": 0.0576681039999869,
+            "elapsed_s": 20.064566248999995,
+            "published_monotonic": 197.537675555,
+            "published_clock": 1577837121.5494368,
+            "source_qualified_until": 1577837123.514,
+            "anchor_bytes": 1556
+          },
+          {
+            "decision": 1577837126.484,
+            "lateness_s": 6.90310000095451e-05,
+            "iteration_s": 0.05942772500000615,
+            "elapsed_s": 25.066430851000007,
+            "published_monotonic": 202.539540157,
+            "published_clock": 1577837126.5513017,
+            "source_qualified_until": 1577837128.514,
+            "anchor_bytes": 1596
+          },
+          {
+            "decision": 1577837131.484,
+            "lateness_s": 6.708699999080636e-05,
+            "iteration_s": 0.05787706400002435,
+            "elapsed_s": 30.066077131000014,
+            "published_monotonic": 207.539186437,
+            "published_clock": 1577837131.5509467,
+            "source_qualified_until": 1577837133.514,
+            "anchor_bytes": 1639
+          }
+        ],
+        "errors": [],
+        "native_records": 5,
+        "native_inputs": 1,
+        "messages": [
+          "BRTI DELIVERY | {\"schema\":\"BTC15_BRTI_DELIVERY_V1\",\"ticker\":\"KXBTC15M-19DEC311915-15\",\"decision_utc\":\"2020-01-01T00:05:31.484000+00:00\",\"source_ts\":1577837128.514,\"age_at_decision\":2.9700000286102295,\"ready\":true,\"delivery\":{\"observed_ts\":1577837131.021654,\"decision_ts\":1577837131.484,\"checked_ts\":1577837131.484,\"current_age\":2.9700000286102295,\"owner_epoch\":\"owner\",\"reason\":\"QUALIFIED\"},\"signal_only\":true,\"orders\":false}"
+        ]
+      },
+      "worker_restart_pass": true,
+      "shutdown_clean": true,
+      "process_log_tail": " 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD PROCESS EXITED rc=-15; core + validation continue untouched.\n"
+    },
+    {
+      "name": "two_cpu_stress",
+      "duration_s": 30.0,
+      "cpus": [
+        0,
+        1
+      ],
+      "clients": 24,
+      "proof_events": 2000,
+      "peak_tree_rss_mib": 606.26171875,
+      "mean_cpu_cores": 0.4673333333333333,
+      "max_processes": 11,
+      "processes": [
+        "BTC15_DASHBOARD_LIVE_SERVER_V1.py",
+        "BTC15_RUN_FULL_VALIDATION_WITH_DASHBOARD_V1.py",
+        "btc15_final_position_protection_shadow_v3.py",
+        "btc15_information_worker_v1.py",
+        "btc15_kalshi_parity_shadow_v1.py",
+        "btc15_qualified_forward_observer_v1.py",
+        "btc15_run_full_validation_v1.py",
+        "btc15_run_with_rescue_v2_and_parity_v1.py",
+        "btc15_run_with_rescue_v2_shadow_v1.py",
+        "information_runtime_fixture.py",
+        "run.py"
+      ],
+      "http_counts": {
+        "NATIVE": 1854,
+        "unavailable_transport": 4785,
+        "WAIT": 17,
+        "AVAILABLE": 599
+      },
+      "information_display_availability_pct": 15.6,
+      "native_source_qualified_availability_pct": 28.666666666666668,
+      "availability_grid_s": 0.01,
+      "availability_viewer": 1,
+      "http_p95_s": 0.0143059780000101,
+      "native": {
+        "pid": 9829,
+        "information": true,
+        "proof_events": 2000,
+        "proof_bytes": 434207,
+        "history_rows": 50416,
+        "ticks": [
+          {
+            "decision": 1577837101.752,
+            "lateness_s": 5.237000010538395e-06,
+            "iteration_s": 0.07268716300001188,
+            "elapsed_s": 0.08505404400000316,
+            "published_monotonic": 216.998104608,
+            "published_clock": 1577837101.8375604,
+            "source_qualified_until": null,
+            "anchor_bytes": 1390
+          },
+          {
+            "decision": 1577837106.752,
+            "lateness_s": 7.586699999251323e-05,
+            "iteration_s": 0.05607519500000535,
+            "elapsed_s": 5.064335679999999,
+            "published_monotonic": 221.977386244,
+            "published_clock": 1577837106.8168454,
+            "source_qualified_until": 1577837108.514,
+            "anchor_bytes": 1434
+          },
+          {
+            "decision": 1577837111.752,
+            "lateness_s": 7.407300000750183e-05,
+            "iteration_s": 0.05670981400001551,
+            "elapsed_s": 10.064348730000006,
+            "published_monotonic": 226.977399294,
+            "published_clock": 1577837111.8168566,
+            "source_qualified_until": 1577837113.514,
+            "anchor_bytes": 1474
+          },
+          {
+            "decision": 1577837116.752,
+            "lateness_s": 7.943200000681827e-05,
+            "iteration_s": 0.05732700299998328,
+            "elapsed_s": 15.067798888999988,
+            "published_monotonic": 231.980849453,
+            "published_clock": 1577837116.820306,
+            "source_qualified_until": 1577837118.514,
+            "anchor_bytes": 1516
+          },
+          {
+            "decision": 1577837121.752,
+            "lateness_s": 7.306099999482285e-05,
+            "iteration_s": 0.0569142809999903,
+            "elapsed_s": 20.064562526999993,
+            "published_monotonic": 236.977613091,
+            "published_clock": 1577837121.8170698,
+            "source_qualified_until": 1577837123.514,
+            "anchor_bytes": 1557
+          },
+          {
+            "decision": 1577837126.752,
+            "lateness_s": 7.568800000967713e-05,
+            "iteration_s": 0.04887215799999467,
+            "elapsed_s": 25.058219734000005,
+            "published_monotonic": 241.971270298,
+            "published_clock": 1577837126.8107266,
+            "source_qualified_until": 1577837128.514,
+            "anchor_bytes": 1597
+          },
+          {
+            "decision": 1577837131.752,
+            "lateness_s": 7.29059999855508e-05,
+            "iteration_s": 0.0583121589999962,
+            "elapsed_s": 30.065455057999998,
+            "published_monotonic": 246.978505622,
+            "published_clock": 1577837131.8179615,
+            "source_qualified_until": 1577837133.514,
+            "anchor_bytes": 1639
+          }
+        ],
+        "errors": [],
+        "native_records": 5,
+        "native_inputs": 1,
+        "messages": [
+          "BRTI DELIVERY | {\"schema\":\"BTC15_BRTI_DELIVERY_V1\",\"ticker\":\"KXBTC15M-19DEC311915-15\",\"decision_utc\":\"2020-01-01T00:05:31.752000+00:00\",\"source_ts\":1577837128.514,\"age_at_decision\":3.2380001544952393,\"ready\":true,\"delivery\":{\"observed_ts\":1577837131.0219882,\"decision_ts\":1577837131.752,\"checked_ts\":1577837131.752,\"current_age\":3.2380001544952393,\"owner_epoch\":\"owner\",\"reason\":\"QUALIFIED\"},\"signal_only\":true,\"orders\":false}"
+        ]
+      },
+      "worker_restart_pass": true,
+      "shutdown_clean": true,
+      "process_log_tail": "P/1.1\" 429 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -DASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\n\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD PROCESS EXITED rc=-15; core + validation continue untouched.\n"
+    },
+    {
+      "name": "near_bound_proof_stress",
+      "duration_s": 30.0,
+      "cpus": [
+        0,
+        1
+      ],
+      "clients": 24,
+      "proof_events": 7000,
+      "peak_tree_rss_mib": 670.60546875,
+      "mean_cpu_cores": 1.3866666666666667,
+      "max_processes": 11,
+      "processes": [
+        "BTC15_DASHBOARD_LIVE_SERVER_V1.py",
+        "BTC15_RUN_FULL_VALIDATION_WITH_DASHBOARD_V1.py",
+        "btc15_final_position_protection_shadow_v3.py",
+        "btc15_information_worker_v1.py",
+        "btc15_kalshi_parity_shadow_v1.py",
+        "btc15_qualified_forward_observer_v1.py",
+        "btc15_run_full_validation_v1.py",
+        "btc15_run_with_rescue_v2_and_parity_v1.py",
+        "btc15_run_with_rescue_v2_shadow_v1.py",
+        "information_runtime_fixture.py",
+        "run.py"
+      ],
+      "http_counts": {
+        "NATIVE": 1865,
+        "unavailable_transport": 4653,
+        "WAIT": 63,
+        "AVAILABLE": 547
+      },
+      "information_display_availability_pct": 8.833333333333334,
+      "native_source_qualified_availability_pct": 26.966666666666665,
+      "availability_grid_s": 0.01,
+      "availability_viewer": 1,
+      "http_p95_s": 0.08823555200001465,
+      "native": {
+        "pid": 17098,
+        "information": true,
+        "proof_events": 7000,
+        "proof_bytes": 1519207,
+        "history_rows": 50416,
+        "ticks": [
+          {
+            "decision": 1577837101.71,
+            "lateness_s": 5.328000042936765e-06,
+            "iteration_s": 0.09785169100001667,
+            "elapsed_s": 0.1488141720000158,
+            "published_monotonic": 256.392842772,
+            "published_clock": 1577837101.8596268,
+            "source_qualified_until": null,
+            "anchor_bytes": 1385
+          },
+          {
+            "decision": 1577837106.713,
+            "lateness_s": 0.0023111160000439668,
+            "iteration_s": 0.11004614199998741,
+            "elapsed_s": 5.202203029000032,
+            "published_monotonic": 261.446231629,
+            "published_clock": 1577837106.9130166,
+            "source_qualified_until": 1577837108.514,
+            "anchor_bytes": 1431
+          },
+          {
+            "decision": 1577837111.715,
+            "lateness_s": 0.00516748200004713,
+            "iteration_s": 0.10841023799997629,
+            "elapsed_s": 10.202619285000026,
+            "published_monotonic": 266.446647885,
+            "published_clock": 1577837111.913433,
+            "source_qualified_until": 1577837113.514,
+            "anchor_bytes": 1472
+          },
+          {
+            "decision": 1577837116.71,
+            "lateness_s": 7.786800000531002e-05,
+            "iteration_s": 0.09974033899999313,
+            "elapsed_s": 15.14137209300003,
+            "published_monotonic": 271.385400693,
+            "published_clock": 1577837116.8521862,
+            "source_qualified_until": 1577837118.514,
+            "anchor_bytes": 1509
+          },
+          {
+            "decision": 1577837121.71,
+            "lateness_s": 7.78250000053049e-05,
+            "iteration_s": 0.17942514600002823,
+            "elapsed_s": 20.22842420300003,
+            "published_monotonic": 276.472452803,
+            "published_clock": 1577837121.9392383,
+            "source_qualified_until": 1577837123.514,
+            "anchor_bytes": 1548
+          },
+          {
+            "decision": 1577837126.719,
+            "lateness_s": 0.008822235000025103,
+            "iteration_s": 0.09044603899997128,
+            "elapsed_s": 25.145009001999995,
+            "published_monotonic": 281.389037602,
+            "published_clock": 1577837126.8558238,
+            "source_qualified_until": 1577837128.514,
+            "anchor_bytes": 1591
+          }
+        ],
+        "errors": [],
+        "native_records": 5,
+        "native_inputs": 1,
+        "messages": [
+          "BRTI DELIVERY | {\"schema\":\"BTC15_BRTI_DELIVERY_V1\",\"ticker\":\"KXBTC15M-19DEC311915-15\",\"decision_utc\":\"2020-01-01T00:05:26.719000+00:00\",\"source_ts\":1577837123.514,\"age_at_decision\":3.205000162124634,\"ready\":true,\"delivery\":{\"observed_ts\":1577837126.1509018,\"decision_ts\":1577837126.719,\"checked_ts\":1577837126.719,\"current_age\":3.205000162124634,\"owner_epoch\":\"owner\",\"reason\":\"QUALIFIED\"},\"signal_only\":true,\"orders\":false}",
+          "00:05:26Z | KXBTC15M-19DEC311915-15 | 9.55m left | BTC gap $+80.00 | UP 0.59/0.61 | DOWN 0.39/0.41 | pending 4 | profit-shadow 0",
+          "  DIRECT BRTI | $100,080.00 | vs Coinbase $+0.00 | gap $+80.00 | side UP | age 3.2s | ready True",
+          "  EARLY-CONF LIVE | UP | fair 87.0% | ask 61% | edge +26.0% | persist30 3 | candidate False",
+          "  UNIFIED EARLY | UP | ask 61% | fair 87.0% | edge +26.0% | BRTI agree True | persist30 3 | lag15 False | reversal WARMING"
+        ]
+      },
+      "worker_restart_pass": true,
+      "shutdown_clean": true,
+      "process_log_tail": " 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -DASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\n\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -DASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\n\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 503 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD HTTP | \"GET /dashboard_state.json HTTP/1.1\" 200 -\nDASHBOARD HTTP | \"GET /information HTTP/1.1\" 429 -\nDASHBOARD PROCESS EXITED rc=-15; core + validation continue untouched.\n"
+    }
+  ]
+}

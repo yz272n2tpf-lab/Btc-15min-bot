@@ -1,0 +1,28 @@
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/joblib/numpy_pickle.py:207: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+  array.shape = self.shape
+test_concurrent_source_publication_retains_exact_bytes_not_latest (test_btc15_information_integration.ConcurrencyTests.test_concurrent_source_publication_retains_exact_bytes_not_latest) ... ok
+test_duplicate_worker_cannot_bind_same_information_authority (test_btc15_information_integration.ConcurrencyTests.test_duplicate_worker_cannot_bind_same_information_authority) ... ok
+test_mirror_outage_recovery_and_owner_restart_fail_closed (test_btc15_information_integration.ConcurrencyTests.test_mirror_outage_recovery_and_owner_restart_fail_closed) ... ok
+test_retention_bound_under_concurrent_readers_and_eviction (test_btc15_information_integration.ConcurrencyTests.test_retention_bound_under_concurrent_readers_and_eviction) ... ok
+test_slow_inference_source_expiry_does_not_block_reads_or_mutate_native (test_btc15_information_integration.ConcurrencyTests.test_slow_inference_source_expiry_does_not_block_reads_or_mutate_native) ... ok
+test_thousand_display_reads_do_not_poll_or_extend_native_health (test_btc15_information_integration.ConcurrencyTests.test_thousand_display_reads_do_not_poll_or_extend_native_health) ... ok
+test_all_original_wrappers_and_installed_dashboard_self_tests (test_btc15_information_integration.InstallTests.test_all_original_wrappers_and_installed_dashboard_self_tests) ... ok
+test_full_supervisor_chain_only_changes_child_constants (test_btc15_information_integration.InstallTests.test_full_supervisor_chain_only_changes_child_constants) ... ok
+test_optional_worker_spawn_failure_keeps_native_and_strips_credentials (test_btc15_information_integration.InstallTests.test_optional_worker_spawn_failure_keeps_native_and_strips_credentials) ... INFORMATIONAL_READ_ONLY worker spawn unavailable: OSError
+SHADOW CHILD EXIT | /workspace/scratch/284e82733506/btc15/btc15_information_worker_v1.py | rc=127 | retry=2.0s | NO ORDERS
+ok
+test_original_html_survives_exactly_with_one_independent_panel (test_btc15_information_integration.InstallTests.test_original_html_survives_exactly_with_one_independent_panel) ... ok
+test_process_group_cleanup_includes_orphan_descendants (test_btc15_information_integration.InstallTests.test_process_group_cleanup_includes_orphan_descendants) ... ok
+test_public_proxy_rejects_unknown_fields_future_or_expired_values (test_btc15_information_integration.InstallTests.test_public_proxy_rejects_unknown_fields_future_or_expired_values) ... ok
+test_public_transport_charges_latency_without_extending_deadline (test_btc15_information_integration.InstallTests.test_public_transport_charges_latency_without_extending_deadline) ... ok
+test_repeated_assembly_has_exact_manifest (test_btc15_information_integration.InstallTests.test_repeated_assembly_has_exact_manifest) ... ok
+test_repeated_clients_are_bounded_before_local_worker (test_btc15_information_integration.InstallTests.test_repeated_clients_are_bounded_before_local_worker) ... ok
+test_root_lock_prevents_duplicate_installation_before_spawning (test_btc15_information_integration.InstallTests.test_root_lock_prevents_duplicate_installation_before_spawning) ... ok
+test_unknown_routes_cannot_proxy_native_or_action_api (test_btc15_information_integration.InstallTests.test_unknown_routes_cannot_proxy_native_or_action_api) ... ok
+test_worker_resource_limits_are_child_only_and_model_loads (test_btc15_information_integration.InstallTests.test_worker_resource_limits_are_child_only_and_model_loads) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 13.014s
+
+OK

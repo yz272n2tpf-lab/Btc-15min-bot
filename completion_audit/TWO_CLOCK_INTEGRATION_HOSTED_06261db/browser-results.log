@@ -1,0 +1,19 @@
+{
+  "schema": "BTC15_INFORMATION_BROWSER_V1",
+  "browser": "151.0.7922.34",
+  "tests": 9,
+  "passed": [
+    "assembled dashboard/assets, separate information panel",
+    "disconnect clears information, native cards unchanged",
+    "wait fails closed",
+    "expired fails closed",
+    "future fails closed",
+    "slow fails closed",
+    "old HTTP body/nonce cannot revive on reconnect",
+    "page lifecycle/bfcache invalidates token",
+    "serialized token and browser timer expiry"
+  ],
+  "information_requests": 19,
+  "native_cards_unchanged": true,
+  "external_network_blocked": true
+}
