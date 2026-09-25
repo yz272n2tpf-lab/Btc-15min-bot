@@ -24,6 +24,7 @@ class Witness:
     sid: int
     seq: int
     exchange_ts_ms: int
+    close_ms: int
 
     @property
     def identity(self):
