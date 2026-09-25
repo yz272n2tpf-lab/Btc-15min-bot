@@ -1,0 +1,89 @@
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/joblib/numpy_pickle.py:207: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+  array.shape = self.shape
+test_all_native_outputs_and_166_plus_state_bindings_equal_with_fast_reads (test_btc15_information_v1.InformationTests.test_all_native_outputs_and_166_plus_state_bindings_equal_with_fast_reads) ... ERROR
+test_armed_target_counterexample_preserves_actual_later_exit_both_sides (test_btc15_information_v1.InformationTests.test_armed_target_counterexample_preserves_actual_later_exit_both_sides) ... ok
+test_brti_exact_five_second_deadline_then_wait_has_no_values (test_btc15_information_v1.InformationTests.test_brti_exact_five_second_deadline_then_wait_has_no_values) ... ok
+test_busy_owner_fails_closed_without_mutation_or_waiting (test_btc15_information_v1.InformationTests.test_busy_owner_fails_closed_without_mutation_or_waiting) ... ok
+test_closed_output_schema_classifies_every_field_and_has_no_action (test_btc15_information_v1.InformationTests.test_closed_output_schema_classifies_every_field_and_has_no_action) ... ok
+test_cooldowns_events_and_protection_functions_not_called_on_fast_path (test_btc15_information_v1.InformationTests.test_cooldowns_events_and_protection_functions_not_called_on_fast_path) ... ERROR
+test_exact_boundary_btc_quote_and_market_expiry (test_btc15_information_v1.InformationTests.test_exact_boundary_btc_quote_and_market_expiry) ... ok
+test_fast_quotes_change_information_without_entries_or_candles (test_btc15_information_v1.InformationTests.test_fast_quotes_change_information_without_entries_or_candles) ... FAIL
+test_health_lease_expiry_and_owner_restart_invalidate_retained_frame (test_btc15_information_v1.InformationTests.test_health_lease_expiry_and_owner_restart_invalidate_retained_frame) ... ok
+test_immutable_retention_exact_identity_no_latest_fallback (test_btc15_information_v1.InformationTests.test_immutable_retention_exact_identity_no_latest_fallback) ... ok
+test_inference_latency_rechecked_after_evaluation (test_btc15_information_v1.InformationTests.test_inference_latency_rechecked_after_evaluation) ... ok
+test_instrumentation_only_adds_one_read_observer_expression (test_btc15_information_v1.InformationTests.test_instrumentation_only_adds_one_read_observer_expression) ... ok
+test_many_repeated_queries_do_not_evaluate_or_renew_any_clock (test_btc15_information_v1.InformationTests.test_many_repeated_queries_do_not_evaluate_or_renew_any_clock) ... ok
+test_missing_or_corrupt_anchor_proof_model_and_schema_fail_closed (test_btc15_information_v1.InformationTests.test_missing_or_corrupt_anchor_proof_model_and_schema_fail_closed) ... ok
+test_native_export_failure_does_not_change_original_state (test_btc15_information_v1.InformationTests.test_native_export_failure_does_not_change_original_state) ... ok
+test_native_feature_and_probability_exact_at_same_cut (test_btc15_information_v1.InformationTests.test_native_feature_and_probability_exact_at_same_cut) ... ok
+test_only_new_brti_updates_information_not_native_state (test_btc15_information_v1.InformationTests.test_only_new_brti_updates_information_not_native_state) ... ok
+test_owner_restart_during_inference_fails_and_new_source_recovers (test_btc15_information_v1.InformationTests.test_owner_restart_during_inference_fails_and_new_source_recovers) ... ok
+test_partial_candle_extremes_only_change_on_native_tick (test_btc15_information_v1.InformationTests.test_partial_candle_extremes_only_change_on_native_tick) ... ok
+test_persistence_boundary_extras_never_add_or_prune_native_hits (test_btc15_information_v1.InformationTests.test_persistence_boundary_extras_never_add_or_prune_native_hits) ... ok
+test_quote_interruption_recovery_does_not_resurrect_a_duplicate (test_btc15_information_v1.InformationTests.test_quote_interruption_recovery_does_not_resurrect_a_duplicate) ... ok
+test_real_loopback_handoff_http_read_wait_and_unknown_identity (test_btc15_information_v1.InformationTests.test_real_loopback_handoff_http_read_wait_and_unknown_identity) ... ok
+test_regression_conflict_and_clock_renewal_fail_closed (test_btc15_information_v1.InformationTests.test_regression_conflict_and_clock_renewal_fail_closed) ... ok
+test_rollover_waits_for_native_anchor_and_cannot_relabel_old_frame (test_btc15_information_v1.InformationTests.test_rollover_waits_for_native_anchor_and_cannot_relabel_old_frame) ... FAIL
+test_stale_future_receipt_and_source_rejected_at_capture (test_btc15_information_v1.InformationTests.test_stale_future_receipt_and_source_rejected_at_capture) ... ok
+test_wall_clock_regression_waits_without_republishing (test_btc15_information_v1.InformationTests.test_wall_clock_regression_waits_without_republishing) ... ok
+
+======================================================================
+ERROR: test_all_native_outputs_and_166_plus_state_bindings_equal_with_fast_reads (test_btc15_information_v1.InformationTests.test_all_native_outputs_and_166_plus_state_bindings_equal_with_fast_reads)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/284e82733506/btc15/test_btc15_information_v1.py", line 124, in test_all_native_outputs_and_166_plus_state_bindings_equal_with_fast_reads
+    rig.publish(pub);rig.read(pub);rig.read(pub)
+    ^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/284e82733506/btc15/test_btc15_information_v1.py", line 67, in publish
+    return publisher.offer(self.export.capture(), self.export.health, lambda:self.at)
+                           ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/284e82733506/btc15/btc15_information_native_v1.py", line 132, in capture
+    validate(raw, self.health(), self.clock())
+  File "/workspace/scratch/284e82733506/btc15/btc15_information_v1.py", line 163, in validate
+    raise Unavailable('BTC_STALE_OR_NONCAUSAL')
+btc15_information_v1.Unavailable: BTC_STALE_OR_NONCAUSAL
+
+======================================================================
+ERROR: test_cooldowns_events_and_protection_functions_not_called_on_fast_path (test_btc15_information_v1.InformationTests.test_cooldowns_events_and_protection_functions_not_called_on_fast_path)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/284e82733506/btc15/test_btc15_information_v1.py", line 208, in test_cooldowns_events_and_protection_functions_not_called_on_fast_path
+    self.assertTrue(rig.publish(pub) if t==301 else not rig.publish(pub))
+                                                        ^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/284e82733506/btc15/test_btc15_information_v1.py", line 67, in publish
+    return publisher.offer(self.export.capture(), self.export.health, lambda:self.at)
+                           ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/284e82733506/btc15/btc15_information_native_v1.py", line 123, in capture
+    a, point, proof, health = self._owners(selected, with_events=True)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/284e82733506/btc15/btc15_information_native_v1.py", line 113, in _owners
+    raise Unavailable('SOURCE_CHANGED_OR_EXPIRED')
+btc15_information_v1.Unavailable: SOURCE_CHANGED_OR_EXPIRED
+
+======================================================================
+FAIL: test_fast_quotes_change_information_without_entries_or_candles (test_btc15_information_v1.InformationTests.test_fast_quotes_change_information_without_entries_or_candles)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/284e82733506/btc15/test_btc15_information_v1.py", line 158, in test_fast_quotes_change_information_without_entries_or_candles
+    self.assertTrue(rig.publish(pub))
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_rollover_waits_for_native_anchor_and_cannot_relabel_old_frame (test_btc15_information_v1.InformationTests.test_rollover_waits_for_native_anchor_and_cannot_relabel_old_frame)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/284e82733506/btc15/test_btc15_information_v1.py", line 276, in test_rollover_waits_for_native_anchor_and_cannot_relabel_old_frame
+    rig,pub=self.make(offset=895);rig.publish(pub)
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/284e82733506/btc15/test_btc15_information_v1.py", line 82, in make
+    return Rig(self.initial, **kwargs), InformationPublisher(self.fair)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/284e82733506/btc15/test_btc15_information_v1.py", line 50, in __init__
+    raise AssertionError(self.export.last_offer_error)
+AssertionError: NATIVE_EXPORT_UNAVAILABLE
+
+----------------------------------------------------------------------
+Ran 26 tests in 31.521s
+
+FAILED (failures=2, errors=2)
