@@ -32,8 +32,20 @@ class InformationStaticTests(unittest.TestCase):
                'btc15_kalshi_quote_provenance_v1.py','BTC15_INSTALL_LIVE_DASHBOARD_V13.py',
                'btc15_run_with_rescue_v2_shadow_v1.py','btc15_final_position_protection_shadow_v3.py',
                'btc15_run_full_validation_v1.py','railway.json']
+        lock_root='BTC15_CORE_PRODUCTION_CANDIDATE_LOCK_V1'
+        manifest=json.loads(subprocess.check_output(
+            ['git','show','3e552065e34a0a402bc3ca4598b57dff1f1c6e77:'+lock_root+'/LOCK_MANIFEST.json'],
+            cwd=ROOT,text=True))
+        locked={item['name']:item['sha256'] for item in manifest['files']}
         for name in names:
-            frozen=subprocess.check_output(['git','show','3e552065e34a0a402bc3ca4598b57dff1f1c6e77:'+name],cwd=ROOT)
+            # PR36 stores the core bot in the immutable lock directory, while
+            # later runtime files are top-level. Resolve that documented layout
+            # rather than asking Git for a path that never existed.
+            path=(lock_root+'/'+name) if name in locked else name
+            frozen=subprocess.check_output(
+                ['git','show','3e552065e34a0a402bc3ca4598b57dff1f1c6e77:'+path],cwd=ROOT)
+            if name in locked:
+                self.assertEqual(hashlib.sha256(frozen).hexdigest(),locked[name],name+' lock manifest')
             self.assertEqual((ROOT/name).read_bytes(),frozen,name)
 
     def test_opt_in_launcher_and_loopback_only_separate_route(self):
