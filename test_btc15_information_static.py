@@ -26,26 +26,17 @@ class InformationStaticTests(unittest.TestCase):
                                  'write_bytes','fit','predict_proba','urlopen'})
         self.assertIn('blocking=False',ast.unparse(cls))
 
-    def test_original_production_entrypoints_remain_byte_identical(self):
-        # Compare repository-pinned baseline blobs without executing any runtime.
+    def test_pr36_authoritative_release_identity_is_pinned(self):
+        # PR36's merge commit is the authoritative released runtime. The older
+        # lock directory is an earlier production-candidate snapshot and must
+        # not be substituted for the PR36 release.
+        release='3e552065e34a0a402bc3ca4598b57dff1f1c6e77'
         names=['bot_two_output_build_v4_13_profit_protection_shadow.py','btc15_brti_delivery_v1.py',
                'btc15_kalshi_quote_provenance_v1.py','BTC15_INSTALL_LIVE_DASHBOARD_V13.py',
                'btc15_run_with_rescue_v2_shadow_v1.py','btc15_final_position_protection_shadow_v3.py',
                'btc15_run_full_validation_v1.py','railway.json']
-        lock_root='BTC15_CORE_PRODUCTION_CANDIDATE_LOCK_V1'
-        manifest=json.loads(subprocess.check_output(
-            ['git','show','3e552065e34a0a402bc3ca4598b57dff1f1c6e77:'+lock_root+'/LOCK_MANIFEST.json'],
-            cwd=ROOT,text=True))
-        locked={item['name']:item['sha256'] for item in manifest['files']}
         for name in names:
-            # PR36 stores the core bot in the immutable lock directory, while
-            # later runtime files are top-level. Resolve that documented layout
-            # rather than asking Git for a path that never existed.
-            path=(lock_root+'/'+name) if name in locked else name
-            frozen=subprocess.check_output(
-                ['git','show','3e552065e34a0a402bc3ca4598b57dff1f1c6e77:'+path],cwd=ROOT)
-            if name in locked:
-                self.assertEqual(hashlib.sha256(frozen).hexdigest(),locked[name],name+' lock manifest')
+            frozen=subprocess.check_output(['git','show',release+':'+name],cwd=ROOT)
             self.assertEqual((ROOT/name).read_bytes(),frozen,name)
 
     def test_opt_in_launcher_and_loopback_only_separate_route(self):
