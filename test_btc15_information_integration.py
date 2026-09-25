@@ -157,13 +157,32 @@ as_limit=resource.getrlimit(resource.RLIMIT_AS)[0],rss_kb=resource.getrusage(res
             self.assertNotEqual(p.returncode,0);self.assertIn('already owned',p.stderr)
             self.assertFalse((Path(d)/'manifest.json').exists())
 
+    def test_shutdown_grace_reaches_children_after_parent_exits(self):
+        with tempfile.TemporaryDirectory() as d:
+            ready=Path(d)/'ready';done=Path(d)/'flushed';child=Path(d)/'child.py'
+            child.write_text('import signal,time,sys\nfrom pathlib import Path\n'
+                f'def stop(*_):\n time.sleep(.2)\n Path({str(done)!r}).write_text("flushed")\n sys.exit(0)\n'
+                f'signal.signal(signal.SIGTERM,stop)\nPath({str(ready)!r}).touch()\ntime.sleep(60)\n')
+            proc=subprocess.Popen([sys.executable,'-c',
+                'import subprocess,sys,time;subprocess.Popen([sys.executable,sys.argv[1]]);time.sleep(60)',str(child)],
+                start_new_session=True)
+            try:
+                for _ in range(200):
+                    if ready.exists():break
+                    time.sleep(.01)
+                self.assertTrue(ready.exists());terminate_group(proc,.5)
+                self.assertEqual(done.read_text(),'flushed')
+            finally:
+                if proc.poll() is None:terminate_group(proc,.1)
+
     def test_optional_worker_spawn_failure_keeps_native_and_strips_credentials(self):
         import btc15_information_install_v1 as install
         from types import SimpleNamespace
         poll=iter((None,0));core=SimpleNamespace(pid=123,returncode=0,poll=lambda:next(poll))
         with patch.dict(os.environ,{'KALSHI_KEY_ID':'TEST_ONLY','BTC15_BRTI_SHARED_URL':'TEST_ONLY'}), \
              patch.object(install.subprocess,'Popen',side_effect=[core,OSError('synthetic resource exhaustion')]) as spawn, \
-             patch.object(install,'terminate_group') as reap,patch.object(install.time,'sleep'):
+             patch.object(install,'terminate_group') as reap,patch.object(install.time,'sleep'), \
+             patch.object(install.os,'killpg'):
             self.assertEqual(install.supervise(self.d),0)
         native_env=spawn.call_args_list[0].kwargs['env'];worker_env=spawn.call_args_list[1].kwargs['env']
         self.assertIn('KALSHI_KEY_ID',native_env);self.assertNotIn('KALSHI_KEY_ID',worker_env)

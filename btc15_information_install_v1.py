@@ -73,10 +73,16 @@ def assemble(directory=BUILD):
 
 def terminate_group(proc, grace=5):
     # Also reap descendants when a supervisor died before forwarding a signal.
+    deadline = time.monotonic()+grace
     try: os.killpg(proc.pid, signal.SIGTERM)
     except ProcessLookupError: pass
-    try: proc.wait(timeout=grace)
-    except subprocess.TimeoutExpired: pass
+    # A supervisor can exit before its native/telemetry children finish. Give
+    # the entire group its grace period, not just the topmost parent process.
+    while time.monotonic() < deadline:
+        proc.poll()
+        try: os.killpg(proc.pid, 0)
+        except ProcessLookupError: break
+        time.sleep(.05)
     try: os.killpg(proc.pid, signal.SIGKILL)
     except ProcessLookupError: pass
     proc.wait()
@@ -116,6 +122,11 @@ def supervise(directory, worker_script=None):
             worker.maintain()
             time.sleep(.2)
     finally:
+        # Begin both shutdowns together; an optional worker cannot postpone the
+        # native group's original signal handling while its own stop is slow.
+        for proc in [core, *children]:
+            try: os.killpg(proc.pid, signal.SIGTERM)
+            except ProcessLookupError: pass
         worker.stop()
         for proc in children: terminate_group(proc)
         terminate_group(core)
