@@ -53,7 +53,7 @@ def assemble(directory=BUILD):
     # Only child path constants change. Supervisor logic, telemetry, source owners,
     # Rescue processing, data-root resolution and logs remain their original code.
     links = [
-        ('btc15_run_with_rescue_v2_shadow_v1.py', 'BOT', 'bot_two_output_build_v4_13_profit_protection_shadow.py', ROOT/'btc15_information_native_v1.py'),
+        ('btc15_run_with_rescue_v2_shadow_v1.py', 'BOT', 'bot_two_output_build_v4_13_profit_protection_shadow.py', ROOT/'btc15_information_native_offpath_candidate.py'),
         ('btc15_run_with_rescue_v2_and_parity_v1.py', 'CORE', 'btc15_run_with_rescue_v2_shadow_v1.py', d/'btc15_run_with_rescue_v2_shadow_v1.py'),
         ('btc15_run_full_validation_v1.py', 'CORE', 'btc15_run_with_rescue_v2_and_parity_v1.py', d/'btc15_run_with_rescue_v2_and_parity_v1.py'),
     ]
