@@ -24,3 +24,7 @@ jobs:
         run: python -m unittest -v test_btc15_quote_proof_offpath_v1.py
       - name: Focused integration tests
         run: python -m unittest -v test_btc15_kalshi_quote_provenance_offpath_candidate.py
+      - name: Existing quote provenance regressions
+        run: python -m unittest -v test_btc15_kalshi_quote_provenance_regressions.py
+      - name: Decision clock and BRTI regressions
+        run: python -m unittest -v test_btc15_decision_clock_v1.py test_btc15_brti_delivery_v1.py
