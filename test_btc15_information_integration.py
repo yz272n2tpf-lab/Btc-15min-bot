@@ -115,7 +115,7 @@ class InstallTests(unittest.TestCase):
         with patch.object(self.proxy,'urlopen',slow),ThreadPoolExecutor(max_workers=30) as pool:
             handlers=[Handler() for _ in range(100)]
             list(pool.map(self.proxy.serve,handlers))
-        self.assertLessEqual(len(calls),2)
+        self.assertLessEqual(len(calls),4)
         self.assertTrue(all(h.reply[0] in (429,503) for h in handlers))
 
     def test_worker_resource_limits_are_child_only_and_model_loads(self):

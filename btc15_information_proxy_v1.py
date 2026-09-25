@@ -9,9 +9,10 @@ from urllib.request import urlopen
 
 ROOT = Path(__file__).resolve().parent
 FIELDS = json.loads((ROOT/'btc15_information_fields_v1.json').read_text())
-SLOTS = threading.BoundedSemaphore(2)
+SLOTS = threading.BoundedSemaphore(4)
 RATE_LOCK = threading.Lock()
 NEXT = 0.
+TOKENS = 20.
 MAX_BYTES = 16384
 ASSETS = {'/information/view.js':'btc15_information_view_v1.js',
           '/information/panel.js':'btc15_information_panel_v1.js'}
@@ -56,7 +57,7 @@ def reply(handler, code, kind, body):
 
 
 def serve(handler):
-    global NEXT
+    global NEXT, TOKENS
     path = handler.path
     if not (path == '/information' or path.startswith('/information/') or path.startswith('/information?')):
         return False
@@ -70,8 +71,10 @@ def serve(handler):
         handler._send(404,'application/json',b'{"error":"NOT_FOUND"}'); return True
     with RATE_LOCK:
         now = time.monotonic()
-        allowed = now >= NEXT
-        if allowed: NEXT = now+.05  # Whole dashboard <=20 information requests/s.
+        TOKENS = min(20., TOKENS+max(0,now-NEXT)*20.)
+        NEXT = now
+        allowed = TOKENS >= 1
+        if allowed: TOKENS -= 1  # 20/s with a bounded 20-request burst.
     if not allowed or not SLOTS.acquire(blocking=False):
         handler._send(429,'application/json',b'{"status":"WAIT","error":"INFORMATION_BUSY"}'); return True
     try:

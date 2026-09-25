@@ -56,7 +56,8 @@ def main():
                     f=inputs(at);p=provider(f)
                     with source_lock:
                         current[0]=p
-                        runtime.ns['_brti_delivery'].accept(*f['brti_receipts'][0])
+                        value,source,_,epoch=f['brti_receipts'][0]
+                        runtime.ns['_brti_delivery'].accept(value,source,time.time(),epoch)
                     last=at
                 except Exception as e:error.append(repr(e))
             stop.wait(.02)
@@ -69,7 +70,9 @@ def main():
             if stop.wait(delay):break
             began=time.monotonic();at=int(time.time()*1000)/1000
             f=inputs(at)
-            with source_lock:current[0]=provider(f)
+            # Source simulator is the sole receipt writer, just like production.
+            # Native consumes causal owner state; it never injects a competing receipt.
+            f['brti_receipts']=[]
             before=time.monotonic();runtime.step(f);end=time.monotonic()
             timings.append(dict(decision=at,lateness_s=began-due,iteration_s=end-before,
                                 elapsed_s=end-start,anchor_bytes=len(export.anchor[0]) if export.anchor else 0))
