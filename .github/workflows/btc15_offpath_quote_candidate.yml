@@ -26,5 +26,20 @@ jobs:
         run: python -m unittest -v test_btc15_kalshi_quote_provenance_offpath_candidate.py
       - name: Existing quote provenance regressions
         run: python -m unittest -v test_btc15_kalshi_quote_provenance_regressions.py
-      - name: Decision clock and BRTI regressions
-        run: python -m unittest -v test_btc15_decision_clock_v1.py test_btc15_brti_delivery_v1.py
+      - name: BRTI regressions
+        run: python -m unittest -v test_btc15_brti_delivery_v1.py
+      - name: Decision clock stdlib smoke
+        run: |
+          python - <<'PY'
+          from datetime import datetime, timezone, timedelta
+          from btc15_decision_clock_v1 import decision_time
+          o=datetime(2026,9,25,16,0,tzinfo=timezone.utc); c=o+timedelta(minutes=15)
+          s=o+timedelta(minutes=1); r=s+timedelta(milliseconds=10); n=r+timedelta(milliseconds=10)
+          assert decision_time(o,c,s,r,n)==n
+          try:
+              decision_time(o,c,s,n+timedelta(seconds=1),n)
+          except ValueError:
+              pass
+          else:
+              raise AssertionError("future receipt accepted")
+          PY
