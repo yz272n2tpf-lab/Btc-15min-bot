@@ -1,0 +1,26 @@
+name: BTC15 offpath quote proof candidate
+on:
+  push:
+    branches:
+      - audit/offpath-quote-proof-candidate-20260925
+  pull_request:
+    paths:
+      - 'btc15_quote_proof_offpath_v1.py'
+      - 'btc15_kalshi_quote_provenance_offpath_candidate.py'
+      - 'test_btc15_quote_proof_offpath_v1.py'
+      - 'test_btc15_kalshi_quote_provenance_offpath_candidate.py'
+jobs:
+  focused:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Syntax
+        run: python -m py_compile btc15_quote_proof_offpath_v1.py btc15_kalshi_quote_provenance_offpath_candidate.py test_btc15_quote_proof_offpath_v1.py test_btc15_kalshi_quote_provenance_offpath_candidate.py
+      - name: Focused helper tests
+        run: python -m unittest -v test_btc15_quote_proof_offpath_v1.py
+      - name: Focused integration tests
+        run: python -m unittest -v test_btc15_kalshi_quote_provenance_offpath_candidate.py
