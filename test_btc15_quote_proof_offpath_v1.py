@@ -13,7 +13,7 @@ class OffPath(unittest.TestCase):
         # Serialization happens only on worker. submit itself accepts references.
         with tempfile.TemporaryDirectory() as d:
             writer=OffPathProofWriter(d, lambda proof,w:w.identity, 2_000_000)
-            self.assertTrue(writer.submit(self.witness(), ({"x":"y"},)))
+            self.assertTrue(writer.submit(self.witness(), ({"x":"y"},)))\n            writer.queue.join()
 
     def test_validated_content_addressed_publish(self):
         with tempfile.TemporaryDirectory() as d:
