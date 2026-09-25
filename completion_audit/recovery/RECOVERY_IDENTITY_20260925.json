@@ -1,0 +1,10 @@
+{
+  "archive": "/workspace/scratch/284e82733506/BTC15_PASSIVE_CAPTURE_RECOVERY_20260925.zip",
+  "sha256": "eda388fe7d3fafdc1c098f62decd6486abe9ba20ffa68266281bb967f1c2715d",
+  "bytes": 219896,
+  "commit": "31416eee2d927373139a41ff62846effa49b9556",
+  "tree": "42370af013b2ce8a8100b2a87b6b195b333a1718",
+  "focused_tests": 43,
+  "manifest_sha256": "d23be8df436e2f54e4284ca6132d56c818841602062047ccf4c4f474cdbd2a15",
+  "library_file_id": "libfile_1ae65c6f090c81919831625b90487b68"
+}
