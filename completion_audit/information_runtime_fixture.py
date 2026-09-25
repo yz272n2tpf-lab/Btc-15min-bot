@@ -74,8 +74,12 @@ def main():
             # Native consumes causal owner state; it never injects a competing receipt.
             f['brti_receipts']=[]
             before=time.monotonic();runtime.step(f);end=time.monotonic()
+            brti=runtime.ns.get('_brti_contract') or {}
             timings.append(dict(decision=at,lateness_s=began-due,iteration_s=end-before,
-                                elapsed_s=end-start,anchor_bytes=len(export.anchor[0]) if export.anchor else 0))
+                                elapsed_s=end-start,published_monotonic=end,published_clock=time.time(),
+                                source_qualified_until=(min(brti['cf_ts']+5,f['btc_source'].timestamp()+10,
+                                    f['proof']['identity'][3]/1000+6,OPEN+900) if brti.get('ready') else None),
+                                anchor_bytes=len(export.anchor[0]) if export.anchor else 0))
             report=dict(pid=os.getpid(),information=enabled,proof_events=count,
                         proof_bytes=len(json.dumps(f['proof'])),history_rows=len(history),ticks=timings,errors=error,
                         native_records=len(runtime.records),native_inputs=len(runtime.inputs),messages=runtime.messages)

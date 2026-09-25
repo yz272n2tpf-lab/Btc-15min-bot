@@ -148,6 +148,28 @@ as_limit=resource.getrlimit(resource.RLIMIT_AS)[0],rss_kb=resource.getrusage(res
             finally:
                 if proc.poll() is None:terminate_group(proc,.1)
 
+    def test_root_lock_prevents_duplicate_installation_before_spawning(self):
+        import fcntl
+        with tempfile.TemporaryDirectory() as d, open(Path(tempfile.gettempdir())/'btc15-two-clock.lock','a') as lock:
+            fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+            p=subprocess.run([sys.executable,str(ROOT/'btc15_information_install_v1.py'),
+                '--assemble-only','--directory',d],text=True,capture_output=True,timeout=10)
+            self.assertNotEqual(p.returncode,0);self.assertIn('already owned',p.stderr)
+            self.assertFalse((Path(d)/'manifest.json').exists())
+
+    def test_optional_worker_spawn_failure_keeps_native_and_strips_credentials(self):
+        import btc15_information_install_v1 as install
+        from types import SimpleNamespace
+        poll=iter((None,0));core=SimpleNamespace(pid=123,returncode=0,poll=lambda:next(poll))
+        with patch.dict(os.environ,{'KALSHI_KEY_ID':'TEST_ONLY','BTC15_BRTI_SHARED_URL':'TEST_ONLY'}), \
+             patch.object(install.subprocess,'Popen',side_effect=[core,OSError('synthetic resource exhaustion')]) as spawn, \
+             patch.object(install,'terminate_group') as reap,patch.object(install.time,'sleep'):
+            self.assertEqual(install.supervise(self.d),0)
+        native_env=spawn.call_args_list[0].kwargs['env'];worker_env=spawn.call_args_list[1].kwargs['env']
+        self.assertIn('KALSHI_KEY_ID',native_env);self.assertNotIn('KALSHI_KEY_ID',worker_env)
+        self.assertIn('BTC15_BRTI_SHARED_URL',native_env);self.assertNotIn('BTC15_BRTI_SHARED_URL',worker_env)
+        reap.assert_called_once_with(core)
+
 
 class ConcurrencyTests(unittest.TestCase):
     @classmethod

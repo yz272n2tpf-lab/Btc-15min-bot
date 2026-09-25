@@ -73,6 +73,7 @@ def scenario(name,enabled,events,clients,duration=35,cpus=1):
         p=subprocess.Popen([sys.executable,'-u',str(runner)],cwd=d,env=env,start_new_session=True,
                            stdout=stream,stderr=stream,preexec_fn=lambda:os.sched_setaffinity(0,set(affinity)))
         halt=threading.Event();counts={};latencies=[];samples=[];peak=0;seen={};cpu_first={};cpu_last={};native=None
+        display_events=[]
         def client(i):
             while not halt.is_set():
                 start=time.monotonic()
@@ -85,7 +86,15 @@ def scenario(name,enabled,events,clients,duration=35,cpus=1):
                         assert 0<=value['checked_ts']-value['brti_source_ts']<=5
                     counts[status]=counts.get(status,0)+1
                     latencies.append(time.monotonic()-start)
-                except Exception:counts['unavailable_transport']=counts.get('unavailable_transport',0)+1
+                    if i==1:
+                        received=time.monotonic();until=received
+                        if status=='AVAILABLE':
+                            remaining=min(value['display_until'],value['expires_at'],value['brti_source_ts']+5)-value['checked_ts']-(received-start)
+                            until=received+max(0,remaining)
+                        display_events.append((received,until))
+                except Exception:
+                    counts['unavailable_transport']=counts.get('unavailable_transport',0)+1
+                    if i==1:display_events.append((time.monotonic(),0))
                 halt.wait(.1 if clients>4 else .5)
         threads=[threading.Thread(target=client,args=(i,),daemon=True) for i in range(clients)]
         try:
@@ -105,6 +114,17 @@ def scenario(name,enabled,events,clients,duration=35,cpus=1):
                     seen[i]=v['command'];cpu_first.setdefault(i,v['cpu']);cpu_last[i]=v['cpu']
                 samples.append(len(records));time.sleep(.1)
             native=json.loads(output.read_text())
+            # 10ms time grid for ONE actual viewer, charging full HTTP RTT and
+            # clearing on errors; request-success counts are not availability.
+            info_available=action_available=0
+            for n in range(int(duration*100)):
+                at=begin+n*.01
+                reads=[event for event in display_events if event[0]<=at]
+                if reads and at<reads[-1][1]:info_available+=1
+                ticks=[t for t in native['ticks'] if t['published_monotonic']<=at]
+                if ticks:
+                    t=ticks[-1];until=t['source_qualified_until']
+                    if until and t['published_clock']+(at-t['published_monotonic'])<=until:action_available+=1
             # Worker restart must not terminate/restart the native process tree.
             if enabled:
                 workers=[pid for pid,cmd in seen.items() if 'btc15_information_worker_v1.py' in cmd]
@@ -122,6 +142,9 @@ def scenario(name,enabled,events,clients,duration=35,cpus=1):
             result=dict(name=name,duration_s=duration,cpus=affinity,clients=clients,proof_events=events,
                         peak_tree_rss_mib=peak/1024**2,mean_cpu_cores=sum(cpu_last[i]-v for i,v in cpu_first.items())/duration,
                         max_processes=max(samples),processes=authority,http_counts=counts,
+                        information_display_availability_pct=info_available/int(duration*100)*100,
+                        native_source_qualified_availability_pct=action_available/int(duration*100)*100,
+                        availability_grid_s=.01,availability_viewer=1,
                         http_p95_s=sorted(latencies)[int(.95*(len(latencies)-1))] if latencies else None,
                         native=native,worker_restart_pass=enabled)
         finally:
@@ -148,7 +171,8 @@ def main():
     parser.add_argument('--duration',type=float,default=35);args=parser.parse_args()
     scenarios=[]
     for name,on,events,clients,cpus in [('baseline',False,2,4,1),('normal',True,2,4,1),
-                                     ('single_cpu_stress',True,2000,24,1),('two_cpu_stress',True,2000,24,2)]:
+                                     ('single_cpu_stress',True,2000,24,1),('two_cpu_stress',True,2000,24,2),
+                                     ('near_bound_proof_stress',True,7000,24,2)]:
         result=scenario(name,on,events,clients,args.duration,cpus);scenarios.append(result)
         args.output.write_text(json.dumps(dict(schema='BTC15_INFORMATION_TOPOLOGY_QUALIFICATION_V1',
             scope='Offline assembled production tree; native network and disk effects adapted; synthetic January 2020 sources',

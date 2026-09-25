@@ -86,12 +86,21 @@ def supervise(directory, worker_script=None):
     from btc15_shadow_supervisor_v1 import ShadowChild
     env = os.environ.copy()
     env['PYTHONPATH'] = str(ROOT) + os.pathsep + env.get('PYTHONPATH', '')
-    def spawn(argv):
-        return subprocess.Popen(argv, cwd=ROOT, env=env, start_new_session=True)
+    def spawn(argv, child_env=env):
+        return subprocess.Popen(argv, cwd=ROOT, env=child_env, start_new_session=True)
     core = spawn([sys.executable, '-u', str(directory/'BTC15_RUN_FULL_VALIDATION_WITH_DASHBOARD_V1.py')])
     children = []
+    class FailedSpawn:
+        returncode = 127
+        def poll(self): return self.returncode
     def spawn_worker(argv):
-        proc = spawn(argv); children.append(proc); return proc
+        # The information child needs only loopback reads and pinned local files.
+        child_env = {k:v for k,v in env.items() if not k.startswith(('KALSHI_', 'BTC15_BRTI_'))}
+        try: proc = spawn(argv, child_env)
+        except OSError as exc:
+            print('INFORMATIONAL_READ_ONLY worker spawn unavailable: '+type(exc).__name__, flush=True)
+            return FailedSpawn()  # Existing backoff retries; native stays alive.
+        children.append(proc); return proc
     worker = ShadowChild(worker_script or ROOT/'btc15_information_worker_v1.py', spawn=spawn_worker)
     stopping = False
     def stop(*_):

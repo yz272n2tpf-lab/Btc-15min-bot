@@ -1,0 +1,116 @@
+{
+  "schema": "BTC15_INFORMATION_PRODUCTION_READONLY_CONTEXT_V1",
+  "observed_date": "2026-09-25",
+  "production_commit": "3e552065e34a0a402bc3ca4598b57dff1f1c6e77",
+  "configuration": {
+    "service": {
+      "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+      "name": "Btc-15min-bot"
+    },
+    "environment": {
+      "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+      "name": "production"
+    },
+    "config": {
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "main",
+        "checkSuites": false
+      },
+      "networking": {
+        "serviceDomains": {
+          "btc-15min-bot-production.up.railway.app": {
+            "port": 8080
+          }
+        },
+        "privateNetworkEndpoint": "btc-15min-bot"
+      },
+      "build": {
+        "builder": "RAILPACK",
+        "buildEnvironment": "V3"
+      },
+      "deploy": {
+        "startCommand": "/bin/sh -c 'sleep 3; echo \"BTC15 VOLUME INVENTORY BEGIN\" >&2; du -ah /data 2>/dev/null | sort -hr | head -40 >&2; echo \"BTC15 VOLUME INVENTORY END\" >&2; sleep 1; python btc15_preserve_evidence_v1.py --root /data --label pre-source-v2-20260923 && exec python -u BTC15_DASHBOARD_INLINE_SCALP_DIAG_V2.py'",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 120,
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "volumeMounts": {
+        "6ced6b1a-3755-4518-a240-c895e936d443": {
+          "mountPath": "/data"
+        }
+      }
+    },
+    "variableNames": [
+      "BTC15_BRTI_GATEWAY_URL",
+      "BTC15_BRTI_SHARED_URL",
+      "BTC15_BRTI_TRANSPORT",
+      "BTC15_DASH_V13_Z1",
+      "BTC15_DASH_V13_Z2",
+      "BTC15_DASH_V13_Z3",
+      "BTC15_DASH_V13_Z4",
+      "BTC15_DASH_V13_Z5",
+      "BTC15_INLINE_SCALP_V1",
+      "BTC15_KALSHI_QUOTE_PROVENANCE_CANARY",
+      "BTC15_USE_SHARED_BRTI",
+      "BTC15_VOLUME_DIAG",
+      "KALSHI_KEY_ID",
+      "KALSHI_PRIVATE_KEY_B64",
+      "PORT",
+      "PYTHONUNBUFFERED"
+    ],
+    "staged": null
+  },
+  "metrics": {
+    "service": {
+      "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+      "name": "Btc-15min-bot"
+    },
+    "environment": {
+      "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+      "name": "production"
+    },
+    "metrics": [
+      {
+        "measurement": "CPU_USAGE",
+        "current": 0,
+        "average": 0.8143188516393443,
+        "min": 0,
+        "max": 1.2027676999999999,
+        "sampleCount": 61
+      },
+      {
+        "measurement": "CPU_LIMIT",
+        "current": 24,
+        "average": 24,
+        "min": 24,
+        "max": 24,
+        "sampleCount": 61
+      },
+      {
+        "measurement": "MEMORY_USAGE_GB",
+        "current": 0.92430336,
+        "average": 0.9163106203278691,
+        "min": 0.910217216,
+        "max": 0.924516352,
+        "sampleCount": 61
+      },
+      {
+        "measurement": "MEMORY_LIMIT_GB",
+        "current": 24,
+        "average": 24,
+        "min": 24,
+        "max": 24,
+        "sampleCount": 61
+      }
+    ]
+  },
+  "metrics_scope": "Last hour, 60-second samples. Configured service ceilings, not proof of a prepaid cost allowance. Read-only queries; no deployment or config mutation."
+}
