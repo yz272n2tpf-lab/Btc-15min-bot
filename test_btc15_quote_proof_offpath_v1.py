@@ -41,5 +41,15 @@ class OffPath(unittest.TestCase):
             self.assertIn(False,accepted)
             self.assertGreater(writer.dropped,0)
 
+    def test_disk_retention_is_bounded(self):
+        with tempfile.TemporaryDirectory() as d:
+            writer=OffPathProofWriter(d, lambda proof,w:w.identity, 2_000_000, retain=2)
+            for i in range(5):
+                w=Witness("KXBTC15M-X","collector","epoch",1000+i,"m",2,3+i,900+i,1500)
+                writer.submit(w, ({"i":i},)); writer.queue.join()
+                import time; time.sleep(.002)
+            blobs=[p for p in Path(d).glob("*.json") if p.name!="latest.json"]
+            self.assertLessEqual(len(blobs),2)
+
 if __name__=="__main__":
     unittest.main()
