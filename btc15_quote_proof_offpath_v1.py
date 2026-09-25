@@ -37,11 +37,12 @@ class Capture:
 
 class OffPathProofWriter:
     """Bounded best-effort evidence writer; never blocks submit()."""
-    def __init__(self, directory, validator, max_bytes, queue_size=2):
+    def __init__(self, directory, validator, max_bytes, queue_size=2, retain=32):
         self.directory = Path(directory)
         self.validator = validator
         self.max_bytes = int(max_bytes)
         self.queue = queue.Queue(maxsize=int(queue_size))
+        self.retain = max(1, int(retain))
         self.dropped = 0
         self.published = 0
         self.rejected = 0
@@ -114,3 +115,9 @@ class OffPathProofWriter:
         tmp.write_bytes(idx_raw)
         tmp.replace(idx)
         self.published += 1
+        # Bound disk growth. Keep newest validated content-addressed blobs only.
+        blobs = sorted(self.directory.glob('*.json'), key=lambda p: p.stat().st_mtime_ns, reverse=True)
+        blobs = [p for p in blobs if p.name != 'latest.json']
+        for stale in blobs[self.retain:]:
+            try: stale.unlink()
+            except FileNotFoundError: pass
