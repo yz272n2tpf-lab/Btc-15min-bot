@@ -188,6 +188,29 @@ class InformationTests(unittest.TestCase):
             self.assertEqual(out['status'],'INCOMPLETE')
             self.assertIn(missing,out['missing'])
 
+    def test_full_scorecard_requires_60_of_60_settlement_and_profit_classification(self):
+        from btc15_cohort_evidence_v1 import full_contract_scorecard
+        info=[{'ticker':TICKER,'frame_id':'f'}]
+        final=[{'contract':TICKER,'final_status':'PASS'}]
+        early=[{'contract':TICKER,'provisional_candidate':False}]
+        settlement=[{'contract':TICKER,'final60_complete':True,'final60_count':60,
+                     'final60_side':'UP','final60_average':100001}]
+        out=full_contract_scorecard(TICKER,info,final,early,[],settlement,[],True,False)
+        self.assertEqual(out['status'],'COMPLETE')
+        self.assertEqual(out['settlement']['status'],'COMPLETE')
+        self.assertEqual(out['profit_protection']['status'],'NOT_APPLICABLE')
+        for bad in (
+            [],
+            [{'contract':TICKER,'final60_complete':False,'final60_count':60,'final60_side':'UP','final60_average':100001}],
+            [{'contract':TICKER,'final60_complete':True,'final60_count':59,'final60_side':'UP','final60_average':100001}],
+        ):
+            failed=full_contract_scorecard(TICKER,info,final,early,[],bad,[],True,False)
+            self.assertEqual(failed['status'],'INCOMPLETE')
+            self.assertIn('SETTLEMENT',failed['missing'])
+        missing_profit=full_contract_scorecard(TICKER,info,final,early,[],settlement,[],True,None)
+        self.assertEqual(missing_profit['status'],'INCOMPLETE')
+        self.assertIn('PROFIT_PROTECTION',missing_profit['missing'])
+
     def test_native_feature_and_probability_exact_at_same_cut(self):
         rig, pub = self.make()
         self.assertTrue(rig.publish(pub))
