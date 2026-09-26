@@ -82,6 +82,44 @@ class InformationTests(unittest.TestCase):
     def make(self, **kwargs):
         return Rig(self.initial, **kwargs), InformationPublisher(self.fair)
 
+    def test_durable_journal_reconstructs_exact_frame_after_memory_eviction(self):
+        import tempfile
+        from pathlib import Path
+        from btc15_information_service_v1 import DurablePublisher, JOURNAL_SCHEMA
+        rig=Rig(self.initial,offset=300)
+        with tempfile.TemporaryDirectory() as td:
+            path=Path(td)/'information.jsonl'
+            pub=DurablePublisher(self.fair,journal_path=path,retention=1)
+            self.assertTrue(rig.publish(pub))
+            first=rig.read(pub); first_id=first['frame_id']
+            rig.sources(301,brti_value=99950)
+            self.assertTrue(rig.publish(pub))
+            self.assertNotIn(first_id,pub.frames)
+            records=[unpack(line) for line in path.read_bytes().splitlines()]
+            self.assertEqual(len(records),2)
+            self.assertEqual(records[0]['schema'],JOURNAL_SCHEMA)
+            self.assertEqual(records[0]['frame_id'],first_id)
+            self.assertEqual(records[0]['frame'],first)
+            self.assertEqual(records[0]['frame']['flip_risk_pct'],first['flip_risk_pct'])
+            self.assertIs(records[0]['frame']['orders'],False)
+            self.assertIs(records[0]['frame']['signal_only'],True)
+
+    def test_durable_journal_records_only_successful_qualified_publications(self):
+        import tempfile
+        from pathlib import Path
+        from btc15_information_service_v1 import DurablePublisher
+        rig=Rig(self.initial,offset=300)
+        with tempfile.TemporaryDirectory() as td:
+            path=Path(td)/'information.jsonl'
+            pub=DurablePublisher(self.fair,journal_path=path)
+            self.assertTrue(rig.publish(pub))
+            before=path.read_bytes()
+            self.assertFalse(rig.publish(pub))
+            self.assertEqual(path.read_bytes(),before)
+            rig.provider.book.valid=False
+            self.assertFalse(rig.publish(pub))
+            self.assertEqual(path.read_bytes(),before)
+
     def test_native_feature_and_probability_exact_at_same_cut(self):
         rig, pub = self.make()
         self.assertTrue(rig.publish(pub))
