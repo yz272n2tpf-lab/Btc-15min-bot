@@ -31,3 +31,24 @@ def contract_information(path,ticker):
     if not rows: raise ValueError('MISSING_INFORMATION_EVIDENCE')
     rows.sort(key=lambda r:(r['published_ts'],r['frame_id']))
     return rows
+
+
+def classify_early(rows, ticker):
+    contract=[r for r in rows if r.get('contract')==ticker]
+    if not contract: return {'status':'MISSING','qualified':[]}
+    qualified=[r for r in contract if r.get('provisional_candidate') is True]
+    return {'status':'QUALIFIED' if qualified else 'PASS','qualified':qualified}
+
+def classify_scalp(events, ticker, coverage_proven=False):
+    contract=[r for r in events if r.get('contract')==ticker]
+    if contract: return {'status':'QUALIFIED','events':contract}
+    return {'status':'PASS' if coverage_proven else 'MISSING','events':[]}
+
+def classify_final(rows, ticker):
+    contract=[r for r in rows if r.get('contract')==ticker]
+    if not contract: return {'status':'MISSING','calls':[]}
+    calls=[r for r in contract if r.get('final_status')=='FINAL CALL']
+    if calls: return {'status':'QUALIFIED','calls':calls}
+    if any(r.get('final_status')=='PASS' for r in contract):
+        return {'status':'PASS','calls':[]}
+    return {'status':'MISSING','calls':[]}
