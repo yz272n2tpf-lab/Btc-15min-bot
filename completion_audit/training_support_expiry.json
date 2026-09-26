@@ -1,0 +1,95 @@
+{
+  "purpose": "deterministic support audit, not a fitted-model or accuracy comparison",
+  "source_sha256": "d854bd0d097e49bb1f2d94a10ad1c37097e413c5caa194e560c23eeb1006f07e",
+  "input_sha256": {
+    "brti_calibration_results.csv": "78cc03b5ea15ec1d310aa3de68a5024ade7fe80f91762d1e3ee0cab03903ff4b",
+    "btc_35d_live_cache.csv": "40e44f08637a3636fbb8a14e81cf0db47335e00e74bf16bcd4c1077318fd2a85"
+  },
+  "live_recent_bars_note": "Recent September bars do not overlap August labeled contracts and cannot restore their missing historical support.",
+  "results": [
+    {
+      "restart_utc": "2026-09-02T12:26:30Z",
+      "cutoff_utc": "2026-07-29T12:26:30+00:00",
+      "eligible_contracts": 663,
+      "fit_contracts": 331,
+      "calibration_contracts": 133,
+      "calibration_snapshots": 1862,
+      "existing_min20_calibration_gate_passes": true,
+      "first_contract": "KXBTC15M-26AUG150945-45",
+      "last_contract": "KXBTC15M-26AUG220930-30",
+      "eligible_identity_sha256": "6d29edd2f911062549c9bf56ae2d8df62d2c6ee2bcf6cb91f029c23f1da815f7"
+    },
+    {
+      "restart_utc": "2026-09-22T12:26:30Z",
+      "cutoff_utc": "2026-08-18T12:26:30+00:00",
+      "eligible_contracts": 379,
+      "fit_contracts": 189,
+      "calibration_contracts": 76,
+      "calibration_snapshots": 1064,
+      "existing_min20_calibration_gate_passes": true,
+      "first_contract": "KXBTC15M-26AUG180845-45",
+      "last_contract": "KXBTC15M-26AUG220930-30",
+      "eligible_identity_sha256": "f9293d62f80bdfae33b3df47af672b6f713f0be0004c4abe2276bb17c3059abd"
+    },
+    {
+      "restart_utc": "2026-09-23T12:26:30Z",
+      "cutoff_utc": "2026-08-19T12:26:30+00:00",
+      "eligible_contracts": 283,
+      "fit_contracts": 141,
+      "calibration_contracts": 57,
+      "calibration_snapshots": 798,
+      "existing_min20_calibration_gate_passes": true,
+      "first_contract": "KXBTC15M-26AUG190845-45",
+      "last_contract": "KXBTC15M-26AUG220930-30",
+      "eligible_identity_sha256": "77a9ec47d1c02f83b587680f96604143cb029ee365c41204462bcac665581e4c"
+    },
+    {
+      "restart_utc": "2026-09-24T12:26:30Z",
+      "cutoff_utc": "2026-08-20T12:26:30+00:00",
+      "eligible_contracts": 196,
+      "fit_contracts": 98,
+      "calibration_contracts": 39,
+      "calibration_snapshots": 546,
+      "existing_min20_calibration_gate_passes": true,
+      "first_contract": "KXBTC15M-26AUG200845-45",
+      "last_contract": "KXBTC15M-26AUG220930-30",
+      "eligible_identity_sha256": "d9de93c6f76326e1841f72fd6cd5e45ada44819a46f52e597b601061c55f77f2"
+    },
+    {
+      "restart_utc": "2026-09-25T12:26:30Z",
+      "cutoff_utc": "2026-08-21T12:26:30+00:00",
+      "eligible_contracts": 100,
+      "fit_contracts": 50,
+      "calibration_contracts": 20,
+      "calibration_snapshots": 280,
+      "existing_min20_calibration_gate_passes": true,
+      "first_contract": "KXBTC15M-26AUG210845-45",
+      "last_contract": "KXBTC15M-26AUG220930-30",
+      "eligible_identity_sha256": "ab9677f5ec57f32ef24791c62cab150b2d63869eee3e9a7c32f02e8c4de33bcb"
+    },
+    {
+      "restart_utc": "2026-09-26T12:26:30Z",
+      "cutoff_utc": "2026-08-22T12:26:30+00:00",
+      "eligible_contracts": 4,
+      "fit_contracts": 2,
+      "calibration_contracts": 0,
+      "calibration_snapshots": 0,
+      "existing_min20_calibration_gate_passes": false,
+      "first_contract": "KXBTC15M-26AUG220845-45",
+      "last_contract": "KXBTC15M-26AUG220930-30",
+      "eligible_identity_sha256": "cb8ad36d81499a01f70e8e6112e5ab5dbd6b3d184c90b6b1e9e7e146f96314cc"
+    },
+    {
+      "restart_utc": "2026-09-27T12:26:30Z",
+      "cutoff_utc": "2026-08-23T12:26:30+00:00",
+      "eligible_contracts": 0,
+      "fit_contracts": 0,
+      "calibration_contracts": 0,
+      "calibration_snapshots": 0,
+      "existing_min20_calibration_gate_passes": false,
+      "first_contract": null,
+      "last_contract": null,
+      "eligible_identity_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  ]
+}

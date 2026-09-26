@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "locked_utc": "2026-09-24T12:43:45.624928+00:00",
+  "selection_data_end_utc": "2026-09-24T06:45:00Z",
+  "validation_data": [
+    "2026-09-24T07:00:00Z",
+    "2026-09-24T12:15:00Z"
+  ],
+  "purpose": "Locked diagnostic probes; none promotion-eligible from tuning. No validation reselection. Original validation/holdout sealed.",
+  "policies": {
+    "early": {
+      "baseline": {
+        "ask": 0.45,
+        "fair": 0.75,
+        "edge": 0.08,
+        "min_left": 2.0,
+        "max_left": 10.0,
+        "gap": 25.0
+      },
+      "cheap_coverage_probe": {
+        "ask": 0.5,
+        "fair": 0.6,
+        "edge": 0.08,
+        "min_left": 2.0,
+        "max_left": 10.0,
+        "gap": 11.0
+      }
+    },
+    "final": {
+      "baseline": {
+        "fair": 0.9,
+        "min_left": 0.0,
+        "max_left": 8.0,
+        "gap_early": 75.0,
+        "gap_late": 50.0,
+        "ratio": 1.0
+      },
+      "confidence_probe": {
+        "fair": 0.875,
+        "min_left": 2.0,
+        "max_left": 8.0,
+        "gap_early": 50.0,
+        "gap_late": 25.0,
+        "ratio": 1.0
+      },
+      "coverage_probe": {
+        "fair": 0.875,
+        "min_left": 2.0,
+        "max_left": 8.0,
+        "gap_early": 50.0,
+        "gap_late": 25.0,
+        "ratio": 0.5
+      }
+    },
+    "scalp": {
+      "baseline": {
+        "ask": 0.7,
+        "fair": 0.52,
+        "edge": 0.0,
+        "min_left": 3.0,
+        "max_left": 10.0,
+        "gap": 50.0
+      },
+      "cheap_path_probe": {
+        "ask": 0.5,
+        "fair": 0.52,
+        "edge": 0.0,
+        "min_left": 3.0,
+        "max_left": 10.0,
+        "gap": 11.0
+      }
+    },
+    "v81": {
+      "baseline": {
+        "scale": 1.0,
+        "ask5": 0.005,
+        "ask15": 0.015,
+        "confirm": 2,
+        "structure": true
+      },
+      "persistent_probe": {
+        "scale": 0.5,
+        "ask5": 0.03,
+        "ask15": 0.05,
+        "confirm": 2,
+        "structure": true
+      },
+      "single_tick_control": {
+        "scale": 0.5,
+        "ask5": 0.03,
+        "ask15": 0.05,
+        "confirm": 1,
+        "structure": true
+      }
+    }
+  },
+  "joint_combinations": 12,
+  "reason": "EARLY probes all <=55.6% with >=3 calls; no >=10-call FINAL candidate reaches >=93% at >=2m cutoff; V81 persistent relaxations only 2 calls. Diagnose generalization without claiming selection success. Core cheap-path probe improves observed MFE/MAE and pricing but has too few contracts and no connected exits.",
+  "safety_fixed": {
+    "brti_max_age_s": 5,
+    "v81_publication_max_age_s": 3.5,
+    "orders": false
+  },
+  "input_sha256": {
+    "JOINT_TUNING_20260924.json": "a7982b614422fb1aa11bd3c03d479433502a95da5bc9aa354535428b787a1109",
+    "V81_TUNING_20260924.json": "9f5c41911503df960a84ff3ca2478afb1c48da75820c43f3e2e9996be4809e5f",
+    "joint_diagnosis.py": "06225ea336fb4a694c1c86be0f797f198d1f92908d56c8231f1c2fe24e00bb48",
+    "joint_v81.py": "5408f4deb2f76f763ac50b7426f34170fbd48c8bb131bee5e3c1b8a6ebedd7da"
+  },
+  "canonical_sha256": "ca9e1b410b797cb931dd88f14bab6e385c60936576fb4be401867659c4d035c8"
+}

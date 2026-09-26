@@ -1,0 +1,18 @@
+{
+  "window": {
+    "start": "2026-09-24T00:15:00Z",
+    "end": "2026-09-24T01:45:00Z"
+  },
+  "published_entries": [],
+  "rejected_entries": [],
+  "accepted_entry_observations": [],
+  "entry_accounting_revision": "SOURCE_AND_FIRST_OBSERVED_ASK_V1",
+  "outcomes": [],
+  "counts": {},
+  "journal_damage": [],
+  "policy_source_sha256": "22fdc4d682a9b661eabec5e3e52d5bb1d6f49247396149abe298049b1ada2439",
+  "scope": "Source-verified entry with first observed ask confirmation to sampled qualified bids; no fills, fees, net profit or full detector/reentry replay.",
+  "actual_exit_advice_published": false,
+  "production_connected": false,
+  "orders": false
+}

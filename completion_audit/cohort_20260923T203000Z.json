@@ -1,0 +1,134 @@
+{
+  "schema": 1,
+  "cohort_id": "btc15-common-20260923T203000Z",
+  "registered_utc": "2026-09-23T20:10:12.649221+00:00",
+  "purpose": "Frozen common-universe baseline and separated research, not certification",
+  "status": "REGISTERED_DEVELOPMENT; VALIDATION_AND_HOLDOUT_RESERVED_SUBJECT_TO_IDENTITY",
+  "signal_only": true,
+  "orders": false,
+  "windows": [
+    {
+      "role": "development_tuning",
+      "start_utc": "2026-09-23T20:30:00Z",
+      "end_utc": "2026-09-24T20:30:00Z",
+      "scheduled_slots": 96
+    },
+    {
+      "role": "validation",
+      "start_utc": "2026-09-24T20:30:00Z",
+      "end_utc": "2026-09-25T20:30:00Z",
+      "scheduled_slots": 96
+    },
+    {
+      "role": "untouched_holdout",
+      "start_utc": "2026-09-25T20:30:00Z",
+      "end_utc": "2026-10-09T20:30:00Z",
+      "scheduled_slots": 1344
+    }
+  ],
+  "universe": "Every official KXBTC15M contract opening in each half-open UTC window, reconciled against EVERY scheduled 900-second UTC slot.",
+  "denominators": "Retain missed/offline/late-join/source-unqualified/no-call slots; report official and scheduled denominators separately.",
+  "revisions": {
+    "main": {
+      "commit": "c4824682bbb4ec1335bb65863aead52b72ae576c",
+      "deployment": "5eb83c64-9329-4cf2-bb7b-6a5b42b222bf",
+      "runtime_calibration_contracts": 56,
+      "runtime_calibration_snapshots": 784,
+      "startup_evidence_utc": "2026-09-23T12:59:08.609473616Z",
+      "actual_weight_hash": null,
+      "restart_rule": "Any main process restart closes this runtime identity; weights not exported."
+    },
+    "owner": {
+      "commit": "37735e737690096edea31beb2faff6842770ac4f",
+      "deployment": "b0ddbbbb-7d7a-43ba-888f-9d7e8c6b3fd8",
+      "owner_epoch": "37a1202f25614f39ae20a05ac8281966"
+    },
+    "v81": {
+      "commit": "b3951fb3959e6e8b1e7376edc948f53f033a794e",
+      "deployment": "df157395-5cb3-4463-b769-cb764bfb7a80"
+    },
+    "serial": {
+      "commit": "0d698328b17825a0c89479053c0433f945bea8cd",
+      "deployment": "009fce2f-af6d-4b3a-a4df-fff79e092c8b"
+    },
+    "clean": {
+      "commit": "93dc3335b18af51b6922bd6ca95142c686823355",
+      "deployment": "8c5688d0-0091-425c-8ef1-2574aee5a939",
+      "run_id": "clean-source-v2-20260923",
+      "source_sha256": {
+        "scalp_move_shadow_v1.py": "6b2efba1f592b6c9928edb85797124a35a80b288a54d11ab57a549532c930406",
+        "scalp_move_shadow_v2_finalprod_clean.py": "a2bf14cf04cc99d36f1552f7ddddd3aeb21f1595f275304f8c6dd361b2a49aac",
+        "btc15_brti_shared_consumer_v1.py": "c49ef2191259a99e3914f704c90ab5e2ee36874e344a125ac8e2ffa288af4f49",
+        "btc15_kalshi_quote_provenance_v1.py": "5cd16dfd489816b15aa0e761aec2d1ed41f8a5805978a9534f553c7bdc77d4a2",
+        "btc15_common_observer_v1.py": "444d9d4015b084204b5eb9bb4788c90a8a6d3fccf1542b663cf39474533e8e76",
+        "scalp_path_export_bridge_v1.py": "a540c1372d2bce00f2fbdd4f581923dc5d47553f7acc752a68e0dc8b8c815150"
+      }
+    }
+  },
+  "training_inputs_sha256": {
+    "brti_calibration_results.csv": "78cc03b5ea15ec1d310aa3de68a5024ade7fe80f91762d1e3ee0cab03903ff4b",
+    "btc_35d_live_cache.csv": "40e44f08637a3636fbb8a14e81cf0db47335e00e74bf16bcd4c1077318fd2a85"
+  },
+  "analysis_sha256": {
+    "btc15_qualified_forward_observer_v1.py": "b56777148db1e495d813206e23fc2951e9e4d1efdf02ebdaa70784dbc38f35ed",
+    "completion_audit/common_journal.py": "ceb19dcc976ec73f5efd1311f7ffbd02c560b6f2199c29f4c69a1e1fd9d818b0",
+    "completion_audit/cohort_registry.py": "573a3688ba339bdb40bbefc9a5415daf4b13e9d7c7af3d201d4c7d6b159fcd41",
+    "completion_audit/summarize_passive_acceptance.py": "b743ae1908d4c8bb5e30cf991e259f21af8c11ade77cce7500fb5e044a64e1da",
+    "completion_audit/evaluate_common_cohort.py": "d2494641e259c3d8a08aa48f55753df551d458aa66ad45a7d63601789cb4d004"
+  },
+  "collection": {
+    "durable_path": "/data/scalp_clean-source-v2-20260923_common.jsonl.gz",
+    "source_service": "scalp-finalprod-clean-v1",
+    "sampling_seconds": 5,
+    "record_types": [
+      "OBSERVATION",
+      "SNAPSHOT_INPUT"
+    ],
+    "source_and_receipt_times_separate": true,
+    "scope": "Sampled API states and accepted clean inputs. Five-second phase sampling can miss signals and alias freshness.",
+    "complete_signal_recall": false,
+    "actual_browser_delivery_verified": false,
+    "main_local_csv_export_available": false
+  },
+  "safety": {
+    "brti_max_source_age_seconds": 5,
+    "v81_publication_max_seconds": 3.5,
+    "owner_poll_seconds": 2,
+    "owner_max_429_backoff_seconds": 30,
+    "orders": false
+  },
+  "call_rule": "First strict source-qualified call per lane/contract after official open and before close at actual observer response time. Report server-generated eligibility separately; retain flips/lifecycle. Do not treat retained pre-window entries as new.",
+  "paths": "Executable side bid minus signal ask at qualified observations. Report missing intervals and sampled MFE/MAE censoring; no fill/net-profit claim.",
+  "labels": "Official finalized Kalshi responses stored separately after close; never input to features. Final-60 comparison uses true BRTI publications only.",
+  "strategies_separate": [
+    "FINAL",
+    "EARLY",
+    "core_SCALP",
+    "displayed_V81",
+    "serial_research",
+    "clean_detector"
+  ],
+  "entry_preferences": {
+    "early_existing_max_ask": 0.45,
+    "preferred_at_most": 0.5,
+    "ideal_low": 0.25,
+    "ideal_high": 0.35
+  },
+  "revision_change_rule": "Close affected strategy/runtime identity at first change; retain every scheduled slot and outage. Never pool replacement runs or extend based on performance. Candidate policies need a separate immutable pre-validation manifest on this universe.",
+  "holdout_rule": "No outcome analysis, tuning or selection before fixed holdout end. Previously inspected or identity-invalid data cannot certify untouched holdout. Report invalidated windows and register replacements prospectively.",
+  "certification_blockers_at_registration": [
+    "Wall-clock-dependent main training support expires after 2026-09-25T12:45:00Z; offline correction unpromoted.",
+    "Current runtime actual weights hash unavailable.",
+    "Main publication freshness/browser delivery remains under measurement.",
+    "No connected V81 stop/protection policy prospectively validated.",
+    "Insufficient new sample size; historical 263/278 FINAL remains uncertified."
+  ],
+  "reporting_floors_not_strategy_gates": {
+    "qualified_final_calls": 200,
+    "official_contracts": 500,
+    "fixed_holdout_days": 14,
+    "floor_does_not_guarantee_accuracy_goal": true
+  },
+  "no_threshold_or_weight_change": true,
+  "canonical_content_sha256_excluding_this_field": "d5c59e6a031f7b0e1212d583f70cfe4f149f2af7368bbdbbd4b3ed331694cf82"
+}

@@ -1,4 +1,6 @@
-# BTC15 BOT COMPLETION SCORECARD — approval checkpoint, 2026-09-23 UTC
+# Historical BTC15 approval checkpoint — superseded
+
+Current continuation scorecard: [SCORECARD_20260923_2130.md](SCORECARD_20260923_2130.md). The following original approval-stage record is preserved as historical evidence; its production status and pending-approval statements are no longer current.
 
 **NOT PRODUCTION-READY YET.** Coordinated corrections are reviewable and tested; production remains at662873c41fde364a994b6a22dc0bb18f21d43fdc. No deploy, restart, variable change, deletion, trade, key creation or rotation was performed. Railway browser authentication was not resumed. The externally completed credential-chain repair is accepted.
 

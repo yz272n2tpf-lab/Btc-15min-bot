@@ -1,0 +1,238 @@
+{
+  "cohort_id": "btc15-common-20260923T211500Z",
+  "phase": "development_tuning",
+  "scheduled_contract_slots": 6,
+  "official_contracts": 6,
+  "missing_official_slots": 0,
+  "union_call_contracts": 4,
+  "no_call_official_contracts": [
+    "KXBTC15M-26SEP232030-30",
+    "KXBTC15M-26SEP232045-45"
+  ],
+  "first_observed_lane": {
+    "scalp": 4
+  },
+  "ladders": {
+    "early": {
+      "call_contracts": 0,
+      "unique_contracts": [],
+      "unique_coverage_increment_official": 0.0,
+      "union_without_lane": 4,
+      "overlap_with_other_lanes": 0,
+      "scheduled_coverage": 0.0,
+      "direction_labeled": 0,
+      "direction_failures": [],
+      "direction_accuracy": null,
+      "entry_ask": {
+        "n": 0
+      },
+      "entry_le_45c": 0,
+      "entry_le_50c": 0,
+      "entry_25_to_35c": 0,
+      "minutes_remaining": {
+        "n": 0
+      },
+      "path_observed_contracts": 0,
+      "path_missing_contracts": 0,
+      "observed_positive_movement": 0,
+      "observed_nonpositive_movement": 0,
+      "sampled_mfe": {
+        "n": 0
+      },
+      "sampled_mae": {
+        "n": 0
+      },
+      "scalp_direction_is_secondary": false
+    },
+    "final": {
+      "call_contracts": 0,
+      "unique_contracts": [],
+      "unique_coverage_increment_official": 0.0,
+      "union_without_lane": 4,
+      "overlap_with_other_lanes": 0,
+      "scheduled_coverage": 0.0,
+      "direction_labeled": 0,
+      "direction_failures": [],
+      "direction_accuracy": null,
+      "entry_ask": {
+        "n": 0
+      },
+      "entry_le_45c": 0,
+      "entry_le_50c": 0,
+      "entry_25_to_35c": 0,
+      "minutes_remaining": {
+        "n": 0
+      },
+      "path_observed_contracts": 0,
+      "path_missing_contracts": 0,
+      "observed_positive_movement": 0,
+      "observed_nonpositive_movement": 0,
+      "sampled_mfe": {
+        "n": 0
+      },
+      "sampled_mae": {
+        "n": 0
+      },
+      "scalp_direction_is_secondary": false
+    },
+    "scalp": {
+      "call_contracts": 4,
+      "unique_contracts": [
+        "KXBTC15M-26SEP232100-00",
+        "KXBTC15M-26SEP232115-15",
+        "KXBTC15M-26SEP232130-30",
+        "KXBTC15M-26SEP232145-45"
+      ],
+      "unique_coverage_increment_official": 0.6666666666666666,
+      "union_without_lane": 0,
+      "overlap_with_other_lanes": 0,
+      "scheduled_coverage": 0.6666666666666666,
+      "direction_labeled": 4,
+      "direction_failures": [
+        {
+          "contract": "KXBTC15M-26SEP232130-30",
+          "side": "UP",
+          "observed_utc": "2026-09-24T01:20:20.134527+00:00",
+          "source_timestamp_utc": "2026-09-24T01:20:19.330401+00:00",
+          "entry_ask": 0.66,
+          "minutes_remaining": 9.66442455,
+          "confidence": 0.7208588901481864,
+          "official_result": "no",
+          "cached_main_bid_path_unqualified_for_execution": {
+            "sample_count": 285,
+            "horizon_end_utc": "2026-09-24T01:25:20.134527+00:00",
+            "observed_mfe": 0.07999999999999996,
+            "observed_mae": -0.36000000000000004,
+            "last_sample_utc": "2026-09-24T01:25:19.169712+00:00",
+            "max_observed_gap_seconds": 16.003041,
+            "complete_path": false,
+            "realized_profit": false
+          },
+          "sampled_bid_path": {
+            "sample_count": 219,
+            "observed_mfe": 0.07999999999999996,
+            "observed_mae": -0.37000000000000005,
+            "first_quote_utc": "2026-09-24T01:20:20.608064+00:00",
+            "max_observed_gap_seconds": 16.021839,
+            "horizon_end_utc": "2026-09-24T01:25:20.134527+00:00",
+            "complete_path": false,
+            "realized_profit": false,
+            "source": "Independent timestamped clean collector, BRTI <=5s",
+            "entry_ask_confirmed_at_first_quote": true,
+            "entry_to_first_quote_seconds": 0.473537,
+            "entry_and_exit_fill_not_proven": true
+          }
+        },
+        {
+          "contract": "KXBTC15M-26SEP232145-45",
+          "side": "UP",
+          "observed_utc": "2026-09-24T01:38:40.278798+00:00",
+          "source_timestamp_utc": "2026-09-24T01:38:39.630973+00:00",
+          "entry_ask": 0.7,
+          "minutes_remaining": 6.3286867,
+          "confidence": 0.8517151088793149,
+          "official_result": "no",
+          "cached_main_bid_path_unqualified_for_execution": {
+            "sample_count": 285,
+            "horizon_end_utc": "2026-09-24T01:43:40.278798+00:00",
+            "observed_mfe": -0.019999999999999907,
+            "observed_mae": -0.695,
+            "last_sample_utc": "2026-09-24T01:43:39.359543+00:00",
+            "max_observed_gap_seconds": 16.040032,
+            "complete_path": false,
+            "realized_profit": false
+          },
+          "sampled_bid_path": {
+            "sample_count": 189,
+            "observed_mfe": -0.019999999999999907,
+            "observed_mae": -0.697,
+            "first_quote_utc": "2026-09-24T01:38:40.764654+00:00",
+            "max_observed_gap_seconds": 19.030401,
+            "horizon_end_utc": "2026-09-24T01:43:40.278798+00:00",
+            "complete_path": false,
+            "realized_profit": false,
+            "source": "Independent timestamped clean collector, BRTI <=5s",
+            "entry_ask_confirmed_at_first_quote": true,
+            "entry_to_first_quote_seconds": 0.485856,
+            "entry_and_exit_fill_not_proven": true
+          }
+        }
+      ],
+      "direction_accuracy": 0.5,
+      "entry_ask": {
+        "n": 4,
+        "mean": 0.6875,
+        "median": 0.695,
+        "min": 0.66,
+        "p95": 0.7,
+        "max": 0.7
+      },
+      "entry_le_45c": 0,
+      "entry_le_50c": 0,
+      "entry_25_to_35c": 0,
+      "minutes_remaining": {
+        "n": 4,
+        "mean": 8.552735225,
+        "median": 9.108914825,
+        "min": 6.3286867,
+        "p95": 9.66442455,
+        "max": 9.66442455
+      },
+      "path_observed_contracts": 4,
+      "path_missing_contracts": 0,
+      "observed_positive_movement": 3,
+      "observed_nonpositive_movement": 1,
+      "sampled_mfe": {
+        "n": 4,
+        "mean": 0.11700000000000002,
+        "median": 0.10999999999999999,
+        "min": -0.019999999999999907,
+        "p95": 0.268,
+        "max": 0.268
+      },
+      "sampled_mae": {
+        "n": 4,
+        "mean": -0.34424999999999994,
+        "median": -0.33,
+        "min": -0.697,
+        "p95": -0.019999999999999907,
+        "max": -0.019999999999999907
+      },
+      "scalp_direction_is_secondary": true
+    }
+  },
+  "pair_relationships": {
+    "early+final": {
+      "contracts": 0,
+      "same_side": 0,
+      "opposite_side": 0,
+      "right_minus_left_call_seconds": {
+        "n": 0
+      }
+    },
+    "early+scalp": {
+      "contracts": 0,
+      "same_side": 0,
+      "opposite_side": 0,
+      "right_minus_left_call_seconds": {
+        "n": 0
+      }
+    },
+    "final+scalp": {
+      "contracts": 0,
+      "same_side": 0,
+      "opposite_side": 0,
+      "right_minus_left_call_seconds": {
+        "n": 0
+      }
+    }
+  },
+  "limitations": [
+    "Descriptive unique coverage is not causal predictive contribution.",
+    "First calls do not represent complete flip/reentry/lock or exit lifecycles.",
+    "Regime attribution requires source features joined at the original decision time.",
+    "Sampled MFE/MAE and nonpositive movement are censored; no fill, net profit or complete false-positive rate.",
+    "No production threshold/weight selection or acceptance is made."
+  ],
+  "orders": false
+}
