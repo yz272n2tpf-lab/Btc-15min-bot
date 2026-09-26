@@ -161,3 +161,21 @@ def production_contract_scorecard(data_dir, ticker, target=None):
     return {'ticker':ticker,'status':'COMPLETE' if not missing else 'INCOMPLETE',
             'missing':missing,'information':info,'final':final,'early':early,
             'scalp':scalp,'profit_protection':profit,'settlement':settlement}
+
+
+def read_native_cohort(path, ticker):
+    rows=[]
+    for line in Path(path).read_text().splitlines():
+        if not line.strip():
+            continue
+        row=json.loads(line)
+        if row.get('schema')!='BTC15_COHORT_NATIVE_V1':
+            raise ValueError('Unexpected native cohort schema')
+        if row.get('signal_only') is not True or row.get('orders') is not False:
+            raise ValueError('Native cohort invariant failed')
+        if row.get('contract')==ticker:
+            rows.append(row)
+    if not rows:
+        raise ValueError('MISSING_NATIVE_COHORT_EVIDENCE')
+    rows.sort(key=lambda r:r['timestamp_utc'])
+    return rows
