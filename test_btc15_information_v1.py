@@ -98,8 +98,12 @@ class InformationTests(unittest.TestCase):
         self.assertEqual(out['protection_phase'],'NORMAL')
         self.assertIs(out['five_minute_caution'],False)
         self.assertIs(out['three_minute_guard'],False)
-        # A fresh Rig at a late native decision supplies a causally complete
-        # native anchor; never renew a retained early anchor with reader time.
+        # Reader/publication time cannot advance native-owned lifecycle state.
+        retained=out['frame_id']
+        rig.at=OPEN+721
+        stale=pub.read(rig.export.health() if False else {},rig.at,retained)
+        self.assertEqual(stale['status'],'WAIT')
+        # A complete late native anchor owns the 3m transition.
         late=Rig(self.initial,offset=721)
         late_pub=InformationPublisher(self.fair)
         self.assertTrue(late.publish(late_pub))
