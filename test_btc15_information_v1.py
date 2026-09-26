@@ -320,17 +320,17 @@ class InformationTests(unittest.TestCase):
                         'final60_count':60,'final60_average':100010,'final60_side':'UP'})
         with tempfile.TemporaryDirectory() as td:
             path=Path(td)/'cohort.jsonl'
-            path.write_text(json.dumps(base)+'\\n')
+            path.write_text(json.dumps(base)+'\n')
             out=score_native_contract(path,TICKER,100000)
             self.assertEqual(out['status'],'COMPLETE');self.assertEqual(out['missing'],[])
             for key,missing in (('final_status','FINAL'),('early','EARLY'),
                                 ('unified_row_count','SCALP'),('brti','SETTLEMENT')):
                 bad=dict(base);bad.pop(key)
-                path.write_text(json.dumps(bad)+'\\n')
+                path.write_text(json.dumps(bad)+'\n')
                 out=score_native_contract(path,TICKER,100000)
                 self.assertEqual(out['status'],'INCOMPLETE');self.assertIn(missing,out['missing'])
             wrong=dict(base);wrong['brti']=dict(base['brti']);wrong['brti']['target']=99999
-            path.write_text(json.dumps(wrong)+'\\n')
+            path.write_text(json.dumps(wrong)+'\n')
             out=score_native_contract(path,TICKER,100000)
             self.assertEqual(out['status'],'INCOMPLETE');self.assertIn('SETTLEMENT',out['missing'])
 
