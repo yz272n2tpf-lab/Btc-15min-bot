@@ -107,6 +107,14 @@ class InformationTests(unittest.TestCase):
         self.assertIs(out['three_minute_guard'],True)
         self.assertFalse(set(out)&set(AUTHORITATIVE_FIELDS))
 
+    def test_profit_protection_status_cannot_be_position_or_exit_authority(self):
+        rig,pub=self.make();rig.publish(pub);out=rig.read(pub)
+        self.assertEqual(out['profit_protection_status'],'OBSERVE_ONLY_NO_POSITION_CONTEXT')
+        self.assertIn('53_ARMED_CASES',out['profit_protection_basis'])
+        for forbidden in ('position_status','hold','protect','exit','action','armed'):
+            self.assertNotIn(forbidden,out)
+        self.assertFalse(set(out)&set(AUTHORITATIVE_FIELDS))
+
     def test_closed_output_schema_classifies_every_field_and_has_no_action(self):
         rig,pub=self.make();rig.publish(pub)
         for out in (rig.read(pub), pub.read({},OPEN+306)):
