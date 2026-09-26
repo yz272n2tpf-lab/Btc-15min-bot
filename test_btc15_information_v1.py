@@ -120,6 +120,41 @@ class InformationTests(unittest.TestCase):
             self.assertFalse(rig.publish(pub))
             self.assertEqual(path.read_bytes(),before)
 
+    def test_disk_only_reader_reconstructs_protection_history_after_publisher_destroyed(self):
+        import tempfile
+        from pathlib import Path
+        from btc15_cohort_evidence_v1 import contract_information
+        from btc15_information_service_v1 import DurablePublisher
+        rig=Rig(self.initial,offset=300)
+        with tempfile.TemporaryDirectory() as td:
+            path=Path(td)/'information.jsonl'
+            pub=DurablePublisher(self.fair,journal_path=path,retention=1)
+            expected=[]
+            for cut in (300,301,302):
+                if cut>300: rig.sources(cut,brti_value=100080 if cut%2 else 99950)
+                self.assertTrue(rig.publish(pub))
+                expected.append(rig.read(pub))
+            del pub
+            rows=contract_information(path,TICKER)
+            self.assertEqual([r['frame_id'] for r in rows],[r['frame_id'] for r in expected])
+            for actual,want in zip(rows,expected):
+                for field in ('probability_up','probability_down','flip_risk_pct','up_ask','down_ask',
+                              'seconds_left','protection_phase','five_minute_caution',
+                              'three_minute_guard','protection_watch','anchor_id'):
+                    self.assertEqual(actual[field],want[field])
+
+    def test_disk_only_reader_rejects_missing_and_corrupt_evidence(self):
+        import tempfile
+        from pathlib import Path
+        from btc15_cohort_evidence_v1 import contract_information
+        with tempfile.TemporaryDirectory() as td:
+            path=Path(td)/'information.jsonl';path.write_text('')
+            with self.assertRaisesRegex(ValueError,'MISSING_INFORMATION_EVIDENCE'):
+                contract_information(path,TICKER)
+            path.write_text('{"schema":"BTC15_INFORMATION_JOURNAL_V1","frame_id":"x","frame":{}}\\n')
+            with self.assertRaisesRegex(ValueError,'Incomplete information frame'):
+                contract_information(path,TICKER)
+
     def test_native_feature_and_probability_exact_at_same_cut(self):
         rig, pub = self.make()
         self.assertTrue(rig.publish(pub))
