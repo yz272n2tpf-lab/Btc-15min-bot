@@ -169,6 +169,25 @@ class InformationTests(unittest.TestCase):
         self.assertEqual(classify_final([{'contract':ticker,'final_status':'FINAL CALL'}],ticker)['status'],'QUALIFIED')
         self.assertEqual(classify_final([{'contract':ticker,'final_status':'RAW FORECAST'}],ticker)['status'],'MISSING')
 
+    def test_complete_contract_scorecard_fails_closed_on_any_missing_path(self):
+        from btc15_cohort_evidence_v1 import complete_contract_scorecard
+        info=[{'ticker':TICKER,'frame_id':'f'}]
+        final=[{'contract':TICKER,'final_status':'PASS'}]
+        early=[{'contract':TICKER,'provisional_candidate':False}]
+        complete=complete_contract_scorecard(TICKER,info,final,early,[],True)
+        self.assertEqual(complete['status'],'COMPLETE')
+        self.assertEqual(complete['missing'],[])
+        cases=[
+            ([],final,early,[],True,'INFORMATION'),
+            (info,[],early,[],True,'FINAL'),
+            (info,final,[],[],True,'EARLY'),
+            (info,final,early,[],False,'SCALP'),
+        ]
+        for i,f,e,s,c,missing in cases:
+            out=complete_contract_scorecard(TICKER,i,f,e,s,c)
+            self.assertEqual(out['status'],'INCOMPLETE')
+            self.assertIn(missing,out['missing'])
+
     def test_native_feature_and_probability_exact_at_same_cut(self):
         rig, pub = self.make()
         self.assertTrue(rig.publish(pub))
