@@ -303,6 +303,32 @@ class InformationTests(unittest.TestCase):
             self.assertFalse(row['orders'])
         native.COHORT_PATH=old
 
+    def test_native_cohort_scorecard_complete_and_fails_closed(self):
+        import tempfile,json
+        from pathlib import Path
+        from btc15_cohort_evidence_v1 import score_native_contract
+        base=dict(schema='BTC15_COHORT_NATIVE_V1',timestamp_utc='2026-09-26T14:10:00+00:00',
+                  contract=TICKER,target=100000,seconds_left=300,signal_only=True,orders=False,
+                  final_status='PASS',early={'provisional_candidate':False},
+                  unified_row_count=1,true_scalp_pending=0,profit_pending=0,
+                  brti={'contract':TICKER,'target':100000,'final60_complete':True,
+                        'final60_count':60,'final60_average':100010,'final60_side':'UP'})
+        with tempfile.TemporaryDirectory() as td:
+            path=Path(td)/'cohort.jsonl'
+            path.write_text(json.dumps(base)+'\\n')
+            out=score_native_contract(path,TICKER,100000)
+            self.assertEqual(out['status'],'COMPLETE');self.assertEqual(out['missing'],[])
+            for key,missing in (('final_status','FINAL'),('early','EARLY'),
+                                ('unified_row_count','SCALP'),('brti','SETTLEMENT')):
+                bad=dict(base);bad.pop(key)
+                path.write_text(json.dumps(bad)+'\\n')
+                out=score_native_contract(path,TICKER,100000)
+                self.assertEqual(out['status'],'INCOMPLETE');self.assertIn(missing,out['missing'])
+            wrong=dict(base);wrong['brti']=dict(base['brti']);wrong['brti']['target']=99999
+            path.write_text(json.dumps(wrong)+'\\n')
+            out=score_native_contract(path,TICKER,100000)
+            self.assertEqual(out['status'],'INCOMPLETE');self.assertIn('SETTLEMENT',out['missing'])
+
     def test_native_feature_and_probability_exact_at_same_cut(self):
         rig, pub = self.make()
         self.assertTrue(rig.publish(pub))
