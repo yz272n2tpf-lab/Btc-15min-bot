@@ -1,0 +1,46 @@
+name: Offline fair input candidate
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'completion_audit/fair_input_candidate.py'
+      - 'completion_audit/test_fair_input_candidate.py'
+      - 'completion_audit/verify_frozen_model_candidate.py'
+      - 'completion_audit/fair_candidate_replay_manifest.json'
+      - 'completion_audit/replay_clean_inputs.py'
+      - 'completion_audit/test_replay_clean_inputs.py'
+      - 'completion_audit/fair_forward_shadow.py'
+      - 'completion_audit/test_fair_forward_shadow.py'
+      - 'completion_audit/frozen_model_artifact.py'
+      - 'completion_audit/test_frozen_model_artifact.py'
+      - 'completion_audit/run_frozen_forward_shadow.py'
+      - 'completion_audit/test_frozen_forward_runner.py'
+      - 'completion_audit/forward_features_development_20260923.json'
+      - '.github/workflows/fair-input-candidate.yml'
+  workflow_dispatch:
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements.txt
+      - run: python -m unittest discover -s completion_audit -p test_fair_input_candidate.py -v
+      - run: python -m unittest discover -s completion_audit -p test_replay_clean_inputs.py -v
+      - run: python -m unittest discover -s completion_audit -p test_fair_forward_shadow.py -v
+      - run: python -m unittest discover -s completion_audit -p test_frozen_model_artifact.py -v
+      - run: python -m unittest discover -s completion_audit -p test_frozen_forward_runner.py -v
+      - run: python completion_audit/verify_frozen_model_candidate.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: frozen-fair-candidate-${{ github.sha }}
+          path: completion_audit/model_artifact/
+          if-no-files-found: error
+          retention-days: 90

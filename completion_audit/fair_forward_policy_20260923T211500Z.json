@@ -1,0 +1,30 @@
+{
+  "policy_id": "fair-input-shadow-20260923T211500Z",
+  "registered_utc": "2026-09-23T21:00:30.648578+00:00",
+  "start_utc": "2026-09-23T21:15:00Z",
+  "cohort_manifest_sha256": "fcc75fdc1ace0f31e959d59f5038cfaa530da6147e0870e5b811246ba2d0163e",
+  "collector_run_id": "clean-source-v2-1s-20260923",
+  "weights_sha256": "95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6",
+  "runtime_versions": {
+    "numpy": "2.5.2",
+    "pandas": "3.0.5",
+    "sklearn": "1.9.0"
+  },
+  "source_sha256": {
+    "completion_audit/fair_candidate_replay_manifest.json": "53c72049f66eaa7c77275d8eb27405578f07d699f1aa51e86826a58ab02033fe",
+    "completion_audit/fair_input_candidate.py": "f4ff1bbaf1da21a025c5f1e073c651ae430756b6074d26d4481ac9ba98541f2a",
+    "completion_audit/replay_clean_inputs.py": "965df869f7e4f259341677a693906353e0d1b9f65dee6593a6b3103b104b50db",
+    "completion_audit/fair_forward_shadow.py": "1bacdd4cf3c96345e8468726aa46a34b855d546b1ecea56ed5ce1894bd35316e",
+    "completion_audit/verify_frozen_model_candidate.py": "a711759033ff4210e68c6c347981528f7d0d1747d9e80b43c40070447b9e5615",
+    "bot_two_output_build_v4_13_profit_protection_shadow.py": "d854bd0d097e49bb1f2d94a10ad1c37097e413c5caa194e560c23eeb1006f07e"
+  },
+  "input_timing": "Completed candles available at bucket end; current partial candles use only real source and receipt timestamps no later than the decision. Missing inputs stay WAIT.",
+  "decision_rule": "Every captured SNAPSHOT_INPUT in the registered window (stride_seconds=0). Missing/offline/late-join slots remain in common scheduled denominator. No interpolation of absent calls or source timestamps.",
+  "gates": "Unchanged existing numeric EARLY/FINAL/core-SCALP gates in frozen fair_forward_shadow.py. This is an input/model candidate, not complete production lock/persistence/exit equivalence.",
+  "comparison": "First qualified candidate raw gate per lane/contract, compared with separately qualified actual main publications on the same official universe. Raw-gate differences are not attributed solely to a ladder because model/input revision differs. Complete trace and missing-feature cuts retained.",
+  "phase_rule": "Only development_tuning may be inspected during tuning. Freeze any proposed selection before validation opens. Untouched holdout outcomes stay sealed until its fixed end; identity-invalid or inspected windows cannot certify performance.",
+  "fit_rule": "Original frozen 331 fit /133 calibration membership. No new labels, hyperparameter search or weight/threshold optimization. Fail if required inputs/hash or pinned model hash differ.",
+  "production_connected": false,
+  "production_promoted": false,
+  "orders": false
+}
