@@ -35,7 +35,8 @@ function informationView(token, nowMs) {
     'probability_up_change_since_native', 'preferred_side', 'brti_agrees', 'btc_gap', 'brti_gap',
     'up_bid', 'up_ask', 'down_bid', 'down_ask', 'native_decision_ts', 'evaluated_ts',
     'published_ts', 'btc_source_ts', 'brti_source_ts', 'quote_source_ts', 'flip_risk_pct',
-    'protection_phase', 'five_minute_caution', 'three_minute_guard']) assessment[key] = payload[key];
+    'protection_phase', 'five_minute_caution', 'three_minute_guard', 'profit_protection_status',
+    'profit_protection_basis']) assessment[key] = payload[key];
   return {authority: 'INFORMATIONAL_READ_ONLY', status: 'AVAILABLE',
     label: 'Information only — no entry or exit advice', assessment};
 }
