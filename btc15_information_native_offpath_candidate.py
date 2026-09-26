@@ -5,6 +5,8 @@ It never calls consume(), Delivery.accept(), strategy gates or model inference.
 Only loopback GET is supported. No output files or native-state writes.
 """
 import argparse
+import json
+from pathlib import Path
 import ast
 from copy import deepcopy
 import hashlib
@@ -31,8 +33,34 @@ def instrument(tree):
     if len(blocks) != 1:
         raise RuntimeError('Pinned native try body missing')
     blocks[0].body.append(ast.parse('_btc15_information_offer(globals())').body[0])
+    blocks[0].body.append(ast.parse('_btc15_cohort_offer(globals())').body[0])
     return ast.fix_missing_locations(tree)
 
+
+
+
+COHORT_PATH = Path(os.getenv('BTC15_COHORT_EVIDENCE_PATH', '/data/btc15_cohort_native_v1.jsonl'))
+COHORT_SCHEMA = 'BTC15_COHORT_NATIVE_V1'
+
+def cohort_offer(ns):
+    """Append already-computed native state only. Never evaluates, gates, or orders."""
+    try:
+        row=dict(schema=COHORT_SCHEMA,timestamp_utc=ns['now'].isoformat(),
+            contract=ns['market']['ticker'],target=float(ns['target']),
+            seconds_left=float(ns['seconds_left']),up_bid=ns.get('up_bid'),up_ask=ns.get('up_ask'),
+            down_bid=ns.get('down_bid'),down_ask=ns.get('down_ask'),
+            final_status=ns.get('_two_final_status'),final_side=ns.get('_two_final_side'),
+            final_confidence=ns.get('_two_final_confidence'),final_call_source=ns.get('_final_call_source'),
+            early=ns.get('_ec_row'),unified_row_count=len(ns.get('_unified_rows') or []),
+            true_scalp_pending=len(ns.get('_true_scalp_pending') or []),
+            profit_pending=len(ns.get('_profit_shadow_pending') or []),
+            brti=ns.get('_brti_row'),signal_only=True,orders=False)
+        COHORT_PATH.parent.mkdir(parents=True,exist_ok=True)
+        with COHORT_PATH.open('a') as out:
+            out.write(json.dumps(row,separators=(',',':'),sort_keys=True,default=str)+'\\n')
+            out.flush(); os.fsync(out.fileno())
+    except Exception as exc:
+        print('COHORT EVIDENCE WARNING | '+type(exc).__name__+': '+str(exc),flush=True)
 
 class NativeExport:
     def __init__(self, clock=time.time, epoch=None, provider_reader=None):
@@ -182,7 +210,7 @@ def main():
     export = NativeExport()
     server = server_for(export, args.port)
     threading.Thread(target=server.serve_forever, daemon=True, name='information-read-only-export').start()
-    namespace = dict(__name__='__main__', __file__=str(BOT), _btc15_information_offer=export.offer)
+    namespace = dict(__name__='__main__', __file__=str(BOT), _btc15_information_offer=export.offer, _btc15_cohort_offer=cohort_offer)
     try:
         exec(compile(instrument(ast.parse(raw)), str(BOT), 'exec'), namespace)
     finally:
