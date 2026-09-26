@@ -247,8 +247,14 @@ class InformationTests(unittest.TestCase):
             # epoch after that replacement rather than to the discarded provider.
             rig.sources(902,brti_value=100080)
             rig.provider.epoch='quote-owner-next'
-            published=rig.publish(pub)
-            self.assertTrue(published, f'rollover publication rejected: {pub.reason}')
+            try:
+                raw=rig.export.capture()
+                health=rig.export.health()
+                validated=validate(raw,health,rig.at)
+                published=pub.offer(raw,rig.export.health,lambda:rig.at)
+            except Exception as exc:
+                self.fail(f'rollover direct ingress failed: {type(exc).__name__}: {exc}')
+            self.assertTrue(published, f'rollover direct offer rejected: {pub.reason}; validated={validated[0]["anchor"]["ticker"]}')
             new=rig.read(pub)
             del pub
             self.assertEqual(contract_information(path,TICKER)[0]['frame_id'],old['frame_id'])
