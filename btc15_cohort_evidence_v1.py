@@ -52,3 +52,17 @@ def classify_final(rows, ticker):
     if any(r.get('final_status')=='PASS' for r in contract):
         return {'status':'PASS','calls':[]}
     return {'status':'MISSING','calls':[]}
+
+
+def complete_contract_scorecard(ticker, information_rows, final_rows, early_rows, scalp_events,
+                                scalp_coverage_proven=False):
+    info=[r for r in information_rows if r.get('ticker')==ticker]
+    final=classify_final(final_rows,ticker)
+    early=classify_early(early_rows,ticker)
+    scalp=classify_scalp(scalp_events,ticker,scalp_coverage_proven)
+    missing=[]
+    if not info: missing.append('INFORMATION')
+    for name,value in (('FINAL',final),('EARLY',early),('SCALP',scalp)):
+        if value['status']=='MISSING': missing.append(name)
+    return {'ticker':ticker,'status':'COMPLETE' if not missing else 'INCOMPLETE',
+            'missing':missing,'information':info,'final':final,'early':early,'scalp':scalp}
