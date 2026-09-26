@@ -257,6 +257,7 @@ class InformationTests(unittest.TestCase):
     def test_cohort_observer_is_appended_after_information_observer(self):
         import ast
         from btc15_information_native_offpath_candidate import instrument
+        from btc15_information_v1 import BOT
         tree=instrument(ast.parse(BOT.read_text()))
         loop=[n for n in tree.body if isinstance(n,ast.While) and isinstance(n.test,ast.Name) and n.test.id=='running'][0]
         block=[n for n in loop.body if isinstance(n,ast.Try)][0]
@@ -296,7 +297,11 @@ class InformationTests(unittest.TestCase):
                 '_true_scalp_pending':[{'signal_id':'s'}],'_profit_shadow_pending':[{'signal_id':'s'}],
                 '_brti_row':brti}
             native.cohort_offer(ns)
-            row=json.loads(native.COHORT_PATH.read_text())
+            native.cohort_offer(ns)
+            lines=native.COHORT_PATH.read_text().splitlines()
+            self.assertEqual(len(lines),2)
+            row=json.loads(lines[0])
+            self.assertEqual(json.loads(lines[1])['contract'],TICKER)
             self.assertEqual(row['contract'],TICKER);self.assertEqual(row['early'],early)
             self.assertEqual(row['brti'],brti);self.assertEqual(row['final_status'],'FINAL CALL')
             self.assertEqual(row['unified_row_count'],2);self.assertTrue(row['signal_only'])
