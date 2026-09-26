@@ -37,7 +37,7 @@ FIELDS = ('schema authority status reason signal_only orders frame_id anchor_id 
           'probability_up probability_down model_flip_probability '
           'probability_up_change_since_native preferred_side brti_agrees '
           'btc_gap brti_gap range5 dist_over_range5 seconds_left '
-          'artifact_sha256 weights_sha256 flip_risk_pct protection_phase five_minute_caution three_minute_guard').split()
+          'artifact_sha256 weights_sha256 flip_risk_pct protection_phase five_minute_caution three_minute_guard protection_watch').split()
 FIELD_CLASSES = {name: INFO for name in FIELDS}
 # These are existing-stream concepts; this API intentionally has no such fields.
 AUTHORITATIVE_FIELDS = ('entry_id entry_price entry_time early_ready scalp_ready '
@@ -312,7 +312,9 @@ class InformationPublisher:
                            protection_phase=('3M_GUARD' if a['closed']-published <= 180 else
                                              '5M_CAUTION' if a['closed']-published <= 300 else 'NORMAL'),
                            five_minute_caution=bool(a['closed']-published <= 300),
-                           three_minute_guard=bool(a['closed']-published <= 180), **values)
+                           three_minute_guard=bool(a['closed']-published <= 180),
+                           protection_watch=('WATCH_CLOSELY' if a['closed']-published <= 180 else
+                                             'CAUTION' if a['closed']-published <= 300 else 'NORMAL'), **values)
                 # Identity commits the complete immutable source bundle and evaluation.
                 out['display_until'] = min(out['expires_at'], h['observed']+HEALTH_LEASE)
                 frame_id = identity(pack(dict(input_sha256=identity(raw), output=out)))
