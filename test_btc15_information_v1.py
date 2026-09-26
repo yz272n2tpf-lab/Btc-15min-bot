@@ -151,7 +151,7 @@ class InformationTests(unittest.TestCase):
             path=Path(td)/'information.jsonl';path.write_text('')
             with self.assertRaisesRegex(ValueError,'MISSING_INFORMATION_EVIDENCE'):
                 contract_information(path,TICKER)
-            path.write_text('{"schema":"BTC15_INFORMATION_JOURNAL_V1","frame_id":"x","frame":{}}\\n')
+            path.write_text('{"schema":"BTC15_INFORMATION_JOURNAL_V1","frame_id":"x","frame":{}}\n')
             with self.assertRaisesRegex(ValueError,'Incomplete information frame'):
                 contract_information(path,TICKER)
 
