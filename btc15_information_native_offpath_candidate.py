@@ -57,7 +57,7 @@ def cohort_offer(ns):
             brti=ns.get('_brti_row'),signal_only=True,orders=False)
         COHORT_PATH.parent.mkdir(parents=True,exist_ok=True)
         with COHORT_PATH.open('a') as out:
-            out.write(json.dumps(row,separators=(',',':'),sort_keys=True,default=str)+'\\n')
+            out.write(json.dumps(row,separators=(',',':'),sort_keys=True,default=str)+'\n')
             out.flush(); os.fsync(out.fileno())
     except Exception as exc:
         print('COHORT EVIDENCE WARNING | '+type(exc).__name__+': '+str(exc),flush=True)
