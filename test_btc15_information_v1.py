@@ -98,11 +98,12 @@ class InformationTests(unittest.TestCase):
         self.assertEqual(out['protection_phase'],'NORMAL')
         self.assertIs(out['five_minute_caution'],False)
         self.assertIs(out['three_minute_guard'],False)
-        # Advance the native owner first; protection status must never renew
-        # merely because the informational reader's wall clock moved.
-        rig.tick(721)
-        self.assertTrue(rig.publish(pub))
-        out=rig.read(pub)
+        # A fresh Rig at a late native decision supplies a causally complete
+        # native anchor; never renew a retained early anchor with reader time.
+        late=Rig(self.initial,offset=721)
+        late_pub=InformationPublisher(self.fair)
+        self.assertTrue(late.publish(late_pub))
+        out=late.read(late_pub)
         self.assertEqual(out['protection_phase'],'3M_GUARD')
         self.assertIs(out['three_minute_guard'],True)
         self.assertFalse(set(out)&set(AUTHORITATIVE_FIELDS))
