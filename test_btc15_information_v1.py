@@ -98,9 +98,9 @@ class InformationTests(unittest.TestCase):
         self.assertEqual(out['protection_phase'],'NORMAL')
         self.assertIs(out['five_minute_caution'],False)
         self.assertIs(out['three_minute_guard'],False)
-        rig.at=OPEN+721
-        rig.runtime.ns['_brti_delivery'].accept(100080,rig.at-2.4,rig.at-.01,'owner')
-        rig.provider=provider(fixture(721),72100)
+        # Advance the native owner first; protection status must never renew
+        # merely because the informational reader's wall clock moved.
+        rig.tick(721)
         self.assertTrue(rig.publish(pub))
         out=rig.read(pub)
         self.assertEqual(out['protection_phase'],'3M_GUARD')
