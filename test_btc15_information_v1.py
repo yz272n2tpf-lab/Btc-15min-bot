@@ -243,8 +243,10 @@ class InformationTests(unittest.TestCase):
             # Rollover changes the quote owner subscription/epoch. A new ticker
             # on the old quote epoch is correctly rejected by source progress().
             rig.tick(901,ticker=next_ticker)
-            rig.provider.epoch='quote-owner-next'
+            # sources() builds a fresh provider, so assign the new quote-owner
+            # epoch after that replacement rather than to the discarded provider.
             rig.sources(902,brti_value=100080)
+            rig.provider.epoch='quote-owner-next'
             published=rig.publish(pub)
             self.assertTrue(published, f'rollover publication rejected: {pub.reason}')
             new=rig.read(pub)
