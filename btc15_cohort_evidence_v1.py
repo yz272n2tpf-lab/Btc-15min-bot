@@ -1,4 +1,5 @@
 """Disk-only cohort evidence reader. No live feeds, no strategy evaluation, NO ORDERS."""
+import csv
 import json
 from pathlib import Path
 
@@ -96,3 +97,67 @@ def full_contract_scorecard(ticker, information_rows, final_rows, early_rows, sc
     base.update(status='COMPLETE' if not missing else 'INCOMPLETE',missing=missing,
                 settlement=settlement,profit_protection=profit)
     return base
+
+
+PRODUCTION_EVIDENCE_FILES = {
+    'final': 'kalshi_two_output_live_log_v4_13.csv',
+    'early': 'kalshi_early_conf_shadow_v1_2.csv',
+    'scalp_coverage': 'kalshi_scalp_shadow_snapshots_v1.csv',
+    'scalp_events': 'kalshi_true_scalp_forward_shadow_v1.csv',
+    'profit': 'kalshi_profit_protection_forward_shadow_v1.csv',
+    'settlement': 'kalshi_direct_brti_parity_v1.csv',
+    'information': 'btc15_information_frames_v1.jsonl',
+}
+
+def _csv_rows(path):
+    with Path(path).open(newline='') as f:
+        return list(csv.DictReader(f))
+
+def _truth(v):
+    return str(v).strip().lower() in ('true','1','yes')
+
+def production_contract_scorecard(data_dir, ticker, target=None):
+    """Score only deployed-writer schemas; historical filenames are never discovered."""
+    root=Path(data_dir)
+    info=contract_information(root/PRODUCTION_EVIDENCE_FILES['information'],ticker)
+    final_rows=_csv_rows(root/PRODUCTION_EVIDENCE_FILES['final'])
+    early_rows=_csv_rows(root/PRODUCTION_EVIDENCE_FILES['early'])
+    coverage_rows=_csv_rows(root/PRODUCTION_EVIDENCE_FILES['scalp_coverage'])
+    scalp_rows=_csv_rows(root/PRODUCTION_EVIDENCE_FILES['scalp_events'])
+    profit_rows=_csv_rows(root/PRODUCTION_EVIDENCE_FILES['profit'])
+    settlement_rows=_csv_rows(root/PRODUCTION_EVIDENCE_FILES['settlement'])
+
+    final=classify_final(final_rows,ticker)
+    early_contract=[r for r in early_rows if r.get('contract')==ticker]
+    if not early_contract:
+        early={'status':'MISSING','qualified':[]}
+    else:
+        qualified=[r for r in early_contract if _truth(r.get('provisional_candidate'))]
+        early={'status':'QUALIFIED' if qualified else 'PASS','qualified':qualified}
+
+    coverage=[r for r in coverage_rows if r.get('contract')==ticker]
+    scalp_contract=[r for r in scalp_rows if r.get('contract')==ticker]
+    scalp={'status':'QUALIFIED','events':scalp_contract} if scalp_contract else (
+        {'status':'PASS','events':[]} if coverage else {'status':'MISSING','events':[]}
+    )
+    profit_contract=[r for r in profit_rows if r.get('contract')==ticker]
+    if scalp['status']=='QUALIFIED':
+        profit={'status':'RECORDED','events':profit_contract} if profit_contract else {'status':'MISSING','events':[]}
+    else:
+        profit={'status':'NOT_APPLICABLE','events':[]}
+
+    settlements=[r for r in settlement_rows if r.get('contract')==ticker and
+                 _truth(r.get('final60_complete')) and int(float(r.get('final60_count') or 0))==60]
+    if target is not None:
+        settlements=[r for r in settlements if r.get('target') not in (None,'') and
+                     abs(float(r['target'])-float(target)) < 1e-6]
+    settlement={'status':'COMPLETE','settlement':settlements[-1]} if settlements else {'status':'MISSING','settlement':None}
+
+    missing=[]
+    for name,value in (('FINAL',final),('EARLY',early),('SCALP',scalp),
+                       ('PROFIT_PROTECTION',profit),('SETTLEMENT',settlement)):
+        if value['status']=='MISSING': missing.append(name)
+    if not info: missing.append('INFORMATION')
+    return {'ticker':ticker,'status':'COMPLETE' if not missing else 'INCOMPLETE',
+            'missing':missing,'information':info,'final':final,'early':early,
+            'scalp':scalp,'profit_protection':profit,'settlement':settlement}
