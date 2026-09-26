@@ -240,7 +240,10 @@ class InformationTests(unittest.TestCase):
             path=Path(td)/'information.jsonl';pub=DurablePublisher(self.fair,journal_path=path)
             self.assertTrue(rig.publish(pub));old=rig.read(pub)
             next_ticker='KXBTC15M-19DEC311930-15'
+            # Mirror the qualified rollover lifecycle: native tick establishes the
+            # new anchor, then a genuinely newer source update is eligible to publish.
             rig.tick(901,ticker=next_ticker)
+            rig.sources(902,brti_value=100080)
             self.assertTrue(rig.publish(pub));new=rig.read(pub)
             del pub
             self.assertEqual(contract_information(path,TICKER)[0]['frame_id'],old['frame_id'])
