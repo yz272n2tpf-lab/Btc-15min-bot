@@ -34,7 +34,8 @@ function informationView(token, nowMs) {
   for (const key of ['ticker', 'probability_up', 'probability_down', 'model_flip_probability',
     'probability_up_change_since_native', 'preferred_side', 'brti_agrees', 'btc_gap', 'brti_gap',
     'up_bid', 'up_ask', 'down_bid', 'down_ask', 'native_decision_ts', 'evaluated_ts',
-    'published_ts', 'btc_source_ts', 'brti_source_ts', 'quote_source_ts']) assessment[key] = payload[key];
+    'published_ts', 'btc_source_ts', 'brti_source_ts', 'quote_source_ts', 'flip_risk_pct',
+    'protection_phase', 'five_minute_caution', 'three_minute_guard']) assessment[key] = payload[key];
   return {authority: 'INFORMATIONAL_READ_ONLY', status: 'AVAILABLE',
     label: 'Information only — no entry or exit advice', assessment};
 }
