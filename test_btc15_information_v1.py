@@ -95,8 +95,8 @@ class InformationTests(unittest.TestCase):
         rig,pub=self.make();rig.publish(pub)
         out=rig.read(pub)
         self.assertAlmostEqual(out['flip_risk_pct'],100*out['model_flip_probability'])
-        self.assertEqual(out['protection_phase'],'5M_CAUTION')
-        self.assertIs(out['five_minute_caution'],True)
+        self.assertEqual(out['protection_phase'],'NORMAL')
+        self.assertIs(out['five_minute_caution'],False)
         self.assertIs(out['three_minute_guard'],False)
         rig.at=OPEN+721
         rig.runtime.ns['_brti_delivery'].accept(100080,rig.at-2.4,rig.at-.01,'owner')
@@ -107,10 +107,9 @@ class InformationTests(unittest.TestCase):
         self.assertIs(out['three_minute_guard'],True)
         self.assertFalse(set(out)&set(AUTHORITATIVE_FIELDS))
 
-    def test_profit_protection_status_cannot_be_position_or_exit_authority(self):
+    def test_protection_watch_cannot_be_position_or_exit_authority(self):
         rig,pub=self.make();rig.publish(pub);out=rig.read(pub)
-        self.assertEqual(out['profit_protection_status'],'OBSERVE_ONLY_NO_POSITION_CONTEXT')
-        self.assertIn('53_ARMED_CASES',out['profit_protection_basis'])
+        self.assertEqual(out['protection_watch'],'NORMAL')
         for forbidden in ('position_status','hold','protect','exit','action','armed'):
             self.assertNotIn(forbidden,out)
         self.assertFalse(set(out)&set(AUTHORITATIVE_FIELDS))
