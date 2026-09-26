@@ -91,6 +91,22 @@ class InformationTests(unittest.TestCase):
         self.assertEqual(out['probability_up_change_since_native'], 0.)
         self.assertEqual(out['status'], 'AVAILABLE')
 
+    def test_protection_status_is_informational_clock_derived_only(self):
+        rig,pub=self.make();rig.publish(pub)
+        out=rig.read(pub)
+        self.assertAlmostEqual(out['flip_risk_pct'],100*out['model_flip_probability'])
+        self.assertEqual(out['protection_phase'],'5M_CAUTION')
+        self.assertIs(out['five_minute_caution'],True)
+        self.assertIs(out['three_minute_guard'],False)
+        rig.at=OPEN+721
+        rig.runtime.ns['_brti_delivery'].accept(100080,rig.at-2.4,rig.at-.01,'owner')
+        rig.provider=provider(fixture(721),72100)
+        self.assertTrue(rig.publish(pub))
+        out=rig.read(pub)
+        self.assertEqual(out['protection_phase'],'3M_GUARD')
+        self.assertIs(out['three_minute_guard'],True)
+        self.assertFalse(set(out)&set(AUTHORITATIVE_FIELDS))
+
     def test_closed_output_schema_classifies_every_field_and_has_no_action(self):
         rig,pub=self.make();rig.publish(pub)
         for out in (rig.read(pub), pub.read({},OPEN+306)):
