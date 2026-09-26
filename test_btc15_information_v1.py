@@ -211,6 +211,42 @@ class InformationTests(unittest.TestCase):
         self.assertEqual(missing_profit['status'],'INCOMPLETE')
         self.assertIn('PROFIT_PROTECTION',missing_profit['missing'])
 
+    def test_journal_survives_publisher_restart_and_appends_without_overwrite(self):
+        import tempfile
+        from pathlib import Path
+        from btc15_cohort_evidence_v1 import contract_information
+        from btc15_information_service_v1 import DurablePublisher
+        rig=Rig(self.initial,offset=300)
+        with tempfile.TemporaryDirectory() as td:
+            path=Path(td)/'information.jsonl'
+            first=DurablePublisher(self.fair,journal_path=path,retention=1)
+            self.assertTrue(rig.publish(first)); first_id=rig.read(first)['frame_id']
+            del first
+            rig.sources(301,brti_value=99950)
+            second=DurablePublisher(self.fair,journal_path=path,retention=1)
+            self.assertTrue(rig.publish(second)); second_id=rig.read(second)['frame_id']
+            self.assertNotEqual(first_id,second_id)
+            rows=contract_information(path,TICKER)
+            self.assertEqual([r['frame_id'] for r in rows],[first_id,second_id])
+            self.assertEqual(len(path.read_text().splitlines()),2)
+
+    def test_journal_reconstructs_two_contracts_without_cross_labeling(self):
+        import tempfile
+        from pathlib import Path
+        from btc15_cohort_evidence_v1 import contract_information
+        from btc15_information_service_v1 import DurablePublisher
+        rig=Rig(self.initial,offset=300)
+        with tempfile.TemporaryDirectory() as td:
+            path=Path(td)/'information.jsonl';pub=DurablePublisher(self.fair,journal_path=path)
+            self.assertTrue(rig.publish(pub));old=rig.read(pub)
+            next_ticker='KXBTC15M-19DEC311930-15'
+            rig.tick(901,ticker=next_ticker)
+            self.assertTrue(rig.publish(pub));new=rig.read(pub)
+            del pub
+            self.assertEqual(contract_information(path,TICKER)[0]['frame_id'],old['frame_id'])
+            self.assertEqual(contract_information(path,next_ticker)[0]['frame_id'],new['frame_id'])
+            self.assertNotEqual(old['anchor_id'],new['anchor_id'])
+
     def test_native_feature_and_probability_exact_at_same_cut(self):
         rig, pub = self.make()
         self.assertTrue(rig.publish(pub))
