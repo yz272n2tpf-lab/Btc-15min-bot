@@ -66,3 +66,33 @@ def complete_contract_scorecard(ticker, information_rows, final_rows, early_rows
         if value['status']=='MISSING': missing.append(name)
     return {'ticker':ticker,'status':'COMPLETE' if not missing else 'INCOMPLETE',
             'missing':missing,'information':info,'final':final,'early':early,'scalp':scalp}
+
+
+def classify_settlement(rows, ticker):
+    contract=[r for r in rows if r.get('contract')==ticker]
+    complete=[r for r in contract
+              if str(r.get('final60_complete')).lower() in ('true','1')
+              and int(float(r.get('final60_count',0)))==60
+              and r.get('final60_side') in ('UP','DOWN')
+              and r.get('final60_average') not in (None,'')]
+    return {'status':'COMPLETE' if complete else 'MISSING',
+            'settlement':complete[-1] if complete else None}
+
+def classify_profit_protection(rows, ticker, applicable):
+    contract=[r for r in rows if r.get('contract')==ticker]
+    if contract: return {'status':'RECORDED','events':contract}
+    return {'status':'NOT_APPLICABLE' if applicable is False else 'MISSING','events':[]}
+
+def full_contract_scorecard(ticker, information_rows, final_rows, early_rows, scalp_events,
+                            settlement_rows, profit_rows, scalp_coverage_proven=False,
+                            profit_applicable=None):
+    base=complete_contract_scorecard(ticker,information_rows,final_rows,early_rows,scalp_events,
+                                     scalp_coverage_proven)
+    settlement=classify_settlement(settlement_rows,ticker)
+    profit=classify_profit_protection(profit_rows,ticker,profit_applicable)
+    missing=list(base['missing'])
+    if settlement['status']=='MISSING': missing.append('SETTLEMENT')
+    if profit['status']=='MISSING': missing.append('PROFIT_PROTECTION')
+    base.update(status='COMPLETE' if not missing else 'INCOMPLETE',missing=missing,
+                settlement=settlement,profit_protection=profit)
+    return base
