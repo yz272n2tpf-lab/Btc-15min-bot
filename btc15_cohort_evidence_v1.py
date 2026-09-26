@@ -195,3 +195,38 @@ def score_native_paths(rows):
     return dict(final_status=final_status,final_calls=finals,
                 early_status=early_status,early_qualified=early_q,
                 scalp_status=scalp_status,profit_status=profit_status)
+
+
+def score_native_settlement(rows, expected_target=None):
+    settled=[]
+    for r in rows:
+        b=r.get('brti')
+        if not isinstance(b,dict):
+            continue
+        if b.get('contract') not in (None,r.get('contract')):
+            continue
+        if not _truth(b.get('final60_complete')):
+            continue
+        if int(float(b.get('final60_count') or 0)) != 60:
+            continue
+        if expected_target is not None:
+            if b.get('target') in (None,'') or abs(float(b['target'])-float(expected_target)) >= 1e-6:
+                continue
+        if b.get('final60_side') not in ('UP','DOWN') or b.get('final60_average') in (None,''):
+            continue
+        settled.append(b)
+    return {'status':'COMPLETE','settlement':settled[-1]} if settled else {'status':'MISSING','settlement':None}
+
+def score_native_contract(path,ticker,expected_target=None):
+    rows=read_native_cohort(path,ticker)
+    paths=score_native_paths(rows)
+    settlement=score_native_settlement(rows,expected_target)
+    missing=[]
+    for name,key in (('FINAL','final_status'),('EARLY','early_status'),
+                     ('SCALP','scalp_status'),('PROFIT_PROTECTION','profit_status')):
+        if paths[key]=='MISSING':
+            missing.append(name)
+    if settlement['status']=='MISSING':
+        missing.append('SETTLEMENT')
+    return {'ticker':ticker,'status':'COMPLETE' if not missing else 'INCOMPLETE',
+            'missing':missing,'row_count':len(rows),'paths':paths,'settlement':settlement}
