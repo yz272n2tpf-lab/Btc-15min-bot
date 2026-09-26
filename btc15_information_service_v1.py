@@ -4,6 +4,8 @@ No dashboard, native logs, source-owner writes, persistence or lifecycle API.
 The ingress is loopback to the opt-in native bridge, never an upstream feed.
 """
 import argparse
+import os
+from pathlib import Path
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import re
 import signal
@@ -14,6 +16,39 @@ from urllib.request import urlopen
 from btc15_information_v1 import (
     FIELD_CLASSES, MAX_BYTES, InformationPublisher, Unavailable, pack, unpack, wait_view,
 )
+
+JOURNAL_SCHEMA = 'BTC15_INFORMATION_JOURNAL_V1'
+JOURNAL_PATH = Path(os.getenv('BTC15_INFORMATION_JOURNAL_PATH',
+                              '/data/btc15_information_frames_v1.jsonl'))
+
+
+class DurablePublisher(InformationPublisher):
+    """Append exact qualified immutable frames after publication; never strategy authority."""
+    def __init__(self, *args, journal_path=JOURNAL_PATH, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.journal_path = Path(journal_path)
+
+    def offer(self, raw, health_reader, clock):
+        published = super().offer(raw, health_reader, clock)
+        if not published:
+            return False
+        with self.lock:
+            frame_id = self.latest
+            saved = self.frames.get(frame_id)
+        if not frame_id or saved is None:
+            raise RuntimeError('Published frame missing')
+        _, encoded = saved
+        frame = unpack(encoded)
+        record = dict(schema=JOURNAL_SCHEMA, frame_id=frame_id, frame=frame)
+        line = pack(record) + b'\n'
+        self.journal_path.parent.mkdir(parents=True, exist_ok=True)
+        fd = os.open(self.journal_path, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o600)
+        try:
+            os.write(fd, line)
+            os.fsync(fd)
+        finally:
+            os.close(fd)
+        return True
 
 
 class LocalIngress:
@@ -110,7 +145,7 @@ def main():
     parser.add_argument('--port', type=int, default=8767)
     args = parser.parse_args()
     ingress = LocalIngress(args.native_port)
-    publisher = InformationPublisher()
+    publisher = DurablePublisher()
     mirror = HealthMirror(ingress)
     server = server_for(publisher, mirror, args.port)
     stop = threading.Event()
