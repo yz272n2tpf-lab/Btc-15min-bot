@@ -91,14 +91,15 @@ def iso(at):
 
 
 def check_anchor(a):
-    exact(a, 'schema epoch decision captured ticker opened closed target btc completed ticks probability_up artifact weights')
+    exact(a, 'schema epoch decision captured ticker opened closed target btc completed ticks probability_up seconds_left artifact weights')
     if a['schema'] != 'BTC15_NATIVE_INFORMATION_ANCHOR_V1' or not isinstance(a['epoch'], str) or not a['epoch']:
         raise Unavailable('ANCHOR_OWNER')
-    for name in ('decision', 'captured', 'opened', 'closed', 'target', 'probability_up'):
+    for name in ('decision', 'captured', 'opened', 'closed', 'target', 'probability_up', 'seconds_left'):
         number(a[name])
     if (not a['opened'] <= a['decision'] <= a['captured'] < a['closed']
             or a['closed']-a['opened'] != 900 or a['opened'] % 900
-            or a['target'] <= 0 or not 0 <= a['probability_up'] <= 1):
+            or a['target'] <= 0 or not 0 <= a['probability_up'] <= 1
+            or abs(a['seconds_left']-(a['closed']-a['decision'])) > 1e-6):
         raise Unavailable('ANCHOR_CLOCK_OR_MARKET')
     if a['artifact'] != ARTIFACT or a['weights'] != WEIGHTS:
         raise Unavailable('MODEL_IDENTITY')
@@ -309,12 +310,12 @@ class InformationPublisher:
                            brti_gap=b['value']-a['target'], seconds_left=a['closed']-published,
                            artifact_sha256=ARTIFACT, weights_sha256=WEIGHTS,
                            flip_risk_pct=100*values['model_flip_probability'],
-                           protection_phase=('3M_GUARD' if a['closed']-published <= 180 else
-                                             '5M_CAUTION' if a['closed']-published <= 300 else 'NORMAL'),
-                           five_minute_caution=bool(a['closed']-published <= 300),
-                           three_minute_guard=bool(a['closed']-published <= 180),
-                           protection_watch=('WATCH_CLOSELY' if a['closed']-published <= 180 else
-                                             'CAUTION' if a['closed']-published <= 300 else 'NORMAL'), **values)
+                           protection_phase=('3M_GUARD' if a['seconds_left'] <= 180 else
+                                             '5M_CAUTION' if a['seconds_left'] <= 300 else 'NORMAL'),
+                           five_minute_caution=bool(a['seconds_left'] <= 300),
+                           three_minute_guard=bool(a['seconds_left'] <= 180),
+                           protection_watch=('WATCH_CLOSELY' if a['seconds_left'] <= 180 else
+                                             'CAUTION' if a['seconds_left'] <= 300 else 'NORMAL'), **values)
                 # Identity commits the complete immutable source bundle and evaluation.
                 out['display_until'] = min(out['expires_at'], h['observed']+HEALTH_LEASE)
                 frame_id = identity(pack(dict(input_sha256=identity(raw), output=out)))
