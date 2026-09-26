@@ -179,3 +179,19 @@ def read_native_cohort(path, ticker):
         raise ValueError('MISSING_NATIVE_COHORT_EVIDENCE')
     rows.sort(key=lambda r:r['timestamp_utc'])
     return rows
+
+
+def score_native_paths(rows):
+    finals=[r for r in rows if r.get('final_status')=='FINAL CALL']
+    final_status='QUALIFIED' if finals else ('PASS' if any(r.get('final_status')=='PASS' for r in rows) else 'MISSING')
+    early=[r['early'] for r in rows if isinstance(r.get('early'),dict)]
+    early_q=[r for r in early if _truth(r.get('provisional_candidate'))]
+    early_status='QUALIFIED' if early_q else ('PASS' if early else 'MISSING')
+    covered=any(int(r.get('unified_row_count') or 0)>0 for r in rows)
+    scalp_seen=any(int(r.get('true_scalp_pending') or 0)>0 for r in rows)
+    scalp_status='QUALIFIED' if scalp_seen else ('PASS' if covered else 'MISSING')
+    profit_seen=any(int(r.get('profit_pending') or 0)>0 for r in rows)
+    profit_status='RECORDED' if profit_seen else ('NOT_APPLICABLE' if scalp_status!='QUALIFIED' else 'MISSING')
+    return dict(final_status=final_status,final_calls=finals,
+                early_status=early_status,early_qualified=early_q,
+                scalp_status=scalp_status,profit_status=profit_status)
