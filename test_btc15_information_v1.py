@@ -245,7 +245,9 @@ class InformationTests(unittest.TestCase):
             rig.tick(901,ticker=next_ticker)
             rig.provider.epoch='quote-owner-next'
             rig.sources(902,brti_value=100080)
-            self.assertTrue(rig.publish(pub));new=rig.read(pub)
+            published=rig.publish(pub)
+            self.assertTrue(published, f'rollover publication rejected: {pub.reason}')
+            new=rig.read(pub)
             del pub
             self.assertEqual(contract_information(path,TICKER)[0]['frame_id'],old['frame_id'])
             self.assertEqual(contract_information(path,next_ticker)[0]['frame_id'],new['frame_id'])
