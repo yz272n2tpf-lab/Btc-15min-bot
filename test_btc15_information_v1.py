@@ -155,6 +155,20 @@ class InformationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'Incomplete information frame'):
                 contract_information(path,TICKER)
 
+    def test_scorecard_classification_never_turns_missing_into_pass(self):
+        from btc15_cohort_evidence_v1 import classify_early,classify_scalp,classify_final
+        ticker=TICKER
+        self.assertEqual(classify_early([],ticker)['status'],'MISSING')
+        self.assertEqual(classify_early([{'contract':ticker,'provisional_candidate':False}],ticker)['status'],'PASS')
+        self.assertEqual(classify_early([{'contract':ticker,'provisional_candidate':True}],ticker)['status'],'QUALIFIED')
+        self.assertEqual(classify_scalp([],ticker,coverage_proven=False)['status'],'MISSING')
+        self.assertEqual(classify_scalp([],ticker,coverage_proven=True)['status'],'PASS')
+        self.assertEqual(classify_scalp([{'contract':ticker,'signal_id':'x'}],ticker)['status'],'QUALIFIED')
+        self.assertEqual(classify_final([],ticker)['status'],'MISSING')
+        self.assertEqual(classify_final([{'contract':ticker,'final_status':'PASS'}],ticker)['status'],'PASS')
+        self.assertEqual(classify_final([{'contract':ticker,'final_status':'FINAL CALL'}],ticker)['status'],'QUALIFIED')
+        self.assertEqual(classify_final([{'contract':ticker,'final_status':'RAW FORECAST'}],ticker)['status'],'MISSING')
+
     def test_native_feature_and_probability_exact_at_same_cut(self):
         rig, pub = self.make()
         self.assertTrue(rig.publish(pub))
