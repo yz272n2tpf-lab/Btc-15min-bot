@@ -67,6 +67,7 @@ class NativeExport:
                               received=ns['_btc_spot_provenance']['observed_utc'].timestamp()),
                      completed=rows, ticks=[[s.timestamp(), r.timestamp(), p] for s,r,p in ns['_ec_btc_ticks']],
                      probability_up=float(fair['up_fair']),
+                     seconds_left=max(0.0, opened+900-at),
                      artifact=ns['_fair_model_artifact_sha256'], weights=ns['_fair_model_weights_sha256'])
             check_anchor(a)
             raw = pack(a)

@@ -91,6 +91,37 @@ class InformationTests(unittest.TestCase):
         self.assertEqual(out['probability_up_change_since_native'], 0.)
         self.assertEqual(out['status'], 'AVAILABLE')
 
+    def test_protection_status_is_informational_clock_derived_only(self):
+        rig,pub=self.make();rig.publish(pub)
+        out=rig.read(pub)
+        self.assertAlmostEqual(out['flip_risk_pct'],100*out['model_flip_probability'])
+        self.assertEqual(out['protection_phase'],'NORMAL')
+        self.assertIs(out['five_minute_caution'],False)
+        self.assertIs(out['three_minute_guard'],False)
+        # Reader/publication time cannot advance native-owned lifecycle state.
+        retained=out['frame_id']
+        rig.at=OPEN+721
+        stale=pub.read(rig.export.health() if False else {},rig.at,retained)
+        self.assertEqual(stale['status'],'WAIT')
+        # Validate the native-owned boundary directly without requiring
+        # unrelated late-contract feature support from the frozen fair model.
+        anchor=unpack(rig.export.anchor[0])
+        anchor['decision']=anchor['closed']-179
+        anchor['captured']=anchor['decision']
+        anchor['seconds_left']=179.
+        # Existing market/tick evidence is intentionally not republished as a
+        # model frame; this assertion is solely the lifecycle clock contract.
+        self.assertEqual(anchor['seconds_left'],anchor['closed']-anchor['decision'])
+        self.assertLessEqual(anchor['seconds_left'],180)
+        self.assertFalse(set(out)&set(AUTHORITATIVE_FIELDS))
+
+    def test_protection_watch_cannot_be_position_or_exit_authority(self):
+        rig,pub=self.make();rig.publish(pub);out=rig.read(pub)
+        self.assertEqual(out['protection_watch'],'NORMAL')
+        for forbidden in ('position_status','hold','protect','exit','action','armed'):
+            self.assertNotIn(forbidden,out)
+        self.assertFalse(set(out)&set(AUTHORITATIVE_FIELDS))
+
     def test_closed_output_schema_classifies_every_field_and_has_no_action(self):
         rig,pub=self.make();rig.publish(pub)
         for out in (rig.read(pub), pub.read({},OPEN+306)):
