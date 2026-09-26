@@ -1,4 +1,5 @@
 """Disk-only cohort evidence reader. No live feeds, no strategy evaluation, NO ORDERS."""
+import csv
 import json
 from pathlib import Path
 
@@ -96,3 +97,136 @@ def full_contract_scorecard(ticker, information_rows, final_rows, early_rows, sc
     base.update(status='COMPLETE' if not missing else 'INCOMPLETE',missing=missing,
                 settlement=settlement,profit_protection=profit)
     return base
+
+
+PRODUCTION_EVIDENCE_FILES = {
+    'final': 'kalshi_two_output_live_log_v4_13.csv',
+    'early': 'kalshi_early_conf_shadow_v1_2.csv',
+    'scalp_coverage': 'kalshi_scalp_shadow_snapshots_v1.csv',
+    'scalp_events': 'kalshi_true_scalp_forward_shadow_v1.csv',
+    'profit': 'kalshi_profit_protection_forward_shadow_v1.csv',
+    'settlement': 'kalshi_direct_brti_parity_v1.csv',
+    'information': 'btc15_information_frames_v1.jsonl',
+}
+
+def _csv_rows(path):
+    with Path(path).open(newline='') as f:
+        return list(csv.DictReader(f))
+
+def _truth(v):
+    return str(v).strip().lower() in ('true','1','yes')
+
+def production_contract_scorecard(data_dir, ticker, target=None):
+    """Score only deployed-writer schemas; historical filenames are never discovered."""
+    root=Path(data_dir)
+    info=contract_information(root/PRODUCTION_EVIDENCE_FILES['information'],ticker)
+    final_rows=_csv_rows(root/PRODUCTION_EVIDENCE_FILES['final'])
+    early_rows=_csv_rows(root/PRODUCTION_EVIDENCE_FILES['early'])
+    coverage_rows=_csv_rows(root/PRODUCTION_EVIDENCE_FILES['scalp_coverage'])
+    scalp_rows=_csv_rows(root/PRODUCTION_EVIDENCE_FILES['scalp_events'])
+    profit_rows=_csv_rows(root/PRODUCTION_EVIDENCE_FILES['profit'])
+    settlement_rows=_csv_rows(root/PRODUCTION_EVIDENCE_FILES['settlement'])
+
+    final=classify_final(final_rows,ticker)
+    early_contract=[r for r in early_rows if r.get('contract')==ticker]
+    if not early_contract:
+        early={'status':'MISSING','qualified':[]}
+    else:
+        qualified=[r for r in early_contract if _truth(r.get('provisional_candidate'))]
+        early={'status':'QUALIFIED' if qualified else 'PASS','qualified':qualified}
+
+    coverage=[r for r in coverage_rows if r.get('contract')==ticker]
+    scalp_contract=[r for r in scalp_rows if r.get('contract')==ticker]
+    scalp={'status':'QUALIFIED','events':scalp_contract} if scalp_contract else (
+        {'status':'PASS','events':[]} if coverage else {'status':'MISSING','events':[]}
+    )
+    profit_contract=[r for r in profit_rows if r.get('contract')==ticker]
+    if scalp['status']=='QUALIFIED':
+        profit={'status':'RECORDED','events':profit_contract} if profit_contract else {'status':'MISSING','events':[]}
+    else:
+        profit={'status':'NOT_APPLICABLE','events':[]}
+
+    settlements=[r for r in settlement_rows if r.get('contract')==ticker and
+                 _truth(r.get('final60_complete')) and int(float(r.get('final60_count') or 0))==60]
+    if target is not None:
+        settlements=[r for r in settlements if r.get('target') not in (None,'') and
+                     abs(float(r['target'])-float(target)) < 1e-6]
+    settlement={'status':'COMPLETE','settlement':settlements[-1]} if settlements else {'status':'MISSING','settlement':None}
+
+    missing=[]
+    for name,value in (('FINAL',final),('EARLY',early),('SCALP',scalp),
+                       ('PROFIT_PROTECTION',profit),('SETTLEMENT',settlement)):
+        if value['status']=='MISSING': missing.append(name)
+    if not info: missing.append('INFORMATION')
+    return {'ticker':ticker,'status':'COMPLETE' if not missing else 'INCOMPLETE',
+            'missing':missing,'information':info,'final':final,'early':early,
+            'scalp':scalp,'profit_protection':profit,'settlement':settlement}
+
+
+def read_native_cohort(path, ticker):
+    rows=[]
+    for line in Path(path).read_text().splitlines():
+        if not line.strip():
+            continue
+        row=json.loads(line)
+        if row.get('schema')!='BTC15_COHORT_NATIVE_V1':
+            raise ValueError('Unexpected native cohort schema')
+        if row.get('signal_only') is not True or row.get('orders') is not False:
+            raise ValueError('Native cohort invariant failed')
+        if row.get('contract')==ticker:
+            rows.append(row)
+    if not rows:
+        raise ValueError('MISSING_NATIVE_COHORT_EVIDENCE')
+    rows.sort(key=lambda r:r['timestamp_utc'])
+    return rows
+
+
+def score_native_paths(rows):
+    finals=[r for r in rows if r.get('final_status')=='FINAL CALL']
+    final_status='QUALIFIED' if finals else ('PASS' if any(r.get('final_status')=='PASS' for r in rows) else 'MISSING')
+    early=[r['early'] for r in rows if isinstance(r.get('early'),dict)]
+    early_q=[r for r in early if _truth(r.get('provisional_candidate'))]
+    early_status='QUALIFIED' if early_q else ('PASS' if early else 'MISSING')
+    covered=any(int(r.get('unified_row_count') or 0)>0 for r in rows)
+    scalp_seen=any(int(r.get('true_scalp_pending') or 0)>0 for r in rows)
+    scalp_status='QUALIFIED' if scalp_seen else ('PASS' if covered else 'MISSING')
+    profit_seen=any(int(r.get('profit_pending') or 0)>0 for r in rows)
+    profit_status='RECORDED' if profit_seen else ('NOT_APPLICABLE' if scalp_status!='QUALIFIED' else 'MISSING')
+    return dict(final_status=final_status,final_calls=finals,
+                early_status=early_status,early_qualified=early_q,
+                scalp_status=scalp_status,profit_status=profit_status)
+
+
+def score_native_settlement(rows, expected_target=None):
+    settled=[]
+    for r in rows:
+        b=r.get('brti')
+        if not isinstance(b,dict):
+            continue
+        if b.get('contract') not in (None,r.get('contract')):
+            continue
+        if not _truth(b.get('final60_complete')):
+            continue
+        if int(float(b.get('final60_count') or 0)) != 60:
+            continue
+        if expected_target is not None:
+            if b.get('target') in (None,'') or abs(float(b['target'])-float(expected_target)) >= 1e-6:
+                continue
+        if b.get('final60_side') not in ('UP','DOWN') or b.get('final60_average') in (None,''):
+            continue
+        settled.append(b)
+    return {'status':'COMPLETE','settlement':settled[-1]} if settled else {'status':'MISSING','settlement':None}
+
+def score_native_contract(path,ticker,expected_target=None):
+    rows=read_native_cohort(path,ticker)
+    paths=score_native_paths(rows)
+    settlement=score_native_settlement(rows,expected_target)
+    missing=[]
+    for name,key in (('FINAL','final_status'),('EARLY','early_status'),
+                     ('SCALP','scalp_status'),('PROFIT_PROTECTION','profit_status')):
+        if paths[key]=='MISSING':
+            missing.append(name)
+    if settlement['status']=='MISSING':
+        missing.append('SETTLEMENT')
+    return {'ticker':ticker,'status':'COMPLETE' if not missing else 'INCOMPLETE',
+            'missing':missing,'row_count':len(rows),'paths':paths,'settlement':settlement}
