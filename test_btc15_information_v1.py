@@ -82,6 +82,178 @@ class InformationTests(unittest.TestCase):
     def make(self, **kwargs):
         return Rig(self.initial, **kwargs), InformationPublisher(self.fair)
 
+    def test_durable_journal_reconstructs_exact_frame_after_memory_eviction(self):
+        import tempfile
+        from pathlib import Path
+        from btc15_information_service_v1 import DurablePublisher, JOURNAL_SCHEMA
+        rig=Rig(self.initial,offset=300)
+        with tempfile.TemporaryDirectory() as td:
+            path=Path(td)/'information.jsonl'
+            pub=DurablePublisher(self.fair,journal_path=path,retention=1)
+            self.assertTrue(rig.publish(pub))
+            first=rig.read(pub); first_id=first['frame_id']
+            rig.sources(301,brti_value=99950)
+            self.assertTrue(rig.publish(pub))
+            self.assertNotIn(first_id,pub.frames)
+            records=[unpack(line) for line in path.read_bytes().splitlines()]
+            self.assertEqual(len(records),2)
+            self.assertEqual(records[0]['schema'],JOURNAL_SCHEMA)
+            self.assertEqual(records[0]['frame_id'],first_id)
+            self.assertEqual(records[0]['frame'],first)
+            self.assertEqual(records[0]['frame']['flip_risk_pct'],first['flip_risk_pct'])
+            self.assertIs(records[0]['frame']['orders'],False)
+            self.assertIs(records[0]['frame']['signal_only'],True)
+
+    def test_durable_journal_records_only_successful_qualified_publications(self):
+        import tempfile
+        from pathlib import Path
+        from btc15_information_service_v1 import DurablePublisher
+        rig=Rig(self.initial,offset=300)
+        with tempfile.TemporaryDirectory() as td:
+            path=Path(td)/'information.jsonl'
+            pub=DurablePublisher(self.fair,journal_path=path)
+            self.assertTrue(rig.publish(pub))
+            before=path.read_bytes()
+            self.assertFalse(rig.publish(pub))
+            self.assertEqual(path.read_bytes(),before)
+            rig.provider.book.valid=False
+            self.assertFalse(rig.publish(pub))
+            self.assertEqual(path.read_bytes(),before)
+
+    def test_disk_only_reader_reconstructs_protection_history_after_publisher_destroyed(self):
+        import tempfile
+        from pathlib import Path
+        from btc15_cohort_evidence_v1 import contract_information
+        from btc15_information_service_v1 import DurablePublisher
+        rig=Rig(self.initial,offset=300)
+        with tempfile.TemporaryDirectory() as td:
+            path=Path(td)/'information.jsonl'
+            pub=DurablePublisher(self.fair,journal_path=path,retention=1)
+            expected=[]
+            for cut in (300,301,302):
+                if cut>300: rig.sources(cut,brti_value=100080 if cut%2 else 99950)
+                self.assertTrue(rig.publish(pub))
+                expected.append(rig.read(pub))
+            del pub
+            rows=contract_information(path,TICKER)
+            self.assertEqual([r['frame_id'] for r in rows],[r['frame_id'] for r in expected])
+            for actual,want in zip(rows,expected):
+                for field in ('probability_up','probability_down','flip_risk_pct','up_ask','down_ask',
+                              'seconds_left','protection_phase','five_minute_caution',
+                              'three_minute_guard','protection_watch','anchor_id'):
+                    self.assertEqual(actual[field],want[field])
+
+    def test_disk_only_reader_rejects_missing_and_corrupt_evidence(self):
+        import tempfile
+        from pathlib import Path
+        from btc15_cohort_evidence_v1 import contract_information
+        with tempfile.TemporaryDirectory() as td:
+            path=Path(td)/'information.jsonl';path.write_text('')
+            with self.assertRaisesRegex(ValueError,'MISSING_INFORMATION_EVIDENCE'):
+                contract_information(path,TICKER)
+            path.write_text('{"schema":"BTC15_INFORMATION_JOURNAL_V1","frame_id":"x","frame":{}}\n')
+            with self.assertRaisesRegex(ValueError,'Incomplete information frame'):
+                contract_information(path,TICKER)
+
+    def test_scorecard_classification_never_turns_missing_into_pass(self):
+        from btc15_cohort_evidence_v1 import classify_early,classify_scalp,classify_final
+        ticker=TICKER
+        self.assertEqual(classify_early([],ticker)['status'],'MISSING')
+        self.assertEqual(classify_early([{'contract':ticker,'provisional_candidate':False}],ticker)['status'],'PASS')
+        self.assertEqual(classify_early([{'contract':ticker,'provisional_candidate':True}],ticker)['status'],'QUALIFIED')
+        self.assertEqual(classify_scalp([],ticker,coverage_proven=False)['status'],'MISSING')
+        self.assertEqual(classify_scalp([],ticker,coverage_proven=True)['status'],'PASS')
+        self.assertEqual(classify_scalp([{'contract':ticker,'signal_id':'x'}],ticker)['status'],'QUALIFIED')
+        self.assertEqual(classify_final([],ticker)['status'],'MISSING')
+        self.assertEqual(classify_final([{'contract':ticker,'final_status':'PASS'}],ticker)['status'],'PASS')
+        self.assertEqual(classify_final([{'contract':ticker,'final_status':'FINAL CALL'}],ticker)['status'],'QUALIFIED')
+        self.assertEqual(classify_final([{'contract':ticker,'final_status':'RAW FORECAST'}],ticker)['status'],'MISSING')
+
+    def test_complete_contract_scorecard_fails_closed_on_any_missing_path(self):
+        from btc15_cohort_evidence_v1 import complete_contract_scorecard
+        info=[{'ticker':TICKER,'frame_id':'f'}]
+        final=[{'contract':TICKER,'final_status':'PASS'}]
+        early=[{'contract':TICKER,'provisional_candidate':False}]
+        complete=complete_contract_scorecard(TICKER,info,final,early,[],True)
+        self.assertEqual(complete['status'],'COMPLETE')
+        self.assertEqual(complete['missing'],[])
+        cases=[
+            ([],final,early,[],True,'INFORMATION'),
+            (info,[],early,[],True,'FINAL'),
+            (info,final,[],[],True,'EARLY'),
+            (info,final,early,[],False,'SCALP'),
+        ]
+        for i,f,e,s,c,missing in cases:
+            out=complete_contract_scorecard(TICKER,i,f,e,s,c)
+            self.assertEqual(out['status'],'INCOMPLETE')
+            self.assertIn(missing,out['missing'])
+
+    def test_full_scorecard_requires_60_of_60_settlement_and_profit_classification(self):
+        from btc15_cohort_evidence_v1 import full_contract_scorecard
+        info=[{'ticker':TICKER,'frame_id':'f'}]
+        final=[{'contract':TICKER,'final_status':'PASS'}]
+        early=[{'contract':TICKER,'provisional_candidate':False}]
+        settlement=[{'contract':TICKER,'final60_complete':True,'final60_count':60,
+                     'final60_side':'UP','final60_average':100001}]
+        out=full_contract_scorecard(TICKER,info,final,early,[],settlement,[],True,False)
+        self.assertEqual(out['status'],'COMPLETE')
+        self.assertEqual(out['settlement']['status'],'COMPLETE')
+        self.assertEqual(out['profit_protection']['status'],'NOT_APPLICABLE')
+        for bad in (
+            [],
+            [{'contract':TICKER,'final60_complete':False,'final60_count':60,'final60_side':'UP','final60_average':100001}],
+            [{'contract':TICKER,'final60_complete':True,'final60_count':59,'final60_side':'UP','final60_average':100001}],
+        ):
+            failed=full_contract_scorecard(TICKER,info,final,early,[],bad,[],True,False)
+            self.assertEqual(failed['status'],'INCOMPLETE')
+            self.assertIn('SETTLEMENT',failed['missing'])
+        missing_profit=full_contract_scorecard(TICKER,info,final,early,[],settlement,[],True,None)
+        self.assertEqual(missing_profit['status'],'INCOMPLETE')
+        self.assertIn('PROFIT_PROTECTION',missing_profit['missing'])
+
+    def test_journal_survives_publisher_restart_and_appends_without_overwrite(self):
+        import tempfile
+        from pathlib import Path
+        from btc15_cohort_evidence_v1 import contract_information
+        from btc15_information_service_v1 import DurablePublisher
+        rig=Rig(self.initial,offset=300)
+        with tempfile.TemporaryDirectory() as td:
+            path=Path(td)/'information.jsonl'
+            first=DurablePublisher(self.fair,journal_path=path,retention=1)
+            self.assertTrue(rig.publish(first)); first_id=rig.read(first)['frame_id']
+            del first
+            rig.sources(301,brti_value=99950)
+            second=DurablePublisher(self.fair,journal_path=path,retention=1)
+            self.assertTrue(rig.publish(second)); second_id=rig.read(second)['frame_id']
+            self.assertNotEqual(first_id,second_id)
+            rows=contract_information(path,TICKER)
+            self.assertEqual([r['frame_id'] for r in rows],[first_id,second_id])
+            self.assertEqual(len(path.read_text().splitlines()),2)
+
+    def test_journal_reconstructs_two_contracts_without_cross_labeling(self):
+        import tempfile
+        from pathlib import Path
+        from btc15_cohort_evidence_v1 import contract_information
+        from btc15_information_service_v1 import DurablePublisher
+        # Rollover ownership is already covered by frozen staged-lifecycle tests.
+        # This new test owns only persistence: successive independently qualified
+        # contract identities must remain separated in one append-only journal.
+        first=Rig(self.initial,offset=300)
+        next_ticker='KXBTC15M-19DEC311930-15'
+        second=Rig(self.initial,offset=300)
+        a=unpack(second.export.anchor[0]);a['ticker']=next_ticker
+        second.export.anchor=(pack(a),second.export.anchor[1])
+        second.provider=provider(fixture(300,ticker=next_ticker),30000,epoch='quote-owner-next')
+        with tempfile.TemporaryDirectory() as td:
+            path=Path(td)/'information.jsonl'
+            pub1=DurablePublisher(self.fair,journal_path=path)
+            self.assertTrue(first.publish(pub1));old=first.read(pub1);del pub1
+            pub2=DurablePublisher(self.fair,journal_path=path)
+            self.assertTrue(second.publish(pub2));new=second.read(pub2);del pub2
+            self.assertEqual(contract_information(path,TICKER)[0]['frame_id'],old['frame_id'])
+            self.assertEqual(contract_information(path,next_ticker)[0]['frame_id'],new['frame_id'])
+            self.assertNotEqual(old['anchor_id'],new['anchor_id'])
+
     def test_native_feature_and_probability_exact_at_same_cut(self):
         rig, pub = self.make()
         self.assertTrue(rig.publish(pub))
