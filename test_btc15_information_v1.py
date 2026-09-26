@@ -254,6 +254,55 @@ class InformationTests(unittest.TestCase):
             self.assertEqual(contract_information(path,next_ticker)[0]['frame_id'],new['frame_id'])
             self.assertNotEqual(old['anchor_id'],new['anchor_id'])
 
+    def test_cohort_observer_is_appended_after_information_observer(self):
+        import ast
+        from btc15_information_native_offpath_candidate import instrument
+        tree=instrument(ast.parse(BOT.read_text()))
+        loop=[n for n in tree.body if isinstance(n,ast.While) and isinstance(n.test,ast.Name) and n.test.id=='running'][0]
+        block=[n for n in loop.body if isinstance(n,ast.Try)][0]
+        tail=[ast.unparse(n) for n in block.body[-2:]]
+        self.assertEqual(tail,['_btc15_information_offer(globals())','_btc15_cohort_offer(globals())'])
+
+    def test_cohort_writer_failure_is_fail_open_for_strategy_and_writes_nothing(self):
+        import tempfile
+        from pathlib import Path
+        import btc15_information_native_offpath_candidate as native
+        old=native.COHORT_PATH
+        with tempfile.TemporaryDirectory() as td:
+            native.COHORT_PATH=Path(td)  # directory: open('a') must fail
+            ns={'now':datetime.now(timezone.utc),'market':{'ticker':TICKER},'target':100000,
+                'seconds_left':300,'up_bid':.4,'up_ask':.41,'down_bid':.59,'down_ask':.6,
+                '_two_final_status':'PASS','_two_final_side':None,'_two_final_confidence':None,
+                '_final_call_source':'NONE','_ec_row':None,'_unified_rows':[1],
+                '_true_scalp_pending':[],'_profit_shadow_pending':[],'_brti_row':None}
+            self.assertIsNone(native.cohort_offer(ns))
+            self.assertEqual(ns['_two_final_status'],'PASS')
+        native.COHORT_PATH=old
+
+    def test_cohort_writer_persists_exact_native_state(self):
+        import tempfile,json
+        from pathlib import Path
+        import btc15_information_native_offpath_candidate as native
+        old=native.COHORT_PATH
+        with tempfile.TemporaryDirectory() as td:
+            native.COHORT_PATH=Path(td)/'cohort.jsonl'
+            now=datetime.now(timezone.utc)
+            early={'contract':TICKER,'provisional_candidate':True,'candidate_persistence_30s':4}
+            brti={'contract':TICKER,'final60_count':60,'final60_complete':True,'final60_average':100010,'final60_side':'UP'}
+            ns={'now':now,'market':{'ticker':TICKER},'target':100000,'seconds_left':0,
+                'up_bid':.8,'up_ask':.81,'down_bid':.19,'down_ask':.2,
+                '_two_final_status':'FINAL CALL','_two_final_side':'UP','_two_final_confidence':.94,
+                '_final_call_source':'FAIR','_ec_row':early,'_unified_rows':[1,2],
+                '_true_scalp_pending':[{'signal_id':'s'}],'_profit_shadow_pending':[{'signal_id':'s'}],
+                '_brti_row':brti}
+            native.cohort_offer(ns)
+            row=json.loads(native.COHORT_PATH.read_text())
+            self.assertEqual(row['contract'],TICKER);self.assertEqual(row['early'],early)
+            self.assertEqual(row['brti'],brti);self.assertEqual(row['final_status'],'FINAL CALL')
+            self.assertEqual(row['unified_row_count'],2);self.assertTrue(row['signal_only'])
+            self.assertFalse(row['orders'])
+        native.COHORT_PATH=old
+
     def test_native_feature_and_probability_exact_at_same_cut(self):
         rig, pub = self.make()
         self.assertTrue(rig.publish(pub))
