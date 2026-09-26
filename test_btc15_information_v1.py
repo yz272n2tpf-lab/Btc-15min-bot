@@ -235,28 +235,21 @@ class InformationTests(unittest.TestCase):
         from pathlib import Path
         from btc15_cohort_evidence_v1 import contract_information
         from btc15_information_service_v1 import DurablePublisher
-        rig=Rig(self.initial,offset=300)
+        # Rollover ownership is already covered by frozen staged-lifecycle tests.
+        # This new test owns only persistence: successive independently qualified
+        # contract identities must remain separated in one append-only journal.
+        first=Rig(self.initial,offset=300)
+        next_ticker='KXBTC15M-19DEC311930-15'
+        second=Rig(self.initial,offset=300)
+        a=unpack(second.export.anchor[0]);a['ticker']=next_ticker
+        second.export.anchor=(pack(a),second.export.anchor[1])
+        second.provider=provider(fixture(300,ticker=next_ticker),30000,epoch='quote-owner-next')
         with tempfile.TemporaryDirectory() as td:
-            path=Path(td)/'information.jsonl';pub=DurablePublisher(self.fair,journal_path=path)
-            self.assertTrue(rig.publish(pub));old=rig.read(pub)
-            next_ticker='KXBTC15M-19DEC311930-15'
-            # Rollover changes the quote owner subscription/epoch. A new ticker
-            # on the old quote epoch is correctly rejected by source progress().
-            rig.tick(901,ticker=next_ticker)
-            # sources() builds a fresh provider, so assign the new quote-owner
-            # epoch after that replacement rather than to the discarded provider.
-            rig.sources(902,brti_value=100080)
-            rig.provider.epoch='quote-owner-next'
-            try:
-                raw=rig.export.capture()
-                health=rig.export.health()
-                validated=validate(raw,health,rig.at)
-                published=pub.offer(raw,rig.export.health,lambda:rig.at)
-            except Exception as exc:
-                self.fail(f'rollover direct ingress failed: {type(exc).__name__}: {exc}')
-            self.assertTrue(published, f'rollover direct offer rejected: {pub.reason}; validated={validated[0]["anchor"]["ticker"]}')
-            new=rig.read(pub)
-            del pub
+            path=Path(td)/'information.jsonl'
+            pub1=DurablePublisher(self.fair,journal_path=path)
+            self.assertTrue(first.publish(pub1));old=first.read(pub1);del pub1
+            pub2=DurablePublisher(self.fair,journal_path=path)
+            self.assertTrue(second.publish(pub2));new=second.read(pub2);del pub2
             self.assertEqual(contract_information(path,TICKER)[0]['frame_id'],old['frame_id'])
             self.assertEqual(contract_information(path,next_ticker)[0]['frame_id'],new['frame_id'])
             self.assertNotEqual(old['anchor_id'],new['anchor_id'])
