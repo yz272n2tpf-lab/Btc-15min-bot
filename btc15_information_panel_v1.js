@@ -7,7 +7,7 @@
     const view = informationView(token, performance.now());
     status.textContent = view.status === 'AVAILABLE' ? view.label : 'WAIT — information unavailable';
     const a = view.assessment;
-    assessment.textContent = a ? `${a.ticker} · descriptive UP ${(a.probability_up*100).toFixed(1)}% · DOWN ${(a.probability_down*100).toFixed(1)}% · Flip risk ${Number(a.flip_risk_pct).toFixed(1)}% · ${a.protection_phase === '3M_GUARD' ? '3M GUARD' : a.protection_phase === '5M_CAUTION' ? '5M CAUTION' : 'NORMAL'} · BRTI ${a.brti_agrees ? 'agrees' : 'differs'}` : '';
+    assessment.textContent = a ? `${a.ticker} · descriptive UP ${(a.probability_up*100).toFixed(1)}% · DOWN ${(a.probability_down*100).toFixed(1)}% · Flip risk ${Number(a.flip_risk_pct).toFixed(1)}% · ${a.protection_phase === '3M_GUARD' ? '3M GUARD' : a.protection_phase === '5M_CAUTION' ? '5M CAUTION' : 'NORMAL'} · Profit protection ${a.profit_protection_status === 'OBSERVE_ONLY_NO_POSITION_CONTEXT' ? 'OBSERVE' : 'UNAVAILABLE'} · BRTI ${a.brti_agrees ? 'agrees' : 'differs'}` : '';
   }
   async function poll() {
     if (busy || document.hidden) return;
