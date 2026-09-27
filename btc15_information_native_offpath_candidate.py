@@ -71,48 +71,71 @@ def cohort_offer(ns):
 
 _COHORT_CLOSEOUT_LOCK = threading.Lock()
 _COHORT_CLOSEOUT_SEEN = set()
+_COHORT_CLOSEOUT_STARTED = False
+_COHORT_CLOSEOUT_STOP = None
+_COHORT_CLOSEOUT_THREAD = None
+
+def _cohort_closeout_worker(ns, stop_event=None):
+    """Background receipt copier. Never runs file scans on the native decision thread."""
+    parity=Path(ns['BRTI_PARITY_LOG'])
+    stop_event = stop_event or threading.Event()
+    while not stop_event.is_set():
+        try:
+            if parity.exists():
+                import csv
+                with parity.open(newline='') as src:
+                    rows=list(csv.DictReader(src))
+                persisted=set()
+                if COHORT_PATH.exists():
+                    with COHORT_PATH.open() as src:
+                        for line in src:
+                            try: prior=json.loads(line)
+                            except Exception: continue
+                            if prior.get('schema')==COHORT_SCHEMA and prior.get('final_status')=='CLOSEOUT_ONLY':
+                                persisted.add(prior.get('contract'))
+                for r in rows:
+                    ticker=r.get('contract')
+                    if not ticker or ticker in persisted or ticker in _COHORT_CLOSEOUT_SEEN: continue
+                    if str(r.get('final60_complete','')).lower() not in ('true','1'): continue
+                    if int(float(r.get('final60_count') or 0))!=60: continue
+                    avg=r.get('final60_average');side=r.get('final60_side');target=r.get('target')
+                    if avg in (None,'') or side not in ('UP','DOWN') or target in (None,''): continue
+                    row=dict(schema=COHORT_SCHEMA,timestamp_utc=r.get('timestamp_utc'),contract=ticker,
+                        target=float(target),seconds_left=0.0,up_bid=None,up_ask=None,down_bid=None,down_ask=None,
+                        final_status='CLOSEOUT_ONLY',final_side=None,final_confidence=None,final_call_source='BRTI_CLOSEOUT',
+                        early=None,unified_row_count=0,true_scalp_pending=0,profit_pending=0,
+                        brti=dict(contract=ticker,target=float(target),final60_count=60,
+                                  final60_average=float(avg),final60_side=side,final60_complete=True),
+                        signal_only=True,orders=False)
+                    with COHORT_PATH.open('a') as out:
+                        out.write(json.dumps(row,separators=(',',':'),sort_keys=True,default=str)+'\n')
+                        out.flush();os.fsync(out.fileno())
+                    _COHORT_CLOSEOUT_SEEN.add(ticker);persisted.add(ticker)
+        except Exception as exc:
+            print('COHORT CLOSEOUT WARNING | '+type(exc).__name__+': '+str(exc),flush=True)
+        stop_event.wait(1.0)
+
+def _stop_cohort_closeout_worker(timeout=2.0):
+    """Test/teardown hook; production never calls this."""
+    global _COHORT_CLOSEOUT_STARTED,_COHORT_CLOSEOUT_STOP,_COHORT_CLOSEOUT_THREAD
+    with _COHORT_CLOSEOUT_LOCK:
+        stop=_COHORT_CLOSEOUT_STOP;thread=_COHORT_CLOSEOUT_THREAD
+        if stop is not None: stop.set()
+    if thread is not None: thread.join(timeout)
+    with _COHORT_CLOSEOUT_LOCK:
+        _COHORT_CLOSEOUT_STARTED=False;_COHORT_CLOSEOUT_STOP=None;_COHORT_CLOSEOUT_THREAD=None
 
 def cohort_closeout_offer(ns):
-    """Copy exact completed settlement from the frozen owner's append-only parity receipt."""
-    try:
-        parity=Path(ns['BRTI_PARITY_LOG'])
-        if not parity.exists(): return
-        import csv
-        with parity.open(newline='') as src:
-            rows=list(csv.DictReader(src))
-        for r in rows:
-            ticker=r.get('contract')
-            if not ticker or ticker in _COHORT_CLOSEOUT_SEEN: continue
-            # Disk is authoritative across observer restarts: do not duplicate an
-            # already-persisted CLOSEOUT_ONLY receipt for this contract.
-            if COHORT_PATH.exists():
-                duplicate=False
-                for line in COHORT_PATH.read_text().splitlines():
-                    try: prior=json.loads(line)
-                    except Exception: continue
-                    if prior.get('schema')==COHORT_SCHEMA and prior.get('contract')==ticker and prior.get('final_status')=='CLOSEOUT_ONLY':
-                        duplicate=True; break
-                if duplicate:
-                    _COHORT_CLOSEOUT_SEEN.add(ticker); continue
-            if str(r.get('final60_complete','')).lower() not in ('true','1'): continue
-            if int(float(r.get('final60_count') or 0))!=60: continue
-            avg=r.get('final60_average'); side=r.get('final60_side'); target=r.get('target')
-            if avg in (None,'') or side not in ('UP','DOWN') or target in (None,''): continue
-            row=dict(schema=COHORT_SCHEMA,timestamp_utc=r.get('timestamp_utc'),
-                contract=ticker,target=float(target),seconds_left=0.0,
-                up_bid=None,up_ask=None,down_bid=None,down_ask=None,
-                final_status='CLOSEOUT_ONLY',final_side=None,final_confidence=None,
-                final_call_source='BRTI_CLOSEOUT',early=None,unified_row_count=0,
-                true_scalp_pending=0,profit_pending=0,
-                brti=dict(contract=ticker,target=float(target),final60_count=60,
-                          final60_average=float(avg),final60_side=side,final60_complete=True),
-                signal_only=True,orders=False)
-            with COHORT_PATH.open('a') as out:
-                out.write(json.dumps(row,separators=(',',':'),sort_keys=True,default=str)+'\n')
-                out.flush(); os.fsync(out.fileno())
-            _COHORT_CLOSEOUT_SEEN.add(ticker)
-    except Exception as exc:
-        print('COHORT CLOSEOUT WARNING | '+type(exc).__name__+': '+str(exc),flush=True)
+    """O(1) native-thread launcher; all receipt/dedupe I/O is background-only."""
+    global _COHORT_CLOSEOUT_STARTED,_COHORT_CLOSEOUT_STOP,_COHORT_CLOSEOUT_THREAD
+    if _COHORT_CLOSEOUT_STARTED: return
+    with _COHORT_CLOSEOUT_LOCK:
+        if _COHORT_CLOSEOUT_STARTED: return
+        stop=threading.Event()
+        thread=threading.Thread(target=_cohort_closeout_worker,args=(dict(BRTI_PARITY_LOG=ns['BRTI_PARITY_LOG']),stop),
+                                name='cohort-closeout-evidence',daemon=True)
+        _COHORT_CLOSEOUT_STOP=stop;_COHORT_CLOSEOUT_THREAD=thread
+        thread.start();_COHORT_CLOSEOUT_STARTED=True
 
 class NativeExport:
     def __init__(self, clock=time.time, epoch=None, provider_reader=None):

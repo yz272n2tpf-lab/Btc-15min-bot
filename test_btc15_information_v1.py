@@ -334,28 +334,28 @@ class InformationTests(unittest.TestCase):
             out=score_native_contract(path,TICKER,100000)
             self.assertEqual(out['status'],'INCOMPLETE');self.assertIn('SETTLEMENT',out['missing'])
 
-    def test_cohort_closeout_writer_failure_cannot_change_native_state(self):
-        import tempfile
+    def test_async_closeout_writer_failure_is_fail_open(self):
+        import csv,tempfile,time
         from pathlib import Path
         import btc15_information_native_offpath_candidate as native
-        old=native.COHORT_PATH;native._COHORT_CLOSEOUT_SEEN.clear()
+        old=native.COHORT_PATH;native._stop_cohort_closeout_worker();native._COHORT_CLOSEOUT_SEEN.clear()
         with tempfile.TemporaryDirectory() as td:
-            native.COHORT_PATH=Path(td)
-            meta={'close_dt':datetime.now(timezone.utc),'target':100000.0,'last_btc':99990.0}
-            finalized={TICKER}
-            ns={'_brti_finalized_contracts':finalized,'_brti_pending_contracts':{TICKER:meta},
-                'datetime':datetime,'timezone':timezone,
-                '_brti_contract_snapshot':lambda *a,**k:{'final60_count':60,'final60_complete':True,
-                    'final60_avg':99989.5,'final60_side':'DOWN'}}
-            self.assertIsNone(native.cohort_closeout_offer(ns))
-            self.assertEqual(finalized,{TICKER});self.assertNotIn(TICKER,native._COHORT_CLOSEOUT_SEEN)
-        native.COHORT_PATH=old;native._COHORT_CLOSEOUT_SEEN.clear()
+            td=Path(td);parity=td/'parity.csv';native.COHORT_PATH=td
+            fields=['timestamp_utc','contract','target','final60_count','final60_average','final60_side','final60_complete']
+            with parity.open('w',newline='') as out:
+                w=csv.DictWriter(out,fieldnames=fields);w.writeheader()
+                w.writerow(dict(timestamp_utc='x',contract=TICKER,target=100000,final60_count=60,
+                                final60_average=99999,final60_side='DOWN',final60_complete=True))
+            self.assertIsNone(native.cohort_closeout_offer({'BRTI_PARITY_LOG':parity}))
+            time.sleep(.05)
+            self.assertNotIn(TICKER,native._COHORT_CLOSEOUT_SEEN)
+        native._stop_cohort_closeout_worker();native.COHORT_PATH=old;native._COHORT_CLOSEOUT_SEEN.clear()
 
     def test_closeout_receipt_gauntlet(self):
         import csv,json,tempfile
         from pathlib import Path
         import btc15_information_native_offpath_candidate as native
-        old_path=native.COHORT_PATH;native._COHORT_CLOSEOUT_SEEN.clear()
+        old_path=native.COHORT_PATH;native._stop_cohort_closeout_worker();native._COHORT_CLOSEOUT_SEEN.clear()
         fields=['timestamp_utc','contract','target','final60_count','final60_average','final60_side','final60_complete']
         with tempfile.TemporaryDirectory() as td:
             td=Path(td); parity=td/'parity.csv'; native.COHORT_PATH=td/'cohort.jsonl'
@@ -367,25 +367,27 @@ class InformationTests(unittest.TestCase):
             ns={'BRTI_PARITY_LOG':parity}
             write([base]);native.cohort_closeout_offer(ns);self.assertFalse(native.COHORT_PATH.exists())
             good=dict(base,final60_count='60',final60_complete='True',final60_average='99998.5')
-            write([base,good]);native.cohort_closeout_offer(ns);native.cohort_closeout_offer(ns)
+            write([base,good]);native.cohort_closeout_offer(ns)
+            self.assertTrue(self.wait_for(lambda: native.COHORT_PATH.exists() and len(native.COHORT_PATH.read_text().splitlines())>=1))
             rows=[json.loads(x) for x in native.COHORT_PATH.read_text().splitlines()]
             self.assertEqual(len(rows),1);self.assertEqual(rows[0]['contract'],TICKER)
             self.assertEqual(rows[0]['brti']['final60_count'],60);self.assertTrue(rows[0]['brti']['final60_complete'])
             other=dict(good,contract=TICKER+'X',target='100001',final60_average='100002',final60_side='UP')
             write([good,other]);native.cohort_closeout_offer(ns)
+            self.assertTrue(self.wait_for(lambda: native.COHORT_PATH.exists() and len(native.COHORT_PATH.read_text().splitlines())>=2))
             rows=[json.loads(x) for x in native.COHORT_PATH.read_text().splitlines()]
             self.assertEqual(len(rows),2);self.assertEqual({r['contract'] for r in rows},{TICKER,TICKER+'X'})
             native._COHORT_CLOSEOUT_SEEN.clear()
             native.cohort_closeout_offer(ns)
             self.assertEqual(len(native.COHORT_PATH.read_text().splitlines()),2)
-        native.COHORT_PATH=old_path;native._COHORT_CLOSEOUT_SEEN.clear()
+        native._stop_cohort_closeout_worker();native.COHORT_PATH=old_path;native._COHORT_CLOSEOUT_SEEN.clear()
 
     def test_end_to_end_disk_only_complete_after_closeout_and_memory_loss(self):
         import csv,json,tempfile
         from pathlib import Path
         import btc15_information_native_offpath_candidate as native
         from btc15_cohort_evidence_v1 import score_native_contract
-        old=native.COHORT_PATH;native._COHORT_CLOSEOUT_SEEN.clear()
+        old=native.COHORT_PATH;native._stop_cohort_closeout_worker();native._COHORT_CLOSEOUT_SEEN.clear()
         with tempfile.TemporaryDirectory() as td:
             td=Path(td);native.COHORT_PATH=td/'cohort.jsonl';parity=td/'parity.csv'
             native_row=dict(schema='BTC15_COHORT_NATIVE_V1',timestamp_utc='2026-09-27T03:44:28+00:00',
@@ -401,13 +403,13 @@ class InformationTests(unittest.TestCase):
                 w.writerow(dict(timestamp_utc='2026-09-27T03:45:03+00:00',contract=TICKER,target=100000,
                     final60_count=60,final60_average=99998.5,final60_side='DOWN',final60_complete=True))
             native.cohort_closeout_offer({'BRTI_PARITY_LOG':parity})
+            self.assertTrue(self.wait_for(lambda: native.COHORT_PATH.exists() and len(native.COHORT_PATH.read_text().splitlines())>=2))
             native._COHORT_CLOSEOUT_SEEN.clear()
-            native.cohort_closeout_offer({'BRTI_PARITY_LOG':parity})
             out=score_native_contract(native.COHORT_PATH,TICKER,100000)
             self.assertEqual(out['status'],'COMPLETE');self.assertEqual(out['missing'],[])
             self.assertEqual(out['settlement']['settlement']['final60_average'],99998.5)
             self.assertEqual(len(native.COHORT_PATH.read_text().splitlines()),2)
-        native.COHORT_PATH=old;native._COHORT_CLOSEOUT_SEEN.clear()
+        native._stop_cohort_closeout_worker();native.COHORT_PATH=old;native._COHORT_CLOSEOUT_SEEN.clear()
 
     def test_closeout_wrong_identity_and_malformed_receipts_fail_closed(self):
         import csv,json,tempfile
@@ -428,6 +430,49 @@ class InformationTests(unittest.TestCase):
             native.cohort_closeout_offer({'BRTI_PARITY_LOG':parity})
             self.assertFalse(native.COHORT_PATH.exists())
         native.COHORT_PATH=old;native._COHORT_CLOSEOUT_SEEN.clear()
+
+    def test_closeout_launcher_is_constant_time_and_worker_owns_file_io(self):
+        import inspect
+        import btc15_information_native_offpath_candidate as native
+        launch=inspect.getsource(native.cohort_closeout_offer)
+        worker=inspect.getsource(native._cohort_closeout_worker)
+        for forbidden in ('open(', 'read_text', 'DictReader', 'json.loads', 'fsync'):
+            self.assertNotIn(forbidden,launch)
+        self.assertIn('threading.Thread',launch);self.assertIn('daemon=True',launch)
+        self.assertIn('DictReader',worker);self.assertIn('fsync',worker)
+
+    def test_native_loop_latency_independent_of_production_sized_evidence(self):
+        import tempfile,time,csv,json
+        from pathlib import Path
+        import btc15_information_native_offpath_candidate as native
+        old_path=native.COHORT_PATH;old_started=native._COHORT_CLOSEOUT_STARTED;native._stop_cohort_closeout_worker()
+        with tempfile.TemporaryDirectory() as td:
+            td=Path(td);native.COHORT_PATH=td/'cohort.jsonl';parity=td/'parity.csv'
+            # Approximate/exceed observed production scale without putting reads on caller.
+            with native.COHORT_PATH.open('w') as out:
+                for i in range(12000):
+                    out.write(json.dumps({'schema':'BTC15_COHORT_NATIVE_V1','contract':f'H{i}',
+                        'final_status':'PASS','signal_only':True,'orders':False})+'\\n')
+            fields=['timestamp_utc','contract','target','final60_count','final60_average','final60_side','final60_complete']
+            with parity.open('w',newline='') as out:
+                w=csv.DictWriter(out,fieldnames=fields);w.writeheader()
+                for i in range(4000):
+                    w.writerow(dict(timestamp_utc='x',contract=f'H{i}',target=1,final60_count=59,
+                                    final60_average=1,final60_side='UP',final60_complete=False))
+            native._COHORT_CLOSEOUT_STARTED=False
+            samples=[]
+            for _ in range(1000):
+                t0=time.perf_counter();native.cohort_closeout_offer({'BRTI_PARITY_LOG':parity});samples.append(time.perf_counter()-t0)
+            self.assertLess(max(samples[1:]),0.01)
+        native._stop_cohort_closeout_worker();native.COHORT_PATH=old_path;native._COHORT_CLOSEOUT_STARTED=old_started
+
+    def wait_for(self,predicate,timeout=2.0):
+        import time
+        deadline=time.monotonic()+timeout
+        while time.monotonic()<deadline:
+            if predicate(): return True
+            time.sleep(.01)
+        return bool(predicate())
 
     def test_native_feature_and_probability_exact_at_same_cut(self):
         rig, pub = self.make()
