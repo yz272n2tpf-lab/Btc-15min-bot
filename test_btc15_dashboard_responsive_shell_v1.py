@@ -13,6 +13,11 @@ class ResponsiveDashboard(unittest.TestCase):
     def test_critical_states_and_safety_copy_exist(self):
         for text in ('WHAT TO DO NOW','DATA STALE','DO NOT USE','SIGNAL ONLY','NO ORDERS','5M CAUTION','3M GUARD','LOCK PROFIT'):
             self.assertIn(text,HTML)
+    def test_touch_and_glance_readability_contract(self):
+        self.assertIn('min-height:44px',HTML)
+        self.assertIn('touch-action:manipulation',HTML)
+        self.assertIn('overflow-wrap:anywhere',HTML)
+        self.assertIn('.critical{font-size:22px',HTML)
     def test_viewport_meta_exists(self):
         self.assertIn('name="viewport"',HTML)
 
