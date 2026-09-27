@@ -7,6 +7,7 @@ Only loopback GET is supported. No output files or native-state writes.
 import argparse
 import json
 from pathlib import Path
+import threading
 import ast
 from copy import deepcopy
 import hashlib
@@ -33,7 +34,7 @@ def instrument(tree):
     if len(blocks) != 1:
         raise RuntimeError('Pinned native try body missing')
     blocks[0].body.append(ast.parse('_btc15_information_offer(globals())').body[0])
-    blocks[0].body.append(ast.parse('_btc15_cohort_offer(globals())').body[0])
+    blocks[0].body.append(ast.parse('_btc15_cohort_offer(globals())').body[0])\n    blocks[0].body.append(ast.parse('_btc15_cohort_closeout_offer(globals())').body[0])
     return ast.fix_missing_locations(tree)
 
 
@@ -61,6 +62,42 @@ def cohort_offer(ns):
             out.flush(); os.fsync(out.fileno())
     except Exception as exc:
         print('COHORT EVIDENCE WARNING | '+type(exc).__name__+': '+str(exc),flush=True)
+
+
+
+_COHORT_CLOSEOUT_LOCK = threading.Lock()
+_COHORT_CLOSEOUT_SEEN = set()
+
+def cohort_closeout_offer(ns):
+    """Append only newly completed native BRTI closeouts after the decision loop."""
+    try:
+        finalized=set(ns.get('_brti_finalized_contracts') or ())
+        pending=ns.get('_brti_pending_contracts') or {}
+        with _COHORT_CLOSEOUT_LOCK:
+            todo=sorted(finalized-_COHORT_CLOSEOUT_SEEN)
+        for ticker in todo:
+            meta=pending.get(ticker)
+            if meta is None:
+                continue
+            b=ns['_brti_contract_snapshot'](meta['close_dt'],meta['target'],meta['last_btc'],retained=meta)
+            if b is None or b.get('final60_count')!=60 or not b.get('final60_complete'):
+                continue
+            row=dict(schema=COHORT_SCHEMA,timestamp_utc=ns['datetime'].now(ns['timezone'].utc).isoformat(),
+                contract=ticker,target=float(meta['target']),seconds_left=0.0,
+                up_bid=None,up_ask=None,down_bid=None,down_ask=None,
+                final_status='CLOSEOUT_ONLY',final_side=None,final_confidence=None,
+                final_call_source='BRTI_CLOSEOUT',early=None,unified_row_count=0,
+                true_scalp_pending=0,profit_pending=0,
+                brti=dict(contract=ticker,target=float(meta['target']),final60_count=60,
+                          final60_average=b['final60_avg'],final60_side=b['final60_side'],
+                          final60_complete=True),signal_only=True,orders=False)
+            with COHORT_PATH.open('a') as out:
+                out.write(json.dumps(row,separators=(',',':'),sort_keys=True,default=str)+'\\n')
+                out.flush(); os.fsync(out.fileno())
+            with _COHORT_CLOSEOUT_LOCK:
+                _COHORT_CLOSEOUT_SEEN.add(ticker)
+    except Exception as exc:
+        print('COHORT CLOSEOUT WARNING | '+type(exc).__name__+': '+str(exc),flush=True)
 
 class NativeExport:
     def __init__(self, clock=time.time, epoch=None, provider_reader=None):
@@ -210,7 +247,7 @@ def main():
     export = NativeExport()
     server = server_for(export, args.port)
     threading.Thread(target=server.serve_forever, daemon=True, name='information-read-only-export').start()
-    namespace = dict(__name__='__main__', __file__=str(BOT), _btc15_information_offer=export.offer, _btc15_cohort_offer=cohort_offer)
+    namespace = dict(__name__='__main__', __file__=str(BOT), _btc15_information_offer=export.offer, _btc15_cohort_offer=cohort_offer, _btc15_cohort_closeout_offer=cohort_closeout_offer)
     try:
         exec(compile(instrument(ast.parse(raw)), str(BOT), 'exec'), namespace)
     finally:
