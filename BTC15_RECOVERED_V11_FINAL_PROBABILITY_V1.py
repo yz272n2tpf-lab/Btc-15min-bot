@@ -35,8 +35,16 @@ def patch(path:Path):
     text=text.replace('</body>',PATCH+'\n<!-- '+MARKER+' -->\n</body>',1)
     path.write_text(text,encoding='utf-8');return ['final-informational-probability']
 
+def connect_information_render(path:Path):
+    text=path.read_text(encoding='utf-8',errors='replace')
+    old="function render(){\\n  const p=view(token,performance.now()); if(!p){clearInfo();return;}"
+    new=old+"\\n  if(typeof window.btc15RenderInformationalFinal==='function')window.btc15RenderInformationalFinal(p);"
+    if new in text:return ['already-connected']
+    if old not in text:raise RuntimeError('Qualified information render anchor missing; refusing FINAL connection')
+    text=text.replace(old,new,1);path.write_text(text,encoding='utf-8');return ['information-to-final-call']
+
 def build_dashboard()->Path:
-    html=seam.build_dashboard();patch(html);return html
+    html=seam.build_dashboard();patch(html);connect_information_render(html);return html
 
 def main():
     html=build_dashboard();t=html.read_text(encoding='utf-8',errors='replace')
