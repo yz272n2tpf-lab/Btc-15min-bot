@@ -1,7 +1,7 @@
 import json,tempfile,unittest
 from pathlib import Path
 from datetime import datetime,timezone
-from btc15_wednesday_report_v1 import report
+from btc15_wednesday_report_v1 import report,comparison
 
 def row(contract,ts,**kw):
     r=dict(schema='BTC15_COHORT_NATIVE_V1',timestamp_utc=ts,contract=contract,target=100.0,
@@ -31,6 +31,18 @@ class WednesdayReportTests(unittest.TestCase):
             p.write_text(''.join(json.dumps(x)+'\n' for x in rows))
             x=report(p,datetime(2026,9,27,13,45,tzinfo=timezone.utc),datetime(2026,9,27,14,0,tzinfo=timezone.utc))
             self.assertEqual(x['final_qualified'],0);self.assertIsNone(x['final_accuracy_pct']);self.assertEqual(x['final_pass'],1)
+
+    def test_ground_zero_comparison_is_explicit(self):
+        gz={'contract_count':1,'final_qualified':0,'final_accuracy_pct':None,'final_pass':1,
+            'settlement_complete':1,'evidence_complete_pct':100.0,'final_wins':0,'final_losses':0,
+            'early_qualified':0,'early_entry_count':0,'early_le_50':0,'early_ideal_25_35':0,
+            'scalp_qualified':0,'profit_recorded':0,'five_minute_rows':30,'three_minute_rows':6,
+            'signal_only_violations':0,'orders':0}
+        full=dict(gz,contract_count=20,final_qualified=5,final_wins=5,final_accuracy_pct=100.0)
+        c=comparison(gz,full)
+        self.assertEqual(c['contract_count'],{'ground_zero':1,'full_run':20})
+        self.assertEqual(c['final_qualified'],{'ground_zero':0,'full_run':5})
+        self.assertIsNone(c['final_accuracy_pct']['ground_zero'])
 
     def test_signal_only_violation_fails_closed(self):
         with tempfile.TemporaryDirectory() as td:
