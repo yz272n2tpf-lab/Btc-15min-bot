@@ -67,9 +67,9 @@ def report(path,start,end):
       early_ideal_25_35=sum(.25<=a<=.35 for a in asks),
       scalp_qualified=sum(c['scalp_status']=='QUALIFIED' for c in contracts),
       profit_recorded=sum(c['profit_status']=='RECORDED' for c in contracts),
-      signal_only_violations=0,orders=0,contracts=contracts)
+      five_minute_rows=sum(c['five_minute_rows'] for c in contracts),three_minute_rows=sum(c['three_minute_rows'] for c in contracts),\n      signal_only_violations=0,orders=0,contracts=contracts)
 
-def main():
+def comparison(ground_zero,full_run):\n    keys=('contract_count','settlement_complete','evidence_complete_pct','final_qualified','final_wins','final_losses','final_accuracy_pct','final_pass','early_qualified','early_entry_count','early_le_50','early_ideal_25_35','scalp_qualified','profit_recorded','five_minute_rows','three_minute_rows','signal_only_violations','orders')\n    return {k:{'ground_zero':ground_zero.get(k),'full_run':full_run.get(k)} for k in keys}\n\ndef main():
     ap=argparse.ArgumentParser();ap.add_argument('journal');ap.add_argument('--start',default=START_UTC);ap.add_argument('--end',required=True)
-    a=ap.parse_args(); print(json.dumps(report(a.journal,dt(a.start),dt(a.end)),indent=2,sort_keys=True))
+    a=ap.parse_args(); full=report(a.journal,dt(a.start),dt(a.end)); print(json.dumps(full,indent=2,sort_keys=True))
 if __name__=='__main__': main()
