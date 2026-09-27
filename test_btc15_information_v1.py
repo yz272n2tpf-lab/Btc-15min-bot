@@ -429,6 +429,41 @@ class InformationTests(unittest.TestCase):
             self.assertFalse(native.COHORT_PATH.exists())
         native.COHORT_PATH=old;native._COHORT_CLOSEOUT_SEEN.clear()
 
+    def test_closeout_launcher_is_constant_time_and_worker_owns_file_io(self):
+        import inspect
+        import btc15_information_native_offpath_candidate as native
+        launch=inspect.getsource(native.cohort_closeout_offer)
+        worker=inspect.getsource(native._cohort_closeout_worker)
+        for forbidden in ('open(', 'read_text', 'DictReader', 'json.loads', 'fsync'):
+            self.assertNotIn(forbidden,launch)
+        self.assertIn('threading.Thread',launch);self.assertIn('daemon=True',launch)
+        self.assertIn('DictReader',worker);self.assertIn('fsync',worker)
+
+    def test_native_loop_latency_independent_of_production_sized_evidence(self):
+        import tempfile,time,csv,json
+        from pathlib import Path
+        import btc15_information_native_offpath_candidate as native
+        old_path=native.COHORT_PATH;old_started=native._COHORT_CLOSEOUT_STARTED
+        with tempfile.TemporaryDirectory() as td:
+            td=Path(td);native.COHORT_PATH=td/'cohort.jsonl';parity=td/'parity.csv'
+            # Approximate/exceed observed production scale without putting reads on caller.
+            with native.COHORT_PATH.open('w') as out:
+                for i in range(12000):
+                    out.write(json.dumps({'schema':'BTC15_COHORT_NATIVE_V1','contract':f'H{i}',
+                        'final_status':'PASS','signal_only':True,'orders':False})+'\\n')
+            fields=['timestamp_utc','contract','target','final60_count','final60_average','final60_side','final60_complete']
+            with parity.open('w',newline='') as out:
+                w=csv.DictWriter(out,fieldnames=fields);w.writeheader()
+                for i in range(4000):
+                    w.writerow(dict(timestamp_utc='x',contract=f'H{i}',target=1,final60_count=59,
+                                    final60_average=1,final60_side='UP',final60_complete=False))
+            native._COHORT_CLOSEOUT_STARTED=False
+            samples=[]
+            for _ in range(1000):
+                t0=time.perf_counter();native.cohort_closeout_offer({'BRTI_PARITY_LOG':parity});samples.append(time.perf_counter()-t0)
+            self.assertLess(max(samples[1:]),0.01)
+        native.COHORT_PATH=old_path;native._COHORT_CLOSEOUT_STARTED=old_started
+
     def test_native_feature_and_probability_exact_at_same_cut(self):
         rig, pub = self.make()
         self.assertTrue(rig.publish(pub))
