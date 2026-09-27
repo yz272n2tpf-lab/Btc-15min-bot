@@ -379,6 +379,35 @@ class InformationTests(unittest.TestCase):
             self.assertEqual(finalized,{TICKER});self.assertNotIn(TICKER,native._COHORT_CLOSEOUT_SEEN)
         native.COHORT_PATH=old;native._COHORT_CLOSEOUT_SEEN.clear()
 
+    def test_closeout_receipt_gauntlet(self):
+        import csv,json,tempfile
+        from pathlib import Path
+        import btc15_information_native_offpath_candidate as native
+        old_path=native.COHORT_PATH;native._COHORT_CLOSEOUT_SEEN.clear()
+        fields=['timestamp_utc','contract','target','final60_count','final60_average','final60_side','final60_complete']
+        with tempfile.TemporaryDirectory() as td:
+            td=Path(td); parity=td/'parity.csv'; native.COHORT_PATH=td/'cohort.jsonl'
+            def write(rows):
+                with parity.open('w',newline='') as f:
+                    w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(rows)
+            base=dict(timestamp_utc='2026-09-27T03:45:03+00:00',contract=TICKER,target='100000',
+                      final60_count='59',final60_average='99999',final60_side='DOWN',final60_complete='False')
+            ns={'BRTI_PARITY_LOG':parity}
+            write([base]);native.cohort_closeout_offer(ns);self.assertFalse(native.COHORT_PATH.exists())
+            good=dict(base,final60_count='60',final60_complete='True',final60_average='99998.5')
+            write([base,good]);native.cohort_closeout_offer(ns);native.cohort_closeout_offer(ns)
+            rows=[json.loads(x) for x in native.COHORT_PATH.read_text().splitlines()]
+            self.assertEqual(len(rows),1);self.assertEqual(rows[0]['contract'],TICKER)
+            self.assertEqual(rows[0]['brti']['final60_count'],60);self.assertTrue(rows[0]['brti']['final60_complete'])
+            other=dict(good,contract=TICKER+'X',target='100001',final60_average='100002',final60_side='UP')
+            write([good,other]);native.cohort_closeout_offer(ns)
+            rows=[json.loads(x) for x in native.COHORT_PATH.read_text().splitlines()]
+            self.assertEqual(len(rows),2);self.assertEqual({r['contract'] for r in rows},{TICKER,TICKER+'X'})
+            native._COHORT_CLOSEOUT_SEEN.clear()
+            native.cohort_closeout_offer(ns)
+            self.assertEqual(len(native.COHORT_PATH.read_text().splitlines()),4)
+        native.COHORT_PATH=old_path;native._COHORT_CLOSEOUT_SEEN.clear()
+
     def test_native_feature_and_probability_exact_at_same_cut(self):
         rig, pub = self.make()
         self.assertTrue(rig.publish(pub))
