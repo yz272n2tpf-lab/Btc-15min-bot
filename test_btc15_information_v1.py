@@ -334,21 +334,21 @@ class InformationTests(unittest.TestCase):
             out=score_native_contract(path,TICKER,100000)
             self.assertEqual(out['status'],'INCOMPLETE');self.assertIn('SETTLEMENT',out['missing'])
 
-    def test_cohort_closeout_writer_failure_cannot_change_native_state(self):
-        import tempfile
+    def test_async_closeout_writer_failure_is_fail_open(self):
+        import csv,tempfile,time
         from pathlib import Path
         import btc15_information_native_offpath_candidate as native
         old=native.COHORT_PATH;native._stop_cohort_closeout_worker();native._COHORT_CLOSEOUT_SEEN.clear()
         with tempfile.TemporaryDirectory() as td:
-            native.COHORT_PATH=Path(td)
-            meta={'close_dt':datetime.now(timezone.utc),'target':100000.0,'last_btc':99990.0}
-            finalized={TICKER}
-            ns={'_brti_finalized_contracts':finalized,'_brti_pending_contracts':{TICKER:meta},
-                'datetime':datetime,'timezone':timezone,
-                '_brti_contract_snapshot':lambda *a,**k:{'final60_count':60,'final60_complete':True,
-                    'final60_avg':99989.5,'final60_side':'DOWN'}}
-            self.assertIsNone(native.cohort_closeout_offer(ns))
-            self.assertEqual(finalized,{TICKER});self.assertNotIn(TICKER,native._COHORT_CLOSEOUT_SEEN)
+            td=Path(td);parity=td/'parity.csv';native.COHORT_PATH=td
+            fields=['timestamp_utc','contract','target','final60_count','final60_average','final60_side','final60_complete']
+            with parity.open('w',newline='') as out:
+                w=csv.DictWriter(out,fieldnames=fields);w.writeheader()
+                w.writerow(dict(timestamp_utc='x',contract=TICKER,target=100000,final60_count=60,
+                                final60_average=99999,final60_side='DOWN',final60_complete=True))
+            self.assertIsNone(native.cohort_closeout_offer({'BRTI_PARITY_LOG':parity}))
+            time.sleep(.05)
+            self.assertNotIn(TICKER,native._COHORT_CLOSEOUT_SEEN)
         native._stop_cohort_closeout_worker();native.COHORT_PATH=old;native._COHORT_CLOSEOUT_SEEN.clear()
 
     def test_closeout_receipt_gauntlet(self):
