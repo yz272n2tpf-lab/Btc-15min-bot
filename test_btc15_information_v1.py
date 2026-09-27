@@ -367,12 +367,14 @@ class InformationTests(unittest.TestCase):
             ns={'BRTI_PARITY_LOG':parity}
             write([base]);native.cohort_closeout_offer(ns);self.assertFalse(native.COHORT_PATH.exists())
             good=dict(base,final60_count='60',final60_complete='True',final60_average='99998.5')
-            write([base,good]);native.cohort_closeout_offer(ns);native.cohort_closeout_offer(ns)
+            write([base,good]);native.cohort_closeout_offer(ns)
+            self.assertTrue(self.wait_for(lambda: native.COHORT_PATH.exists() and len(native.COHORT_PATH.read_text().splitlines())>=1))
             rows=[json.loads(x) for x in native.COHORT_PATH.read_text().splitlines()]
             self.assertEqual(len(rows),1);self.assertEqual(rows[0]['contract'],TICKER)
             self.assertEqual(rows[0]['brti']['final60_count'],60);self.assertTrue(rows[0]['brti']['final60_complete'])
             other=dict(good,contract=TICKER+'X',target='100001',final60_average='100002',final60_side='UP')
             write([good,other]);native.cohort_closeout_offer(ns)
+            self.assertTrue(self.wait_for(lambda: native.COHORT_PATH.exists() and len(native.COHORT_PATH.read_text().splitlines())>=2))
             rows=[json.loads(x) for x in native.COHORT_PATH.read_text().splitlines()]
             self.assertEqual(len(rows),2);self.assertEqual({r['contract'] for r in rows},{TICKER,TICKER+'X'})
             native._COHORT_CLOSEOUT_SEEN.clear()
@@ -401,8 +403,8 @@ class InformationTests(unittest.TestCase):
                 w.writerow(dict(timestamp_utc='2026-09-27T03:45:03+00:00',contract=TICKER,target=100000,
                     final60_count=60,final60_average=99998.5,final60_side='DOWN',final60_complete=True))
             native.cohort_closeout_offer({'BRTI_PARITY_LOG':parity})
+            self.assertTrue(self.wait_for(lambda: native.COHORT_PATH.exists() and len(native.COHORT_PATH.read_text().splitlines())>=2))
             native._COHORT_CLOSEOUT_SEEN.clear()
-            native.cohort_closeout_offer({'BRTI_PARITY_LOG':parity})
             out=score_native_contract(native.COHORT_PATH,TICKER,100000)
             self.assertEqual(out['status'],'COMPLETE');self.assertEqual(out['missing'],[])
             self.assertEqual(out['settlement']['settlement']['final60_average'],99998.5)
@@ -463,6 +465,14 @@ class InformationTests(unittest.TestCase):
                 t0=time.perf_counter();native.cohort_closeout_offer({'BRTI_PARITY_LOG':parity});samples.append(time.perf_counter()-t0)
             self.assertLess(max(samples[1:]),0.01)
         native.COHORT_PATH=old_path;native._COHORT_CLOSEOUT_STARTED=old_started
+
+    def wait_for(self,predicate,timeout=2.0):
+        import time
+        deadline=time.monotonic()+timeout
+        while time.monotonic()<deadline:
+            if predicate(): return True
+            time.sleep(.01)
+        return bool(predicate())
 
     def test_native_feature_and_probability_exact_at_same_cut(self):
         rig, pub = self.make()
