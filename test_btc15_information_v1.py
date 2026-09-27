@@ -437,6 +437,26 @@ class InformationTests(unittest.TestCase):
             self.assertEqual(len(native.COHORT_PATH.read_text().splitlines()),2)
         native.COHORT_PATH=old;native._COHORT_CLOSEOUT_SEEN.clear()
 
+    def test_closeout_wrong_identity_and_malformed_receipts_fail_closed(self):
+        import csv,json,tempfile
+        from pathlib import Path
+        import btc15_information_native_offpath_candidate as native
+        old=native.COHORT_PATH;native._COHORT_CLOSEOUT_SEEN.clear()
+        fields=['timestamp_utc','contract','target','final60_count','final60_average','final60_side','final60_complete']
+        with tempfile.TemporaryDirectory() as td:
+            td=Path(td);native.COHORT_PATH=td/'cohort.jsonl';parity=td/'parity.csv'
+            bad=[
+                dict(timestamp_utc='x',contract='',target='100000',final60_count='60',final60_average='99999',final60_side='DOWN',final60_complete='True'),
+                dict(timestamp_utc='x',contract=TICKER,target='',final60_count='60',final60_average='99999',final60_side='DOWN',final60_complete='True'),
+                dict(timestamp_utc='x',contract=TICKER,target='100000',final60_count='59',final60_average='99999',final60_side='DOWN',final60_complete='True'),
+                dict(timestamp_utc='x',contract=TICKER,target='100000',final60_count='60',final60_average='',final60_side='DOWN',final60_complete='True'),
+                dict(timestamp_utc='x',contract=TICKER,target='100000',final60_count='60',final60_average='99999',final60_side='NONE',final60_complete='True')]
+            with parity.open('w',newline='') as f:
+                w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(bad)
+            native.cohort_closeout_offer({'BRTI_PARITY_LOG':parity})
+            self.assertFalse(native.COHORT_PATH.exists())
+        native.COHORT_PATH=old;native._COHORT_CLOSEOUT_SEEN.clear()
+
     def test_native_feature_and_probability_exact_at_same_cut(self):
         rig, pub = self.make()
         self.assertTrue(rig.publish(pub))
