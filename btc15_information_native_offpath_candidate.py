@@ -33,9 +33,15 @@ def instrument(tree):
     blocks = [node for node in loops[0].body if isinstance(node, ast.Try)]
     if len(blocks) != 1:
         raise RuntimeError('Pinned native try body missing')
+    # Capture completed BRTI receipt while authoritative pending metadata still exists.
+    retry_calls=[n for n in blocks[0].body if isinstance(n,ast.Expr) and isinstance(n.value,ast.Call)
+                 and isinstance(n.value.func,ast.Name) and n.value.func.id=='_retry_brti_closeouts']
+    if len(retry_calls)!=1:
+        raise RuntimeError('Pinned BRTI closeout retry call missing')
+    retry_index=blocks[0].body.index(retry_calls[0])
+    blocks[0].body.insert(retry_index+1,ast.parse('_btc15_cohort_closeout_offer(globals())').body[0])
     blocks[0].body.append(ast.parse('_btc15_information_offer(globals())').body[0])
     blocks[0].body.append(ast.parse('_btc15_cohort_offer(globals())').body[0])
-    blocks[0].body.append(ast.parse('_btc15_cohort_closeout_offer(globals())').body[0])
     return ast.fix_missing_locations(tree)
 
 
