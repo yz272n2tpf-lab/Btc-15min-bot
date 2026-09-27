@@ -72,11 +72,14 @@ def cohort_offer(ns):
 _COHORT_CLOSEOUT_LOCK = threading.Lock()
 _COHORT_CLOSEOUT_SEEN = set()
 _COHORT_CLOSEOUT_STARTED = False
+_COHORT_CLOSEOUT_STOP = None
+_COHORT_CLOSEOUT_THREAD = None
 
-def _cohort_closeout_worker(ns):
+def _cohort_closeout_worker(ns, stop_event=None):
     """Background receipt copier. Never runs file scans on the native decision thread."""
     parity=Path(ns['BRTI_PARITY_LOG'])
-    while True:
+    stop_event = stop_event or threading.Event()
+    while not stop_event.is_set():
         try:
             if parity.exists():
                 import csv
@@ -110,17 +113,29 @@ def _cohort_closeout_worker(ns):
                     _COHORT_CLOSEOUT_SEEN.add(ticker);persisted.add(ticker)
         except Exception as exc:
             print('COHORT CLOSEOUT WARNING | '+type(exc).__name__+': '+str(exc),flush=True)
-        time.sleep(1.0)
+        stop_event.wait(1.0)
+
+def _stop_cohort_closeout_worker(timeout=2.0):
+    """Test/teardown hook; production never calls this."""
+    global _COHORT_CLOSEOUT_STARTED,_COHORT_CLOSEOUT_STOP,_COHORT_CLOSEOUT_THREAD
+    with _COHORT_CLOSEOUT_LOCK:
+        stop=_COHORT_CLOSEOUT_STOP;thread=_COHORT_CLOSEOUT_THREAD
+        if stop is not None: stop.set()
+    if thread is not None: thread.join(timeout)
+    with _COHORT_CLOSEOUT_LOCK:
+        _COHORT_CLOSEOUT_STARTED=False;_COHORT_CLOSEOUT_STOP=None;_COHORT_CLOSEOUT_THREAD=None
 
 def cohort_closeout_offer(ns):
     """O(1) native-thread launcher; all receipt/dedupe I/O is background-only."""
-    global _COHORT_CLOSEOUT_STARTED
+    global _COHORT_CLOSEOUT_STARTED,_COHORT_CLOSEOUT_STOP,_COHORT_CLOSEOUT_THREAD
     if _COHORT_CLOSEOUT_STARTED: return
     with _COHORT_CLOSEOUT_LOCK:
         if _COHORT_CLOSEOUT_STARTED: return
-        threading.Thread(target=_cohort_closeout_worker,args=(dict(BRTI_PARITY_LOG=ns['BRTI_PARITY_LOG']),),
-                         name='cohort-closeout-evidence',daemon=True).start()
-        _COHORT_CLOSEOUT_STARTED=True
+        stop=threading.Event()
+        thread=threading.Thread(target=_cohort_closeout_worker,args=(dict(BRTI_PARITY_LOG=ns['BRTI_PARITY_LOG']),stop),
+                                name='cohort-closeout-evidence',daemon=True)
+        _COHORT_CLOSEOUT_STOP=stop;_COHORT_CLOSEOUT_THREAD=thread
+        thread.start();_COHORT_CLOSEOUT_STARTED=True
 
 class NativeExport:
     def __init__(self, clock=time.time, epoch=None, provider_reader=None):
