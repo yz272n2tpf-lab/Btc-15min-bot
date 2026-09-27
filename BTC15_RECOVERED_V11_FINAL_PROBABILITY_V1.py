@@ -37,11 +37,19 @@ def patch(path:Path):
 
 def connect_information_render(path:Path):
     text=path.read_text(encoding='utf-8',errors='replace')
-    old="function render(){\\n  const p=view(token,performance.now()); if(!p){clearInfo();return;}"
-    new=old+"\\n  if(typeof window.btc15RenderInformationalFinal==='function')window.btc15RenderInformationalFinal(p);"
-    if new in text:return ['already-connected']
-    if old not in text:raise RuntimeError('Qualified information render anchor missing; refusing FINAL connection')
-    text=text.replace(old,new,1);path.write_text(text,encoding='utf-8');return ['information-to-final-call']
+    # Anchor to the literal seam code we own, using stable adjacent statements
+    # rather than whitespace/newline formatting.
+    start="function render(){"
+    guard="const p=view(token,performance.now()); if(!p){clearInfo();return;}"
+    call="if(typeof window.btc15RenderInformationalFinal==='function')window.btc15RenderInformationalFinal(p);"
+    if call in text:return ['already-connected']
+    i=text.find(start)
+    if i<0:raise RuntimeError('Qualified information render function missing; refusing FINAL connection')
+    j=text.find(guard,i)
+    if j<0:raise RuntimeError('Qualified information validity guard missing; refusing FINAL connection')
+    insert=j+len(guard)
+    text=text[:insert]+' '+call+text[insert:]
+    path.write_text(text,encoding='utf-8');return ['information-to-final-call']
 
 def build_dashboard()->Path:
     html=seam.build_dashboard();patch(html);connect_information_render(html);return html
