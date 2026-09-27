@@ -24,25 +24,28 @@ from btc15_information_v1 import (
 
 
 def instrument(tree):
-    """Exactly one added observer expression; the original statements survive."""
+    """Add read-only observers without changing native strategy statements."""
     tree = deepcopy(tree)
-    loops = [node for node in tree.body if isinstance(node, ast.While)
-             and isinstance(node.test, ast.Name) and node.test.id == 'running']
-    if len(loops) != 1:
-        raise RuntimeError('Pinned native loop missing')
-    blocks = [node for node in loops[0].body if isinstance(node, ast.Try)]
-    if len(blocks) != 1:
-        raise RuntimeError('Pinned native try body missing')
-    # Capture completed BRTI receipt while authoritative pending metadata still exists.
-    retry_calls=[n for n in blocks[0].body if isinstance(n,ast.Expr) and isinstance(n.value,ast.Call)
-                 and isinstance(n.value.func,ast.Name) and n.value.func.id=='_retry_brti_closeouts']
-    if len(retry_calls)!=1:
-        raise RuntimeError('Pinned BRTI closeout retry call missing')
-    retry_index=blocks[0].body.index(retry_calls[0])
-    blocks[0].body.insert(retry_index+1,ast.parse('_btc15_cohort_closeout_offer(globals())').body[0])
+    loops=[node for node in tree.body if isinstance(node,ast.While)
+           and isinstance(node.test,ast.Name) and node.test.id=='running']
+    if len(loops)!=1: raise RuntimeError('Pinned native loop missing')
+    blocks=[node for node in loops[0].body if isinstance(node,ast.Try)]
+    if len(blocks)!=1: raise RuntimeError('Pinned native try body missing')
+    retries=[node for node in tree.body if isinstance(node,ast.FunctionDef)
+             and node.name=='_retry_brti_closeouts']
+    if len(retries)!=1: raise RuntimeError('Pinned BRTI retry function missing')
+    finalize_ifs=[node for node in ast.walk(retries[0]) if isinstance(node,ast.If)
+                  and isinstance(node.test,ast.Call)
+                  and isinstance(node.test.func,ast.Name)
+                  and node.test.func.id=='_try_finalize_brti_contract']
+    if len(finalize_ifs)!=1: raise RuntimeError('Pinned BRTI finalize branch missing')
+    # At this exact point _try_finalize has marked the ticker finalized but
+    # _brti_pending_contracts still owns meta; copy evidence before deletion.
+    finalize_ifs[0].body.insert(0,ast.parse('_btc15_cohort_closeout_offer(globals())').body[0])
     blocks[0].body.append(ast.parse('_btc15_information_offer(globals())').body[0])
     blocks[0].body.append(ast.parse('_btc15_cohort_offer(globals())').body[0])
     return ast.fix_missing_locations(tree)
+
 
 
 
