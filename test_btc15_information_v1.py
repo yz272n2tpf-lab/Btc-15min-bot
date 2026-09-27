@@ -408,6 +408,35 @@ class InformationTests(unittest.TestCase):
             self.assertEqual(len(native.COHORT_PATH.read_text().splitlines()),2)
         native.COHORT_PATH=old_path;native._COHORT_CLOSEOUT_SEEN.clear()
 
+    def test_end_to_end_disk_only_complete_after_closeout_and_memory_loss(self):
+        import csv,json,tempfile
+        from pathlib import Path
+        import btc15_information_native_offpath_candidate as native
+        from btc15_cohort_evidence_v1 import score_native_contract
+        old=native.COHORT_PATH;native._COHORT_CLOSEOUT_SEEN.clear()
+        with tempfile.TemporaryDirectory() as td:
+            td=Path(td);native.COHORT_PATH=td/'cohort.jsonl';parity=td/'parity.csv'
+            native_row=dict(schema='BTC15_COHORT_NATIVE_V1',timestamp_utc='2026-09-27T03:44:28+00:00',
+                contract=TICKER,target=100000.0,seconds_left=31.0,up_bid=.7,up_ask=.71,down_bid=.29,down_ask=.3,
+                final_status='PASS',final_side='NONE',final_confidence=None,final_call_source='NONE',
+                early={'provisional_candidate':False},unified_row_count=2,true_scalp_pending=0,profit_pending=0,
+                brti={'contract':TICKER,'target':100000.0,'final60_count':27,'final60_average':99999.2,
+                      'final60_side':'DOWN','final60_complete':False},signal_only=True,orders=False)
+            native.COHORT_PATH.write_text(json.dumps(native_row)+'\\n')
+            fields=['timestamp_utc','contract','target','final60_count','final60_average','final60_side','final60_complete']
+            with parity.open('w',newline='') as f:
+                w=csv.DictWriter(f,fieldnames=fields);w.writeheader()
+                w.writerow(dict(timestamp_utc='2026-09-27T03:45:03+00:00',contract=TICKER,target=100000,
+                    final60_count=60,final60_average=99998.5,final60_side='DOWN',final60_complete=True))
+            native.cohort_closeout_offer({'BRTI_PARITY_LOG':parity})
+            native._COHORT_CLOSEOUT_SEEN.clear()
+            native.cohort_closeout_offer({'BRTI_PARITY_LOG':parity})
+            out=score_native_contract(native.COHORT_PATH,TICKER,100000)
+            self.assertEqual(out['status'],'COMPLETE');self.assertEqual(out['missing'],[])
+            self.assertEqual(out['settlement']['settlement']['final60_average'],99998.5)
+            self.assertEqual(len(native.COHORT_PATH.read_text().splitlines()),2)
+        native.COHORT_PATH=old;native._COHORT_CLOSEOUT_SEEN.clear()
+
     def test_native_feature_and_probability_exact_at_same_cut(self):
         rig, pub = self.make()
         self.assertTrue(rig.publish(pub))
