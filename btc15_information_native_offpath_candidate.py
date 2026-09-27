@@ -83,6 +83,17 @@ def cohort_closeout_offer(ns):
         for r in rows:
             ticker=r.get('contract')
             if not ticker or ticker in _COHORT_CLOSEOUT_SEEN: continue
+            # Disk is authoritative across observer restarts: do not duplicate an
+            # already-persisted CLOSEOUT_ONLY receipt for this contract.
+            if COHORT_PATH.exists():
+                duplicate=False
+                for line in COHORT_PATH.read_text().splitlines():
+                    try: prior=json.loads(line)
+                    except Exception: continue
+                    if prior.get('schema')==COHORT_SCHEMA and prior.get('contract')==ticker and prior.get('final_status')=='CLOSEOUT_ONLY':
+                        duplicate=True; break
+                if duplicate:
+                    _COHORT_CLOSEOUT_SEEN.add(ticker); continue
             if str(r.get('final60_complete','')).lower() not in ('true','1'): continue
             if int(float(r.get('final60_count') or 0))!=60: continue
             avg=r.get('final60_average'); side=r.get('final60_side'); target=r.get('target')
