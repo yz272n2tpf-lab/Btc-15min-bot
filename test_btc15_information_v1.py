@@ -338,7 +338,7 @@ class InformationTests(unittest.TestCase):
         import tempfile
         from pathlib import Path
         import btc15_information_native_offpath_candidate as native
-        old=native.COHORT_PATH;native._COHORT_CLOSEOUT_SEEN.clear()
+        old=native.COHORT_PATH;native._stop_cohort_closeout_worker();native._COHORT_CLOSEOUT_SEEN.clear()
         with tempfile.TemporaryDirectory() as td:
             native.COHORT_PATH=Path(td)
             meta={'close_dt':datetime.now(timezone.utc),'target':100000.0,'last_btc':99990.0}
@@ -349,13 +349,13 @@ class InformationTests(unittest.TestCase):
                     'final60_avg':99989.5,'final60_side':'DOWN'}}
             self.assertIsNone(native.cohort_closeout_offer(ns))
             self.assertEqual(finalized,{TICKER});self.assertNotIn(TICKER,native._COHORT_CLOSEOUT_SEEN)
-        native.COHORT_PATH=old;native._COHORT_CLOSEOUT_SEEN.clear()
+        native._stop_cohort_closeout_worker();native.COHORT_PATH=old;native._COHORT_CLOSEOUT_SEEN.clear()
 
     def test_closeout_receipt_gauntlet(self):
         import csv,json,tempfile
         from pathlib import Path
         import btc15_information_native_offpath_candidate as native
-        old_path=native.COHORT_PATH;native._COHORT_CLOSEOUT_SEEN.clear()
+        old_path=native.COHORT_PATH;native._stop_cohort_closeout_worker();native._COHORT_CLOSEOUT_SEEN.clear()
         fields=['timestamp_utc','contract','target','final60_count','final60_average','final60_side','final60_complete']
         with tempfile.TemporaryDirectory() as td:
             td=Path(td); parity=td/'parity.csv'; native.COHORT_PATH=td/'cohort.jsonl'
@@ -380,7 +380,7 @@ class InformationTests(unittest.TestCase):
             native._COHORT_CLOSEOUT_SEEN.clear()
             native.cohort_closeout_offer(ns)
             self.assertEqual(len(native.COHORT_PATH.read_text().splitlines()),2)
-        native.COHORT_PATH=old_path;native._COHORT_CLOSEOUT_SEEN.clear()
+        native._stop_cohort_closeout_worker();native.COHORT_PATH=old_path;native._COHORT_CLOSEOUT_SEEN.clear()
 
     def test_end_to_end_disk_only_complete_after_closeout_and_memory_loss(self):
         import csv,json,tempfile
@@ -445,7 +445,7 @@ class InformationTests(unittest.TestCase):
         import tempfile,time,csv,json
         from pathlib import Path
         import btc15_information_native_offpath_candidate as native
-        old_path=native.COHORT_PATH;old_started=native._COHORT_CLOSEOUT_STARTED
+        old_path=native.COHORT_PATH;old_started=native._COHORT_CLOSEOUT_STARTED;native._stop_cohort_closeout_worker()
         with tempfile.TemporaryDirectory() as td:
             td=Path(td);native.COHORT_PATH=td/'cohort.jsonl';parity=td/'parity.csv'
             # Approximate/exceed observed production scale without putting reads on caller.
@@ -464,7 +464,7 @@ class InformationTests(unittest.TestCase):
             for _ in range(1000):
                 t0=time.perf_counter();native.cohort_closeout_offer({'BRTI_PARITY_LOG':parity});samples.append(time.perf_counter()-t0)
             self.assertLess(max(samples[1:]),0.01)
-        native.COHORT_PATH=old_path;native._COHORT_CLOSEOUT_STARTED=old_started
+        native._stop_cohort_closeout_worker();native.COHORT_PATH=old_path;native._COHORT_CLOSEOUT_STARTED=old_started
 
     def wait_for(self,predicate,timeout=2.0):
         import time
