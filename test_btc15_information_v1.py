@@ -261,8 +261,8 @@ class InformationTests(unittest.TestCase):
         tree=instrument(ast.parse(BOT.read_text()))
         loop=[n for n in tree.body if isinstance(n,ast.While) and isinstance(n.test,ast.Name) and n.test.id=='running'][0]
         block=[n for n in loop.body if isinstance(n,ast.Try)][0]
-        tail=[ast.unparse(n) for n in block.body[-2:]]
-        self.assertEqual(tail,['_btc15_information_offer(globals())','_btc15_cohort_offer(globals())'])
+        tail=[ast.unparse(n) for n in block.body[-3:]]
+        self.assertEqual(tail,['_btc15_information_offer(globals())','_btc15_cohort_offer(globals())','_btc15_cohort_closeout_offer(globals())'])
 
     def test_cohort_writer_failure_is_fail_open_for_strategy_and_writes_nothing(self):
         import tempfile
@@ -333,6 +333,51 @@ class InformationTests(unittest.TestCase):
             path.write_text(json.dumps(wrong)+'\n')
             out=score_native_contract(path,TICKER,100000)
             self.assertEqual(out['status'],'INCOMPLETE');self.assertIn('SETTLEMENT',out['missing'])
+
+    def test_cohort_closeout_records_only_exact_60_of_60_once(self):
+        import tempfile,json
+        from pathlib import Path
+        import btc15_information_native_offpath_candidate as native
+        old=native.COHORT_PATH;native._COHORT_CLOSEOUT_SEEN.clear()
+        class B(dict):
+            pass
+        with tempfile.TemporaryDirectory() as td:
+            native.COHORT_PATH=Path(td)/'cohort.jsonl'
+            meta={'close_dt':datetime.now(timezone.utc),'target':100000.0,'last_btc':99990.0}
+            ns={'_brti_finalized_contracts':{TICKER},'_brti_pending_contracts':{TICKER:meta},
+                'datetime':datetime,'timezone':timezone}
+            ns['_brti_contract_snapshot']=lambda *a,**k:{'final60_count':59,'final60_complete':False,
+                'final60_avg':99990.0,'final60_side':'DOWN'}
+            native.cohort_closeout_offer(ns)
+            self.assertFalse(native.COHORT_PATH.exists())
+            ns['_brti_contract_snapshot']=lambda *a,**k:{'final60_count':60,'final60_complete':True,
+                'final60_avg':99989.5,'final60_side':'DOWN'}
+            native.cohort_closeout_offer(ns);native.cohort_closeout_offer(ns)
+            rows=[json.loads(x) for x in native.COHORT_PATH.read_text().splitlines()]
+            self.assertEqual(len(rows),1);r=rows[0]
+            self.assertEqual(r['contract'],TICKER);self.assertEqual(r['target'],100000.0)
+            self.assertEqual(r['final_status'],'CLOSEOUT_ONLY')
+            self.assertEqual(r['brti']['final60_count'],60);self.assertTrue(r['brti']['final60_complete'])
+            self.assertEqual(r['brti']['final60_average'],99989.5);self.assertEqual(r['brti']['final60_side'],'DOWN')
+            self.assertTrue(r['signal_only']);self.assertFalse(r['orders'])
+        native.COHORT_PATH=old;native._COHORT_CLOSEOUT_SEEN.clear()
+
+    def test_cohort_closeout_writer_failure_cannot_change_native_state(self):
+        import tempfile
+        from pathlib import Path
+        import btc15_information_native_offpath_candidate as native
+        old=native.COHORT_PATH;native._COHORT_CLOSEOUT_SEEN.clear()
+        with tempfile.TemporaryDirectory() as td:
+            native.COHORT_PATH=Path(td)
+            meta={'close_dt':datetime.now(timezone.utc),'target':100000.0,'last_btc':99990.0}
+            finalized={TICKER}
+            ns={'_brti_finalized_contracts':finalized,'_brti_pending_contracts':{TICKER:meta},
+                'datetime':datetime,'timezone':timezone,
+                '_brti_contract_snapshot':lambda *a,**k:{'final60_count':60,'final60_complete':True,
+                    'final60_avg':99989.5,'final60_side':'DOWN'}}
+            self.assertIsNone(native.cohort_closeout_offer(ns))
+            self.assertEqual(finalized,{TICKER});self.assertNotIn(TICKER,native._COHORT_CLOSEOUT_SEEN)
+        native.COHORT_PATH=old;native._COHORT_CLOSEOUT_SEEN.clear()
 
     def test_native_feature_and_probability_exact_at_same_cut(self):
         rig, pub = self.make()
