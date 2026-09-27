@@ -42,7 +42,8 @@ def main():
     html=build_dashboard();t=html.read_text(encoding='utf-8',errors='replace')
     print('RECOVERED V11 FINAL PROBABILITY V1 | INFORMATION ONLY | NO ORDERS')
     if '--self-test' in sys.argv:
-        assert MARKER in t and seam.MARKER in t\n        assert "btc15RenderInformationalFinal(p)" in t
+        assert MARKER in t and seam.MARKER in t
+        assert "btc15RenderInformationalFinal(p)" in t
         assert "p.authority!=='INFORMATIONAL_READ_ONLY'" in t
         assert "p.status!=='AVAILABLE'" in t
         assert "p.signal_only!==true||p.orders!==false" in t
