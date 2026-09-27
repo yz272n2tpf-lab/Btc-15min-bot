@@ -37,19 +37,21 @@ def patch(path:Path):
 
 def connect_information_render(path:Path):
     text=path.read_text(encoding='utf-8',errors='replace')
-    # Anchor to the literal seam code we own, using stable adjacent statements
-    # rather than whitespace/newline formatting.
-    start="function render(){"
-    guard="const p=view(token,performance.now()); if(!p){clearInfo();return;}"
+    # The seam source is already independently qualified. Anchor the composed
+    # artifact by its unique script id and marker, then inject immediately
+    # before that script closes; never search unrelated dashboard JS.
+    script_id='<script id="btc15-recovered-information-seam-v1">'
+    marker='BTC15_RECOVERED_V11_INFORMATION_SEAM_V1'
     call="if(typeof window.btc15RenderInformationalFinal==='function')window.btc15RenderInformationalFinal(p);"
     if call in text:return ['already-connected']
-    i=text.find(start)
-    if i<0:raise RuntimeError('Qualified information render function missing; refusing FINAL connection')
-    j=text.find(guard,i)
-    if j<0:raise RuntimeError('Qualified information validity guard missing; refusing FINAL connection')
-    insert=j+len(guard)
-    text=text[:insert]+' '+call+text[insert:]
-    path.write_text(text,encoding='utf-8');return ['information-to-final-call']
+    a=text.find(script_id)
+    if a<0 or marker not in text:raise RuntimeError('Qualified information seam missing; refusing FINAL connection')
+    z=text.find('</script>',a)
+    if z<0:raise RuntimeError('Qualified information seam close missing; refusing FINAL connection')
+    # Inject a wrapper around seam render, preserving its validated p/view logic.
+    hook="const _btc15InfoRender=render; render=function(){_btc15InfoRender(); const p=view(token,performance.now()); if(p&&typeof window.btc15RenderInformationalFinal==='function')window.btc15RenderInformationalFinal(p);};\n"
+    text=text[:z]+hook+text[z:]
+    path.write_text(text,encoding='utf-8');return ['information-to-final-wrapper']
 
 def build_dashboard()->Path:
     html=seam.build_dashboard();patch(html);connect_information_render(html);return html
@@ -59,7 +61,7 @@ def main():
     print('RECOVERED V11 FINAL PROBABILITY V1 | INFORMATION ONLY | NO ORDERS')
     if '--self-test' in sys.argv:
         assert MARKER in t and seam.MARKER in t
-        assert "btc15RenderInformationalFinal(p)" in t
+        assert "window.btc15RenderInformationalFinal(p)" in t\n        assert "const _btc15InfoRender=render" in t
         assert "p.authority!=='INFORMATIONAL_READ_ONLY'" in t
         assert "p.status!=='AVAILABLE'" in t
         assert "p.signal_only!==true||p.orders!==false" in t
