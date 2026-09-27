@@ -24,19 +24,22 @@ from btc15_information_v1 import (
 
 
 def instrument(tree):
-    """Exactly one added observer expression; the original statements survive."""
-    tree = deepcopy(tree)
-    loops = [node for node in tree.body if isinstance(node, ast.While)
-             and isinstance(node.test, ast.Name) and node.test.id == 'running']
-    if len(loops) != 1:
-        raise RuntimeError('Pinned native loop missing')
-    blocks = [node for node in loops[0].body if isinstance(node, ast.Try)]
-    if len(blocks) != 1:
-        raise RuntimeError('Pinned native try body missing')
+    """Append read-only observers; original native statements survive unchanged."""
+    tree=deepcopy(tree)
+    loops=[n for n in tree.body if isinstance(n,ast.While)
+           and isinstance(n.test,ast.Name) and n.test.id=='running']
+    if len(loops)!=1: raise RuntimeError('Pinned native loop missing')
+    blocks=[n for n in loops[0].body if isinstance(n,ast.Try)]
+    if len(blocks)!=1: raise RuntimeError('Pinned native try body missing')
+    # Append-only seam: closeout observer runs after the original try body.
+    # It reads a durable receipt captured by the frozen owner's existing parity log,
+    # never pending native metadata or strategy state.
     blocks[0].body.append(ast.parse('_btc15_information_offer(globals())').body[0])
     blocks[0].body.append(ast.parse('_btc15_cohort_offer(globals())').body[0])
     blocks[0].body.append(ast.parse('_btc15_cohort_closeout_offer(globals())').body[0])
     return ast.fix_missing_locations(tree)
+
+
 
 
 
@@ -70,33 +73,44 @@ _COHORT_CLOSEOUT_LOCK = threading.Lock()
 _COHORT_CLOSEOUT_SEEN = set()
 
 def cohort_closeout_offer(ns):
-    """Append only newly completed native BRTI closeouts after the decision loop."""
+    """Copy exact completed settlement from the frozen owner's append-only parity receipt."""
     try:
-        finalized=set(ns.get('_brti_finalized_contracts') or ())
-        pending=ns.get('_brti_pending_contracts') or {}
-        with _COHORT_CLOSEOUT_LOCK:
-            todo=sorted(finalized-_COHORT_CLOSEOUT_SEEN)
-        for ticker in todo:
-            meta=pending.get(ticker)
-            if meta is None:
-                continue
-            b=ns['_brti_contract_snapshot'](meta['close_dt'],meta['target'],meta['last_btc'],retained=meta)
-            if b is None or b.get('final60_count')!=60 or not b.get('final60_complete'):
-                continue
-            row=dict(schema=COHORT_SCHEMA,timestamp_utc=ns['datetime'].now(ns['timezone'].utc).isoformat(),
-                contract=ticker,target=float(meta['target']),seconds_left=0.0,
+        parity=Path(ns['BRTI_PARITY_LOG'])
+        if not parity.exists(): return
+        import csv
+        with parity.open(newline='') as src:
+            rows=list(csv.DictReader(src))
+        for r in rows:
+            ticker=r.get('contract')
+            if not ticker or ticker in _COHORT_CLOSEOUT_SEEN: continue
+            # Disk is authoritative across observer restarts: do not duplicate an
+            # already-persisted CLOSEOUT_ONLY receipt for this contract.
+            if COHORT_PATH.exists():
+                duplicate=False
+                for line in COHORT_PATH.read_text().splitlines():
+                    try: prior=json.loads(line)
+                    except Exception: continue
+                    if prior.get('schema')==COHORT_SCHEMA and prior.get('contract')==ticker and prior.get('final_status')=='CLOSEOUT_ONLY':
+                        duplicate=True; break
+                if duplicate:
+                    _COHORT_CLOSEOUT_SEEN.add(ticker); continue
+            if str(r.get('final60_complete','')).lower() not in ('true','1'): continue
+            if int(float(r.get('final60_count') or 0))!=60: continue
+            avg=r.get('final60_average'); side=r.get('final60_side'); target=r.get('target')
+            if avg in (None,'') or side not in ('UP','DOWN') or target in (None,''): continue
+            row=dict(schema=COHORT_SCHEMA,timestamp_utc=r.get('timestamp_utc'),
+                contract=ticker,target=float(target),seconds_left=0.0,
                 up_bid=None,up_ask=None,down_bid=None,down_ask=None,
                 final_status='CLOSEOUT_ONLY',final_side=None,final_confidence=None,
                 final_call_source='BRTI_CLOSEOUT',early=None,unified_row_count=0,
                 true_scalp_pending=0,profit_pending=0,
-                brti=dict(contract=ticker,target=float(meta['target']),final60_count=60,
-                          final60_average=b['final60_avg'],final60_side=b['final60_side'],
-                          final60_complete=True),signal_only=True,orders=False)
+                brti=dict(contract=ticker,target=float(target),final60_count=60,
+                          final60_average=float(avg),final60_side=side,final60_complete=True),
+                signal_only=True,orders=False)
             with COHORT_PATH.open('a') as out:
                 out.write(json.dumps(row,separators=(',',':'),sort_keys=True,default=str)+'\n')
                 out.flush(); os.fsync(out.fileno())
-            with _COHORT_CLOSEOUT_LOCK:
-                _COHORT_CLOSEOUT_SEEN.add(ticker)
+            _COHORT_CLOSEOUT_SEEN.add(ticker)
     except Exception as exc:
         print('COHORT CLOSEOUT WARNING | '+type(exc).__name__+': '+str(exc),flush=True)
 
