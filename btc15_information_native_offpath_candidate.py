@@ -108,7 +108,7 @@ def _cohort_closeout_worker(ns, stop_event=None):
                                   final60_average=float(avg),final60_side=side,final60_complete=True),
                         signal_only=True,orders=False)
                     with COHORT_PATH.open('a') as out:
-                        out.write(json.dumps(row,separators=(',',':'),sort_keys=True,default=str)+'\\n')
+                        out.write(json.dumps(row,separators=(',',':'),sort_keys=True,default=str)+'\n')
                         out.flush();os.fsync(out.fileno())
                     _COHORT_CLOSEOUT_SEEN.add(ticker);persisted.add(ticker)
         except Exception as exc:
