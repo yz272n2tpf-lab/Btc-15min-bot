@@ -34,7 +34,8 @@ def instrument(tree):
     if len(blocks) != 1:
         raise RuntimeError('Pinned native try body missing')
     blocks[0].body.append(ast.parse('_btc15_information_offer(globals())').body[0])
-    blocks[0].body.append(ast.parse('_btc15_cohort_offer(globals())').body[0])\n    blocks[0].body.append(ast.parse('_btc15_cohort_closeout_offer(globals())').body[0])
+    blocks[0].body.append(ast.parse('_btc15_cohort_offer(globals())').body[0])
+    blocks[0].body.append(ast.parse('_btc15_cohort_closeout_offer(globals())').body[0])
     return ast.fix_missing_locations(tree)
 
 
