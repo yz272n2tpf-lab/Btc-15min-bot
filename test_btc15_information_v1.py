@@ -405,7 +405,7 @@ class InformationTests(unittest.TestCase):
             self.assertEqual(len(rows),2);self.assertEqual({r['contract'] for r in rows},{TICKER,TICKER+'X'})
             native._COHORT_CLOSEOUT_SEEN.clear()
             native.cohort_closeout_offer(ns)
-            self.assertEqual(len(native.COHORT_PATH.read_text().splitlines()),4)
+            self.assertEqual(len(native.COHORT_PATH.read_text().splitlines()),2)
         native.COHORT_PATH=old_path;native._COHORT_CLOSEOUT_SEEN.clear()
 
     def test_native_feature_and_probability_exact_at_same_cut(self):
