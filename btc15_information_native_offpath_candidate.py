@@ -93,7 +93,7 @@ def cohort_closeout_offer(ns):
                           final60_average=b['final60_avg'],final60_side=b['final60_side'],
                           final60_complete=True),signal_only=True,orders=False)
             with COHORT_PATH.open('a') as out:
-                out.write(json.dumps(row,separators=(',',':'),sort_keys=True,default=str)+'\\n')
+                out.write(json.dumps(row,separators=(',',':'),sort_keys=True,default=str)+'\n')
                 out.flush(); os.fsync(out.fileno())
             with _COHORT_CLOSEOUT_LOCK:
                 _COHORT_CLOSEOUT_SEEN.add(ticker)
