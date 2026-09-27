@@ -387,7 +387,7 @@ class InformationTests(unittest.TestCase):
         from pathlib import Path
         import btc15_information_native_offpath_candidate as native
         from btc15_cohort_evidence_v1 import score_native_contract
-        old=native.COHORT_PATH;native._COHORT_CLOSEOUT_SEEN.clear()
+        old=native.COHORT_PATH;native._stop_cohort_closeout_worker();native._COHORT_CLOSEOUT_SEEN.clear()
         with tempfile.TemporaryDirectory() as td:
             td=Path(td);native.COHORT_PATH=td/'cohort.jsonl';parity=td/'parity.csv'
             native_row=dict(schema='BTC15_COHORT_NATIVE_V1',timestamp_utc='2026-09-27T03:44:28+00:00',
@@ -409,7 +409,7 @@ class InformationTests(unittest.TestCase):
             self.assertEqual(out['status'],'COMPLETE');self.assertEqual(out['missing'],[])
             self.assertEqual(out['settlement']['settlement']['final60_average'],99998.5)
             self.assertEqual(len(native.COHORT_PATH.read_text().splitlines()),2)
-        native.COHORT_PATH=old;native._COHORT_CLOSEOUT_SEEN.clear()
+        native._stop_cohort_closeout_worker();native.COHORT_PATH=old;native._COHORT_CLOSEOUT_SEEN.clear()
 
     def test_closeout_wrong_identity_and_malformed_receipts_fail_closed(self):
         import csv,json,tempfile
