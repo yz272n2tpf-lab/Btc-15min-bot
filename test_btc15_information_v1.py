@@ -261,8 +261,8 @@ class InformationTests(unittest.TestCase):
         tree=instrument(ast.parse(BOT.read_text()))
         loop=[n for n in tree.body if isinstance(n,ast.While) and isinstance(n.test,ast.Name) and n.test.id=='running'][0]
         block=[n for n in loop.body if isinstance(n,ast.Try)][0]
-        tail=[ast.unparse(n) for n in block.body[-2:]]
-        self.assertEqual(tail,['_btc15_information_offer(globals())','_btc15_cohort_offer(globals())'])
+        tail=[ast.unparse(n) for n in block.body[-3:]]
+        self.assertEqual(tail,['_btc15_information_offer(globals())','_btc15_cohort_offer(globals())','_btc15_cohort_closeout_offer(globals())'])
 
     def test_cohort_writer_failure_is_fail_open_for_strategy_and_writes_nothing(self):
         import tempfile
