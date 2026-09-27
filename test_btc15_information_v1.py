@@ -261,13 +261,8 @@ class InformationTests(unittest.TestCase):
         tree=instrument(ast.parse(BOT.read_text()))
         loop=[n for n in tree.body if isinstance(n,ast.While) and isinstance(n.test,ast.Name) and n.test.id=='running'][0]
         block=[n for n in loop.body if isinstance(n,ast.Try)][0]
-        tail=[ast.unparse(n) for n in block.body[-2:]]
-        self.assertEqual(tail,['_btc15_information_offer(globals())','_btc15_cohort_offer(globals())'])
-        retry=[n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='_retry_brti_closeouts'][0]
-        branch=[n for n in ast.walk(retry) if isinstance(n,ast.If) and isinstance(n.test,ast.Call)
-                and isinstance(n.test.func,ast.Name) and n.test.func.id=='_try_finalize_brti_contract'][0]
-        self.assertEqual(ast.unparse(branch.body[0]),'_btc15_cohort_closeout_offer(globals())')
-        self.assertIn("del _brti_pending_contracts[ticker]",[ast.unparse(n) for n in branch.body])
+        tail=[ast.unparse(n) for n in block.body[-3:]]
+        self.assertEqual(tail,['_btc15_information_offer(globals())','_btc15_cohort_offer(globals())','_btc15_cohort_closeout_offer(globals())'])
 
     def test_cohort_writer_failure_is_fail_open_for_strategy_and_writes_nothing(self):
         import tempfile
@@ -366,18 +361,6 @@ class InformationTests(unittest.TestCase):
             self.assertEqual(r['brti']['final60_average'],99989.5);self.assertEqual(r['brti']['final60_side'],'DOWN')
             self.assertTrue(r['signal_only']);self.assertFalse(r['orders'])
         native.COHORT_PATH=old;native._COHORT_CLOSEOUT_SEEN.clear()
-
-    def test_closeout_observer_runs_before_native_pending_delete(self):
-        import ast
-        from btc15_information_native_offpath_candidate import instrument
-        from btc15_information_v1 import BOT
-        tree=instrument(ast.parse(BOT.read_text()))
-        retry=[n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='_retry_brti_closeouts'][0]
-        branch=[n for n in ast.walk(retry) if isinstance(n,ast.If) and isinstance(n.test,ast.Call)
-                and isinstance(n.test.func,ast.Name) and n.test.func.id=='_try_finalize_brti_contract'][0]
-        body=[ast.unparse(n) for n in branch.body]
-        self.assertEqual(body[0],'_btc15_cohort_closeout_offer(globals())')
-        self.assertGreater(body.index("del _brti_pending_contracts[ticker]"),0)
 
     def test_cohort_closeout_writer_failure_cannot_change_native_state(self):
         import tempfile
