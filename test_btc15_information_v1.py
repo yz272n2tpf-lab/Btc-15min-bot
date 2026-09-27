@@ -394,7 +394,7 @@ class InformationTests(unittest.TestCase):
                 early={'provisional_candidate':False},unified_row_count=2,true_scalp_pending=0,profit_pending=0,
                 brti={'contract':TICKER,'target':100000.0,'final60_count':27,'final60_average':99999.2,
                       'final60_side':'DOWN','final60_complete':False},signal_only=True,orders=False)
-            native.COHORT_PATH.write_text(json.dumps(native_row)+'\\n')
+            native.COHORT_PATH.write_text(json.dumps(native_row)+'\n')
             fields=['timestamp_utc','contract','target','final60_count','final60_average','final60_side','final60_complete']
             with parity.open('w',newline='') as f:
                 w=csv.DictWriter(f,fieldnames=fields);w.writeheader()
