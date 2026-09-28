@@ -2,9 +2,9 @@
 """Adversarial boundary for informational BRTI freshness presentation."""
 from pathlib import Path
 import ast
-src=Path("BTC15_RECOVERED_V11_INFORMATION_SEAM_V1.py").read_text()
+ROOT=Path(__file__).resolve().parent\nsrc=(ROOT/"BTC15_RECOVERED_V11_INFORMATION_SEAM_V1.py").read_text(encoding="utf-8")
 ast.parse(src)
-for required in ("btc15QualifiedBrtiFreshness","Qualified BRTI: fresh","live qualification feed","waiting for ≤5s frame","p.brti_age_seconds","INFORMATIONAL_READ_ONLY","nowS-p.brti_source_ts>5"):assert required in src,required
+for required in ("btc15QualifiedBrtiFreshness","Qualified BRTI: fresh","live qualification feed","waiting for ≤5s frame","p.brti_age_seconds","INFORMATIONAL_READ_ONLY","nowS-p.brti_source_ts>5","btc15QualifiedGuardState","3M GUARD","5M CAUTION","NORMAL WINDOW","GUARD STATE · DATA NOT FRESH"):assert required in src,required
 tree=ast.parse(src)
 script=None
 for node in tree.body:
