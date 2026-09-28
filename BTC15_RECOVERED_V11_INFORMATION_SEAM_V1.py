@@ -14,44 +14,25 @@ MARKER="BTC15_RECOVERED_V11_INFORMATION_SEAM_V1"
 SCRIPT=r'''<script id="btc15-recovered-information-seam-v1">
 (()=>{
 'use strict';
-let token=null,identityToken=null,busy=false,identityBusy=false,generation=0;
+let token=null,busy=false,generation=0;
 const captured=new WeakSet();
 const byId=id=>document.getElementById(id);
 function guardNode(){let n=byId('btc15QualifiedGuardState');if(n)return n;const f=byId('flipRisk');if(!f||!f.parentElement)return null;n=document.createElement('div');n.id='btc15QualifiedGuardState';n.dataset.authority='INFORMATIONAL_READ_ONLY';n.style.cssText='font-size:11px;margin-top:6px;font-weight:900;letter-spacing:.04em';f.parentElement.appendChild(n);return n;}
 function infoFreshnessNode(){let n=byId('btc15QualifiedBrtiFreshness');if(n)return n;const f=byId('flipRisk');if(!f||!f.parentElement)return null;n=document.createElement('div');n.id='btc15QualifiedBrtiFreshness';n.dataset.authority='INFORMATIONAL_READ_ONLY';n.style.cssText='font-size:10px;margin-top:6px;opacity:.82;letter-spacing:.02em';f.parentElement.appendChild(n);return n;}
-function rejectReason(t,now){
-  if(!t||!captured.has(t))return 'INFO_MISSING';
-  const p=t.payload,ident=identityView(now);
-  if(!ident)return 'IDENTITY_ENVELOPE';
-  if(!p)return 'INFO_MISSING';
-  if(p.ticker!==ident.contract)return 'TICKER_MISMATCH';
-  if(p.schema!=='BTC15_INFORMATION_V1'||p.authority!=='INFORMATIONAL_READ_ONLY'||p.signal_only!==true||p.orders!==false)return 'INFO_ENVELOPE';
-  if(p.status!=='AVAILABLE')return 'INFO_STATUS';
-  if(!Number.isFinite(p.checked_ts)||!Number.isFinite(p.display_until)||!Number.isFinite(p.expires_at)||!Number.isFinite(p.brti_source_ts))return 'INFO_TIMESTAMPS';
-  const nowS=p.checked_ts+(now-t.started)/1000;
-  if(nowS<p.checked_ts||nowS>=p.display_until||nowS>=p.expires_at)return 'INFO_EXPIRED';
-  if(nowS-p.brti_source_ts>5)return 'BRTI_STALE';
-  return 'UNKNOWN';
-}
 function clearInfo(reason='DATA_NOT_FRESH'){
   const f=byId('flipRisk'); if(f){f.textContent='—';f.dataset.info='unavailable';}
   const g=guardNode();if(g){g.textContent='GUARD STATE · DATA NOT FRESH'+(reason&&reason!=='DATA_NOT_FRESH'?' · '+reason:'');g.dataset.phase='DATA_STALE';}
   const q=infoFreshnessNode();if(q){q.textContent='Qualified BRTI: unavailable · waiting for ≤5s frame';q.dataset.fresh='false';}
   document.documentElement.dataset.btc15InfoPhase='DATA_STALE';
 }
-function captureIdentity(payload,received){
-  if(!payload||payload.version!=='BTC15_COMBINED_STATE_BRIDGE_V6'||payload.manual_execution_only!==true||payload.orders!==false||payload.order_action!==null||payload.scalp_display_contract_match!==true||typeof payload.contract!=='string'||!/^KXBTC15M-[A-Z0-9-]+$/i.test(payload.contract))return null;
-  return Object.freeze({contract:payload.contract,received});
-}
-function identityView(now){const i=identityToken;return i&&Number.isFinite(now)&&now>=i.received&&now-i.received<=3500?i:null;}
 function capture(payload,started,received){
   const t=Object.freeze({payload:Object.freeze(structuredClone(payload)),started,received});
   captured.add(t);return t;
 }
 function view(t,now){
   if(!t||!captured.has(t)||!Number.isFinite(now)||now<t.received)return null;
-  const p=t.payload,ident=identityView(now);
-  if(!ident||!p||p.ticker!==ident.contract||p.schema!=='BTC15_INFORMATION_V1'||p.authority!=='INFORMATIONAL_READ_ONLY'||
+  const p=t.payload;
+  if(!p||p.schema!=='BTC15_INFORMATION_V1'||p.authority!=='INFORMATIONAL_READ_ONLY'||
      p.status!=='AVAILABLE'||p.signal_only!==true||p.orders!==false||
      !Number.isFinite(p.checked_ts)||!Number.isFinite(p.display_until)||!Number.isFinite(p.expires_at)||
      !Number.isFinite(p.brti_source_ts))return null;
@@ -60,7 +41,7 @@ function view(t,now){
   return p;
 }
 function render(){
-  const now=performance.now(),p=view(token,now); if(!p){clearInfo(rejectReason(token,now));return;}
+  const p=view(token,performance.now()); if(!p){clearInfo();return;}
   // Never write FINAL/EARLY/SCALP action labels. Informational decoration only.
   const f=byId('flipRisk');
   if(f&&Number.isFinite(p.flip_risk_pct)){f.textContent=Number(p.flip_risk_pct).toFixed(1)+'%';f.dataset.info='informational';}
@@ -68,12 +49,6 @@ function render(){
   const phase=p.three_minute_guard===true?'3M_GUARD':p.five_minute_caution===true?'5M_CAUTION':'NORMAL';
   const g=guardNode();if(g){g.textContent=phase==='3M_GUARD'?'3M GUARD':phase==='5M_CAUTION'?'5M CAUTION':'NORMAL WINDOW';g.dataset.phase=phase;}
   document.documentElement.dataset.btc15InfoPhase=phase;
-}
-async function pollIdentity(){
-  if(identityBusy||document.hidden)return;identityBusy=true;const mine=generation;
-  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),700);
-  try{const r=await fetch('/combined-state',{cache:'no-store',signal:controller.signal});if(!r.ok)throw Error('unavailable');const p=await r.json();if(mine===generation)identityToken=captureIdentity(p,performance.now());}
-  catch(_){if(mine===generation)identityToken=null;}finally{clearTimeout(timeout);identityBusy=false;render();}
 }
 async function poll(){
   if(busy||document.hidden)return;busy=true;const mine=generation,started=performance.now();
@@ -86,11 +61,11 @@ async function poll(){
     if(mine===generation)token=capture(p,started,performance.now());
   }catch(_){if(mine===generation)token=null;}finally{clearTimeout(timeout);busy=false;render();}
 }
-function invalidate(){generation++;token=null;identityToken=null;clearInfo();}
+function invalidate(){generation++;token=null;clearInfo();}
 addEventListener('pagehide',invalidate);addEventListener('offline',invalidate);
-addEventListener('pageshow',()=>{invalidate();pollIdentity();poll();});addEventListener('online',()=>{invalidate();pollIdentity();poll();});
-document.addEventListener('visibilitychange',()=>{invalidate();if(!document.hidden){pollIdentity();poll();}});
-setInterval(render,100);setInterval(pollIdentity,500);setInterval(poll,500);clearInfo();pollIdentity();poll();
+addEventListener('pageshow',()=>{invalidate();poll();});addEventListener('online',()=>{invalidate();poll();});
+document.addEventListener('visibilitychange',()=>{invalidate();if(!document.hidden){poll();}});
+setInterval(render,100);setInterval(poll,500);clearInfo();poll();
 })();
 </script>'''
 
