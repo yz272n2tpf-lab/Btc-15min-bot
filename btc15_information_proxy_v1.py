@@ -84,7 +84,8 @@ def serve(handler):
         body = json.dumps(dict(schema='BTC15_INFORMATION_FIELD_CLASSES_V1',fields=FIELDS,
                                signal_only=True,orders=False)).encode()
         handler._send(200,'application/json',body); return True
-    if path != '/information' and not re.fullmatch('/information/frame/[0-9a-f]{64}',path):
+    identity_request = path == '/information/identity'
+    if path != '/information' and not identity_request and not re.fullmatch('/information/frame/[0-9a-f]{64}',path):
         handler._send(404,'application/json',b'{"error":"NOT_FOUND"}'); return True
     with RATE_LOCK:
         now = time.monotonic()
@@ -95,10 +96,15 @@ def serve(handler):
     if not allowed or not SLOTS.acquire(blocking=False):
         handler._send(429,'application/json',b'{"status":"WAIT","error":"INFORMATION_BUSY"}'); return True
     try:
-        with urlopen('http://127.0.0.1:8767'+path, timeout=.4) as response:
+        internal_path = '/information' if identity_request else path
+        with urlopen('http://127.0.0.1:8767'+internal_path, timeout=.4) as response:
             raw = response.read(MAX_BYTES+1)
         if len(raw)>MAX_BYTES: raise ValueError('Oversize output')
-        body=closed(raw,time.time()); status=200
+        now=time.time()
+        body=closed(raw,now)
+        if identity_request:
+            body=json.dumps(identity_projection(json.loads(body),now),allow_nan=False,separators=(',',':')).encode()
+        status=200
     except Exception:
         status,body=503,b'{"status":"WAIT","error":"INFORMATION_UNAVAILABLE"}'
     finally: SLOTS.release()
