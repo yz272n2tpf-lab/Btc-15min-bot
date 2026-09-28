@@ -1,0 +1,172 @@
+#!/usr/bin/env python3
+"""BTC15 read-only live scalp specialist review V3.1 schema gate.
+
+SHADOW RESEARCH ONLY | SIGNAL ONLY | NO ORDERS
+
+V3.1 deliberately probes the real event-tape schema before running any model.
+If any designed causal feature is absent/non-populated on CANDIDATE rows, it
+returns SCHEMA_ADAPTATION_REQUIRED instead of fitting through all-missing data.
+"""
+from __future__ import annotations
+
+import json
+import os
+import threading
+import time
+from datetime import datetime, timezone
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from typing import Any
+from urllib.parse import urlparse
+
+import scalp_event_schema_probe_v1 as schema
+import scalp_opportunity_quality_frontier_v1 as q
+import scalp_specialist_union_live_review_v1 as live_v1
+import scalp_specialist_union_live_review_v3 as v3
+
+VERSION = "BTC15_SCALP_SPECIALIST_UNION_LIVE_REVIEW_V3_1"
+PORT = int(os.environ.get("PORT", "8080"))
+POLL_SEC = max(60, int(os.environ.get("SCALP_SPECIALIST_REVIEW_POLL_SEC", "300")))
+
+LOCK = threading.Lock()
+STATE: dict[str, Any] = {
+    "ok": False,
+    "version": VERSION,
+    "status": "STARTING",
+    "orders": False,
+    "manual_execution_only": True,
+    "shadow_only": True,
+    "production_logic_changed": False,
+}
+
+
+def utcnow() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def analyze_rows(rows: list[dict[str, str]], sha: str = "", source_bytes: int = 0) -> dict[str, Any]:
+    probe = schema.schema_probe(rows, q.FEATURES)
+    candidate_presence = probe["desired_feature_presence"]
+    missing = sorted(k for k, x in candidate_presence.items() if not x["nonempty_candidate"])
+    available = sorted(k for k, x in candidate_presence.items() if x["nonempty_candidate"])
+
+    print(
+        "SCALP_SCHEMA_PROBE | " + json.dumps({
+            "columns": probe["columns"],
+            "record_counts": probe["record_counts"],
+            "candidate_nonempty_columns": probe["by_record_type"].get("CANDIDATE", {}).get("nonempty_columns", []),
+            "path_nonempty_columns": probe["by_record_type"].get("PATH", {}).get("nonempty_columns", []),
+            "result_nonempty_columns": probe["by_record_type"].get("RESULT", {}).get("nonempty_columns", []),
+            "designed_features_available": available,
+            "designed_features_missing": missing,
+        }, separators=(",", ":"), sort_keys=True),
+        flush=True,
+    )
+
+    if missing:
+        return {
+            "ok": False,
+            "version": VERSION,
+            "status": "SCHEMA_ADAPTATION_REQUIRED",
+            "updated_utc": utcnow(),
+            "source_sha256": sha,
+            "source_bytes": source_bytes,
+            "source_rows": len(rows),
+            "schema_probe": probe,
+            "designed_features_available": available,
+            "designed_features_missing": missing,
+            "model_fit_attempted": False,
+            "orders": False,
+            "manual_execution_only": True,
+            "shadow_only": True,
+            "production_logic_changed": False,
+            "automatic_promotion": False,
+        }
+
+    out = v3.analyze_rows(rows, sha=sha, source_bytes=source_bytes)
+    out = dict(out)
+    out["version"] = VERSION
+    out["schema_probe"] = probe
+    out["model_fit_attempted"] = True
+    return out
+
+
+def refresh_once() -> dict[str, Any]:
+    rows, sha, source_bytes = live_v1.fetch_rows()
+    with LOCK:
+        old_sha = STATE.get("source_sha256")
+    if old_sha == sha and STATE.get("status") != "STARTING":
+        with LOCK:
+            STATE["last_poll_utc"] = utcnow()
+            return dict(STATE)
+    result = analyze_rows(rows, sha=sha, source_bytes=source_bytes)
+    result["last_poll_utc"] = utcnow()
+    with LOCK:
+        STATE.clear()
+        STATE.update(result)
+        return dict(STATE)
+
+
+def loop() -> None:
+    while True:
+        try:
+            refresh_once()
+        except Exception as exc:
+            with LOCK:
+                previous = dict(STATE)
+                STATE.update({
+                    "ok": False,
+                    "version": VERSION,
+                    "status": "FAIL_CLOSED_SOURCE_OR_SCHEMA_ERROR",
+                    "last_poll_utc": utcnow(),
+                    "error": f"{type(exc).__name__}:{exc}",
+                    "orders": False,
+                    "manual_execution_only": True,
+                    "shadow_only": True,
+                    "production_logic_changed": False,
+                    "last_good_source_sha256": previous.get("source_sha256"),
+                })
+        time.sleep(POLL_SEC)
+
+
+class Handler(BaseHTTPRequestHandler):
+    server_version = "BTC15ScalpSpecialistReviewV31/1.0"
+
+    def log_message(self, fmt: str, *args: Any) -> None:
+        print("SCALP_SPECIALIST_REVIEW_V3_1_HTTP | request", flush=True)
+
+    def send_json(self, code: int, obj: dict[str, Any]) -> None:
+        raw = json.dumps(obj, separators=(",", ":"), sort_keys=True).encode("utf-8")
+        self.send_response(code)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(raw)))
+        self.send_header("Cache-Control", "no-store")
+        self.end_headers()
+        self.wfile.write(raw)
+
+    def do_GET(self) -> None:
+        path = urlparse(self.path).path
+        with LOCK:
+            state = dict(STATE)
+        if path == "/health":
+            return self.send_json(200, {
+                "ok": True,
+                "version": VERSION,
+                "analysis_ok": state.get("ok") is True,
+                "analysis_status": state.get("status"),
+                "orders": False,
+                "shadow_only": True,
+            })
+        if path == "/state":
+            return self.send_json(200, state)
+        return self.send_json(404, {"ok": False, "error": "not_found", "orders": False})
+
+
+def main() -> int:
+    print(f"{VERSION} START | READ ONLY | SCHEMA GATE | POLL={POLL_SEC}s | NO ORDERS", flush=True)
+    threading.Thread(target=loop, name="scalp-specialist-review-v31-loop", daemon=True).start()
+    ThreadingHTTPServer(("0.0.0.0", PORT), Handler).serve_forever()
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

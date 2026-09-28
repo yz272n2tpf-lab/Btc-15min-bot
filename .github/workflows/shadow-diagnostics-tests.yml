@@ -1,0 +1,52 @@
+name: Shadow diagnostics tests
+
+on:
+  push:
+    branches: [shadow-diagnostic-pack-v1]
+  pull_request:
+    paths:
+      - 'shadow_diagnostics/**'
+      - '.github/workflows/shadow-diagnostics-tests.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Run shadow diagnostic pack tests
+        working-directory: shadow_diagnostics
+        run: |
+          python -m unittest -v test_shadow_diagnostic_pack_v1.py
+          python -m unittest -v test_scalp_opportunity_quality_frontier_v1.py
+          python -m unittest -v test_scalp_specialist_union_frontier_v1.py
+          python -m unittest -v test_scalp_specialist_union_frontier_v2.py
+          python -m unittest -v test_scalp_contract_zone_map_v1.py
+          python -m unittest -v test_scalp_specialist_union_live_review_v1.py
+          python -m unittest -v test_scalp_kalshi_lag_fingerprint_v1.py
+          python -m unittest -v test_scalp_specialist_union_live_review_v2.py
+          python -m unittest -v test_scalp_lane_complementarity_v1.py
+          python -m unittest -v test_scalp_multiobjective_pareto_v1.py
+          python -m unittest -v test_scalp_specialist_union_live_review_v3.py
+          python -m unittest -v test_scalp_coverage_gap_ledger_v1.py
+          python -m unittest -v test_scalp_event_schema_probe_v1.py
+          python -m unittest -v test_scalp_specialist_union_live_review_v3_1.py
+          python -m unittest -v test_scalp_event_schema_adapter_v1.py
+          python -m unittest -v test_scalp_specialist_union_live_review_v3_2.py
+          python -m unittest -v test_scalp_specialist_union_live_review_v3_3.py
+          python -m unittest -v test_scalp_tiered_validation_freeze_v1.py
+          python -m unittest -v test_scalp_specialist_union_live_review_v3_4.py
+          python -m unittest -v test_scalp_baseline_coverage_gap_audit_v1.py
+          python -m unittest -v test_scalp_baseline_gap_live_review_v1.py
+          python -m unittest -v test_scalp_gap_recovery_feature_audit_v1.py
+          python -m unittest -v test_scalp_rescue_feasibility_v1.py
+          python -m unittest -v test_scalp_gap_recovery_live_review_v1.py
+          python -m unittest -v test_scalp_coverage_rescue_v1.py
+          python -m unittest -v test_scalp_coverage_rescue_forward_v1.py
