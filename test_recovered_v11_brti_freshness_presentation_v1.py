@@ -4,7 +4,7 @@ from pathlib import Path
 import ast
 src=Path("BTC15_RECOVERED_V11_INFORMATION_SEAM_V1.py").read_text()
 ast.parse(src)
-for required in ("btc15QualifiedBrtiFreshness","Qualified BRTI: fresh","p.brti_age_seconds","INFORMATIONAL_READ_ONLY","nowS-p.brti_source_ts>5"):assert required in src,required
+for required in ("btc15QualifiedBrtiFreshness","Qualified BRTI: fresh","live qualification feed","waiting for ≤5s frame","p.brti_age_seconds","INFORMATIONAL_READ_ONLY","nowS-p.brti_source_ts>5"):assert required in src,required
 tree=ast.parse(src)
 script=None
 for node in tree.body:
