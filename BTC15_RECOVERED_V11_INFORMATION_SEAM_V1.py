@@ -26,10 +26,10 @@ function clearInfo(){
   document.documentElement.dataset.btc15InfoPhase='DATA_STALE';
 }
 function captureIdentity(payload,received){
-  if(!payload||payload.version!=='BTC15_COMBINED_STATE_BRIDGE_V6'||payload.manual_execution_only!==true||payload.orders!==false||payload.order_action!==null||payload.scalp_display_contract_match!==true||typeof payload.contract!=='string'||!/^KXBTC15M-[A-Z0-9-]+$/i.test(payload.contract))return null;
-  return Object.freeze({contract:payload.contract,received});
+  if(!payload||payload.schema!=='BTC15_INFORMATION_IDENTITY_V1'||payload.signal_only!==true||payload.orders!==false||typeof payload.ticker!=='string'||!/^KXBTC15M-[A-Z0-9-]+$/i.test(payload.ticker)||typeof payload.native_epoch!=='string'||!payload.native_epoch||typeof payload.anchor_id!=='string'||!payload.anchor_id||!Number.isFinite(payload.observed_ts))return null;
+  return Object.freeze({contract:payload.ticker,native_epoch:payload.native_epoch,anchor_id:payload.anchor_id,observed_ts:payload.observed_ts,received});
 }
-function identityView(now){const i=identityToken;return i&&Number.isFinite(now)&&now>=i.received&&now-i.received<=3500?i:null;}
+function identityView(now){const i=identityToken;return i&&Number.isFinite(now)&&now>=i.received&&now-i.received<=1500?i:null;}
 function capture(payload,started,received){
   const t=Object.freeze({payload:Object.freeze(structuredClone(payload)),started,received});
   captured.add(t);return t;
@@ -58,7 +58,7 @@ function render(){
 async function pollIdentity(){
   if(identityBusy||document.hidden)return;identityBusy=true;const mine=generation;
   const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),700);
-  try{const r=await fetch('/combined-state',{cache:'no-store',signal:controller.signal});if(!r.ok)throw Error('unavailable');const p=await r.json();if(mine===generation)identityToken=captureIdentity(p,performance.now());}
+  try{const nonce=crypto.randomUUID().replaceAll('-','');const r=await fetch('/information/identity',{cache:'no-store',signal:controller.signal,headers:{'X-BTC15-Information-Nonce':nonce}});if(!r.ok||r.headers.get('X-BTC15-Information-Nonce')!==nonce)throw Error('unavailable');const p=await r.json();if(mine===generation)identityToken=captureIdentity(p,performance.now());}
   catch(_){if(mine===generation)identityToken=null;}finally{clearTimeout(timeout);identityBusy=false;render();}
 }
 async function poll(){
