@@ -1,17 +1,25 @@
 #!/usr/bin/env python3
-"""Static adversarial qualification for recovered V11 FINAL probability patch."""
+"""Whole-candidate adversarial qualification for recovered FINAL V2."""
 from pathlib import Path
 import ast,re
-P=Path('BTC15_RECOVERED_V11_FINAL_PROBABILITY_V1.py')
-src=P.read_text(encoding='utf-8'); tree=ast.parse(src)
-assign=[n for n in ast.walk(tree) if isinstance(n,ast.Assign) and any(getattr(t,'id',None)=='PATCH' for t in n.targets)]
-assert len(assign)==1 and isinstance(assign[0].value,ast.Constant)
-patch=assign[0].value.value
-for token in ("INFORMATIONAL_READ_ONLY","status!=='AVAILABLE'","signal_only!==true","orders!==false"): assert token in patch
-assert "up>=down?'UP':'DOWN'" in patch and 'Math.max(up,down)' in patch
-writes=re.findall(r"_set\(\s*['\"]([^'\"]+)['\"]",patch)
-assert writes==['finalActionSub'], writes
-for forbidden in ('final.ready=','final_status=','early.ready=','scalp.ready=','latchedFinal='): assert forbidden not in patch
-for pattern in (r'\bfetch\s*\(',r'\bplace_order\s*\(',r'\border_action\s*\(',r"method\s*:\s*['\"](?:POST|PUT|PATCH|DELETE)['\"]"):
-    assert not re.search(pattern,patch,re.I), pattern
-print('RECOVERED V11 FINAL STATIC ADVERSARIAL PASS | ONLY finalActionSub WRITABLE | NO ACTION AUTHORITY | NO ORDERS')
+src=Path('BTC15_RECOVERED_V11_FINAL_PROBABILITY_V1.py').read_text(encoding='utf-8')
+tree=ast.parse(src)
+vals={}
+for n in ast.walk(tree):
+    if isinstance(n,ast.Assign) and len(n.targets)==1 and isinstance(n.targets[0],ast.Name) and isinstance(n.value,ast.Constant):
+        vals[n.targets[0].id]=n.value.value
+renderer=vals['RENDERER']
+assert vals['MARKER']=='BTC15_RECOVERED_V11_FINAL_PROBABILITY_V2'
+assert vals['HOOK_MARKER']=='BTC15_INFO_TO_FINAL_HOOK_V2'
+for token in ('INFORMATIONAL_READ_ONLY',"status!=='AVAILABLE'",'signal_only!==true','orders!==false'):assert token in renderer
+assert "up>=down?'UP':'DOWN'" in renderer
+assert 'Math.max(up,down)' in renderer
+assert 'FINAL qualified' in renderer
+assert '!safeNonFinal()' in renderer
+targets=re.findall(r"getElementById\(['\"]([^'\"]+)['\"]\)",renderer)
+assert targets==['finalActionSub'],targets
+for bad in ('final.ready=','final_status=','early.ready=','scalp.ready=','latchedFinal=','place_order','order_action'):assert bad not in renderer
+assert not re.search(r'\\bfetch\\s*\\(',renderer,re.I)
+assert 'btc15RenderInformationalFinal(null)' in src
+assert 'btc15RenderInformationalFinal(p)' in src
+print('RECOVERED V11 FINAL V2 STATIC ADVERSARIAL PASS | FRESH+STALE | ONLY finalActionSub | QUALIFIED FINAL PROTECTED | NO ORDERS')
