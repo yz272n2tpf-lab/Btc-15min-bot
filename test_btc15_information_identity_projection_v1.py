@@ -44,4 +44,68 @@ class IdentityProjectionTests(unittest.TestCase):
         b=proxy.identity_projection(x,1000.1)
         self.assertNotEqual((a['ticker'],a['native_epoch'],a['anchor_id']),(b['ticker'],b['native_epoch'],b['anchor_id']))
 
+
+class Headers:
+    def __init__(self, nonce='a'*32): self.nonce=nonce
+    def get(self,key,default=''): return self.nonce if key=='X-BTC15-Information-Nonce' else default
+
+class Handler:
+    def __init__(self,path,nonce='a'*32):
+        self.path=path;self.headers=Headers(nonce);self.code=None;self.kind=None;self.body=None;self.response_headers={}
+    def _send(self,code,kind,body): self.code=code;self.kind=kind;self.body=body
+    def send_response(self,code): self.code=code
+    def send_header(self,key,value): self.response_headers[key]=value
+    def end_headers(self): pass
+    class W:
+        def __init__(self,owner): self.owner=owner
+        def write(self,body): self.owner.body=body
+    @property
+    def wfile(self): return self.W(self)
+
+class Response:
+    def __init__(self,body): self.body=body
+    def __enter__(self): return self
+    def __exit__(self,*_): return False
+    def read(self,_): return self.body
+
+def full_frame(now=1000.0,status='AVAILABLE'):
+    x={k:None for k in proxy.FIELDS}
+    x.update(schema='BTC15_INFORMATION_V1',authority='INFORMATIONAL_READ_ONLY',status=status,reason=None,
+             signal_only=True,orders=False,checked_ts=now,native_epoch='epoch-a',anchor_id='a'*64,
+             ticker='KXBTC15M-TEST',expires_at=now+2,display_until=now+2,brti_source_ts=now-.2)
+    return x
+
+class IdentityRouteTests(unittest.TestCase):
+    def setUp(self):
+        proxy.TOKENS=20.;proxy.NEXT=0.
+    def call(self,row,path='/information/identity',nonce='a'*32,now=1000.0):
+        raw=json.dumps(row).encode();h=Handler(path,nonce)
+        with patch.object(proxy,'urlopen',return_value=Response(raw)), patch.object(proxy.time,'time',return_value=now):
+            self.assertTrue(proxy.serve(h))
+        return h
+    def test_route_projects_minimal_identity_and_nonce(self):
+        h=self.call(full_frame())
+        self.assertEqual(h.code,200);self.assertEqual(h.response_headers.get('X-BTC15-Information-Nonce'),'a'*32)
+        out=json.loads(h.body);self.assertEqual(set(out),{'schema','ticker','native_epoch','anchor_id','observed_ts','signal_only','orders'})
+    def test_route_wait_fails_closed(self):
+        h=self.call(full_frame(status='WAIT'));self.assertEqual(h.code,503)
+    def test_route_stale_upstream_fails_closed(self):
+        x=full_frame();x['brti_source_ts']=994.0
+        h=self.call(x);self.assertEqual(h.code,503)
+    def test_route_closed_contract_cannot_be_bypassed(self):
+        x=full_frame();x['orders']=True
+        h=self.call(x);self.assertEqual(h.code,503)
+    def test_route_uses_internal_information_path(self):
+        seen=[]
+        def fake(url,timeout): seen.append(url);return Response(json.dumps(full_frame()).encode())
+        h=Handler('/information/identity')
+        with patch.object(proxy,'urlopen',side_effect=fake),patch.object(proxy.time,'time',return_value=1000.0):
+            proxy.serve(h)
+        self.assertEqual(seen,['http://127.0.0.1:8767/information'])
+    def test_invalid_nonce_rejected(self):
+        h=self.call(full_frame(),nonce='bad');self.assertEqual(h.code,400)
+    def test_ordinary_information_remains_full_contract(self):
+        h=self.call(full_frame(),path='/information')
+        out=json.loads(h.body);self.assertEqual(set(out),set(proxy.FIELDS));self.assertEqual(out['ticker'],'KXBTC15M-TEST')
+
 if __name__=='__main__':unittest.main()
