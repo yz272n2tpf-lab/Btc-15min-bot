@@ -14,6 +14,7 @@ RATE_LOCK = threading.Lock()
 NEXT = 0.
 TOKENS = 20.
 MAX_BYTES = 16384
+IDENTITY_SCHEMA = 'BTC15_INFORMATION_IDENTITY_V1'
 ASSETS = {'/information/view.js':'btc15_information_view_v1.js',
           '/information/panel.js':'btc15_information_panel_v1.js'}
 
@@ -42,6 +43,22 @@ def closed(raw, now):
         value['brti_age_seconds'] = now-value['brti_source_ts']
     return json.dumps(value,allow_nan=False,separators=(',',':')).encode()
 
+
+def identity_projection(value, now):
+    if (not isinstance(value, dict) or set(value) != set(FIELDS)
+            or value.get('schema') != 'BTC15_INFORMATION_V1'
+            or value.get('authority') != 'INFORMATIONAL_READ_ONLY'
+            or value.get('status') != 'AVAILABLE'
+            or value.get('signal_only') is not True or value.get('orders') is not False):
+        raise ValueError('Identity source unavailable')
+    for key in ('native_epoch','anchor_id','ticker'):
+        if not isinstance(value.get(key), str) or not value[key]:
+            raise ValueError('Invalid identity')
+    checked = value.get('checked_ts')
+    if type(checked) not in (int,float) or not math.isfinite(checked) or not 0 <= now-checked <= 1.0:
+        raise ValueError('Identity lease expired')
+    return dict(schema=IDENTITY_SCHEMA,ticker=value['ticker'],native_epoch=value['native_epoch'],
+                anchor_id=value['anchor_id'],observed_ts=checked,signal_only=True,orders=False)
 
 def reply(handler, code, kind, body):
     nonce = handler.headers.get('X-BTC15-Information-Nonce', '') if hasattr(handler,'headers') else ''
