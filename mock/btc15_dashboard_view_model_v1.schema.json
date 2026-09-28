@@ -1,0 +1,17 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "title":"BTC15 Dashboard View Model V1",
+  "description":"UI-only contract. It never creates or upgrades strategy authority.",
+  "type":"object","additionalProperties":false,
+  "required":["authority","status","signal_only","orders","ticker","seconds_left","final","market","risk","entry","scalp","evidence"],
+  "properties":{
+    "authority":{"const":"UI_PRESENTATION_ONLY"},"status":{"enum":["AVAILABLE","DATA_STALE"]},
+    "signal_only":{"const":true},"orders":{"const":false},"ticker":{"type":["string","null"]},"seconds_left":{"type":["number","null"]},
+    "final":{"type":"object","required":["state","probability_up","probability_down","confidence","locked"],"properties":{"state":{"enum":["UP","DOWN","PASS"]},"probability_up":{"type":["number","null"]},"probability_down":{"type":["number","null"]},"confidence":{"enum":["STRONG","MEDIUM","WEAK","NONE"]},"locked":{"type":"boolean"}}},
+    "market":{"type":"object","required":["up_bid","up_ask","down_bid","down_ask","target","aligned"],"properties":{"up_bid":{"type":["number","null"]},"up_ask":{"type":["number","null"]},"down_bid":{"type":["number","null"]},"down_ask":{"type":["number","null"]},"target":{"type":["number","null"]},"aligned":{"type":"boolean"}}},
+    "risk":{"type":"object","required":["flip_risk_pct","phase","five_minute_caution","three_minute_guard"],"properties":{"flip_risk_pct":{"type":["number","null"]},"phase":{"enum":["NORMAL","5M_CAUTION","3M_GUARD","DATA_STALE"]},"five_minute_caution":{"type":"boolean"},"three_minute_guard":{"type":"boolean"}}},
+    "entry":{"type":"object","required":["state","target_max","ideal_min","ideal_max"],"properties":{"state":{"enum":["WAIT","IDEAL","GOOD","CAUTION","UNAVAILABLE"]},"target_max":{"const":0.5},"ideal_min":{"const":0.25},"ideal_max":{"const":0.35}}},
+    "scalp":{"type":"object","required":["state"],"properties":{"state":{"enum":["PASS","SCALP","REVERSAL","UNAVAILABLE"]},"side":{"type":["string","null"],"enum":["UP","DOWN",null]},"entry":{"type":["number","null"]},"exit":{"type":["number","null"]},"expected_minutes":{"type":["number","null"]}}},
+    "evidence":{"type":"object","required":["signal_strength","score"],"properties":{"signal_strength":{"enum":["STRONG","MEDIUM","WEAK","UNAVAILABLE"]},"score":{"type":["number","null"]}}}
+  }
+}
