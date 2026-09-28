@@ -13,6 +13,7 @@ checks=[
  ("INFO_SEAM",[sys.executable,"BTC15_RECOVERED_V11_INFORMATION_SEAM_V1.py","--self-test"]),
  ("FINAL_V2",[sys.executable,"BTC15_RECOVERED_V11_FINAL_PROBABILITY_V1.py","--self-test"]),
  ("FINAL_ADVERSARIAL",[sys.executable,"test_recovered_v11_final_probability_static_v1.py"]),
+ ("LIVE_HOST_STATIC",[sys.executable,"test_recovered_v11_live_host_static_v1.py"]),
 ]
 failed=[]
 for name,cmd in checks:
