@@ -101,9 +101,12 @@ def serve(handler):
             raw = response.read(MAX_BYTES+1)
         if len(raw)>MAX_BYTES: raise ValueError('Oversize output')
         now=time.time()
+        raw_value=json.loads(raw)
         body=closed(raw,now)
         if identity_request:
-            body=json.dumps(identity_projection(json.loads(body),now),allow_nan=False,separators=(',',':')).encode()
+            # closed() is the authoritative freshness/contract gate. Project identity
+            # from the canonical raw frame, not the transformed public response.
+            body=json.dumps(identity_projection(raw_value,now),allow_nan=False,separators=(',',':')).encode()
         status=200
     except Exception:
         status,body=503,b'{"status":"WAIT","error":"INFORMATION_UNAVAILABLE"}'
