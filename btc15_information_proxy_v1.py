@@ -14,6 +14,7 @@ RATE_LOCK = threading.Lock()
 NEXT = 0.
 TOKENS = 20.
 MAX_BYTES = 16384
+IDENTITY_SCHEMA = 'BTC15_INFORMATION_IDENTITY_V1'
 ASSETS = {'/information/view.js':'btc15_information_view_v1.js',
           '/information/panel.js':'btc15_information_panel_v1.js'}
 
@@ -43,6 +44,22 @@ def closed(raw, now):
     return json.dumps(value,allow_nan=False,separators=(',',':')).encode()
 
 
+def identity_projection(value, now):
+    if (not isinstance(value, dict) or set(value) != set(FIELDS)
+            or value.get('schema') != 'BTC15_INFORMATION_V1'
+            or value.get('authority') != 'INFORMATIONAL_READ_ONLY'
+            or value.get('status') != 'AVAILABLE'
+            or value.get('signal_only') is not True or value.get('orders') is not False):
+        raise ValueError('Identity source unavailable')
+    for key in ('native_epoch','anchor_id','ticker'):
+        if not isinstance(value.get(key), str) or not value[key]:
+            raise ValueError('Invalid identity')
+    checked = value.get('checked_ts')
+    if type(checked) not in (int,float) or not math.isfinite(checked) or not 0 <= now-checked <= 1.0:
+        raise ValueError('Identity lease expired')
+    return dict(schema=IDENTITY_SCHEMA,ticker=value['ticker'],native_epoch=value['native_epoch'],
+                anchor_id=value['anchor_id'],observed_ts=checked,signal_only=True,orders=False)
+
 def reply(handler, code, kind, body):
     nonce = handler.headers.get('X-BTC15-Information-Nonce', '') if hasattr(handler,'headers') else ''
     if not nonce:
@@ -67,7 +84,8 @@ def serve(handler):
         body = json.dumps(dict(schema='BTC15_INFORMATION_FIELD_CLASSES_V1',fields=FIELDS,
                                signal_only=True,orders=False)).encode()
         handler._send(200,'application/json',body); return True
-    if path != '/information' and not re.fullmatch('/information/frame/[0-9a-f]{64}',path):
+    identity_request = path == '/information/identity'
+    if path != '/information' and not identity_request and not re.fullmatch('/information/frame/[0-9a-f]{64}',path):
         handler._send(404,'application/json',b'{"error":"NOT_FOUND"}'); return True
     with RATE_LOCK:
         now = time.monotonic()
@@ -78,10 +96,15 @@ def serve(handler):
     if not allowed or not SLOTS.acquire(blocking=False):
         handler._send(429,'application/json',b'{"status":"WAIT","error":"INFORMATION_BUSY"}'); return True
     try:
-        with urlopen('http://127.0.0.1:8767'+path, timeout=.4) as response:
+        internal_path = '/information' if identity_request else path
+        with urlopen('http://127.0.0.1:8767'+internal_path, timeout=.4) as response:
             raw = response.read(MAX_BYTES+1)
         if len(raw)>MAX_BYTES: raise ValueError('Oversize output')
-        body=closed(raw,time.time()); status=200
+        now=time.time()
+        body=closed(raw,now)
+        if identity_request:
+            body=json.dumps(identity_projection(json.loads(body),now),allow_nan=False,separators=(',',':')).encode()
+        status=200
     except Exception:
         status,body=503,b'{"status":"WAIT","error":"INFORMATION_UNAVAILABLE"}'
     finally: SLOTS.release()
