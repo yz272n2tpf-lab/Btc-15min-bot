@@ -19,9 +19,9 @@ const captured=new WeakSet();
 const byId=id=>document.getElementById(id);
 function guardNode(){let n=byId('btc15QualifiedGuardState');if(n)return n;const f=byId('flipRisk');if(!f||!f.parentElement)return null;n=document.createElement('div');n.id='btc15QualifiedGuardState';n.dataset.authority='INFORMATIONAL_READ_ONLY';n.style.cssText='font-size:11px;margin-top:6px;font-weight:900;letter-spacing:.04em';f.parentElement.appendChild(n);return n;}
 function infoFreshnessNode(){let n=byId('btc15QualifiedBrtiFreshness');if(n)return n;const f=byId('flipRisk');if(!f||!f.parentElement)return null;n=document.createElement('div');n.id='btc15QualifiedBrtiFreshness';n.dataset.authority='INFORMATIONAL_READ_ONLY';n.style.cssText='font-size:10px;margin-top:6px;opacity:.82;letter-spacing:.02em';f.parentElement.appendChild(n);return n;}
-function clearInfo(){
+function rejectReason(t,now){\n  if(!t||!captured.has(t))return 'INFO_MISSING';\n  const p=t.payload,ident=identityView(now);\n  if(!ident)return 'IDENTITY_ENVELOPE';\n  if(!p)return 'INFO_MISSING';\n  if(p.ticker!==ident.contract)return 'TICKER_MISMATCH';\n  if(p.schema!=='BTC15_INFORMATION_V1'||p.authority!=='INFORMATIONAL_READ_ONLY'||p.signal_only!==true||p.orders!==false)return 'INFO_ENVELOPE';\n  if(p.status!=='AVAILABLE')return 'INFO_STATUS';\n  if(!Number.isFinite(p.checked_ts)||!Number.isFinite(p.display_until)||!Number.isFinite(p.expires_at)||!Number.isFinite(p.brti_source_ts))return 'INFO_TIMESTAMPS';\n  const nowS=p.checked_ts+(now-t.started)/1000;\n  if(nowS<p.checked_ts||nowS>=p.display_until||nowS>=p.expires_at)return 'INFO_EXPIRED';\n  if(nowS-p.brti_source_ts>5)return 'BRTI_STALE';\n  return 'UNKNOWN';\n}\nfunction clearInfo(reason='DATA_NOT_FRESH'){
   const f=byId('flipRisk'); if(f){f.textContent='—';f.dataset.info='unavailable';}
-  const g=guardNode();if(g){g.textContent='GUARD STATE · DATA NOT FRESH';g.dataset.phase='DATA_STALE';}
+  const g=guardNode();if(g){g.textContent='GUARD STATE · '+reason;g.dataset.phase='DATA_STALE';}
   const q=infoFreshnessNode();if(q){q.textContent='Qualified BRTI: unavailable · waiting for ≤5s frame';q.dataset.fresh='false';}
   document.documentElement.dataset.btc15InfoPhase='DATA_STALE';
 }
@@ -46,7 +46,7 @@ function view(t,now){
   return p;
 }
 function render(){
-  const p=view(token,performance.now()); if(!p){clearInfo();return;}
+  const now=performance.now(),p=view(token,now); if(!p){clearInfo(rejectReason(token,now));return;}
   // Never write FINAL/EARLY/SCALP action labels. Informational decoration only.
   const f=byId('flipRisk');
   if(f&&Number.isFinite(p.flip_risk_pct)){f.textContent=Number(p.flip_risk_pct).toFixed(1)+'%';f.dataset.info='informational';}
