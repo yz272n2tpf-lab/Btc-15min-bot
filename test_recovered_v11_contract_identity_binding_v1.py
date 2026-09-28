@@ -14,15 +14,17 @@ for node in tree.body:
 assert isinstance(script, str)
 
 required = (
-    "BTC15_COMBINED_STATE_BRIDGE_V6",
-    "manual_execution_only!==true",
+    "BTC15_INFORMATION_IDENTITY_V1",
+    "payload.signal_only!==true",
     "payload.orders!==false",
-    "payload.order_action!==null",
-    "scalp_display_contract_match!==true",
-    "typeof payload.contract!=='string'",
+    "typeof payload.ticker!=='string'",
+    "typeof payload.native_epoch!=='string'",
+    "typeof payload.anchor_id!=='string'",
+    "!Number.isFinite(payload.observed_ts)",
     "p.ticker!==ident.contract",
-    "now-i.received<=3500",
-    "fetch('/combined-state'",
+    "now-i.received<=1500",
+    "fetch('/information/identity'",
+    "X-BTC15-Information-Nonce",
     "identityToken=null",
     "pollIdentity();poll();",
 )
@@ -35,8 +37,9 @@ for forbidden in (
 ):
     assert forbidden not in script, forbidden
 
-assert script.count("fetch('/combined-state'") == 1
+assert script.count("fetch('/information/identity'") == 1
+assert "fetch('/combined-state'" not in script
 assert "document.hidden" in script
 assert "addEventListener('offline',invalidate)" in script
 assert "visibilitychange" in script
-print("RECOVERED V11 CONTRACT IDENTITY BINDING PASS | STRUCTURED SAME-TICKER | 3.5S LEASE | FAIL-CLOSED | NO ORDERS")
+print("RECOVERED V11 CONTRACT IDENTITY BINDING PASS | NATIVE SAME-TICKER | 1.5S LEASE | NONCE BOUND | FAIL-CLOSED | NO ORDERS")
