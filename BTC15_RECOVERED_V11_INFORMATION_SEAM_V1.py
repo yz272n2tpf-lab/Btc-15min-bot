@@ -17,8 +17,10 @@ SCRIPT=r'''<script id="btc15-recovered-information-seam-v1">
 let token=null,busy=false,generation=0;
 const captured=new WeakSet();
 const byId=id=>document.getElementById(id);
+function infoFreshnessNode(){let n=byId('btc15QualifiedBrtiFreshness');if(n)return n;const f=byId('flipRisk');if(!f||!f.parentElement)return null;n=document.createElement('div');n.id='btc15QualifiedBrtiFreshness';n.dataset.authority='INFORMATIONAL_READ_ONLY';n.style.cssText='font-size:10px;margin-top:6px;opacity:.82;letter-spacing:.02em';f.parentElement.appendChild(n);return n;}
 function clearInfo(){
   const f=byId('flipRisk'); if(f){f.textContent='—';f.dataset.info='unavailable';}
+  const q=infoFreshnessNode();if(q){q.textContent='Qualified BRTI: unavailable';q.dataset.fresh='false';}
   document.documentElement.dataset.btc15InfoPhase='DATA_STALE';
 }
 function capture(payload,started,received){
@@ -41,6 +43,7 @@ function render(){
   // Never write FINAL/EARLY/SCALP action labels. Informational decoration only.
   const f=byId('flipRisk');
   if(f&&Number.isFinite(p.flip_risk_pct)){f.textContent=Number(p.flip_risk_pct).toFixed(1)+'%';f.dataset.info='informational';}
+  const q=infoFreshnessNode(),age=Number(p.brti_age_seconds);if(q&&Number.isFinite(age)&&age>=0&&age<=5){q.textContent='Qualified BRTI: fresh · '+age.toFixed(1)+'s';q.dataset.fresh='true';}
   const phase=p.three_minute_guard===true?'3M_GUARD':p.five_minute_caution===true?'5M_CAUTION':'NORMAL';
   document.documentElement.dataset.btc15InfoPhase=phase;
 }
@@ -87,8 +90,11 @@ def main():
         assert "addEventListener('offline',invalidate)" in t
         assert "document.addEventListener('visibilitychange'" in t
         assert "byId('flipRisk')" in t
+        assert "btc15QualifiedBrtiFreshness" in t and "Qualified BRTI: fresh" in t
+        assert "p.brti_age_seconds" in t
         # No action-card mutation in this seam.
         assert "finalAction" not in SCRIPT and "earlyAction" not in SCRIPT and "combinedScalpClean" not in SCRIPT
+        for forbidden in ("brtiAge","brtiStatus","btcPrice","brtiPrice","targetPrice","dashboard_state.json"): assert forbidden not in SCRIPT
         assert 'SIGNAL ONLY · MANUAL EXECUTION · NO ORDERS' in t
         print('RECOVERED V11 INFORMATION SEAM V1 SELFTEST PASS | STALE FAIL-CLOSED | ACTION CARDS UNTOUCHED | NO ORDERS')
     return 0
