@@ -107,7 +107,11 @@ def check_anchor(a):
     b = a['btc']
     if not 0 < number(b['value']) or not number(b['source']) <= number(b['received']) <= a['decision']:
         raise Unavailable('ANCHOR_BTC')
-    if not isinstance(a['completed'], list) or not 1 <= len(a['completed']) <= 32:
+    # The native historical cache is startup-only. Once its candles precede
+    # this contract's window, the frozen builder uses observed rolling ticks.
+    # An empty cache slice is truthful; feature support is still checked by
+    # that same builder, with every tick's original source/receipt clocks.
+    if not isinstance(a['completed'], list) or not 0 <= len(a['completed']) <= 32:
         raise Unavailable('COMPLETED_BOUND')
     previous = -math.inf
     for row in a['completed']:

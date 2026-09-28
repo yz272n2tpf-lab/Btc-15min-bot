@@ -94,9 +94,21 @@ class HealthMirror:
 
 def step(publisher, ingress, clock=time.time):
     try:
-        return publisher.offer(ingress.capture(), ingress.health, clock)
+        raw = ingress.capture()
     except Exception:
-        publisher.unavailable('INGRESS_UNAVAILABLE')
+        publisher.unavailable('INPUT_UNAVAILABLE')
+        return False
+    def health_reader():
+        try:
+            return ingress.health()
+        except Exception:
+            # Mark the failing boundary before the publisher's own fail-closed
+            # validation catches Unavailable. Never expose exception details.
+            raise Unavailable('HEALTH_UNAVAILABLE') from None
+    try:
+        return publisher.offer(raw, health_reader, clock)
+    except Exception:
+        publisher.unavailable('PUBLISH_UNAVAILABLE')
         return False
 
 
@@ -112,9 +124,13 @@ def response(publisher, ingress, path, clock=time.time):
         frame_id = match[1]
     try:
         health = ingress.health()
-        result = publisher.read(health, clock(), frame_id)
     except Exception:
-        result = wait_view(clock(), 'INGRESS_UNAVAILABLE')
+        result = wait_view(clock(), 'HEALTH_UNAVAILABLE')
+    else:
+        try:
+            result = publisher.read(health, clock(), frame_id)
+        except Exception:
+            result = wait_view(clock(), 'READ_UNAVAILABLE')
     return 200, pack(result)
 
 
