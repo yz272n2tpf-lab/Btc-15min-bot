@@ -73,6 +73,10 @@ def full_frame(now=1000.0,status='AVAILABLE'):
     x.update(schema='BTC15_INFORMATION_V1',authority='INFORMATIONAL_READ_ONLY',status=status,reason=None,
              signal_only=True,orders=False,checked_ts=now,native_epoch='epoch-a',anchor_id='a'*64,
              ticker='KXBTC15M-TEST',expires_at=now+2,display_until=now+2,brti_source_ts=now-.2)
+    if status=='WAIT':
+        return x
+    # closed() only imposes clock/authority constraints on AVAILABLE; remaining
+    # informational fields may be inert test values while preserving exact schema.
     return x
 
 class IdentityRouteTests(unittest.TestCase):
