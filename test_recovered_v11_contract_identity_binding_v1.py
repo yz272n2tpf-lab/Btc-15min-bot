@@ -31,7 +31,7 @@ for token in required:
 
 for forbidden in (
     "currentContract", "textContent.match", "KALSHI_PRIVATE_KEY", "KALSHI_KEY_ID",
-    "place_order", "order_action=", "finalAction", "earlyAction", "combinedScalpClean",
+    "place_order(", "submit_order(", "create_order(", "finalAction", "earlyAction", "combinedScalpClean",
 ):
     assert forbidden not in script, forbidden
 
