@@ -1,0 +1,882 @@
+{
+  "window": {
+    "start": "2026-09-24T00:15:00+00:00",
+    "end": "2026-09-24T01:45:00+00:00"
+  },
+  "qualification_basis": "response_received; sampled API observations, not browser delivery",
+  "counts": {
+    "main_requests": 5399,
+    "main_outside_source_window": 11,
+    "owner_requests": 5399,
+    "v81_requests": 5399,
+    "scalp_requests": 5399
+  },
+  "owner_by_epoch": {
+    "37a1202f25614f39ae20a05ac8281966": {
+      "samples": 5399,
+      "qualified_samples": 5388,
+      "source_age_seconds": {
+        "n": 5399,
+        "mean": 1.9302472069784986,
+        "median": 1.936772108078003,
+        "min": 0.24271702766418457,
+        "p95": 3.1064131259918213,
+        "max": 13.180935382843018
+      },
+      "observed_counter_deltas": {
+        "upstream_attempts": 2367,
+        "upstream_ok": 2361,
+        "http_429": 0,
+        "upstream_errors": 5
+      },
+      "first_counter_values": {
+        "upstream_attempts": 18559,
+        "upstream_ok": 18558,
+        "http_429": 0
+      },
+      "last_counter_values": {
+        "upstream_attempts": 20926,
+        "upstream_ok": 20919,
+        "http_429": 0
+      }
+    }
+  },
+  "main": {
+    "samples": 5388,
+    "usable_frame_samples": 4942,
+    "brti_fresh_samples": 2515,
+    "source_age_seconds": {
+      "n": 5388,
+      "mean": 4.250745747587231,
+      "median": 2.844354,
+      "min": 0.134465,
+      "p95": 6.066126,
+      "max": 75.831497
+    },
+    "effective_brti_age_seconds": {
+      "n": 5388,
+      "mean": 6.529229186008252,
+      "median": 5.132064662239074,
+      "min": 1.3062522497558593,
+      "p95": 9.201364139755249,
+      "max": 79.12748341395569
+    },
+    "sampling_gap_seconds": {
+      "n": 5387,
+      "mean": 1.0001787297196956,
+      "median": 1.000049,
+      "min": 0.533017,
+      "p95": 1.013063,
+      "max": 1.466236
+    },
+    "signal_only_all": true
+  },
+  "lanes": {
+    "early": {
+      "official_universe_n": 6,
+      "raw_ready_contracts": 0,
+      "ui_eligible_contracts": 0,
+      "strict_qualified_contracts": 0,
+      "strict_coverage": 0.0,
+      "labeled_calls": 0,
+      "correct": 0,
+      "accuracy": null,
+      "descriptive_wilson_95_not_serial_adjusted": null,
+      "entry_ask": {
+        "n": 0
+      },
+      "entry_le_50c": 0,
+      "entry_25_to_35c": 0,
+      "minutes_remaining": {
+        "n": 0
+      },
+      "brier_mean": null,
+      "calls": [],
+      "confidence_bins": [
+        {
+          "lower": 0.0,
+          "upper": 0.5,
+          "n": 0,
+          "correct": 0
+        },
+        {
+          "lower": 0.5,
+          "upper": 0.7,
+          "n": 0,
+          "correct": 0
+        },
+        {
+          "lower": 0.7,
+          "upper": 0.8,
+          "n": 0,
+          "correct": 0
+        },
+        {
+          "lower": 0.8,
+          "upper": 0.9,
+          "n": 0,
+          "correct": 0
+        },
+        {
+          "lower": 0.9,
+          "upper": 0.95,
+          "n": 0,
+          "correct": 0
+        },
+        {
+          "lower": 0.95,
+          "upper": 1.00000001,
+          "n": 0,
+          "correct": 0
+        }
+      ]
+    },
+    "final": {
+      "official_universe_n": 6,
+      "raw_ready_contracts": 0,
+      "ui_eligible_contracts": 0,
+      "strict_qualified_contracts": 0,
+      "strict_coverage": 0.0,
+      "labeled_calls": 0,
+      "correct": 0,
+      "accuracy": null,
+      "descriptive_wilson_95_not_serial_adjusted": null,
+      "entry_ask": {
+        "n": 0
+      },
+      "entry_le_50c": 0,
+      "entry_25_to_35c": 0,
+      "minutes_remaining": {
+        "n": 0
+      },
+      "brier_mean": null,
+      "calls": [],
+      "confidence_bins": [
+        {
+          "lower": 0.0,
+          "upper": 0.5,
+          "n": 0,
+          "correct": 0
+        },
+        {
+          "lower": 0.5,
+          "upper": 0.7,
+          "n": 0,
+          "correct": 0
+        },
+        {
+          "lower": 0.7,
+          "upper": 0.8,
+          "n": 0,
+          "correct": 0
+        },
+        {
+          "lower": 0.8,
+          "upper": 0.9,
+          "n": 0,
+          "correct": 0
+        },
+        {
+          "lower": 0.9,
+          "upper": 0.95,
+          "n": 0,
+          "correct": 0
+        },
+        {
+          "lower": 0.95,
+          "upper": 1.00000001,
+          "n": 0,
+          "correct": 0
+        }
+      ]
+    },
+    "scalp": {
+      "official_universe_n": 6,
+      "raw_ready_contracts": 4,
+      "ui_eligible_contracts": 4,
+      "strict_qualified_contracts": 4,
+      "strict_coverage": 0.6666666666666666,
+      "labeled_calls": 4,
+      "correct": 2,
+      "accuracy": 0.5,
+      "descriptive_wilson_95_not_serial_adjusted": [
+        0.15003898915214947,
+        0.8499610108478506
+      ],
+      "entry_ask": {
+        "n": 4,
+        "mean": 0.6875,
+        "median": 0.695,
+        "min": 0.66,
+        "p95": 0.7,
+        "max": 0.7
+      },
+      "entry_le_50c": 0,
+      "entry_25_to_35c": 0,
+      "minutes_remaining": {
+        "n": 4,
+        "mean": 8.552735225,
+        "median": 9.108914825,
+        "min": 6.3286867,
+        "p95": 9.66442455,
+        "max": 9.66442455
+      },
+      "brier_mean": 0.3537825478448038,
+      "calls": [
+        {
+          "contract": "KXBTC15M-26SEP232100-00",
+          "side": "DOWN",
+          "observed_utc": "2026-09-24T00:50:42.904826+00:00",
+          "source_timestamp_utc": "2026-09-24T00:50:42.144387+00:00",
+          "entry_ask": 0.69,
+          "minutes_remaining": 9.284919566666668,
+          "confidence": 0.6908639948344797,
+          "official_result": "no",
+          "cached_main_bid_path_unqualified_for_execution": {
+            "sample_count": 300,
+            "horizon_end_utc": "2026-09-24T00:55:42.904826+00:00",
+            "observed_mfe": 0.268,
+            "observed_mae": -0.009999999999999898,
+            "last_sample_utc": "2026-09-24T00:55:41.949700+00:00",
+            "max_observed_gap_seconds": 1.04635,
+            "complete_path": false,
+            "realized_profit": false
+          },
+          "sampled_bid_path": {
+            "sample_count": 212,
+            "observed_mfe": 0.268,
+            "observed_mae": -0.019999999999999907,
+            "first_quote_utc": "2026-09-24T00:50:43.461902+00:00",
+            "max_observed_gap_seconds": 4.229721,
+            "horizon_end_utc": "2026-09-24T00:55:42.904826+00:00",
+            "complete_path": false,
+            "realized_profit": false,
+            "source": "Independent timestamped clean collector, BRTI <=5s",
+            "entry_ask_confirmed_at_first_quote": true,
+            "entry_to_first_quote_seconds": 0.557076,
+            "entry_and_exit_fill_not_proven": true
+          }
+        },
+        {
+          "contract": "KXBTC15M-26SEP232115-15",
+          "side": "DOWN",
+          "observed_utc": "2026-09-24T01:06:04.025395+00:00",
+          "source_timestamp_utc": "2026-09-24T01:06:03.055843+00:00",
+          "entry_ask": 0.7,
+          "minutes_remaining": 8.932910083333333,
+          "confidence": 0.7270367140245042,
+          "official_result": "no",
+          "cached_main_bid_path_unqualified_for_execution": {
+            "sample_count": 285,
+            "horizon_end_utc": "2026-09-24T01:11:04.025395+00:00",
+            "observed_mfe": 0.13,
+            "observed_mae": -0.27999999999999997,
+            "last_sample_utc": "2026-09-24T01:11:03.060137+00:00",
+            "max_observed_gap_seconds": 16.008414,
+            "complete_path": false,
+            "realized_profit": false
+          },
+          "sampled_bid_path": {
+            "sample_count": 216,
+            "observed_mfe": 0.14,
+            "observed_mae": -0.29,
+            "first_quote_utc": "2026-09-24T01:06:04.563888+00:00",
+            "max_observed_gap_seconds": 16.038877,
+            "horizon_end_utc": "2026-09-24T01:11:04.025395+00:00",
+            "complete_path": false,
+            "realized_profit": false,
+            "source": "Independent timestamped clean collector, BRTI <=5s",
+            "entry_ask_confirmed_at_first_quote": true,
+            "entry_to_first_quote_seconds": 0.538493,
+            "entry_and_exit_fill_not_proven": true
+          }
+        },
+        {
+          "contract": "KXBTC15M-26SEP232130-30",
+          "side": "UP",
+          "observed_utc": "2026-09-24T01:20:20.134527+00:00",
+          "source_timestamp_utc": "2026-09-24T01:20:19.330401+00:00",
+          "entry_ask": 0.66,
+          "minutes_remaining": 9.66442455,
+          "confidence": 0.7208588901481864,
+          "official_result": "no",
+          "cached_main_bid_path_unqualified_for_execution": {
+            "sample_count": 285,
+            "horizon_end_utc": "2026-09-24T01:25:20.134527+00:00",
+            "observed_mfe": 0.07999999999999996,
+            "observed_mae": -0.36000000000000004,
+            "last_sample_utc": "2026-09-24T01:25:19.169712+00:00",
+            "max_observed_gap_seconds": 16.003041,
+            "complete_path": false,
+            "realized_profit": false
+          },
+          "sampled_bid_path": {
+            "sample_count": 219,
+            "observed_mfe": 0.07999999999999996,
+            "observed_mae": -0.37000000000000005,
+            "first_quote_utc": "2026-09-24T01:20:20.608064+00:00",
+            "max_observed_gap_seconds": 16.021839,
+            "horizon_end_utc": "2026-09-24T01:25:20.134527+00:00",
+            "complete_path": false,
+            "realized_profit": false,
+            "source": "Independent timestamped clean collector, BRTI <=5s",
+            "entry_ask_confirmed_at_first_quote": true,
+            "entry_to_first_quote_seconds": 0.473537,
+            "entry_and_exit_fill_not_proven": true
+          }
+        },
+        {
+          "contract": "KXBTC15M-26SEP232145-45",
+          "side": "UP",
+          "observed_utc": "2026-09-24T01:38:40.278798+00:00",
+          "source_timestamp_utc": "2026-09-24T01:38:39.630973+00:00",
+          "entry_ask": 0.7,
+          "minutes_remaining": 6.3286867,
+          "confidence": 0.8517151088793149,
+          "official_result": "no",
+          "cached_main_bid_path_unqualified_for_execution": {
+            "sample_count": 285,
+            "horizon_end_utc": "2026-09-24T01:43:40.278798+00:00",
+            "observed_mfe": -0.019999999999999907,
+            "observed_mae": -0.695,
+            "last_sample_utc": "2026-09-24T01:43:39.359543+00:00",
+            "max_observed_gap_seconds": 16.040032,
+            "complete_path": false,
+            "realized_profit": false
+          },
+          "sampled_bid_path": {
+            "sample_count": 189,
+            "observed_mfe": -0.019999999999999907,
+            "observed_mae": -0.697,
+            "first_quote_utc": "2026-09-24T01:38:40.764654+00:00",
+            "max_observed_gap_seconds": 19.030401,
+            "horizon_end_utc": "2026-09-24T01:43:40.278798+00:00",
+            "complete_path": false,
+            "realized_profit": false,
+            "source": "Independent timestamped clean collector, BRTI <=5s",
+            "entry_ask_confirmed_at_first_quote": true,
+            "entry_to_first_quote_seconds": 0.485856,
+            "entry_and_exit_fill_not_proven": true
+          }
+        }
+      ],
+      "confidence_bins": [
+        {
+          "lower": 0.0,
+          "upper": 0.5,
+          "n": 0,
+          "correct": 0
+        },
+        {
+          "lower": 0.5,
+          "upper": 0.7,
+          "n": 1,
+          "correct": 1
+        },
+        {
+          "lower": 0.7,
+          "upper": 0.8,
+          "n": 2,
+          "correct": 1
+        },
+        {
+          "lower": 0.8,
+          "upper": 0.9,
+          "n": 1,
+          "correct": 0
+        },
+        {
+          "lower": 0.9,
+          "upper": 0.95,
+          "n": 0,
+          "correct": 0
+        },
+        {
+          "lower": 0.95,
+          "upper": 1.00000001,
+          "n": 0,
+          "correct": 0
+        }
+      ]
+    }
+  },
+  "overlap_counts": {
+    "NONE": 2,
+    "scalp": 4
+  },
+  "scheduled_universe": {
+    "slots": 6,
+    "missing_official_slots": [],
+    "scheduled_coverage": {
+      "early": 0.0,
+      "final": 0.0,
+      "scalp": 0.6666666666666666
+    }
+  },
+  "v81": {
+    "sampled_active_frames": 0,
+    "last_signal_events": [],
+    "qualification": "descriptive feed events; actual main-overlay delivery not verified"
+  },
+  "serial_research": {
+    "sampled_states": {
+      "PASS": 2689,
+      "ACTIVE": 197,
+      "PROTECT": 2513
+    },
+    "sampled_exit_frames": 0
+  },
+  "certified_performance": false,
+  "limits": [
+    "Developmental infrastructure window; not untouched holdout.",
+    "Incomplete HTTP sampling may miss brief signals and excursions.",
+    "Missing official contracts are not a valid complete denominator.",
+    "Core SCALP is distinct from V8.1 and generalized serial research.",
+    "No actual browser delivery, manual trades or net profits verified."
+  ],
+  "universe_registry": [
+    {
+      "open_utc": "2026-09-24T00:15:00+00:00",
+      "close_utc": "2026-09-24T00:30:00+00:00",
+      "ticker": "KXBTC15M-26SEP232030-30",
+      "official_identified": true,
+      "observed": true,
+      "role": "development_tuning",
+      "retained_in_scheduled_denominator": true
+    },
+    {
+      "open_utc": "2026-09-24T00:30:00+00:00",
+      "close_utc": "2026-09-24T00:45:00+00:00",
+      "ticker": "KXBTC15M-26SEP232045-45",
+      "official_identified": true,
+      "observed": true,
+      "role": "development_tuning",
+      "retained_in_scheduled_denominator": true
+    },
+    {
+      "open_utc": "2026-09-24T00:45:00+00:00",
+      "close_utc": "2026-09-24T01:00:00+00:00",
+      "ticker": "KXBTC15M-26SEP232100-00",
+      "official_identified": true,
+      "observed": true,
+      "role": "development_tuning",
+      "retained_in_scheduled_denominator": true
+    },
+    {
+      "open_utc": "2026-09-24T01:00:00+00:00",
+      "close_utc": "2026-09-24T01:15:00+00:00",
+      "ticker": "KXBTC15M-26SEP232115-15",
+      "official_identified": true,
+      "observed": true,
+      "role": "development_tuning",
+      "retained_in_scheduled_denominator": true
+    },
+    {
+      "open_utc": "2026-09-24T01:15:00+00:00",
+      "close_utc": "2026-09-24T01:30:00+00:00",
+      "ticker": "KXBTC15M-26SEP232130-30",
+      "official_identified": true,
+      "observed": true,
+      "role": "development_tuning",
+      "retained_in_scheduled_denominator": true
+    },
+    {
+      "open_utc": "2026-09-24T01:30:00+00:00",
+      "close_utc": "2026-09-24T01:45:00+00:00",
+      "ticker": "KXBTC15M-26SEP232145-45",
+      "official_identified": true,
+      "observed": true,
+      "role": "development_tuning",
+      "retained_in_scheduled_denominator": true
+    }
+  ],
+  "services": {
+    "main": {
+      "samples": 5399,
+      "first_request": "2026-09-24T00:15:00.362029+00:00",
+      "last_request": "2026-09-24T01:44:59.333713+00:00",
+      "request_gap_seconds": {
+        "n": 5398,
+        "mean": 1.0001800081511671,
+        "median": 1.000108,
+        "min": 0.987125,
+        "p95": 1.000297,
+        "max": 1.201638
+      },
+      "http_failures": 0,
+      "missing_state": 0,
+      "gaps_over_1_5s": []
+    },
+    "owner": {
+      "samples": 5399,
+      "first_request": "2026-09-24T00:15:00.362251+00:00",
+      "last_request": "2026-09-24T01:44:59.333933+00:00",
+      "request_gap_seconds": {
+        "n": 5398,
+        "mean": 1.0001800077806595,
+        "median": 1.000111,
+        "min": 0.983621,
+        "p95": 1.001092,
+        "max": 1.202462
+      },
+      "http_failures": 0,
+      "missing_state": 0,
+      "gaps_over_1_5s": []
+    },
+    "v81": {
+      "samples": 5399,
+      "first_request": "2026-09-24T00:15:00.364533+00:00",
+      "last_request": "2026-09-24T01:44:59.335942+00:00",
+      "request_gap_seconds": {
+        "n": 5398,
+        "mean": 1.0001799572063728,
+        "median": 1.000116,
+        "min": 0.983979,
+        "p95": 1.001334,
+        "max": 1.200773
+      },
+      "http_failures": 0,
+      "missing_state": 0,
+      "gaps_over_1_5s": []
+    },
+    "scalp": {
+      "samples": 5399,
+      "first_request": "2026-09-24T00:15:00.365379+00:00",
+      "last_request": "2026-09-24T01:44:59.336354+00:00",
+      "request_gap_seconds": {
+        "n": 5398,
+        "mean": 1.0001798768062244,
+        "median": 1.000104,
+        "min": 0.983709,
+        "p95": 1.001615,
+        "max": 1.200087
+      },
+      "http_failures": 0,
+      "missing_state": 0,
+      "gaps_over_1_5s": []
+    }
+  },
+  "contract_evidence": [
+    {
+      "ticker": "KXBTC15M-26SEP232030-30",
+      "open_utc": "2026-09-24T00:15:00Z",
+      "close_utc": "2026-09-24T00:30:00Z",
+      "official_target": 84345.33,
+      "observed_targets": [
+        84345.33
+      ],
+      "target_matches": true,
+      "observations": 900,
+      "exact_ticker_observations": 889,
+      "qualified_samples": 459,
+      "first_qualified_seconds": 27.434056,
+      "qualified_final60_samples": 34,
+      "clean_input_samples": 439,
+      "clean_target_mismatches": 0,
+      "clean_input_max_gap_seconds": 19.029001,
+      "clean_source_violations": 0,
+      "official_result": "no",
+      "expiration_value": "84341.96"
+    },
+    {
+      "ticker": "KXBTC15M-26SEP232045-45",
+      "open_utc": "2026-09-24T00:30:00Z",
+      "close_utc": "2026-09-24T00:45:00Z",
+      "official_target": 84341.96,
+      "observed_targets": [
+        84341.96
+      ],
+      "target_matches": true,
+      "observations": 900,
+      "exact_ticker_observations": 858,
+      "qualified_samples": 468,
+      "first_qualified_seconds": 48.756619,
+      "qualified_final60_samples": 34,
+      "clean_input_samples": 576,
+      "clean_target_mismatches": 0,
+      "clean_input_max_gap_seconds": 18.027119,
+      "clean_source_violations": 0,
+      "official_result": "yes",
+      "expiration_value": "84342.32"
+    },
+    {
+      "ticker": "KXBTC15M-26SEP232100-00",
+      "open_utc": "2026-09-24T00:45:00Z",
+      "close_utc": "2026-09-24T01:00:00Z",
+      "official_target": 84342.32,
+      "observed_targets": [
+        84342.32
+      ],
+      "target_matches": true,
+      "observations": 900,
+      "exact_ticker_observations": 883,
+      "qualified_samples": 469,
+      "first_qualified_seconds": 27.869206,
+      "qualified_final60_samples": 19,
+      "clean_input_samples": 579,
+      "clean_target_mismatches": 0,
+      "clean_input_max_gap_seconds": 19.029587,
+      "clean_source_violations": 0,
+      "official_result": "no",
+      "expiration_value": "84310.98"
+    },
+    {
+      "ticker": "KXBTC15M-26SEP232115-15",
+      "open_utc": "2026-09-24T01:00:00Z",
+      "close_utc": "2026-09-24T01:15:00Z",
+      "official_target": 84310.98,
+      "observed_targets": [
+        84310.98
+      ],
+      "target_matches": true,
+      "observations": 899,
+      "exact_ticker_observations": 861,
+      "qualified_samples": 303,
+      "first_qualified_seconds": 53.987419,
+      "qualified_final60_samples": 3,
+      "clean_input_samples": 584,
+      "clean_target_mismatches": 0,
+      "clean_input_max_gap_seconds": 24.027729,
+      "clean_source_violations": 0,
+      "official_result": "no",
+      "expiration_value": "84266.56"
+    },
+    {
+      "ticker": "KXBTC15M-26SEP232130-30",
+      "open_utc": "2026-09-24T01:15:00Z",
+      "close_utc": "2026-09-24T01:30:00Z",
+      "official_target": 84266.56,
+      "observed_targets": [
+        84266.56
+      ],
+      "target_matches": true,
+      "observations": 900,
+      "exact_ticker_observations": 860,
+      "qualified_samples": 356,
+      "first_qualified_seconds": 45.099731,
+      "qualified_final60_samples": 18,
+      "clean_input_samples": 630,
+      "clean_target_mismatches": 0,
+      "clean_input_max_gap_seconds": 23.0238,
+      "clean_source_violations": 0,
+      "official_result": "no",
+      "expiration_value": "84263.40"
+    },
+    {
+      "ticker": "KXBTC15M-26SEP232145-45",
+      "open_utc": "2026-09-24T01:30:00Z",
+      "close_utc": "2026-09-24T01:45:00Z",
+      "official_target": 84263.4,
+      "observed_targets": [
+        84263.4
+      ],
+      "target_matches": true,
+      "observations": 900,
+      "exact_ticker_observations": 885,
+      "qualified_samples": 366,
+      "first_qualified_seconds": 20.208879,
+      "qualified_final60_samples": 0,
+      "clean_input_samples": 486,
+      "clean_target_mismatches": 0,
+      "clean_input_max_gap_seconds": 19.030401,
+      "clean_source_violations": 0,
+      "official_result": "no",
+      "expiration_value": "84156.90"
+    }
+  ],
+  "owner_status_samples": {
+    "PRIMARY_OK": 5388,
+    "PRIMARY_ERROR": 11
+  },
+  "owner_transitions": [
+    {
+      "observed_utc": "2026-09-24T00:15:00.382323+00:00",
+      "status": "PRIMARY_OK",
+      "clean": true,
+      "source_ts_ms": 1790208898000,
+      "source_age_ms": 2371.135473251343,
+      "upstream_errors": 1,
+      "error_type": null,
+      "error_text": null,
+      "http_429": 0
+    },
+    {
+      "observed_utc": "2026-09-24T01:29:12.188915+00:00",
+      "status": "PRIMARY_ERROR",
+      "clean": false,
+      "source_ts_ms": 1790213349000,
+      "source_age_ms": 3185.779094696045,
+      "upstream_errors": 2,
+      "error_type": "http",
+      "error_text": "HTTPError",
+      "http_429": 0
+    },
+    {
+      "observed_utc": "2026-09-24T01:29:15.183120+00:00",
+      "status": "PRIMARY_ERROR",
+      "clean": false,
+      "source_ts_ms": 1790213349000,
+      "source_age_ms": 6180.169105529785,
+      "upstream_errors": 3,
+      "error_type": "http",
+      "error_text": "HTTPError",
+      "http_429": 0
+    },
+    {
+      "observed_utc": "2026-09-24T01:29:17.183536+00:00",
+      "status": "PRIMARY_ERROR",
+      "clean": false,
+      "source_ts_ms": 1790213349000,
+      "source_age_ms": 8180.620193481445,
+      "upstream_errors": 4,
+      "error_type": "http",
+      "error_text": "HTTPError",
+      "http_429": 0
+    },
+    {
+      "observed_utc": "2026-09-24T01:29:19.183618+00:00",
+      "status": "PRIMARY_ERROR",
+      "clean": false,
+      "source_ts_ms": 1790213349000,
+      "source_age_ms": 10179.803848266602,
+      "upstream_errors": 5,
+      "error_type": "http",
+      "error_text": "HTTPError",
+      "http_429": 0
+    },
+    {
+      "observed_utc": "2026-09-24T01:29:21.185782+00:00",
+      "status": "PRIMARY_ERROR",
+      "clean": false,
+      "source_ts_ms": 1790213349000,
+      "source_age_ms": 12182.645082473755,
+      "upstream_errors": 6,
+      "error_type": "http",
+      "error_text": "HTTPError",
+      "http_429": 0
+    },
+    {
+      "observed_utc": "2026-09-24T01:29:23.199047+00:00",
+      "status": "PRIMARY_OK",
+      "clean": true,
+      "source_ts_ms": 1790213362000,
+      "source_age_ms": 1195.5492496490479,
+      "upstream_errors": 6,
+      "error_type": null,
+      "error_text": null,
+      "http_429": 0
+    }
+  ],
+  "main_gate_descriptions": {
+    "early:WATCHING": 4942,
+    "final:False": 4942,
+    "scalp:WATCHING": 4892,
+    "scalp:ACTIVE": 50
+  },
+  "final_failed_conditions": {
+    "minutes_left_lte_8": 2283,
+    "fair_gte_90": 4852,
+    "gap_ok": 3629,
+    "dist_over_range5_gte_1": 4614,
+    "preferred_matches_target": 255,
+    "preferred_matches_brti": 850,
+    "direct_brti_authority_ready": 811
+  },
+  "v81_source_check": {
+    "active_frames": 0,
+    "invalid_active_frames": [],
+    "provenance_frames": 5063,
+    "wait_reasons": {
+      "TIMESTAMPED_QUOTES_UNAVAILABLE": 161,
+      "OFFICIAL_MARKET_UNAVAILABLE": 165,
+      "DOWN:FEATURES_NOT_READY": 37,
+      "DOWN:BASE_NOT_READY": 804,
+      "NO_SIDE_IN_30_45C": 2892,
+      "UP:BASE_NOT_READY": 1300,
+      "UP:FEATURES_NOT_READY": 29,
+      "UP:STRUCTURE_BLOCK": 1,
+      "SOURCE_READ_FAILED": 10
+    },
+    "note": "Active source flags are not proof of browser delivery or complete signal recall"
+  },
+  "serial_terminal_events": [
+    {
+      "candidate_id": "KXBTC15M-26SEP232030-30|DOWN|1790209009026",
+      "opportunity_index": 1,
+      "terminal_state": "EXIT",
+      "terminal_time_utc": "2026-09-24T00:18:25.064043+00:00",
+      "actionable_exit": true,
+      "side": "DOWN",
+      "entry_price": 0.28,
+      "exit_gain": -0.05000000000000002,
+      "peak_exec_gain": 0.06
+    },
+    {
+      "candidate_id": "KXBTC15M-26SEP232030-30|DOWN|1790209523113",
+      "opportunity_index": 2,
+      "terminal_state": "EXIT",
+      "terminal_time_utc": "2026-09-24T00:26:10.154224+00:00",
+      "actionable_exit": true,
+      "side": "DOWN",
+      "entry_price": 0.29,
+      "exit_gain": -0.03999999999999998,
+      "peak_exec_gain": 0.2
+    },
+    {
+      "candidate_id": "KXBTC15M-26SEP232045-45|DOWN|1790210393244",
+      "opportunity_index": 1,
+      "terminal_state": "EXIT",
+      "terminal_time_utc": "2026-09-24T00:40:55.259751+00:00",
+      "actionable_exit": true,
+      "side": "DOWN",
+      "entry_price": 0.65,
+      "exit_gain": 0.020000000000000018,
+      "peak_exec_gain": 0.18999999999999995
+    },
+    {
+      "candidate_id": "KXBTC15M-26SEP232100-00|UP|1790210780371",
+      "opportunity_index": 1,
+      "terminal_state": "EXIT",
+      "terminal_time_utc": "2026-09-24T00:47:40.403897+00:00",
+      "actionable_exit": true,
+      "side": "UP",
+      "entry_price": 0.3,
+      "exit_gain": 0.15000000000000002,
+      "peak_exec_gain": 0.24000000000000005
+    },
+    {
+      "candidate_id": "KXBTC15M-26SEP232130-30|DOWN|1790212649737",
+      "opportunity_index": 1,
+      "terminal_state": "EXIT",
+      "terminal_time_utc": "2026-09-24T01:18:55.758883+00:00",
+      "actionable_exit": true,
+      "side": "DOWN",
+      "entry_price": 0.62,
+      "exit_gain": -0.050000000000000044,
+      "peak_exec_gain": 0.07999999999999996
+    },
+    {
+      "candidate_id": "KXBTC15M-26SEP232130-30|UP|1790213043790",
+      "opportunity_index": 2,
+      "terminal_state": "EXIT",
+      "terminal_time_utc": "2026-09-24T01:25:10.810907+00:00",
+      "actionable_exit": true,
+      "side": "UP",
+      "entry_price": 0.32,
+      "exit_gain": 0.13,
+      "peak_exec_gain": 0.37999999999999995
+    }
+  ],
+  "main_unique_source_snapshots": 1023,
+  "dashboard_weight_hashes": [],
+  "runtime_identity_requires_startup_log_evidence": true,
+  "cohort_id": "btc15-common-20260923T211500Z",
+  "phase": "development_tuning",
+  "partial_window": true,
+  "parent_manifest_sha256": "fcc75fdc1ace0f31e959d59f5038cfaa530da6147e0870e5b811246ba2d0163e",
+  "orders": false,
+  "journal_bytes": 123094707,
+  "journal_sha256": "51037b41546a945ce1fe4e145637f6936b3557d19eb5163448787bce6ddbc70b",
+  "frozen_calendar_unchanged": true,
+  "changed_runtime_not_pooled": true
+}

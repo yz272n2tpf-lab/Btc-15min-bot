@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "registered_utc": "2026-09-24T12:53:13.074992+00:00",
+  "cohort_id": "btc15-causal-cutoff-20260924T131500Z",
+  "parent_cohort_sha256": "fcc75fdc1ace0f31e959d59f5038cfaa530da6147e0870e5b811246ba2d0163e",
+  "corrected_code_head": "79ac5a0276b0d3d3336ebfc4c9b0b0a351e01c40",
+  "runtime_rule": "Actual merge/deployment identity must be appended to checkpoint. Close prior main identity on restart; retain mixed/late-join slots. Do not pool old and corrected feature timing.",
+  "model_weights_sha256": "95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6",
+  "collector_run_id": "clean-source-v2-1s-20260923",
+  "windows": {
+    "development_tuning": [
+      "2026-09-24T13:15:00Z",
+      "2026-09-24T17:00:00Z"
+    ],
+    "purge": [
+      "2026-09-24T17:00:00Z",
+      "2026-09-24T17:15:00Z"
+    ],
+    "internal_development_validation": [
+      "2026-09-24T17:15:00Z",
+      "2026-09-24T21:15:00Z"
+    ],
+    "reserved_validation": [
+      "2026-09-24T21:15:00Z",
+      "2026-09-25T21:15:00Z"
+    ],
+    "untouched_holdout": [
+      "2026-09-25T21:15:00Z",
+      "2026-10-09T21:15:00Z"
+    ]
+  },
+  "eligibility": "Every scheduled 900-second slot retained, official and calendar coverage denominators separate; no late-join excluded from calendar. If deployment misses start, mark intervals unavailable; do not slide windows.",
+  "qualification": {
+    "brti_max_age_s": 5,
+    "v81_publication_max_age_s": 3.5,
+    "exact_ticker_fixed_target_official_window": true,
+    "no_receipt_as_source_timestamp": true
+  },
+  "threshold_weight_changes": false,
+  "promotion_rule": "Corrected timestamps require new live feature parity and gap/price/qualification evidence. Historical threshold probes rejected; no tuning on validation. No claim of production performance acceptance.",
+  "model_input_journal": "/data/kalshi_fair_input_frames_v1.jsonl",
+  "signal_only": true,
+  "orders": false,
+  "canonical_sha256": "fc61b525e2c50e0d6023a2ddb9be8d1bfceb9ad930564236e34a79c66f3681a7"
+}

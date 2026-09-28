@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "kind": "POST_DEPLOYMENT_RUNTIME_ATTESTATION_AND_PROSPECTIVE_VALIDATION_LOCK",
+  "recorded_utc": "2026-09-24T02:01:14.313Z",
+  "parent_cohort_sha256": "fcc75fdc1ace0f31e959d59f5038cfaa530da6147e0870e5b811246ba2d0163e",
+  "main": {
+    "commit": "d54321927626529612b7309576d7dc90b84fe224",
+    "deployment": "0b2ef3ff-1499-432a-ac70-52b997bb2e26",
+    "fair_weights_sha256": "95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6",
+    "artifact_sha256": "1bf10e755fc81584bab3c3682b16103353f84582c27bb003664de883e7e7c816",
+    "startup_evidence_utc": "2026-09-24T00:04:49.659576807Z",
+    "prior_runtime_closed": true,
+    "first_full_slot": "2026-09-24T00:15:00Z",
+    "late_join_slot_retained": "2026-09-24T00:00:00Z",
+    "no_startup_fair_fit": true,
+    "any_process_restart_requires_new_runtime_segment": true
+  },
+  "v81": {
+    "commit": "b05723ec622f901a05402ecf27f4d33505753ef1",
+    "deployment": "4105da0a-e5a2-4a76-8abc-242b0bab5ad8",
+    "input_schema": "V81_TIMESTAMPED_INPUTS_V1",
+    "production_connected_exit_policy": null
+  },
+  "owner": {
+    "deployment": "b0ddbbbb-7d7a-43ba-888f-9d7e8c6b3fd8",
+    "epoch": "37a1202f25614f39ae20a05ac8281966"
+  },
+  "collector": {
+    "run_id": "clean-source-v2-1s-20260923",
+    "commit": "e98576f23e247349b90717aea3a3ad832d409354",
+    "deployment": "df8385ff-46a2-4dfb-af0a-07c25e5382aa"
+  },
+  "phase_calendar_unchanged": true,
+  "development_end_utc": "2026-09-24T21:15:00Z",
+  "validation_end_utc": "2026-09-25T21:15:00Z",
+  "holdout_end_utc": "2026-10-09T21:15:00Z",
+  "registration_limit": "Runtime attestation is recorded after the release and is not misrepresented as a new prospective start. Original calendar/policies remain fixed. Future validation uses these pinned identities only while unchanged; any change closes the segment. No relabeling or outcome-dependent extension.",
+  "strategy_change": false,
+  "orders": false,
+  "signal_only": true
+}

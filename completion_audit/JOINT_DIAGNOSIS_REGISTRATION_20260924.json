@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "registered_utc": "2026-09-24T12:32:19.365385+00:00",
+  "parent_cohort_sha256": "fcc75fdc1ace0f31e959d59f5038cfaa530da6147e0870e5b811246ba2d0163e",
+  "run_id": "clean-source-v2-1s-20260923",
+  "main_commit": "d54321927626529612b7309576d7dc90b84fe224",
+  "main_weights_sha256": "95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6",
+  "v81_commit": "b05723ec622f901a05402ecf27f4d33505753ef1",
+  "tuning": [
+    "2026-09-24T00:15:00Z",
+    "2026-09-24T06:45:00Z"
+  ],
+  "purge": [
+    "2026-09-24T06:45:00Z",
+    "2026-09-24T07:00:00Z"
+  ],
+  "internal_development_validation": [
+    "2026-09-24T07:00:00Z",
+    "2026-09-24T12:15:00Z"
+  ],
+  "rationale": "Fixed chronological split before new outcome access; completed current quarter-hour cutoff. Internal check only; original validation and holdout untouched. Prior six contracts already opened remain tuning. Missing official slots retained.",
+  "selection": "Rank Pareto candidates on tuning only: coverage, accuracy, timing, favorable entry, both directions, excursion. Lock candidate list/hash before internal validation labels. No validation reselection. No 93-95% certification from small development set.",
+  "safety_fixed": {
+    "brti_max_age_s": 5,
+    "v81_publication_max_age_s": 3.5,
+    "quote_provenance": "timestamped contiguous exact ticker",
+    "signal_only": true,
+    "orders": false
+  },
+  "candidate_scope": "Single-gate ablations for attribution; evidence-supported bounded joint grids centered on existing gates. Removal of safety gates prohibited. Model refit requires identified raw predecision features/training provenance; no blind weight search. Any source-correctness fix tested separately from strategy tuning.",
+  "original_reserved_validation": [
+    "2026-09-24T21:15:00Z",
+    "2026-09-25T21:15:00Z"
+  ],
+  "original_untouched_holdout": [
+    "2026-09-25T21:15:00Z",
+    "2026-10-09T21:15:00Z"
+  ],
+  "canonical_sha256": "c36666c48ded6cb25000477bb230a50ca1202d7090eb468af7ab6069ec1d76a9"
+}

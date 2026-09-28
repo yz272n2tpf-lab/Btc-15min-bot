@@ -1,0 +1,19 @@
+{
+  "main.jsonl.gz": {
+    "bytes": 2755032,
+    "sha256": "84ef3d5ee2baff57ddae416fe97174591d7b9cb03a776d06b1be6a66ae361db0"
+  },
+  "v81.jsonl.gz": {
+    "bytes": 3133529,
+    "sha256": "f2a4d6b93e16e5b767fe5ab1ebc6d6527979195f7e19de6cc461d43a33012f4a"
+  },
+  "inputs.jsonl.gz": {
+    "bytes": 799763,
+    "sha256": "832bffac7672776ced6d967755af5aa59894c79da9c645f935ed0ccd6058b3d2"
+  },
+  "integrity.json": {
+    "bytes": 2989,
+    "sha256": "ec6652b14b781efe31e4823d1ba4982a83c3e0155fe9124d94ad8fdb0da14a7a"
+  },
+  "source_journal_sha256": "decabbc24c8ec0fedcd7b4eb1f0b538c38d07249d977bebd0d20e8d7b4726bde"
+}

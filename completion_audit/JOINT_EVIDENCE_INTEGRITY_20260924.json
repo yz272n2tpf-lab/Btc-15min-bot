@@ -1,0 +1,913 @@
+{
+  "run_id": "clean-source-v2-1s-20260923",
+  "start": "2026-09-24T00:15:00+00:00",
+  "end": "2026-09-24T12:15:00+00:00",
+  "journal_bytes": 410496309,
+  "journal_sha256": "decabbc24c8ec0fedcd7b4eb1f0b538c38d07249d977bebd0d20e8d7b4726bde",
+  "members_crc_checked": 84266,
+  "damage": [],
+  "first": "2026-09-23T20:53:15.259274+00:00",
+  "last": "2026-09-24T12:32:28.631680+00:00",
+  "samples": {
+    "main": {
+      "samples": 43194,
+      "http_failures": 0,
+      "usable": 32160,
+      "brti_fresh": 16512,
+      "qualified": 15883,
+      "early_raw": 4,
+      "final_raw": 1360,
+      "scalp_raw": 234
+    },
+    "owner": {
+      "samples": 43194,
+      "http_failures": 0,
+      "status:PRIMARY_OK": 43180,
+      "http_429_max": 0,
+      "errors_max": 7,
+      "status:PRIMARY_ERROR": 14
+    },
+    "v81": {
+      "samples": 43194,
+      "http_failures": 0,
+      "active": 0,
+      "reason:TIMESTAMPED_QUOTES_UNAVAILABLE": 2124,
+      "reason:OFFICIAL_MARKET_UNAVAILABLE": 8242,
+      "reason:DOWN:FEATURES_NOT_READY": 248,
+      "reason:DOWN:BASE_NOT_READY": 5025,
+      "reason:NO_SIDE_IN_30_45C": 20553,
+      "reason:UP:BASE_NOT_READY": 6836,
+      "reason:UP:FEATURES_NOT_READY": 116,
+      "reason:UP:STRUCTURE_BLOCK": 1,
+      "reason:SOURCE_READ_FAILED": 14,
+      "reason:UP:EVIDENCE_BELOW_CORE_SURGE": 3,
+      "reason:DOWN:EVIDENCE_BELOW_CORE_SURGE": 2,
+      "reason:OFFICIAL_MARKET_UNQUALIFIED": 30
+    },
+    "serial": {
+      "samples": 43194,
+      "http_failures": 0
+    }
+  },
+  "derived_rows": {
+    "main": 12932,
+    "v81": 43061,
+    "inputs": 20661
+  },
+  "request_gaps": {
+    "main": {
+      "n": 43193,
+      "min": 0.9871249198913574,
+      "median": 1.0001099109649658,
+      "p95": 1.0003011226654053,
+      "max": 1.2016379833221436
+    },
+    "owner": {
+      "n": 43193,
+      "min": 0.9801280498504639,
+      "median": 1.0001118183135986,
+      "p95": 1.0011498928070068,
+      "max": 1.2024619579315186
+    },
+    "v81": {
+      "n": 43193,
+      "min": 0.9803519248962402,
+      "median": 1.0001189708709717,
+      "p95": 1.0014254093170165,
+      "max": 1.200773000717163
+    },
+    "serial": {
+      "n": 43193,
+      "min": 0.9798440933227539,
+      "median": 1.0001230239868164,
+      "p95": 1.001695156097412,
+      "max": 1.200087070465088
+    }
+  },
+  "gaps_over_1_5": {
+    "main": 0,
+    "owner": 0,
+    "v81": 0,
+    "serial": 0
+  },
+  "ages": {
+    "main_source": {
+      "n": 43194,
+      "min": 0.05517697334289551,
+      "median": 3.35379958152771,
+      "p95": 5111.525216031073,
+      "max": 7271.480766057968
+    },
+    "main_brti": {
+      "n": 43194,
+      "min": 0.5782976150512695,
+      "median": 5.7912245988845825,
+      "p95": 5114.859725880621,
+      "max": 7274.8152759075165
+    },
+    "owner_brti": {
+      "n": 43194,
+      "min": 0.23600506782531738,
+      "median": 1.9057310819625854,
+      "p95": 3.07383793592453,
+      "max": 13.180935382843018
+    }
+  },
+  "continuous_availability": false,
+  "orders": false,
+  "new_range_chunks": [
+    {
+      "offset": 123094707,
+      "end": 127094707,
+      "sha256": "70392ddfda7ce6d4205cdb2ce9a3674bbe12ff10369d011dc42049f0016bd39c",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:32:34.719914+00:00"
+    },
+    {
+      "offset": 127094707,
+      "end": 131094707,
+      "sha256": "0eeaa123ac0e549cce1f5cb752dbdd9c7002ecff21a2bedf10396e3ee21fff76",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:32:39.990643+00:00"
+    },
+    {
+      "offset": 131094707,
+      "end": 135094707,
+      "sha256": "04679e5989cef76813d095f46b1feb244078e459433dec445692ff443b332f91",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:32:45.127535+00:00"
+    },
+    {
+      "offset": 135094707,
+      "end": 139094707,
+      "sha256": "1ce8085537fcd6539694cde814c5c55415fff200da2549743aa6230607027ac5",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:32:50.441862+00:00"
+    },
+    {
+      "offset": 139094707,
+      "end": 143094707,
+      "sha256": "bfc2163f1d3b1de0cfdfe854015c69bcbcec2b2b64550fcb6b1d8089a141a9e4",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:32:55.950326+00:00"
+    },
+    {
+      "offset": 143094707,
+      "end": 147094707,
+      "sha256": "73763876507ff8173ce7caf3a6e22f608be3700921dc572a01a684b6fce8f692",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:33:02.118846+00:00"
+    },
+    {
+      "offset": 147094707,
+      "end": 151094707,
+      "sha256": "5c52cd5a742a6df5990ae5eb7b5733dc31c47adac7abbccc36ec7afe66904485",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:33:07.902914+00:00"
+    },
+    {
+      "offset": 151094707,
+      "end": 155094707,
+      "sha256": "bea1be83dc433673d3790b25685fdc68ac4d645958013dc1fe5765e5e5de44e8",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:33:13.213312+00:00"
+    },
+    {
+      "offset": 155094707,
+      "end": 159094707,
+      "sha256": "c5d79316de4e5642f8326312ba8615f9e984a68ce42422f202a236b154e3b063",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:33:23.570118+00:00"
+    },
+    {
+      "offset": 159094707,
+      "end": 163094707,
+      "sha256": "13b8ee9fbf58b03a38646e538765a3f5b21a3c34d7e05783c5dd154b7476f3a9",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:33:28.603321+00:00"
+    },
+    {
+      "offset": 163094707,
+      "end": 167094707,
+      "sha256": "2ae949366baf45d75d260a913ed0dc5608ad30c4ee1bbc47a99d1208d5322e23",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:33:33.353501+00:00"
+    },
+    {
+      "offset": 167094707,
+      "end": 171094707,
+      "sha256": "b43e514078b138e11b382b4fb4e07dfd61da7d7415f47c897073699b53e5af14",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:33:38.593498+00:00"
+    },
+    {
+      "offset": 171094707,
+      "end": 175094707,
+      "sha256": "96991a0061bfe62cd0dff18820676ee90b37d95ba01a0bd9aad3e669fccd680e",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:33:43.510361+00:00"
+    },
+    {
+      "offset": 175094707,
+      "end": 179094707,
+      "sha256": "8c7b314775dace6c9bad89d1386eae8725fd58bed275095dc9acca799d7975d1",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:33:48.471449+00:00"
+    },
+    {
+      "offset": 179094707,
+      "end": 183094707,
+      "sha256": "16ef84e2913bcd97402ef3ede00cd3f563642591d80677459e0d35813f11ef0c",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:33:53.125168+00:00"
+    },
+    {
+      "offset": 183094707,
+      "end": 187094707,
+      "sha256": "bd8e7b47ad08bfb47280812342520b4ac0c2cd93676caf9b77ac5e34373d2023",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:33:58.126619+00:00"
+    },
+    {
+      "offset": 187094707,
+      "end": 191094707,
+      "sha256": "6ff8930563026affbcaf79da6328850314f7ef16347374cca21783496bbb6765",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:34:03.497489+00:00"
+    },
+    {
+      "offset": 191094707,
+      "end": 195094707,
+      "sha256": "7c5157876454b903c886248f65b402be2cd546a5a770d2b54c5c67a88349ae9e",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:34:09.490822+00:00"
+    },
+    {
+      "offset": 195094707,
+      "end": 199094707,
+      "sha256": "b43ed7ba609033f947de84bab592b1d85571ded812fc45fd6965ba0990d53f10",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:34:15.970300+00:00"
+    },
+    {
+      "offset": 199094707,
+      "end": 203094707,
+      "sha256": "7a0371b9427e66d7f447b0f4bb765b5ae593a2d231d424adb9b98610a6e59645",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:34:21.298024+00:00"
+    },
+    {
+      "offset": 203094707,
+      "end": 207094707,
+      "sha256": "755d12d0ab12827d9defa1ae492dc082c577f73e9bf9c7391cd26c77c7271b9d",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:34:27.477895+00:00"
+    },
+    {
+      "offset": 207094707,
+      "end": 211094707,
+      "sha256": "995970824e8615e626b119498f71eacbed267f6cb3fecc07d852168ba88cf26f",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:34:32.290988+00:00"
+    },
+    {
+      "offset": 211094707,
+      "end": 215094707,
+      "sha256": "76c3c16bf634e8255db2e83373fdc15bd0d81af4b68f7020201a986fdd4516c2",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:34:37.251037+00:00"
+    },
+    {
+      "offset": 215094707,
+      "end": 219094707,
+      "sha256": "70b1af820ad0fa90bf109425d93b35d28387bb0e90bbd728cbcd9e1dedfe6492",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:34:42.421577+00:00"
+    },
+    {
+      "offset": 219094707,
+      "end": 223094707,
+      "sha256": "997f262d05db432657b7f3ff9e158a9ba7c297a73f40803615969964f8e583f7",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:34:47.389783+00:00"
+    },
+    {
+      "offset": 223094707,
+      "end": 227094707,
+      "sha256": "1ab55aa4dece14fba8dacca571c797bee3c2f25ffc5390dbc7ac268ff1f90264",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:34:53.141645+00:00"
+    },
+    {
+      "offset": 227094707,
+      "end": 231094707,
+      "sha256": "0c617c1e602b25a226019b53705a15a591b1d3bf36e3badfee785939490ac7a1",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:34:58.521263+00:00"
+    },
+    {
+      "offset": 231094707,
+      "end": 235094707,
+      "sha256": "940100d4e348ef259656b10765340d9c63cef14a8122721a814ee48ce0ca511f",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:35:04.113196+00:00"
+    },
+    {
+      "offset": 235094707,
+      "end": 239094707,
+      "sha256": "f251ba9947974006a752df7d106614464c08b11df3878e29fc437a285c2506a8",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:35:08.848921+00:00"
+    },
+    {
+      "offset": 239094707,
+      "end": 243094707,
+      "sha256": "43e95eb36f76d4603e167e55c330174019888b511ecd02fd1cdd98a5c002d647",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:35:14.541366+00:00"
+    },
+    {
+      "offset": 243094707,
+      "end": 247094707,
+      "sha256": "96a402db01750aa3470986c684c178568c6214c42fd92318ab4e2b6141edf6d2",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:35:20.099407+00:00"
+    },
+    {
+      "offset": 247094707,
+      "end": 251094707,
+      "sha256": "17ea0df85575474ee1ec0de6d84188dc7808d5f1f6f039fc08fbed42ac7e56b4",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:35:25.058215+00:00"
+    },
+    {
+      "offset": 251094707,
+      "end": 255094707,
+      "sha256": "7543b2ee4af03dccaccac84bb577e13541e658729e6f0368c834a2de49bc044e",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:35:32.071131+00:00"
+    },
+    {
+      "offset": 255094707,
+      "end": 259094707,
+      "sha256": "3252f4c7a9d5ffe0c0526d2583b7cc13273f12b260827cc43bcc38cb5c478a02",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:35:36.747572+00:00"
+    },
+    {
+      "offset": 259094707,
+      "end": 263094707,
+      "sha256": "97ee404bb1982069479281effeb152b723912c93588e5b1d1033b84b19bbadd0",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:35:41.673577+00:00"
+    },
+    {
+      "offset": 263094707,
+      "end": 267094707,
+      "sha256": "64d064d3bb618d38839d0c59a8d9548a15bb96bd6595a88e2d084951627ea629",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:35:46.545697+00:00"
+    },
+    {
+      "offset": 267094707,
+      "end": 271094707,
+      "sha256": "b5dbcc7852e5de4b1a014a5745e7d90b3ae1b5c6be1d203246d9e96a5afcbaaa",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:35:52.045319+00:00"
+    },
+    {
+      "offset": 271094707,
+      "end": 275094707,
+      "sha256": "c660796ec902ff00dc3d6c7407fd834b97fe7f74381e82fab72fbf4db42309b6",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:35:58.338412+00:00"
+    },
+    {
+      "offset": 275094707,
+      "end": 279094707,
+      "sha256": "6f978c7eed118af2fe04fabc3805dcd47f87976f20c6a64fe9a92d65edf5da35",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:36:03.728663+00:00"
+    },
+    {
+      "offset": 279094707,
+      "end": 283094707,
+      "sha256": "acc6877a7f5de16578134abcfee261ddb0f8d01576e07d9e3782190b6d600581",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:36:09.129274+00:00"
+    },
+    {
+      "offset": 283094707,
+      "end": 287094707,
+      "sha256": "9a264e08c8640e3c4bfd25345329256e8c7d8fb2aa250e52a2823fa8fca03716",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:36:14.804926+00:00"
+    },
+    {
+      "offset": 287094707,
+      "end": 291094707,
+      "sha256": "d8620f1b6f70f0b3a540263ad556a6162128166d1ae16a66f3a2f884a5aa7123",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:36:20.688876+00:00"
+    },
+    {
+      "offset": 291094707,
+      "end": 295094707,
+      "sha256": "73a279b2d424ef7027c8328c1f638de0f37514e198181543ce922d0ee3836ddb",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:36:26.150100+00:00"
+    },
+    {
+      "offset": 295094707,
+      "end": 299094707,
+      "sha256": "96d83151b58a0ccd2d34fb4f2001b0e7e425f1aad64963bf15165e57307c99dc",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:36:32.745388+00:00"
+    },
+    {
+      "offset": 299094707,
+      "end": 303094707,
+      "sha256": "1da56706c403388558a4e330ea23d11a922263e84aa6605d201c0b6571378afe",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:36:38.580824+00:00"
+    },
+    {
+      "offset": 303094707,
+      "end": 307094707,
+      "sha256": "cee0b9d2dad78c58edaccd812ae5b062e6079845aa62f41603399cf3576b3eee",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:36:45.631682+00:00"
+    },
+    {
+      "offset": 307094707,
+      "end": 311094707,
+      "sha256": "5790f95014e2bc8db188eed4a72d879911a6f7f99be7d9ea12baae6eaa2e87a4",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:36:51.529402+00:00"
+    },
+    {
+      "offset": 311094707,
+      "end": 315094707,
+      "sha256": "498df724f1a2519c66bc2217f25c0b6b7a3d6b69955065998f25ac90c7849464",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:36:58.156165+00:00"
+    },
+    {
+      "offset": 315094707,
+      "end": 319094707,
+      "sha256": "ddbd8121bb54e1b7fc160e1ff6296b2db6c6dbd294624e3fb56132b6b69f015b",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:37:04.629111+00:00"
+    },
+    {
+      "offset": 319094707,
+      "end": 323094707,
+      "sha256": "1961823ed18a77f6906ad0081b8a5ee33824f4ee8cfef319e00453c85d3665dc",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:37:11.637233+00:00"
+    },
+    {
+      "offset": 323094707,
+      "end": 327094707,
+      "sha256": "c49fc960f8686d7f19b94c000c2045c6f83605d01effa77e9987778a1bea1ece",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:37:16.764067+00:00"
+    },
+    {
+      "offset": 327094707,
+      "end": 331094707,
+      "sha256": "3ccfe75907ade5b9f05b425bbb0571eeca2321389b511b1cbb8a614d9899ad99",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:37:22.838092+00:00"
+    },
+    {
+      "offset": 331094707,
+      "end": 335094707,
+      "sha256": "679737b3c9e3f9e2893939d2e334cec38abdc15d611ebe0147ff5ad27e17b305",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:37:26.906976+00:00"
+    },
+    {
+      "offset": 335094707,
+      "end": 339094707,
+      "sha256": "43d49987e6518ad1629566c9c5703f9d2e02e1609d555571d56a903c42ee647f",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:37:33.196528+00:00"
+    },
+    {
+      "offset": 339094707,
+      "end": 343094707,
+      "sha256": "9af1d1e03a17c071bc9a6d17f6f85823a2e2280222fedd4cbc4c8e4ef70edd46",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:37:37.902404+00:00"
+    },
+    {
+      "offset": 343094707,
+      "end": 347094707,
+      "sha256": "1b2eb4004eb07a0b302143423cea47ecd986ca2f23b32b749ce7d8ca6ac69d10",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:37:42.095119+00:00"
+    },
+    {
+      "offset": 347094707,
+      "end": 351094707,
+      "sha256": "8628135c498bcd81152a2395d03023dd3aed20c822434493bbc804fae776db5e",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:37:46.804361+00:00"
+    },
+    {
+      "offset": 351094707,
+      "end": 355094707,
+      "sha256": "12588e448feab2c0d54cdcf0c02dcaed1ce3ca6fe7faab913cc027358cc712c4",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:37:52.462205+00:00"
+    },
+    {
+      "offset": 355094707,
+      "end": 359094707,
+      "sha256": "20e33d4751efc57d27a6d607e8e99904b884e41bd8937864d9ac63e3f7d5278d",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:37:57.933185+00:00"
+    },
+    {
+      "offset": 359094707,
+      "end": 363094707,
+      "sha256": "e31b19d4d4aac10c6136d0fc937fde6d1784938dbf6ee8b0e10a0324686049d7",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:38:02.125880+00:00"
+    },
+    {
+      "offset": 363094707,
+      "end": 367094707,
+      "sha256": "0faf9ef9985bd63b4af31f298851abc3cb2fa7f54aca472f12d9578c2324c0c5",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:38:08.560745+00:00"
+    },
+    {
+      "offset": 367094707,
+      "end": 371094707,
+      "sha256": "ef8657e8cba48a6734f9c08e8484e5e20820bb10b8aa11b2039a9863588076e7",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:38:12.953624+00:00"
+    },
+    {
+      "offset": 371094707,
+      "end": 375094707,
+      "sha256": "1ad809aeda49d8c6f411be4c851da12cf26c39e9e63306450029f0cd11da03b3",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:38:17.479376+00:00"
+    },
+    {
+      "offset": 375094707,
+      "end": 379094707,
+      "sha256": "fa88e07df2cc941fc2a9048ed4cf3e4716cbb5220b2375e684c14540fa56e417",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:38:22.436022+00:00"
+    },
+    {
+      "offset": 379094707,
+      "end": 383094707,
+      "sha256": "6f309c728df80045e2e3018a99ab0a1d0206ea0c684235e3e8ecccf4b5dd74a8",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:38:26.851285+00:00"
+    },
+    {
+      "offset": 383094707,
+      "end": 387094707,
+      "sha256": "aa249593bee40a5bba665cf2c55a86cf8455a18f126ba70499e6100511d92f22",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:38:33.562343+00:00"
+    },
+    {
+      "offset": 387094707,
+      "end": 391094707,
+      "sha256": "31b3406b26184768b1024313c0529535e45f560951c140d0346e142452a3e7ed",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:38:47.181561+00:00"
+    },
+    {
+      "offset": 391094707,
+      "end": 395094707,
+      "sha256": "b28a089a7c39dc6fa5a5d72bed87208a455f679e6f1fe47b2195948c077b5c10",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:38:51.950753+00:00"
+    },
+    {
+      "offset": 395094707,
+      "end": 399094707,
+      "sha256": "5c5665ce9fc062d67ff1ec17a34b980d7709ee74aedcf46478cb976c7efc2789",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:39:01.813047+00:00"
+    },
+    {
+      "offset": 399094707,
+      "end": 403094707,
+      "sha256": "ccc1419745c1c3c2b3fcb859b191a0e6cd2043bcfcee83cf6d3d55442664818f",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:39:07.847376+00:00"
+    },
+    {
+      "offset": 403094707,
+      "end": 407094707,
+      "sha256": "7b86d668e5df92a258ef1c54c21ec9a15427156cfd655b057c0128bdb279518c",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:39:15.578056+00:00"
+    },
+    {
+      "offset": 407094707,
+      "end": 410496309,
+      "sha256": "f6f1c0d96d94f90f297fb6500597574bb6206f2eb213d73a5599a1aa8f5755c4",
+      "run_id": "clean-source-v2-1s-20260923",
+      "retrieved_utc": "2026-09-24T12:39:22.276173+00:00"
+    }
+  ],
+  "retained_prefix": {
+    "bytes": 123094707,
+    "sha256": "51037b41546a945ce1fe4e145637f6936b3557d19eb5163448787bce6ddbc70b",
+    "unchanged": true
+  },
+  "official_label_files": [
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP232030-30.json",
+      "sha256": "4266e29a86b075c6d8d6ec6804c0ad29dd2fba7fe4bbe241b52cab219f617ba2",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP232045-45.json",
+      "sha256": "5888cbf8bdf524c000ccedb95c0a4ce0b7aa41041d448e632ce09cff6a8e275c",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP232100-00.json",
+      "sha256": "c6a9d3f8770c1b46b6cc72b2e06d7f3415f165794fdf28f0f83f0de1ee7a17ba",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP232115-15.json",
+      "sha256": "fc20db989b8dd1382f9bcd24bb291b465d9ed69f5825e06101a0dd60dcf9086c",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP232130-30.json",
+      "sha256": "e78344d3da28c68665d58c0cefbc5ebfa182d11918bf70edd66ca093f8f53c55",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP232145-45.json",
+      "sha256": "a1602651f1f18751fa436c45fa4a74f0f9087f9fc72a0b7ef87b768c1baa84d4",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP232200-00.json",
+      "sha256": "3437b81c9c8d328b07651a5ebba709d08f54d842d6d34972fa978d36e795f702",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP232215-15.json",
+      "sha256": "fc80aeef07e353db1fced15519539fed46fec3889c35abba07f8d0abc891cf5c",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP232230-30.json",
+      "sha256": "8b9141d86d141b727b4851c7af26286c4efb62e64b1b29bed06b97ca0cfa11e0",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP232245-45.json",
+      "sha256": "9f93069f31c7ce88b51d3bf2c4d07f85f6cedc389b8a0dea0063f573e4aa3731",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP232300-00.json",
+      "sha256": "25a5aa5a417d9245c9ea0a5a32dbd2eba9dc1a0d4e26e85be3827573567eeba0",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP232315-15.json",
+      "sha256": "be5fddf45890830ef14d55a3068b972974e708edebcdeba8a0e95b8a47ee7b6a",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP232330-30.json",
+      "sha256": "3f2fdea282639a9251b74fa3f3dda4a1590abbbe47e471ebd012951cdd73b52c",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP232345-45.json",
+      "sha256": "3bc5ae83b60f1950021a1b02af42874faba51a6b7caf7e52fbcf638c9bd4018e",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP240000-00.json",
+      "sha256": "fe1e1d9b8f3ca5fb21b92525e1e44ace16b07484c9a0c73b775fcd8d00f36c9c",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP240015-15.json",
+      "sha256": "ed2190452cf77e081f312fc08725b4888ea253f4a17c657c77711a1f575d1f2a",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP240030-30.json",
+      "sha256": "a814aabb789117232ebb2fc37cdfd197349c4bfe3174e32f2415185457ec812b",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP240045-45.json",
+      "sha256": "32c7c988a947e0461bf417b30870f62c3c4a003624b6e6705d1e05a206129a61",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP240100-00.json",
+      "sha256": "8ecbe8cf08e76aba4e8b729eb496e24815c14bd9afabcf4f00df433e71d4590a",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP240115-15.json",
+      "sha256": "d2f811ff41e7ba35510bbf9796fdfd0d43b2a0b320c83d77bb727876806a4316",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP240130-30.json",
+      "sha256": "da047d0268d950dc7ca082548457d601bb1cc54a69db357b58d7f9257b34522d",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP240145-45.json",
+      "sha256": "2b9b6374ebceb7ebfd1b1e616de26f95f16ed67c4c09b5cb7c4dd252fe998636",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP240200-00.json",
+      "sha256": "8122ba97e334c6bd11af27d92ab40e82e05cb9f6ab4d95bfce3e28f3362a5722",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP240215-15.json",
+      "sha256": "6b2f5783641b1ee4fb9c14ac69292a7232a9c2c284f7d8f9825999cbf1c35b42",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP240230-30.json",
+      "sha256": "39e407e4141fe374b22022684689c0132481cc850df7797f52bb42e13a71a776",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_tuning",
+      "file": "KXBTC15M-26SEP240245-45.json",
+      "sha256": "a9b4586a45b5c3fa7e950ae3ce49d995f8353ea0254c388258b8d7b409e27732",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_validation",
+      "file": "KXBTC15M-26SEP240315-15.json",
+      "sha256": "805b41843c847a56436eb038c18918abffbe5afaaf4688846848b35dea84fdb7",
+      "http_status": 404
+    },
+    {
+      "partition": "markets_validation",
+      "file": "KXBTC15M-26SEP240330-30.json",
+      "sha256": "1d38389c951485836f0905025602dd30c8f8ed2aae21a763e7b77fa80ca20327",
+      "http_status": 404
+    },
+    {
+      "partition": "markets_validation",
+      "file": "KXBTC15M-26SEP240345-45.json",
+      "sha256": "53e1633f173083bc27996124c2aa4569b546d761613af8c9976975e889f5c6bc",
+      "http_status": 404
+    },
+    {
+      "partition": "markets_validation",
+      "file": "KXBTC15M-26SEP240400-00.json",
+      "sha256": "82538ef161d7583b7150afa598f06bf1c53c22dba30f494fe39440e741c810c7",
+      "http_status": 404
+    },
+    {
+      "partition": "markets_validation",
+      "file": "KXBTC15M-26SEP240415-15.json",
+      "sha256": "aa4f00d687d194ced8d1a2bf10d8aff489e020d8edd76c3c4db9f145d0e0f4b5",
+      "http_status": 404
+    },
+    {
+      "partition": "markets_validation",
+      "file": "KXBTC15M-26SEP240430-30.json",
+      "sha256": "a30b7107d88eb73b80b7b073d9b177a1c9513740e00b8971c90222b04bf6b004",
+      "http_status": 404
+    },
+    {
+      "partition": "markets_validation",
+      "file": "KXBTC15M-26SEP240445-45.json",
+      "sha256": "7bfc5ec5e141c9ef51c331de08232730ca7eacd94625e90d707aa8ec8f1d3925",
+      "http_status": 404
+    },
+    {
+      "partition": "markets_validation",
+      "file": "KXBTC15M-26SEP240500-00.json",
+      "sha256": "ad57a9690e2db613bd4e5025e23c20197ddccd7bf93540f10bf9e23351abe63f",
+      "http_status": 404
+    },
+    {
+      "partition": "markets_validation",
+      "file": "KXBTC15M-26SEP240515-15.json",
+      "sha256": "1c58523441ad69e2c1d2a9ef0b91848bb2df2b7ceb99e634ac31e15ee75cba64",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_validation",
+      "file": "KXBTC15M-26SEP240530-30.json",
+      "sha256": "7ac4d7826b3601b2499a2a416e27bf6a102ac0371e15e40ada06a6a0771dbe01",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_validation",
+      "file": "KXBTC15M-26SEP240545-45.json",
+      "sha256": "021458d484c85ad847c85c96971021b74c118994dde842cf0ab1e8ec3108b7a3",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_validation",
+      "file": "KXBTC15M-26SEP240600-00.json",
+      "sha256": "087f9676d52a8466e2d235880653b7e535bb08dd07e052d8bf1df32dfe731e4f",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_validation",
+      "file": "KXBTC15M-26SEP240615-15.json",
+      "sha256": "a75acee6ac4815123011470e2d17ca868daad09891928a0d651ef5d1e147e959",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_validation",
+      "file": "KXBTC15M-26SEP240630-30.json",
+      "sha256": "8e2cd6c13b3e982218a50dd611e4de690befa6421f8974fc20529154d8682f13",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_validation",
+      "file": "KXBTC15M-26SEP240645-45.json",
+      "sha256": "ea11983fc719c2833f5c62395873303cd0f0b7f87026988eb44f5ceae9436e4d",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_validation",
+      "file": "KXBTC15M-26SEP240700-00.json",
+      "sha256": "4c05ebc75516f270604de4ab4965bdaf3cc88ae32f0aae210f2cdc62e4553e2e",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_validation",
+      "file": "KXBTC15M-26SEP240715-15.json",
+      "sha256": "83529545ce37b93bb371e073833b334b8f7f69c738625c7632734869e4c289ca",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_validation",
+      "file": "KXBTC15M-26SEP240730-30.json",
+      "sha256": "693a806243b6eb7633d10bb4f025bb1c4a4b9f091e8db8f221f6ae7bad29d088",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_validation",
+      "file": "KXBTC15M-26SEP240745-45.json",
+      "sha256": "440bd2ad5b272b0fd3e2cfc9284eec04895a08553cc3a0d400c03ed6882bd679",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_validation",
+      "file": "KXBTC15M-26SEP240800-00.json",
+      "sha256": "d000f3c2212e284b96f94318e8a9c7133dbab6b093f83c054fa1ca72d32a2268",
+      "http_status": 200
+    },
+    {
+      "partition": "markets_validation",
+      "file": "KXBTC15M-26SEP240815-15.json",
+      "sha256": "6f774e4ca596d13c5d9d3445eaf875b5d88ddc6fe65cefd01940a139759832a2",
+      "http_status": 200
+    }
+  ]
+}

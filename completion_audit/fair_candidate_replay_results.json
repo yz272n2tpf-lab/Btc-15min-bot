@@ -1,0 +1,125 @@
+{
+  "status": "RESEARCH_ONLY_NOT_DEPLOYED",
+  "fresh_holdout": false,
+  "variants": {
+    "existing_original_history": {
+      "eligible_contracts": 663,
+      "fit_contracts": 331,
+      "calibration_contracts": 133,
+      "evaluation_contracts": 199,
+      "evaluation_snapshots": 2786,
+      "mean_contract_brier": 0.1564486261129959,
+      "feature_importance": {
+        "elapsed": 0.025318368913320007,
+        "remaining": 0.024243033338497724,
+        "current_side": 0.024766434530908838,
+        "dist_target": 0.09298472870343426,
+        "abs_dist_target": 0.11575569197097339,
+        "dist_target_pct": 0.0995781508342216,
+        "move_from_start": 0.04879990630262649,
+        "move_from_start_pct": 0.04863670775409803,
+        "move1": 0.018187107365424598,
+        "move2": 0.020130761898754332,
+        "move3": 0.021617682191777524,
+        "move5": 0.025312853331064096,
+        "support1": 0.01713220642584355,
+        "support2": 0.02087371324955857,
+        "support3": 0.02186248281806529,
+        "support5": 0.02700775645680652,
+        "range5": 0.04071633843184732,
+        "vol5": 0.03506165192164652,
+        "dist_per_min_remaining": 0.16456646677725748,
+        "dist_over_range5": 0.10744795678387394
+      },
+      "sigmoid_coefficient": 3.2716287305376173,
+      "sigmoid_intercept": -2.4183061889117528
+    },
+    "existing_current_clock_cut": {
+      "eligible_contracts": 283,
+      "fit_contracts": 141,
+      "calibration_contracts": 57,
+      "evaluation_contracts": 85,
+      "evaluation_snapshots": 1190,
+      "mean_contract_brier": 0.15964139830047375,
+      "feature_importance": {
+        "elapsed": 0.05133145171153918,
+        "remaining": 0.0510746125006596,
+        "current_side": 0.0035898259197073385,
+        "dist_target": 0.06332215438281764,
+        "abs_dist_target": 0.1074166030226681,
+        "dist_target_pct": 0.07040108509515952,
+        "move_from_start": 0.05299498040810049,
+        "move_from_start_pct": 0.05043163704903436,
+        "move1": 0.019504904284733157,
+        "move2": 0.0186610141937281,
+        "move3": 0.019965525569677036,
+        "move5": 0.023984742435291032,
+        "support1": 0.018237752179604744,
+        "support2": 0.02016059055897385,
+        "support3": 0.021891614366697093,
+        "support5": 0.025075322860349466,
+        "range5": 0.02889347940272499,
+        "vol5": 0.025964509749842817,
+        "dist_per_min_remaining": 0.21483852286256622,
+        "dist_over_range5": 0.1122596714461253
+      },
+      "sigmoid_coefficient": 3.734359036972159,
+      "sigmoid_intercept": -2.7024664313165334
+    },
+    "candidate_completed_candle_availability": {
+      "eligible_contracts": 663,
+      "fit_contracts": 331,
+      "calibration_contracts": 133,
+      "evaluation_contracts": 199,
+      "evaluation_snapshots": 2786,
+      "mean_contract_brier": 0.17314546268137868,
+      "feature_importance": {
+        "elapsed": 0.023773354681227488,
+        "remaining": 0.023480804449807123,
+        "current_side": 0.020288775473926605,
+        "dist_target": 0.08660669542397977,
+        "abs_dist_target": 0.10411234892128267,
+        "dist_target_pct": 0.09312695676476161,
+        "move_from_start": 0.06554856474934138,
+        "move_from_start_pct": 0.06408902779853846,
+        "move1": 0.019668217732780872,
+        "move2": 0.02139638276967351,
+        "move3": 0.023029533004079467,
+        "move5": 0.02826087182776604,
+        "support1": 0.019618510202021835,
+        "support2": 0.021464606416468465,
+        "support3": 0.023271557496742534,
+        "support5": 0.03007505859210416,
+        "range5": 0.04257136873970898,
+        "vol5": 0.04243552085020823,
+        "dist_per_min_remaining": 0.14918840984226187,
+        "dist_over_range5": 0.09799343426331888
+      },
+      "sigmoid_coefficient": 3.0344010957192324,
+      "sigmoid_intercept": -2.229952390558266
+    }
+  },
+  "common_historical_evaluation": {
+    "existing_original_history": {
+      "contracts": 85,
+      "snapshots": 1190,
+      "mean_contract_brier": 0.17238423759906868
+    },
+    "existing_current_clock_cut": {
+      "contracts": 85,
+      "snapshots": 1190,
+      "mean_contract_brier": 0.15964139830047375
+    },
+    "candidate_completed_candle_availability": {
+      "contracts": 85,
+      "snapshots": 1190,
+      "mean_contract_brier": 0.18856316314474747
+    }
+  },
+  "certification_blockers": [
+    "Historical evaluation already inspected; no fresh holdout claim.",
+    "No historical timestamped quotes or BRTI at call means no qualified EARLY/FINAL/SCALP performance inference.",
+    "Candidate requires separately verified live partial-bar availability integration.",
+    "Production model weights and thresholds remain unchanged."
+  ]
+}

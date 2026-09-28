@@ -1,0 +1,742 @@
+{
+  "rules": {
+    "domain": "Both sides 25-50c at 2-10 minutes; first side observation per fixed10/8/6/4/2m anchor",
+    "fit": "Equal contract weights; residual logistic fixed market-logit offset + L2=1; forest128 depth3 leaf10",
+    "folds": "First8->next6, first14->next6, first20->next6 official tuning contracts",
+    "qualification": "Existing EARLY75%/8c edge/<=45c/2-10m unchanged; replace generic predictor and redundant absolute25 dollar gap only",
+    "selection": "Contract-mean chronological Brier including existing/market controls; no challenge reselection",
+    "challenge": "Previously opened 07:00-12:15 development only; no promotion without corrected reserved validation"
+  },
+  "folds": [
+    {
+      "training_contracts": 8,
+      "test_contracts": 6,
+      "scores": {
+        "existing_control": {
+          "KXBTC15M-26SEP232245-45": 0.030047095727995847,
+          "KXBTC15M-26SEP232300-00": 0.08366874749913611,
+          "KXBTC15M-26SEP232315-15": 0.642003718912268,
+          "KXBTC15M-26SEP232330-30": 0.09799499570847531
+        },
+        "market_control": {
+          "KXBTC15M-26SEP232245-45": 0.12642499999999998,
+          "KXBTC15M-26SEP232300-00": 0.162725,
+          "KXBTC15M-26SEP232315-15": 0.43352500000000005,
+          "KXBTC15M-26SEP232330-30": 0.093025
+        },
+        "cheap_prior_residual": {
+          "KXBTC15M-26SEP232245-45": 0.18663778401593784,
+          "KXBTC15M-26SEP232300-00": 0.5704371460477031,
+          "KXBTC15M-26SEP232315-15": 0.2685828981311995,
+          "KXBTC15M-26SEP232330-30": 0.0004653947948851437
+        },
+        "cheap_interactions": {
+          "KXBTC15M-26SEP232245-45": 0.11687851562499987,
+          "KXBTC15M-26SEP232300-00": 0.11687851562499987,
+          "KXBTC15M-26SEP232315-15": 0.43312851562500027,
+          "KXBTC15M-26SEP232330-30": 0.11687851562499987
+        }
+      }
+    },
+    {
+      "training_contracts": 14,
+      "test_contracts": 6,
+      "scores": {
+        "existing_control": {
+          "KXBTC15M-26SEP240000-00": 0.09037235771519204,
+          "KXBTC15M-26SEP240015-15": 0.1313872616821193,
+          "KXBTC15M-26SEP240030-30": 0.11142274135061721,
+          "KXBTC15M-26SEP240045-45": 0.11674489315086127,
+          "KXBTC15M-26SEP240100-00": 0.42895907878638617
+        },
+        "market_control": {
+          "KXBTC15M-26SEP240000-00": 0.065025,
+          "KXBTC15M-26SEP240015-15": 0.17726499999999998,
+          "KXBTC15M-26SEP240030-30": 0.173475,
+          "KXBTC15M-26SEP240045-45": 0.17262500000000003,
+          "KXBTC15M-26SEP240100-00": 0.317825
+        },
+        "cheap_prior_residual": {
+          "KXBTC15M-26SEP240000-00": 0.008666952744550082,
+          "KXBTC15M-26SEP240015-15": 0.2152756720761392,
+          "KXBTC15M-26SEP240030-30": 0.26596696184157675,
+          "KXBTC15M-26SEP240045-45": 0.059881761914138736,
+          "KXBTC15M-26SEP240100-00": 0.18890208193853428
+        },
+        "cheap_interactions": {
+          "KXBTC15M-26SEP240000-00": 0.06562859466066703,
+          "KXBTC15M-26SEP240015-15": 0.19130994764289339,
+          "KXBTC15M-26SEP240030-30": 0.21156048188796825,
+          "KXBTC15M-26SEP240045-45": 0.052265070974438305,
+          "KXBTC15M-26SEP240100-00": 0.30985030222544124
+        }
+      }
+    },
+    {
+      "training_contracts": 20,
+      "test_contracts": 6,
+      "scores": {
+        "existing_control": {
+          "KXBTC15M-26SEP240130-30": 0.09214765152348049,
+          "KXBTC15M-26SEP240145-45": 0.17058407970146647,
+          "KXBTC15M-26SEP240200-00": 0.08883456569624594,
+          "KXBTC15M-26SEP240215-15": 0.3428947343639761,
+          "KXBTC15M-26SEP240230-30": 0.2445282626356501,
+          "KXBTC15M-26SEP240245-45": 0.23158410501047094
+        },
+        "market_control": {
+          "KXBTC15M-26SEP240130-30": 0.09782500000000001,
+          "KXBTC15M-26SEP240145-45": 0.202925,
+          "KXBTC15M-26SEP240200-00": 0.07415833333333334,
+          "KXBTC15M-26SEP240215-15": 0.23169166666666663,
+          "KXBTC15M-26SEP240230-30": 0.305025,
+          "KXBTC15M-26SEP240245-45": 0.265745
+        },
+        "cheap_prior_residual": {
+          "KXBTC15M-26SEP240130-30": 0.12285896742011106,
+          "KXBTC15M-26SEP240145-45": 0.2666660690770558,
+          "KXBTC15M-26SEP240200-00": 0.03586783297584558,
+          "KXBTC15M-26SEP240215-15": 0.2156164525401798,
+          "KXBTC15M-26SEP240230-30": 0.3506872426544034,
+          "KXBTC15M-26SEP240245-45": 0.3873947251135955
+        },
+        "cheap_interactions": {
+          "KXBTC15M-26SEP240130-30": 0.07464037760738233,
+          "KXBTC15M-26SEP240145-45": 0.2711383973631004,
+          "KXBTC15M-26SEP240200-00": 0.0345930097810146,
+          "KXBTC15M-26SEP240215-15": 0.1701895134009522,
+          "KXBTC15M-26SEP240230-30": 0.33014888300592393,
+          "KXBTC15M-26SEP240245-45": 0.27153980600371036
+        }
+      }
+    }
+  ],
+  "orders": false,
+  "signal_only": true,
+  "production_promotion": false,
+  "oof_brier": {
+    "existing_control": 0.19354495263095609,
+    "market_control": 0.1932856666666667,
+    "cheap_prior_residual": 0.20959386288572374,
+    "cheap_interactions": 0.1844418964702328
+  },
+  "models": {
+    "existing_control": {
+      "validation_brier": 0.21794133270259206,
+      "validation_contracts": 11,
+      "training_anchors": 71,
+      "training_contracts": 23,
+      "parameters": {
+        "name": "existing_control"
+      },
+      "feature_importance": {},
+      "tuning": {
+        "calls": 2,
+        "contracts": 2,
+        "wins": 0,
+        "accuracy": 0.0,
+        "wilson95": [
+          0.0,
+          0.6576280471103807
+        ],
+        "scheduled": 26,
+        "official": 26,
+        "coverage_scheduled": 0.07692307692307693,
+        "coverage_official": 0.07692307692307693,
+        "sides": {
+          "UP": 2
+        },
+        "entry": {
+          "n": 2,
+          "min": 0.42,
+          "mean": 0.425,
+          "median": 0.425,
+          "p95": 0.4295,
+          "max": 0.43
+        },
+        "entry_le50": 2,
+        "entry_25_35": 0,
+        "minutes_left": {
+          "n": 2,
+          "min": 3.2653576345443724,
+          "mean": 5.118458651383718,
+          "median": 5.118458651383718,
+          "p95": 6.786249566539129,
+          "max": 6.971559668223064
+        },
+        "brier": 0.5707242339647767,
+        "mfe": {
+          "n": 2,
+          "min": -0.010000000000000009,
+          "mean": 0.21,
+          "median": 0.21,
+          "p95": 0.408,
+          "max": 0.43
+        },
+        "mae": {
+          "n": 2,
+          "min": -0.429,
+          "mean": -0.424,
+          "median": -0.424,
+          "p95": -0.4195,
+          "max": -0.419
+        },
+        "positive_movement": 1,
+        "hit8": 1,
+        "hit10": 1,
+        "path_samples": 317,
+        "worst_path_gap": 19.029000997543335,
+        "executable_fill_proven": false,
+        "entries": [
+          {
+            "ticker": "KXBTC15M-26SEP232030-30",
+            "side": "UP",
+            "t": 1790209381.705081,
+            "ask": 0.42,
+            "fair": 0.7595389544781413,
+            "minutes_left": 6.971559668223064,
+            "result": "no",
+            "correct": false,
+            "reversal": "AGAINST",
+            "volatility": 0.0002565691018544537,
+            "path_samples": 203,
+            "mfe": 0.43,
+            "mae": -0.419,
+            "path_max_gap": 19.029000997543335,
+            "first_quote_delay": 0.57771897315979,
+            "entry_ask_confirmed": true
+          },
+          {
+            "ticker": "KXBTC15M-26SEP240130-30",
+            "side": "UP",
+            "t": 1790227604.080395,
+            "ask": 0.43,
+            "fair": 0.7513647879424515,
+            "minutes_left": 3.2653576345443724,
+            "result": "no",
+            "correct": false,
+            "reversal": "MIXED",
+            "volatility": 0.00027440162860861716,
+            "path_samples": 114,
+            "mfe": -0.010000000000000009,
+            "mae": -0.429,
+            "path_max_gap": 4.038267135620117,
+            "first_quote_delay": 0.45763397216796875,
+            "entry_ask_confirmed": true
+          }
+        ],
+        "first_passage": {
+          "counts": {
+            "gap_censored": 1,
+            "stop": 1
+          },
+          "marks": {
+            "n": 1,
+            "min": -0.14,
+            "mean": -0.14,
+            "median": -0.14,
+            "p95": -0.14,
+            "max": -0.14
+          },
+          "win_rate_decisive": 0.0,
+          "complete_fills_proven": false,
+          "maximum_allowed_observation_gap_seconds": 6
+        }
+      },
+      "validation": {
+        "calls": 1,
+        "contracts": 1,
+        "wins": 1,
+        "accuracy": 1.0,
+        "wilson95": [
+          0.20654329147389294,
+          1.0
+        ],
+        "scheduled": 21,
+        "official": 13,
+        "coverage_scheduled": 0.047619047619047616,
+        "coverage_official": 0.07692307692307693,
+        "sides": {
+          "UP": 1
+        },
+        "entry": {
+          "n": 1,
+          "min": 0.33,
+          "mean": 0.33,
+          "median": 0.33,
+          "p95": 0.33,
+          "max": 0.33
+        },
+        "entry_le50": 1,
+        "entry_25_35": 1,
+        "minutes_left": {
+          "n": 1,
+          "min": 7.22943268362681,
+          "mean": 7.22943268362681,
+          "median": 7.22943268362681,
+          "p95": 7.22943268362681,
+          "max": 7.22943268362681
+        },
+        "brier": 0.06062567362072471,
+        "mfe": {
+          "n": 1,
+          "min": 0.6679999999999999,
+          "mean": 0.6679999999999999,
+          "median": 0.6679999999999999,
+          "p95": 0.6679999999999999,
+          "max": 0.6679999999999999
+        },
+        "mae": {
+          "n": 1,
+          "min": -0.17,
+          "mean": -0.17,
+          "median": -0.17,
+          "p95": -0.17,
+          "max": -0.17
+        },
+        "positive_movement": 1,
+        "hit8": 1,
+        "hit10": 1,
+        "path_samples": 307,
+        "worst_path_gap": 4.050282955169678,
+        "executable_fill_proven": false,
+        "entries": [
+          {
+            "ticker": "KXBTC15M-26SEP240800-00",
+            "side": "UP",
+            "t": 1790250766.235851,
+            "ask": 0.33,
+            "fair": 0.753777187042458,
+            "minutes_left": 7.22943268362681,
+            "result": "yes",
+            "correct": true,
+            "reversal": "AGAINST",
+            "volatility": 0.00021784859696202726,
+            "path_samples": 307,
+            "mfe": 0.6679999999999999,
+            "mae": -0.17,
+            "path_max_gap": 4.050282955169678,
+            "first_quote_delay": 0.15970087051391602,
+            "entry_ask_confirmed": true
+          }
+        ],
+        "first_passage": {
+          "counts": {
+            "target": 1
+          },
+          "marks": {
+            "n": 1,
+            "min": 0.10999999999999999,
+            "mean": 0.10999999999999999,
+            "median": 0.10999999999999999,
+            "p95": 0.10999999999999999,
+            "max": 0.10999999999999999
+          },
+          "win_rate_decisive": 1.0,
+          "complete_fills_proven": false,
+          "maximum_allowed_observation_gap_seconds": 6
+        }
+      }
+    },
+    "market_control": {
+      "validation_brier": 0.21062002164502164,
+      "validation_contracts": 11,
+      "training_anchors": 71,
+      "training_contracts": 23,
+      "parameters": {
+        "name": "market_control"
+      },
+      "feature_importance": {},
+      "tuning": {
+        "calls": 0,
+        "contracts": 0,
+        "wins": 0,
+        "accuracy": null,
+        "wilson95": null,
+        "scheduled": 26,
+        "official": 26,
+        "coverage_scheduled": 0.0,
+        "coverage_official": 0.0,
+        "sides": {},
+        "entry": {
+          "n": 0
+        },
+        "entry_le50": 0,
+        "entry_25_35": 0,
+        "minutes_left": {
+          "n": 0
+        },
+        "brier": null,
+        "mfe": {
+          "n": 0
+        },
+        "mae": {
+          "n": 0
+        },
+        "positive_movement": 0,
+        "hit8": 0,
+        "hit10": 0,
+        "path_samples": 0,
+        "worst_path_gap": null,
+        "executable_fill_proven": false,
+        "entries": [],
+        "first_passage": {
+          "counts": {},
+          "marks": {
+            "n": 0
+          },
+          "win_rate_decisive": null,
+          "complete_fills_proven": false,
+          "maximum_allowed_observation_gap_seconds": 6
+        }
+      },
+      "validation": {
+        "calls": 0,
+        "contracts": 0,
+        "wins": 0,
+        "accuracy": null,
+        "wilson95": null,
+        "scheduled": 21,
+        "official": 13,
+        "coverage_scheduled": 0.0,
+        "coverage_official": 0.0,
+        "sides": {},
+        "entry": {
+          "n": 0
+        },
+        "entry_le50": 0,
+        "entry_25_35": 0,
+        "minutes_left": {
+          "n": 0
+        },
+        "brier": null,
+        "mfe": {
+          "n": 0
+        },
+        "mae": {
+          "n": 0
+        },
+        "positive_movement": 0,
+        "hit8": 0,
+        "hit10": 0,
+        "path_samples": 0,
+        "worst_path_gap": null,
+        "executable_fill_proven": false,
+        "entries": [],
+        "first_passage": {
+          "counts": {},
+          "marks": {
+            "n": 0
+          },
+          "win_rate_decisive": null,
+          "complete_fills_proven": false,
+          "maximum_allowed_observation_gap_seconds": 6
+        }
+      }
+    },
+    "cheap_prior_residual": {
+      "validation_brier": 0.2431479245404625,
+      "validation_contracts": 11,
+      "training_anchors": 71,
+      "training_contracts": 23,
+      "parameters": {
+        "name": "cheap_prior_residual",
+        "center": [
+          -0.7532460819716275,
+          -0.37049049018879315,
+          -0.05131258315785621,
+          0.03260105862144369,
+          0.11851144890593496,
+          0.17317375131201093,
+          7.7338736480357015,
+          0.010000000000000004
+        ],
+        "scale": [
+          0.5681545220439034,
+          0.2600903018911713,
+          0.2809528548922095,
+          0.6808250002344273,
+          0.780111417835634,
+          0.9802791491775054,
+          2.1176821488932953,
+          1e-06
+        ],
+        "beta": [
+          -0.3564021013116855,
+          0.012084736421999646,
+          0.03516756100606664,
+          0.2521548805570699,
+          -0.08427263285456055,
+          -0.36774679246150244,
+          0.2090677601171797,
+          -0.4330638539445768,
+          -9.146002083264092e-12
+        ]
+      },
+      "feature_importance": {},
+      "tuning": {
+        "calls": 2,
+        "contracts": 2,
+        "wins": 1,
+        "accuracy": 0.5,
+        "wilson95": [
+          0.09452865480086614,
+          0.9054713451991339
+        ],
+        "scheduled": 26,
+        "official": 26,
+        "coverage_scheduled": 0.07692307692307693,
+        "coverage_official": 0.07692307692307693,
+        "sides": {
+          "UP": 2
+        },
+        "entry": {
+          "n": 2,
+          "min": 0.38,
+          "mean": 0.39,
+          "median": 0.39,
+          "p95": 0.399,
+          "max": 0.4
+        },
+        "entry_le50": 2,
+        "entry_25_35": 0,
+        "minutes_left": {
+          "n": 2,
+          "min": 2.452588768005371,
+          "mean": 2.8266743765672047,
+          "median": 2.8266743765672047,
+          "p95": 3.163351424272855,
+          "max": 3.2007599851290385
+        },
+        "brier": 0.4414928332636924,
+        "mfe": {
+          "n": 2,
+          "min": 0.13,
+          "mean": 0.364,
+          "median": 0.364,
+          "p95": 0.5746,
+          "max": 0.598
+        },
+        "mae": {
+          "n": 2,
+          "min": -0.378,
+          "mean": -0.269,
+          "median": -0.269,
+          "p95": -0.17090000000000005,
+          "max": -0.16000000000000003
+        },
+        "positive_movement": 2,
+        "hit8": 2,
+        "hit10": 2,
+        "path_samples": 211,
+        "worst_path_gap": 19.029587030410767,
+        "executable_fill_proven": false,
+        "entries": [
+          {
+            "ticker": "KXBTC15M-26SEP232045-45",
+            "side": "UP",
+            "t": 1790210552.844087,
+            "ask": 0.4,
+            "fair": 0.8331223366035736,
+            "minutes_left": 2.452588768005371,
+            "result": "yes",
+            "correct": true,
+            "reversal": "AGAINST",
+            "volatility": 0.0002885373725451994,
+            "path_samples": 103,
+            "mfe": 0.598,
+            "mae": -0.16000000000000003,
+            "path_max_gap": 4.047598123550415,
+            "first_quote_delay": 0.5759251117706299,
+            "entry_ask_confirmed": true
+          },
+          {
+            "ticker": "KXBTC15M-26SEP232100-00",
+            "side": "UP",
+            "t": 1790211407.954042,
+            "ask": 0.38,
+            "fair": 0.9247364554221563,
+            "minutes_left": 3.2007599851290385,
+            "result": "no",
+            "correct": false,
+            "reversal": "AGAINST",
+            "volatility": 0.00023463909732043936,
+            "path_samples": 108,
+            "mfe": 0.13,
+            "mae": -0.378,
+            "path_max_gap": 19.029587030410767,
+            "first_quote_delay": 0.5265920162200928,
+            "entry_ask_confirmed": true
+          }
+        ],
+        "first_passage": {
+          "counts": {
+            "target": 1,
+            "stop": 1
+          },
+          "marks": {
+            "n": 2,
+            "min": -0.12,
+            "mean": 0.020000000000000018,
+            "median": 0.020000000000000018,
+            "p95": 0.14600000000000002,
+            "max": 0.16000000000000003
+          },
+          "win_rate_decisive": 0.5,
+          "complete_fills_proven": false,
+          "maximum_allowed_observation_gap_seconds": 6
+        }
+      },
+      "validation": {
+        "calls": 0,
+        "contracts": 0,
+        "wins": 0,
+        "accuracy": null,
+        "wilson95": null,
+        "scheduled": 21,
+        "official": 13,
+        "coverage_scheduled": 0.0,
+        "coverage_official": 0.0,
+        "sides": {},
+        "entry": {
+          "n": 0
+        },
+        "entry_le50": 0,
+        "entry_25_35": 0,
+        "minutes_left": {
+          "n": 0
+        },
+        "brier": null,
+        "mfe": {
+          "n": 0
+        },
+        "mae": {
+          "n": 0
+        },
+        "positive_movement": 0,
+        "hit8": 0,
+        "hit10": 0,
+        "path_samples": 0,
+        "worst_path_gap": null,
+        "executable_fill_proven": false,
+        "entries": [],
+        "first_passage": {
+          "counts": {},
+          "marks": {
+            "n": 0
+          },
+          "win_rate_decisive": null,
+          "complete_fills_proven": false,
+          "maximum_allowed_observation_gap_seconds": 6
+        }
+      }
+    },
+    "cheap_interactions": {
+      "validation_brier": 0.20733601755758127,
+      "validation_contracts": 11,
+      "training_anchors": 71,
+      "training_contracts": 23,
+      "parameters": {
+        "name": "cheap_interactions"
+      },
+      "feature_importance": {
+        "p_logit": 0.03299827672052888,
+        "z": 0.3088540647912801,
+        "basis": 0.15732114601376695,
+        "m15": 0.1420120039716938,
+        "m30": 0.06522807380376387,
+        "m60": 0.026704228231758245,
+        "receipt_left": 0.2668822064672082,
+        "spread": 0.0
+      },
+      "tuning": {
+        "calls": 0,
+        "contracts": 0,
+        "wins": 0,
+        "accuracy": null,
+        "wilson95": null,
+        "scheduled": 26,
+        "official": 26,
+        "coverage_scheduled": 0.0,
+        "coverage_official": 0.0,
+        "sides": {},
+        "entry": {
+          "n": 0
+        },
+        "entry_le50": 0,
+        "entry_25_35": 0,
+        "minutes_left": {
+          "n": 0
+        },
+        "brier": null,
+        "mfe": {
+          "n": 0
+        },
+        "mae": {
+          "n": 0
+        },
+        "positive_movement": 0,
+        "hit8": 0,
+        "hit10": 0,
+        "path_samples": 0,
+        "worst_path_gap": null,
+        "executable_fill_proven": false,
+        "entries": [],
+        "first_passage": {
+          "counts": {},
+          "marks": {
+            "n": 0
+          },
+          "win_rate_decisive": null,
+          "complete_fills_proven": false,
+          "maximum_allowed_observation_gap_seconds": 6
+        }
+      },
+      "validation": {
+        "calls": 0,
+        "contracts": 0,
+        "wins": 0,
+        "accuracy": null,
+        "wilson95": null,
+        "scheduled": 21,
+        "official": 13,
+        "coverage_scheduled": 0.0,
+        "coverage_official": 0.0,
+        "sides": {},
+        "entry": {
+          "n": 0
+        },
+        "entry_le50": 0,
+        "entry_25_35": 0,
+        "minutes_left": {
+          "n": 0
+        },
+        "brier": null,
+        "mfe": {
+          "n": 0
+        },
+        "mae": {
+          "n": 0
+        },
+        "positive_movement": 0,
+        "hit8": 0,
+        "hit10": 0,
+        "path_samples": 0,
+        "worst_path_gap": null,
+        "executable_fill_proven": false,
+        "entries": [],
+        "first_passage": {
+          "counts": {},
+          "marks": {
+            "n": 0
+          },
+          "win_rate_decisive": null,
+          "complete_fills_proven": false,
+          "maximum_allowed_observation_gap_seconds": 6
+        }
+      }
+    }
+  },
+  "selected": "cheap_interactions",
+  "source_code_sha256": "9971a3dc9c06a95891f907ba279f68139c182eebd2a171d045bd941d508c03a0"
+}

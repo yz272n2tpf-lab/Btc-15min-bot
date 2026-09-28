@@ -53,3 +53,10 @@ First candidate: timestamp-preserving owner/history, matching strict legacy cons
 Reproducing the Sep6 union script gives FINAL30/56,EARLY4/56 and SCALP0, but the committed scalp rows after its17-row cutoff cover Sep4–5, not Sep6. The zero cannot establish SCALP contribution; the three-way union is not a valid common-universe result.
 
 The entry-profit reviewer at14ef7cf calls freeze.audit(policy_grid) during each refreshed ladder.analyze(rows). freeze.audit re-selects roles from validation summaries; changing source hashes and role choices are visible across hourly logs. Preserve those reports as research and require an immutable cohort/policy manifest before claiming a frozen holdout. This refines blocker9(scoring/split integrity); no strategy promotion or retuning was performed.
+
+## Completion-stage additions (September23,12:43UTC)
+
+16. Owner restart reused a launch snapshot without the shared launcher and ran legacy bot.py. Explicit start/health settings plus a fresh config deployment restored the owner; a subsequent redeploy retained the launcher and produced a new fresh schema2 epoch. Do not infer current config is applied by reusing an older deployment snapshot.
+17. The fair model fitting universe shrinks at each restart because a wall-clock35-day cutoff removes fixed August training support. Reproduced57calibration contracts/798snapshots matches production. By September26at12:26UTC, zero calibration contracts remain. This is a startup/model-state blocker, not a threshold tuning proposal.
+18. Historical fair features admit completed Coinbase candles at bucket start. A controlled mutation of the not-yet-available12:35candle at a12:35cutoff changes18features without triggering the future-data guard. Historical model/score certification is blocked. See MODEL_INTEGRITY.md and reproducible offline scripts. No production weights or thresholds changed.
+19. Rescue V2 materialized the retained391MB CSV each poll, producing a main memory peak6.655GB. PR21 streams the identical timestamp selection and preserves order/duplicates;195regressions pass. Post-deploy observed memory0.87–0.88GB.

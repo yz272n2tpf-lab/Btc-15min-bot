@@ -1,0 +1,72 @@
+{
+  "deployment": "454f53ad-b269-4133-b0f5-60098978db71",
+  "slot": "2026-09-24T13:00:00Z",
+  "status": "PARTIAL_BOUNDARY_NOT_COMPLETE_CONTRACT_ACCEPTANCE",
+  "logs": [
+    {
+      "timestamp": "2026-09-24T13:00:00.782082650Z",
+      "message": "ROLLOVER STAGED HANDOFF | ticker=KXBTC15M-26SEP240915-15 | +0.675s | VERIFIED EXACT TICKER | NO ORDERS"
+    },
+    {
+      "timestamp": "2026-09-24T13:00:00.871439659Z",
+      "message": "BTC15_ROLLOVER_DIAG | {\"component\":\"main.readiness\",\"details\":{\"btc_ready\":true,\"target_ready\":false},\"event\":\"TARGET_AND_BTC_READY\",\"expected_open_utc\":\"2026-09-24T13:00:00Z\",\"ms_from_open\":863.01,\"orders\":false,\"signal_only\":true,\"ticker\":\"KXBTC15M-26SEP240915-15\",\"timestamp_utc\":\"2026-09-24T13:00:00.863010Z\"}"
+    },
+    {
+      "timestamp": "2026-09-24T13:00:15.932067459Z",
+      "message": "BTC15_ROLLOVER_DIAG | {\"component\":\"main.readiness\",\"details\":{\"btc_ready\":true,\"target_ready\":true},\"event\":\"TARGET_AND_BTC_READY\",\"expected_open_utc\":\"2026-09-24T13:00:00Z\",\"ms_from_open\":15911.315,\"orders\":false,\"signal_only\":true,\"ticker\":\"KXBTC15M-26SEP240915-15\",\"timestamp_utc\":\"2026-09-24T13:00:15.911315Z\"}"
+    },
+    {
+      "timestamp": "2026-09-24T13:00:26.139838300Z",
+      "message": "BTC15_ROLLOVER_DIAG | {\"component\":\"main.quote_consumption\",\"details\":{\"contiguous_timestamped_evidence\":true},\"event\":\"QUOTES_USABLE\",\"expected_open_utc\":\"2026-09-24T13:00:00Z\",\"ms_from_open\":26134.89,\"orders\":false,\"signal_only\":true,\"ticker\":\"KXBTC15M-26SEP240915-15\",\"timestamp_utc\":\"2026-09-24T13:00:26.134890Z\"}"
+    },
+    {
+      "timestamp": "2026-09-24T13:01:17.651970315Z",
+      "message": "PARITY PASS | KXBTC15M-26SEP240915-15 | age 1.4s | clock Δ0.0s | target Δ$0.00 | quotes WS Δ0.0c | BRTI Δ$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=3fe858c7-8893-47b4-8b0a-7ba25116e13c,sid=1,seq=33987,ts_ms=1790254876116|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T13:01:14+00:00|reference_publication=2026-09-24T13:01:14+00:00|bot_age_at_collection=2.139s|bot_target=83597.51|quote_request_started=2026-09-24T13:01:17.428225+00:00|quote_response_received=2026-09-24T13:01:17.497978+00:00"
+    },
+    {
+      "timestamp": "2026-09-24T13:01:32.746932266Z",
+      "message": "PARITY PASS | KXBTC15M-26SEP240915-15 | age 1.6s | clock Δ0.0s | target Δ$0.00 | quotes WS Δ0.0c | BRTI Δ$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=3fe858c7-8893-47b4-8b0a-7ba25116e13c,sid=1,seq=42085,ts_ms=1790254891108|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T13:01:28+00:00|reference_publication=2026-09-24T13:01:28+00:00|bot_age_at_collection=3.133s|bot_target=83597.51|quote_request_started=2026-09-24T13:01:32.562712+00:00|quote_response_received=2026-09-24T13:01:32.633905+00:00"
+    },
+    {
+      "timestamp": "2026-09-24T13:01:47.841732911Z",
+      "message": "PARITY PASS | KXBTC15M-26SEP240915-15 | age 1.7s | clock Δ0.0s | target Δ$0.00 | quotes WS Δ0.0c | BRTI Δ$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=3fe858c7-8893-47b4-8b0a-7ba25116e13c,sid=1,seq=51336,ts_ms=1790254906079|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T13:01:44+00:00|reference_publication=2026-09-24T13:01:44+00:00|bot_age_at_collection=2.104s|bot_target=83597.51|quote_request_started=2026-09-24T13:01:47.719176+00:00|quote_response_received=2026-09-24T13:01:47.782673+00:00"
+    },
+    {
+      "timestamp": "2026-09-24T13:02:02.978395938Z",
+      "message": "PARITY PASS | KXBTC15M-26SEP240915-15 | age 1.8s | clock Δ0.0s | target Δ$0.00 | quotes WS Δ0.0c | BRTI Δ$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=3fe858c7-8893-47b4-8b0a-7ba25116e13c,sid=1,seq=61766,ts_ms=1790254921091|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T13:01:58+00:00|reference_publication=2026-09-24T13:01:58+00:00|bot_age_at_collection=3.118s|bot_target=83597.51|quote_request_started=2026-09-24T13:02:02.841104+00:00|quote_response_received=2026-09-24T13:02:02.901348+00:00"
+    },
+    {
+      "timestamp": "2026-09-24T13:02:18.095729432Z",
+      "message": "PARITY PASS | KXBTC15M-26SEP240915-15 | age 2.0s | clock Δ0.0s | target Δ$0.00 | quotes WS Δ0.0c | BRTI Δ$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=3fe858c7-8893-47b4-8b0a-7ba25116e13c,sid=1,seq=70199,ts_ms=1790254936090|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T13:02:14+00:00|reference_publication=2026-09-24T13:02:14+00:00|bot_age_at_collection=2.116s|bot_target=83597.51|quote_request_started=2026-09-24T13:02:17.962771+00:00|quote_response_received=2026-09-24T13:02:18.024693+00:00"
+    },
+    {
+      "timestamp": "2026-09-24T13:02:33.272961662Z",
+      "message": "PARITY PASS | KXBTC15M-26SEP240915-15 | age 2.1s | clock Δ0.0s | target Δ$0.00 | quotes WS Δ0.0c | BRTI Δ$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=3fe858c7-8893-47b4-8b0a-7ba25116e13c,sid=1,seq=80250,ts_ms=1790254951084|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T13:02:28+00:00|reference_publication=2026-09-24T13:02:28+00:00|bot_age_at_collection=3.124s|bot_target=83597.51|quote_request_started=2026-09-24T13:02:33.094337+00:00|quote_response_received=2026-09-24T13:02:33.158246+00:00"
+    },
+    {
+      "timestamp": "2026-09-24T13:02:48.390762165Z",
+      "message": "PARITY PASS | KXBTC15M-26SEP240915-15 | age 2.3s | clock Δ0.0s | target Δ$0.00 | quotes WS Δ0.0c | BRTI Δ$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=3fe858c7-8893-47b4-8b0a-7ba25116e13c,sid=1,seq=91185,ts_ms=1790254966089|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T13:02:44+00:00|reference_publication=2026-09-24T13:02:44+00:00|bot_age_at_collection=2.115s|bot_target=83597.51|quote_request_started=2026-09-24T13:02:48.247225+00:00|quote_response_received=2026-09-24T13:02:48.310211+00:00"
+    },
+    {
+      "timestamp": "2026-09-24T13:03:03.521767898Z",
+      "message": "PARITY PASS | KXBTC15M-26SEP240915-15 | age 2.4s | clock Δ0.0s | target Δ$0.00 | quotes WS Δ0.0c | BRTI Δ$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=3fe858c7-8893-47b4-8b0a-7ba25116e13c,sid=1,seq=98653,ts_ms=1790254981097|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T13:03:00+00:00|reference_publication=2026-09-24T13:03:00+00:00|bot_age_at_collection=1.123s|bot_target=83597.51|quote_request_started=2026-09-24T13:03:03.384479+00:00|quote_response_received=2026-09-24T13:03:03.444654+00:00"
+    },
+    {
+      "timestamp": "2026-09-24T13:03:18.676864407Z",
+      "message": "PARITY PASS | KXBTC15M-26SEP240915-15 | age 2.5s | clock Δ0.0s | target Δ$0.00 | quotes WS Δ0.0c | BRTI Δ$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=3fe858c7-8893-47b4-8b0a-7ba25116e13c,sid=1,seq=104781,ts_ms=1790254996111|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T13:03:13+00:00|reference_publication=2026-09-24T13:03:13+00:00|bot_age_at_collection=3.132s|bot_target=83597.51|quote_request_started=2026-09-24T13:03:18.511633+00:00|quote_response_received=2026-09-24T13:03:18.574277+00:00"
+    },
+    {
+      "timestamp": "2026-09-24T13:00:32.122671765Z",
+      "message": "PARITY PASS | KXBTC15M-26SEP240915-15 | age 1.0s | clock Δ0.0s | target Δ$0.00 | quotes WS Δ0.0c | BRTI Δ$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=3fe858c7-8893-47b4-8b0a-7ba25116e13c,sid=1,seq=6376,ts_ms=1790254831120|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T13:00:28+00:00|reference_publication=2026-09-24T13:00:28+00:00|bot_age_at_collection=3.142s|bot_target=83597.51|quote_request_started=2026-09-24T13:00:31.978395+00:00|quote_response_received=2026-09-24T13:00:32.042070+00:00"
+    },
+    {
+      "timestamp": "2026-09-24T13:00:47.283622600Z",
+      "message": "PARITY PASS | KXBTC15M-26SEP240915-15 | age 1.1s | clock Δ0.0s | target Δ$0.00 | quotes WS Δ0.0c | BRTI Δ$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=3fe858c7-8893-47b4-8b0a-7ba25116e13c,sid=1,seq=16901,ts_ms=1790254846121|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T13:00:44+00:00|reference_publication=2026-09-24T13:00:44+00:00|bot_age_at_collection=2.162s|bot_target=83597.51|quote_request_started=2026-09-24T13:00:47.106266+00:00|quote_response_received=2026-09-24T13:00:47.169843+00:00"
+    },
+    {
+      "timestamp": "2026-09-24T13:01:02.434288284Z",
+      "message": "PARITY PASS | KXBTC15M-26SEP240915-15 | age 1.3s | clock Δ0.0s | target Δ$0.00 | quotes WS Δ0.0c | BRTI Δ$0.00 @ 0.000s | MEASUREMENT_V5|QUOTES_WS_STATE_MATCH|epoch=3fe858c7-8893-47b4-8b0a-7ba25116e13c,sid=1,seq=23976,ts_ms=1790254861134|BRTI_PUBLICATION_MATCH|bot_publication=2026-09-24T13:00:58+00:00|reference_publication=2026-09-24T13:00:58+00:00|bot_age_at_collection=3.162s|bot_target=83597.51|quote_request_started=2026-09-24T13:01:02.280340+00:00|quote_response_received=2026-09-24T13:01:02.346645+00:00"
+    }
+  ],
+  "orders": false
+}

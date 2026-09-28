@@ -1,0 +1,4036 @@
+{
+  "plan": {
+    "training": "00:15-06:45 UTC September 24; 26 contracts",
+    "folds": "first 8 -> next 6, first 14 -> next 6, first 20 -> next 6; no future labels",
+    "challenge": "07:00-12:15, previously opened development data, 13 official/21 scheduled",
+    "promotion": "Requires later untouched validation; this challenge cannot authorize promotion",
+    "outcome_families": [
+      "existing",
+      "diffusion",
+      "distance",
+      "distance_motion",
+      "market",
+      "market_residual"
+    ],
+    "v81_families": [
+      "baseline",
+      "sequence",
+      "velocity",
+      "sequence_velocity"
+    ],
+    "fit": "C=1 fixed L2, symmetric signed features, 5 clock anchors/contract, equal contract weight",
+    "outcome_policy": "EARLY existing .75/.08/45c/2-10m; FINAL .90/2-8m plus BRTI authority; distance encoded in horizon model replaces absolute gap/range double gates",
+    "scalp_policy": "separate first-passage head, existing +8c target/-10c stop/180s, 30-45c entry, two confirmations within4s, P(target-first)>=.70 fixed",
+    "sequence": "arm existing route, permit entry within15s on continuing BTC/BRTI direction plus original quote-lag and structure gates; reset on source gaps/failed direction/expiry",
+    "velocity": "replace acceleration-only trigger by equal 15s velocity over5s; keep existing route scale and all safety, price, persistence gates",
+    "selected_model": "lowest contract-weighted chronological OOF Brier; baseline included, no challenge reselection",
+    "safety": "same source qualification; explicitly exclude BTC source age outside[0,10] in V81 replay",
+    "orders": false,
+    "signal_only": true
+  },
+  "plan_sha256": "49bcac5214a96a355c30fe374342cad68376c39884873751639d309d0b673547",
+  "phase": "tune",
+  "orders": false,
+  "signal_only": true,
+  "folds": [
+    {
+      "fit_contracts": 8,
+      "test_contracts": 6,
+      "models": {
+        "existing": {
+          "contracts": 5,
+          "anchors": 24,
+          "brier": 0.08809044619463742,
+          "logloss": 0.31933358812842616,
+          "accuracy": 0.9199999999999999,
+          "contract_brier": {
+            "KXBTC15M-26SEP232230-30": 0.00932818114216134,
+            "KXBTC15M-26SEP232245-45": 0.018553315077904965,
+            "KXBTC15M-26SEP232300-00": 0.0723907869648758,
+            "KXBTC15M-26SEP232315-15": 0.2978064350810662,
+            "KXBTC15M-26SEP232330-30": 0.042373512707178845
+          },
+          "calibration": {
+            "9": {
+              "n": 7,
+              "confidence": 0.9035680364881168,
+              "accuracy": 1.0
+            },
+            "8": {
+              "n": 11,
+              "confidence": 0.8464037575474066,
+              "accuracy": 0.9090909090909091
+            },
+            "5": {
+              "n": 1,
+              "confidence": 0.5431731348629998,
+              "accuracy": 1.0
+            },
+            "7": {
+              "n": 2,
+              "confidence": 0.7364985574180982,
+              "accuracy": 0.5
+            },
+            "6": {
+              "n": 3,
+              "confidence": 0.6903785664546399,
+              "accuracy": 1.0
+            }
+          }
+        },
+        "diffusion": {
+          "contracts": 5,
+          "anchors": 24,
+          "brier": 0.08479215218104395,
+          "logloss": 0.2837750602527018,
+          "accuracy": 0.9199999999999999,
+          "contract_brier": {
+            "KXBTC15M-26SEP232230-30": 0.001105430992461682,
+            "KXBTC15M-26SEP232245-45": 0.07687040079338825,
+            "KXBTC15M-26SEP232300-00": 0.08491612307149103,
+            "KXBTC15M-26SEP232315-15": 0.22500733121184574,
+            "KXBTC15M-26SEP232330-30": 0.03606147483603307
+          },
+          "calibration": {
+            "9": {
+              "n": 10,
+              "confidence": 0.9735440503672242,
+              "accuracy": 1.0
+            },
+            "6": {
+              "n": 4,
+              "confidence": 0.6542619767909172,
+              "accuracy": 1.0
+            },
+            "5": {
+              "n": 3,
+              "confidence": 0.5768546248205396,
+              "accuracy": 0.6666666666666666
+            },
+            "8": {
+              "n": 3,
+              "confidence": 0.8260491188376128,
+              "accuracy": 1.0
+            },
+            "7": {
+              "n": 4,
+              "confidence": 0.7650142063175187,
+              "accuracy": 0.75
+            }
+          }
+        },
+        "distance": {
+          "contracts": 5,
+          "anchors": 24,
+          "brier": 0.14560176249439272,
+          "logloss": 0.4682350702834802,
+          "accuracy": 0.9199999999999999,
+          "contract_brier": {
+            "KXBTC15M-26SEP232230-30": 0.0602078828686595,
+            "KXBTC15M-26SEP232245-45": 0.14584168383950138,
+            "KXBTC15M-26SEP232300-00": 0.1820882652340706,
+            "KXBTC15M-26SEP232315-15": 0.21357862080157508,
+            "KXBTC15M-26SEP232330-30": 0.12629235972815697
+          },
+          "calibration": {
+            "6": {
+              "n": 6,
+              "confidence": 0.6375890218691397,
+              "accuracy": 0.8333333333333334
+            },
+            "7": {
+              "n": 7,
+              "confidence": 0.7451355096962567,
+              "accuracy": 1.0
+            },
+            "9": {
+              "n": 1,
+              "confidence": 0.944448721380648,
+              "accuracy": 1.0
+            },
+            "5": {
+              "n": 10,
+              "confidence": 0.5532638793762165,
+              "accuracy": 0.9
+            }
+          }
+        },
+        "distance_motion": {
+          "contracts": 5,
+          "anchors": 24,
+          "brier": 0.1432795601815631,
+          "logloss": 0.4523248614258943,
+          "accuracy": 0.76,
+          "contract_brier": {
+            "KXBTC15M-26SEP232230-30": 0.05818075832781143,
+            "KXBTC15M-26SEP232245-45": 0.19875138401194065,
+            "KXBTC15M-26SEP232300-00": 0.16050149696380706,
+            "KXBTC15M-26SEP232315-15": 0.2476365952350647,
+            "KXBTC15M-26SEP232330-30": 0.05132756636919156
+          },
+          "calibration": {
+            "6": {
+              "n": 4,
+              "confidence": 0.6408035415845547,
+              "accuracy": 0.5
+            },
+            "8": {
+              "n": 4,
+              "confidence": 0.8382462854940895,
+              "accuracy": 1.0
+            },
+            "7": {
+              "n": 11,
+              "confidence": 0.7576469192289367,
+              "accuracy": 0.9090909090909091
+            },
+            "9": {
+              "n": 1,
+              "confidence": 0.9553416877389558,
+              "accuracy": 1.0
+            },
+            "5": {
+              "n": 4,
+              "confidence": 0.5219356146801969,
+              "accuracy": 0.25
+            }
+          }
+        },
+        "market": {
+          "contracts": 5,
+          "anchors": 24,
+          "brier": 0.0819402375,
+          "logloss": 0.2735093009991566,
+          "accuracy": 0.9199999999999999,
+          "contract_brier": {
+            "KXBTC15M-26SEP232230-30": 0.003586799999999999,
+            "KXBTC15M-26SEP232245-45": 0.056167499999999995,
+            "KXBTC15M-26SEP232300-00": 0.137785,
+            "KXBTC15M-26SEP232315-15": 0.18686845000000002,
+            "KXBTC15M-26SEP232330-30": 0.025293437499999998
+          },
+          "calibration": {
+            "9": {
+              "n": 11,
+              "confidence": 0.9620000000000001,
+              "accuracy": 1.0
+            },
+            "6": {
+              "n": 5,
+              "confidence": 0.6609999999999999,
+              "accuracy": 1.0
+            },
+            "8": {
+              "n": 3,
+              "confidence": 0.8316666666666667,
+              "accuracy": 1.0
+            },
+            "5": {
+              "n": 3,
+              "confidence": 0.5449999999999999,
+              "accuracy": 0.6666666666666666
+            },
+            "7": {
+              "n": 2,
+              "confidence": 0.77,
+              "accuracy": 0.5
+            }
+          }
+        },
+        "market_residual": {
+          "contracts": 5,
+          "anchors": 24,
+          "brier": 0.12515907635946538,
+          "logloss": 0.4041681642695726,
+          "accuracy": 0.8400000000000001,
+          "contract_brier": {
+            "KXBTC15M-26SEP232230-30": 0.040584966354044266,
+            "KXBTC15M-26SEP232245-45": 0.1522922070330383,
+            "KXBTC15M-26SEP232300-00": 0.15358140809664447,
+            "KXBTC15M-26SEP232315-15": 0.2496783087505531,
+            "KXBTC15M-26SEP232330-30": 0.029658491563046643
+          },
+          "calibration": {
+            "6": {
+              "n": 3,
+              "confidence": 0.6671996845886121,
+              "accuracy": 0.6666666666666666
+            },
+            "8": {
+              "n": 9,
+              "confidence": 0.8388847824494259,
+              "accuracy": 0.8888888888888888
+            },
+            "7": {
+              "n": 6,
+              "confidence": 0.764966771518283,
+              "accuracy": 0.8333333333333334
+            },
+            "9": {
+              "n": 2,
+              "confidence": 0.9470573020221646,
+              "accuracy": 1.0
+            },
+            "5": {
+              "n": 4,
+              "confidence": 0.5368733198249286,
+              "accuracy": 0.75
+            }
+          }
+        }
+      }
+    },
+    {
+      "fit_contracts": 14,
+      "test_contracts": 6,
+      "models": {
+        "existing": {
+          "contracts": 6,
+          "anchors": 30,
+          "brier": 0.09626513706864225,
+          "logloss": 0.33786778396293066,
+          "accuracy": 0.9,
+          "contract_brier": {
+            "KXBTC15M-26SEP240000-00": 0.03965063019464146,
+            "KXBTC15M-26SEP240015-15": 0.08188086885277915,
+            "KXBTC15M-26SEP240030-30": 0.04724233011340382,
+            "KXBTC15M-26SEP240045-45": 0.07005571072657699,
+            "KXBTC15M-26SEP240100-00": 0.3294404093092626,
+            "KXBTC15M-26SEP240115-15": 0.009320873215189419
+          },
+          "calibration": {
+            "6": {
+              "n": 5,
+              "confidence": 0.6636666932160027,
+              "accuracy": 0.8
+            },
+            "8": {
+              "n": 8,
+              "confidence": 0.8550772874124468,
+              "accuracy": 1.0
+            },
+            "7": {
+              "n": 10,
+              "confidence": 0.765266861265868,
+              "accuracy": 0.8
+            },
+            "5": {
+              "n": 1,
+              "confidence": 0.5857650688625606,
+              "accuracy": 1.0
+            },
+            "9": {
+              "n": 6,
+              "confidence": 0.9038042884143765,
+              "accuracy": 1.0
+            }
+          }
+        },
+        "diffusion": {
+          "contracts": 6,
+          "anchors": 30,
+          "brier": 0.09548591642615802,
+          "logloss": 0.3122817077238174,
+          "accuracy": 0.9,
+          "contract_brier": {
+            "KXBTC15M-26SEP240000-00": 0.017907524533799186,
+            "KXBTC15M-26SEP240015-15": 0.09004189880918095,
+            "KXBTC15M-26SEP240030-30": 0.08608574520555665,
+            "KXBTC15M-26SEP240045-45": 0.045380903365163525,
+            "KXBTC15M-26SEP240100-00": 0.32954727491100544,
+            "KXBTC15M-26SEP240115-15": 0.003952151732242338
+          },
+          "calibration": {
+            "7": {
+              "n": 6,
+              "confidence": 0.7483897675305135,
+              "accuracy": 0.8333333333333334
+            },
+            "9": {
+              "n": 12,
+              "confidence": 0.9709386420896582,
+              "accuracy": 1.0
+            },
+            "8": {
+              "n": 5,
+              "confidence": 0.8487248638125825,
+              "accuracy": 0.8
+            },
+            "6": {
+              "n": 5,
+              "confidence": 0.6521792847448231,
+              "accuracy": 1.0
+            },
+            "5": {
+              "n": 2,
+              "confidence": 0.532431198857745,
+              "accuracy": 0.5
+            }
+          }
+        },
+        "distance": {
+          "contracts": 6,
+          "anchors": 30,
+          "brier": 0.12691026531277758,
+          "logloss": 0.4141552409794534,
+          "accuracy": 0.9,
+          "contract_brier": {
+            "KXBTC15M-26SEP240000-00": 0.0676483436584631,
+            "KXBTC15M-26SEP240015-15": 0.1535996429776292,
+            "KXBTC15M-26SEP240030-30": 0.1304236964285324,
+            "KXBTC15M-26SEP240045-45": 0.11350868106078296,
+            "KXBTC15M-26SEP240100-00": 0.25900224369189967,
+            "KXBTC15M-26SEP240115-15": 0.03727898405935814
+          },
+          "calibration": {
+            "6": {
+              "n": 10,
+              "confidence": 0.6423128391890229,
+              "accuracy": 0.8
+            },
+            "7": {
+              "n": 5,
+              "confidence": 0.7352022993663071,
+              "accuracy": 1.0
+            },
+            "8": {
+              "n": 4,
+              "confidence": 0.8356625880688586,
+              "accuracy": 1.0
+            },
+            "9": {
+              "n": 4,
+              "confidence": 0.9388140063418486,
+              "accuracy": 1.0
+            },
+            "5": {
+              "n": 7,
+              "confidence": 0.5550479787838919,
+              "accuracy": 0.8571428571428571
+            }
+          }
+        },
+        "distance_motion": {
+          "contracts": 6,
+          "anchors": 30,
+          "brier": 0.13874537352271923,
+          "logloss": 0.4309280297800197,
+          "accuracy": 0.8000000000000002,
+          "contract_brier": {
+            "KXBTC15M-26SEP240000-00": 0.06520484833071133,
+            "KXBTC15M-26SEP240015-15": 0.21928472590333353,
+            "KXBTC15M-26SEP240030-30": 0.18077342404799673,
+            "KXBTC15M-26SEP240045-45": 0.08130906987911993,
+            "KXBTC15M-26SEP240100-00": 0.2493901729735793,
+            "KXBTC15M-26SEP240115-15": 0.03651000000157455
+          },
+          "calibration": {
+            "8": {
+              "n": 7,
+              "confidence": 0.8400788457575332,
+              "accuracy": 1.0
+            },
+            "7": {
+              "n": 7,
+              "confidence": 0.7576162410488761,
+              "accuracy": 0.7142857142857143
+            },
+            "5": {
+              "n": 7,
+              "confidence": 0.5377774820495381,
+              "accuracy": 0.5714285714285714
+            },
+            "9": {
+              "n": 5,
+              "confidence": 0.9373070883193885,
+              "accuracy": 1.0
+            },
+            "6": {
+              "n": 4,
+              "confidence": 0.6466962948251352,
+              "accuracy": 0.75
+            }
+          }
+        },
+        "market": {
+          "contracts": 6,
+          "anchors": 30,
+          "brier": 0.10396820833333333,
+          "logloss": 0.32853110818303294,
+          "accuracy": 0.8666666666666667,
+          "contract_brier": {
+            "KXBTC15M-26SEP240000-00": 0.0210423,
+            "KXBTC15M-26SEP240015-15": 0.11119444999999999,
+            "KXBTC15M-26SEP240030-30": 0.09856580000000001,
+            "KXBTC15M-26SEP240045-45": 0.08500805000000002,
+            "KXBTC15M-26SEP240100-00": 0.30690125,
+            "KXBTC15M-26SEP240115-15": 0.0010974000000000031
+          },
+          "calibration": {
+            "7": {
+              "n": 5,
+              "confidence": 0.763,
+              "accuracy": 0.6
+            },
+            "8": {
+              "n": 5,
+              "confidence": 0.851,
+              "accuracy": 1.0
+            },
+            "9": {
+              "n": 11,
+              "confidence": 0.976590909090909,
+              "accuracy": 1.0
+            },
+            "6": {
+              "n": 5,
+              "confidence": 0.645,
+              "accuracy": 1.0
+            },
+            "5": {
+              "n": 4,
+              "confidence": 0.55,
+              "accuracy": 0.5
+            }
+          }
+        },
+        "market_residual": {
+          "contracts": 6,
+          "anchors": 30,
+          "brier": 0.12956692914006226,
+          "logloss": 0.40160549944155166,
+          "accuracy": 0.8333333333333334,
+          "contract_brier": {
+            "KXBTC15M-26SEP240000-00": 0.05145558455085893,
+            "KXBTC15M-26SEP240015-15": 0.21212522446547757,
+            "KXBTC15M-26SEP240030-30": 0.17952192306895404,
+            "KXBTC15M-26SEP240045-45": 0.07909641177905977,
+            "KXBTC15M-26SEP240100-00": 0.23850968468716927,
+            "KXBTC15M-26SEP240115-15": 0.016692746288854008
+          },
+          "calibration": {
+            "8": {
+              "n": 7,
+              "confidence": 0.8465317697955588,
+              "accuracy": 1.0
+            },
+            "5": {
+              "n": 7,
+              "confidence": 0.5458766659319175,
+              "accuracy": 0.7142857142857143
+            },
+            "9": {
+              "n": 7,
+              "confidence": 0.9523071010232249,
+              "accuracy": 1.0
+            },
+            "7": {
+              "n": 7,
+              "confidence": 0.7565692339790313,
+              "accuracy": 0.7142857142857143
+            },
+            "6": {
+              "n": 2,
+              "confidence": 0.6429714620713822,
+              "accuracy": 0.5
+            }
+          }
+        }
+      }
+    },
+    {
+      "fit_contracts": 20,
+      "test_contracts": 6,
+      "models": {
+        "existing": {
+          "contracts": 6,
+          "anchors": 30,
+          "brier": 0.1764902907241648,
+          "logloss": 0.5342653630649132,
+          "accuracy": 0.7666666666666667,
+          "contract_brier": {
+            "KXBTC15M-26SEP240130-30": 0.07749390734586528,
+            "KXBTC15M-26SEP240145-45": 0.38470372551612614,
+            "KXBTC15M-26SEP240200-00": 0.0638306751920832,
+            "KXBTC15M-26SEP240215-15": 0.12064740491037071,
+            "KXBTC15M-26SEP240230-30": 0.22788952007540733,
+            "KXBTC15M-26SEP240245-45": 0.18437651130513621
+          },
+          "calibration": {
+            "6": {
+              "n": 13,
+              "confidence": 0.6638142192424303,
+              "accuracy": 0.6923076923076923
+            },
+            "8": {
+              "n": 9,
+              "confidence": 0.837571491373244,
+              "accuracy": 0.7777777777777778
+            },
+            "7": {
+              "n": 7,
+              "confidence": 0.7357088077384348,
+              "accuracy": 0.8571428571428571
+            },
+            "9": {
+              "n": 1,
+              "confidence": 0.9066839065863911,
+              "accuracy": 1.0
+            }
+          }
+        },
+        "diffusion": {
+          "contracts": 6,
+          "anchors": 30,
+          "brier": 0.20132179008097265,
+          "logloss": 0.6133603218580498,
+          "accuracy": 0.7666666666666666,
+          "contract_brier": {
+            "KXBTC15M-26SEP240130-30": 0.0775648957237162,
+            "KXBTC15M-26SEP240145-45": 0.45052145250915077,
+            "KXBTC15M-26SEP240200-00": 0.0566036992778701,
+            "KXBTC15M-26SEP240215-15": 0.11494925575486954,
+            "KXBTC15M-26SEP240230-30": 0.24902168280506515,
+            "KXBTC15M-26SEP240245-45": 0.259269754415164
+          },
+          "calibration": {
+            "6": {
+              "n": 7,
+              "confidence": 0.6383840583222591,
+              "accuracy": 0.8571428571428571
+            },
+            "9": {
+              "n": 6,
+              "confidence": 0.9446431045819872,
+              "accuracy": 0.6666666666666666
+            },
+            "8": {
+              "n": 3,
+              "confidence": 0.8466434823592858,
+              "accuracy": 1.0
+            },
+            "5": {
+              "n": 8,
+              "confidence": 0.5692003323410986,
+              "accuracy": 0.75
+            },
+            "7": {
+              "n": 6,
+              "confidence": 0.7379220443710023,
+              "accuracy": 0.6666666666666666
+            }
+          }
+        },
+        "distance": {
+          "contracts": 6,
+          "anchors": 30,
+          "brier": 0.20505755234817027,
+          "logloss": 0.5971560934812219,
+          "accuracy": 0.7666666666666666,
+          "contract_brier": {
+            "KXBTC15M-26SEP240130-30": 0.1311917121070319,
+            "KXBTC15M-26SEP240145-45": 0.3677088631408375,
+            "KXBTC15M-26SEP240200-00": 0.10326727983024268,
+            "KXBTC15M-26SEP240215-15": 0.1381670757277685,
+            "KXBTC15M-26SEP240230-30": 0.24040925901532573,
+            "KXBTC15M-26SEP240245-45": 0.24960112426781533
+          },
+          "calibration": {
+            "6": {
+              "n": 8,
+              "confidence": 0.6364671305619658,
+              "accuracy": 0.75
+            },
+            "7": {
+              "n": 6,
+              "confidence": 0.7556823492655202,
+              "accuracy": 0.6666666666666666
+            },
+            "5": {
+              "n": 14,
+              "confidence": 0.5525398191999862,
+              "accuracy": 0.7857142857142857
+            },
+            "8": {
+              "n": 1,
+              "confidence": 0.8941686429653125,
+              "accuracy": 1.0
+            },
+            "9": {
+              "n": 1,
+              "confidence": 0.9435938357566855,
+              "accuracy": 1.0
+            }
+          }
+        },
+        "distance_motion": {
+          "contracts": 6,
+          "anchors": 30,
+          "brier": 0.2610267929422514,
+          "logloss": 0.7361958938599747,
+          "accuracy": 0.5666666666666667,
+          "contract_brier": {
+            "KXBTC15M-26SEP240130-30": 0.12293503501315246,
+            "KXBTC15M-26SEP240145-45": 0.5356613558051285,
+            "KXBTC15M-26SEP240200-00": 0.05901207208773316,
+            "KXBTC15M-26SEP240215-15": 0.20199314890034686,
+            "KXBTC15M-26SEP240230-30": 0.2939396979721096,
+            "KXBTC15M-26SEP240245-45": 0.35261944787503785
+          },
+          "calibration": {
+            "7": {
+              "n": 6,
+              "confidence": 0.7242602492076394,
+              "accuracy": 0.5
+            },
+            "9": {
+              "n": 5,
+              "confidence": 0.9353636570559685,
+              "accuracy": 0.6
+            },
+            "5": {
+              "n": 8,
+              "confidence": 0.529614026305272,
+              "accuracy": 0.5
+            },
+            "6": {
+              "n": 10,
+              "confidence": 0.6471513909050763,
+              "accuracy": 0.6
+            },
+            "8": {
+              "n": 1,
+              "confidence": 0.8654134797666003,
+              "accuracy": 1.0
+            }
+          }
+        },
+        "market": {
+          "contracts": 6,
+          "anchors": 30,
+          "brier": 0.18216547500000002,
+          "logloss": 0.5406023400407581,
+          "accuracy": 0.7666666666666666,
+          "contract_brier": {
+            "KXBTC15M-26SEP240130-30": 0.07260125,
+            "KXBTC15M-26SEP240145-45": 0.37582499999999996,
+            "KXBTC15M-26SEP240200-00": 0.045795100000000005,
+            "KXBTC15M-26SEP240215-15": 0.09960149999999998,
+            "KXBTC15M-26SEP240230-30": 0.258065,
+            "KXBTC15M-26SEP240245-45": 0.24110500000000004
+          },
+          "calibration": {
+            "6": {
+              "n": 8,
+              "confidence": 0.645,
+              "accuracy": 0.75
+            },
+            "8": {
+              "n": 5,
+              "confidence": 0.851,
+              "accuracy": 0.6
+            },
+            "7": {
+              "n": 6,
+              "confidence": 0.7416666666666667,
+              "accuracy": 0.8333333333333334
+            },
+            "9": {
+              "n": 5,
+              "confidence": 0.9571,
+              "accuracy": 1.0
+            },
+            "5": {
+              "n": 6,
+              "confidence": 0.5483333333333333,
+              "accuracy": 0.6666666666666666
+            }
+          }
+        },
+        "market_residual": {
+          "contracts": 6,
+          "anchors": 30,
+          "brier": 0.24446239836831626,
+          "logloss": 0.6968444329661972,
+          "accuracy": 0.6333333333333334,
+          "contract_brier": {
+            "KXBTC15M-26SEP240130-30": 0.10635031770268721,
+            "KXBTC15M-26SEP240145-45": 0.515145303432657,
+            "KXBTC15M-26SEP240200-00": 0.04757045284680107,
+            "KXBTC15M-26SEP240215-15": 0.1751612943081321,
+            "KXBTC15M-26SEP240230-30": 0.28696863054032,
+            "KXBTC15M-26SEP240245-45": 0.3355783913793002
+          },
+          "calibration": {
+            "7": {
+              "n": 7,
+              "confidence": 0.7241207680489287,
+              "accuracy": 0.5714285714285714
+            },
+            "9": {
+              "n": 5,
+              "confidence": 0.94667688770128,
+              "accuracy": 0.6
+            },
+            "5": {
+              "n": 9,
+              "confidence": 0.5513783155543055,
+              "accuracy": 0.6666666666666666
+            },
+            "8": {
+              "n": 3,
+              "confidence": 0.8513025539098397,
+              "accuracy": 1.0
+            },
+            "6": {
+              "n": 6,
+              "confidence": 0.6555199537526875,
+              "accuracy": 0.5
+            }
+          }
+        }
+      }
+    }
+  ],
+  "oof_brier": {
+    "existing": 0.12217557633706055,
+    "diffusion": 0.1296945294087061,
+    "distance": 0.15998915990809712,
+    "distance_motion": 0.183237105864567,
+    "market": 0.12508842867647058,
+    "market_residual": 0.16882184393221164
+  },
+  "selected_outcome_family": "existing",
+  "models": {
+    "existing": {
+      "name": "existing"
+    },
+    "diffusion": {
+      "name": "diffusion"
+    },
+    "distance": {
+      "name": "distance",
+      "features": [
+        "z"
+      ],
+      "scale": [
+        1.3985247925272468
+      ],
+      "coef": [
+        1.3086572892389245
+      ],
+      "training_contracts": 25,
+      "training_anchors": 124
+    },
+    "distance_motion": {
+      "name": "distance_motion",
+      "features": [
+        "z",
+        "basis",
+        "m15",
+        "m30",
+        "m60"
+      ],
+      "scale": [
+        1.3985247925272468,
+        0.2542072909154549,
+        0.5443074408497414,
+        0.6727056523284414,
+        0.9281645522951932
+      ],
+      "coef": [
+        1.3227478552474774,
+        -0.09659706613128963,
+        0.03954957381848482,
+        -0.28381600315123856,
+        -0.028949140111711468
+      ],
+      "training_contracts": 25,
+      "training_anchors": 124
+    },
+    "market": {
+      "name": "market"
+    },
+    "market_residual": {
+      "name": "market_residual",
+      "features": [
+        "logit_q",
+        "z",
+        "basis",
+        "m15",
+        "m30",
+        "m60"
+      ],
+      "scale": [
+        2.3410499046439095,
+        1.3985247925272468,
+        0.2542072909154549,
+        0.5443074408497414,
+        0.6727056523284414,
+        0.9281645522951932
+      ],
+      "coef": [
+        0.940075262747433,
+        0.7124126255235861,
+        -0.15246574587824013,
+        0.022019892200010403,
+        -0.2793450568224981,
+        -0.023445973365747046
+      ],
+      "training_contracts": 25,
+      "training_anchors": 124
+    }
+  },
+  "outcome": {
+    "existing": {
+      "scores": {
+        "contracts": 25,
+        "anchors": 124,
+        "brier": 0.16624693172308025,
+        "logloss": 0.5116911720485314,
+        "accuracy": 0.784,
+        "contract_brier": {
+          "KXBTC15M-26SEP232030-30": 0.651220672607229,
+          "KXBTC15M-26SEP232045-45": 0.3132858384717977,
+          "KXBTC15M-26SEP232100-00": 0.046940640154570674,
+          "KXBTC15M-26SEP232115-15": 0.08800390915426393,
+          "KXBTC15M-26SEP232130-30": 0.29299932802168965,
+          "KXBTC15M-26SEP232145-45": 0.48752658097228385,
+          "KXBTC15M-26SEP232200-00": 0.17646804106254693,
+          "KXBTC15M-26SEP232215-15": 0.02274348490259458,
+          "KXBTC15M-26SEP232230-30": 0.00932818114216134,
+          "KXBTC15M-26SEP232245-45": 0.018553315077904965,
+          "KXBTC15M-26SEP232300-00": 0.0723907869648758,
+          "KXBTC15M-26SEP232315-15": 0.2978064350810662,
+          "KXBTC15M-26SEP232330-30": 0.042373512707178845,
+          "KXBTC15M-26SEP240000-00": 0.03965063019464146,
+          "KXBTC15M-26SEP240015-15": 0.08188086885277915,
+          "KXBTC15M-26SEP240030-30": 0.04724233011340382,
+          "KXBTC15M-26SEP240045-45": 0.07005571072657699,
+          "KXBTC15M-26SEP240100-00": 0.3294404093092626,
+          "KXBTC15M-26SEP240115-15": 0.009320873215189419,
+          "KXBTC15M-26SEP240130-30": 0.07749390734586528,
+          "KXBTC15M-26SEP240145-45": 0.38470372551612614,
+          "KXBTC15M-26SEP240200-00": 0.0638306751920832,
+          "KXBTC15M-26SEP240215-15": 0.12064740491037071,
+          "KXBTC15M-26SEP240230-30": 0.22788952007540733,
+          "KXBTC15M-26SEP240245-45": 0.18437651130513621
+        },
+        "calibration": {
+          "8": {
+            "n": 39,
+            "confidence": 0.8496720789949125,
+            "accuracy": 0.8205128205128205
+          },
+          "6": {
+            "n": 34,
+            "confidence": 0.6656492576593451,
+            "accuracy": 0.7647058823529411
+          },
+          "5": {
+            "n": 7,
+            "confidence": 0.5517718062555241,
+            "accuracy": 0.5714285714285714
+          },
+          "7": {
+            "n": 28,
+            "confidence": 0.7558103476679309,
+            "accuracy": 0.75
+          },
+          "9": {
+            "n": 16,
+            "confidence": 0.9035635609394281,
+            "accuracy": 0.875
+          }
+        }
+      },
+      "lanes": {
+        "early": {
+          "calls": 2,
+          "contracts": 2,
+          "wins": 0,
+          "accuracy": 0.0,
+          "wilson95": [
+            0.0,
+            0.6576280471103807
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.07692307692307693,
+          "coverage_official": 0.07692307692307693,
+          "sides": {
+            "UP": 2
+          },
+          "entry": {
+            "n": 2,
+            "min": 0.42,
+            "mean": 0.425,
+            "median": 0.425,
+            "p95": 0.4295,
+            "max": 0.43
+          },
+          "entry_le50": 2,
+          "entry_25_35": 0,
+          "minutes_left": {
+            "n": 2,
+            "min": 3.2653576345443724,
+            "mean": 5.118458651383718,
+            "median": 5.118458651383718,
+            "p95": 6.786249566539129,
+            "max": 6.971559668223064
+          },
+          "brier": 0.5707242339647767,
+          "mfe": {
+            "n": 2,
+            "min": -0.010000000000000009,
+            "mean": 0.21,
+            "median": 0.21,
+            "p95": 0.408,
+            "max": 0.43
+          },
+          "mae": {
+            "n": 2,
+            "min": -0.429,
+            "mean": -0.424,
+            "median": -0.424,
+            "p95": -0.4195,
+            "max": -0.419
+          },
+          "positive_movement": 1,
+          "hit8": 1,
+          "hit10": 1,
+          "path_samples": 317,
+          "worst_path_gap": 19.029000997543335,
+          "executable_fill_proven": false,
+          "entries": [
+            {
+              "ticker": "KXBTC15M-26SEP232030-30",
+              "side": "UP",
+              "t": 1790209381.705081,
+              "ask": 0.42,
+              "fair": 0.7595389544781413,
+              "minutes_left": 6.971559668223064,
+              "result": "no",
+              "correct": false,
+              "reversal": "AGAINST",
+              "volatility": 0.0002565691018544537,
+              "path_samples": 203,
+              "mfe": 0.43,
+              "mae": -0.419,
+              "path_max_gap": 19.029000997543335,
+              "first_quote_delay": 0.57771897315979,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240130-30",
+              "side": "UP",
+              "t": 1790227604.080395,
+              "ask": 0.43,
+              "fair": 0.7513647879424515,
+              "minutes_left": 3.2653576345443724,
+              "result": "no",
+              "correct": false,
+              "reversal": "MIXED",
+              "volatility": 0.00027440162860861716,
+              "path_samples": 114,
+              "mfe": -0.010000000000000009,
+              "mae": -0.429,
+              "path_max_gap": 4.038267135620117,
+              "first_quote_delay": 0.45763397216796875,
+              "entry_ask_confirmed": true
+            }
+          ],
+          "first_passage": {
+            "counts": {
+              "gap_censored": 1,
+              "stop": 1
+            },
+            "marks": {
+              "n": 1,
+              "min": -0.14,
+              "mean": -0.14,
+              "median": -0.14,
+              "p95": -0.14,
+              "max": -0.14
+            },
+            "win_rate_decisive": 0.0,
+            "complete_fills_proven": false,
+            "maximum_allowed_observation_gap_seconds": 6
+          }
+        },
+        "final": {
+          "calls": 6,
+          "contracts": 6,
+          "wins": 5,
+          "accuracy": 0.8333333333333334,
+          "wilson95": [
+            0.43649056343635395,
+            0.9699474141282697
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.23076923076923078,
+          "coverage_official": 0.23076923076923078,
+          "sides": {
+            "UP": 6
+          },
+          "entry": {
+            "n": 6,
+            "min": 0.915,
+            "mean": 0.9434999999999999,
+            "median": 0.937,
+            "p95": 0.9824999999999999,
+            "max": 0.989
+          },
+          "entry_le50": 0,
+          "entry_25_35": 0,
+          "minutes_left": {
+            "n": 6,
+            "min": 3.1365314823786417,
+            "mean": 6.200502835220761,
+            "median": 6.697263241052628,
+            "p95": 7.981415154655775,
+            "max": 7.995425401051839
+          },
+          "brier": 0.143103549883472,
+          "mfe": {
+            "n": 6,
+            "min": 0.009000000000000008,
+            "mean": 0.04683333333333332,
+            "median": 0.044499999999999984,
+            "p95": 0.07599999999999996,
+            "max": 0.07799999999999996
+          },
+          "mae": {
+            "n": 6,
+            "min": -0.914,
+            "mean": -0.17149999999999999,
+            "median": -0.02150000000000002,
+            "p95": -0.0030000000000000027,
+            "max": -0.0030000000000000027
+          },
+          "positive_movement": 6,
+          "hit8": 0,
+          "hit10": 0,
+          "path_samples": 1099,
+          "worst_path_gap": 19.03040099143982,
+          "executable_fill_proven": false,
+          "entries": [
+            {
+              "ticker": "KXBTC15M-26SEP232145-45",
+              "side": "UP",
+              "t": 1790213820.270012,
+              "ask": 0.915,
+              "fair": 0.9007936725205153,
+              "minutes_left": 7.995425401051839,
+              "result": "no",
+              "correct": false,
+              "reversal": "PULLBACK",
+              "volatility": 0.00015593272247660736,
+              "path_samples": 260,
+              "mfe": 0.03699999999999992,
+              "mae": -0.914,
+              "path_max_gap": 19.03040099143982,
+              "first_quote_delay": 0.4703800678253174,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232230-30",
+              "side": "UP",
+              "t": 1790216523.641614,
+              "ask": 0.92,
+              "fair": 0.9029336734639998,
+              "minutes_left": 7.939384415467581,
+              "result": "yes",
+              "correct": true,
+              "reversal": "AGAINST",
+              "volatility": 0.00032126063044015963,
+              "path_samples": 288,
+              "mfe": 0.07799999999999996,
+              "mae": -0.030000000000000027,
+              "path_max_gap": 16.03754711151123,
+              "first_quote_delay": 0.7290859222412109,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232245-45",
+              "side": "UP",
+              "t": 1790217615.775293,
+              "ask": 0.928,
+              "fair": 0.9010834317219258,
+              "minutes_left": 4.737149230321249,
+              "result": "yes",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00014239825922536002,
+              "path_samples": 108,
+              "mfe": 0.06999999999999995,
+              "mae": -0.013000000000000012,
+              "path_max_gap": 4.049810886383057,
+              "first_quote_delay": 0.7062938213348389,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240100-00",
+              "side": "UP",
+              "t": 1790225811.80742,
+              "ask": 0.989,
+              "fair": 0.9032116555244135,
+              "minutes_left": 3.1365314823786417,
+              "result": "yes",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00042567396588210954,
+              "path_samples": 50,
+              "mfe": 0.009000000000000008,
+              "mae": -0.0030000000000000027,
+              "path_max_gap": 4.0375518798828125,
+              "first_quote_delay": 0.5380189418792725,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240115-15",
+              "side": "UP",
+              "t": 1790226423.909069,
+              "ask": 0.963,
+              "fair": 0.9044184805757566,
+              "minutes_left": 7.934854665120443,
+              "result": "yes",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.0005118474679710676,
+              "path_samples": 254,
+              "mfe": 0.03500000000000003,
+              "mae": -0.0030000000000000027,
+              "path_max_gap": 19.021422863006592,
+              "first_quote_delay": 0.4764578342437744,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240215-15",
+              "side": "UP",
+              "t": 1790230172.419618,
+              "ask": 0.946,
+              "fair": 0.9026250076305096,
+              "minutes_left": 5.459671816984812,
+              "result": "yes",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.0005070364489660871,
+              "path_samples": 139,
+              "mfe": 0.052000000000000046,
+              "mae": -0.06599999999999995,
+              "path_max_gap": 18.01752996444702,
+              "first_quote_delay": 0.39678215980529785,
+              "entry_ask_confirmed": false
+            }
+          ],
+          "first_passage": {
+            "counts": {
+              "entry_not_confirmed": 6
+            },
+            "marks": {
+              "n": 0
+            },
+            "win_rate_decisive": null,
+            "complete_fills_proven": false,
+            "maximum_allowed_observation_gap_seconds": 6
+          }
+        }
+      }
+    },
+    "diffusion": {
+      "scores": {
+        "contracts": 25,
+        "anchors": 124,
+        "brier": 0.16277489007371798,
+        "logloss": 0.48754706336232057,
+        "accuracy": 0.7759999999999999,
+        "contract_brier": {
+          "KXBTC15M-26SEP232030-30": 0.5831683727302475,
+          "KXBTC15M-26SEP232045-45": 0.37439443141438133,
+          "KXBTC15M-26SEP232100-00": 0.038518105340859685,
+          "KXBTC15M-26SEP232115-15": 0.08649470416017453,
+          "KXBTC15M-26SEP232130-30": 0.23316840357522342,
+          "KXBTC15M-26SEP232145-45": 0.3576545025156771,
+          "KXBTC15M-26SEP232200-00": 0.17423793336091742,
+          "KXBTC15M-26SEP232215-15": 0.01692879879746465,
+          "KXBTC15M-26SEP232230-30": 0.001105430992461682,
+          "KXBTC15M-26SEP232245-45": 0.07687040079338825,
+          "KXBTC15M-26SEP232300-00": 0.08491612307149103,
+          "KXBTC15M-26SEP232315-15": 0.22500733121184574,
+          "KXBTC15M-26SEP232330-30": 0.03606147483603307,
+          "KXBTC15M-26SEP240000-00": 0.017907524533799186,
+          "KXBTC15M-26SEP240015-15": 0.09004189880918095,
+          "KXBTC15M-26SEP240030-30": 0.08608574520555665,
+          "KXBTC15M-26SEP240045-45": 0.045380903365163525,
+          "KXBTC15M-26SEP240100-00": 0.32954727491100544,
+          "KXBTC15M-26SEP240115-15": 0.003952151732242338,
+          "KXBTC15M-26SEP240130-30": 0.0775648957237162,
+          "KXBTC15M-26SEP240145-45": 0.45052145250915077,
+          "KXBTC15M-26SEP240200-00": 0.0566036992778701,
+          "KXBTC15M-26SEP240215-15": 0.11494925575486954,
+          "KXBTC15M-26SEP240230-30": 0.24902168280506515,
+          "KXBTC15M-26SEP240245-45": 0.259269754415164
+        },
+        "calibration": {
+          "8": {
+            "n": 17,
+            "confidence": 0.8411574283564246,
+            "accuracy": 0.7058823529411765
+          },
+          "5": {
+            "n": 25,
+            "confidence": 0.5613736604274945,
+            "accuracy": 0.56
+          },
+          "7": {
+            "n": 24,
+            "confidence": 0.750323325754243,
+            "accuracy": 0.7083333333333334
+          },
+          "6": {
+            "n": 23,
+            "confidence": 0.6423669143119046,
+            "accuracy": 0.8695652173913043
+          },
+          "9": {
+            "n": 35,
+            "confidence": 0.9653828328146148,
+            "accuracy": 0.9428571428571428
+          }
+        }
+      },
+      "lanes": {
+        "early": {
+          "calls": 0,
+          "contracts": 0,
+          "wins": 0,
+          "accuracy": null,
+          "wilson95": null,
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.0,
+          "coverage_official": 0.0,
+          "sides": {},
+          "entry": {
+            "n": 0
+          },
+          "entry_le50": 0,
+          "entry_25_35": 0,
+          "minutes_left": {
+            "n": 0
+          },
+          "brier": null,
+          "mfe": {
+            "n": 0
+          },
+          "mae": {
+            "n": 0
+          },
+          "positive_movement": 0,
+          "hit8": 0,
+          "hit10": 0,
+          "path_samples": 0,
+          "worst_path_gap": null,
+          "executable_fill_proven": false,
+          "entries": [],
+          "first_passage": {
+            "counts": {},
+            "marks": {
+              "n": 0
+            },
+            "win_rate_decisive": null,
+            "complete_fills_proven": false,
+            "maximum_allowed_observation_gap_seconds": 6
+          }
+        },
+        "final": {
+          "calls": 19,
+          "contracts": 19,
+          "wins": 17,
+          "accuracy": 0.8947368421052632,
+          "wilson95": [
+            0.686054495051583,
+            0.9706420586049034
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.7307692307692307,
+          "coverage_official": 0.7307692307692307,
+          "sides": {
+            "DOWN": 12,
+            "UP": 7
+          },
+          "entry": {
+            "n": 19,
+            "min": 0.72,
+            "mean": 0.8839473684210525,
+            "median": 0.88,
+            "p95": 0.9891,
+            "max": 0.99
+          },
+          "entry_le50": 0,
+          "entry_25_35": 0,
+          "minutes_left": {
+            "n": 19,
+            "min": 2.84872816324234,
+            "mean": 5.7671441598440465,
+            "median": 5.737182251294454,
+            "p95": 7.941846382331849,
+            "max": 7.96400408411026
+          },
+          "brier": 0.09301104776472661,
+          "mfe": {
+            "n": 19,
+            "min": 0.0,
+            "mean": 0.09994736842105263,
+            "median": 0.09799999999999998,
+            "p95": 0.22399999999999984,
+            "max": 0.278
+          },
+          "mae": {
+            "n": 19,
+            "min": -0.867,
+            "mean": -0.16805263157894737,
+            "median": -0.052000000000000046,
+            "p95": -0.0018000000000000058,
+            "max": 0.0
+          },
+          "positive_movement": 17,
+          "hit8": 11,
+          "hit10": 9,
+          "path_samples": 3456,
+          "worst_path_gap": 27.03175401687622,
+          "executable_fill_proven": false,
+          "entries": [
+            {
+              "ticker": "KXBTC15M-26SEP232045-45",
+              "side": "DOWN",
+              "t": 1790210417.82894,
+              "ask": 0.86,
+              "fair": 0.9014447215046552,
+              "minutes_left": 4.702894866148631,
+              "result": "yes",
+              "correct": false,
+              "reversal": "PUSH",
+              "volatility": 0.0002943992059020101,
+              "path_samples": 202,
+              "mfe": 0.0,
+              "mae": -0.859,
+              "path_max_gap": 4.047598123550415,
+              "first_quote_delay": 0.5607690811157227,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232100-00",
+              "side": "DOWN",
+              "t": 1790211182.935638,
+              "ask": 0.89,
+              "fair": 0.9319311105616692,
+              "minutes_left": 6.951054165681203,
+              "result": "no",
+              "correct": true,
+              "reversal": "MIXED",
+              "volatility": 0.00020611047898229192,
+              "path_samples": 269,
+              "mfe": 0.10699999999999998,
+              "mae": -0.41000000000000003,
+              "path_max_gap": 19.029587030410767,
+              "first_quote_delay": 0.5364279747009277,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232115-15",
+              "side": "DOWN",
+              "t": 1790212329.072688,
+              "ask": 0.922,
+              "fair": 0.9231691191891258,
+              "minutes_left": 2.84872816324234,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00026750610146828666,
+              "path_samples": 85,
+              "mfe": 0.07599999999999996,
+              "mae": -0.052000000000000046,
+              "path_max_gap": 24.027729034423828,
+              "first_quote_delay": 0.5275249481201172,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232215-15",
+              "side": "DOWN",
+              "t": 1790215682.543399,
+              "ask": 0.86,
+              "fair": 0.9147649495707106,
+              "minutes_left": 6.957560182730357,
+              "result": "no",
+              "correct": true,
+              "reversal": "MIXED",
+              "volatility": 0.000441937736231452,
+              "path_samples": 258,
+              "mfe": 0.138,
+              "mae": -0.010000000000000009,
+              "path_max_gap": 4.0607240200042725,
+              "first_quote_delay": 0.3940877914428711,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232230-30",
+              "side": "UP",
+              "t": 1790216523.641614,
+              "ask": 0.92,
+              "fair": 0.9859787900138987,
+              "minutes_left": 7.939384415467581,
+              "result": "yes",
+              "correct": true,
+              "reversal": "AGAINST",
+              "volatility": 0.00032126063044015963,
+              "path_samples": 288,
+              "mfe": 0.07799999999999996,
+              "mae": -0.030000000000000027,
+              "path_max_gap": 16.03754711151123,
+              "first_quote_delay": 0.7290859222412109,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232245-45",
+              "side": "UP",
+              "t": 1790217555.769976,
+              "ask": 0.88,
+              "fair": 0.9203940541495637,
+              "minutes_left": 5.737182251294454,
+              "result": "yes",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00025579348725090996,
+              "path_samples": 145,
+              "mfe": 0.118,
+              "mae": -0.07999999999999996,
+              "path_max_gap": 4.049810886383057,
+              "first_quote_delay": 0.7065801620483398,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232300-00",
+              "side": "UP",
+              "t": 1790218471.896176,
+              "ask": 0.72,
+              "fair": 0.9050278338757822,
+              "minutes_left": 5.468330365022024,
+              "result": "yes",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.0001272789951179973,
+              "path_samples": 169,
+              "mfe": 0.278,
+              "mae": -0.12,
+              "path_max_gap": 4.073986053466797,
+              "first_quote_delay": 0.7000370025634766,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232315-15",
+              "side": "DOWN",
+              "t": 1790219523.01628,
+              "ask": 0.981,
+              "fair": 0.9485787546888673,
+              "minutes_left": 2.949803802172343,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.0004115639738250583,
+              "path_samples": 76,
+              "mfe": 0.016000000000000014,
+              "mae": -0.007000000000000006,
+              "path_max_gap": 4.036579847335815,
+              "first_quote_delay": 0.6803121566772461,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232330-30",
+              "side": "DOWN",
+              "t": 1790220125.087165,
+              "ask": 0.91,
+              "fair": 0.9053175750020226,
+              "minutes_left": 7.915176565170288,
+              "result": "no",
+              "correct": true,
+              "reversal": "MIXED",
+              "volatility": 0.00017525088237728696,
+              "path_samples": 220,
+              "mfe": 0.08799999999999997,
+              "mae": -0.0020000000000000018,
+              "path_max_gap": 4.0417280197143555,
+              "first_quote_delay": 0.6538958549499512,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240000-00",
+              "side": "DOWN",
+              "t": 1790221938.323349,
+              "ask": 0.87,
+              "fair": 0.9069231475945438,
+              "minutes_left": 7.69469109805425,
+              "result": "no",
+              "correct": true,
+              "reversal": "AGAINST",
+              "volatility": 0.00027453863209156833,
+              "path_samples": 254,
+              "mfe": 0.128,
+              "mae": -0.050000000000000044,
+              "path_max_gap": 16.02964997291565,
+              "first_quote_delay": 0.5899899005889893,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240015-15",
+              "side": "DOWN",
+              "t": 1790223086.47794,
+              "ask": 0.82,
+              "fair": 0.9047447854937911,
+              "minutes_left": 3.5587375135421753,
+              "result": "no",
+              "correct": true,
+              "reversal": "PULLBACK",
+              "volatility": 0.0004484242312724017,
+              "path_samples": 75,
+              "mfe": 0.17800000000000005,
+              "mae": -0.05999999999999994,
+              "path_max_gap": 27.03175401687622,
+              "first_quote_delay": 0.558276891708374,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240030-30",
+              "side": "UP",
+              "t": 1790223930.575114,
+              "ask": 0.83,
+              "fair": 0.9237279266302606,
+              "minutes_left": 4.4903626511891686,
+              "result": "yes",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00012969418259098099,
+              "path_samples": 107,
+              "mfe": 0.16800000000000004,
+              "mae": -0.029999999999999916,
+              "path_max_gap": 19.02507185935974,
+              "first_quote_delay": 0.5864980220794678,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240045-45",
+              "side": "DOWN",
+              "t": 1790224666.657338,
+              "ask": 0.78,
+              "fair": 0.9278096393426764,
+              "minutes_left": 7.222415053367615,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.0001420799957558542,
+              "path_samples": 212,
+              "mfe": 0.21799999999999997,
+              "mae": -0.09000000000000008,
+              "path_max_gap": 18.0455379486084,
+              "first_quote_delay": 0.5664269924163818,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240100-00",
+              "side": "UP",
+              "t": 1790225811.80742,
+              "ask": 0.989,
+              "fair": 0.905038495380603,
+              "minutes_left": 3.1365314823786417,
+              "result": "yes",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00042567396588210954,
+              "path_samples": 50,
+              "mfe": 0.009000000000000008,
+              "mae": -0.0030000000000000027,
+              "path_max_gap": 4.0375518798828125,
+              "first_quote_delay": 0.5380189418792725,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240115-15",
+              "side": "UP",
+              "t": 1790226423.909069,
+              "ask": 0.963,
+              "fair": 0.9315286319519457,
+              "minutes_left": 7.934854665120443,
+              "result": "yes",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.0005118474679710676,
+              "path_samples": 254,
+              "mfe": 0.03500000000000003,
+              "mae": -0.0030000000000000027,
+              "path_max_gap": 19.021422863006592,
+              "first_quote_delay": 0.4764578342437744,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240130-30",
+              "side": "DOWN",
+              "t": 1790227325.01594,
+              "ask": 0.84,
+              "fair": 0.900404444301999,
+              "minutes_left": 7.916438882668813,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00022288828301060543,
+              "path_samples": 292,
+              "mfe": 0.15800000000000003,
+              "mae": -0.45999999999999996,
+              "path_max_gap": 18.018168926239014,
+              "first_quote_delay": 0.4740431308746338,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240145-45",
+              "side": "DOWN",
+              "t": 1790228222.16328,
+              "ask": 0.87,
+              "fair": 0.9213428199072624,
+              "minutes_left": 7.96400408411026,
+              "result": "yes",
+              "correct": false,
+              "reversal": "PUSH",
+              "volatility": 0.0002073014485559973,
+              "path_samples": 286,
+              "mfe": 0.0,
+              "mae": -0.867,
+              "path_max_gap": 18.036213874816895,
+              "first_quote_delay": 0.44259190559387207,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240200-00",
+              "side": "DOWN",
+              "t": 1790229306.307238,
+              "ask": 0.9,
+              "fair": 0.9437241062217406,
+              "minutes_left": 4.894846663157145,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00020200327755714531,
+              "path_samples": 142,
+              "mfe": 0.09799999999999998,
+              "mae": -0.06000000000000005,
+              "path_max_gap": 19.013829946517944,
+              "first_quote_delay": 0.4023768901824951,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240215-15",
+              "side": "UP",
+              "t": 1790230302.432028,
+              "ask": 0.99,
+              "fair": 0.9277986257447403,
+              "minutes_left": 3.2927421665191647,
+              "result": "yes",
+              "correct": true,
+              "reversal": "MIXED",
+              "volatility": 0.000417593104058978,
+              "path_samples": 72,
+              "mfe": 0.008000000000000007,
+              "mae": 0.0,
+              "path_max_gap": 9.030132055282593,
+              "first_quote_delay": 0.39418601989746094,
+              "entry_ask_confirmed": false
+            }
+          ],
+          "first_passage": {
+            "counts": {
+              "stop": 2,
+              "horizon_unpriced": 3,
+              "gap_censored": 2,
+              "target": 4,
+              "entry_not_confirmed": 8
+            },
+            "marks": {
+              "n": 6,
+              "min": -0.13,
+              "mean": 0.018666666666666665,
+              "median": 0.08299999999999996,
+              "p95": 0.10200000000000006,
+              "max": 0.1060000000000001
+            },
+            "win_rate_decisive": 0.6666666666666666,
+            "complete_fills_proven": false,
+            "maximum_allowed_observation_gap_seconds": 6
+          }
+        }
+      }
+    },
+    "distance": {
+      "scores": {
+        "contracts": 25,
+        "anchors": 124,
+        "brier": 0.16847770172727342,
+        "logloss": 0.5057658616570201,
+        "accuracy": 0.7759999999999999,
+        "contract_brier": {
+          "KXBTC15M-26SEP232030-30": 0.44304503562551883,
+          "KXBTC15M-26SEP232045-45": 0.32010111354854864,
+          "KXBTC15M-26SEP232100-00": 0.07274689393242346,
+          "KXBTC15M-26SEP232115-15": 0.12687882413798823,
+          "KXBTC15M-26SEP232130-30": 0.23812765584793422,
+          "KXBTC15M-26SEP232145-45": 0.30647346087150396,
+          "KXBTC15M-26SEP232200-00": 0.19887191252648032,
+          "KXBTC15M-26SEP232215-15": 0.049090039015229806,
+          "KXBTC15M-26SEP232230-30": 0.017001483315659684,
+          "KXBTC15M-26SEP232245-45": 0.10600104110171764,
+          "KXBTC15M-26SEP232300-00": 0.13634841148954396,
+          "KXBTC15M-26SEP232315-15": 0.20998509310862318,
+          "KXBTC15M-26SEP232330-30": 0.07346899402284597,
+          "KXBTC15M-26SEP240000-00": 0.05009882335239861,
+          "KXBTC15M-26SEP240015-15": 0.1350677627059721,
+          "KXBTC15M-26SEP240030-30": 0.11652662578816679,
+          "KXBTC15M-26SEP240045-45": 0.09168271826263044,
+          "KXBTC15M-26SEP240100-00": 0.2728203864216189,
+          "KXBTC15M-26SEP240115-15": 0.02319372336343397,
+          "KXBTC15M-26SEP240130-30": 0.1248877278513747,
+          "KXBTC15M-26SEP240145-45": 0.37625384028294895,
+          "KXBTC15M-26SEP240200-00": 0.09749648619980412,
+          "KXBTC15M-26SEP240215-15": 0.13496449428598203,
+          "KXBTC15M-26SEP240230-30": 0.2406534140294465,
+          "KXBTC15M-26SEP240245-45": 0.2501565820940403
+        },
+        "calibration": {
+          "7": {
+            "n": 20,
+            "confidence": 0.7509102151033545,
+            "accuracy": 0.7
+          },
+          "5": {
+            "n": 42,
+            "confidence": 0.5526852812024352,
+            "accuracy": 0.6904761904761905
+          },
+          "6": {
+            "n": 35,
+            "confidence": 0.6511977392757698,
+            "accuracy": 0.7428571428571429
+          },
+          "9": {
+            "n": 12,
+            "confidence": 0.9427151158772449,
+            "accuracy": 1.0
+          },
+          "8": {
+            "n": 15,
+            "confidence": 0.8531557394074303,
+            "accuracy": 1.0
+          }
+        }
+      },
+      "lanes": {
+        "early": {
+          "calls": 0,
+          "contracts": 0,
+          "wins": 0,
+          "accuracy": null,
+          "wilson95": null,
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.0,
+          "coverage_official": 0.0,
+          "sides": {},
+          "entry": {
+            "n": 0
+          },
+          "entry_le50": 0,
+          "entry_25_35": 0,
+          "minutes_left": {
+            "n": 0
+          },
+          "brier": null,
+          "mfe": {
+            "n": 0
+          },
+          "mae": {
+            "n": 0
+          },
+          "positive_movement": 0,
+          "hit8": 0,
+          "hit10": 0,
+          "path_samples": 0,
+          "worst_path_gap": null,
+          "executable_fill_proven": false,
+          "entries": [],
+          "first_passage": {
+            "counts": {},
+            "marks": {
+              "n": 0
+            },
+            "win_rate_decisive": null,
+            "complete_fills_proven": false,
+            "maximum_allowed_observation_gap_seconds": 6
+          }
+        },
+        "final": {
+          "calls": 9,
+          "contracts": 9,
+          "wins": 9,
+          "accuracy": 1.0,
+          "wilson95": [
+            0.7008472464490407,
+            1.0
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.34615384615384615,
+          "coverage_official": 0.34615384615384615,
+          "sides": {
+            "DOWN": 5,
+            "UP": 4
+          },
+          "entry": {
+            "n": 9,
+            "min": 0.919,
+            "mean": 0.973111111111111,
+            "median": 0.987,
+            "p95": 0.9968,
+            "max": 0.998
+          },
+          "entry_le50": 0,
+          "entry_25_35": 0,
+          "minutes_left": {
+            "n": 9,
+            "min": 2.1445738167762753,
+            "mean": 3.693914748703992,
+            "median": 3.927488214333852,
+            "p95": 5.093788067785899,
+            "max": 5.851568399588268
+          },
+          "brier": 0.00792260063964898,
+          "mfe": {
+            "n": 9,
+            "min": 0.0,
+            "mean": 0.024777777777777787,
+            "median": 0.01100000000000001,
+            "p95": 0.06579999999999998,
+            "max": 0.07899999999999996
+          },
+          "mae": {
+            "n": 9,
+            "min": -0.471,
+            "mean": -0.05766666666666667,
+            "median": -0.0040000000000000036,
+            "p95": -0.0004000000000000007,
+            "max": 0.0
+          },
+          "positive_movement": 8,
+          "hit8": 0,
+          "hit10": 0,
+          "path_samples": 817,
+          "worst_path_gap": 19.029587030410767,
+          "executable_fill_proven": false,
+          "entries": [
+            {
+              "ticker": "KXBTC15M-26SEP232100-00",
+              "side": "DOWN",
+              "t": 1790211362.955019,
+              "ask": 0.951,
+              "fair": 0.9105503865823912,
+              "minutes_left": 3.950734001318614,
+              "result": "no",
+              "correct": true,
+              "reversal": "MIXED",
+              "volatility": 0.0001773318561245645,
+              "path_samples": 143,
+              "mfe": 0.04600000000000004,
+              "mae": -0.471,
+              "path_max_gap": 19.029587030410767,
+              "first_quote_delay": 0.5213119983673096,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232215-15",
+              "side": "DOWN",
+              "t": 1790215862.568601,
+              "ask": 0.988,
+              "fair": 0.9299595263180973,
+              "minutes_left": 3.9571175700823464,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.0004596543466087933,
+              "path_samples": 126,
+              "mfe": 0.010000000000000009,
+              "mae": -0.0040000000000000036,
+              "path_max_gap": 4.042209148406982,
+              "first_quote_delay": 0.3793320655822754,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232230-30",
+              "side": "UP",
+              "t": 1790216763.671162,
+              "ask": 0.957,
+              "fair": 0.9065422542566781,
+              "minutes_left": 3.9387427514394124,
+              "result": "yes",
+              "correct": true,
+              "reversal": "AGAINST",
+              "volatility": 0.00020204131320046385,
+              "path_samples": 112,
+              "mfe": 0.041000000000000036,
+              "mae": -0.006000000000000005,
+              "path_max_gap": 8.023422956466675,
+              "first_quote_delay": 0.714043140411377,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232245-45",
+              "side": "UP",
+              "t": 1790217770.804444,
+              "ask": 0.998,
+              "fair": 0.9081211734282955,
+              "minutes_left": 2.1532741146087644,
+              "result": "yes",
+              "correct": true,
+              "reversal": "MIXED",
+              "volatility": 0.00018048826862388924,
+              "path_samples": 13,
+              "mfe": 0.0,
+              "mae": -0.0010000000000000009,
+              "path_max_gap": 3.0268731117248535,
+              "first_quote_delay": 0.694025993347168,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232330-30",
+              "side": "DOWN",
+              "t": 1790220365.118898,
+              "ask": 0.993,
+              "fair": 0.9211306825327582,
+              "minutes_left": 3.9146977529525757,
+              "result": "no",
+              "correct": true,
+              "reversal": "MIXED",
+              "volatility": 0.00045677774546875607,
+              "path_samples": 61,
+              "mfe": 0.0050000000000000044,
+              "mae": -0.0020000000000000018,
+              "path_max_gap": 4.039857864379883,
+              "first_quote_delay": 0.6474320888519287,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240000-00",
+              "side": "DOWN",
+              "t": 1790222164.348407,
+              "ask": 0.97,
+              "fair": 0.9111176482033059,
+              "minutes_left": 3.927488214333852,
+              "result": "no",
+              "correct": true,
+              "reversal": "MIXED",
+              "volatility": 0.00026456305169669,
+              "path_samples": 107,
+              "mfe": 0.028000000000000025,
+              "mae": 0.0,
+              "path_max_gap": 4.030598163604736,
+              "first_quote_delay": 0.6168210506439209,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240030-30",
+              "side": "UP",
+              "t": 1790223995.579561,
+              "ask": 0.919,
+              "fair": 0.903386069153202,
+              "minutes_left": 3.4070361172358195,
+              "result": "yes",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 9.615145445269476e-05,
+              "path_samples": 69,
+              "mfe": 0.07899999999999996,
+              "mae": -0.029000000000000026,
+              "path_max_gap": 19.02507185935974,
+              "first_quote_delay": 0.5730910301208496,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240115-15",
+              "side": "UP",
+              "t": 1790226548.910834,
+              "ask": 0.987,
+              "fair": 0.9031589727238886,
+              "minutes_left": 5.851568399588268,
+              "result": "yes",
+              "correct": true,
+              "reversal": "AGAINST",
+              "volatility": 0.0005670305297276067,
+              "path_samples": 167,
+              "mfe": 0.01100000000000001,
+              "mae": -0.0050000000000000044,
+              "path_max_gap": 19.021422863006592,
+              "first_quote_delay": 0.49492788314819336,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240200-00",
+              "side": "DOWN",
+              "t": 1790229471.324833,
+              "ask": 0.995,
+              "fair": 0.9084163903590998,
+              "minutes_left": 2.1445738167762753,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00022034151294276184,
+              "path_samples": 19,
+              "mfe": 0.0030000000000000027,
+              "mae": -0.0010000000000000009,
+              "path_max_gap": 19.013829946517944,
+              "first_quote_delay": 0.40134596824645996,
+              "entry_ask_confirmed": true
+            }
+          ],
+          "first_passage": {
+            "counts": {
+              "stop": 1,
+              "horizon_unpriced": 4,
+              "gap_censored": 2,
+              "entry_not_confirmed": 2
+            },
+            "marks": {
+              "n": 1,
+              "min": -0.10099999999999998,
+              "mean": -0.10099999999999998,
+              "median": -0.10099999999999998,
+              "p95": -0.10099999999999998,
+              "max": -0.10099999999999998
+            },
+            "win_rate_decisive": 0.0,
+            "complete_fills_proven": false,
+            "maximum_allowed_observation_gap_seconds": 6
+          }
+        }
+      }
+    },
+    "distance_motion": {
+      "scores": {
+        "contracts": 25,
+        "anchors": 124,
+        "brier": 0.163295500211438,
+        "logloss": 0.49311322359887755,
+        "accuracy": 0.7919999999999999,
+        "contract_brier": {
+          "KXBTC15M-26SEP232030-30": 0.3865448607789349,
+          "KXBTC15M-26SEP232045-45": 0.2247508700541822,
+          "KXBTC15M-26SEP232100-00": 0.07661077065686468,
+          "KXBTC15M-26SEP232115-15": 0.13251988858443423,
+          "KXBTC15M-26SEP232130-30": 0.21464074915537606,
+          "KXBTC15M-26SEP232145-45": 0.299540172643478,
+          "KXBTC15M-26SEP232200-00": 0.16712783833715772,
+          "KXBTC15M-26SEP232215-15": 0.055201180411049044,
+          "KXBTC15M-26SEP232230-30": 0.01617512846494849,
+          "KXBTC15M-26SEP232245-45": 0.10757279073717278,
+          "KXBTC15M-26SEP232300-00": 0.08894447885836901,
+          "KXBTC15M-26SEP232315-15": 0.25837600094582186,
+          "KXBTC15M-26SEP232330-30": 0.06986389514820984,
+          "KXBTC15M-26SEP240000-00": 0.05373833033983137,
+          "KXBTC15M-26SEP240015-15": 0.14531225681973856,
+          "KXBTC15M-26SEP240030-30": 0.14704192441131153,
+          "KXBTC15M-26SEP240045-45": 0.0872433528885532,
+          "KXBTC15M-26SEP240100-00": 0.25785811624868493,
+          "KXBTC15M-26SEP240115-15": 0.022779736375992253,
+          "KXBTC15M-26SEP240130-30": 0.14569717910317442,
+          "KXBTC15M-26SEP240145-45": 0.39327945833953637,
+          "KXBTC15M-26SEP240200-00": 0.0835713650243525,
+          "KXBTC15M-26SEP240215-15": 0.1619415055483521,
+          "KXBTC15M-26SEP240230-30": 0.2277618812927047,
+          "KXBTC15M-26SEP240245-45": 0.2582937741177188
+        },
+        "calibration": {
+          "7": {
+            "n": 24,
+            "confidence": 0.7496753031273826,
+            "accuracy": 0.75
+          },
+          "5": {
+            "n": 38,
+            "confidence": 0.5516032288863119,
+            "accuracy": 0.6842105263157895
+          },
+          "6": {
+            "n": 33,
+            "confidence": 0.6492870745985285,
+            "accuracy": 0.7575757575757576
+          },
+          "9": {
+            "n": 14,
+            "confidence": 0.9413234461112859,
+            "accuracy": 1.0
+          },
+          "8": {
+            "n": 15,
+            "confidence": 0.8417582594892454,
+            "accuracy": 1.0
+          }
+        }
+      },
+      "lanes": {
+        "early": {
+          "calls": 1,
+          "contracts": 1,
+          "wins": 0,
+          "accuracy": 0.0,
+          "wilson95": [
+            0.0,
+            0.7934567085261071
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.038461538461538464,
+          "coverage_official": 0.038461538461538464,
+          "sides": {
+            "UP": 1
+          },
+          "entry": {
+            "n": 1,
+            "min": 0.37,
+            "mean": 0.37,
+            "median": 0.37,
+            "p95": 0.37,
+            "max": 0.37
+          },
+          "entry_le50": 1,
+          "entry_25_35": 0,
+          "minutes_left": {
+            "n": 1,
+            "min": 8.13907146803538,
+            "mean": 8.13907146803538,
+            "median": 8.13907146803538,
+            "p95": 8.13907146803538,
+            "max": 8.13907146803538
+          },
+          "brier": 0.6392585166242322,
+          "mfe": {
+            "n": 1,
+            "min": 0.03999999999999998,
+            "mean": 0.03999999999999998,
+            "median": 0.03999999999999998,
+            "p95": 0.03999999999999998,
+            "max": 0.03999999999999998
+          },
+          "mae": {
+            "n": 1,
+            "min": -0.369,
+            "mean": -0.369,
+            "median": -0.369,
+            "p95": -0.369,
+            "max": -0.369
+          },
+          "positive_movement": 1,
+          "hit8": 0,
+          "hit10": 0,
+          "path_samples": 246,
+          "worst_path_gap": 18.0455379486084,
+          "executable_fill_proven": false,
+          "entries": [
+            {
+              "ticker": "KXBTC15M-26SEP240045-45",
+              "side": "UP",
+              "t": 1790224611.653672,
+              "ask": 0.37,
+              "fair": 0.7995364385844038,
+              "minutes_left": 8.13907146803538,
+              "result": "no",
+              "correct": false,
+              "reversal": "AGAINST",
+              "volatility": 7.385215270143437e-05,
+              "path_samples": 246,
+              "mfe": 0.03999999999999998,
+              "mae": -0.369,
+              "path_max_gap": 18.0455379486084,
+              "first_quote_delay": 0.5614731311798096,
+              "entry_ask_confirmed": true
+            }
+          ],
+          "first_passage": {
+            "counts": {
+              "stop": 1
+            },
+            "marks": {
+              "n": 1,
+              "min": -0.13,
+              "mean": -0.13,
+              "median": -0.13,
+              "p95": -0.13,
+              "max": -0.13
+            },
+            "win_rate_decisive": 0.0,
+            "complete_fills_proven": false,
+            "maximum_allowed_observation_gap_seconds": 6
+          }
+        },
+        "final": {
+          "calls": 10,
+          "contracts": 10,
+          "wins": 10,
+          "accuracy": 1.0,
+          "wilson95": [
+            0.7224598312333834,
+            1.0
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.38461538461538464,
+          "coverage_official": 0.38461538461538464,
+          "sides": {
+            "DOWN": 6,
+            "UP": 4
+          },
+          "entry": {
+            "n": 10,
+            "min": 0.86,
+            "mean": 0.95,
+            "median": 0.963,
+            "p95": 0.9934999999999999,
+            "max": 0.998
+          },
+          "entry_le50": 0,
+          "entry_25_35": 0,
+          "minutes_left": {
+            "n": 10,
+            "min": 2.3199603193600975,
+            "mean": 4.788536388174693,
+            "median": 4.759436880668003,
+            "p95": 7.187298132427532,
+            "max": 7.939384415467581
+          },
+          "brier": 0.007713131402242973,
+          "mfe": {
+            "n": 10,
+            "min": 0.0,
+            "mean": 0.04790000000000001,
+            "median": 0.03450000000000003,
+            "p95": 0.11999999999999995,
+            "max": 0.138
+          },
+          "mae": {
+            "n": 10,
+            "min": -0.471,
+            "mean": -0.0782,
+            "median": -0.019000000000000017,
+            "p95": 9.999999999999799e-05,
+            "max": 0.0010000000000000009
+          },
+          "positive_movement": 9,
+          "hit8": 2,
+          "hit10": 1,
+          "path_samples": 1357,
+          "worst_path_gap": 19.029587030410767,
+          "executable_fill_proven": false,
+          "entries": [
+            {
+              "ticker": "KXBTC15M-26SEP232100-00",
+              "side": "DOWN",
+              "t": 1790211362.955019,
+              "ask": 0.951,
+              "fair": 0.9089642817902703,
+              "minutes_left": 3.950734001318614,
+              "result": "no",
+              "correct": true,
+              "reversal": "MIXED",
+              "volatility": 0.0001773318561245645,
+              "path_samples": 143,
+              "mfe": 0.04600000000000004,
+              "mae": -0.471,
+              "path_max_gap": 19.029587030410767,
+              "first_quote_delay": 0.5213119983673096,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232215-15",
+              "side": "DOWN",
+              "t": 1790215822.555535,
+              "ask": 0.984,
+              "fair": 0.9006960971843455,
+              "minutes_left": 4.624027098178863,
+              "result": "no",
+              "correct": true,
+              "reversal": "MIXED",
+              "volatility": 0.0004505288731420997,
+              "path_samples": 153,
+              "mfe": 0.014000000000000012,
+              "mae": -0.008000000000000007,
+              "path_max_gap": 4.042209148406982,
+              "first_quote_delay": 0.3880789279937744,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232230-30",
+              "side": "UP",
+              "t": 1790216523.641614,
+              "ask": 0.92,
+              "fair": 0.9161891897038708,
+              "minutes_left": 7.939384415467581,
+              "result": "yes",
+              "correct": true,
+              "reversal": "AGAINST",
+              "volatility": 0.00032126063044015963,
+              "path_samples": 288,
+              "mfe": 0.07799999999999996,
+              "mae": -0.030000000000000027,
+              "path_max_gap": 16.03754711151123,
+              "first_quote_delay": 0.7290859222412109,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232245-45",
+              "side": "UP",
+              "t": 1790217760.801854,
+              "ask": 0.998,
+              "fair": 0.9079882831923055,
+              "minutes_left": 2.3199603193600975,
+              "result": "yes",
+              "correct": true,
+              "reversal": "MIXED",
+              "volatility": 0.00023629130457675926,
+              "path_samples": 18,
+              "mfe": 0.0,
+              "mae": -0.0010000000000000009,
+              "path_max_gap": 4.010329008102417,
+              "first_quote_delay": 0.6909880638122559,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232330-30",
+              "side": "DOWN",
+              "t": 1790220305.104034,
+              "ask": 0.988,
+              "fair": 0.9168429263179828,
+              "minutes_left": 4.914980751991272,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00032183507736280526,
+              "path_samples": 100,
+              "mfe": 0.010000000000000009,
+              "mae": 0.0010000000000000009,
+              "path_max_gap": 4.039857864379883,
+              "first_quote_delay": 0.6578171253204346,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240000-00",
+              "side": "DOWN",
+              "t": 1790222169.352994,
+              "ask": 0.975,
+              "fair": 0.9324679125138519,
+              "minutes_left": 3.8441112502415975,
+              "result": "no",
+              "correct": true,
+              "reversal": "MIXED",
+              "volatility": 0.00023692965335707036,
+              "path_samples": 104,
+              "mfe": 0.02300000000000002,
+              "mae": -0.0010000000000000009,
+              "path_max_gap": 4.030598163604736,
+              "first_quote_delay": 0.613793134689331,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240030-30",
+              "side": "UP",
+              "t": 1790224000.576822,
+              "ask": 0.939,
+              "fair": 0.91911847032404,
+              "minutes_left": 3.3236420505841573,
+              "result": "yes",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 9.615145445269476e-05,
+              "path_samples": 65,
+              "mfe": 0.05900000000000005,
+              "mae": -0.04899999999999993,
+              "path_max_gap": 19.02507185935974,
+              "first_quote_delay": 0.5845348834991455,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240045-45",
+              "side": "DOWN",
+              "t": 1790224751.663364,
+              "ask": 0.86,
+              "fair": 0.9184353703361015,
+              "minutes_left": 5.805595767180125,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.0001436748795426203,
+              "path_samples": 163,
+              "mfe": 0.138,
+              "mae": -0.16000000000000003,
+              "path_max_gap": 18.0455379486084,
+              "first_quote_delay": 0.5764400959014893,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240115-15",
+              "side": "UP",
+              "t": 1790226523.911766,
+              "ask": 0.985,
+              "fair": 0.9016260115200297,
+              "minutes_left": 6.268081564267477,
+              "result": "yes",
+              "correct": true,
+              "reversal": "AGAINST",
+              "volatility": 0.0005099847003257227,
+              "path_samples": 181,
+              "mfe": 0.013000000000000012,
+              "mae": -0.0030000000000000027,
+              "path_max_gap": 19.021422863006592,
+              "first_quote_delay": 0.48622798919677734,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240200-00",
+              "side": "DOWN",
+              "t": 1790229306.307238,
+              "ask": 0.9,
+              "fair": 0.9043736178783714,
+              "minutes_left": 4.894846663157145,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00020200327755714531,
+              "path_samples": 142,
+              "mfe": 0.09799999999999998,
+              "mae": -0.06000000000000005,
+              "path_max_gap": 19.013829946517944,
+              "first_quote_delay": 0.4023768901824951,
+              "entry_ask_confirmed": false
+            }
+          ],
+          "first_passage": {
+            "counts": {
+              "stop": 1,
+              "horizon_unpriced": 3,
+              "entry_not_confirmed": 5,
+              "gap_censored": 1
+            },
+            "marks": {
+              "n": 1,
+              "min": -0.10099999999999998,
+              "mean": -0.10099999999999998,
+              "median": -0.10099999999999998,
+              "p95": -0.10099999999999998,
+              "max": -0.10099999999999998
+            },
+            "win_rate_decisive": 0.0,
+            "complete_fills_proven": false,
+            "maximum_allowed_observation_gap_seconds": 6
+          }
+        }
+      }
+    },
+    "market": {
+      "scores": {
+        "contracts": 25,
+        "anchors": 124,
+        "brier": 0.1575283915,
+        "logloss": 0.46724969965503654,
+        "accuracy": 0.7760000000000001,
+        "contract_brier": {
+          "KXBTC15M-26SEP232030-30": 0.5207050000000001,
+          "KXBTC15M-26SEP232045-45": 0.339825,
+          "KXBTC15M-26SEP232100-00": 0.045836299999999996,
+          "KXBTC15M-26SEP232115-15": 0.07787005,
+          "KXBTC15M-26SEP232130-30": 0.221505,
+          "KXBTC15M-26SEP232145-45": 0.39944064999999995,
+          "KXBTC15M-26SEP232200-00": 0.184985,
+          "KXBTC15M-26SEP232215-15": 0.0215395,
+          "KXBTC15M-26SEP232230-30": 0.003586799999999999,
+          "KXBTC15M-26SEP232245-45": 0.056167499999999995,
+          "KXBTC15M-26SEP232300-00": 0.137785,
+          "KXBTC15M-26SEP232315-15": 0.18686845000000002,
+          "KXBTC15M-26SEP232330-30": 0.025293437499999998,
+          "KXBTC15M-26SEP240000-00": 0.0210423,
+          "KXBTC15M-26SEP240015-15": 0.11119444999999999,
+          "KXBTC15M-26SEP240030-30": 0.09856580000000001,
+          "KXBTC15M-26SEP240045-45": 0.08500805000000002,
+          "KXBTC15M-26SEP240100-00": 0.30690125,
+          "KXBTC15M-26SEP240115-15": 0.0010974000000000031,
+          "KXBTC15M-26SEP240130-30": 0.07260125,
+          "KXBTC15M-26SEP240145-45": 0.37582499999999996,
+          "KXBTC15M-26SEP240200-00": 0.045795100000000005,
+          "KXBTC15M-26SEP240215-15": 0.09960149999999998,
+          "KXBTC15M-26SEP240230-30": 0.258065,
+          "KXBTC15M-26SEP240245-45": 0.24110500000000004
+        },
+        "calibration": {
+          "7": {
+            "n": 21,
+            "confidence": 0.7521428571428572,
+            "accuracy": 0.5714285714285714
+          },
+          "5": {
+            "n": 22,
+            "confidence": 0.5472727272727272,
+            "accuracy": 0.5454545454545454
+          },
+          "6": {
+            "n": 28,
+            "confidence": 0.6514285714285715,
+            "accuracy": 0.8214285714285714
+          },
+          "8": {
+            "n": 18,
+            "confidence": 0.8427777777777778,
+            "accuracy": 0.8333333333333334
+          },
+          "9": {
+            "n": 35,
+            "confidence": 0.9657714285714286,
+            "accuracy": 0.9714285714285714
+          }
+        }
+      },
+      "lanes": {
+        "early": {
+          "calls": 0,
+          "contracts": 0,
+          "wins": 0,
+          "accuracy": null,
+          "wilson95": null,
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.0,
+          "coverage_official": 0.0,
+          "sides": {},
+          "entry": {
+            "n": 0
+          },
+          "entry_le50": 0,
+          "entry_25_35": 0,
+          "minutes_left": {
+            "n": 0
+          },
+          "brier": null,
+          "mfe": {
+            "n": 0
+          },
+          "mae": {
+            "n": 0
+          },
+          "positive_movement": 0,
+          "hit8": 0,
+          "hit10": 0,
+          "path_samples": 0,
+          "worst_path_gap": null,
+          "executable_fill_proven": false,
+          "entries": [],
+          "first_passage": {
+            "counts": {},
+            "marks": {
+              "n": 0
+            },
+            "win_rate_decisive": null,
+            "complete_fills_proven": false,
+            "maximum_allowed_observation_gap_seconds": 6
+          }
+        },
+        "final": {
+          "calls": 19,
+          "contracts": 19,
+          "wins": 18,
+          "accuracy": 0.9473684210526315,
+          "wilson95": [
+            0.7536078466345479,
+            0.99064824750947
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.7307692307692307,
+          "coverage_official": 0.7307692307692307,
+          "sides": {
+            "DOWN": 9,
+            "UP": 10
+          },
+          "entry": {
+            "n": 19,
+            "min": 0.902,
+            "mean": 0.9164210526315791,
+            "median": 0.915,
+            "p95": 0.9396,
+            "max": 0.963
+          },
+          "entry_le50": 0,
+          "entry_25_35": 0,
+          "minutes_left": {
+            "n": 19,
+            "min": 2.357207733313243,
+            "mean": 5.117979691363218,
+            "median": 4.811352547963461,
+            "p95": 7.995721386098861,
+            "max": 7.998385251522064
+          },
+          "brier": 0.05085811842105263,
+          "mfe": {
+            "n": 19,
+            "min": 0.03500000000000003,
+            "mean": 0.07889473684210523,
+            "median": 0.08299999999999996,
+            "p95": 0.09419999999999996,
+            "max": 0.09599999999999997
+          },
+          "mae": {
+            "n": 19,
+            "min": -0.914,
+            "mean": -0.14252631578947375,
+            "median": -0.052000000000000046,
+            "p95": 0.0008999999999999492,
+            "max": 0.017999999999999905
+          },
+          "positive_movement": 19,
+          "hit8": 11,
+          "hit10": 0,
+          "path_samples": 2941,
+          "worst_path_gap": 27.03175401687622,
+          "executable_fill_proven": false,
+          "entries": [
+            {
+              "ticker": "KXBTC15M-26SEP232100-00",
+              "side": "DOWN",
+              "t": 1790211202.927551,
+              "ask": 0.903,
+              "fair": 0.9025,
+              "minutes_left": 6.617824981689453,
+              "result": "no",
+              "correct": true,
+              "reversal": "MIXED",
+              "volatility": 0.00018933511428441497,
+              "path_samples": 257,
+              "mfe": 0.09399999999999997,
+              "mae": -0.42300000000000004,
+              "path_max_gap": 19.029587030410767,
+              "first_quote_delay": 0.5511250495910645,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232115-15",
+              "side": "DOWN",
+              "t": 1790212329.072688,
+              "ask": 0.922,
+              "fair": 0.9215,
+              "minutes_left": 2.84872816324234,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00026750610146828666,
+              "path_samples": 85,
+              "mfe": 0.07599999999999996,
+              "mae": -0.052000000000000046,
+              "path_max_gap": 24.027729034423828,
+              "first_quote_delay": 0.5275249481201172,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232145-45",
+              "side": "UP",
+              "t": 1790213820.270012,
+              "ask": 0.915,
+              "fair": 0.914,
+              "minutes_left": 7.995425401051839,
+              "result": "no",
+              "correct": false,
+              "reversal": "PULLBACK",
+              "volatility": 0.00015593272247660736,
+              "path_samples": 260,
+              "mfe": 0.03699999999999992,
+              "mae": -0.914,
+              "path_max_gap": 19.03040099143982,
+              "first_quote_delay": 0.4703800678253174,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232215-15",
+              "side": "DOWN",
+              "t": 1790215692.541647,
+              "ask": 0.902,
+              "fair": 0.9015,
+              "minutes_left": 6.790927216529846,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00046224019441834524,
+              "path_samples": 248,
+              "mfe": 0.09599999999999997,
+              "mae": -0.01200000000000001,
+              "path_max_gap": 4.0607240200042725,
+              "first_quote_delay": 0.3637411594390869,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232230-30",
+              "side": "UP",
+              "t": 1790216523.641614,
+              "ask": 0.92,
+              "fair": 0.9195,
+              "minutes_left": 7.939384415467581,
+              "result": "yes",
+              "correct": true,
+              "reversal": "AGAINST",
+              "volatility": 0.00032126063044015963,
+              "path_samples": 288,
+              "mfe": 0.07799999999999996,
+              "mae": -0.030000000000000027,
+              "path_max_gap": 16.03754711151123,
+              "first_quote_delay": 0.7290859222412109,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232245-45",
+              "side": "UP",
+              "t": 1790217610.777598,
+              "ask": 0.915,
+              "fair": 0.9145000000000001,
+              "minutes_left": 4.82038581720988,
+              "result": "yes",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00016605393454212431,
+              "path_samples": 111,
+              "mfe": 0.08299999999999996,
+              "mae": -0.013000000000000012,
+              "path_max_gap": 4.049810886383057,
+              "first_quote_delay": 0.7176380157470703,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232300-00",
+              "side": "UP",
+              "t": 1790218641.908079,
+              "ask": 0.905,
+              "fair": 0.9045000000000001,
+              "minutes_left": 2.6348698194821676,
+              "result": "yes",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00016065552709554681,
+              "path_samples": 67,
+              "mfe": 0.09299999999999997,
+              "mae": -0.17500000000000004,
+              "path_max_gap": 4.066186904907227,
+              "first_quote_delay": 0.7010390758514404,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232315-15",
+              "side": "DOWN",
+              "t": 1790219483.006008,
+              "ask": 0.937,
+              "fair": 0.9365,
+              "minutes_left": 3.6165695516268412,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00032640009222609267,
+              "path_samples": 101,
+              "mfe": 0.05999999999999994,
+              "mae": -0.0010000000000000009,
+              "path_max_gap": 4.041280031204224,
+              "first_quote_delay": 0.6880691051483154,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232330-30",
+              "side": "DOWN",
+              "t": 1790220120.096896,
+              "ask": 0.913,
+              "fair": 0.9125,
+              "minutes_left": 7.998385251522064,
+              "result": "no",
+              "correct": true,
+              "reversal": "MIXED",
+              "volatility": 0.0001611048318634822,
+              "path_samples": 225,
+              "mfe": 0.08499999999999996,
+              "mae": -0.006000000000000005,
+              "path_max_gap": 4.0417280197143555,
+              "first_quote_delay": 0.6494541168212891,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240000-00",
+              "side": "DOWN",
+              "t": 1790221973.332341,
+              "ask": 0.905,
+              "fair": 0.9045,
+              "minutes_left": 7.111144435405731,
+              "result": "no",
+              "correct": true,
+              "reversal": "MIXED",
+              "volatility": 0.00023716336878286506,
+              "path_samples": 229,
+              "mfe": 0.09299999999999997,
+              "mae": -0.08500000000000008,
+              "path_max_gap": 16.02964997291565,
+              "first_quote_delay": 0.5869810581207275,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240015-15",
+              "side": "DOWN",
+              "t": 1790223106.477054,
+              "ask": 0.91,
+              "fair": 0.9095,
+              "minutes_left": 3.2254036321640016,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00044224427296354885,
+              "path_samples": 63,
+              "mfe": 0.08799999999999997,
+              "mae": -0.07000000000000006,
+              "path_max_gap": 27.03175401687622,
+              "first_quote_delay": 0.5545938014984131,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240030-30",
+              "side": "UP",
+              "t": 1790223995.579561,
+              "ask": 0.919,
+              "fair": 0.918,
+              "minutes_left": 3.4070361172358195,
+              "result": "yes",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 9.615145445269476e-05,
+              "path_samples": 69,
+              "mfe": 0.07899999999999996,
+              "mae": -0.029000000000000026,
+              "path_max_gap": 19.02507185935974,
+              "first_quote_delay": 0.5730910301208496,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240045-45",
+              "side": "DOWN",
+              "t": 1790224910.68067,
+              "ask": 0.92,
+              "fair": 0.9195,
+              "minutes_left": 3.1553732674916586,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00016976939406509263,
+              "path_samples": 81,
+              "mfe": 0.07799999999999996,
+              "mae": -0.07000000000000006,
+              "path_max_gap": 4.113210916519165,
+              "first_quote_delay": 0.544543981552124,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240100-00",
+              "side": "UP",
+              "t": 1790225766.804168,
+              "ask": 0.92,
+              "fair": 0.9195,
+              "minutes_left": 3.886642417907715,
+              "result": "yes",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.0002950724038421499,
+              "path_samples": 78,
+              "mfe": 0.07799999999999996,
+              "mae": 0.017999999999999905,
+              "path_max_gap": 4.0375518798828125,
+              "first_quote_delay": 0.5208940505981445,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240115-15",
+              "side": "UP",
+              "t": 1790226423.909069,
+              "ask": 0.963,
+              "fair": 0.9624999999999999,
+              "minutes_left": 7.934854665120443,
+              "result": "yes",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.0005118474679710676,
+              "path_samples": 254,
+              "mfe": 0.03500000000000003,
+              "mae": -0.0030000000000000027,
+              "path_max_gap": 19.021422863006592,
+              "first_quote_delay": 0.4764578342437744,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240145-45",
+              "side": "UP",
+              "t": 1790228477.185344,
+              "ask": 0.903,
+              "fair": 0.9025000000000001,
+              "minutes_left": 3.7136231150627137,
+              "result": "yes",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00051736000463913,
+              "path_samples": 121,
+              "mfe": 0.09199999999999997,
+              "mae": -0.613,
+              "path_max_gap": 4.0569679737091064,
+              "first_quote_delay": 0.450606107711792,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240200-00",
+              "side": "DOWN",
+              "t": 1790229311.318098,
+              "ask": 0.918,
+              "fair": 0.9175,
+              "minutes_left": 4.811352547963461,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00020355733815207496,
+              "path_samples": 137,
+              "mfe": 0.07999999999999996,
+              "mae": -0.07800000000000007,
+              "path_max_gap": 19.013829946517944,
+              "first_quote_delay": 0.39119696617126465,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240215-15",
+              "side": "UP",
+              "t": 1790230117.414415,
+              "ask": 0.908,
+              "fair": 0.9065000000000001,
+              "minutes_left": 6.376475586414338,
+              "result": "yes",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.0005510910101133487,
+              "path_samples": 170,
+              "mfe": 0.08999999999999997,
+              "mae": -0.04800000000000004,
+              "path_max_gap": 18.01752996444702,
+              "first_quote_delay": 0.394132137298584,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240230-30",
+              "side": "UP",
+              "t": 1790231258.564983,
+              "ask": 0.914,
+              "fair": 0.9135,
+              "minutes_left": 2.357207733313243,
+              "result": "yes",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.0004305526910262919,
+              "path_samples": 97,
+              "mfe": 0.08399999999999996,
+              "mae": -0.10399999999999998,
+              "path_max_gap": 3.0292251110076904,
+              "first_quote_delay": 0.36957311630249023,
+              "entry_ask_confirmed": true
+            }
+          ],
+          "first_passage": {
+            "counts": {
+              "entry_not_confirmed": 8,
+              "gap_censored": 3,
+              "target": 1,
+              "stop": 3,
+              "horizon_unpriced": 4
+            },
+            "marks": {
+              "n": 4,
+              "min": -0.17500000000000004,
+              "mean": -0.08050000000000002,
+              "median": -0.11349999999999999,
+              "p95": 0.052399999999999905,
+              "max": 0.07999999999999996
+            },
+            "win_rate_decisive": 0.25,
+            "complete_fills_proven": false,
+            "maximum_allowed_observation_gap_seconds": 6
+          }
+        }
+      }
+    },
+    "market_residual": {
+      "scores": {
+        "contracts": 25,
+        "anchors": 124,
+        "brier": 0.15528222977144077,
+        "logloss": 0.46738604772775155,
+        "accuracy": 0.7839999999999999,
+        "contract_brier": {
+          "KXBTC15M-26SEP232030-30": 0.3983345489927612,
+          "KXBTC15M-26SEP232045-45": 0.22132531520860854,
+          "KXBTC15M-26SEP232100-00": 0.07256221561761618,
+          "KXBTC15M-26SEP232115-15": 0.11754848911650198,
+          "KXBTC15M-26SEP232130-30": 0.20872133065660176,
+          "KXBTC15M-26SEP232145-45": 0.32871609655519907,
+          "KXBTC15M-26SEP232200-00": 0.16847097078868897,
+          "KXBTC15M-26SEP232215-15": 0.03940132863016253,
+          "KXBTC15M-26SEP232230-30": 0.009402252716173364,
+          "KXBTC15M-26SEP232245-45": 0.0787920188849355,
+          "KXBTC15M-26SEP232300-00": 0.08536317374408883,
+          "KXBTC15M-26SEP232315-15": 0.25271412416236405,
+          "KXBTC15M-26SEP232330-30": 0.0521561078298526,
+          "KXBTC15M-26SEP240000-00": 0.04413177896623148,
+          "KXBTC15M-26SEP240015-15": 0.13757366257955017,
+          "KXBTC15M-26SEP240030-30": 0.1467890725036856,
+          "KXBTC15M-26SEP240045-45": 0.08982470223352566,
+          "KXBTC15M-26SEP240100-00": 0.25670647010961034,
+          "KXBTC15M-26SEP240115-15": 0.008470896156072962,
+          "KXBTC15M-26SEP240130-30": 0.12831413567220654,
+          "KXBTC15M-26SEP240145-45": 0.36328690976296274,
+          "KXBTC15M-26SEP240200-00": 0.06704599134888974,
+          "KXBTC15M-26SEP240215-15": 0.1362794911192779,
+          "KXBTC15M-26SEP240230-30": 0.22714585601197684,
+          "KXBTC15M-26SEP240245-45": 0.2429788049184743
+        },
+        "calibration": {
+          "7": {
+            "n": 33,
+            "confidence": 0.7526874675412655,
+            "accuracy": 0.7575757575757576
+          },
+          "5": {
+            "n": 29,
+            "confidence": 0.5505247996379248,
+            "accuracy": 0.6551724137931034
+          },
+          "6": {
+            "n": 28,
+            "confidence": 0.6398347133753981,
+            "accuracy": 0.6785714285714286
+          },
+          "9": {
+            "n": 22,
+            "confidence": 0.9534723080729273,
+            "accuracy": 1.0
+          },
+          "8": {
+            "n": 12,
+            "confidence": 0.8527750309586296,
+            "accuracy": 1.0
+          }
+        }
+      },
+      "lanes": {
+        "early": {
+          "calls": 1,
+          "contracts": 1,
+          "wins": 0,
+          "accuracy": 0.0,
+          "wilson95": [
+            0.0,
+            0.7934567085261071
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.038461538461538464,
+          "coverage_official": 0.038461538461538464,
+          "sides": {
+            "UP": 1
+          },
+          "entry": {
+            "n": 1,
+            "min": 0.37,
+            "mean": 0.37,
+            "median": 0.37,
+            "p95": 0.37,
+            "max": 0.37
+          },
+          "entry_le50": 1,
+          "entry_25_35": 0,
+          "minutes_left": {
+            "n": 1,
+            "min": 8.13907146803538,
+            "mean": 8.13907146803538,
+            "median": 8.13907146803538,
+            "p95": 8.13907146803538,
+            "max": 8.13907146803538
+          },
+          "brier": 0.6892539708705342,
+          "mfe": {
+            "n": 1,
+            "min": 0.03999999999999998,
+            "mean": 0.03999999999999998,
+            "median": 0.03999999999999998,
+            "p95": 0.03999999999999998,
+            "max": 0.03999999999999998
+          },
+          "mae": {
+            "n": 1,
+            "min": -0.369,
+            "mean": -0.369,
+            "median": -0.369,
+            "p95": -0.369,
+            "max": -0.369
+          },
+          "positive_movement": 1,
+          "hit8": 0,
+          "hit10": 0,
+          "path_samples": 246,
+          "worst_path_gap": 18.0455379486084,
+          "executable_fill_proven": false,
+          "entries": [
+            {
+              "ticker": "KXBTC15M-26SEP240045-45",
+              "side": "UP",
+              "t": 1790224611.653672,
+              "ask": 0.37,
+              "fair": 0.8302132080800294,
+              "minutes_left": 8.13907146803538,
+              "result": "no",
+              "correct": false,
+              "reversal": "AGAINST",
+              "volatility": 7.385215270143437e-05,
+              "path_samples": 246,
+              "mfe": 0.03999999999999998,
+              "mae": -0.369,
+              "path_max_gap": 18.0455379486084,
+              "first_quote_delay": 0.5614731311798096,
+              "entry_ask_confirmed": true
+            }
+          ],
+          "first_passage": {
+            "counts": {
+              "stop": 1
+            },
+            "marks": {
+              "n": 1,
+              "min": -0.13,
+              "mean": -0.13,
+              "median": -0.13,
+              "p95": -0.13,
+              "max": -0.13
+            },
+            "win_rate_decisive": 0.0,
+            "complete_fills_proven": false,
+            "maximum_allowed_observation_gap_seconds": 6
+          }
+        },
+        "final": {
+          "calls": 15,
+          "contracts": 15,
+          "wins": 15,
+          "accuracy": 1.0,
+          "wilson95": [
+            0.7961107336956521,
+            1.0
+          ],
+          "scheduled": 26,
+          "official": 26,
+          "coverage_scheduled": 0.5769230769230769,
+          "coverage_official": 0.5769230769230769,
+          "sides": {
+            "DOWN": 9,
+            "UP": 6
+          },
+          "entry": {
+            "n": 15,
+            "min": 0.86,
+            "mean": 0.9508666666666666,
+            "median": 0.956,
+            "p95": 0.9912,
+            "max": 0.994
+          },
+          "entry_le50": 0,
+          "entry_25_35": 0,
+          "minutes_left": {
+            "n": 15,
+            "min": 2.008658831914266,
+            "mean": 4.663738387065463,
+            "median": 4.677533080736796,
+            "p95": 7.177892996279398,
+            "max": 7.939384415467581
+          },
+          "brier": 0.007893322457013923,
+          "mfe": {
+            "n": 15,
+            "min": 0.0040000000000000036,
+            "mean": 0.047000000000000014,
+            "median": 0.04200000000000004,
+            "p95": 0.10999999999999995,
+            "max": 0.138
+          },
+          "mae": {
+            "n": 15,
+            "min": -0.46599999999999997,
+            "mean": -0.05326666666666667,
+            "median": -0.009000000000000008,
+            "p95": 0.0015999999999999994,
+            "max": 0.0030000000000000027
+          },
+          "positive_movement": 15,
+          "hit8": 2,
+          "hit10": 1,
+          "path_samples": 1998,
+          "worst_path_gap": 24.027729034423828,
+          "executable_fill_proven": false,
+          "entries": [
+            {
+              "ticker": "KXBTC15M-26SEP232100-00",
+              "side": "DOWN",
+              "t": 1790211272.945198,
+              "ask": 0.946,
+              "fair": 0.9139160757320768,
+              "minutes_left": 5.450841881752014,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.0001402262146163804,
+              "path_samples": 205,
+              "mfe": 0.051000000000000045,
+              "mae": -0.46599999999999997,
+              "path_max_gap": 19.029587030410767,
+              "first_quote_delay": 0.5321500301361084,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232115-15",
+              "side": "DOWN",
+              "t": 1790212369.085704,
+              "ask": 0.951,
+              "fair": 0.9035387280095997,
+              "minutes_left": 2.1819518993695577,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.0002510677557279848,
+              "path_samples": 54,
+              "mfe": 0.04700000000000004,
+              "mae": 0.0030000000000000027,
+              "path_max_gap": 24.027729034423828,
+              "first_quote_delay": 0.48470497131347656,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232215-15",
+              "side": "DOWN",
+              "t": 1790215702.547513,
+              "ask": 0.934,
+              "fair": 0.9115169715682236,
+              "minutes_left": 6.624286684354146,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.000402164950595105,
+              "path_samples": 239,
+              "mfe": 0.06399999999999995,
+              "mae": -0.0030000000000000027,
+              "path_max_gap": 4.0607240200042725,
+              "first_quote_delay": 0.4097108840942383,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232230-30",
+              "side": "UP",
+              "t": 1790216523.641614,
+              "ask": 0.92,
+              "fair": 0.9208861226628591,
+              "minutes_left": 7.939384415467581,
+              "result": "yes",
+              "correct": true,
+              "reversal": "AGAINST",
+              "volatility": 0.00032126063044015963,
+              "path_samples": 288,
+              "mfe": 0.07799999999999996,
+              "mae": -0.030000000000000027,
+              "path_max_gap": 16.03754711151123,
+              "first_quote_delay": 0.7290859222412109,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232245-45",
+              "side": "UP",
+              "t": 1790217675.782925,
+              "ask": 0.98,
+              "fair": 0.9200941477024198,
+              "minutes_left": 3.7370255665779113,
+              "result": "yes",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.0002134072434556049,
+              "path_samples": 72,
+              "mfe": 0.018000000000000016,
+              "mae": 0.0,
+              "path_max_gap": 4.040428876876831,
+              "first_quote_delay": 0.7067430019378662,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232315-15",
+              "side": "DOWN",
+              "t": 1790219493.012751,
+              "ask": 0.977,
+              "fair": 0.9004277710390534,
+              "minutes_left": 3.4497269159952797,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00032297493560274785,
+              "path_samples": 93,
+              "mfe": 0.020000000000000018,
+              "mae": -0.013000000000000012,
+              "path_max_gap": 4.041280031204224,
+              "first_quote_delay": 0.6860268115997314,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP232330-30",
+              "side": "DOWN",
+              "t": 1790220190.092788,
+              "ask": 0.956,
+              "fair": 0.9047737449976125,
+              "minutes_left": 6.831714251359304,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00014536352369283305,
+              "path_samples": 179,
+              "mfe": 0.04200000000000004,
+              "mae": 0.0010000000000000009,
+              "path_max_gap": 4.040956974029541,
+              "first_quote_delay": 0.6690089702606201,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240000-00",
+              "side": "DOWN",
+              "t": 1790222119.344659,
+              "ask": 0.96,
+              "fair": 0.9219633886831545,
+              "minutes_left": 4.677533080736796,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00035836444678038625,
+              "path_samples": 138,
+              "mfe": 0.038000000000000034,
+              "mae": -0.009000000000000008,
+              "path_max_gap": 4.030598163604736,
+              "first_quote_delay": 0.6151778697967529,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240015-15",
+              "side": "DOWN",
+              "t": 1790223179.485253,
+              "ask": 0.972,
+              "fair": 0.9017247321231218,
+              "minutes_left": 2.008658831914266,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.0003658342370381995,
+              "path_samples": 37,
+              "mfe": 0.026000000000000023,
+              "mae": -0.009000000000000008,
+              "path_max_gap": 4.066694021224976,
+              "first_quote_delay": 0.5798308849334717,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240030-30",
+              "side": "UP",
+              "t": 1790224000.576822,
+              "ask": 0.939,
+              "fair": 0.9079358232086134,
+              "minutes_left": 3.3236420505841573,
+              "result": "yes",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 9.615145445269476e-05,
+              "path_samples": 65,
+              "mfe": 0.05900000000000005,
+              "mae": -0.04899999999999993,
+              "path_max_gap": 19.02507185935974,
+              "first_quote_delay": 0.5845348834991455,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240045-45",
+              "side": "DOWN",
+              "t": 1790224751.663364,
+              "ask": 0.86,
+              "fair": 0.9182931815181467,
+              "minutes_left": 5.805595767180125,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.0001436748795426203,
+              "path_samples": 163,
+              "mfe": 0.138,
+              "mae": -0.16000000000000003,
+              "path_max_gap": 18.0455379486084,
+              "first_quote_delay": 0.5764400959014893,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240100-00",
+              "side": "UP",
+              "t": 1790225826.809101,
+              "ask": 0.994,
+              "fair": 0.9188388259661373,
+              "minutes_left": 2.8865861001014705,
+              "result": "yes",
+              "correct": true,
+              "reversal": "MIXED",
+              "volatility": 0.000554789142938929,
+              "path_samples": 41,
+              "mfe": 0.0040000000000000036,
+              "mae": -0.0020000000000000018,
+              "path_max_gap": 4.0375518798828125,
+              "first_quote_delay": 0.5222759246826172,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240115-15",
+              "side": "UP",
+              "t": 1790226488.903495,
+              "ask": 0.984,
+              "fair": 0.9242182276399225,
+              "minutes_left": 6.851539530913035,
+              "result": "yes",
+              "correct": true,
+              "reversal": "MIXED",
+              "volatility": 0.0004923293537780684,
+              "path_samples": 210,
+              "mfe": 0.014000000000000012,
+              "mae": -0.0020000000000000018,
+              "path_max_gap": 19.021422863006592,
+              "first_quote_delay": 0.49004387855529785,
+              "entry_ask_confirmed": true
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240200-00",
+              "side": "DOWN",
+              "t": 1790229306.307238,
+              "ask": 0.9,
+              "fair": 0.9031551626963283,
+              "minutes_left": 4.894846663157145,
+              "result": "no",
+              "correct": true,
+              "reversal": "PUSH",
+              "volatility": 0.00020200327755714531,
+              "path_samples": 142,
+              "mfe": 0.09799999999999998,
+              "mae": -0.06000000000000005,
+              "path_max_gap": 19.013829946517944,
+              "first_quote_delay": 0.4023768901824951,
+              "entry_ask_confirmed": false
+            },
+            {
+              "ticker": "KXBTC15M-26SEP240215-15",
+              "side": "UP",
+              "t": 1790230302.432028,
+              "ask": 0.99,
+              "fair": 0.9019170822167593,
+              "minutes_left": 3.2927421665191647,
+              "result": "yes",
+              "correct": true,
+              "reversal": "MIXED",
+              "volatility": 0.000417593104058978,
+              "path_samples": 72,
+              "mfe": 0.008000000000000007,
+              "mae": 0.0,
+              "path_max_gap": 9.030132055282593,
+              "first_quote_delay": 0.39418601989746094,
+              "entry_ask_confirmed": false
+            }
+          ],
+          "first_passage": {
+            "counts": {
+              "stop": 1,
+              "entry_not_confirmed": 10,
+              "horizon_unpriced": 3,
+              "gap_censored": 1
+            },
+            "marks": {
+              "n": 1,
+              "min": -0.126,
+              "mean": -0.126,
+              "median": -0.126,
+              "p95": -0.126,
+              "max": -0.126
+            },
+            "win_rate_decisive": 0.0,
+            "complete_fills_proven": false,
+            "maximum_allowed_observation_gap_seconds": 6
+          }
+        }
+      }
+    }
+  },
+  "v81": {
+    "baseline": {
+      "metrics": {
+        "calls": 0,
+        "contracts": 0,
+        "wins": 0,
+        "accuracy": null,
+        "wilson95": null,
+        "scheduled": 26,
+        "official": 26,
+        "coverage_scheduled": 0.0,
+        "coverage_official": 0.0,
+        "sides": {},
+        "entry": {
+          "n": 0
+        },
+        "entry_le50": 0,
+        "entry_25_35": 0,
+        "minutes_left": {
+          "n": 0
+        },
+        "brier": null,
+        "mfe": {
+          "n": 0
+        },
+        "mae": {
+          "n": 0
+        },
+        "positive_movement": 0,
+        "hit8": 0,
+        "hit10": 0,
+        "path_samples": 0,
+        "worst_path_gap": null,
+        "executable_fill_proven": false,
+        "entries": [],
+        "first_passage": {
+          "counts": {},
+          "marks": {
+            "n": 0
+          },
+          "win_rate_decisive": null,
+          "complete_fills_proven": false,
+          "maximum_allowed_observation_gap_seconds": 6
+        }
+      },
+      "state_counts": {
+        "safety_reset": 406
+      }
+    },
+    "sequence": {
+      "metrics": {
+        "calls": 1,
+        "contracts": 1,
+        "wins": 0,
+        "accuracy": 0.0,
+        "wilson95": [
+          0.0,
+          0.7934567085261071
+        ],
+        "scheduled": 26,
+        "official": 26,
+        "coverage_scheduled": 0.038461538461538464,
+        "coverage_official": 0.038461538461538464,
+        "sides": {
+          "DOWN": 1
+        },
+        "entry": {
+          "n": 1,
+          "min": 0.39,
+          "mean": 0.39,
+          "median": 0.39,
+          "p95": 0.39,
+          "max": 0.39
+        },
+        "entry_le50": 1,
+        "entry_25_35": 0,
+        "minutes_left": {
+          "n": 1,
+          "min": 12.692428465684255,
+          "mean": 12.692428465684255,
+          "median": 12.692428465684255,
+          "p95": 12.692428465684255,
+          "max": 12.692428465684255
+        },
+        "brier": null,
+        "mfe": {
+          "n": 1,
+          "min": 0.12,
+          "mean": 0.12,
+          "median": 0.12,
+          "p95": 0.12,
+          "max": 0.12
+        },
+        "mae": {
+          "n": 1,
+          "min": -0.14,
+          "mean": -0.14,
+          "median": -0.14,
+          "p95": -0.14,
+          "max": -0.14
+        },
+        "positive_movement": 1,
+        "hit8": 1,
+        "hit10": 1,
+        "path_samples": 156,
+        "worst_path_gap": 4.040114879608154,
+        "executable_fill_proven": false,
+        "entries": [
+          {
+            "ticker": "KXBTC15M-26SEP240230-30",
+            "side": "DOWN",
+            "t": 1790230638.454292,
+            "ask": 0.39,
+            "fair": null,
+            "minutes_left": 12.692428465684255,
+            "result": "yes",
+            "correct": false,
+            "reversal": null,
+            "volatility": null,
+            "path_samples": 156,
+            "mfe": 0.12,
+            "mae": -0.14,
+            "path_max_gap": 4.040114879608154,
+            "first_quote_delay": 0.41822195053100586,
+            "entry_ask_confirmed": true
+          }
+        ],
+        "first_passage": {
+          "counts": {
+            "target": 1
+          },
+          "marks": {
+            "n": 1,
+            "min": 0.12,
+            "mean": 0.12,
+            "median": 0.12,
+            "p95": 0.12,
+            "max": 0.12
+          },
+          "win_rate_decisive": 1.0,
+          "complete_fills_proven": false,
+          "maximum_allowed_observation_gap_seconds": 6
+        }
+      },
+      "state_counts": {
+        "safety_reset": 406,
+        "arm_frames": 63
+      }
+    },
+    "velocity": {
+      "metrics": {
+        "calls": 0,
+        "contracts": 0,
+        "wins": 0,
+        "accuracy": null,
+        "wilson95": null,
+        "scheduled": 26,
+        "official": 26,
+        "coverage_scheduled": 0.0,
+        "coverage_official": 0.0,
+        "sides": {},
+        "entry": {
+          "n": 0
+        },
+        "entry_le50": 0,
+        "entry_25_35": 0,
+        "minutes_left": {
+          "n": 0
+        },
+        "brier": null,
+        "mfe": {
+          "n": 0
+        },
+        "mae": {
+          "n": 0
+        },
+        "positive_movement": 0,
+        "hit8": 0,
+        "hit10": 0,
+        "path_samples": 0,
+        "worst_path_gap": null,
+        "executable_fill_proven": false,
+        "entries": [],
+        "first_passage": {
+          "counts": {},
+          "marks": {
+            "n": 0
+          },
+          "win_rate_decisive": null,
+          "complete_fills_proven": false,
+          "maximum_allowed_observation_gap_seconds": 6
+        }
+      },
+      "state_counts": {
+        "safety_reset": 406
+      }
+    },
+    "sequence_velocity": {
+      "metrics": {
+        "calls": 0,
+        "contracts": 0,
+        "wins": 0,
+        "accuracy": null,
+        "wilson95": null,
+        "scheduled": 26,
+        "official": 26,
+        "coverage_scheduled": 0.0,
+        "coverage_official": 0.0,
+        "sides": {},
+        "entry": {
+          "n": 0
+        },
+        "entry_le50": 0,
+        "entry_25_35": 0,
+        "minutes_left": {
+          "n": 0
+        },
+        "brier": null,
+        "mfe": {
+          "n": 0
+        },
+        "mae": {
+          "n": 0
+        },
+        "positive_movement": 0,
+        "hit8": 0,
+        "hit10": 0,
+        "path_samples": 0,
+        "worst_path_gap": null,
+        "executable_fill_proven": false,
+        "entries": [],
+        "first_passage": {
+          "counts": {},
+          "marks": {
+            "n": 0
+          },
+          "win_rate_decisive": null,
+          "complete_fills_proven": false,
+          "maximum_allowed_observation_gap_seconds": 6
+        }
+      },
+      "state_counts": {
+        "safety_reset": 406,
+        "arm_frames": 2
+      }
+    }
+  },
+  "scalp_model": {
+    "available": true,
+    "features": [
+      "btc5",
+      "btc15",
+      "btc30",
+      "brti5",
+      "brti15",
+      "accel",
+      "ask5",
+      "ask15",
+      "ask",
+      "receipt_left"
+    ],
+    "center": [
+      -2.38167132505176,
+      -2.30635817805383,
+      -4.008108695652174,
+      -1.5526118012422365,
+      -0.8724254658385086,
+      -1.6130931677018632,
+      -0.013675465838509315,
+      -0.014440476190476193,
+      0.3744213250517597,
+      6.74418666068503
+    ],
+    "scale": [
+      12.090411658632743,
+      16.245300857681727,
+      25.537939313773578,
+      11.175974890451089,
+      18.274302767063134,
+      9.086887723334968,
+      0.09219777586398381,
+      0.10978404869189899,
+      0.053113091973928495,
+      2.3070343521375722
+    ],
+    "coef": [
+      0.0433630779237534,
+      0.0686204431546319,
+      -0.19098973637973957,
+      0.24293386737771597,
+      0.11030471449460245,
+      0.0164244405715541,
+      -0.2388599872779132,
+      -0.12904771985059335,
+      -0.09505638140814025,
+      0.012901797147694861
+    ],
+    "intercept": -0.5061620962052468,
+    "selection_counts": {
+      "entry_not_confirmed": 62,
+      "gap_censored": 7,
+      "target": 36,
+      "stop": 44
+    },
+    "contracts": 23,
+    "sampled_events": 80,
+    "selection_censor_bias_unresolved": true
+  },
+  "scalp_head": {
+    "calls": 0,
+    "contracts": 0,
+    "wins": 0,
+    "accuracy": null,
+    "wilson95": null,
+    "scheduled": 26,
+    "official": 26,
+    "coverage_scheduled": 0.0,
+    "coverage_official": 0.0,
+    "sides": {},
+    "entry": {
+      "n": 0
+    },
+    "entry_le50": 0,
+    "entry_25_35": 0,
+    "minutes_left": {
+      "n": 0
+    },
+    "brier": null,
+    "mfe": {
+      "n": 0
+    },
+    "mae": {
+      "n": 0
+    },
+    "positive_movement": 0,
+    "hit8": 0,
+    "hit10": 0,
+    "path_samples": 0,
+    "worst_path_gap": null,
+    "executable_fill_proven": false,
+    "entries": [],
+    "first_passage": {
+      "counts": {},
+      "marks": {
+        "n": 0
+      },
+      "win_rate_decisive": null,
+      "complete_fills_proven": false,
+      "maximum_allowed_observation_gap_seconds": 6
+    }
+  },
+  "source_rejections": {
+    "unqualified_source_or_publication": 2258
+  },
+  "existing_threshold_frontier": {
+    "early": {
+      "0.35": {
+        "unique_policies": 0,
+        "best_accuracy": null,
+        "best_accuracy_calls": null,
+        "largest_ge93_at_least5_calls": 0
+      },
+      "0.45": {
+        "unique_policies": 10,
+        "best_accuracy": 0.5,
+        "best_accuracy_calls": 6,
+        "largest_ge93_at_least5_calls": 0
+      },
+      "0.5": {
+        "unique_policies": 25,
+        "best_accuracy": 0.5555555555555556,
+        "best_accuracy_calls": 9,
+        "largest_ge93_at_least5_calls": 0
+      },
+      "0.7": {
+        "unique_policies": 25,
+        "best_accuracy": 0.5555555555555556,
+        "best_accuracy_calls": 9,
+        "largest_ge93_at_least5_calls": 0
+      },
+      "1.0": {
+        "unique_policies": 25,
+        "best_accuracy": 0.5555555555555556,
+        "best_accuracy_calls": 9,
+        "largest_ge93_at_least5_calls": 0
+      }
+    },
+    "final": {
+      "0.35": {
+        "unique_policies": 0,
+        "best_accuracy": null,
+        "best_accuracy_calls": null,
+        "largest_ge93_at_least5_calls": 0
+      },
+      "0.45": {
+        "unique_policies": 0,
+        "best_accuracy": null,
+        "best_accuracy_calls": null,
+        "largest_ge93_at_least5_calls": 0
+      },
+      "0.5": {
+        "unique_policies": 0,
+        "best_accuracy": null,
+        "best_accuracy_calls": null,
+        "largest_ge93_at_least5_calls": 0
+      },
+      "0.7": {
+        "unique_policies": 0,
+        "best_accuracy": null,
+        "best_accuracy_calls": null,
+        "largest_ge93_at_least5_calls": 0
+      },
+      "1.0": {
+        "unique_policies": 159,
+        "best_accuracy": 1.0,
+        "best_accuracy_calls": 17,
+        "largest_ge93_at_least5_calls": 17
+      }
+    },
+    "scalp": {
+      "0.35": {
+        "unique_policies": 0,
+        "best_accuracy": null,
+        "best_accuracy_calls": null,
+        "largest_ge93_at_least5_calls": 0
+      },
+      "0.45": {
+        "unique_policies": 7,
+        "best_accuracy": 0.5,
+        "best_accuracy_calls": 8,
+        "largest_ge93_at_least5_calls": 0
+      },
+      "0.5": {
+        "unique_policies": 15,
+        "best_accuracy": 0.5714285714285714,
+        "best_accuracy_calls": 7,
+        "largest_ge93_at_least5_calls": 0
+      },
+      "0.7": {
+        "unique_policies": 67,
+        "best_accuracy": 0.7,
+        "best_accuracy_calls": 20,
+        "largest_ge93_at_least5_calls": 0
+      },
+      "1.0": {
+        "unique_policies": 67,
+        "best_accuracy": 0.7,
+        "best_accuracy_calls": 20,
+        "largest_ge93_at_least5_calls": 0
+      }
+    }
+  },
+  "source_code_sha256": "e739c81acee1fd09c0a9de5ec36c4806ed7c5475dfee3ed9f63a0f3ce38637ad"
+}
