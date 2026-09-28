@@ -14,7 +14,7 @@ MARKER="BTC15_RECOVERED_V11_INFORMATION_SEAM_V1"
 SCRIPT=r'''<script id="btc15-recovered-information-seam-v1">
 (()=>{
 'use strict';
-let token=null,busy=false,generation=0;
+let token=null,identityToken=null,busy=false,identityBusy=false,generation=0;
 const captured=new WeakSet();
 const byId=id=>document.getElementById(id);
 function guardNode(){let n=byId('btc15QualifiedGuardState');if(n)return n;const f=byId('flipRisk');if(!f||!f.parentElement)return null;n=document.createElement('div');n.id='btc15QualifiedGuardState';n.dataset.authority='INFORMATIONAL_READ_ONLY';n.style.cssText='font-size:11px;margin-top:6px;font-weight:900;letter-spacing:.04em';f.parentElement.appendChild(n);return n;}
@@ -25,14 +25,19 @@ function clearInfo(){
   const q=infoFreshnessNode();if(q){q.textContent='Qualified BRTI: unavailable · waiting for ≤5s frame';q.dataset.fresh='false';}
   document.documentElement.dataset.btc15InfoPhase='DATA_STALE';
 }
+function captureIdentity(payload,received){
+  if(!payload||payload.version!=='BTC15_COMBINED_STATE_BRIDGE_V6'||payload.manual_execution_only!==true||payload.orders!==false||payload.order_action!==null||payload.scalp_display_contract_match!==true||typeof payload.contract!=='string'||!/^KXBTC15M-[A-Z0-9-]+$/i.test(payload.contract))return null;
+  return Object.freeze({contract:payload.contract,received});
+}
+function identityView(now){const i=identityToken;return i&&Number.isFinite(now)&&now>=i.received&&now-i.received<=3500?i:null;}
 function capture(payload,started,received){
   const t=Object.freeze({payload:Object.freeze(structuredClone(payload)),started,received});
   captured.add(t);return t;
 }
 function view(t,now){
   if(!t||!captured.has(t)||!Number.isFinite(now)||now<t.received)return null;
-  const p=t.payload;
-  if(!p||p.schema!=='BTC15_INFORMATION_V1'||p.authority!=='INFORMATIONAL_READ_ONLY'||
+  const p=t.payload,ident=identityView(now);
+  if(!ident||!p||p.ticker!==ident.contract||p.schema!=='BTC15_INFORMATION_V1'||p.authority!=='INFORMATIONAL_READ_ONLY'||
      p.status!=='AVAILABLE'||p.signal_only!==true||p.orders!==false||
      !Number.isFinite(p.checked_ts)||!Number.isFinite(p.display_until)||!Number.isFinite(p.expires_at)||
      !Number.isFinite(p.brti_source_ts))return null;
@@ -50,6 +55,12 @@ function render(){
   const g=guardNode();if(g){g.textContent=phase==='3M_GUARD'?'3M GUARD':phase==='5M_CAUTION'?'5M CAUTION':'NORMAL WINDOW';g.dataset.phase=phase;}
   document.documentElement.dataset.btc15InfoPhase=phase;
 }
+async function pollIdentity(){
+  if(identityBusy||document.hidden)return;identityBusy=true;const mine=generation;
+  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),700);
+  try{const r=await fetch('/combined-state',{cache:'no-store',signal:controller.signal});if(!r.ok)throw Error('unavailable');const p=await r.json();if(mine===generation)identityToken=captureIdentity(p,performance.now());}
+  catch(_){if(mine===generation)identityToken=null;}finally{clearTimeout(timeout);identityBusy=false;render();}
+}
 async function poll(){
   if(busy||document.hidden)return;busy=true;const mine=generation,started=performance.now();
   const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),700);
@@ -61,11 +72,11 @@ async function poll(){
     if(mine===generation)token=capture(p,started,performance.now());
   }catch(_){if(mine===generation)token=null;}finally{clearTimeout(timeout);busy=false;render();}
 }
-function invalidate(){generation++;token=null;clearInfo();}
+function invalidate(){generation++;token=null;identityToken=null;clearInfo();}
 addEventListener('pagehide',invalidate);addEventListener('offline',invalidate);
-addEventListener('pageshow',()=>{invalidate();poll();});addEventListener('online',()=>{invalidate();poll();});
-document.addEventListener('visibilitychange',()=>{invalidate();if(!document.hidden)poll();});
-setInterval(render,100);setInterval(poll,500);clearInfo();poll();
+addEventListener('pageshow',()=>{invalidate();pollIdentity();poll();});addEventListener('online',()=>{invalidate();pollIdentity();poll();});
+document.addEventListener('visibilitychange',()=>{invalidate();if(!document.hidden){pollIdentity();poll();}});
+setInterval(render,100);setInterval(pollIdentity,500);setInterval(poll,500);clearInfo();pollIdentity();poll();
 })();
 </script>'''
 
