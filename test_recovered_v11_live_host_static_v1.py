@@ -9,7 +9,8 @@ for required in (
  'SCALP="https://scalp-display-bridge-v6-production.up.railway.app"',
  'path=="/dashboard_state.json"',
  'path=="/combined-state"',
- 'path=="/information"',
+ 'path in ("/information","/information/identity"):',
+ 'r=get(MAIN+path',
  '"X-BTC15-Information-Nonce"',
  'r.headers.get("X-BTC15-Information-Nonce")!=nonce',
  'do_POST=reject;do_PUT=reject;do_PATCH=reject;do_DELETE=reject',
@@ -17,4 +18,4 @@ for required in (
  'candidate.build_dashboard()',
 ):assert required in src,required
 for forbidden in ("KALSHI_PRIVATE_KEY","KALSHI_KEY_ID","place_order","order_action="):assert forbidden not in src,forbidden
-print("RECOVERED V11 LIVE HOST STATIC PASS | MAIN+SCALP+INFORMATION READ ONLY | NONCE BOUND | WRITES REJECTED | NO ORDERS")
+print("RECOVERED V11 LIVE HOST STATIC PASS | MAIN+SCALP+INFORMATION+IDENTITY READ ONLY | NONCE BOUND | WRITES REJECTED | NO ORDERS")
