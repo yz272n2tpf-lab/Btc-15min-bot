@@ -14,6 +14,8 @@ checks=[
  ("FINAL_V2",[sys.executable,"BTC15_RECOVERED_V11_FINAL_PROBABILITY_V1.py","--self-test"]),
  ("FINAL_ADVERSARIAL",[sys.executable,"test_recovered_v11_final_probability_static_v1.py"]),
  ("LIVE_HOST_STATIC",[sys.executable,"test_recovered_v11_live_host_static_v1.py"]),
+ ("BRTI_FRESHNESS_PRESENTATION",[sys.executable,"test_recovered_v11_brti_freshness_presentation_v1.py"]),
+ ("CONTRACT_IDENTITY_BINDING",[sys.executable,"test_recovered_v11_contract_identity_binding_v1.py"]),
 ]
 failed=[]
 for name,cmd in checks:
