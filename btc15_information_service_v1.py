@@ -98,10 +98,17 @@ def step(publisher, ingress, clock=time.time):
     except Exception:
         publisher.unavailable('INPUT_UNAVAILABLE')
         return False
+    def health_reader():
+        try:
+            return ingress.health()
+        except Exception:
+            # Mark the failing boundary before the publisher's own fail-closed
+            # validation catches Unavailable. Never expose exception details.
+            raise Unavailable('HEALTH_UNAVAILABLE') from None
     try:
-        return publisher.offer(raw, ingress.health, clock)
+        return publisher.offer(raw, health_reader, clock)
     except Exception:
-        publisher.unavailable('HEALTH_UNAVAILABLE')
+        publisher.unavailable('PUBLISH_UNAVAILABLE')
         return False
 
 
