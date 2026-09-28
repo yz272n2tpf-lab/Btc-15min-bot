@@ -19,7 +19,7 @@ assert '!safeNonFinal()' in renderer
 targets=re.findall(r"getElementById\(['\"]([^'\"]+)['\"]\)",renderer)
 assert targets==['finalActionSub'],targets
 for bad in ('final.ready=','final_status=','early.ready=','scalp.ready=','latchedFinal=','place_order','order_action'):assert bad not in renderer
-assert not re.search(r'\\bfetch\\s*\\(',renderer,re.I)
+assert 'fetch(' not in renderer
 assert 'btc15RenderInformationalFinal(null)' in src
 assert 'btc15RenderInformationalFinal(p)' in src
 print('RECOVERED V11 FINAL V2 STATIC ADVERSARIAL PASS | FRESH+STALE | ONLY finalActionSub | QUALIFIED FINAL PROTECTED | NO ORDERS')
