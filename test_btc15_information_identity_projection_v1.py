@@ -3,10 +3,13 @@
 import copy
 import json
 import unittest
-from unittest.mock import mock_open, patch
+from unittest.mock import patch
 
-FIELDS = ['schema','authority','status','reason','signal_only','orders','checked_ts','native_epoch','anchor_id','ticker']
-with patch('pathlib.Path.read_text', return_value=json.dumps(FIELDS)):
+from btc15_information_v1 import FIELD_CLASSES
+
+# Production installer materializes this canonical schema as btc15_information_fields_v1.json.
+# Supply exactly that generated content during proxy import; no reduced/fake field contract.
+with patch('pathlib.Path.read_text', return_value=json.dumps(FIELD_CLASSES, sort_keys=True)):
     import btc15_information_proxy_v1 as proxy
 
 def frame(now=1000.0):
