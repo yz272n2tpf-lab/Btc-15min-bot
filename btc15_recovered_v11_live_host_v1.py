@@ -43,11 +43,11 @@ class H(BaseHTTPRequestHandler):
             self.hdr(200,"text/html; charset=utf-8",len(HTML));self.wfile.write(HTML);return
         if path=="/dashboard_state.json":return self.proxy_json(MAIN+"/dashboard_state.json")
         if path=="/combined-state":return self.proxy_json(SCALP+"/combined-state")
-        if path=="/information":
+        if path in ("/information","/information/identity"):
             nonce=self.headers.get("X-BTC15-Information-Nonce")
             if not nonce:return self.js(400,{"ok":False,"orders":False,"error":"nonce_required"})
             try:
-                r=get(MAIN+"/information",{"X-BTC15-Information-Nonce":nonce})
+                r=get(MAIN+path,{"X-BTC15-Information-Nonce":nonce})
                 if r.headers.get("X-BTC15-Information-Nonce")!=nonce:raise RuntimeError("nonce_mismatch")
                 json.loads(r.content.decode());self.hdr(200,"application/json",len(r.content),nonce);self.wfile.write(r.content)
             except Exception as e:self.js(503,{"ok":False,"orders":False,"error":"information_unavailable:"+type(e).__name__})
