@@ -13,9 +13,11 @@ with patch('pathlib.Path.read_text', return_value=json.dumps(FIELD_CLASSES, sort
     import btc15_information_proxy_v1 as proxy
 
 def frame(now=1000.0):
-    return dict(schema='BTC15_INFORMATION_V1',authority='INFORMATIONAL_READ_ONLY',status='AVAILABLE',
-                reason=None,signal_only=True,orders=False,checked_ts=now,
-                native_epoch='epoch-a',anchor_id='a'*64,ticker='KXBTC15M-TEST')
+    x={k:None for k in proxy.FIELDS}
+    x.update(schema='BTC15_INFORMATION_V1',authority='INFORMATIONAL_READ_ONLY',status='AVAILABLE',
+             reason=None,signal_only=True,orders=False,checked_ts=now,native_epoch='epoch-a',
+             anchor_id='a'*64,ticker='KXBTC15M-TEST')
+    return x
 
 class IdentityProjectionTests(unittest.TestCase):
     def test_available_fresh_minimal_projection(self):
