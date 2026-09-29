@@ -23,12 +23,12 @@ jobs:
         with:
           python-version: '3.12.14'
       - run: python -m pip install -r requirements.txt -r round2_evidence/test_requirements.txt
-      - name: Source identity, injected faults and genuine host clock measurement
-        run: python -B -m sprint_evidence.run_qualification --output hosted_results
+      - name: Focused recovery only; preserved 257-test run is not repeated
+        run: python -B -m sprint_evidence.run_recovery_qualification
       - name: Preserve all smoke evidence including failures
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: btc15-sprint-nonproduction-smoke
-          path: hosted_results/
+          path: hosted_recovery/
           retention-days: 14

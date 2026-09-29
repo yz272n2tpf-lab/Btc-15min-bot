@@ -488,6 +488,7 @@ def main():
     rx.add_argument('--registry-json',required=True)
     rx.add_argument('--archive',required=True)
     rx.add_argument('--socket',required=True)
+    rx.add_argument('--monitor-snapshot',help='Separate receiver-owned JSON view; monitors must never read the active SQLite archive')
     args=parser.parse_args()
     if args.command=='producer':
         ident=Identity(**strict(Path(args.identity_json).read_bytes()))
@@ -507,7 +508,12 @@ def main():
             if 'clock_domains' in values:values['clock_domains']=tuple(tuple(x) for x in values['clock_domains'])
             common=DetachedRecorder(args.archive,Policy(**values),acquisition_key=Path(cfg['acquisition_key_file']).read_bytes())
         add_event_store(args.archive,quota_bytes=registry['quota_bytes'])
-        serve(args.socket,Receiver(args.archive,ids,keys,common_recorder=common))
+        if args.monitor_snapshot:
+            from .monitor_snapshot import SnapshotReceiver
+            receiver=SnapshotReceiver(args.archive,ids,keys,common_recorder=common,snapshot_path=args.monitor_snapshot)
+        else:
+            receiver=Receiver(args.archive,ids,keys,common_recorder=common)
+        serve(args.socket,receiver)
 
 
 if __name__=='__main__':main()
