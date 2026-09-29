@@ -28,15 +28,23 @@ class Discard:
     def close(self):pass
 
 
-def worker(address,path,ready,stop):
+def worker(address,path,ready,stop,done,receipts_path):
     receiver=Receiver(path,[IDENTITY],{(IDENTITY.producer_id,IDENTITY.run_id):KEY},common_recorder=DetachedRecorder(path,POLICY,acquisition_key=KEY))
     sock=socket.socket(socket.AF_UNIX,socket.SOCK_DGRAM);sock.bind(address);sock.settimeout(.1)
-    ready.set()
+    ready.set(); receipts=[]
     try:
         while not stop.is_set():
             try:raw,_,flags,_=sock.recvmsg(MAX_PACKET)
             except socket.timeout:continue
-            if not flags & socket.MSG_TRUNC:receiver.accept(raw)
+            receipt=({'status':'UNAVAILABLE','reason':'TRUNCATED_DATAGRAM'}
+                     if flags & socket.MSG_TRUNC else receiver.accept(raw))
+            receipts.append(receipt)
+            if len(receipts)==25:
+                # Test-harness completion only: the producer never reads it.
+                # Inspect the archive after writes; lock injection is a separate
+                # negative control, not an accidental feature of the happy path.
+                Path(receipts_path).write_text(json.dumps(receipts,sort_keys=True)+'\n')
+                done.set()
     finally:sock.close()
 
 
@@ -78,8 +86,9 @@ def smoke():
     with tempfile.TemporaryDirectory() as d:
         root=Path(d);path=root/'unified.sqlite';address=str(root/'events.sock')
         initialize(path,POLICY);add_event_store(path)
-        ready=multiprocessing.Event();stop=multiprocessing.Event()
-        worker_process=multiprocessing.Process(target=worker,args=(address,str(path),ready,stop));worker_process.start()
+        ready=multiprocessing.Event();stop=multiprocessing.Event();done=multiprocessing.Event()
+        receipts_path=root/'receiver_receipts.json'
+        worker_process=multiprocessing.Process(target=worker,args=(address,str(path),ready,stop,done,str(receipts_path)));worker_process.start()
         if not ready.wait(5):raise RuntimeError('RECEIVER_NOT_READY')
         p=Producer(address,IDENTITY,KEY);timings=[];states=[]
         for i in range(12):
@@ -88,17 +97,17 @@ def smoke():
             # Test driver pacing only; never inside producer/hook and no ACK.
             time.sleep(.01)
         member=artifact()[0];assert p.common_member(member,0)
-        deadline=time.monotonic()+5
-        while time.monotonic()<deadline:
-            with sqlite3.connect(path) as db:
-                count=db.execute('SELECT COUNT(*) FROM producer_events').fetchone()[0]
-                members=db.execute('SELECT COUNT(*) FROM members').fetchone()[0]
-            if count==25 and members==1:break
-            time.sleep(.01)
+        complete=done.wait(5)
         stop.set();worker_process.join(5)
         if worker_process.is_alive():worker_process.terminate();worker_process.join();raise RuntimeError('RECEIVER_DID_NOT_STOP')
+        if not complete:raise AssertionError('RECEIVER_DID_NOT_PROCESS_25_PACKETS')
+        receipts=json.loads(receipts_path.read_text())
+        assert len(receipts)==25,receipts
+        assert all(r['status']=='RECORDED_UNQUALIFIED_CLOCK' for r in receipts),receipts
         with sqlite3.connect(path) as db:
-            original=db.execute('SELECT original FROM members').fetchone()[0]
+            member_row=db.execute('SELECT original FROM members').fetchone()
+            assert member_row is not None,receipts
+            original=member_row[0]
             rows=db.execute('SELECT raw FROM producer_events ORDER BY seq').fetchall()
         events=[json.loads(r[0])['event'] for r in rows]
         assert len(events)==25 and original==member and p.dropped==0
@@ -108,6 +117,7 @@ def smoke():
                       producer_pid=os.getpid(),consumer_pid=worker_process.pid,events=25,exact_original_members=1,
                       reconstructed_protected_generations=12,explicit_generation_file_write_links=12,
                       dropped=p.dropped,actual_send_plus_encode_pair=summary(timings),immutable_archive_bytes=path.stat().st_size)
+        result['receiver_receipts']=receipts
         p.close()
     return result
 
