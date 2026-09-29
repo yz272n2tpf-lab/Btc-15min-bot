@@ -144,6 +144,11 @@ class CaptureTests(unittest.TestCase):
             self.assertFalse(p.offer('NATIVE_CYCLE',{}));self.assertEqual(p.dropped,1)
             server=socket.socket(socket.AF_UNIX,socket.SOCK_DGRAM);server.bind(str(path))
             try:
+                # Force a bounded queue in this fault fixture. Host defaults can
+                # hold all 50 small datagrams, which does not exercise backlog.
+                # This changes neither the production socket nor the assertion.
+                p.sock.setsockopt(socket.SOL_SOCKET,socket.SO_SNDBUF,4096)
+                server.setsockopt(socket.SOL_SOCKET,socket.SO_RCVBUF,4096)
                 start=time.perf_counter()
                 for i in range(50):p.offer('NATIVE_CYCLE',{'i':i})
                 elapsed=time.perf_counter()-start

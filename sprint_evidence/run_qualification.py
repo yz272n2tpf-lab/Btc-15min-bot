@@ -67,7 +67,7 @@ def main():
         (out/'results.json').write_text(json.dumps(results,indent=2)+'\n')
         print(json.dumps({k:item[k] for k in ('name','status','tests')}),flush=True)
     sprint=[p.stem for p in sorted(ROOT.glob('test_sprint_*.py'))]
-    sprint += ['sprint_evidence.'+p.stem for p in sorted((ROOT/'sprint_evidence').glob('test_sprint_*.py'))]
+    sprint += ['sprint_evidence.'+p.stem for p in sorted((ROOT/'sprint_evidence').glob('test_*.py'))]
     if len(sprint)<3:raise SystemExit('SPRINT_TEST_MODULES_MISSING')
     for mod in sprint+FROZEN_MODULES:
         run(mod,[sys.executable,'-B','-m','unittest',mod,'-v'])
@@ -78,6 +78,7 @@ def main():
     for script in ('test_btc15_canary_data_path_static.py','test_btc15_dashboard_parity_ws_static.py','test_brti_main_cutover_static_gate_v1.py'):
         run(script,[sys.executable,'-B',script])
     run('real_host_clock',[sys.executable,'-B','-m','sprint_evidence.clock_monitor','--output',str(out/'real_host_clock.jsonl'),'--samples','3','--environment-label','github_actions_nonproduction' if identity['github_actions'] else 'local_engineering'])
+    run('host_clock_diagnostics',[sys.executable,'-B','-m','sprint_evidence.host_clock_diagnostics','--output',str(out/'host_clock_diagnostics.json')])
     summary=dict(executed_controls_pass=all(x['status']=='PASS' for x in results),
         unit_tests=sum(x['tests'] or 0 for x in results),
         skipped_tests=sum(x['skipped'] for x in results),
