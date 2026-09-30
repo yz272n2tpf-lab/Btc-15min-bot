@@ -112,6 +112,7 @@ class RepairKernelTests(unittest.TestCase):
                 p=CaptureProducer(address,identity('new'),b'a'*32,end_boot_ns=time.clock_gettime_ns(time.CLOCK_BOOTTIME)+8_000_000_000)
                 try:
                     for i in range(2000):self.assertTrue(p.offer('OBSERVED',{'index':i}),p.last_error)
+                    wait_for(lambda:p.sock.retries>0)
                     records=[json.loads(receiver.recv(196609))['event'] for _ in range(2000)]
                     wait_for(lambda:p.sock.delivered==2000)
                     self.assertEqual([x['sequence'] for x in records],list(range(1,2001)))
