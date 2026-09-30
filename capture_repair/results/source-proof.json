@@ -1,0 +1,15 @@
+{
+  "local_commit": "d62a30f511428b44bbdb33f3d7e0c9481fb30291",
+  "hosted_candidate": "b6dd2b5f8ce3020e0cc87791a9e0814641ac4a1f",
+  "strategy_branch_heads": {
+    "main": "abe212b513827c8cec28a2f64e0161e79296bd82",
+    "v81": "b05723ec622f901a05402ecf27f4d33505753ef1"
+  },
+  "published_payload_byte_equal": true,
+  "payload_sha256": "9ed4095dfc84b40b1c7712e665cb4230bba6bbef6a600e45888e4491a55c7519",
+  "changed_existing_files": [
+    "capture2/install.py",
+    "capture2/runtime.py",
+    "capture2/writer.py"
+  ]
+}

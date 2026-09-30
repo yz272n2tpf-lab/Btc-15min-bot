@@ -1,0 +1,13 @@
+{
+  "mode": "v81",
+  "packets": 100599,
+  "bytes": 27784419,
+  "invalid": 0,
+  "gaps": [],
+  "drop_observed": false,
+  "streams": 2,
+  "accounted_transports": 2,
+  "missing_accounting": [],
+  "bad_transport": [],
+  "retries": 2766
+}

@@ -1,0 +1,261 @@
+﻿2026-09-30T04:13:18.8488212Z Current runner version: '2.337.0'
+2026-09-30T04:13:18.8515346Z ##[group]Runner Image Provisioner
+2026-09-30T04:13:18.8516332Z Hosted Compute Agent
+2026-09-30T04:13:18.8517003Z Version: 20260828.587
+2026-09-30T04:13:18.8517657Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+2026-09-30T04:13:18.8518501Z Build Date: 2026-08-28T16:44:25Z
+2026-09-30T04:13:18.8519200Z Worker ID: {178f06ec-400d-48d2-b4d1-24bb2e35e21e}
+2026-09-30T04:13:18.8519949Z Azure Region: westus
+2026-09-30T04:13:18.8520581Z ##[endgroup]
+2026-09-30T04:13:18.8522602Z ##[group]Operating System
+2026-09-30T04:13:18.8523424Z Ubuntu
+2026-09-30T04:13:18.8523967Z 24.04.5
+2026-09-30T04:13:18.8524482Z LTS
+2026-09-30T04:13:18.8525107Z ##[endgroup]
+2026-09-30T04:13:18.8525682Z ##[group]Runner Image
+2026-09-30T04:13:18.8526376Z Image: ubuntu-24.04
+2026-09-30T04:13:18.8526947Z Version: 20260920.314.1
+2026-09-30T04:13:18.8528319Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260920.314/images/ubuntu/Ubuntu2404-Readme.md
+2026-09-30T04:13:18.8529903Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260920.314
+2026-09-30T04:13:18.8530933Z ##[endgroup]
+2026-09-30T04:13:18.8532260Z ##[group]GITHUB_TOKEN Permissions
+2026-09-30T04:13:18.8534642Z Contents: read
+2026-09-30T04:13:18.8535265Z Metadata: read
+2026-09-30T04:13:18.8536137Z ##[endgroup]
+2026-09-30T04:13:18.8538471Z Secret source: Actions
+2026-09-30T04:13:18.8539396Z Cache mode: write
+2026-09-30T04:13:18.8540443Z Prepare workflow directory
+2026-09-30T04:13:18.8968808Z Prepare all required actions
+2026-09-30T04:13:18.9019025Z Getting action download info
+2026-09-30T04:13:19.2563202Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-09-30T04:13:19.3553244Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-09-30T04:13:19.5397704Z Complete job name: focused
+2026-09-30T04:13:19.6203784Z ##[group]Run actions/checkout@v4
+2026-09-30T04:13:19.6204720Z with:
+2026-09-30T04:13:19.6205231Z   repository: yz272n2tpf-lab/Btc-15min-bot
+2026-09-30T04:13:19.6209143Z   token: ***
+2026-09-30T04:13:19.6209603Z   ssh-strict: true
+2026-09-30T04:13:19.6210062Z   ssh-user: git
+2026-09-30T04:13:19.6210534Z   persist-credentials: true
+2026-09-30T04:13:19.6211039Z   clean: true
+2026-09-30T04:13:19.6211730Z   sparse-checkout-cone-mode: true
+2026-09-30T04:13:19.6212296Z   fetch-depth: 1
+2026-09-30T04:13:19.6212749Z   fetch-tags: false
+2026-09-30T04:13:19.6213217Z   show-progress: true
+2026-09-30T04:13:19.6213683Z   lfs: false
+2026-09-30T04:13:19.6214116Z   submodules: false
+2026-09-30T04:13:19.6214596Z   set-safe-directory: true
+2026-09-30T04:13:19.6215124Z   allow-unsafe-pr-checkout: false
+2026-09-30T04:13:19.6216065Z env:
+2026-09-30T04:13:19.6216528Z   PYTHONDONTWRITEBYTECODE: 1
+2026-09-30T04:13:19.6217074Z   OPENBLAS_NUM_THREADS: 1
+2026-09-30T04:13:19.6217567Z ##[endgroup]
+2026-09-30T04:13:19.7302864Z Syncing repository: yz272n2tpf-lab/Btc-15min-bot
+2026-09-30T04:13:19.7306038Z ##[group]Getting Git version info
+2026-09-30T04:13:19.7307320Z Working directory is '/home/runner/work/Btc-15min-bot/Btc-15min-bot'
+2026-09-30T04:13:19.7309116Z [command]/usr/bin/git version
+2026-09-30T04:13:19.7388117Z git version 2.55.0
+2026-09-30T04:13:19.7413397Z ##[endgroup]
+2026-09-30T04:13:19.7431025Z Temporarily overriding HOME='/home/runner/work/_temp/68ef84b1-5ce2-452e-a258-890ff9d5e68c' before making global git config changes
+2026-09-30T04:13:19.7433800Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-30T04:13:19.7438021Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Btc-15min-bot/Btc-15min-bot
+2026-09-30T04:13:19.7503552Z Deleting the contents of '/home/runner/work/Btc-15min-bot/Btc-15min-bot'
+2026-09-30T04:13:19.7509460Z ##[group]Initializing the repository
+2026-09-30T04:13:19.7515248Z [command]/usr/bin/git init /home/runner/work/Btc-15min-bot/Btc-15min-bot
+2026-09-30T04:13:19.7641804Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-09-30T04:13:19.7643582Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-09-30T04:13:19.7644573Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-09-30T04:13:19.7645329Z hint: call:
+2026-09-30T04:13:19.7645745Z hint:
+2026-09-30T04:13:19.7646303Z hint: 	git config --global init.defaultBranch <name>
+2026-09-30T04:13:19.7646941Z hint:
+2026-09-30T04:13:19.7647541Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-09-30T04:13:19.7648499Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-09-30T04:13:19.7649255Z hint:
+2026-09-30T04:13:19.7649694Z hint: 	git branch -m <name>
+2026-09-30T04:13:19.7650199Z hint:
+2026-09-30T04:13:19.7650847Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-09-30T04:13:19.7658205Z Initialized empty Git repository in /home/runner/work/Btc-15min-bot/Btc-15min-bot/.git/
+2026-09-30T04:13:19.7669469Z [command]/usr/bin/git remote add origin https://github.com/yz272n2tpf-lab/Btc-15min-bot
+2026-09-30T04:13:19.7735171Z ##[endgroup]
+2026-09-30T04:13:19.7736967Z ##[group]Disabling automatic garbage collection
+2026-09-30T04:13:19.7738243Z [command]/usr/bin/git config --local gc.auto 0
+2026-09-30T04:13:19.7788162Z ##[endgroup]
+2026-09-30T04:13:19.7790116Z ##[group]Setting up auth
+2026-09-30T04:13:19.7799317Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-30T04:13:19.7841392Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-30T04:13:19.8290290Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-30T04:13:19.8332424Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-30T04:13:19.8567043Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-30T04:13:19.8606193Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-30T04:13:19.8842894Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-09-30T04:13:19.8889064Z ##[endgroup]
+2026-09-30T04:13:19.8889979Z ##[group]Fetching the repository
+2026-09-30T04:13:19.8900668Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +b6dd2b5f8ce3020e0cc87791a9e0814641ac4a1f:refs/remotes/origin/qualification/capture-repair-20260930
+2026-09-30T04:13:21.3175326Z From https://github.com/yz272n2tpf-lab/Btc-15min-bot
+2026-09-30T04:13:21.3178187Z  * [new ref]         b6dd2b5f8ce3020e0cc87791a9e0814641ac4a1f -> origin/qualification/capture-repair-20260930
+2026-09-30T04:13:21.3184372Z ##[endgroup]
+2026-09-30T04:13:21.3186294Z ##[group]Determining the checkout info
+2026-09-30T04:13:21.3188846Z ##[endgroup]
+2026-09-30T04:13:21.3194869Z [command]/usr/bin/git sparse-checkout disable
+2026-09-30T04:13:21.3390556Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-09-30T04:13:21.3431481Z ##[group]Checking out the ref
+2026-09-30T04:13:21.3438280Z [command]/usr/bin/git checkout --progress --force -B qualification/capture-repair-20260930 refs/remotes/origin/qualification/capture-repair-20260930
+2026-09-30T04:13:21.6590693Z Switched to a new branch 'qualification/capture-repair-20260930'
+2026-09-30T04:13:21.6595572Z branch 'qualification/capture-repair-20260930' set up to track 'origin/qualification/capture-repair-20260930'.
+2026-09-30T04:13:21.6612579Z ##[endgroup]
+2026-09-30T04:13:21.6662238Z [command]/usr/bin/git log -1 --format=%H
+2026-09-30T04:13:21.6690514Z b6dd2b5f8ce3020e0cc87791a9e0814641ac4a1f
+2026-09-30T04:13:21.6968568Z ##[group]Run actions/setup-python@v5
+2026-09-30T04:13:21.6968993Z with:
+2026-09-30T04:13:21.6969266Z   python-version: 3.12.14
+2026-09-30T04:13:21.6969571Z   check-latest: false
+2026-09-30T04:13:21.6972441Z   token: ***
+2026-09-30T04:13:21.6972750Z   update-environment: true
+2026-09-30T04:13:21.6973073Z   allow-prereleases: false
+2026-09-30T04:13:21.6973369Z   freethreaded: false
+2026-09-30T04:13:21.6973637Z env:
+2026-09-30T04:13:21.6973902Z   PYTHONDONTWRITEBYTECODE: 1
+2026-09-30T04:13:21.6974230Z   OPENBLAS_NUM_THREADS: 1
+2026-09-30T04:13:21.6974524Z ##[endgroup]
+2026-09-30T04:13:21.8369317Z ##[group]Installed versions
+2026-09-30T04:13:21.8416127Z (node:2228) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-30T04:13:21.8417773Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-30T04:13:21.8418871Z Successfully set up CPython (3.12.14)
+2026-09-30T04:13:21.8419970Z ##[endgroup]
+2026-09-30T04:13:21.8600797Z ##[group]Run python -m pip install -r requirements.txt
+2026-09-30T04:13:21.8601958Z [36;1mpython -m pip install -r requirements.txt[0m
+2026-09-30T04:13:21.8969045Z shell: /usr/bin/bash -e {0}
+2026-09-30T04:13:21.8969468Z env:
+2026-09-30T04:13:21.8969768Z   PYTHONDONTWRITEBYTECODE: 1
+2026-09-30T04:13:21.8970120Z   OPENBLAS_NUM_THREADS: 1
+2026-09-30T04:13:21.8970523Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T04:13:21.8971441Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-30T04:13:21.8972044Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T04:13:21.8972538Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T04:13:21.8973048Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T04:13:21.8973572Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-30T04:13:21.8974029Z ##[endgroup]
+2026-09-30T04:13:23.2419892Z Collecting cryptography==50.0.0 (from -r requirements.txt (line 1))
+2026-09-30T04:13:23.3530821Z   Downloading cryptography-50.0.0-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (4.3 kB)
+2026-09-30T04:13:23.5749609Z Collecting numpy==2.5.2 (from -r requirements.txt (line 2))
+2026-09-30T04:13:23.6135470Z   Downloading numpy-2.5.2-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+2026-09-30T04:13:23.7436772Z Collecting pandas==3.0.5 (from -r requirements.txt (line 3))
+2026-09-30T04:13:23.7664164Z   Downloading pandas-3.0.5-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (79 kB)
+2026-09-30T04:13:23.8562297Z Collecting requests==2.32.5 (from -r requirements.txt (line 4))
+2026-09-30T04:13:23.8780879Z   Downloading requests-2.32.5-py3-none-any.whl.metadata (4.9 kB)
+2026-09-30T04:13:23.9763239Z Collecting scikit-learn==1.9.0 (from -r requirements.txt (line 5))
+2026-09-30T04:13:23.9992582Z   Downloading scikit_learn-1.9.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (11 kB)
+2026-09-30T04:13:24.1430429Z Collecting scipy==1.18.1 (from -r requirements.txt (line 6))
+2026-09-30T04:13:24.1647326Z   Downloading scipy-1.18.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+2026-09-30T04:13:24.2192379Z Collecting joblib==1.5.3 (from -r requirements.txt (line 7))
+2026-09-30T04:13:24.2422775Z   Downloading joblib-1.5.3-py3-none-any.whl.metadata (5.5 kB)
+2026-09-30T04:13:24.3910561Z Collecting websockets==15.0.1 (from -r requirements.txt (line 8))
+2026-09-30T04:13:24.4131807Z   Downloading websockets-15.0.1-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.8 kB)
+2026-09-30T04:13:24.5499398Z Collecting cffi>=2.0.0 (from cryptography==50.0.0->-r requirements.txt (line 1))
+2026-09-30T04:13:24.5826398Z   Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+2026-09-30T04:13:24.6153549Z Collecting python-dateutil>=2.8.2 (from pandas==3.0.5->-r requirements.txt (line 3))
+2026-09-30T04:13:24.6379966Z   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+2026-09-30T04:13:24.7729473Z Collecting charset_normalizer<4,>=2 (from requests==2.32.5->-r requirements.txt (line 4))
+2026-09-30T04:13:24.7948646Z   Downloading charset_normalizer-3.5.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (45 kB)
+2026-09-30T04:13:24.8342970Z Collecting idna<4,>=2.5 (from requests==2.32.5->-r requirements.txt (line 4))
+2026-09-30T04:13:24.8560191Z   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+2026-09-30T04:13:24.8967119Z Collecting urllib3<3,>=1.21.1 (from requests==2.32.5->-r requirements.txt (line 4))
+2026-09-30T04:13:24.9208432Z   Downloading urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+2026-09-30T04:13:24.9592639Z Collecting certifi>=2017.4.17 (from requests==2.32.5->-r requirements.txt (line 4))
+2026-09-30T04:13:24.9805449Z   Downloading certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+2026-09-30T04:13:25.0333680Z Collecting narwhals>=2.0.1 (from scikit-learn==1.9.0->-r requirements.txt (line 5))
+2026-09-30T04:13:25.0574555Z   Downloading narwhals-2.26.0-py3-none-any.whl.metadata (15 kB)
+2026-09-30T04:13:25.0908207Z Collecting threadpoolctl>=3.5.0 (from scikit-learn==1.9.0->-r requirements.txt (line 5))
+2026-09-30T04:13:25.1133140Z   Downloading threadpoolctl-3.7.0-py3-none-any.whl.metadata (24 kB)
+2026-09-30T04:13:25.1470982Z Collecting pycparser (from cffi>=2.0.0->cryptography==50.0.0->-r requirements.txt (line 1))
+2026-09-30T04:13:25.1717334Z   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+2026-09-30T04:13:25.2075981Z Collecting six>=1.5 (from python-dateutil>=2.8.2->pandas==3.0.5->-r requirements.txt (line 3))
+2026-09-30T04:13:25.2289717Z   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2026-09-30T04:13:25.2568583Z Downloading cryptography-50.0.0-cp311-abi3-manylinux_2_34_x86_64.whl (4.7 MB)
+2026-09-30T04:13:25.4228818Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 35.8 MB/s  0:00:00
+2026-09-30T04:13:25.4443632Z Downloading numpy-2.5.2-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.7 MB)
+2026-09-30T04:13:25.5692004Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.7/16.7 MB 135.5 MB/s  0:00:00
+2026-09-30T04:13:25.5903898Z Downloading pandas-3.0.5-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (11.0 MB)
+2026-09-30T04:13:25.6384887Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.0/11.0 MB 236.5 MB/s  0:00:00
+2026-09-30T04:13:25.6618418Z Downloading requests-2.32.5-py3-none-any.whl (64 kB)
+2026-09-30T04:13:25.6868295Z Downloading scikit_learn-1.9.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (9.1 MB)
+2026-09-30T04:13:26.0987869Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.1/9.1 MB 21.7 MB/s  0:00:00
+2026-09-30T04:13:26.1214507Z Downloading scipy-1.18.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (35.3 MB)
+2026-09-30T04:13:26.2646254Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 35.3/35.3 MB 250.5 MB/s  0:00:00
+2026-09-30T04:13:26.2874050Z Downloading joblib-1.5.3-py3-none-any.whl (309 kB)
+2026-09-30T04:13:26.3130114Z Downloading websockets-15.0.1-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (182 kB)
+2026-09-30T04:13:26.3423057Z Downloading charset_normalizer-3.5.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (248 kB)
+2026-09-30T04:13:26.3678389Z Downloading idna-3.20-py3-none-any.whl (69 kB)
+2026-09-30T04:13:26.3948182Z Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+2026-09-30T04:13:26.4192313Z Downloading certifi-2026.7.22-py3-none-any.whl (136 kB)
+2026-09-30T04:13:26.4435641Z Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (221 kB)
+2026-09-30T04:13:26.4698574Z Downloading narwhals-2.26.0-py3-none-any.whl (474 kB)
+2026-09-30T04:13:26.4957546Z Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+2026-09-30T04:13:26.5215121Z Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+2026-09-30T04:13:26.5455800Z Downloading threadpoolctl-3.7.0-py3-none-any.whl (26 kB)
+2026-09-30T04:13:26.5694171Z Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+2026-09-30T04:13:26.8586628Z Installing collected packages: websockets, urllib3, threadpoolctl, six, pycparser, numpy, narwhals, joblib, idna, charset_normalizer, certifi, scipy, requests, python-dateutil, cffi, scikit-learn, pandas, cryptography
+2026-09-30T04:13:43.1349020Z 
+2026-09-30T04:13:43.1375975Z Successfully installed certifi-2026.7.22 cffi-2.1.1 charset_normalizer-3.5.1 cryptography-50.0.0 idna-3.20 joblib-1.5.3 narwhals-2.26.0 numpy-2.5.2 pandas-3.0.5 pycparser-3.0 python-dateutil-2.9.0.post0 requests-2.32.5 scikit-learn-1.9.0 scipy-1.18.1 six-1.17.0 threadpoolctl-3.7.0 urllib3-2.8.0 websockets-15.0.1
+2026-09-30T04:13:43.2519894Z ##[group]Run python -B -m unittest capture2.test_repairs capture2.test_composition.CompositionTests.test_composed_native_tree_preserves_every_original_statement capture2.test_composition.CompositionTests.test_protected_assembly_preserves_original_strategy_ast capture2.test_composition.CompositionTests.test_composed_quote_session_off_on_exact_same_source_operations -v
+2026-09-30T04:13:43.2523095Z [36;1mpython -B -m unittest capture2.test_repairs capture2.test_composition.CompositionTests.test_composed_native_tree_preserves_every_original_statement capture2.test_composition.CompositionTests.test_protected_assembly_preserves_original_strategy_ast capture2.test_composition.CompositionTests.test_composed_quote_session_off_on_exact_same_source_operations -v[0m
+2026-09-30T04:13:43.2592915Z shell: /usr/bin/bash -e {0}
+2026-09-30T04:13:43.2593366Z env:
+2026-09-30T04:13:43.2593768Z   PYTHONDONTWRITEBYTECODE: 1
+2026-09-30T04:13:43.2594282Z   OPENBLAS_NUM_THREADS: 1
+2026-09-30T04:13:43.2594830Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T04:13:43.2595529Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-30T04:13:43.2596209Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T04:13:43.2596842Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T04:13:43.2597469Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-30T04:13:43.2598258Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-30T04:13:43.2598811Z ##[endgroup]
+2026-09-30T04:13:43.5927656Z ROOT_CAUSE {"kernel_max_dgram_qlen": 512, "old_sent": 308, "old_error": "BlockingIOError:[Errno 11] Resource temporarily unavailable"}
+2026-09-30T04:13:43.7050020Z BUFFER_BURST {"producer_id": "new", "observed_boot_ns": 61165454623, "offered": 2000, "producer_dropped": 0, "producer_last_error": null, "accepted": 2000, "delivered": 2000, "last_delivered_sequence": 2000, "pending_packets": 0, "pending_bytes": 0, "retry_eagain": 1, "rejected": 0, "high_water_bytes": 1234252, "high_water_packets": 1975, "max_bytes": 16777216, "max_packets": 16384, "finished": false, "last_transport_error": null, "basis": "OFF_PATH_COUNTER_SNAPSHOT; concurrent offer may be in progress"}
+2026-09-30T04:13:43.7085337Z test_kernel_queue_reproduces_old_eagain_and_buffer_preserves_burst (capture2.test_repairs.RepairKernelTests.test_kernel_queue_reproduces_old_eagain_and_buffer_preserves_burst) ... ok
+2026-09-30T04:13:49.0062397Z WRITER_STRESS {"packets": 10000, "groups": 69, "bytes": 1385101, "transport": {"producer_id": "fixture", "observed_boot_ns": 66466406384, "offered": 10000, "producer_dropped": 0, "producer_last_error": null, "accepted": 10000, "delivered": 10000, "last_delivered_sequence": 10000, "pending_packets": 0, "pending_bytes": 0, "retry_eagain": 294, "rejected": 0, "high_water_bytes": 14108991, "high_water_packets": 9924, "max_bytes": 16777216, "max_packets": 16384, "finished": true, "last_transport_error": null, "basis": "OFF_PATH_COUNTER_SNAPSHOT; concurrent offer may be in progress"}}
+2026-09-30T04:13:49.0219784Z test_repaired_writer_retains_10000_unpaced_packets (capture2.test_repairs.RepairKernelTests.test_repaired_writer_retains_10000_unpaced_packets) ... ok
+2026-09-30T04:13:49.4725657Z test_all_generated_main_python_files_compile (capture2.test_repairs.RepairUnitTests.test_all_generated_main_python_files_compile) ... ok
+2026-09-30T04:13:49.4784230Z test_full_buffer_rejects_without_wait_and_loss_remains_visible (capture2.test_repairs.RepairUnitTests.test_full_buffer_rejects_without_wait_and_loss_remains_visible) ... ok
+2026-09-30T04:13:49.4791477Z test_future_imports_stay_before_hooks_with_or_without_docstring (capture2.test_repairs.RepairUnitTests.test_future_imports_stay_before_hooks_with_or_without_docstring) ... ok
+2026-09-30T04:13:49.5664409Z test_stalled_receiver_retries_off_thread_and_retains_every_packet (capture2.test_repairs.RepairUnitTests.test_stalled_receiver_retries_off_thread_and_retains_every_packet) ... ok
+2026-09-30T04:13:49.5697295Z test_terminal_delivery_failure_is_explicit_even_without_later_packet (capture2.test_repairs.RepairUnitTests.test_terminal_delivery_failure_is_explicit_even_without_later_packet) ... ok
+2026-09-30T04:13:49.8741878Z test_composed_native_tree_preserves_every_original_statement (capture2.test_composition.CompositionTests.test_composed_native_tree_preserves_every_original_statement) ... ok
+2026-09-30T04:13:49.9717422Z test_protected_assembly_preserves_original_strategy_ast (capture2.test_composition.CompositionTests.test_protected_assembly_preserves_original_strategy_ast) ... ok
+2026-09-30T04:13:49.9863848Z KALSHI QUOTE WS CONNECT | A | epoch=same-epoch | NO ORDERS
+2026-09-30T04:13:50.0070206Z KALSHI QUOTE WS CONNECT | A | epoch=same-epoch | NO ORDERS
+2026-09-30T04:13:50.0175149Z KALSHI QUOTE WS CONNECT | A | epoch=same-epoch | NO ORDERS
+2026-09-30T04:13:50.0379666Z KALSHI QUOTE WS CONNECT | A | epoch=same-epoch | NO ORDERS
+2026-09-30T04:13:50.0512092Z KALSHI QUOTE WS CONNECT | A | epoch=same-epoch | NO ORDERS
+2026-09-30T04:13:50.0707490Z KALSHI QUOTE WS CONNECT | A | epoch=same-epoch | NO ORDERS
+2026-09-30T04:13:50.0807915Z KALSHI QUOTE WS CONNECT | A | epoch=same-epoch | NO ORDERS
+2026-09-30T04:13:50.1002378Z KALSHI QUOTE WS CONNECT | A | epoch=same-epoch | NO ORDERS
+2026-09-30T04:13:50.1097832Z KALSHI QUOTE WS CONNECT | A | epoch=same-epoch | NO ORDERS
+2026-09-30T04:13:50.1290286Z KALSHI QUOTE WS CONNECT | A | epoch=same-epoch | NO ORDERS
+2026-09-30T04:13:50.1297201Z test_composed_quote_session_off_on_exact_same_source_operations (capture2.test_composition.CompositionTests.test_composed_quote_session_off_on_exact_same_source_operations) ... ok
+2026-09-30T04:13:50.1299068Z 
+2026-09-30T04:13:50.1299527Z ----------------------------------------------------------------------
+2026-09-30T04:13:50.1300239Z Ran 10 tests in 6.551s
+2026-09-30T04:13:50.1300511Z 
+2026-09-30T04:13:50.1300661Z OK
+2026-09-30T04:13:50.2179881Z Post job cleanup.
+2026-09-30T04:13:50.3425819Z (node:2309) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-30T04:13:50.3427206Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-30T04:13:50.3587216Z Post job cleanup.
+2026-09-30T04:13:50.4511557Z [command]/usr/bin/git version
+2026-09-30T04:13:50.4558831Z git version 2.55.0
+2026-09-30T04:13:50.4601771Z Temporarily overriding HOME='/home/runner/work/_temp/4d5db2ec-bb46-4a3a-8a3a-35c5fd255ff8' before making global git config changes
+2026-09-30T04:13:50.4603240Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-30T04:13:50.4608727Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Btc-15min-bot/Btc-15min-bot
+2026-09-30T04:13:50.4656473Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-30T04:13:50.4722821Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-30T04:13:50.4976450Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-30T04:13:50.5009277Z http.https://github.com/.extraheader
+2026-09-30T04:13:50.5024805Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-09-30T04:13:50.5078267Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-30T04:13:50.5342917Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-30T04:13:50.5394201Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-30T04:13:50.5847206Z Cleaning up orphan processes
+2026-09-30T04:13:50.6292253Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+

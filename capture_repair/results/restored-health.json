@@ -1,0 +1,23 @@
+{
+  "main": {
+    "url": "https://btc-15min-bot-production.up.railway.app/health",
+    "http_status": 200,
+    "observed_wall_ns": 1790741984459238666,
+    "body": {
+      "ok": true,
+      "read_only": true
+    }
+  },
+  "v81": {
+    "url": "https://v81-live-diagnostics-production.up.railway.app/health",
+    "http_status": 200,
+    "observed_wall_ns": 1790741985113578351,
+    "body": {
+      "ok": true,
+      "service": "v81-30-45-live-feed",
+      "signal_only": true,
+      "orders": false,
+      "diagnostic_version": "V81_GATE_DIAG_V1"
+    }
+  }
+}

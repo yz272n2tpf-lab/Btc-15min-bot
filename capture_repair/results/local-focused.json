@@ -1,0 +1,6 @@
+{
+  "passed": 8,
+  "failed": 0,
+  "scope": "5 focused import/transport tests plus 3 selected statement/source-operation preservation tests",
+  "local_kernel_socket": "AF_UNIX creation EPERM; actual kernel/burst tests must pass hosted; no skips accepted"
+}

@@ -1,0 +1,11 @@
+{
+  "result": "FAIL",
+  "stage": "PRELIVE_HARD_GATE",
+  "initial_point_in_time_probe": "PASS at 63 MAIN streams; superseded by producer churn check before event observation phase",
+  "reason": "MAIN per-thread producers retain daemon senders; 384 streams exceed 64-file transport reporting cap, leaving complete terminal-loss accounting unavailable",
+  "main_missing_transport_reports": 320,
+  "live_event_collection_started": false,
+  "stop_rule_applied": true,
+  "restoration_requested": true,
+  "ready_to_begin_ladder_improvement": false
+}

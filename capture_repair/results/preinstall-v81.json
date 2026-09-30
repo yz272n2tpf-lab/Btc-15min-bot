@@ -1,0 +1,53 @@
+{
+  "service": {
+    "id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+    "name": "v81-live-diagnostics"
+  },
+  "environment": {
+    "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+    "name": "production"
+  },
+  "config": {
+    "source": {
+      "repo": "yz272n2tpf-lab/Btc-15min-bot",
+      "branch": "v81-live-diagnostics-20260912",
+      "checkSuites": false
+    },
+    "networking": {
+      "serviceDomains": {
+        "v81-live-diagnostics-production.up.railway.app": {
+          "port": 8080
+        }
+      }
+    },
+    "build": {
+      "builder": "RAILPACK",
+      "buildEnvironment": "V3"
+    },
+    "deploy": {
+      "startCommand": "python -u v81_30_45_live_feed.py",
+      "healthcheckPath": "/health",
+      "healthcheckTimeout": 30,
+      "restartPolicyMaxRetries": 3,
+      "useLegacyStacker": false,
+      "ipv6EgressEnabled": false,
+      "runtime": "V2",
+      "multiRegionConfig": {
+        "iad": {
+          "numReplicas": 1
+        }
+      }
+    }
+  },
+  "variableNames": [
+    "BTC15_BRTI_SHARED_URL",
+    "BTC15_BRTI_TRANSPORT",
+    "BTC15_CAPTURE_ACTIVATION",
+    "BTC15_USE_SHARED_BRTI",
+    "KALSHI_KEY_ID",
+    "KALSHI_PRIVATE_KEY_B64",
+    "PYTHONUNBUFFERED",
+    "V81_DIAG_LIVE"
+  ],
+  "staged": null
+}

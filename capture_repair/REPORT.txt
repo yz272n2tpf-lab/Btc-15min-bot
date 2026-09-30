@@ -1,0 +1,112 @@
+BTC15 TWO CAPTURE REPAIRS — PRE-LIVE GATE FAIL
+GROUND ZERO: FAIL. READY TO BEGIN LADDER IMPROVEMENT: NO.
+
+Repaired hosted candidate: b6dd2b5f8ce3020e0cc87791a9e0814641ac4a1f
+Local code candidate: d62a30f511428b44bbdb33f3d7e0c9481fb30291
+Prior reviewed payload: 606989e057740da6bf66d8aaf911fd75ff9bad94
+Prior hosted projection: 3e3cdc199c08a3b56006d2d82e3c405cf5759f00
+Repaired payload SHA256:
+9ed4095dfc84b40b1c7712e665cb4230bba6bbef6a600e45888e4491a55c7519
+
+Root cause A / correction — VERIFIED
+add_imports inserted runtime code after an optional docstring but before the
+original __future__ imports. It now advances past all future imports. Every
+generated MAIN Python file is compiled before starting the capture/native
+processes. MAIN now starts and serves /ground-zero/manifest with HTTP 200.
+
+Root cause B / correction — PARTIALLY QUALIFIED; REJECTED OVERALL
+The old producer discarded an event whenever its single nonblocking datagram
+send encountered backpressure. Compression/flush/fsync shared the receiver's
+drain loop. Real-kernel reproduction produced BlockingIOError/EAGAIN after 308
+accepted packets (hosted max_dgram_qlen=512; sender byte capacity also applies).
+The prior live run did not retain per-drop errno, so that historical errno is
+not asserted as directly observed. The new live run did observe retryable
+backpressure and retained the inspected V8.1 sequence.
+Correction: a FIFO capped at 16 MiB AND 16,384 records per producer; a daemon
+sender retries only outside the original offer path. Full/expired buffers
+reject explicitly. Writer compression uses bounded 10 ms / 512-record / 2 MiB
+batches. Off-path status files expose pending/delivered/drop/error counters.
+
+Focused tests
+Final hosted run 36667843744, job 109736255005: 10/10 PASS; no skips.
+Includes real MAIN generation/compilation; future imports with/without module
+docstrings; bounded overflow and terminal failure accounting; no producer-thread
+socket retry; original native/protected statements and quote source operations;
+2,000 ordered packets through an actually stalled receiver; and 10,000 unpaced
+packets retained with zero drops/gaps/invalid packets and an empty final buffer.
+Stress high-water mark: 14,108,991 bytes, below the 16,777,216-byte cap.
+Local non-kernel checks: 8/8 PASS. Local AF_UNIX creation is denied, so real
+socket tests ran hosted. The earlier 19-test suite and large completed suites
+were not rerun. Two failed focused attempts are preserved: first buffer too
+small plus a queue-test bound assumption; second a test scheduling race before
+the receiver had actually become stalled. Neither was installed.
+
+Live installation / manifest proof
+Used the already-established fresh configuration deployment marker method.
+MAIN capture deployment: 2a9a017c-5643-4115-9d84-20e56285fafb
+V8.1 capture deployment: 5ced822c-14b5-4dd5-b8b5-fa400bc113c1
+Both SUCCESS; both manifests HTTP 200; all seven capture-file hashes exactly
+match the repaired payload. Both declared signal_only=true and orders=false.
+MAIN run: ground-zero-main-030536af03c742a28ff8f3323447c4a4
+V8.1 run: ground-zero-v81-9beabfdf0dfc4af795cb1aa67280696a
+
+Hard-gate result / immediate stop
+The first point-in-time snapshot had all 63 MAIN streams accounted for and no
+observed gaps. The subsequent prerequisite check found 384 MAIN streams but
+only 64 transport reports: 320 streams lacked terminal-loss accounting. The
+new sender remains alive per short-lived producer until capture expiry, with
+no aggregate producer bound. The new reader also silently caps status files
+at 64. These are shortcomings of this repair, not evidence of a strategy edit.
+This FAIL supersedes the first snapshot's PASS. Full boundedness and complete
+MAIN loss accounting are not established. The stop rule was applied immediately;
+the ladder-event observation phase did not start, and original launchers were
+restored. No additional contracts were collected to work around the failed gate.
+
+Packet continuity / fresh evidence actually inspected
+MAIN first complete archive: 63 SHA256-verified PROTECTED_GENERATION records,
+04:15:49.264439–04:16:01.936445 UTC, September 30. They reference
+KXBTC15M-26SEP300015-15, with zero early.ready generations; this stale-contract
+startup sample is not promoted to fresh EARLY proof.
+V8.1 first complete archive: 32,975 SHA256-verified records,
+04:15:28.240321–04:16:04.020405 UTC, September 30, for fresh contract
+KXBTC15M-26SEP300030-30. Counts: 16,452 receive observations, 16,451 applied-book
+observations, 36 WAIT publications, 29 complete evaluations, 7 SOURCE_WAIT
+evaluations. Zero SIGNAL publications. Zero observed sequence gaps or drops.
+Later manifest only: MAIN 55,485 packets / 384 streams, no reported gaps;
+V8.1 100,599 packets / 2 streams, zero invalid/dropped/gapped packets reported,
+2,766 retryable-backpressure retries. That entire later archive was not downloaded
+or inspected. The retained full-prefix record counts above are the verified ones.
+
+Required reconstruction
+EARLY: FAIL / UNQUALIFIED — no fresh qualifying eligible-origin/ask event proved.
+FINAL-to-EARLY/protection: FAIL / UNQUALIFIED — no immutable linked event proved.
+SCALP/V8.1: FAIL / UNQUALIFIED — observed quote continuity improved, but no entry
+event or subsequent exit/protection event proved; stop-first, MFE/MAE, reversal
+and re-entry remain unavailable. No retrospective outcome was manufactured.
+Official window/target/settlement/60-of-60 closeout: FAIL / UNQUALIFIED — not
+completed after the prerequisite gate failed. No stale/sample/fixture substitute.
+
+Strategy preservation / restored state
+Qualified MAIN source: abe212b513827c8cec28a2f64e0161e79296bd82
+Qualified V8.1 source: b05723ec622f901a05402ecf27f4d33505753ef1
+Source branches and commits stayed unchanged. Only capture2/install.py,
+capture2/runtime.py and capture2/writer.py changed existing executable code;
+the remaining additions are focused tests/workflow and audit/acquisition files.
+No strategy threshold, weight, model, gate, timing, persistence, source or
+lifecycle rule was intentionally changed; selected original-statement and
+source-operation parity checks passed. Physical scheduling/resource equivalence
+is NOT certified because retained sender threads under MAIN churn are unsafe
+to qualify as bounded. No orders or ladder tuning occurred.
+Restored MAIN deployment: d8b60601-425c-4992-af95-3480e2af54b7 — SUCCESS
+Restored V8.1 deployment: c374ab3a-b998-476a-9667-40641445de66 — SUCCESS
+Both complete service configs match their pre-installation originals. Both
+/health endpoints returned HTTP 200. The unused activation marker is disabled.
+Capture is no longer installed in the running launchers; qualified sources remain.
+
+Remaining blocker
+Repair B must account for MAIN's short-lived producer churn without retaining
+one sender per departed producer or omitting terminal-loss status above 64
+streams. No further implementation or live attempt was made after the hard gate
+failed, in accordance with this mission's stop instruction.
+GROUND ZERO FAIL. READY TO BEGIN LADDER IMPROVEMENT: NO.
+No multi-day test started.

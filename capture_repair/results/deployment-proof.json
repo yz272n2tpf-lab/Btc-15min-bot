@@ -1,0 +1,225 @@
+{
+  "candidate": "b6dd2b5f8ce3020e0cc87791a9e0814641ac4a1f",
+  "local_candidate": "d62a30f511428b44bbdb33f3d7e0c9481fb30291",
+  "payload_sha256": "9ed4095dfc84b40b1c7712e665cb4230bba6bbef6a600e45888e4491a55c7519",
+  "hosted_tests": {
+    "run": 36667843744,
+    "job": 109736255005,
+    "passed": 10,
+    "failed": 0
+  },
+  "services": {
+    "main": {
+      "capture_deployment": {
+        "id": "2a9a017c-5643-4115-9d84-20e56285fafb",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-30T04:14:59.636Z",
+        "updatedAt": "2026-09-30T04:15:49.510Z",
+        "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "snapshotId": "eb31c445-ed74-456e-bf48-f8d0c8300cb3",
+        "meta": {
+          "reason": "deploy",
+          "commitMessage": "Merge PR51: recover qualified information ingress after startup\n\nHosted run 36475307989: 392/392 tests and all packaged-runtime authority gates passed. Tested tree 8021dc82d5ba43b4e34845d90150b48f6f2bd95b exactly matches local candidate c9c563f and published head 5b93ad9. Owner explicitly authorized controlled rollout after qualification. No strategy/model/timing/source-contract/cohort changes; signal only, no orders.",
+          "commitHash": "abe212b513827c8cec28a2f64e0161e79296bd82",
+          "branch": "main"
+        }
+      },
+      "restored_deployment": {
+        "id": "d8b60601-425c-4992-af95-3480e2af54b7",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-30T04:17:48.079Z",
+        "updatedAt": "2026-09-30T04:18:30.515Z",
+        "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "snapshotId": "12a0f5fb-73a6-4a85-8c8e-99b47e2e5669",
+        "meta": {
+          "reason": "deploy",
+          "commitMessage": "Merge PR51: recover qualified information ingress after startup\n\nHosted run 36475307989: 392/392 tests and all packaged-runtime authority gates passed. Tested tree 8021dc82d5ba43b4e34845d90150b48f6f2bd95b exactly matches local candidate c9c563f and published head 5b93ad9. Owner explicitly authorized controlled rollout after qualification. No strategy/model/timing/source-contract/cohort changes; signal only, no orders.",
+          "commitHash": "abe212b513827c8cec28a2f64e0161e79296bd82",
+          "branch": "main"
+        }
+      },
+      "before_config": {
+        "source": {
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "main",
+          "checkSuites": false
+        },
+        "networking": {
+          "serviceDomains": {
+            "btc-15min-bot-production.up.railway.app": {
+              "port": 8080
+            }
+          },
+          "privateNetworkEndpoint": "btc-15min-bot"
+        },
+        "build": {
+          "builder": "RAILPACK",
+          "buildEnvironment": "V3"
+        },
+        "deploy": {
+          "startCommand": "/bin/sh -c 'sleep 3; echo \"BTC15 VOLUME INVENTORY BEGIN\" >&2; du -ah /data 2>/dev/null | sort -hr | head -40 >&2; echo \"BTC15 VOLUME INVENTORY END\" >&2; sleep 1; python btc15_preserve_evidence_v1.py --root /data --label pre-two-clock-pr37-20260925 && exec python -u btc15_information_install_v1.py'",
+          "healthcheckPath": "/health",
+          "healthcheckTimeout": 120,
+          "useLegacyStacker": false,
+          "ipv6EgressEnabled": false,
+          "runtime": "V2",
+          "multiRegionConfig": {
+            "iad": {
+              "numReplicas": 1
+            }
+          }
+        },
+        "volumeMounts": {
+          "6ced6b1a-3755-4518-a240-c895e936d443": {
+            "mountPath": "/data"
+          }
+        }
+      },
+      "restored_config": {
+        "source": {
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "main",
+          "checkSuites": false
+        },
+        "networking": {
+          "serviceDomains": {
+            "btc-15min-bot-production.up.railway.app": {
+              "port": 8080
+            }
+          },
+          "privateNetworkEndpoint": "btc-15min-bot"
+        },
+        "build": {
+          "builder": "RAILPACK",
+          "buildEnvironment": "V3"
+        },
+        "deploy": {
+          "startCommand": "/bin/sh -c 'sleep 3; echo \"BTC15 VOLUME INVENTORY BEGIN\" >&2; du -ah /data 2>/dev/null | sort -hr | head -40 >&2; echo \"BTC15 VOLUME INVENTORY END\" >&2; sleep 1; python btc15_preserve_evidence_v1.py --root /data --label pre-two-clock-pr37-20260925 && exec python -u btc15_information_install_v1.py'",
+          "healthcheckPath": "/health",
+          "healthcheckTimeout": 120,
+          "useLegacyStacker": false,
+          "ipv6EgressEnabled": false,
+          "runtime": "V2",
+          "multiRegionConfig": {
+            "iad": {
+              "numReplicas": 1
+            }
+          }
+        },
+        "volumeMounts": {
+          "6ced6b1a-3755-4518-a240-c895e936d443": {
+            "mountPath": "/data"
+          }
+        }
+      },
+      "original_config_restored": true,
+      "startup": [
+        {
+          "timestamp": "2026-09-30T04:15:45.825308973Z",
+          "message": "GROUND_ZERO_CAPTURE | {\"mode\": \"main\", \"build\": \"abe212b513827c8cec28a2f64e0161e79296bd82\", \"run_id\": \"ground-zero-main-030536af03c742a28ff8f3323447c4a4\", \"directory\": \"/data/btc15_ground_zero/ground-zero-main-030536af03c742a28ff8f3323447c4a4\", \"socket\": \"/tmp/gz-b1a06e44572c40ba.sock\", \"boot_id\": \"fd2b0a63-4124-4901-8171-4671a279521c\", \"time_namespace_id\": \"time:[4026531834]\", \"clock_domain\": \"fd2b0a63-4124-4901-8171-4671a279521c/time:[4026531834]\", \"source_hashes\": [\"323f7a38726bab23743a1895a5c743613b9cd0cea37dc80edb69cdbaeed43202\", \"66cdbaa21daa848f261e87e1528dce5a0cadd700fe3be22567f664f968f6d1b7\", \"758e172fd5b6c31472a828676d7b00ab284438de95029a2d5f9c1c2efc06f247\", \"fbd38de2cf4afd7708abcd968e2ce492623225bdfaeb922328b684a2276e0684\", \"bd8973c2a9444e670213328c032f7bb3202b8eb78a31a319330db220efcb218f\", \"783980d078d95a79d32384f0f9d4e16a85f0ee7c5d36135e7771ade89279e0e2\"], \"max_seconds\": 2100, \"capture_files\": {\"capture2/__init__.py\": \"beee65d5a0f9808fa2132ce7ce8afd21c10b983ff8f56580414932b276e7a990\", \"capture2/committed_rows.py\": \"2025499104890a87e4c62e4065973eddd406829f668f36b9b6f91ce0a35f3c93\", \"capture2/install.py\": \"0dceb972b3fa4392b6d02eaa992c55f372de0936dfd7a5470035dfc0abae97c7\", \"capture2/native_entry.py\": \"55910b88eec40baf1f1d189ae60ed934a09651c229f6884f92260530673a41e4\", \"capture2/protection_entry.py\": \"9c6429aa6bb38b2072af8c36b8ecf6d6959231c053f8751ff5273b5df92d7296\", \"capture2/runtime.py\": \"971ed4a094074fb7bb2766ef44dc28edfe45680f18f9437c037484b71a765e6e\", \"capture2/writer.py\": \"07febd34a2249f7f3a4bbc515a89daea1a8c39459f0fb08da7e28dc802f99d4a\"}, \"end_boot_ns\": 12495789668743497, \"quota_bytes\": 536870912, \"port\": 8769, \"signal_only\": true, \"orders\": false, \"native_strategy_commit\": \"abe212b513827c8cec28a2f64e0161e79296bd82\"}"
+        }
+      ]
+    },
+    "v81": {
+      "capture_deployment": {
+        "id": "5ced822c-14b5-4dd5-b8b5-fa400bc113c1",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-30T04:15:02.016Z",
+        "updatedAt": "2026-09-30T04:15:31.633Z",
+        "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "snapshotId": "bd6d93b1-1e0a-4692-8d3b-225936777bd0",
+        "meta": {
+          "reason": "deploy",
+          "commitMessage": "Require timestamped contiguous quotes for V8.1 source qualification\n\nPreserve strategy gates and source clocks. Fail closed on quote/BRTI gaps; keep immutable entry provenance. SIGNAL ONLY / NO ORDERS.",
+          "commitHash": "b05723ec622f901a05402ecf27f4d33505753ef1",
+          "branch": "v81-live-diagnostics-20260912"
+        }
+      },
+      "restored_deployment": {
+        "id": "c374ab3a-b998-476a-9667-40641445de66",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-30T04:17:50.000Z",
+        "updatedAt": "2026-09-30T04:18:21.650Z",
+        "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "snapshotId": "54ea03bc-4c66-4a63-8cf8-6e74765f7281",
+        "meta": {
+          "reason": "deploy",
+          "commitMessage": "Require timestamped contiguous quotes for V8.1 source qualification\n\nPreserve strategy gates and source clocks. Fail closed on quote/BRTI gaps; keep immutable entry provenance. SIGNAL ONLY / NO ORDERS.",
+          "commitHash": "b05723ec622f901a05402ecf27f4d33505753ef1",
+          "branch": "v81-live-diagnostics-20260912"
+        }
+      },
+      "before_config": {
+        "source": {
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "v81-live-diagnostics-20260912",
+          "checkSuites": false
+        },
+        "networking": {
+          "serviceDomains": {
+            "v81-live-diagnostics-production.up.railway.app": {
+              "port": 8080
+            }
+          }
+        },
+        "build": {
+          "builder": "RAILPACK",
+          "buildEnvironment": "V3"
+        },
+        "deploy": {
+          "startCommand": "python -u v81_30_45_live_feed.py",
+          "healthcheckPath": "/health",
+          "healthcheckTimeout": 30,
+          "restartPolicyMaxRetries": 3,
+          "useLegacyStacker": false,
+          "ipv6EgressEnabled": false,
+          "runtime": "V2",
+          "multiRegionConfig": {
+            "iad": {
+              "numReplicas": 1
+            }
+          }
+        }
+      },
+      "restored_config": {
+        "source": {
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "v81-live-diagnostics-20260912",
+          "checkSuites": false
+        },
+        "networking": {
+          "serviceDomains": {
+            "v81-live-diagnostics-production.up.railway.app": {
+              "port": 8080
+            }
+          }
+        },
+        "build": {
+          "builder": "RAILPACK",
+          "buildEnvironment": "V3"
+        },
+        "deploy": {
+          "startCommand": "python -u v81_30_45_live_feed.py",
+          "healthcheckPath": "/health",
+          "healthcheckTimeout": 30,
+          "restartPolicyMaxRetries": 3,
+          "useLegacyStacker": false,
+          "ipv6EgressEnabled": false,
+          "runtime": "V2",
+          "multiRegionConfig": {
+            "iad": {
+              "numReplicas": 1
+            }
+          }
+        }
+      },
+      "original_config_restored": true,
+      "startup": [
+        {
+          "timestamp": "2026-09-30T04:15:28.225253361Z",
+          "message": "GROUND_ZERO_CAPTURE | {\"mode\": \"v81\", \"build\": \"b05723ec622f901a05402ecf27f4d33505753ef1\", \"run_id\": \"ground-zero-v81-9beabfdf0dfc4af795cb1aa67280696a\", \"directory\": \"/tmp/btc15_ground_zero/ground-zero-v81-9beabfdf0dfc4af795cb1aa67280696a\", \"socket\": \"/tmp/gz-cb117f7e2258478c.sock\", \"boot_id\": \"e333af6c-40f9-4574-ac0c-3b0c5f73e38d\", \"time_namespace_id\": \"time:[4026531834]\", \"clock_domain\": \"e333af6c-40f9-4574-ac0c-3b0c5f73e38d/time:[4026531834]\", \"source_hashes\": [\"323f7a38726bab23743a1895a5c743613b9cd0cea37dc80edb69cdbaeed43202\", \"66cdbaa21daa848f261e87e1528dce5a0cadd700fe3be22567f664f968f6d1b7\", \"758e172fd5b6c31472a828676d7b00ab284438de95029a2d5f9c1c2efc06f247\", \"fbd38de2cf4afd7708abcd968e2ce492623225bdfaeb922328b684a2276e0684\", \"bd8973c2a9444e670213328c032f7bb3202b8eb78a31a319330db220efcb218f\", \"783980d078d95a79d32384f0f9d4e16a85f0ee7c5d36135e7771ade89279e0e2\"], \"max_seconds\": 2100, \"capture_files\": {\"capture2/__init__.py\": \"beee65d5a0f9808fa2132ce7ce8afd21c10b983ff8f56580414932b276e7a990\", \"capture2/committed_rows.py\": \"2025499104890a87e4c62e4065973eddd406829f668f36b9b6f91ce0a35f3c93\", \"capture2/install.py\": \"0dceb972b3fa4392b6d02eaa992c55f372de0936dfd7a5470035dfc0abae97c7\", \"capture2/native_entry.py\": \"55910b88eec40baf1f1d189ae60ed934a09651c229f6884f92260530673a41e4\", \"capture2/protection_entry.py\": \"9c6429aa6bb38b2072af8c36b8ecf6d6959231c053f8751ff5273b5df92d7296\", \"capture2/runtime.py\": \"971ed4a094074fb7bb2766ef44dc28edfe45680f18f9437c037484b71a765e6e\", \"capture2/writer.py\": \"07febd34a2249f7f3a4bbc515a89daea1a8c39459f0fb08da7e28dc802f99d4a\"}, \"end_boot_ns\": 2289495075361700, \"quota_bytes\": 536870912, \"port\": 8769, \"signal_only\": true, \"orders\": false, \"native_strategy_commit\": \"b05723ec622f901a05402ecf27f4d33505753ef1\"}"
+        }
+      ]
+    }
+  }
+}
