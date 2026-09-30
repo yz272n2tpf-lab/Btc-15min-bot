@@ -1,0 +1,18 @@
+{
+  "candidate": "3685844fcdc5956d8971aa80271ef170ffef30d2",
+  "workflow_run": 36733906114,
+  "job": 109950454781,
+  "artifact_id": 11106960007,
+  "artifact_sha256": "45180ca3de5e42375d4f129cf01774f77f4903b6eb478471c0f66d70ddc4f65f",
+  "result": "PASS",
+  "latch_tests_passed": 9,
+  "strategy_preservation_tests_passed": 4,
+  "hosted_probes_passed": 3,
+  "failed": 0,
+  "runtime_producer_wire_install_unchanged": true,
+  "qualification_scope": "Bounded closed capture run; all contracts inherit state. Pending until final integrity evaluation. All captured packets aggregated per side. First causal witness per reason is immutable; subsequent reasons accumulate.",
+  "live_deployment": false,
+  "sustained_durability_qualification": false,
+  "ready_for_final_capture_qualification": true,
+  "source": "Exact JSON text from completed hosted job; nanosecond integers preserved verbatim."
+}
