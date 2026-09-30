@@ -1,5 +1,6 @@
 """Detached bounded original-packet spool; no producer ACK or strategy imports."""
 import argparse
+from collections import OrderedDict
 import gzip
 import hashlib
 import hmac
@@ -11,10 +12,72 @@ import select
 import socket
 import threading
 import time
+import uuid
 from urllib.parse import urlparse,parse_qs
 
 MAX_PACKET=196608
 MAX_CHUNK=2*1024*1024
+MAX_STREAMS=65536
+
+
+class Accounting:
+    """Complete, immutable paginated status snapshots; at most two retained."""
+    def __init__(self,root):
+        self.root=Path(root);self.lock=threading.Lock();self.snapshots=OrderedDict()
+
+    def capture(self,heads):
+        records={};populations=[];errors=[]
+        for pattern,limit in [('population-*.json',8),('transport-*.json',MAX_STREAMS)]:
+            for index,path in enumerate(self.root.glob(pattern)):
+                if index>=limit:
+                    errors.append('ACCOUNTING_FILE_LIMIT:'+pattern);break
+                try:
+                    value=json.loads(path.read_text())
+                    if pattern.startswith('population'):populations.append(value)
+                    else:
+                        pid=value['producer_id']
+                        if pid in records:errors.append('DUPLICATE_STATUS:'+pid)
+                        records[pid]=dict(value,received_sequence=heads.get(pid,0))
+                except Exception:errors.append('UNREADABLE_STATUS:'+path.name)
+        missing=sorted(set(heads)-set(records))
+        if missing:errors.append('RECEIVER_STREAM_WITHOUT_STATUS')
+        if not populations:errors.append('POPULATION_STATUS_UNAVAILABLE')
+        for p in populations:
+            own=[v for v in records.values() if v['process_id']==p['process_id']]
+            if len(own)!=p['created']:errors.append('POPULATION_REPORT_COUNT:'+str(p['process_id']))
+            if p['created']!=p['active']+p['retired']:errors.append('POPULATION_COUNTER_IDENTITY')
+            if p['fault'] or p['admission_rejected']:errors.append('POPULATION_FAULT:'+str(p['process_id']))
+        known={p['process_id'] for p in populations}
+        if any(v['process_id'] not in known for v in records.values()):errors.append('UNACCOUNTED_PROCESS')
+        incomplete=[pid for pid,v in records.items() if v['finished'] and
+                    (not v['complete'] or v['delivered']!=heads.get(pid,0))]
+        if incomplete:errors.append('TERMINAL_STREAM_INCOMPLETE')
+        values=[records[k] for k in sorted(records)]
+        sid=uuid.uuid4().hex
+        summary=dict(snapshot_id=sid,total=len(values),page_size=128,complete=not errors,
+                     errors=errors,missing_streams=missing,incomplete_streams=incomplete,
+                     receiver_streams=len(heads),populations=populations,
+                     created=sum(p['created'] for p in populations),active=sum(p['active'] for p in populations),
+                     retired=sum(p['retired'] for p in populations),
+                     retired_flushed=sum(p['retired_flushed'] for p in populations),
+                     retired_incomplete=sum(p['retired_incomplete'] for p in populations),
+                     offered=sum(v['offered'] for v in values),delivered=sum(v['delivered'] for v in values),
+                     dropped=sum(v['producer_dropped'] for v in values),retried=sum(v['retry_eagain'] for v in values),
+                     pending=sum(v['pending_packets'] for v in values),
+                     reporting_basis='ALL_CREATED_STREAMS; ACTIVE_COUNTERS_ARE_CONCURRENT_SNAPSHOTS')
+        with self.lock:
+            self.snapshots[sid]=values
+            while len(self.snapshots)>2:self.snapshots.popitem(last=False)
+        return summary
+
+    def page(self,sid,offset,limit):
+        if offset<0 or not 1<=limit<=128:raise ValueError('RANGE')
+        with self.lock:
+            values=self.snapshots[sid]
+            if offset>len(values):raise ValueError('OFFSET')
+            end=min(offset+limit,len(values))
+            return dict(snapshot_id=sid,total=len(values),offset=offset,records=values[offset:end],
+                        next_offset=end if end<len(values) else None)
 
 
 def packet(raw,c):
@@ -35,13 +98,13 @@ def run(config_path):
                native_action_authority=False,source_clock_certified=False,orders=False,
                sequence_gaps=[],streams={})
     public={k:v for k,v in c.items() if k not in {'key'}}
+    accounting=Accounting(root)
     def health():
-        result=dict(stats);transports={}
-        for p in sorted(root.glob('transport-*.json'))[:64]:
-            try:
-                value=json.loads(p.read_text());transports[value['producer_id']]=value
-            except Exception:result['transport_status_unavailable']=True
-        result['transport_status']=transports
+        result=dict(stats);heads=dict(stats['streams'])
+        result['transport_accounting']=accounting.capture(heads)
+        result['streams_count']=len(heads)
+        result['streams_paged']=len(heads)>256
+        result['streams']=heads if len(heads)<=256 else {}
         return result
     slots=threading.BoundedSemaphore(2)
     class Handler(BaseHTTPRequestHandler):
@@ -51,6 +114,10 @@ def run(config_path):
                 route=urlparse(self.path);headers={}
                 if route.path=='/ground-zero/manifest':
                     data=json.dumps(dict(manifest=public,health=health())).encode()
+                elif route.path=='/ground-zero/transports':
+                    q=parse_qs(route.query)
+                    data=json.dumps(accounting.page(q['snapshot'][0],int(q.get('offset',['0'])[0]),
+                                                   int(q.get('limit',['128'])[0]))).encode()
                 elif route.path=='/ground-zero/chunk':
                     q=parse_qs(route.query);offset=int(q.get('offset',['0'])[0]);limit=int(q.get('limit',['1048576'])[0])
                     if offset<0 or not 1<=limit<=MAX_CHUNK:raise ValueError('RANGE')
@@ -93,6 +160,8 @@ def run(config_path):
                     except Exception:stats['invalid']+=1;continue
                     batch.append(raw+b'\n');size+=len(raw)+1;stats['received_valid']+=1
                     pid=event['identity']['producer_id'];seq=event['sequence']
+                    if pid not in stats['streams'] and len(stats['streams'])>=MAX_STREAMS:
+                        raise RuntimeError('STREAM_BOUND')
                     expected=stats['streams'].get(pid,0)+1
                     if seq!=expected:
                         stats['sequence_gaps'].append(dict(producer_id=pid,expected=expected,received=seq))
