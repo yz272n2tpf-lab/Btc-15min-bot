@@ -126,6 +126,11 @@ def read_server(config_path):
         result['transport_accounting']=accounting.capture(heads)
         result['streams_count']=len(heads);result['streams_paged']=len(heads)>256
         result['streams']=heads if len(heads)<=256 else {}
+        from capture2.qualification import read_state
+        try:result['qualification']=read_state(root,c)
+        except Exception as exc:
+            result['qualification']=dict(qualification_state='UNQUALIFIED',scoring_admissible=False,
+                reason_codes=['CAPTURE_FAILURE'],detail='QUALIFICATION_STATE_UNAVAILABLE:'+type(exc).__name__)
         return result
     slots=threading.BoundedSemaphore(2)
     class Handler(BaseHTTPRequestHandler):
@@ -237,6 +242,11 @@ def run(config_path):
     stats['writer_service_ns']=stats['auth_ns']+stats['persist_ns']+stats['sync_ns']+stats['status_ns']
     stats['final_fsync_completed']=True if stats['status']=='BOUNDED_CAPTURE_ENDED' else False
     publish(final=True)
+    # Closed-interval bookkeeping only, after transport and final persistence end.
+    # Pending/missing/failed qualification is never admitted by scoring consumers.
+    from capture2.qualification import qualify
+    try:qualify(root,c)
+    except Exception:pass  # Missing/invalid checkpoint remains non-admissible.
     # Bounded recorder is finished. Its independent reader remains available.
     reader.wait()
 
