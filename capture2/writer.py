@@ -27,20 +27,35 @@ class Accounting:
 
     def capture(self,heads):
         records={};populations=[];errors=[]
-        for pattern,limit in [('population-*.json',8),('transport-*.json',MAX_STREAMS)]:
-            for index,path in enumerate(self.root.glob(pattern)):
-                if index>=limit:
-                    errors.append('ACCOUNTING_FILE_LIMIT:'+pattern);break
-                try:
-                    value=json.loads(path.read_text())
-                    if pattern.startswith('population'):populations.append(value)
-                    else:
-                        pid=value['producer_id']
-                        if pid in records:errors.append('DUPLICATE_STATUS:'+pid)
-                        records[pid]=dict(value,received_sequence=heads.get(pid,0))
-                except Exception:errors.append('UNREADABLE_STATUS:'+path.name)
+        # Each atomic population file defines one complete census cut. Active
+        # counters are embedded in that cut; retired reports are immutable and
+        # published before their paths enter the census. Never mix a newer glob
+        # of transport files with an older created/retired aggregate.
+        for index,path in enumerate(self.root.glob('population-*.json')):
+            if index>=8:errors.append('ACCOUNTING_PROCESS_LIMIT');break
+            try:
+                p=json.loads(path.read_text())
+                if p.get('census_version')!=1:raise ValueError('CENSUS_VERSION')
+                active=p.pop('active_records');retired=p.pop('retired_reports')
+                populations.append(p)
+                if len(active)!=p['active'] or len(retired)!=p['retired']:
+                    errors.append('CENSUS_COUNTER_IDENTITY')
+                values=list(active)
+                for ref in retired:
+                    name=ref['path']
+                    if not name or Path(name).name!=name:raise ValueError('REPORT_PATH')
+                    value=json.loads((self.root/name).read_text())
+                    if value['producer_id']!=ref['producer_id'] or not value['finished']:
+                        raise ValueError('RETIRED_REPORT_IDENTITY')
+                    values.append(value)
+                if len(values)>MAX_STREAMS:raise ValueError('ACCOUNTING_STREAM_LIMIT')
+                for value in values:
+                    pid=value['producer_id']
+                    if pid in records:errors.append('DUPLICATE_STATUS:'+pid)
+                    records[pid]=dict(value,received_sequence=heads.get(pid,0))
+            except Exception as exc:errors.append('CENSUS_UNAVAILABLE:'+path.name+':'+type(exc).__name__)
         missing=sorted(set(heads)-set(records))
-        if missing:errors.append('RECEIVER_STREAM_WITHOUT_STATUS')
+        if missing:errors.append('RECEIVER_STREAM_AFTER_OR_MISSING_FROM_CENSUS')
         if not populations:errors.append('POPULATION_STATUS_UNAVAILABLE')
         for p in populations:
             own=[v for v in records.values() if v['process_id']==p['process_id']]
@@ -52,10 +67,12 @@ class Accounting:
         incomplete=[pid for pid,v in records.items() if v['finished'] and
                     (not v['complete'] or v['delivered']!=heads.get(pid,0))]
         if incomplete:errors.append('TERMINAL_STREAM_INCOMPLETE')
+        lossy=[pid for pid,v in records.items() if v['producer_dropped'] or v['rejected'] or v['last_transport_error']]
+        if lossy:errors.append('STREAM_LOSS_OR_TRANSPORT_ERROR')
         values=[records[k] for k in sorted(records)]
         sid=uuid.uuid4().hex
         summary=dict(snapshot_id=sid,total=len(values),page_size=128,complete=not errors,
-                     errors=errors,missing_streams=missing,incomplete_streams=incomplete,
+                     errors=errors,missing_streams=missing,incomplete_streams=incomplete,lossy_streams=lossy,
                      receiver_streams=len(heads),populations=populations,
                      created=sum(p['created'] for p in populations),active=sum(p['active'] for p in populations),
                      retired=sum(p['retired'] for p in populations),
@@ -64,7 +81,7 @@ class Accounting:
                      offered=sum(v['offered'] for v in values),delivered=sum(v['delivered'] for v in values),
                      dropped=sum(v['producer_dropped'] for v in values),retried=sum(v['retry_eagain'] for v in values),
                      pending=sum(v['pending_packets'] for v in values),
-                     reporting_basis='ALL_CREATED_STREAMS; ACTIVE_COUNTERS_ARE_CONCURRENT_SNAPSHOTS')
+                     reporting_basis='ATOMIC_PER_PROCESS_CENSUS; RECEIVER_AHEAD_OF_CENSUS_FAILS_CLOSED')
         with self.lock:
             self.snapshots[sid]=values
             while len(self.snapshots)>2:self.snapshots.popitem(last=False)
@@ -96,7 +113,7 @@ def run(config_path):
     c=json.loads(Path(config_path).read_text());root=Path(c['directory']);path=root/'packets.jsonl.gz'
     stats=dict(status='STARTING',packets=0,received_valid=0,invalid=0,bytes=0,groups=0,producer_drop_observed=False,
                native_action_authority=False,source_clock_certified=False,orders=False,
-               sequence_gaps=[],streams={})
+               sequence_gaps=[],gap_count=0,missing_packets=0,uncommitted_valid=0,streams={})
     public={k:v for k,v in c.items() if k not in {'key'}}
     accounting=Accounting(root)
     def health():
@@ -143,9 +160,9 @@ def run(config_path):
     started=time.monotonic();last_sync=started
     with path.open('xb') as out:
         try:
-            while time.monotonic()-started<c['max_seconds']:
+            while time.monotonic()-started<c['max_seconds']+5:
                 if not select.select([sock],[],[],.1)[0]:continue
-                batch=[];size=0;until=time.monotonic()+.01
+                batch=[];events=[];size=0;until=time.monotonic()+.01
                 while size<MAX_CHUNK and len(batch)<512 and time.monotonic()<until:
                     try:raw=sock.recv(MAX_PACKET+1)
                     except BlockingIOError:
@@ -159,21 +176,25 @@ def run(config_path):
                         event=packet(raw,c)
                     except Exception:stats['invalid']+=1;continue
                     batch.append(raw+b'\n');size+=len(raw)+1;stats['received_valid']+=1
-                    pid=event['identity']['producer_id'];seq=event['sequence']
-                    if pid not in stats['streams'] and len(stats['streams'])>=MAX_STREAMS:
-                        raise RuntimeError('STREAM_BOUND')
-                    expected=stats['streams'].get(pid,0)+1
-                    if seq!=expected:
-                        stats['sequence_gaps'].append(dict(producer_id=pid,expected=expected,received=seq))
-                        stats['sequence_gaps']=stats['sequence_gaps'][-128:]
-                        stats['producer_drop_observed']=True
-                    stats['streams'][pid]=seq
-                    if event['prior_dropped']:stats['producer_drop_observed']=True
+                    events.append(event);stats['uncommitted_valid']+=1
                 if not batch:continue
                 member=gzip.compress(b''.join(batch),compresslevel=1,mtime=0)
                 if out.tell()+len(member)>c['quota_bytes']:
                     stats['status']='UNAVAILABLE_QUOTA';break
                 out.write(member);out.flush();stats['bytes']=out.tell();stats['groups']+=1;stats['packets']+=len(batch)
+                for event in events:
+                    pid=event['identity']['producer_id'];seq=event['sequence']
+                    if pid not in stats['streams'] and len(stats['streams'])>=MAX_STREAMS:
+                        raise RuntimeError('STREAM_BOUND')
+                    expected=stats['streams'].get(pid,0)+1
+                    if seq!=expected:
+                        stats['gap_count']+=1;stats['missing_packets']+=max(0,seq-expected)
+                        stats['sequence_gaps'].append(dict(producer_id=pid,expected=expected,received=seq))
+                        stats['sequence_gaps']=stats['sequence_gaps'][-128:]
+                        stats['producer_drop_observed']=True
+                    stats['streams'][pid]=seq
+                    if event['prior_dropped']:stats['producer_drop_observed']=True
+                stats['uncommitted_valid']-=len(events)
                 if time.monotonic()-last_sync>=1:
                     os.fsync(out.fileno());last_sync=time.monotonic()
             else:stats['status']='BOUNDED_CAPTURE_ENDED'

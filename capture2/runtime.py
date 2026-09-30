@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import sys
 import socket
+import select
 import threading
 import time
 import types
@@ -38,6 +39,7 @@ class SenderPopulation:
         self.max_active=max_active;self.max_created=max_created
         self.lock=threading.Lock();self.active={};self.created=0;self.high_water=0
         self.retired=self.flushed=self.incomplete=0
+        self.retired_reports=[]
         self.offered=self.accepted=self.delivered=self.dropped=self.retried=0
         self.rejections=deque(maxlen=1024);self.rejected=0;self.fault=None;self.stopping=False
         self.path=self.directory/('population-'+str(os.getpid())+'.json')
@@ -66,6 +68,8 @@ class SenderPopulation:
             live=list(self.active.values())
             return dict(process_id=os.getpid(),observed_boot_ns=time.clock_gettime_ns(time.CLOCK_BOOTTIME),
                         created=self.created,active=len(live),retired=self.retired,
+                        census_version=1,active_records=[t.snapshot() for t in live],
+                        retired_reports=list(self.retired_reports),
                         retired_flushed=self.flushed,retired_incomplete=self.incomplete,
                         active_ids=[t.owner.identity.producer_id for t in live],
                         active_sender_high_water=self.high_water,max_active_senders=self.max_active,
@@ -97,6 +101,7 @@ class SenderPopulation:
                                    ('dropped','producer_dropped'),('retried','retry_eagain')]:
                     setattr(self,target,getattr(self,target)+s[key])
                 if not s['complete']:self.fault='RETIRED_INCOMPLETE'
+                self.retired_reports.append(dict(producer_id=pid,path=Path(t.status_path).name if t.status_path else None))
                 del self.active[pid]
                 t._terminal=s;t.owner=None;t.origin=None;t.queue.clear()
 
@@ -135,6 +140,8 @@ class BufferedDatagram:
         self.max_bytes=max_bytes;self.max_packets=max_packets;self.queue=deque()
         self.enqueued_bytes=self.delivered_bytes=self.accepted=self.delivered=0
         self.retries=self.rejected=self.high_water_bytes=self.high_water_packets=0
+        self.rejected_full=self.rejected_ended=self.backpressure_wait_ns=0
+        self.first_rejection=self.last_rejection=None
         self.last_delivered_sequence=0;self.last_transport_error=None
         self.stopping=False;self.finished=False;self.owner=None;self.terminal_report_written=False
         self.sock=sock
@@ -152,14 +159,20 @@ class BufferedDatagram:
         if address!=self.address:raise ValueError('CAPTURE_ADDRESS')
         pending=self.enqueued_bytes-self.delivered_bytes
         if self.stopping or self.finished or time.clock_gettime_ns(time.CLOCK_BOOTTIME)>=self.end_boot_ns:
-            self.rejected+=1;raise BufferError('CAPTURE_BUFFER_ENDED')
+            self._reject('CAPTURE_BUFFER_ENDED');self.rejected_ended+=1;raise BufferError('CAPTURE_BUFFER_ENDED')
         if len(self.queue)>=self.max_packets or pending+len(raw)>self.max_bytes:
-            self.rejected+=1;raise BufferError('CAPTURE_BUFFER_FULL')
+            self._reject('CAPTURE_BUFFER_FULL');self.rejected_full+=1;raise BufferError('CAPTURE_BUFFER_FULL')
         self.enqueued_bytes+=len(raw);self.accepted+=1
         self.queue.append((raw,self.owner.sequence))
         self.high_water_bytes=max(self.high_water_bytes,pending+len(raw))
         self.high_water_packets=max(self.high_water_packets,len(self.queue))
         return len(raw)
+
+    def _reject(self,reason):
+        self.rejected+=1
+        value=dict(reason=reason,sequence=self.owner.sequence,boot_ns=time.clock_gettime_ns(time.CLOCK_BOOTTIME))
+        if self.first_rejection is None:self.first_rejection=value
+        self.last_rejection=value
 
     def snapshot(self):
         if self._terminal is not None:return dict(self._terminal)
@@ -172,6 +185,9 @@ class BufferedDatagram:
                     delivered=self.delivered,last_delivered_sequence=self.last_delivered_sequence,
                     pending_packets=len(self.queue),pending_bytes=self.enqueued_bytes-self.delivered_bytes,
                     retry_eagain=self.retries,rejected=self.rejected,
+                    rejected_full=self.rejected_full,rejected_ended=self.rejected_ended,
+                    first_rejection=self.first_rejection,last_rejection=self.last_rejection,
+                    backpressure_wait_ns=self.backpressure_wait_ns,
                     high_water_bytes=self.high_water_bytes,high_water_packets=self.high_water_packets,
                     max_bytes=self.max_bytes,max_packets=self.max_packets,
                     finished=self.finished,last_transport_error=self.last_transport_error,
@@ -192,7 +208,12 @@ class BufferedDatagram:
         try:
             if self.sock is None:self.sock=socket.socket(socket.AF_UNIX,socket.SOCK_DGRAM)
             self.sock.setblocking(False);self.sock.setsockopt(socket.SOL_SOCKET,socket.SO_SNDBUF,196608)
-            while time.clock_gettime_ns(time.CLOCK_BOOTTIME)<self.end_boot_ns:
+            # Connected AF_UNIX poll tracks the receiver queue. An unconnected
+            # socket is spuriously writable; fixed 1 ms sleeps throttle bursts.
+            self.sock.connect(self.address)
+            while time.clock_gettime_ns(time.CLOCK_BOOTTIME)<self.end_boot_ns+5_000_000_000:
+                if time.clock_gettime_ns(time.CLOCK_BOOTTIME)>=self.end_boot_ns:
+                    self.stopping=True
                 if time.monotonic()>=next_report:
                     self._report();next_report=time.monotonic()+1
                 if not self.queue:
@@ -206,7 +227,11 @@ class BufferedDatagram:
                     if self.sock.sendto(raw,socket.MSG_DONTWAIT,self.address)!=len(raw):raise OSError('SHORT_DATAGRAM')
                 except OSError as exc:
                     if exc.errno in (errno.EAGAIN,errno.EWOULDBLOCK,errno.ENOBUFS):
-                        self.retries+=1;time.sleep(.001);continue
+                        self.retries+=1
+                        before=time.monotonic_ns()
+                        select.select([],[self.sock],[],.05)
+                        self.backpressure_wait_ns+=time.monotonic_ns()-before
+                        continue
                     self.last_transport_error=type(exc).__name__+':'+str(exc)[:120];break
                 self.queue.popleft();self.delivered_bytes+=len(raw);self.delivered+=1
                 self.last_delivered_sequence=sequence
