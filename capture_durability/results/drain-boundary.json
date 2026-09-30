@@ -1,0 +1,18 @@
+[
+  {
+    "mode": "fixed_1ms",
+    "packets": 100000,
+    "bytes_per_packet": 1665,
+    "seconds": 1.8049212939999961,
+    "pps": 55404.07791321687,
+    "retries": 1484
+  },
+  {
+    "mode": "receiver_readiness",
+    "packets": 100000,
+    "bytes_per_packet": 1665,
+    "seconds": 0.20008389599999532,
+    "pps": 499790.3479448558,
+    "retries": 0
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "side": "main",
+    "path": "/health",
+    "http_status": 200,
+    "observed_wall_ns": 1790774366803871640
+  },
+  {
+    "side": "main",
+    "path": "/ground-zero/manifest",
+    "http_status": 404,
+    "observed_wall_ns": 1790774366789586233
+  },
+  {
+    "side": "v81",
+    "path": "/health",
+    "http_status": 200,
+    "observed_wall_ns": 1790774370224856762
+  },
+  {
+    "side": "v81",
+    "path": "/ground-zero/manifest",
+    "http_status": 404,
+    "observed_wall_ns": 1790774370279800779
+  }
+]

@@ -26,5 +26,10 @@
     "capture2/protection_entry.py": "9c6429aa6bb38b2072af8c36b8ecf6d6959231c053f8751ff5273b5df92d7296",
     "capture2/runtime.py": "073aaee659ffd2848213f37b60c9da85e438a808152d2f71f0c478cbff50d67f",
     "capture2/writer.py": "d8b8df3d7a1ee22e6888dd669684ca39d7301255621b8460a97f97fc512905f1"
+  },
+  "candidate": "e050501a93d175a2863f0712c119dbf94c210f11",
+  "strategy_commits": {
+    "main": "abe212b513827c8cec28a2f64e0161e79296bd82",
+    "v81": "b05723ec622f901a05402ecf27f4d33505753ef1"
   }
 }

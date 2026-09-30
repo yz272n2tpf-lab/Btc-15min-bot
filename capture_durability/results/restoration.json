@@ -1,0 +1,34 @@
+{
+  "main": {
+    "side": "main",
+    "original_command_matches": true,
+    "source": {
+      "repo": "yz272n2tpf-lab/Btc-15min-bot",
+      "branch": "main",
+      "checkSuites": false
+    },
+    "deployment": [
+      {
+        "id": "3c066b20-a80b-47d2-82a3-f3edf6e8b0b2",
+        "status": "SUCCESS",
+        "source": "abe212b513827c8cec28a2f64e0161e79296bd82"
+      }
+    ]
+  },
+  "v81": {
+    "side": "v81",
+    "original_command_matches": true,
+    "source": {
+      "repo": "yz272n2tpf-lab/Btc-15min-bot",
+      "branch": "v81-live-diagnostics-20260912",
+      "checkSuites": false
+    },
+    "deployment": [
+      {
+        "id": "03790550-1e34-421d-b9f0-8261ca8d7bb5",
+        "status": "SUCCESS",
+        "source": "b05723ec622f901a05402ecf27f4d33505753ef1"
+      }
+    ]
+  }
+}
