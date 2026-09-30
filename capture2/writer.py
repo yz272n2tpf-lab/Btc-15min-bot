@@ -35,6 +35,14 @@ def run(config_path):
                native_action_authority=False,source_clock_certified=False,orders=False,
                sequence_gaps=[],streams={})
     public={k:v for k,v in c.items() if k not in {'key'}}
+    def health():
+        result=dict(stats);transports={}
+        for p in sorted(root.glob('transport-*.json'))[:64]:
+            try:
+                value=json.loads(p.read_text());transports[value['producer_id']]=value
+            except Exception:result['transport_status_unavailable']=True
+        result['transport_status']=transports
+        return result
     slots=threading.BoundedSemaphore(2)
     class Handler(BaseHTTPRequestHandler):
         def do_GET(self):
@@ -42,7 +50,7 @@ def run(config_path):
             try:
                 route=urlparse(self.path);headers={}
                 if route.path=='/ground-zero/manifest':
-                    data=json.dumps(dict(manifest=public,health=dict(stats))).encode()
+                    data=json.dumps(dict(manifest=public,health=health())).encode()
                 elif route.path=='/ground-zero/chunk':
                     q=parse_qs(route.query);offset=int(q.get('offset',['0'])[0]);limit=int(q.get('limit',['1048576'])[0])
                     if offset<0 or not 1<=limit<=MAX_CHUNK:raise ValueError('RANGE')
@@ -73,7 +81,12 @@ def run(config_path):
                 batch=[];size=0;until=time.monotonic()+.01
                 while size<MAX_CHUNK and len(batch)<512 and time.monotonic()<until:
                     try:raw=sock.recv(MAX_PACKET+1)
-                    except BlockingIOError:break
+                    except BlockingIOError:
+                        # Fill one bounded batch instead of gzip+flush on nearly
+                        # every packet, while the producer FIFO absorbs stalls.
+                        remaining=until-time.monotonic()
+                        if remaining>0:select.select([sock],[],[],remaining)
+                        continue
                     try:
                         if len(raw)>MAX_PACKET:raise ValueError('OVERSIZE')
                         event=packet(raw,c)
@@ -98,7 +111,7 @@ def run(config_path):
             out.flush();os.fsync(out.fileno())
         except Exception as exc:stats['status']='UNAVAILABLE_STORAGE_'+type(exc).__name__
     sock.close()
-    (root/'final_health.json').write_text(json.dumps(stats))
+    (root/'final_health.json').write_text(json.dumps(health()))
     # Keep only the independent read endpoint available after the bounded run.
     while True:time.sleep(1)
 

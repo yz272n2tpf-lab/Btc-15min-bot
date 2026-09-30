@@ -22,7 +22,9 @@ PROTECTED_SHA='66cdbaa21daa848f261e87e1528dce5a0cadd700fe3be22567f664f968f6d1b7'
 
 
 def add_imports(tree, text):
-    pos=1 if tree.body and isinstance(tree.body[0],ast.Expr) and isinstance(tree.body[0].value,ast.Constant) else 0
+    pos=1 if ast.get_docstring(tree, clean=False) is not None else 0
+    while pos<len(tree.body) and isinstance(tree.body[pos],ast.ImportFrom) and tree.body[pos].module=='__future__':
+        pos+=1
     tree.body[pos:pos]=ast.parse(text).body
     return ast.fix_missing_locations(tree)
 
@@ -79,6 +81,10 @@ def assemble_main(directory):
     text=full.read_text()
     if text.count(old)!=1:raise ValueError('PROTECTION_LAUNCH_SEAM')
     full.write_text(text.replace(old,"PROTECT = Path("+repr(str(ROOT/'capture2/protection_entry.py'))+")"))
+    # Parse-only checks miss illegal future-import placement. Reject the assembled
+    # runtime before starting any capture or native process.
+    for path in d.glob('*.py'):
+        compile(path.read_bytes(),str(path),'exec')
     return d
 
 

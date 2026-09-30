@@ -1,10 +1,13 @@
 """Producer-only wiring. Original functions execute once, with unchanged inputs."""
 import ast
+from collections import deque
+import errno
 import hashlib
 import json
 import os
 from pathlib import Path
 import sys
+import socket
 import threading
 import time
 import types
@@ -21,6 +24,90 @@ _config = None
 _expired = False
 
 
+class BufferedDatagram:
+    """Single producer, single sender. Native offer never retries or waits.
+
+    A finite byte/record FIFO absorbs receiver scheduling/compression/fsync
+    stalls. Only the daemon sender retries EAGAIN. Full/expired buffers reject
+    explicitly through the existing Producer drop counter. CPython deque append
+    and popleft are atomic; each byte counter has exactly one writing thread.
+    No lock, disk operation, network wait or ACK is added to the native offer.
+    """
+    def __init__(self,address,*,end_boot_ns,status_path=None,sock=None,
+                 max_bytes=8*1024*1024,max_packets=4096):
+        self.address=address;self.end_boot_ns=end_boot_ns;self.status_path=status_path
+        self.max_bytes=max_bytes;self.max_packets=max_packets;self.queue=deque()
+        self.enqueued_bytes=self.delivered_bytes=self.accepted=self.delivered=0
+        self.retries=self.rejected=self.high_water_bytes=self.high_water_packets=0
+        self.last_delivered_sequence=0;self.last_transport_error=None
+        self.stopping=False;self.finished=False;self.owner=None
+        self.sock=sock if sock is not None else socket.socket(socket.AF_UNIX,socket.SOCK_DGRAM)
+        self.sock.setblocking(False)
+        self.sock.setsockopt(socket.SOL_SOCKET,socket.SO_SNDBUF,196608)
+
+    def start(self,owner):
+        self.owner=owner
+        self.thread=threading.Thread(target=self._run,name='capture-datagram-drain',daemon=True)
+        self.thread.start()
+
+    def sendto(self,raw,flags,address):
+        if address!=self.address:raise ValueError('CAPTURE_ADDRESS')
+        pending=self.enqueued_bytes-self.delivered_bytes
+        if self.stopping or self.finished or time.clock_gettime_ns(time.CLOCK_BOOTTIME)>=self.end_boot_ns:
+            self.rejected+=1;raise BufferError('CAPTURE_BUFFER_ENDED')
+        if len(self.queue)>=self.max_packets or pending+len(raw)>self.max_bytes:
+            self.rejected+=1;raise BufferError('CAPTURE_BUFFER_FULL')
+        self.enqueued_bytes+=len(raw);self.accepted+=1
+        self.queue.append((raw,self.owner.sequence))
+        self.high_water_bytes=max(self.high_water_bytes,pending+len(raw))
+        self.high_water_packets=max(self.high_water_packets,len(self.queue))
+        return len(raw)
+
+    def snapshot(self):
+        return dict(producer_id=self.owner.identity.producer_id,
+                    observed_boot_ns=time.clock_gettime_ns(time.CLOCK_BOOTTIME),
+                    offered=self.owner.offered,producer_dropped=self.owner.dropped,
+                    producer_last_error=self.owner.last_error,accepted=self.accepted,
+                    delivered=self.delivered,last_delivered_sequence=self.last_delivered_sequence,
+                    pending_packets=len(self.queue),pending_bytes=self.enqueued_bytes-self.delivered_bytes,
+                    retry_eagain=self.retries,rejected=self.rejected,
+                    high_water_bytes=self.high_water_bytes,high_water_packets=self.high_water_packets,
+                    max_bytes=self.max_bytes,max_packets=self.max_packets,
+                    finished=self.finished,last_transport_error=self.last_transport_error,
+                    basis='OFF_PATH_COUNTER_SNAPSHOT; concurrent offer may be in progress')
+
+    def _report(self):
+        if self.status_path is None:return
+        try:
+            path=Path(self.status_path);tmp=path.with_suffix('.tmp')
+            tmp.write_text(json.dumps(self.snapshot()));os.replace(tmp,path)
+        except Exception as exc:self.last_transport_error='STATUS_WRITE_'+type(exc).__name__
+
+    def _run(self):
+        next_report=0
+        try:
+            while time.clock_gettime_ns(time.CLOCK_BOOTTIME)<self.end_boot_ns:
+                if time.monotonic()>=next_report:
+                    self._report();next_report=time.monotonic()+1
+                if not self.queue:
+                    if self.stopping:break
+                    time.sleep(.001);continue
+                raw,sequence=self.queue[0]
+                try:
+                    if self.sock.sendto(raw,socket.MSG_DONTWAIT,self.address)!=len(raw):raise OSError('SHORT_DATAGRAM')
+                except OSError as exc:
+                    if exc.errno in (errno.EAGAIN,errno.EWOULDBLOCK,errno.ENOBUFS):
+                        self.retries+=1;time.sleep(.001);continue
+                    self.last_transport_error=type(exc).__name__+':'+str(exc)[:120];break
+                self.queue.popleft();self.delivered_bytes+=len(raw);self.delivered+=1
+                self.last_delivered_sequence=sequence
+        finally:
+            self.finished=True;self._report();self.sock.close()
+
+    def close(self):
+        self.stopping=True
+
+
 def config():
     global _config
     if _config is None:
@@ -29,6 +116,11 @@ def config():
 
 
 class CaptureProducer(Producer):
+    def __init__(self,address,identity,key,*,end_boot_ns,status_path=None,**kwargs):
+        transport=BufferedDatagram(address,end_boot_ns=end_boot_ns,status_path=status_path,**kwargs)
+        super().__init__(address,identity,key,sock=transport)
+        transport.start(self)
+
     def offer(self,kind,body):
         if kind=='PROTECTED_GENERATION':
             # An observed eligibility event has an immutable capture identity.
@@ -57,7 +149,9 @@ def producer(source):
             raise ValueError('UNREGISTERED_SOURCE')
         ident = Identity(c['mode']+':'+str(os.getpid())+':'+str(threading.get_native_id())+':'+uuid.uuid4().hex,
                          c['build'], source, c['run_id'], c['clock_domain'], c['boot_id'])
-        cache[source] = CaptureProducer(c['socket'], ident, bytes.fromhex(c['key']))
+        status_path=Path(c['directory'])/('transport-'+digest(ident.producer_id.encode())+'.json')
+        cache[source] = CaptureProducer(c['socket'], ident, bytes.fromhex(c['key']),
+                                       end_boot_ns=c['end_boot_ns'],status_path=status_path)
     return cache[source]
 
 

@@ -1,0 +1,24 @@
+name: BTC15 two capture repairs
+on:
+  push:
+    branches: ['qualification/capture-repair-20260930']
+permissions:
+  contents: read
+jobs:
+  focused:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - run: python -m pip install -r requirements.txt
+      - run: >-
+          python -B -m unittest capture2.test_repairs
+          capture2.test_composition.CompositionTests.test_composed_native_tree_preserves_every_original_statement
+          capture2.test_composition.CompositionTests.test_protected_assembly_preserves_original_strategy_ast
+          capture2.test_composition.CompositionTests.test_composed_quote_session_off_on_exact_same_source_operations -v
