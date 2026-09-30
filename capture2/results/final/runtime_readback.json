@@ -1,0 +1,34 @@
+[
+  {
+    "service": "main",
+    "url": "https://btc-15min-bot-production.up.railway.app/health",
+    "observed_utc": "2026-09-30T03:16:07.346618+00:00",
+    "status": 200,
+    "body_sha256": "28b555598b8b96c21f901fb32ba8af93273c6509e54dffca53d37772adc6100e",
+    "body": "{\"ok\":true,\"read_only\":true}"
+  },
+  {
+    "service": "main",
+    "url": "https://btc-15min-bot-production.up.railway.app/ground-zero/manifest",
+    "observed_utc": "2026-09-30T03:16:14.855367+00:00",
+    "status": 404,
+    "body_sha256": "e3ebaa16dd9d9b9fc107c42183fb6cf9d22927e1af03dbbdfa0ccc38e4e4ac31",
+    "body": "Not found"
+  },
+  {
+    "service": "v81",
+    "url": "https://v81-live-diagnostics-production.up.railway.app/health",
+    "observed_utc": "2026-09-30T03:16:19.826036+00:00",
+    "status": 200,
+    "body_sha256": "5a9e6ee736e6146b40a4445db7b1363faac96dd51fc156537e409c2d80d1081f",
+    "body": "{\"ok\":true,\"service\":\"v81-30-45-live-feed\",\"signal_only\":true,\"orders\":false,\"diagnostic_version\":\"V81_GATE_DIAG_V1\"}"
+  },
+  {
+    "service": "v81",
+    "url": "https://v81-live-diagnostics-production.up.railway.app/ground-zero/manifest",
+    "observed_utc": "2026-09-30T03:16:24.026748+00:00",
+    "status": 404,
+    "body_sha256": "d2dfdc9511fbeaa0701d1f8730f4989313b062ca1b61a2bd8bed8f4f5d654b5d",
+    "body": "{\"error\":\"not_found\"}"
+  }
+]

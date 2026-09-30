@@ -1,0 +1,48 @@
+BTC15 PASSIVE CAPTURE — GROUND ZERO: FAIL
+
+Candidate: 606989e057740da6bf66d8aaf911fd75ff9bad94
+Parent: 7bd443fb53da4ebf324a355d01fd54719f9a4fd7
+Hosted code projection: 3e3cdc199c08a3b56006d2d82e3c405cf5759f00
+Payload SHA256: ea9834ddb3ce13eb978e6623564a8364bbb1a97bfa1e35b945dccb452d386804
+
+Deployed MAIN strategy: abe212b513827c8cec28a2f64e0161e79296bd82
+MAIN deployment: e2190761-81b0-4d9e-b0ef-d051f40181d7 (SUCCESS)
+Deployed V8.1 strategy: b05723ec622f901a05402ecf27f4d33505753ef1
+V8.1 deployment: b830ec4e-f697-4bd3-bf97-6de7e569d86e (SUCCESS)
+Capture candidate is NOT active on either deployment.
+
+Tests: 19/19 passed, zero skips, hosted run 36662921728. Includes pinned
+native/protected/V8.1 statement preservation, original source-operation and
+exception parity, quote capture outside the original lock, committed row hooks,
+authentication/loss/ambiguity controls, and 500/500 separate-process packets
+retained in order with zero observed drops. Earlier local AF_UNIX EPERM and the
+first hosted missing-dependency failure are preserved, not concealed.
+
+Fresh candidate contracts/events inspected: 0 / 0.
+EARLY: UNQUALIFIED; no fresh opportunity/origin/time/ask reconstruction.
+FINAL: UNQUALIFIED; no demonstrated immutable correct EARLY linkage/protection.
+SCALP/V8.1: UNQUALIFIED; no fresh complete entry/bid/exit/protection chronology,
+stop-first outcome, MFE/MAE, reversal or re-entry reconstruction.
+Official window/target/settlement/60-of-60: not requalified on a candidate sample.
+No absent observations, origins, fills, stops or exits were synthesized.
+
+Installation blocker: Railway accepted and returned the new start commands, but
+both controlled redeployments built and ran their original launch commands.
+An environment commit then produced no new target deployment. Both /health
+endpoints returned 200; both /ground-zero/manifest endpoints returned 404.
+Original startup commands were restored and read back exactly. No further
+production restarts or unrelated service changes were made.
+
+Strategy evidence: no existing tracked source file changed; the qualified
+strategy source commits remain unchanged. The 19 tests establish their stated
+fixture/structural properties, not universal physical scheduling equivalence
+or live reconstruction completeness. Native lifecycle acceptance was not
+activated or fabricated. Observation IDs are distinct from native origin IDs.
+
+Remaining work: activate the reviewed passive producer payload through a deploy
+that applies its launch configuration, then demonstrate event-specific fresh
+reconstruction and origin linkage. Do not reuse sampled views or synthetic
+fixtures as fresh-event proof. Capture completeness remains unqualified.
+
+READY TO BEGIN LADDER IMPROVEMENT: NO.
+No orders, ladder tuning or multi-day prospective test started.

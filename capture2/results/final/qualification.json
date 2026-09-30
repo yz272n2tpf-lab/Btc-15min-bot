@@ -1,0 +1,144 @@
+{
+  "result": "FAIL",
+  "ready_to_begin_ladder_improvement": false,
+  "candidate": "606989e057740da6bf66d8aaf911fd75ff9bad94",
+  "parent": "7bd443fb53da4ebf324a355d01fd54719f9a4fd7",
+  "hosted_code_projection": "3e3cdc199c08a3b56006d2d82e3c405cf5759f00",
+  "payload_sha256": "ea9834ddb3ce13eb978e6623564a8364bbb1a97bfa1e35b945dccb452d386804",
+  "tests": {
+    "hosted_run": 36662921728,
+    "passed": 19,
+    "failed": 0,
+    "skipped": 0,
+    "transport_records_offered": 500,
+    "transport_records_retained": 500,
+    "transport_drops": 0,
+    "scope": [
+      "Pinned native/protected/V81 statement preservation",
+      "Original cohort and closeout hooks retained",
+      "Committed cohort/protection row hook preservation",
+      "Actual quote-session OFF/ON output, source calls and exceptions",
+      "Capture after original book lock release",
+      "Authentication, source/run binding, tamper, overflow, chronology ambiguity and loss controls",
+      "Separate-process Unix-datagram writer"
+    ]
+  },
+  "earlier_attempts": [
+    {
+      "run": 36662220771,
+      "passed": 13,
+      "errors": 2,
+      "cause": "Missing numpy in test environment; fixed by installing unchanged pinned requirements."
+    },
+    {
+      "run": 36662332552,
+      "passed": 15
+    },
+    {
+      "local": "focused.log",
+      "cause": "AF_UNIX creation EPERM; retained as failure, not skipped in hosted gate"
+    }
+  ],
+  "production": [
+    {
+      "service": "main",
+      "source_commit": "abe212b513827c8cec28a2f64e0161e79296bd82",
+      "deployment": "e2190761-81b0-4d9e-b0ef-d051f40181d7",
+      "status": "SUCCESS"
+    },
+    {
+      "service": "v81",
+      "source_commit": "b05723ec622f901a05402ecf27f4d33505753ef1",
+      "deployment": "b830ec4e-f697-4bd3-bf97-6de7e569d86e",
+      "status": "SUCCESS"
+    }
+  ],
+  "installation": {
+    "result": "NOT_ACTIVE",
+    "startup_commands_saved_and_read_back": true,
+    "redeployments_reused_original_launch_commands": true,
+    "environment_commit_produced_no_new_target_deployment": true,
+    "original_startup_commands_restored_and_verified": true,
+    "live_producer_records": 0,
+    "health_statuses": [
+      {
+        "service": "main",
+        "url": "https://btc-15min-bot-production.up.railway.app/health",
+        "observed_utc": "2026-09-30T03:16:07.346618+00:00",
+        "status": 200,
+        "body_sha256": "28b555598b8b96c21f901fb32ba8af93273c6509e54dffca53d37772adc6100e",
+        "body": "{\"ok\":true,\"read_only\":true}"
+      },
+      {
+        "service": "main",
+        "url": "https://btc-15min-bot-production.up.railway.app/ground-zero/manifest",
+        "observed_utc": "2026-09-30T03:16:14.855367+00:00",
+        "status": 404,
+        "body_sha256": "e3ebaa16dd9d9b9fc107c42183fb6cf9d22927e1af03dbbdfa0ccc38e4e4ac31",
+        "body": "Not found"
+      },
+      {
+        "service": "v81",
+        "url": "https://v81-live-diagnostics-production.up.railway.app/health",
+        "observed_utc": "2026-09-30T03:16:19.826036+00:00",
+        "status": 200,
+        "body_sha256": "5a9e6ee736e6146b40a4445db7b1363faac96dd51fc156537e409c2d80d1081f",
+        "body": "{\"ok\":true,\"service\":\"v81-30-45-live-feed\",\"signal_only\":true,\"orders\":false,\"diagnostic_version\":\"V81_GATE_DIAG_V1\"}"
+      },
+      {
+        "service": "v81",
+        "url": "https://v81-live-diagnostics-production.up.railway.app/ground-zero/manifest",
+        "observed_utc": "2026-09-30T03:16:24.026748+00:00",
+        "status": 404,
+        "body_sha256": "d2dfdc9511fbeaa0701d1f8730f4989313b062ca1b61a2bd8bed8f4f5d654b5d",
+        "body": "{\"error\":\"not_found\"}"
+      }
+    ]
+  },
+  "fresh_contracts_inspected": [],
+  "fresh_corresponding_events": 0,
+  "reconstruction": {
+    "EARLY": {
+      "status": "UNQUALIFIED",
+      "reason": "No fresh candidate producer stream captured"
+    },
+    "FINAL_LINKAGE_PROTECTION": {
+      "status": "UNQUALIFIED",
+      "reason": "No fresh candidate producer stream captured"
+    },
+    "SCALP_V81_EXECUTABLE_CHRONOLOGY_STOP_FIRST_MFE_MAE": {
+      "status": "UNQUALIFIED",
+      "reason": "No fresh candidate producer stream captured"
+    },
+    "OFFICIAL_WINDOW_TARGET_SETTLEMENT_60_OF_60": {
+      "status": "UNQUALIFIED",
+      "reason": "No fresh candidate producer stream captured"
+    }
+  },
+  "remaining_blockers": [
+    "Capture payload was not activated by the controlled deployment path.",
+    "Fresh eligible EARLY opportunity/executable ask evidence is not demonstrated.",
+    "Immutable correct EARLY-to-FINAL/protection linkage is not demonstrated. Capture observation IDs are not accepted native origin IDs.",
+    "Fresh V8.1 entry-to-bid, stop-first/MFE/MAE, reversal/re-entry paths and settled contract closeout remain unqualified."
+  ],
+  "preservation": {
+    "existing_tracked_paths_changed": 0,
+    "added_paths": [
+      "A\t.github/workflows/btc15_capture2.yml",
+      "A\tcapture2/__init__.py",
+      "A\tcapture2/committed_rows.py",
+      "A\tcapture2/install.py",
+      "A\tcapture2/native_entry.py",
+      "A\tcapture2/protection_entry.py",
+      "A\tcapture2/runtime.py",
+      "A\tcapture2/test_composition.py",
+      "A\tcapture2/writer.py"
+    ],
+    "original_strategy_source_commits_unchanged": true,
+    "physical_cadence_equivalence_claimed": false,
+    "conditional_fixture_equivalence_only": true
+  },
+  "orders": false,
+  "ladder_tuning": false,
+  "multiday_test_started": false
+}

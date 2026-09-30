@@ -1,0 +1,38 @@
+test_composed_native_tree_preserves_every_original_statement (capture2.test_composition.CompositionTests.test_composed_native_tree_preserves_every_original_statement) ... ok
+test_existing_information_and_cohort_hooks_retained_once (capture2.test_composition.CompositionTests.test_existing_information_and_cohort_hooks_retained_once) ... ok
+test_invalid_native_source_fails_before_execution (capture2.test_composition.CompositionTests.test_invalid_native_source_fails_before_execution) ... ok
+test_original_packet_authentication_binding_and_tamper (capture2.test_composition.CompositionTests.test_original_packet_authentication_binding_and_tamper) ... ok
+test_protected_assembly_preserves_original_strategy_ast (capture2.test_composition.CompositionTests.test_protected_assembly_preserves_original_strategy_ast) ... ok
+test_real_detached_writer_preserves_all_offered_packets (capture2.test_composition.CompositionTests.test_real_detached_writer_preserves_all_offered_packets) ... FAIL
+test_actual_provider_session_off_on_equal_valid_and_bad_streams (sprint_evidence.test_quote_receive_capture.QuoteCaptureTests.test_actual_provider_session_off_on_equal_valid_and_bad_streams) ... KALSHI QUOTE WS CONNECT | A | epoch=same-epoch | NO ORDERS
+KALSHI QUOTE WS CONNECT | A | epoch=same-epoch | NO ORDERS
+KALSHI QUOTE WS CONNECT | A | epoch=same-epoch | NO ORDERS
+KALSHI QUOTE WS CONNECT | A | epoch=same-epoch | NO ORDERS
+KALSHI QUOTE WS CONNECT | A | epoch=same-epoch | NO ORDERS
+KALSHI QUOTE WS CONNECT | A | epoch=same-epoch | NO ORDERS
+KALSHI QUOTE WS CONNECT | A | epoch=same-epoch | NO ORDERS
+KALSHI QUOTE WS CONNECT | A | epoch=same-epoch | NO ORDERS
+KALSHI QUOTE WS CONNECT | A | epoch=same-epoch | NO ORDERS
+KALSHI QUOTE WS CONNECT | A | epoch=same-epoch | NO ORDERS
+ok
+test_clock_failure_never_manufactures_bracket (sprint_evidence.test_quote_receive_capture.QuoteCaptureTests.test_clock_failure_never_manufactures_bracket) ... ok
+test_exact_original_receive_once_and_raw_identity (sprint_evidence.test_quote_receive_capture.QuoteCaptureTests.test_exact_original_receive_once_and_raw_identity) ... ok
+test_observer_failure_does_not_change_return_or_exception (sprint_evidence.test_quote_receive_capture.QuoteCaptureTests.test_observer_failure_does_not_change_return_or_exception) ... ok
+test_original_exception_identity_and_timeout_preserved (sprint_evidence.test_quote_receive_capture.QuoteCaptureTests.test_original_exception_identity_and_timeout_preserved) ... ok
+test_overlap_equal_missing_and_other_epoch_fail_closed (sprint_evidence.test_quote_receive_capture.QuoteCaptureTests.test_overlap_equal_missing_and_other_epoch_fail_closed) ... ok
+test_oversize_preserved_to_native_but_evidence_unavailable (sprint_evidence.test_quote_receive_capture.QuoteCaptureTests.test_oversize_preserved_to_native_but_evidence_unavailable) ... ok
+test_source_pin_and_only_one_call_changed (sprint_evidence.test_quote_receive_capture.QuoteCaptureTests.test_source_pin_and_only_one_call_changed) ... ok
+test_transport_drop_visible_and_no_retry (sprint_evidence.test_quote_receive_capture.QuoteCaptureTests.test_transport_drop_visible_and_no_retry) ... ok
+
+======================================================================
+FAIL: test_real_detached_writer_preserves_all_offered_packets (capture2.test_composition.CompositionTests.test_real_detached_writer_preserves_all_offered_packets)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7d2bd7b992e8/btc15/capture2/test_composition.py", line 78, in test_real_detached_writer_preserves_all_offered_packets
+    self.assertTrue(Path(sock).exists())
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 15 tests in 1.222s
+
+FAILED (failures=1)
