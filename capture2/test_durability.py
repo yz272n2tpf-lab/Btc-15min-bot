@@ -126,7 +126,7 @@ def sustained(side,count=1500000,rate=9000,churn=5000):
                 if i%100000==0 and errors:raise AssertionError(errors[:5])
             emitted=time.monotonic()-started;p.close();threads[1].join(180)
             if threads[1].is_alive():raise AssertionError('CHURN_TIMEOUT')
-            wait_for(lambda:pop.snapshot()['active']==0,30);pop.close();pop.thread.join(3)
+            pop.close();wait_for(lambda:pop.snapshot()['active']==0,30);pop.thread.join(3)
             wait_for(lambda:p.sock.snapshot()['pending_packets']==0,30)
             expected=count+2*churn
             deadline=time.monotonic()+30
