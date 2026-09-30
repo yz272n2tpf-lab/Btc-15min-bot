@@ -32,5 +32,6 @@
     "capture2/runtime.py": "6de8da2d7aee2d961918a4b2106392369b8f2d60745daddfa279370fed385f32",
     "capture2/writer.py": "eb225ed9a569c9a84512b853594a8646cf217667ef6c3e9cd614eaf889dda58c",
     "capture2/wire.py": "32ee657d8b96ca4a7956c36103983da70bcb74350de9be5bcfe4484dea9c208e"
-  }
+  },
+  "candidate": "d61c021cb405b08603864d077f03474473d2a5f3"
 }

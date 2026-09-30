@@ -1,0 +1,16 @@
+{
+  "candidate": "d61c021cb405b08603864d077f03474473d2a5f3",
+  "workflow_run": 36723160219,
+  "workflow_job": 109913176344,
+  "offered_pps": 12233.466868101163,
+  "socket_delivery_pps": 11745.740760191988,
+  "writer_checkpoint_wall_pps": 12146.890836576731,
+  "writer_checkpoint_committed_delta": 53968,
+  "writer_checkpoint_seconds": 4.442947642,
+  "maximum_sampled_pending": 2186,
+  "maximum_sampled_archive_lag": 4140,
+  "tested_quote_target": 1500000,
+  "actual_quote_offered": 64939,
+  "status": "FAIL",
+  "deployed": false
+}
