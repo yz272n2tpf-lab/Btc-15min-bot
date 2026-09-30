@@ -1,0 +1,22 @@
+{
+  "candidate": "3685844fcdc5956d8971aa80271ef170ffef30d2",
+  "test_only_commit": "c33142b1e89a35570f146f82e02fa32d8787b8af",
+  "workflow_run": 36737419116,
+  "job": 109962656418,
+  "artifact_id": 11108530231,
+  "artifact_sha256": "7fca4c24c3a2a08fb8080defe44b6a436a86ee8e74f72a93212ca1eda60e2585",
+  "payload_sha256": "aa69df06d0d0a2c8b441ca1b4bd2d647906acd6d3737e44d1d65bc845cdae359",
+  "qualified_strategy_sources": {
+    "main": "abe212b513827c8cec28a2f64e0161e79296bd82",
+    "v81": "b05723ec622f901a05402ecf27f4d33505753ef1"
+  },
+  "result": "PASS",
+  "integrated_cases_passed": 5,
+  "strategy_preservation_tests_passed": 4,
+  "failed": 0,
+  "capture_or_strategy_changes": [],
+  "live_status": "PENDING_NOT_ATTEMPTED",
+  "deployment": false,
+  "scope": "Final hosted integrated gate under fixed evidence envelope. Includes actual kernel/persistence path, two burst/recovery cycles per side, short-lived producer churn, complete paginated census, two excursions with clean tails and sticky requalification, and one deliberate sequence-gap injection. No live or native event proof claimed.",
+  "source": "Verbatim FINAL_RESULT JSON from completed hosted logs; integer timestamps preserved. Full individual records/history retained in workflow artifact."
+}
