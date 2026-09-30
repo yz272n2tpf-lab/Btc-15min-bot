@@ -10,6 +10,7 @@ import sys
 import tempfile
 import time
 import uuid
+import runpy
 
 from sprint_evidence.passive_capture import instrument_native, instrument_protected, digest
 from sprint_evidence.source_witness_capture import instrument_native as source_tree, NATIVE_SHA
@@ -39,6 +40,8 @@ def native():
     from capture2.runtime import install_quotes
     install_quotes()
     import btc15_information_native_offpath_candidate as original
+    from capture2.committed_rows import install_wrapper
+    install_wrapper(original)
     base=original.instrument
     def composed(tree):
         raw=original.BOT.read_bytes()
@@ -71,12 +74,22 @@ def assemble_main(directory):
     text=wrapper.read_text()
     if text.count(old)!=1:raise ValueError('NATIVE_LAUNCH_PATH')
     wrapper.write_text(text.replace(old,repr(str(ROOT/'capture2/native_entry.py'))))
+    full=d/'btc15_run_full_validation_v1.py'
+    old='PROTECT = Path("btc15_final_position_protection_shadow_v3.py")'
+    text=full.read_text()
+    if text.count(old)!=1:raise ValueError('PROTECTION_LAUNCH_SEAM')
+    full.write_text(text.replace(old,"PROTECT = Path("+repr(str(ROOT/'capture2/protection_entry.py'))+")"))
     return d
 
 
 def begin(mode):
     build=os.environ.get('RAILWAY_GIT_COMMIT_SHA')
-    if not build:raise ValueError('EXACT_BUILD_REQUIRED')
+    expected={'main':'abe212b513827c8cec28a2f64e0161e79296bd82','v81':'b05723ec622f901a05402ecf27f4d33505753ef1'}[mode]
+    if build!=expected:raise ValueError('EXACT_QUALIFIED_BUILD_REQUIRED')
+    end_utc=float(os.environ['BTC15_CAPTURE_END_UTC'])
+    remaining=end_utc-time.time()
+    if not 0<remaining<=2700:raise ValueError('CAPTURE_WINDOW_EXPIRED_OR_UNBOUNDED')
+    from capture2.committed_rows import WRAPPER_SHA,PROTECTION_SHA
     run_id='ground-zero-'+mode+'-'+uuid.uuid4().hex
     root=Path('/data' if mode=='main' else tempfile.gettempdir())/'btc15_ground_zero'/run_id
     root.mkdir(parents=True,exist_ok=False)
@@ -84,8 +97,9 @@ def begin(mode):
     ns=os.readlink('/proc/self/ns/time')
     c=dict(mode=mode,build=build,run_id=run_id,directory=str(root),socket=str(Path(tempfile.gettempdir())/('gz-'+uuid.uuid4().hex[:16]+'.sock')),
            key=os.urandom(32).hex(),boot_id=boot,time_namespace_id=ns,clock_domain=boot+'/'+ns,
-           source_hashes=[NATIVE_SHA,PROTECTED_SHA,QUOTE_SHA,V81_SHA],max_seconds=2100,
-           end_boot_ns=time.clock_gettime_ns(time.CLOCK_BOOTTIME)+2100*1000000000,
+           source_hashes=[NATIVE_SHA,PROTECTED_SHA,QUOTE_SHA,V81_SHA,WRAPPER_SHA,PROTECTION_SHA],max_seconds=min(2100,remaining),
+           capture_files={str(p.relative_to(ROOT)):digest(p.read_bytes()) for p in sorted((ROOT/'capture2').glob('*.py'))},
+           end_boot_ns=time.clock_gettime_ns(time.CLOCK_BOOTTIME)+int(min(2100,remaining)*1000000000),
            quota_bytes=512*1024*1024,port=8769,signal_only=True,orders=False,
            native_strategy_commit='abe212b513827c8cec28a2f64e0161e79296bd82' if mode=='main' else 'b05723ec622f901a05402ecf27f4d33505753ef1')
     config=root/'config.json';config.write_text(json.dumps(c));config.chmod(0o600)
@@ -93,7 +107,9 @@ def begin(mode):
     child=subprocess.Popen([sys.executable,'-B','-m','capture2.writer','--config',str(config)],cwd=ROOT)
     deadline=time.monotonic()+5
     while not Path(c['socket']).exists() and child.poll() is None and time.monotonic()<deadline:time.sleep(.02)
-    if not Path(c['socket']).exists():raise RuntimeError('CAPTURE_WRITER_NOT_READY')
+    if not Path(c['socket']).exists():
+        child.terminate();child.wait(timeout=5)
+        raise RuntimeError('CAPTURE_WRITER_NOT_READY')
     print('GROUND_ZERO_CAPTURE | '+json.dumps({k:v for k,v in c.items() if k!='key'}),flush=True)
     return child
 
@@ -122,7 +138,12 @@ def main():
     if Path.cwd()!=ROOT:raise ValueError('ORIGINAL_CWD_REQUIRED')
     if args.mode=='main':
         d=assemble_main(Path(tempfile.gettempdir())/'btc15_ground_zero_assembly')
-    child=begin(args.mode)
+    try:child=begin(args.mode)
+    except Exception as exc:
+        print('GROUND_ZERO_CAPTURE_UNAVAILABLE | '+type(exc).__name__+': '+str(exc)+' | original strategy launcher retained',flush=True)
+        if args.mode=='v81':return runpy.run_path(str(ROOT/'v81_30_45_live_feed.py'),run_name='__main__')
+        import btc15_information_install_v1 as original
+        return original.supervise(original.assemble())
     try:
         if args.mode=='v81':return v81()
         import btc15_information_install_v1 as original

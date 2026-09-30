@@ -9,7 +9,10 @@ import subprocess
 import sys
 import tempfile
 import time
+import threading
 import unittest
+from unittest.mock import patch
+from types import SimpleNamespace
 
 from capture2.install import main_tree,assemble_main,PROTECTED_SHA,NATIVE_SHA,ROOT
 from capture2.writer import packet
@@ -24,6 +27,7 @@ class RemoveCapture(ast.NodeTransformer):
         return self.generic_visit(n)
     def visit_Expr(self,n):
         v=n.value
+        if isinstance(v,ast.Call) and isinstance(v.func,ast.Name) and v.func.id=='_capture_row_emit':return None
         if isinstance(v,ast.Call) and isinstance(v.func,ast.Attribute) and isinstance(v.func.value,ast.Name) and v.func.value.id in {'_sprint_producer','_sprint_sources'}:
             return None
         return self.generic_visit(n)
@@ -65,6 +69,59 @@ class CompositionTests(unittest.TestCase):
         bad=json.loads(sink.raw);bad['event']['body']['ticker']='B'
         with self.assertRaises(ValueError):packet(pack(bad),c)
         with self.assertRaises(ValueError):packet(sink.raw,dict(c,run_id='other'))
+
+    def test_committed_row_hooks_preserve_all_original_statements(self):
+        from capture2.committed_rows import wrapper_tree,protection_tree
+        for name,transform in [('btc15_information_native_offpath_candidate.py',wrapper_tree),
+                               ('btc15_final_position_protection_shadow_v3.py',protection_tree)]:
+            raw=(ROOT/name).read_bytes()
+            self.assertEqual(ast.dump(RemoveCapture().visit(transform(raw))),ast.dump(ast.parse(raw)))
+            with self.assertRaises(ValueError):transform(raw+b'\n')
+
+    def test_quote_consume_observer_after_lock_release_and_only_returned_values(self):
+        from capture2.runtime import install_quotes
+        name='btc15_kalshi_quote_provenance_v1';prior=sys.modules.pop(name,None)
+        try:
+            install_quotes();module=sys.modules[name]
+            instance=module.Provider.__new__(module.Provider)
+            instance.lock=threading.Lock();instance.ticker='A';instance.epoch='e';instance.events=[]
+            result=(.2,.3,.7,.8);seen=[]
+            instance.book=SimpleNamespace(quotes=lambda *a:result,market_id='m',sid=1,seq=2,ts_ms=123)
+            def consumed(proof,quotes):
+                self.assertFalse(instance.lock.locked())
+                if proof is not None and quotes is not None:seen.append((proof,quotes))
+            module._ground_quote=SimpleNamespace(consumed=consumed)
+            with tempfile.TemporaryDirectory() as d,patch.object(module,'proof_path',return_value=Path(d)/'proof.json'):
+                self.assertIs(instance.consume('A','source',900000),result)
+                self.assertEqual(len(seen),1)
+                self.assertEqual(seen[0][0]['identity'],['m',1,2,123])
+                self.assertIsNone(instance.consume('B','source',900000))
+                self.assertEqual(len(seen),1)
+        finally:
+            sys.modules.pop(name,None)
+            if prior is not None:sys.modules[name]=prior
+
+    def test_composed_quote_session_off_on_exact_same_source_operations(self):
+        from capture2.runtime import quote_composed_tree
+        from sprint_evidence.quote_receive_capture import instrument as original_instrument
+        from sprint_evidence.test_quote_receive_capture import QuoteCaptureTests
+        case=QuoteCaptureTests('test_actual_provider_session_off_on_equal_valid_and_bad_streams');case.setUp()
+        case.capture.tick=lambda:100
+        case.capture.book=lambda *args:None
+        def composed(raw,enabled=True):
+            return quote_composed_tree(raw) if enabled else original_instrument(raw,enabled=False)
+        with patch('sprint_evidence.test_quote_receive_capture.instrument',side_effect=composed):
+            case.test_actual_provider_session_off_on_equal_valid_and_bad_streams()
+
+    def test_v81_original_statements_preserved(self):
+        from sprint_evidence.v81_capture import instrument
+        raw=(ROOT/'sprint_evidence/references/v81_30_45_live_feed.py').read_bytes()
+        class RemoveV81(ast.NodeTransformer):
+            def visit_Expr(self,node):
+                n=node.value
+                if isinstance(n,ast.Call) and isinstance(n.func,ast.Attribute) and isinstance(n.func.value,ast.Name) and n.func.value.id=='_sprint_v81':return None
+                return self.generic_visit(node)
+        self.assertEqual(ast.dump(RemoveV81().visit(instrument(raw))),ast.dump(ast.parse(raw)))
 
     def test_real_detached_writer_preserves_all_offered_packets(self):
         with tempfile.TemporaryDirectory() as d:

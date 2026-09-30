@@ -18,6 +18,7 @@ from sprint_evidence.source_witness_capture import SourceWitnessCapture, NATIVE_
 ROOT = Path(__file__).resolve().parents[1]
 _local = threading.local()
 _config = None
+_expired = False
 
 
 def config():
@@ -27,8 +28,25 @@ def config():
     return _config
 
 
+class CaptureProducer(Producer):
+    def offer(self,kind,body):
+        if kind=='PROTECTED_GENERATION':
+            # An observed eligibility event has an immutable capture identity.
+            # It is not promoted to a position, fill or native accepted origin.
+            state=body.get('state') or {};early=state.get('early') or {}
+            body=dict(body,eligible_opportunity_id=body['generation_id'] if early.get('ready') is True else None,
+                opportunity_basis='ACTUAL_PROTECTED_ELIGIBILITY_OBSERVATION',
+                opportunity_generated_utc=state.get('generated_utc'),
+                original_source_utc=state.get('source_timestamp_utc'),
+                upstream_final_origin_id=None,upstream_final_origin_status='NOT_EMITTED_BY_THIS_PRODUCER')
+        return super().offer(kind,body)
+
+
 def producer(source):
+    global _expired
+    if _expired:raise RuntimeError('BOUNDED_CAPTURE_ENDED')
     if time.clock_gettime_ns(time.CLOCK_BOOTTIME) >= config()['end_boot_ns']:
+        _expired=True
         raise RuntimeError('BOUNDED_CAPTURE_ENDED')
     cache = getattr(_local, 'producers', None)
     if cache is None:
@@ -39,7 +57,7 @@ def producer(source):
             raise ValueError('UNREGISTERED_SOURCE')
         ident = Identity(c['mode']+':'+str(os.getpid())+':'+str(threading.get_native_id())+':'+uuid.uuid4().hex,
                          c['build'], source, c['run_id'], c['clock_domain'], c['boot_id'])
-        cache[source] = Producer(c['socket'], ident, bytes.fromhex(c['key']))
+        cache[source] = CaptureProducer(c['socket'], ident, bytes.fromhex(c['key']))
     return cache[source]
 
 
@@ -93,27 +111,68 @@ class Quotes:
         return tap.recv(ws, ticker, epoch, *args, **kwargs)
     def consumed(self, proof, quotes):
         try:
+            if proof is None or quotes is None:return False
             return producer(SOURCE_SHA256).lifecycle(dict(schema='BTC15_QUOTE_CONSUMED_V1',
                 proof={k:v for k,v in proof.items() if k!='events'}, quotes=quotes,
                 basis='ORIGINAL_Provider.consume_RETURN; NO_EXTRA_READ_OR_VALIDATION'))
         except Exception: return False
 
+    def tick(self):
+        try:return time.clock_gettime_ns(time.CLOCK_BOOTTIME)
+        except Exception:return None
+    def book(self, evidence, ticker, epoch, before):
+        if _expired:return False
+        try:
+            after=self.tick();book=evidence.book
+            best={}
+            for side in ('yes','no'):
+                level=max(book.levels[side]) if book.levels[side] else None
+                best[side]=None if level is None else dict(price=str(level),quantity=str(book.levels[side][level]))
+            return producer(SOURCE_SHA256).lifecycle(dict(schema='BTC15_QUOTE_APPLIED_V1',
+                ticker=ticker,epoch=epoch,time_namespace_id=config()['time_namespace_id'],
+                before_boot_ns=before,after_boot_ns=after,
+                market_id=book.market_id,sid=book.sid,sequence=book.seq,exchange_ts_ms=book.ts_ms,
+                valid=book.valid,overflow=evidence.overflow,best_bids=best,
+                basis='ORIGINAL_Evidence.accept_RETURN_AND_LOCK_RELEASE; NOT_A_FILL'))
+        except Exception:return False
+
+
+def quote_composed_tree(raw):
+    tree=quote_tree(raw)
+    provider=next(n for n in tree.body if isinstance(n,ast.ClassDef) and n.name=='Provider')
+    fn=next(n for n in provider.body if isinstance(n,ast.FunctionDef) and n.name=='consume')
+    # finally runs after every original with-lock exit, including return quotes.
+    # The original local proof is used; no additional book read/validation occurs.
+    wrapper=ast.parse("try:\n    pass\nfinally:\n    _ground_quote.consumed(locals().get('proof'), locals().get('_capture_returned_quotes'))").body[0]
+    class Returned(ast.NodeTransformer):
+        count=0
+        def visit_Return(self,node):
+            if isinstance(node.value,ast.Name) and node.value.id=='quotes':
+                self.count+=1
+                return [ast.parse('_capture_returned_quotes = quotes').body[0],node]
+            return node
+    returned=Returned();returned.visit(fn)
+    if returned.count!=1:raise ValueError('QUOTE_RETURN_SEAM')
+    wrapper.body=fn.body;fn.body=[wrapper]
+    session=next(n for n in provider.body if isinstance(n,ast.FunctionDef) and n.name=='session')
+    class AppliedHook(ast.NodeTransformer):
+        count=0
+        def visit_With(self,node):
+            if any(isinstance(n,ast.Call) and isinstance(n.func,ast.Attribute) and n.func.attr=='accept' for n in ast.walk(node)):
+                self.count+=1
+                before=ast.parse('_capture_apply_before = _ground_quote.tick()').body[0]
+                after=ast.parse('_ground_quote.book(evidence, ticker, epoch, _capture_apply_before)').body[0]
+                return [before,node,after]
+            return node
+    hook=AppliedHook();hook.visit(session)
+    if hook.count!=1:raise ValueError('QUOTE_APPLY_SEAM')
+    return ast.fix_missing_locations(tree)
+
 
 def install_quotes():
     name='btc15_kalshi_quote_provenance_v1'
-    if name in sys.modules: raise ValueError('QUOTE_MODULE_ALREADY_LOADED')
-    path=ROOT/(name+'.py');raw=path.read_bytes();tree=quote_tree(raw)
-    provider=next(n for n in tree.body if isinstance(n,ast.ClassDef) and n.name=='Provider')
-    fn=next(n for n in provider.body if isinstance(n,ast.FunctionDef) and n.name=='consume')
-    class ReturnHook(ast.NodeTransformer):
-        count=0
-        def visit_Return(self,n):
-            if isinstance(n.value,ast.Name) and n.value.id=='quotes':
-                self.count+=1
-                return [ast.parse('_ground_quote.consumed(proof, quotes)').body[0],n]
-            return n
-    hook=ReturnHook();hook.visit(fn)
-    if hook.count!=1: raise ValueError('QUOTE_CONSUMPTION_SEAM')
+    if name in sys.modules:raise ValueError('QUOTE_MODULE_ALREADY_LOADED')
+    path=ROOT/(name+'.py');tree=quote_composed_tree(path.read_bytes())
     module=types.ModuleType(name);module.__file__=str(path);module._ground_quote=Quotes()
     sys.modules[name]=module
     try: exec(compile(ast.fix_missing_locations(tree),str(path),'exec'),module.__dict__)
