@@ -34,7 +34,7 @@ class BufferedDatagram:
     No lock, disk operation, network wait or ACK is added to the native offer.
     """
     def __init__(self,address,*,end_boot_ns,status_path=None,sock=None,
-                 max_bytes=8*1024*1024,max_packets=4096):
+                 max_bytes=16*1024*1024,max_packets=16384):
         self.address=address;self.end_boot_ns=end_boot_ns;self.status_path=status_path
         self.max_bytes=max_bytes;self.max_packets=max_packets;self.queue=deque()
         self.enqueued_bytes=self.delivered_bytes=self.accepted=self.delivered=0

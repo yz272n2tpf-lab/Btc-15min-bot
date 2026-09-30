@@ -103,9 +103,9 @@ class RepairKernelTests(unittest.TestCase):
             receiver.bind(address);receiver.settimeout(3)
             old=Producer(address,identity('old'),b'a'*32)
             try:
-                while old.sent<100 and old.offer('OBSERVED',{'index':old.sent}):pass
-                self.assertGreater(old.dropped,0);self.assertIn('BlockingIOError',old.last_error)
                 qlen=int(Path('/proc/sys/net/unix/max_dgram_qlen').read_text())
+                while old.sent<max(10000,qlen+2) and old.offer('OBSERVED',{'index':old.sent}):pass
+                self.assertGreater(old.dropped,0);self.assertIn('BlockingIOError',old.last_error)
                 self.assertLessEqual(old.sent,qlen+1)
                 print('ROOT_CAUSE',json.dumps({'kernel_max_dgram_qlen':qlen,'old_sent':old.sent,'old_error':old.last_error}),flush=True)
                 for _ in range(old.sent):receiver.recv(196609)
