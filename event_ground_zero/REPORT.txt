@@ -1,0 +1,84 @@
+BTC15 — FINAL SHORT EVENT-LEVEL GROUND ZERO
+
+FINAL EVENT-LEVEL GROUND ZERO: PENDING EVENT
+READY TO BEGIN LADDER IMPROVEMENT: NO
+
+Activated capture: 90a24b1189a6bae8403e46149313716d19f56229
+MAIN strategy: abe212b513827c8cec28a2f64e0161e79296bd82
+V8.1 strategy: b05723ec622f901a05402ecf27f4d33505753ef1
+MAIN deployment: 4ec06f3e-ccb0-49a4-bfca-08285a2a06f8 (SUCCESS)
+V8.1 deployment: f08daa26-ec8a-425d-9959-673e5f34cc7d (SUCCESS)
+Payload SHA-256: 61dbe67fb95308fb07603a07d97fb24c17aebd293d7f2e97ed0a306cb8090396
+Both configured launchers matched the recorded, pinned payload commands.
+
+Manifest/hash/continuity
+Both manifests: HTTP 200; all seven capture-file hashes matched on each service.
+MAIN: 96,855 independently rehashed packets, 355 captured streams / 355 reports.
+V8.1: 37,957 independently rehashed packets, two streams / two reports.
+Both archive prefixes: zero sequence gaps, producer drops, missing stream reports
+or retired-tail mismatches. Signal-only and orders=false remained bound to the
+qualified identities. No new tests, capture code edits, or strategy edits occurred.
+
+Accounting limitation, explicitly retained
+The final MAIN aggregate snapshot reported 354 created versus 355 individual
+stream reports and flagged POPULATION_REPORT_COUNT:60. Earlier snapshots also
+showed asynchronous count lag. Its aggregate-complete status is UNAVAILABLE, not
+PASS. Independent packet-level continuity and complete coverage of all 355
+captured streams passed; no transport-loss defect was established. The prior MAIN
+lifetime hard-gate PASS was not rerun or replaced. V8.1 aggregate accounting passed.
+Concurrent counters recorded MAIN 4,761 retries / 1,175 pending packets and V8.1
+2,308 retries / six pending packets. Pending traffic beyond each frozen prefix is
+not treated as observed delivery. No further snapshots were collected after event
+absence was established.
+
+Fresh sample
+One contract: KXBTC15M-26SEP300830-30.
+Official Kalshi window: 2026-09-30 12:15–12:30 UTC (08:15–08:30 Eastern).
+Official target: 83,825.81. Captured native contract/window/target matched the API.
+MAIN prefix: 12:22:26.764408–12:23:51.245941 UTC.
+V8.1 prefix: 12:22:17.129126–12:22:45.303388 UTC.
+MAIN: 351 protected generations, ten native cycles, ten committed cohort rows.
+V8.1: 28 completed native evaluations, 29 WAIT publications, one startup SOURCE_WAIT.
+All evidence came from the actual fresh producer streams, not sampled endpoints
+or synthetic fixtures. No historical replay, scoring or clock research was used.
+
+EARLY: EVENT NOT YET OBSERVED
+Zero eligible protected opportunities and zero native provisional EARLY candidates.
+An immutable native origin, its executable ask and contemporaneous evidence cannot
+be demonstrated without that event. Capture-generated generation IDs were not
+substituted for native origins.
+
+FINAL->EARLY: EVENT NOT YET OBSERVED
+Zero ready/recorded FINAL calls or committed protection events. All ten native
+cohort rows had native final_status=PASS (no call). No originating EARLY event
+existed in the inspected prefix, so immutable linkage/confirmation/protection
+cannot yet be demonstrated.
+
+SCALP/V8.1: EVENT NOT YET OBSERVED
+Zero V8.1 SIGNAL publications, zero active evaluations, and zero native scalp
+pending observations. Entry ask -> subsequent bid exits/protection, stop-first,
+MFE/MAE and reversal/re-entry remain unavailable; none were fabricated from quotes.
+
+Closeout: PENDING
+Official identity/window/target passed. At the captured observation the official
+market was active, with no settlement result. No complete 60-of-60 closeout was
+captured. No waiting for settlement or another contract occurred.
+
+Preservation/restoration
+Qualified strategy source commits and semantics remain unchanged. The exact
+qualified passive capture was left running as requested; original launchers were
+not restored because required events had not occurred. Both original commands
+and complete pre-install configuration are preserved under results/preinstall-*.
+Capture automatically stops no later than 08:55:43 Eastern / 12:55:43 UTC on
+2026-09-30, or earlier on the existing 512 MiB per-service quota/failure condition.
+The reader remains available after bounded capture ends while the deployment lives.
+MAIN raw capture is on persistent /data; V8.1 is container-local /tmp, so its later
+archive must be retrieved before its deployment/container is replaced. Existing
+inspected prefixes are preserved independently. No later collection automation
+was scheduled; Chat retains the decision about later evidence acquisition.
+
+MAIN run: ground-zero-main-47ad682f541345db9d7ff7f0c55845e8
+V8.1 run: ground-zero-v81-894d5293be0e4e94acb9c48487d0c278
+Read-only endpoints: each service's /ground-zero/manifest, /ground-zero/transports,
+and /ground-zero/chunk. Reuse recorded run identity and receipts when continuing.
+No ladder improvement, orders, infrastructure repair, or multi-day test was started.

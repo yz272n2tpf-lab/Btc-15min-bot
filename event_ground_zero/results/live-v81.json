@@ -1,0 +1,156 @@
+{
+  "run_id": "ground-zero-v81-894d5293be0e4e94acb9c48487d0c278",
+  "http_status": 200,
+  "hashes_match": true,
+  "observed_wall_ns": 1790770971013968119,
+  "manifest_sha256": "40e8155cd9939988ee8fff42851348d669b2988057eaed4e84eda0f085ea22f3",
+  "errors": [],
+  "health": {
+    "status": "RECORDING_OPERATIONAL_UNCERTIFIED",
+    "packets": 37957,
+    "received_valid": 37957,
+    "invalid": 0,
+    "bytes": 9903233,
+    "groups": 1834,
+    "producer_drop_observed": false,
+    "native_action_authority": false,
+    "source_clock_certified": false,
+    "orders": false,
+    "sequence_gaps": [],
+    "streams": {
+      "v81:1:5:14101c51847543898c50339d31e61f08": 58,
+      "v81:1:6:83eb550280644f5792e47ff7e3ff8448": 37899
+    },
+    "transport_accounting": {
+      "snapshot_id": "b65cddacefc14616b9ff79308a038412",
+      "total": 2,
+      "page_size": 128,
+      "complete": true,
+      "errors": [],
+      "missing_streams": [],
+      "incomplete_streams": [],
+      "receiver_streams": 2,
+      "populations": [
+        {
+          "process_id": 1,
+          "observed_boot_ns": 16234990868828098,
+          "created": 2,
+          "active": 2,
+          "retired": 0,
+          "retired_flushed": 0,
+          "retired_incomplete": 0,
+          "active_ids": [
+            "v81:1:5:14101c51847543898c50339d31e61f08",
+            "v81:1:6:83eb550280644f5792e47ff7e3ff8448"
+          ],
+          "active_sender_high_water": 2,
+          "max_active_senders": 16,
+          "max_created_streams": 16384,
+          "accountant_threads": 1,
+          "max_buffer_bytes_per_sender": 16777216,
+          "max_aggregate_buffer_bytes": 268435456,
+          "active_buffer_bytes": 382420,
+          "retired_offered": 0,
+          "retired_accepted": 0,
+          "retired_delivered": 0,
+          "retired_dropped": 0,
+          "retired_retried": 0,
+          "admission_rejected": 0,
+          "rejected_attempts": [],
+          "rejected_details_omitted": 0,
+          "fault": null,
+          "stopping": false
+        }
+      ],
+      "created": 2,
+      "active": 2,
+      "retired": 0,
+      "retired_flushed": 0,
+      "retired_incomplete": 0,
+      "offered": 36855,
+      "delivered": 36849,
+      "dropped": 0,
+      "retried": 2308,
+      "pending": 6,
+      "reporting_basis": "ALL_CREATED_STREAMS; ACTIVE_COUNTERS_ARE_CONCURRENT_SNAPSHOTS"
+    },
+    "streams_count": 2,
+    "streams_paged": false
+  },
+  "inspected": {
+    "rows": 37957,
+    "streams": 2,
+    "bytes": 9903233,
+    "archive_sha256": "521fc0c0d50d7a923796649540bf3de8bc6e7e7571169baccaa14e95d9a240dc",
+    "kinds": {
+      "BTC15_V81_PASSIVE_EMISSION_V1|WAIT": 29,
+      "BTC15_V81_PASSIVE_EMISSION_V1|SOURCE_WAIT": 1,
+      "BTC15_QUOTE_RECEIVE_OBSERVATION_V1|": 18950,
+      "BTC15_QUOTE_APPLIED_V1|": 18949,
+      "BTC15_V81_PASSIVE_EMISSION_V1|COMPLETE": 28
+    },
+    "contracts": [
+      "KXBTC15M-26SEP300830-30"
+    ],
+    "gaps": [],
+    "latest": {
+      "BTC15_V81_PASSIVE_EMISSION_V1|WAIT": {
+        "wall_ns": 1790770965302932774,
+        "tickers": [
+          "KXBTC15M-26SEP300830-30"
+        ],
+        "generated_utc": "2026-09-30T12:22:45Z",
+        "source_timestamp_utc": null,
+        "target": null,
+        "close_dt": null,
+        "seconds_left": null,
+        "market": null
+      },
+      "BTC15_V81_PASSIVE_EMISSION_V1|SOURCE_WAIT": {
+        "wall_ns": 1790770937129560310,
+        "tickers": [],
+        "generated_utc": null,
+        "source_timestamp_utc": null,
+        "target": null,
+        "close_dt": null,
+        "seconds_left": null,
+        "market": null
+      },
+      "BTC15_QUOTE_RECEIVE_OBSERVATION_V1|": {
+        "wall_ns": 1790770964929326363,
+        "tickers": [
+          "KXBTC15M-26SEP300830-30"
+        ],
+        "generated_utc": null,
+        "source_timestamp_utc": null,
+        "target": null,
+        "close_dt": null,
+        "seconds_left": null,
+        "market": null
+      },
+      "BTC15_QUOTE_APPLIED_V1|": {
+        "wall_ns": 1790770964929435955,
+        "tickers": [
+          "KXBTC15M-26SEP300830-30"
+        ],
+        "generated_utc": null,
+        "source_timestamp_utc": null,
+        "target": null,
+        "close_dt": null,
+        "seconds_left": null,
+        "market": null
+      },
+      "BTC15_V81_PASSIVE_EMISSION_V1|COMPLETE": {
+        "wall_ns": 1790770965303387658,
+        "tickers": [],
+        "generated_utc": null,
+        "source_timestamp_utc": null,
+        "target": null,
+        "close_dt": null,
+        "seconds_left": null,
+        "market": null
+      }
+    }
+  },
+  "result": "PASS"
+}

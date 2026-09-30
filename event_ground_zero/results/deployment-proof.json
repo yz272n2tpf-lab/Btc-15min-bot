@@ -1,0 +1,21 @@
+{
+  "candidate": "90a24b1189a6bae8403e46149313716d19f56229",
+  "payload_sha256": "61dbe67fb95308fb07603a07d97fb24c17aebd293d7f2e97ed0a306cb8090396",
+  "end_utc": 1790772943,
+  "deployments": {
+    "main": {
+      "id": "4ec06f3e-ccb0-49a4-bfca-08285a2a06f8",
+      "status": "SUCCESS",
+      "source": "abe212b513827c8cec28a2f64e0161e79296bd82",
+      "reason": "deploy",
+      "configured_launcher_matches": true
+    },
+    "v81": {
+      "id": "f08daa26-ec8a-425d-9959-673e5f34cc7d",
+      "status": "SUCCESS",
+      "source": "b05723ec622f901a05402ecf27f4d33505753ef1",
+      "reason": "deploy",
+      "configured_launcher_matches": true
+    }
+  }
+}

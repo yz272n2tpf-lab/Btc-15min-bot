@@ -1,0 +1,155 @@
+{
+  "main": {
+    "run_id": "ground-zero-main-47ad682f541345db9d7ff7f0c55845e8",
+    "manifest_http": 200,
+    "capture_hashes_match": true,
+    "archive_continuity": "PASS",
+    "archive_errors": [],
+    "packet_count": 96855,
+    "archive_streams": 355,
+    "status_reports": 355,
+    "missing_reports": [],
+    "retired_tail_mismatch": [],
+    "active_receiver_heads_minus_archive": {
+      "main:67:475:34908a260f7742d7894fe0835f161042": 0,
+      "main:67:67:3735caaf3b2e4f66be241afb33a29c1c": 0,
+      "main:67:67:68968877478c487f87029bccb6016b95": 0,
+      "main:67:67:72e42675d9684fbd85ce30903c84b9d9": 0
+    },
+    "aggregate_snapshot_complete": false,
+    "aggregate_snapshot_errors": [
+      "POPULATION_REPORT_COUNT:60"
+    ],
+    "aggregate_created": 354,
+    "reported_streams": 355,
+    "drops": 0,
+    "retries": 4761,
+    "pending": 1175,
+    "counts": {
+      "protected_generations": 351,
+      "early_eligible": 0,
+      "final_ready": 0,
+      "recorded_final_call": 0,
+      "protected_state_status_None": 351,
+      "native_cycles": 10,
+      "native_early_provisional": 0,
+      "native_scalp_pending_observations": 0,
+      "cohort_rows": 10,
+      "cohort_final_status_PASS": 10,
+      "closeout_60_of_60": 0,
+      "closeout_record_schema_BTC15_COHORT_NATIVE_V1": 10
+    },
+    "contracts": [
+      "KXBTC15M-26SEP300830-30"
+    ],
+    "first_event_utc": "2026-09-30T12:22:26.764408+00:00",
+    "last_event_utc": "2026-09-30T12:23:51.245941+00:00",
+    "native_market_samples": [
+      {
+        "ticker": "KXBTC15M-26SEP300830-30",
+        "open_time": "2026-09-30T12:15:00Z",
+        "close_time": "2026-09-30T12:30:00Z",
+        "floor_strike": 83825.81,
+        "status": "active"
+      },
+      {
+        "ticker": "KXBTC15M-26SEP300830-30",
+        "open_time": "2026-09-30T12:15:00Z",
+        "close_time": "2026-09-30T12:30:00Z",
+        "floor_strike": 83825.81,
+        "status": "active"
+      },
+      {
+        "ticker": "KXBTC15M-26SEP300830-30",
+        "open_time": "2026-09-30T12:15:00Z",
+        "close_time": "2026-09-30T12:30:00Z",
+        "floor_strike": 83825.81,
+        "status": "active"
+      },
+      {
+        "ticker": "KXBTC15M-26SEP300830-30",
+        "open_time": "2026-09-30T12:15:00Z",
+        "close_time": "2026-09-30T12:30:00Z",
+        "floor_strike": 83825.81,
+        "status": "active"
+      },
+      {
+        "ticker": "KXBTC15M-26SEP300830-30",
+        "open_time": "2026-09-30T12:15:00Z",
+        "close_time": "2026-09-30T12:30:00Z",
+        "floor_strike": 83825.81,
+        "status": "active"
+      },
+      {
+        "ticker": "KXBTC15M-26SEP300830-30",
+        "open_time": "2026-09-30T12:15:00Z",
+        "close_time": "2026-09-30T12:30:00Z",
+        "floor_strike": 83825.81,
+        "status": "active"
+      },
+      {
+        "ticker": "KXBTC15M-26SEP300830-30",
+        "open_time": "2026-09-30T12:15:00Z",
+        "close_time": "2026-09-30T12:30:00Z",
+        "floor_strike": 83825.81,
+        "status": "active"
+      },
+      {
+        "ticker": "KXBTC15M-26SEP300830-30",
+        "open_time": "2026-09-30T12:15:00Z",
+        "close_time": "2026-09-30T12:30:00Z",
+        "floor_strike": 83825.81,
+        "status": "active"
+      },
+      {
+        "ticker": "KXBTC15M-26SEP300830-30",
+        "open_time": "2026-09-30T12:15:00Z",
+        "close_time": "2026-09-30T12:30:00Z",
+        "floor_strike": 83825.81,
+        "status": "active"
+      },
+      {
+        "ticker": "KXBTC15M-26SEP300830-30",
+        "open_time": "2026-09-30T12:15:00Z",
+        "close_time": "2026-09-30T12:30:00Z",
+        "floor_strike": 83825.81,
+        "status": "active"
+      }
+    ]
+  },
+  "v81": {
+    "run_id": "ground-zero-v81-894d5293be0e4e94acb9c48487d0c278",
+    "manifest_http": 200,
+    "capture_hashes_match": true,
+    "archive_continuity": "PASS",
+    "archive_errors": [],
+    "packet_count": 37957,
+    "archive_streams": 2,
+    "status_reports": 2,
+    "missing_reports": [],
+    "retired_tail_mismatch": [],
+    "active_receiver_heads_minus_archive": {
+      "v81:1:5:14101c51847543898c50339d31e61f08": 0,
+      "v81:1:6:83eb550280644f5792e47ff7e3ff8448": 0
+    },
+    "aggregate_snapshot_complete": true,
+    "aggregate_snapshot_errors": [],
+    "aggregate_created": 2,
+    "reported_streams": 2,
+    "drops": 0,
+    "retries": 2308,
+    "pending": 6,
+    "counts": {
+      "v81_WAIT": 29,
+      "v81_SOURCE_WAIT": 1,
+      "v81_active_evaluations": 0,
+      "v81_COMPLETE": 28
+    },
+    "contracts": [
+      "KXBTC15M-26SEP300830-30"
+    ],
+    "first_event_utc": "2026-09-30T12:22:17.129126+00:00",
+    "last_event_utc": "2026-09-30T12:22:45.303388+00:00",
+    "native_market_samples": []
+  }
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "attempt": 0,
+    "complete": false,
+    "errors": [
+      "POPULATION_REPORT_COUNT:60"
+    ],
+    "created": 322,
+    "reports": 325,
+    "packets": 75657
+  },
+  {
+    "attempt": 1,
+    "complete": false,
+    "errors": [
+      "POPULATION_REPORT_COUNT:60"
+    ],
+    "created": 336,
+    "reports": 337,
+    "packets": 83126
+  },
+  {
+    "attempt": 2,
+    "complete": false,
+    "errors": [
+      "POPULATION_REPORT_COUNT:60"
+    ],
+    "created": 354,
+    "reports": 355,
+    "packets": 96855
+  }
+]

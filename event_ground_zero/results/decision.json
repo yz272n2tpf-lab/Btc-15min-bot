@@ -1,0 +1,28 @@
+{
+  "official_identity_window_target": "PASS",
+  "ticker": "KXBTC15M-26SEP300830-30",
+  "open_time": "2026-09-30T12:15:00Z",
+  "close_time": "2026-09-30T12:30:00Z",
+  "target": 83825.81,
+  "settlement_observed": false,
+  "complete_60_of_60_observed": false,
+  "closeout": "PENDING",
+  "EARLY": "EVENT NOT YET OBSERVED",
+  "FINAL_to_EARLY": "EVENT NOT YET OBSERVED",
+  "SCALP_V81": "EVENT NOT YET OBSERVED",
+  "final_event_level_ground_zero": "PENDING EVENT",
+  "ready_to_begin_ladder_improvement": false,
+  "capture_defect_established": false,
+  "main_aggregate_snapshot": "UNAVAILABLE: POPULATION_REPORT_COUNT:60 (354 aggregate / 355 stream reports); no fresh aggregate PASS claimed",
+  "archive_continuity": {
+    "main": "PASS",
+    "v81": "PASS"
+  },
+  "strategy_changed": false,
+  "restored": false,
+  "reason_not_restored": "User instructed preserving functioning bounded capture when events absent",
+  "end_utc": "2026-09-30T12:55:43Z",
+  "end_eastern": "2026-09-30T08:55:43-04:00",
+  "earlier_stop": "512 MiB quota per service or explicit capture failure",
+  "later_evidence_note": "MAIN /data persists. V8.1 archive is container-local /tmp; later evidence remains available only while this deployment/container is retained. Reader remains available after bounded end. No later fetch/automation scheduled."
+}
