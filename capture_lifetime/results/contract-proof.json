@@ -1,0 +1,17 @@
+{
+  "result": "PASS",
+  "checks": {
+    "ticker_matches": true,
+    "target_matches": true,
+    "native_market_matches": true,
+    "window_matches": true,
+    "observed_during_official_window": true,
+    "official_status": "active"
+  },
+  "ticker": "KXBTC15M-26SEP300100-00",
+  "open_time": "2026-09-30T04:45:00Z",
+  "close_time": "2026-09-30T05:00:00Z",
+  "target": 83282.27,
+  "native_observed_wall_ns": 1790743869416356820,
+  "previous_expired_ticker_reproduced": false
+}

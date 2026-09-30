@@ -1,0 +1,19 @@
+{
+  "candidate": "90a24b1189a6bae8403e46149313716d19f56229",
+  "parent": "b6dd2b5f8ce3020e0cc87791a9e0814641ac4a1f",
+  "tree": "b97c963e46f0a8f53e804187ba14e6976da22d93",
+  "changed_files": [
+    ".github/workflows/btc15_capture_lifetime.yml",
+    "capture2/runtime.py",
+    "capture2/test_lifetime.py",
+    "capture2/writer.py",
+    "capture2_payload.json"
+  ],
+  "main_strategy": "abe212b513827c8cec28a2f64e0161e79296bd82",
+  "v81_strategy": "b05723ec622f901a05402ecf27f4d33505753ef1",
+  "strategy_files_changed": [],
+  "hosted_workflow": 36670440719,
+  "hosted_job": 109744078096,
+  "hosted_tests": "5/5 PASS",
+  "payload_sha256": "61dbe67fb95308fb07603a07d97fb24c17aebd293d7f2e97ed0a306cb8090396"
+}

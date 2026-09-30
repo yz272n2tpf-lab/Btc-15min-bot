@@ -1,0 +1,19 @@
+{
+  "result": "PASS",
+  "errors": [],
+  "streams": 570,
+  "retired": 566,
+  "active": 4,
+  "retired_tails_equal_offered_delivered_and_archive": true,
+  "active_receiver_heads_minus_archive": {
+    "main:67:493:9fcc32245e384385abdeb63174e299ca": 0,
+    "main:67:67:157c52f1efae44dfacb78ca59b292c92": 0,
+    "main:67:67:7ab92763712e4758a1b7bf33fad2b1f5": 0,
+    "main:67:67:cc267ae5986f419a846a3fcb16d8e616": 0
+  },
+  "first_event_wall_ns": 1790743823781825530,
+  "last_event_wall_ns": 1790743953725908809,
+  "first_event_utc": "2026-09-30T04:50:23.781826+00:00",
+  "last_event_utc": "2026-09-30T04:52:33.725909+00:00",
+  "qualification_scope": "FROZEN_COMMITTED_PREFIX; later traffic and active sender shutdown tails are outside this proof"
+}

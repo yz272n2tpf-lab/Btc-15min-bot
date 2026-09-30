@@ -1,0 +1,12 @@
+{
+  "/health": {
+    "status": 200,
+    "observed_wall_ns": 1790744210470928008,
+    "response_sha256": "28b555598b8b96c21f901fb32ba8af93273c6509e54dffca53d37772adc6100e"
+  },
+  "/ground-zero/manifest": {
+    "status": 404,
+    "observed_wall_ns": 1790744215476775916,
+    "response_sha256": "e3ebaa16dd9d9b9fc107c42183fb6cf9d22927e1af03dbbdfa0ccc38e4e4ac31"
+  }
+}

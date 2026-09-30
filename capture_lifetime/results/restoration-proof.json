@@ -1,0 +1,17 @@
+{
+  "result": "PASS",
+  "candidate": "90a24b1189a6bae8403e46149313716d19f56229",
+  "restored_deployment": {
+    "id": "39c1d37f-9748-45fe-9b5a-55281d3a0dc0",
+    "status": "SUCCESS",
+    "source": "abe212b513827c8cec28a2f64e0161e79296bd82"
+  },
+  "original_service_config_exactly_restored": true,
+  "original_launcher_exactly_restored": true,
+  "capture_activation_marker": "DISABLED_MAIN_LIFETIME_90a24b1_20260930",
+  "v81_untouched": {
+    "id": "c374ab3a-b998-476a-9667-40641445de66",
+    "status": "SUCCESS",
+    "source": "b05723ec622f901a05402ecf27f4d33505753ef1"
+  }
+}

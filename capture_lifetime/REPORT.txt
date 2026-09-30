@@ -1,0 +1,112 @@
+BTC15 — MAIN CAPTURE LIFETIME / ACCOUNTING HARD GATE
+
+MAIN CAPTURE HARD GATE: PASS
+READY FOR FINAL SHORT EVENT-LEVEL GROUND ZERO: YES
+
+Candidate: 90a24b1189a6bae8403e46149313716d19f56229
+Parent: b6dd2b5f8ce3020e0cc87791a9e0814641ac4a1f
+Candidate tree: b97c963e46f0a8f53e804187ba14e6976da22d93
+Qualified MAIN source: abe212b513827c8cec28a2f64e0161e79296bd82
+Qualified V8.1 source: b05723ec622f901a05402ecf27f4d33505753ef1
+Payload SHA-256: 61dbe67fb95308fb07603a07d97fb24c17aebd293d7f2e97ed0a306cb8090396
+Payload: 96,003 bytes; 11 modules, including seven capture modules.
+Controlled MAIN deployment: c89bf6e0-7079-46a5-8619-49aef1adcc7b (SUCCESS).
+
+Root cause and correction
+The prior sender loop retained each short-lived producer until the global capture
+end. MAIN's repeated short-lived producer threads therefore accumulated sender
+threads/sockets. Reporting independently read only the first 64 status files.
+
+The sender now drains its existing FIFO, exits when its originating thread has
+ended, and is reaped only after the sender thread exits. A separate accountant
+persists terminal counts and releases sender/owner references. Admission is
+nonblocking and bounded to 16 active senders and 16,384 admitted streams per
+process. Each sender retains the existing 16 MiB / 16,384-packet buffer bound
+(256 MiB aggregate buffer ceiling per process). Exhaustion, contention, terminal
+loss and unavailable accounting explicitly disqualify capture. Transport socket
+operations, retries, flushing, retirement and reporting run off the native
+strategy execution path.
+
+All stream reports are retained within the stream budget. The writer exposes
+immutable, paginated snapshots (128 records/page; two cached snapshots), rather
+than a 64-stream subset. Its report/receiver population caps fail closed rather
+than silently omitting streams.
+
+Focused tests
+GitHub Actions run 36670440719, job 109744078096: 5/5 PASS; no skips.
+- 1,024 short-lived streams: all retired/flushed; 3,072 ordered packets; zero
+  drops/pending; active sender high-water 8. Full pagination and immutable
+  snapshot behavior verified; deleting a status report disqualified accounting.
+- Real Unix datagram writer: 256 automatically retired streams, 1,280 ordered
+  packets, zero gaps/invalid packets; HTTP manifest and both status pages verified.
+- Held receiver/origin exit: sender remained active until buffered packets drained;
+  all send operations occurred off the origin thread; owner reference was released.
+- Sender/stream limits: explicit rejected-admission identity and failure accounting.
+- Terminal transport failure: pending evidence retained explicitly; fail closed.
+Local focused unit subset: 4/4 PASS. No prior large suites were rerun.
+
+Live hard gate
+Run: ground-zero-main-f4425e159d3f4dd39422c8dfdf44f3f6
+Snapshot: f0117a2db7a14462b3964c06f284d967
+MAIN /ground-zero/manifest: HTTP 200; all seven deployed capture-file hashes exactly
+matched the reviewed candidate payload. The configured launcher also matched its
+recorded SHA-256 and downloaded the exact pinned candidate payload. Railway's
+source commit remained qualified MAIN throughout.
+
+Frozen live packet prefix: 2026-09-30 04:50:23.781826–04:52:33.725909 UTC.
+72,641 packets independently rehashed and sequence-checked; 570/570 producer
+streams represented across five status pages. All archived stream heads exactly
+matched the receiver heads. Zero invalid packets, sequence gaps, producer drops,
+admission rejections, missing reports or incomplete retired streams.
+
+Created: 570. Active: 4. Retired: 566. Retired/flushed: 566. Incomplete retirees: 0.
+All 566 retired streams had offered = delivered = archived terminal sequence.
+Observed per-process sender high-water: 3 (566 short-lived streams) and 4 (native
+process); each below the enforced cap of 16. Retained active senders therefore did
+not grow with the retired producer population. Retired sender/owner cycles were
+released; finite on-disk terminal records remained available.
+
+Accounting included 3,421 backpressure retries and 13 pending active-stream
+packets in the asynchronous transport-counter snapshots. Active counters are
+explicitly concurrent observations, not final flush totals. The qualified archive
+prefix and receiver heads agreed exactly for all four active streams. No loss is
+inferred from ordinary counter-report lag, and no unobserved future delivery is
+claimed.
+
+Two earlier snapshots were explicitly unavailable because the periodic population
+summary lagged the newer individual reports by one/two streams. They were not
+counted as PASS. The accepted immutable snapshot accounted for all 570 streams
+with no accounting errors; its full archived prefix was verified independently.
+The qualification scope ends at that frozen prefix. Later traffic and shutdown
+tails are outside this proof. No further contracts or signal events were awaited.
+
+Current official contract: PASS
+Native MAIN, protected generation and quote producers all referenced
+KXBTC15M-26SEP300100-00. Kalshi's official API returned active, with window
+2026-09-30 04:45:00–05:00:00 UTC and target 83,282.27. The captured native market,
+window and target matched, and the native observation occurred inside that window.
+The expired KXBTC15M-26SEP300015-15 reference did not recur. This establishes no
+persistent live-contract blocker in this sample; it does not invent a retrospective
+cause for the earlier startup observation.
+
+Strategy preservation
+The candidate's complete diff from b6dd changes only capture2/runtime.py,
+capture2/writer.py, focused tests/workflow, and the generated capture payload.
+No strategy source, assembly/hook seam, threshold, weight, model, gate, source,
+strategy persistence, cadence or lifecycle rule changed. Qualified source pins
+and deployed MAIN commit were preserved. Capture remains signal-only; orders false.
+V8.1 was not redeployed or modified in this mission.
+
+Restoration
+Original MAIN service configuration and launcher restored exactly. Restoration
+deployment 39c1d37f-9748-45fe-9b5a-55281d3a0dc0 reached SUCCESS on qualified MAIN.
+The inert activation marker now reads DISABLED_MAIN_LIFETIME_90a24b1_20260930.
+V8.1 remains on its unchanged successful deployment
+c374ab3a-b998-476a-9667-40641445de66, qualified b05723ec622f901a05402ecf27f4d33505753ef1.
+Restored /health returned HTTP 200; /ground-zero/manifest returned 404, confirming
+the original launcher is active and the qualification endpoint is disabled.
+Evidence: results/restored-http.json.
+
+Remaining blocker for this hard gate: none.
+Event-level EARLY / FINAL / SCALP Ground Zero was deliberately not performed in
+this mission. No ladder tuning, orders or multi-day prospective test was started.

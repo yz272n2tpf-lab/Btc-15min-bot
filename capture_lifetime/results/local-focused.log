@@ -1,0 +1,10 @@
+test_1024_short_lived_streams_complete_paginated_accounting (capture2.test_lifetime.LifetimeTests.test_1024_short_lived_streams_complete_paginated_accounting) ... CHURN {"active": 0, "created": 1024, "delivered": 3072, "dropped": 0, "pending": 0, "retired": 1024, "retired_flushed": 1024} HIGH_WATER 8
+ok
+test_admission_bounds_reject_with_complete_failure_accounting (capture2.test_lifetime.LifetimeTests.test_admission_bounds_reject_with_complete_failure_accounting) ... ok
+test_origin_exit_drains_then_retires_and_breaks_owner_cycle (capture2.test_lifetime.LifetimeTests.test_origin_exit_drains_then_retires_and_breaks_owner_cycle) ... ok
+test_terminal_loss_remains_explicit_and_fails_closed (capture2.test_lifetime.LifetimeTests.test_terminal_loss_remains_explicit_and_fails_closed) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.639s
+
+OK

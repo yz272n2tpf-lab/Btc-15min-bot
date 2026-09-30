@@ -1,0 +1,360 @@
+{
+  "run_id": "ground-zero-main-f4425e159d3f4dd39422c8dfdf44f3f6",
+  "http_status": 200,
+  "hashes_match": true,
+  "observed_wall_ns": 1790744039937547105,
+  "manifest_sha256": "90dad1011d7fae1aeb367c30d510cd24d4da68578dab1be21cb5b5ba6de644d1",
+  "errors": [],
+  "health": {
+    "status": "RECORDING_OPERATIONAL_UNCERTIFIED",
+    "packets": 72641,
+    "received_valid": 72641,
+    "invalid": 0,
+    "bytes": 20448369,
+    "groups": 3976,
+    "producer_drop_observed": false,
+    "native_action_authority": false,
+    "source_clock_certified": false,
+    "orders": false,
+    "sequence_gaps": [],
+    "streams": {},
+    "transport_accounting": {
+      "snapshot_id": "f0117a2db7a14462b3964c06f284d967",
+      "total": 570,
+      "page_size": 128,
+      "complete": true,
+      "errors": [],
+      "missing_streams": [],
+      "incomplete_streams": [],
+      "receiver_streams": 570,
+      "populations": [
+        {
+          "process_id": 67,
+          "observed_boot_ns": 12495898250348172,
+          "created": 4,
+          "active": 4,
+          "retired": 0,
+          "retired_flushed": 0,
+          "retired_incomplete": 0,
+          "active_ids": [
+            "main:67:493:9fcc32245e384385abdeb63174e299ca",
+            "main:67:67:cc267ae5986f419a846a3fcb16d8e616",
+            "main:67:67:7ab92763712e4758a1b7bf33fad2b1f5",
+            "main:67:67:157c52f1efae44dfacb78ca59b292c92"
+          ],
+          "active_sender_high_water": 4,
+          "max_active_senders": 16,
+          "max_created_streams": 16384,
+          "accountant_threads": 1,
+          "max_buffer_bytes_per_sender": 16777216,
+          "max_aggregate_buffer_bytes": 268435456,
+          "active_buffer_bytes": 60960,
+          "retired_offered": 0,
+          "retired_accepted": 0,
+          "retired_delivered": 0,
+          "retired_dropped": 0,
+          "retired_retried": 0,
+          "admission_rejected": 0,
+          "rejected_attempts": [],
+          "rejected_details_omitted": 0,
+          "fault": null,
+          "stopping": false
+        },
+        {
+          "process_id": 60,
+          "observed_boot_ns": 12495898001662108,
+          "created": 566,
+          "active": 0,
+          "retired": 566,
+          "retired_flushed": 566,
+          "retired_incomplete": 0,
+          "active_ids": [],
+          "active_sender_high_water": 3,
+          "max_active_senders": 16,
+          "max_created_streams": 16384,
+          "accountant_threads": 1,
+          "max_buffer_bytes_per_sender": 16777216,
+          "max_aggregate_buffer_bytes": 268435456,
+          "active_buffer_bytes": 0,
+          "retired_offered": 566,
+          "retired_accepted": 566,
+          "retired_delivered": 566,
+          "retired_dropped": 0,
+          "retired_retried": 186,
+          "admission_rejected": 0,
+          "rejected_attempts": [],
+          "rejected_details_omitted": 0,
+          "fault": null,
+          "stopping": false
+        }
+      ],
+      "created": 570,
+      "active": 4,
+      "retired": 566,
+      "retired_flushed": 566,
+      "retired_incomplete": 0,
+      "offered": 72621,
+      "delivered": 72608,
+      "dropped": 0,
+      "retried": 3421,
+      "pending": 13,
+      "reporting_basis": "ALL_CREATED_STREAMS; ACTIVE_COUNTERS_ARE_CONCURRENT_SNAPSHOTS"
+    },
+    "streams_count": 570,
+    "streams_paged": true
+  },
+  "inspected": {
+    "rows": 72641,
+    "streams": 570,
+    "bytes": 20448369,
+    "archive_sha256": "2fd9b425702e337d47525350d7ec5c590f905351a24c40aafcad1e17ff523ae7",
+    "kinds": {
+      "PROTECTED_GENERATION|": 566,
+      "BTC15_QUOTE_RECEIVE_OBSERVATION_V1|": 35992,
+      "BTC15_QUOTE_APPLIED_V1|": 35991,
+      "NATIVE_WAIT|": 2,
+      "BTC15_QUOTE_CONSUMED_V1|": 18,
+      "BTC15_PASSIVE_SOURCE_WITNESS_V1|": 18,
+      "NATIVE_FAIR_INPUT|": 18,
+      "NATIVE_CYCLE|": 18,
+      "NATIVE_COMMITTED_COHORT|": 18
+    },
+    "contracts": [
+      "KXBTC15M-26SEP300100-00"
+    ],
+    "gaps": [],
+    "latest": {
+      "PROTECTED_GENERATION|": {
+        "wall_ns": 1790743953658132218,
+        "tickers": [
+          "KXBTC15M-26SEP300100-00"
+        ],
+        "generated_utc": "2026-09-30T04:52:33.657724+00:00",
+        "source_timestamp_utc": "2026-09-30T04:52:30.214860+00:00",
+        "target": null,
+        "close_dt": null,
+        "seconds_left": null,
+        "market": null
+      },
+      "BTC15_QUOTE_RECEIVE_OBSERVATION_V1|": {
+        "wall_ns": 1790743953725869799,
+        "tickers": [
+          "KXBTC15M-26SEP300100-00"
+        ],
+        "generated_utc": null,
+        "source_timestamp_utc": null,
+        "target": null,
+        "close_dt": null,
+        "seconds_left": null,
+        "market": null
+      },
+      "BTC15_QUOTE_APPLIED_V1|": {
+        "wall_ns": 1790743953725908809,
+        "tickers": [
+          "KXBTC15M-26SEP300100-00"
+        ],
+        "generated_utc": null,
+        "source_timestamp_utc": null,
+        "target": null,
+        "close_dt": null,
+        "seconds_left": null,
+        "market": null
+      },
+      "NATIVE_WAIT|": {
+        "wall_ns": 1790743884916224513,
+        "tickers": [
+          "KXBTC15M-26SEP300100-00"
+        ],
+        "generated_utc": null,
+        "source_timestamp_utc": null,
+        "target": 83282.27,
+        "close_dt": {
+          "observed_value": "2026-09-30T05:00:00+00:00",
+          "representation": "datetime.isoformat"
+        },
+        "seconds_left": 525.749169,
+        "market": {
+          "can_close_early": true,
+          "close_time": "2026-09-30T05:00:00Z",
+          "created_time": "2026-09-29T20:00:47.716036Z",
+          "custom_strike": {
+            "round_digits": "2"
+          },
+          "event_ticker": "KXBTC15M-26SEP300100",
+          "exchange_index": 2,
+          "expected_expiration_time": "2026-09-30T05:05:00Z",
+          "expiration_time": "2026-10-07T05:00:00Z",
+          "expiration_value": "",
+          "floor_strike": 83282.27,
+          "last_price_dollars": "0.2200",
+          "latest_expiration_time": "2026-10-07T05:00:00Z",
+          "liquidity_dollars": "0.0000",
+          "market_type": "binary",
+          "no_ask_dollars": "0.7900",
+          "no_bid_dollars": "0.7800",
+          "no_sub_title": "Target price: TBD",
+          "notional_value_dollars": "1.0000",
+          "occurrence_datetime": "2026-09-30T05:05:00Z",
+          "open_interest_fp": "367418.83",
+          "open_time": "2026-09-30T04:45:00Z",
+          "previous_price_dollars": "0.0000",
+          "previous_yes_ask_dollars": "0.0000",
+          "previous_yes_bid_dollars": "0.0000",
+          "price_level_structure": "tapered_deci_cent",
+          "price_ranges": [
+            {
+              "end": "0.1000",
+              "start": "0.0000",
+              "step": "0.0010"
+            },
+            {
+              "end": "0.9000",
+              "start": "0.1000",
+              "step": "0.0100"
+            },
+            {
+              "end": "1.0000",
+              "start": "0.9000",
+              "step": "0.0010"
+            }
+          ],
+          "result": "",
+          "rules_primary": "If the simple average of the sixty seconds of CF Benchmarks' BRTI before 1:00 AM EDT on Sep 30, 2026 is at least the simple average of the sixty seconds of CF Benchmarks' BRTI before 12:45 AM EDT on September 30, 2026, then the market resolves to Yes.",
+          "rules_secondary": "Not all cryptocurrency price data is the same. While checking a source like Google or Coinbase may help guide your decision, the price used to determine this market is based on CF Benchmarks' corresponding Real Time Index (RTI). At the last minute before expiration, 60 RTI prices are collected. The official and final value is the average of these prices, rounded to the nearest 2 decimal places.",
+          "settlement_timer_seconds": 1,
+          "status": "active",
+          "strike_type": "greater_or_equal",
+          "ticker": "KXBTC15M-26SEP300100-00",
+          "title": "BTC price up in next 15 mins?",
+          "updated_time": "2026-09-30T04:45:00.532686Z",
+          "volume_24h_fp": "0.00",
+          "volume_fp": "792688.00",
+          "yes_ask_dollars": "0.2200",
+          "yes_ask_size_fp": "5092.08",
+          "yes_bid_dollars": "0.2100",
+          "yes_bid_size_fp": "9801.99",
+          "yes_sub_title": "Target Price: $83,282.27"
+        }
+      },
+      "BTC15_QUOTE_CONSUMED_V1|": {
+        "wall_ns": 1790743950221769449,
+        "tickers": [],
+        "generated_utc": null,
+        "source_timestamp_utc": null,
+        "target": null,
+        "close_dt": null,
+        "seconds_left": null,
+        "market": null
+      },
+      "BTC15_PASSIVE_SOURCE_WITNESS_V1|": {
+        "wall_ns": 1790743950222325194,
+        "tickers": [],
+        "generated_utc": null,
+        "source_timestamp_utc": null,
+        "target": null,
+        "close_dt": null,
+        "seconds_left": null,
+        "market": null
+      },
+      "NATIVE_FAIR_INPUT|": {
+        "wall_ns": 1790743950232343395,
+        "tickers": [
+          "KXBTC15M-26SEP300100-00"
+        ],
+        "generated_utc": null,
+        "source_timestamp_utc": null,
+        "target": 83282.27,
+        "close_dt": null,
+        "seconds_left": null,
+        "market": null
+      },
+      "NATIVE_CYCLE|": {
+        "wall_ns": 1790743950299593942,
+        "tickers": [
+          "KXBTC15M-26SEP300100-00"
+        ],
+        "generated_utc": null,
+        "source_timestamp_utc": null,
+        "target": 83282.27,
+        "close_dt": {
+          "observed_value": "2026-09-30T05:00:00+00:00",
+          "representation": "datetime.isoformat"
+        },
+        "seconds_left": 449.78514,
+        "market": {
+          "can_close_early": true,
+          "close_time": "2026-09-30T05:00:00Z",
+          "created_time": "2026-09-29T20:00:47.716036Z",
+          "custom_strike": {
+            "round_digits": "2"
+          },
+          "event_ticker": "KXBTC15M-26SEP300100",
+          "exchange_index": 2,
+          "expected_expiration_time": "2026-09-30T05:05:00Z",
+          "expiration_time": "2026-10-07T05:00:00Z",
+          "expiration_value": "",
+          "floor_strike": 83282.27,
+          "last_price_dollars": "0.1300",
+          "latest_expiration_time": "2026-10-07T05:00:00Z",
+          "liquidity_dollars": "0.0000",
+          "market_type": "binary",
+          "no_ask_dollars": "0.8800",
+          "no_bid_dollars": "0.8700",
+          "no_sub_title": "Target price: TBD",
+          "notional_value_dollars": "1.0000",
+          "occurrence_datetime": "2026-09-30T05:05:00Z",
+          "open_interest_fp": "441704.44",
+          "open_time": "2026-09-30T04:45:00Z",
+          "previous_price_dollars": "0.0000",
+          "previous_yes_ask_dollars": "0.0000",
+          "previous_yes_bid_dollars": "0.0000",
+          "price_level_structure": "tapered_deci_cent",
+          "price_ranges": [
+            {
+              "end": "0.1000",
+              "start": "0.0000",
+              "step": "0.0010"
+            },
+            {
+              "end": "0.9000",
+              "start": "0.1000",
+              "step": "0.0100"
+            },
+            {
+              "end": "1.0000",
+              "start": "0.9000",
+              "step": "0.0010"
+            }
+          ],
+          "result": "",
+          "rules_primary": "If the simple average of the sixty seconds of CF Benchmarks' BRTI before 1:00 AM EDT on Sep 30, 2026 is at least the simple average of the sixty seconds of CF Benchmarks' BRTI before 12:45 AM EDT on September 30, 2026, then the market resolves to Yes.",
+          "rules_secondary": "Not all cryptocurrency price data is the same. While checking a source like Google or Coinbase may help guide your decision, the price used to determine this market is based on CF Benchmarks' corresponding Real Time Index (RTI). At the last minute before expiration, 60 RTI prices are collected. The official and final value is the average of these prices, rounded to the nearest 2 decimal places.",
+          "settlement_timer_seconds": 1,
+          "status": "active",
+          "strike_type": "greater_or_equal",
+          "ticker": "KXBTC15M-26SEP300100-00",
+          "title": "BTC price up in next 15 mins?",
+          "updated_time": "2026-09-30T04:45:00.532686Z",
+          "volume_24h_fp": "790772.61",
+          "volume_fp": "958016.89",
+          "yes_ask_dollars": "0.1300",
+          "yes_ask_size_fp": "3188.51",
+          "yes_bid_dollars": "0.1200",
+          "yes_bid_size_fp": "11375.84",
+          "yes_sub_title": "Target Price: $83,282.27"
+        }
+      },
+      "NATIVE_COMMITTED_COHORT|": {
+        "wall_ns": 1790743950306482190,
+        "tickers": [],
+        "generated_utc": null,
+        "source_timestamp_utc": null,
+        "target": null,
+        "close_dt": null,
+        "seconds_left": null,
+        "market": null
+      }
+    }
+  },
+  "result": "PASS"
+}
