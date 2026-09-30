@@ -1,0 +1,497 @@
+{
+  "candidate": "d61c021cb405b08603864d077f03474473d2a5f3",
+  "capture_hashes_unchanged": true,
+  "payload_sha256": "cc8966338df3bceb608017fec3fd9db4a3e6e6beec98272eb9751fa85065cf2e",
+  "envelope_packet_limits": {
+    "main": [
+      [
+        100,
+        1100
+      ],
+      [
+        250,
+        2250
+      ],
+      [
+        1000,
+        4000
+      ],
+      [
+        5000,
+        10000
+      ],
+      [
+        10000,
+        20000
+      ]
+    ],
+    "v81": [
+      [
+        100,
+        350
+      ],
+      [
+        250,
+        750
+      ],
+      [
+        1000,
+        2500
+      ],
+      [
+        5000,
+        6250
+      ],
+      [
+        10000,
+        10000
+      ]
+    ]
+  },
+  "qualification": "FAIL",
+  "reason": "REQUIREMENT_8_PREFLIGHT",
+  "sides": [
+    {
+      "side": "main",
+      "status": "FAIL",
+      "failure": "OVER_ENVELOPE_NOT_FLAGGED",
+      "quote_packets": 12000,
+      "offered_seconds": 2.0000598609999543,
+      "offered_pps": 5999.820422374985,
+      "all_archived_authenticated": true,
+      "envelope_peaks": [
+        {
+          "window_ms": 100,
+          "limit_packets": 1100,
+          "observed_packets": 605
+        },
+        {
+          "window_ms": 250,
+          "limit_packets": 2250,
+          "observed_packets": 1505
+        },
+        {
+          "window_ms": 1000,
+          "limit_packets": 4000,
+          "observed_packets": 6004
+        },
+        {
+          "window_ms": 5000,
+          "limit_packets": 10000,
+          "observed_packets": 12000
+        },
+        {
+          "window_ms": 10000,
+          "limit_packets": 20000,
+          "observed_packets": 12000
+        }
+      ],
+      "exceeded": [
+        {
+          "window_ms": 1000,
+          "limit_packets": 4000,
+          "observed_packets": 6004
+        },
+        {
+          "window_ms": 5000,
+          "limit_packets": 10000,
+          "observed_packets": 12000
+        }
+      ],
+      "transport": {
+        "producer_id": "main-quote",
+        "process_id": 2152,
+        "observed_boot_ns": 948241427936,
+        "offered": 12000,
+        "producer_dropped": 0,
+        "producer_last_error": null,
+        "accepted": 12000,
+        "delivered": 12000,
+        "last_delivered_sequence": 12000,
+        "pending_packets": 0,
+        "pending_bytes": 0,
+        "retry_eagain": 0,
+        "rejected": 0,
+        "rejected_full": 0,
+        "rejected_ended": 0,
+        "first_rejection": null,
+        "last_rejection": null,
+        "backpressure_wait_ns": 0,
+        "serialized": 12000,
+        "frames": 1200,
+        "wire_bytes": 3189033,
+        "serialization_ns": 203302172,
+        "buffer_basis": "CONSERVATIVE_OWNED_SNAPSHOT_HEAP; SERIALIZED_BATCH_WORKING_SET_SEPARATE",
+        "max_serialized_working_bytes": 8388608,
+        "high_water_bytes": 58985,
+        "high_water_packets": 10,
+        "max_bytes": 16777216,
+        "max_packets": 16384,
+        "finished": true,
+        "last_transport_error": null,
+        "retirement_reason": "EXPLICIT_CLOSE",
+        "flushed": true,
+        "complete": true,
+        "state": "RETIRED_FLUSHED",
+        "basis": "OFF_PATH_COUNTER_SNAPSHOT; concurrent offer may be in progress"
+      },
+      "aggregate": {
+        "snapshot_id": "73cd38793c804d049c2d8a6abeaa6b92",
+        "total": 1,
+        "page_size": 128,
+        "complete": true,
+        "errors": [],
+        "missing_streams": [],
+        "incomplete_streams": [],
+        "lossy_streams": [],
+        "receiver_streams": 1,
+        "populations": [
+          {
+            "process_id": 2152,
+            "observed_boot_ns": 948241463680,
+            "created": 1,
+            "active": 0,
+            "retired": 1,
+            "census_version": 1,
+            "retired_flushed": 1,
+            "retired_incomplete": 0,
+            "active_ids": [],
+            "active_sender_high_water": 1,
+            "max_active_senders": 16,
+            "max_created_streams": 16384,
+            "accountant_threads": 1,
+            "max_buffer_bytes_per_sender": 16777216,
+            "max_aggregate_buffer_bytes": 268435456,
+            "active_buffer_bytes": 0,
+            "retired_offered": 12000,
+            "retired_accepted": 12000,
+            "retired_delivered": 12000,
+            "retired_dropped": 0,
+            "retired_retried": 0,
+            "admission_rejected": 0,
+            "rejected_attempts": [],
+            "rejected_details_omitted": 0,
+            "fault": null,
+            "stopping": true
+          }
+        ],
+        "created": 1,
+        "active": 0,
+        "retired": 1,
+        "retired_flushed": 1,
+        "retired_incomplete": 0,
+        "offered": 12000,
+        "delivered": 12000,
+        "dropped": 0,
+        "retried": 0,
+        "pending": 0,
+        "reporting_basis": "ATOMIC_PER_PROCESS_CENSUS; RECEIVER_AHEAD_OF_CENSUS_FAILS_CLOSED"
+      },
+      "individual_records": [
+        {
+          "producer_id": "main-quote",
+          "process_id": 2152,
+          "observed_boot_ns": 948241159511,
+          "offered": 12000,
+          "producer_dropped": 0,
+          "producer_last_error": null,
+          "accepted": 12000,
+          "delivered": 12000,
+          "last_delivered_sequence": 12000,
+          "pending_packets": 0,
+          "pending_bytes": 0,
+          "retry_eagain": 0,
+          "rejected": 0,
+          "rejected_full": 0,
+          "rejected_ended": 0,
+          "first_rejection": null,
+          "last_rejection": null,
+          "backpressure_wait_ns": 0,
+          "serialized": 12000,
+          "frames": 1200,
+          "wire_bytes": 3189033,
+          "serialization_ns": 203302172,
+          "buffer_basis": "CONSERVATIVE_OWNED_SNAPSHOT_HEAP; SERIALIZED_BATCH_WORKING_SET_SEPARATE",
+          "max_serialized_working_bytes": 8388608,
+          "high_water_bytes": 58985,
+          "high_water_packets": 10,
+          "max_bytes": 16777216,
+          "max_packets": 16384,
+          "finished": true,
+          "last_transport_error": null,
+          "retirement_reason": "EXPLICIT_CLOSE",
+          "flushed": true,
+          "complete": true,
+          "state": "RETIRED_FLUSHED",
+          "basis": "OFF_PATH_COUNTER_SNAPSHOT; concurrent offer may be in progress",
+          "received_sequence": 12000
+        }
+      ],
+      "writer_health": {
+        "status": "BOUNDED_CAPTURE_ENDED",
+        "packets": 12000,
+        "received_valid": 12000,
+        "received_frames": 1200,
+        "invalid": 0,
+        "bytes": 2775339,
+        "groups": 39,
+        "producer_drop_observed": false,
+        "native_action_authority": false,
+        "source_clock_certified": false,
+        "orders": false,
+        "sequence_gaps": [],
+        "gap_count": 0,
+        "missing_packets": 0,
+        "uncommitted_valid": 0,
+        "auth_ns": 13406798,
+        "persist_ns": 1901811,
+        "sync_ns": 7310040,
+        "status_ns": 3697990,
+        "writer_service_ns": 26316639,
+        "pending_batch_high_water_bytes": 78619,
+        "pending_batch_high_water_packets": 340,
+        "batch_byte_limit": 2097152,
+        "batch_record_limit": 4096,
+        "datagram_byte_limit": 262144,
+        "reader_process_isolated": true,
+        "per_packet_json_decode": false,
+        "per_packet_compression": false,
+        "writer_cpu_ns": 37485392,
+        "observed_boot_ns": 948532926766,
+        "elapsed_seconds": 2.3046899839999924,
+        "final_fsync_completed": true,
+        "streams_count": 1,
+        "streams_paged": false
+      },
+      "manifest_http_status": 200,
+      "production_or_live_test": false,
+      "sustained_throughput_qualified": false
+    },
+    {
+      "side": "v81",
+      "status": "FAIL",
+      "failure": "OVER_ENVELOPE_NOT_FLAGGED",
+      "quote_packets": 7000,
+      "offered_seconds": 2.000061040999981,
+      "offered_pps": 3499.8931815101873,
+      "all_archived_authenticated": true,
+      "envelope_peaks": [
+        {
+          "window_ms": 100,
+          "limit_packets": 350,
+          "observed_packets": 360
+        },
+        {
+          "window_ms": 250,
+          "limit_packets": 750,
+          "observed_packets": 890
+        },
+        {
+          "window_ms": 1000,
+          "limit_packets": 2500,
+          "observed_packets": 3510
+        },
+        {
+          "window_ms": 5000,
+          "limit_packets": 6250,
+          "observed_packets": 7000
+        },
+        {
+          "window_ms": 10000,
+          "limit_packets": 10000,
+          "observed_packets": 7000
+        }
+      ],
+      "exceeded": [
+        {
+          "window_ms": 100,
+          "limit_packets": 350,
+          "observed_packets": 360
+        },
+        {
+          "window_ms": 250,
+          "limit_packets": 750,
+          "observed_packets": 890
+        },
+        {
+          "window_ms": 1000,
+          "limit_packets": 2500,
+          "observed_packets": 3510
+        },
+        {
+          "window_ms": 5000,
+          "limit_packets": 6250,
+          "observed_packets": 7000
+        }
+      ],
+      "transport": {
+        "producer_id": "v81-quote",
+        "process_id": 2152,
+        "observed_boot_ns": 950841315612,
+        "offered": 7000,
+        "producer_dropped": 0,
+        "producer_last_error": null,
+        "accepted": 7000,
+        "delivered": 7000,
+        "last_delivered_sequence": 7000,
+        "pending_packets": 0,
+        "pending_bytes": 0,
+        "retry_eagain": 0,
+        "rejected": 0,
+        "rejected_full": 0,
+        "rejected_ended": 0,
+        "first_rejection": null,
+        "last_rejection": null,
+        "backpressure_wait_ns": 0,
+        "serialized": 7000,
+        "frames": 700,
+        "wire_bytes": 1857307,
+        "serialization_ns": 121693529,
+        "buffer_basis": "CONSERVATIVE_OWNED_SNAPSHOT_HEAP; SERIALIZED_BATCH_WORKING_SET_SEPARATE",
+        "max_serialized_working_bytes": 8388608,
+        "high_water_bytes": 117950,
+        "high_water_packets": 20,
+        "max_bytes": 16777216,
+        "max_packets": 16384,
+        "finished": true,
+        "last_transport_error": null,
+        "retirement_reason": "EXPLICIT_CLOSE",
+        "flushed": true,
+        "complete": true,
+        "state": "RETIRED_FLUSHED",
+        "basis": "OFF_PATH_COUNTER_SNAPSHOT; concurrent offer may be in progress"
+      },
+      "aggregate": {
+        "snapshot_id": "68cdb3d4eb2e42c69c22dbea87345955",
+        "total": 1,
+        "page_size": 128,
+        "complete": true,
+        "errors": [],
+        "missing_streams": [],
+        "incomplete_streams": [],
+        "lossy_streams": [],
+        "receiver_streams": 1,
+        "populations": [
+          {
+            "process_id": 2152,
+            "observed_boot_ns": 950841350024,
+            "created": 1,
+            "active": 0,
+            "retired": 1,
+            "census_version": 1,
+            "retired_flushed": 1,
+            "retired_incomplete": 0,
+            "active_ids": [],
+            "active_sender_high_water": 1,
+            "max_active_senders": 16,
+            "max_created_streams": 16384,
+            "accountant_threads": 1,
+            "max_buffer_bytes_per_sender": 16777216,
+            "max_aggregate_buffer_bytes": 268435456,
+            "active_buffer_bytes": 0,
+            "retired_offered": 7000,
+            "retired_accepted": 7000,
+            "retired_delivered": 7000,
+            "retired_dropped": 0,
+            "retired_retried": 0,
+            "admission_rejected": 0,
+            "rejected_attempts": [],
+            "rejected_details_omitted": 0,
+            "fault": null,
+            "stopping": true
+          }
+        ],
+        "created": 1,
+        "active": 0,
+        "retired": 1,
+        "retired_flushed": 1,
+        "retired_incomplete": 0,
+        "offered": 7000,
+        "delivered": 7000,
+        "dropped": 0,
+        "retried": 0,
+        "pending": 0,
+        "reporting_basis": "ATOMIC_PER_PROCESS_CENSUS; RECEIVER_AHEAD_OF_CENSUS_FAILS_CLOSED"
+      },
+      "individual_records": [
+        {
+          "producer_id": "v81-quote",
+          "process_id": 2152,
+          "observed_boot_ns": 950840947166,
+          "offered": 7000,
+          "producer_dropped": 0,
+          "producer_last_error": null,
+          "accepted": 7000,
+          "delivered": 7000,
+          "last_delivered_sequence": 7000,
+          "pending_packets": 0,
+          "pending_bytes": 0,
+          "retry_eagain": 0,
+          "rejected": 0,
+          "rejected_full": 0,
+          "rejected_ended": 0,
+          "first_rejection": null,
+          "last_rejection": null,
+          "backpressure_wait_ns": 0,
+          "serialized": 7000,
+          "frames": 700,
+          "wire_bytes": 1857307,
+          "serialization_ns": 121693529,
+          "buffer_basis": "CONSERVATIVE_OWNED_SNAPSHOT_HEAP; SERIALIZED_BATCH_WORKING_SET_SEPARATE",
+          "max_serialized_working_bytes": 8388608,
+          "high_water_bytes": 117950,
+          "high_water_packets": 20,
+          "max_bytes": 16777216,
+          "max_packets": 16384,
+          "finished": true,
+          "last_transport_error": null,
+          "retirement_reason": "EXPLICIT_CLOSE",
+          "flushed": true,
+          "complete": true,
+          "state": "RETIRED_FLUSHED",
+          "basis": "OFF_PATH_COUNTER_SNAPSHOT; concurrent offer may be in progress",
+          "received_sequence": 7000
+        }
+      ],
+      "writer_health": {
+        "status": "BOUNDED_CAPTURE_ENDED",
+        "packets": 7000,
+        "received_valid": 7000,
+        "received_frames": 700,
+        "invalid": 0,
+        "bytes": 1618314,
+        "groups": 39,
+        "producer_drop_observed": false,
+        "native_action_authority": false,
+        "source_clock_certified": false,
+        "orders": false,
+        "sequence_gaps": [],
+        "gap_count": 0,
+        "missing_packets": 0,
+        "uncommitted_valid": 0,
+        "auth_ns": 8842756,
+        "persist_ns": 2259079,
+        "sync_ns": 1602018,
+        "status_ns": 3900074,
+        "writer_service_ns": 16603927,
+        "pending_batch_high_water_bytes": 41718,
+        "pending_batch_high_water_packets": 180,
+        "batch_byte_limit": 2097152,
+        "batch_record_limit": 4096,
+        "datagram_byte_limit": 262144,
+        "reader_process_isolated": true,
+        "per_packet_json_decode": false,
+        "per_packet_compression": false,
+        "writer_cpu_ns": 28559478,
+        "observed_boot_ns": 951143387326,
+        "elapsed_seconds": 2.312288530000046,
+        "final_fsync_completed": true,
+        "streams_count": 1,
+        "streams_paged": false
+      },
+      "manifest_http_status": 200,
+      "production_or_live_test": false,
+      "sustained_throughput_qualified": false
+    }
+  ]
+}

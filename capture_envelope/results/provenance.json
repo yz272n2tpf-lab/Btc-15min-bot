@@ -1,0 +1,16 @@
+{
+  "candidate": "d61c021cb405b08603864d077f03474473d2a5f3",
+  "qualification_commit": "828ea1c7f454ecd92e570d312404958c5cd6481e",
+  "workflow_run": 36726312900,
+  "job": 109923973808,
+  "artifact": 11103230979,
+  "artifact_sha256": "5528c1f2d824fbd045b3ccefc5fed3f613d2dda1968196bf44b3196bc2394679",
+  "focused_tests_passed": 4,
+  "strategy_preservation_tests_passed": 4,
+  "runtime_changes": [],
+  "strategy_changes": [],
+  "live_attempted": false,
+  "sustained_gate_started": false,
+  "scope": "Real AF_UNIX producer -> worker -> receiver -> sequential gzip persistence prerequisite; intentional rate excursions, no receiver pause. Full within-envelope duration/churn/backpressure qualification stopped because unchanged candidate does not flag rate excursions. Counterexamples establish missing envelope enforcement, not a throughput-capacity failure.",
+  "source_of_result": "JSON emitted by hosted test, retrieved from completed job logs"
+}
