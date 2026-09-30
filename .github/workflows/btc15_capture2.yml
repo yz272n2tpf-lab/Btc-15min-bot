@@ -1,0 +1,19 @@
+name: BTC15 focused passive capture composition
+on:
+  push:
+    branches: ['qualification/passive-producer-20260930']
+permissions:
+  contents: read
+jobs:
+  capture-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - run: python -B -m unittest capture2.test_composition sprint_evidence.test_quote_receive_capture -v
