@@ -1,6 +1,8 @@
 """Producer-only wiring. Original functions execute once, with unchanged inputs."""
 import ast
 from collections import deque
+from dataclasses import asdict
+from itertools import islice
 import errno
 import hashlib
 import json
@@ -16,7 +18,8 @@ import uuid
 import weakref
 from urllib.request import urlopen
 
-from sprint_evidence.passive_capture import Producer, Identity, digest
+from sprint_evidence.passive_capture import Producer, Identity, digest, observed_copy, SCHEMA, GATE_FIELDS, MAX_MEMBER
+from capture2.wire import freeze,owned_size,envelope,frame,MAX_FRAME,MAX_BATCH,MAX_BATCH_RAW
 from sprint_evidence.quote_receive_capture import QuoteReceiveCapture, instrument as quote_tree, SOURCE_SHA256
 from sprint_evidence.source_witness_capture import SourceWitnessCapture, NATIVE_SHA
 
@@ -143,6 +146,7 @@ class BufferedDatagram:
         self.rejected_full=self.rejected_ended=self.backpressure_wait_ns=0
         self.first_rejection=self.last_rejection=None
         self.last_delivered_sequence=0;self.last_transport_error=None
+        self.serialized=self.frames=self.wire_bytes=self.serialization_ns=0
         self.stopping=False;self.finished=False;self.owner=None;self.terminal_report_written=False
         self.sock=sock
 
@@ -155,18 +159,16 @@ class BufferedDatagram:
             self.last_transport_error='SENDER_START_FAILED';self.finished=True
             raise
 
-    def sendto(self,raw,flags,address):
-        if address!=self.address:raise ValueError('CAPTURE_ADDRESS')
+    def handoff(self,event,charge):
         pending=self.enqueued_bytes-self.delivered_bytes
         if self.stopping or self.finished or time.clock_gettime_ns(time.CLOCK_BOOTTIME)>=self.end_boot_ns:
             self._reject('CAPTURE_BUFFER_ENDED');self.rejected_ended+=1;raise BufferError('CAPTURE_BUFFER_ENDED')
-        if len(self.queue)>=self.max_packets or pending+len(raw)>self.max_bytes:
+        if len(self.queue)>=self.max_packets or pending+charge>self.max_bytes:
             self._reject('CAPTURE_BUFFER_FULL');self.rejected_full+=1;raise BufferError('CAPTURE_BUFFER_FULL')
-        self.enqueued_bytes+=len(raw);self.accepted+=1
-        self.queue.append((raw,self.owner.sequence))
-        self.high_water_bytes=max(self.high_water_bytes,pending+len(raw))
+        self.enqueued_bytes+=charge;self.accepted+=1
+        self.queue.append((event,charge))
+        self.high_water_bytes=max(self.high_water_bytes,pending+charge)
         self.high_water_packets=max(self.high_water_packets,len(self.queue))
-        return len(raw)
 
     def _reject(self,reason):
         self.rejected+=1
@@ -188,6 +190,9 @@ class BufferedDatagram:
                     rejected_full=self.rejected_full,rejected_ended=self.rejected_ended,
                     first_rejection=self.first_rejection,last_rejection=self.last_rejection,
                     backpressure_wait_ns=self.backpressure_wait_ns,
+                    serialized=self.serialized,frames=self.frames,wire_bytes=self.wire_bytes,serialization_ns=self.serialization_ns,
+                    buffer_basis="CONSERVATIVE_OWNED_SNAPSHOT_HEAP; SERIALIZED_BATCH_WORKING_SET_SEPARATE",
+                    max_serialized_working_bytes=8*1024*1024,
                     high_water_bytes=self.high_water_bytes,high_water_packets=self.high_water_packets,
                     max_bytes=self.max_bytes,max_packets=self.max_packets,
                     finished=self.finished,last_transport_error=self.last_transport_error,
@@ -207,7 +212,7 @@ class BufferedDatagram:
         next_report=0
         try:
             if self.sock is None:self.sock=socket.socket(socket.AF_UNIX,socket.SOCK_DGRAM)
-            self.sock.setblocking(False);self.sock.setsockopt(socket.SOL_SOCKET,socket.SO_SNDBUF,196608)
+            self.sock.setblocking(False);self.sock.setsockopt(socket.SOL_SOCKET,socket.SO_SNDBUF,MAX_FRAME)
             # Connected AF_UNIX poll tracks the receiver queue. An unconnected
             # socket is spuriously writable; fixed 1 ms sleeps throttle bursts.
             self.sock.connect(self.address)
@@ -222,19 +227,30 @@ class BufferedDatagram:
                         self.retirement_reason='EXPLICIT_CLOSE' if self.stopping else 'ORIGIN_THREAD_EXITED'
                         break
                     time.sleep(.001);continue
-                raw,sequence=self.queue[0]
-                try:
-                    if self.sock.sendto(raw,socket.MSG_DONTWAIT,self.address)!=len(raw):raise OSError('SHORT_DATAGRAM')
-                except OSError as exc:
-                    if exc.errno in (errno.EAGAIN,errno.EWOULDBLOCK,errno.ENOBUFS):
-                        self.retries+=1
-                        before=time.monotonic_ns()
+                # One immutable snapshot FIFO; encoding and gzip live only here.
+                # Queue entries remain charged until the complete frame is sent.
+                before=time.monotonic_ns();rows=[];charges=[];size=0
+                for event,charge in list(islice(self.queue,0,MAX_BATCH)):
+                    encoded=envelope(event,self.owner.key)
+                    if rows and size+len(encoded)+1>MAX_BATCH_RAW:break
+                    rows.append((event,encoded));charges.append(charge);size+=len(encoded)+1
+                raw=frame(rows,self.owner.identity_record,self.owner.key)
+                self.serialized+=len(rows);self.serialization_ns+=time.monotonic_ns()-before
+                while True:
+                    try:
+                        if self.sock.sendto(raw,socket.MSG_DONTWAIT,self.address)!=len(raw):raise OSError('SHORT_DATAGRAM')
+                        break
+                    except OSError as exc:
+                        if exc.errno not in (errno.EAGAIN,errno.EWOULDBLOCK,errno.ENOBUFS):raise
+                        self.retries+=1;before=time.monotonic_ns()
                         select.select([],[self.sock],[],.05)
                         self.backpressure_wait_ns+=time.monotonic_ns()-before
-                        continue
-                    self.last_transport_error=type(exc).__name__+':'+str(exc)[:120];break
-                self.queue.popleft();self.delivered_bytes+=len(raw);self.delivered+=1
-                self.last_delivered_sequence=sequence
+                        if time.clock_gettime_ns(time.CLOCK_BOOTTIME)>=self.end_boot_ns+5_000_000_000:
+                            raise TimeoutError('CAPTURE_FLUSH_DEADLINE')
+                for (event,encoded),charge in zip(rows,charges):
+                    self.queue.popleft();self.delivered_bytes+=charge;self.delivered+=1
+                    self.last_delivered_sequence=event['sequence']
+                self.frames+=1;self.wire_bytes+=len(raw)
         except Exception as exc:self.last_transport_error=type(exc).__name__+':'+str(exc)[:120]
         finally:
             if self.retirement_reason is None:self.retirement_reason='TRANSPORT_ERROR' if self.last_transport_error else 'CAPTURE_DEADLINE'
@@ -256,19 +272,73 @@ class CaptureProducer(Producer):
     def __init__(self,address,identity,key,*,end_boot_ns,status_path=None,**kwargs):
         transport=BufferedDatagram(address,end_boot_ns=end_boot_ns,status_path=status_path,**kwargs)
         super().__init__(address,identity,key,sock=transport)
+        self.identity_record=asdict(identity)
+        template=dict(schema=SCHEMA,identity=self.identity_record,sequence=0,kind="",
+            hook_read=dict(wall_ns=0,before_boot_ns=0,after_boot_ns=0,clock_qualified=False),prior_dropped=0,signal_only=True,orders=False,body=None)
+        self.fixed_charge=owned_size(template)+512
         transport.start(self)
 
-    def offer(self,kind,body):
-        if kind=='PROTECTED_GENERATION':
-            # An observed eligibility event has an immutable capture identity.
-            # It is not promoted to a position, fill or native accepted origin.
-            state=body.get('state') or {};early=state.get('early') or {}
-            body=dict(body,eligible_opportunity_id=body['generation_id'] if early.get('ready') is True else None,
-                opportunity_basis='ACTUAL_PROTECTED_ELIGIBILITY_OBSERVATION',
-                opportunity_generated_utc=state.get('generated_utc'),
-                original_source_utc=state.get('source_timestamp_utc'),
-                upstream_final_origin_id=None,upstream_final_origin_status='NOT_EMITTED_BY_THIS_PRODUCER')
-        return super().offer(kind,body)
+    def offer(self,kind,body,*,raw_quote=None,origin_sequence=None,common_member=None):
+        if not self.enabled:return False
+        self.sequence+=1;self.offered+=1
+        try:
+            before=time.clock_gettime_ns(time.CLOCK_BOOTTIME);wall=time.time_ns();after=time.clock_gettime_ns(time.CLOCK_BOOTTIME)
+            copied,body_charge=freeze(body)
+            event=dict(schema=SCHEMA,identity=self.identity_record,sequence=self.sequence,kind=kind,
+                hook_read=dict(wall_ns=wall,before_boot_ns=before,after_boot_ns=after,clock_qualified=False),
+                prior_dropped=self.dropped,signal_only=True,orders=False,body=copied)
+            if raw_quote is not None:event['_capture_raw_quote']=raw_quote
+            if origin_sequence is not None:event['_capture_origin_sequence']=origin_sequence
+            if common_member is not None:event['_capture_common_member']=common_member
+            self.sock.handoff(event,self.fixed_charge+body_charge+sys.getsizeof(kind)+sys.getsizeof(raw_quote)+sys.getsizeof(common_member));self.sent+=1;self.last_error=None;return True
+        except Exception as exc:
+            self.dropped+=1;self.last_error=type(exc).__name__+':'+str(exc)[:120];return False
+
+    def protected(self,state,local_values):
+        try:
+            copied=observed_copy(state);sequence=self.sequence+1
+            okay=self.offer('PROTECTED_GENERATION',dict(state=copied,
+                gate_values={k:local_values.get(k) for k in GATE_FIELDS},generation_id=None,state_sha256=None,
+                completed_delivery_utc=None,accepted_origin_id=None,basis='EXISTING_build_state_RETURN_NO_REEVALUATION'),
+                origin_sequence=sequence)
+            self.last_generation=(state,copied,sequence) if okay else None
+            return okay
+        except Exception:self.last_generation=None;return False
+
+    def published(self,state):
+        try:
+            copied=observed_copy(state);prior=self.last_generation
+            linked=prior is not None and prior[0] is state and prior[1]==copied
+            return self.offer('PROTECTED_FILE_WRITE_COMPLETED',dict(state=copied,browser_delivery_utc=None,
+                state_sha256=None,generation_id=None,
+                linkage_status='OBSERVED_SAME_OBJECT_UNCHANGED' if linked else 'UNAVAILABLE_GENERATION_LINK',
+                basis='EXISTING_LOCAL_FILE_WRITE_RETURNED_NOT_BROWSER_DELIVERY'),origin_sequence=prior[2] if linked else None)
+        except Exception:return False
+
+    def common_member(self,member,offset):
+        if type(member) is not bytes or not 0<len(member)<=MAX_MEMBER:
+            self.sequence+=1;self.offered+=1;self.dropped+=1;self.last_error='COMMON_MEMBER_BUDGET';return False
+        return self.offer('COMMON_MEMBER',dict(member_base64=None,original_offset=offset,byte_count=len(member),sha256=None,
+            basis='EXISTING_APPEND_FSYNC_COMPLETED_MEMBER_UNCHANGED'),common_member=member)
+
+
+class DeferredQuoteCapture(QuoteReceiveCapture):
+    def _emit(self,raw,error,before,after,ticker,epoch):
+        body=dict(schema='BTC15_QUOTE_RECEIVE_OBSERVATION_V1',ticker=ticker,connection_epoch=epoch,
+            time_namespace_id=self.time_namespace_id,recv_call_before_boot_ns=before,recv_return_after_boot_ns=after,
+            bracket_available=before is not None and after is not None and before<=after,
+            source_timestamp=None,native_book_accepted=None,source_clock_qualified=False,
+            raw_base64=None,raw_sha256=None,raw_bytes=None,raw_type=None,
+            status='RECEIVE_ERROR' if error else 'OBSERVED',error_type=error,guidance=None,manual_fill=None)
+        retained=None
+        if error is None:
+            if type(raw) not in (str,bytes):body['status']='UNAVAILABLE_RAW_TYPE'
+            else:
+                body['raw_type']='str' if type(raw) is str else 'bytes'
+                if len(raw)>96000:body['status']='UNAVAILABLE_OVERSIZE'
+                else:retained=raw
+        return self.producer.offer('LIFECYCLE_EMISSION',dict(emission=body,
+            basis='ALREADY_EMITTED_OBJECT; upstream_ids_REQUIRED_FOR_LINKAGE'),raw_quote=retained)
 
 
 def producer(source):
@@ -350,7 +420,7 @@ class Quotes:
     def recv(self, ws, ticker, epoch, *args, **kwargs):
         # Setup failure cannot prevent the original single receive.
         try:
-            tap = QuoteReceiveCapture(producer(SOURCE_SHA256), time_namespace_id=config()['time_namespace_id'])
+            tap = DeferredQuoteCapture(producer(SOURCE_SHA256), time_namespace_id=config()['time_namespace_id'])
         except Exception:
             return ws.recv(*args, **kwargs)
         return tap.recv(ws, ticker, epoch, *args, **kwargs)
