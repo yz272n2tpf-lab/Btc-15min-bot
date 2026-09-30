@@ -1,0 +1,7 @@
+{
+  "result": "FAIL",
+  "reason": "from __future__ imports must occur at the beginning of the file",
+  "line": 23,
+  "source_line": "from __future__ import annotations",
+  "capture_code_modified": false
+}

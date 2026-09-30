@@ -1,0 +1,98 @@
+{
+  "result": "FAIL",
+  "basis": "Fresh live producer loss and actual MAIN import failure, not absence of qualifying events",
+  "manifest_activation_v81": "PASS; HTTP 200; all capture file hashes match exact reviewed payload",
+  "main_activation": "FAIL; writer launched exact payload; dashboard SyntaxError before HTTP serving",
+  "sample": {
+    "archive_prefix_bytes": 5834627,
+    "archive_prefix_sha256": "0d2be356a77076d9bfc82a5babfefba816c068249213ef7f9cc56be1986746f5",
+    "archive_prefix_complete_gzip": true,
+    "valid_sha256_packets": 6794,
+    "time_start_utc": "2026-09-30T03:32:57.730843+00:00",
+    "time_end_utc": "2026-09-30T03:33:04.181945+00:00",
+    "contracts": [
+      "KXBTC15M-26SEP292345-45"
+    ],
+    "event_counts": [
+      {
+        "schema": "BTC15_V81_PASSIVE_EMISSION_V1",
+        "event_type": "STATE_PUBLICATION",
+        "phase": "WAIT",
+        "count": 7
+      },
+      {
+        "schema": "BTC15_V81_PASSIVE_EMISSION_V1",
+        "event_type": "EVALUATION",
+        "phase": "SOURCE_WAIT",
+        "count": 1
+      },
+      {
+        "schema": "BTC15_QUOTE_RECEIVE_OBSERVATION_V1",
+        "event_type": null,
+        "phase": null,
+        "count": 3391
+      },
+      {
+        "schema": "BTC15_QUOTE_APPLIED_V1",
+        "event_type": null,
+        "phase": null,
+        "count": 3389
+      },
+      {
+        "schema": "BTC15_V81_PASSIVE_EMISSION_V1",
+        "event_type": "EVALUATION",
+        "phase": "COMPLETE",
+        "count": 6
+      }
+    ],
+    "signal_publications": 0,
+    "producer_reported_dropped_packets": 25,
+    "producer_drops": {
+      "v81:1:4:01b1944ef0c44b39af6297728b5d7717": 0,
+      "v81:1:5:b6664a018f914c5daa391121aaeeaf0c": 25
+    },
+    "sequence_gaps": [
+      {
+        "producer_id": "v81:1:5:b6664a018f914c5daa391121aaeeaf0c",
+        "expected": 2003,
+        "received": 2005
+      },
+      {
+        "producer_id": "v81:1:5:b6664a018f914c5daa391121aaeeaf0c",
+        "expected": 2187,
+        "received": 2189
+      },
+      {
+        "producer_id": "v81:1:5:b6664a018f914c5daa391121aaeeaf0c",
+        "expected": 3393,
+        "received": 3400
+      },
+      {
+        "producer_id": "v81:1:5:b6664a018f914c5daa391121aaeeaf0c",
+        "expected": 3874,
+        "received": 3888
+      }
+    ],
+    "missing_sequence_numbers": 25
+  },
+  "later_archive": {
+    "retained_bytes": 47777667,
+    "retained_sha256": "5591f00dcfe8d249187b1e651824082112225e35c34d2871dfd5f35a3dad2c65",
+    "downloaded_chunks_verified": 23,
+    "latest_manifest_bytes": 73760890,
+    "latest_manifest_packets": 85277,
+    "latest_manifest_gap_ranges": 25,
+    "latest_manifest_missing_sequences": 268,
+    "complete": false,
+    "limitation": "Archive download stopped when original V81 launcher was restored; last gzip member may be truncated. Only the first manifest-bounded complete prefix supports detailed record counts."
+  },
+  "payload_file_hashes_match": true,
+  "local_payload_files_byte_equal": true,
+  "tracked_diff": [],
+  "all_inspected_events_signal_only_no_orders": true,
+  "early": "FAIL: MAIN endpoint unavailable; no accessible fresh EARLY event",
+  "final": "FAIL: no accessible fresh immutable FINAL-to-EARLY linkage/protection event",
+  "scalp_v81": "FAIL: 25 missing packets in first complete snapshot; no SIGNAL entry event; stop-first/MFE/MAE/reversal/reentry not reconstructible",
+  "official_closeout": "FAIL: official identity, 03:30-03:45 UTC window and 83283.66 target fetched; settlement and 60/60 closeout not observed in candidate evidence",
+  "ready_to_begin_ladder_improvement": false
+}

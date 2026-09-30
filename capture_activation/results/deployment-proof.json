@@ -1,0 +1,222 @@
+{
+  "candidate": "606989e057740da6bf66d8aaf911fd75ff9bad94",
+  "projection": "3e3cdc199c08a3b56006d2d82e3c405cf5759f00",
+  "payload_sha256": "ea9834ddb3ce13eb978e6623564a8364bbb1a97bfa1e35b945dccb452d386804",
+  "root_cause": {
+    "docs": "https://docs.railway.com/deployments/deployment-actions",
+    "reason": "Redeploy reuses the deployment's exact code and configuration snapshot.",
+    "correction": "Set reviewed launcher then trigger a new deployment by changing unused BTC15_CAPTURE_ACTIVATION variable with skipDeploys:false; source branches unchanged."
+  },
+  "services": {
+    "main": {
+      "before_config": {
+        "source": {
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "main",
+          "checkSuites": false
+        },
+        "networking": {
+          "serviceDomains": {
+            "btc-15min-bot-production.up.railway.app": {
+              "port": 8080
+            }
+          },
+          "privateNetworkEndpoint": "btc-15min-bot"
+        },
+        "build": {
+          "builder": "RAILPACK",
+          "buildEnvironment": "V3"
+        },
+        "deploy": {
+          "startCommand": "/bin/sh -c 'sleep 3; echo \"BTC15 VOLUME INVENTORY BEGIN\" >&2; du -ah /data 2>/dev/null | sort -hr | head -40 >&2; echo \"BTC15 VOLUME INVENTORY END\" >&2; sleep 1; python btc15_preserve_evidence_v1.py --root /data --label pre-two-clock-pr37-20260925 && exec python -u btc15_information_install_v1.py'",
+          "healthcheckPath": "/health",
+          "healthcheckTimeout": 120,
+          "useLegacyStacker": false,
+          "ipv6EgressEnabled": false,
+          "runtime": "V2",
+          "multiRegionConfig": {
+            "iad": {
+              "numReplicas": 1
+            }
+          }
+        },
+        "volumeMounts": {
+          "6ced6b1a-3755-4518-a240-c895e936d443": {
+            "mountPath": "/data"
+          }
+        }
+      },
+      "final_config": {
+        "source": {
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "main",
+          "checkSuites": false
+        },
+        "networking": {
+          "serviceDomains": {
+            "btc-15min-bot-production.up.railway.app": {
+              "port": 8080
+            }
+          },
+          "privateNetworkEndpoint": "btc-15min-bot"
+        },
+        "build": {
+          "builder": "RAILPACK",
+          "buildEnvironment": "V3"
+        },
+        "deploy": {
+          "startCommand": "/bin/sh -c 'sleep 3; echo \"BTC15 VOLUME INVENTORY BEGIN\" >&2; du -ah /data 2>/dev/null | sort -hr | head -40 >&2; echo \"BTC15 VOLUME INVENTORY END\" >&2; sleep 1; python btc15_preserve_evidence_v1.py --root /data --label pre-two-clock-pr37-20260925 && exec python -u btc15_information_install_v1.py'",
+          "healthcheckPath": "/health",
+          "healthcheckTimeout": 120,
+          "useLegacyStacker": false,
+          "ipv6EgressEnabled": false,
+          "runtime": "V2",
+          "multiRegionConfig": {
+            "iad": {
+              "numReplicas": 1
+            }
+          }
+        },
+        "volumeMounts": {
+          "6ced6b1a-3755-4518-a240-c895e936d443": {
+            "mountPath": "/data"
+          }
+        }
+      },
+      "original_config_restored": true,
+      "variable_names_added": [
+        "BTC15_CAPTURE_ACTIVATION"
+      ],
+      "capture_deployment": {
+        "id": "a48714f1-7859-4d6e-b871-486a46439898",
+        "status": "BUILDING",
+        "createdAt": "2026-09-30T03:31:59.089Z",
+        "updatedAt": "2026-09-30T03:32:00.643Z",
+        "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "snapshotId": "4866f278-ff43-496d-a541-40f6a6018b6f",
+        "meta": {
+          "reason": "deploy",
+          "commitMessage": "Merge PR51: recover qualified information ingress after startup\n\nHosted run 36475307989: 392/392 tests and all packaged-runtime authority gates passed. Tested tree 8021dc82d5ba43b4e34845d90150b48f6f2bd95b exactly matches local candidate c9c563f and published head 5b93ad9. Owner explicitly authorized controlled rollout after qualification. No strategy/model/timing/source-contract/cohort changes; signal only, no orders.",
+          "commitHash": "abe212b513827c8cec28a2f64e0161e79296bd82",
+          "branch": "main"
+        }
+      },
+      "restored_deployment": {
+        "id": "3c307911-fe36-42fc-819c-fe0ae2831319",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-30T03:34:18.061Z",
+        "updatedAt": "2026-09-30T03:35:00.005Z",
+        "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "snapshotId": "0888a08a-f531-45eb-9121-ab5638de86ab",
+        "meta": {
+          "reason": "deploy",
+          "commitMessage": "Merge PR51: recover qualified information ingress after startup\n\nHosted run 36475307989: 392/392 tests and all packaged-runtime authority gates passed. Tested tree 8021dc82d5ba43b4e34845d90150b48f6f2bd95b exactly matches local candidate c9c563f and published head 5b93ad9. Owner explicitly authorized controlled rollout after qualification. No strategy/model/timing/source-contract/cohort changes; signal only, no orders.",
+          "commitHash": "abe212b513827c8cec28a2f64e0161e79296bd82",
+          "branch": "main"
+        }
+      }
+    },
+    "v81": {
+      "before_config": {
+        "source": {
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "v81-live-diagnostics-20260912",
+          "checkSuites": false
+        },
+        "networking": {
+          "serviceDomains": {
+            "v81-live-diagnostics-production.up.railway.app": {
+              "port": 8080
+            }
+          }
+        },
+        "build": {
+          "builder": "RAILPACK",
+          "buildEnvironment": "V3"
+        },
+        "deploy": {
+          "startCommand": "python -u v81_30_45_live_feed.py",
+          "healthcheckPath": "/health",
+          "healthcheckTimeout": 30,
+          "restartPolicyMaxRetries": 3,
+          "useLegacyStacker": false,
+          "ipv6EgressEnabled": false,
+          "runtime": "V2",
+          "multiRegionConfig": {
+            "iad": {
+              "numReplicas": 1
+            }
+          }
+        }
+      },
+      "final_config": {
+        "source": {
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "v81-live-diagnostics-20260912",
+          "checkSuites": false
+        },
+        "networking": {
+          "serviceDomains": {
+            "v81-live-diagnostics-production.up.railway.app": {
+              "port": 8080
+            }
+          }
+        },
+        "build": {
+          "builder": "RAILPACK",
+          "buildEnvironment": "V3"
+        },
+        "deploy": {
+          "startCommand": "python -u v81_30_45_live_feed.py",
+          "healthcheckPath": "/health",
+          "healthcheckTimeout": 30,
+          "restartPolicyMaxRetries": 3,
+          "useLegacyStacker": false,
+          "ipv6EgressEnabled": false,
+          "runtime": "V2",
+          "multiRegionConfig": {
+            "iad": {
+              "numReplicas": 1
+            }
+          }
+        }
+      },
+      "original_config_restored": true,
+      "variable_names_added": [
+        "BTC15_CAPTURE_ACTIVATION"
+      ],
+      "capture_deployment": {
+        "id": "e3867cec-168b-4c2d-b68b-4e410bdd290a",
+        "status": "BUILDING",
+        "createdAt": "2026-09-30T03:32:00.581Z",
+        "updatedAt": "2026-09-30T03:32:51.637Z",
+        "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "snapshotId": "31afa5a7-9c85-4215-9b5f-120e127ace41",
+        "meta": {
+          "reason": "deploy",
+          "commitMessage": "Require timestamped contiguous quotes for V8.1 source qualification\n\nPreserve strategy gates and source clocks. Fail closed on quote/BRTI gaps; keep immutable entry provenance. SIGNAL ONLY / NO ORDERS.",
+          "commitHash": "b05723ec622f901a05402ecf27f4d33505753ef1",
+          "branch": "v81-live-diagnostics-20260912"
+        }
+      },
+      "restored_deployment": {
+        "id": "314b7aad-b9c6-4fbf-83f2-c6ff5287342f",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-30T03:35:55.362Z",
+        "updatedAt": "2026-09-30T03:36:27.437Z",
+        "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "snapshotId": "f8de668e-2346-4737-ba67-7df35d755a73",
+        "meta": {
+          "reason": "deploy",
+          "commitMessage": "Require timestamped contiguous quotes for V8.1 source qualification\n\nPreserve strategy gates and source clocks. Fail closed on quote/BRTI gaps; keep immutable entry provenance. SIGNAL ONLY / NO ORDERS.",
+          "commitHash": "b05723ec622f901a05402ecf27f4d33505753ef1",
+          "branch": "v81-live-diagnostics-20260912"
+        }
+      }
+    }
+  }
+}

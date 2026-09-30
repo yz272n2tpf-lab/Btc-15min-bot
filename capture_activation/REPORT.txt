@@ -1,0 +1,104 @@
+BTC15 CAPTURE ACTIVATION / GROUND ZERO — FAIL
+READY TO BEGIN LADDER IMPROVEMENT: NO
+
+1. Activation root cause and correction
+Railway Redeploy replays the selected deployment's code AND configuration
+snapshot; it did not consume the newly saved service startCommand. Repository
+railway.json did not override startCommand. Official reference:
+https://docs.railway.com/deployments/deployment-actions
+Saved the exact reviewed bootstrap, refreshed only its absolute capture deadline,
+then changed unused BTC15_CAPTURE_ACTIVATION with skipDeploys:false. This created
+fresh configuration deployments (meta.reason=deploy), one per service, without
+changing repository source or strategy variables. No capture redesign occurred.
+
+2. Exact identities
+Capture candidate: 606989e057740da6bf66d8aaf911fd75ff9bad94
+Hosted projection: 3e3cdc199c08a3b56006d2d82e3c405cf5759f00
+Payload SHA256: ea9834ddb3ce13eb978e6623564a8364bbb1a97bfa1e35b945dccb452d386804
+MAIN strategy: abe212b513827c8cec28a2f64e0161e79296bd82
+V8.1 strategy: b05723ec622f901a05402ecf27f4d33505753ef1
+Capture-attempt MAIN deployment: a48714f1-7859-4d6e-b871-486a46439898
+Capture-attempt V8.1 deployment: e3867cec-168b-4c2d-b68b-4e410bdd290a
+Final restored MAIN deployment: 3c307911-fe36-42fc-819c-fe0ae2831319
+Final restored V8.1 deployment: 314b7aad-b9c6-4fbf-83f2-c6ff5287342f
+Both final deployments SUCCESS; original complete service configs match exactly;
+both /health endpoints return 200. Only the unused activation marker remains,
+set to DISABLED_MAIN_IMPORT_FAILURE_20260930 or DISABLED_LIVE_PACKET_GAPS_20260930.
+
+3. Manifest activation proof
+V8.1 /ground-zero/manifest returned HTTP 200; all seven capture file SHA256s
+match the reviewed payload, native_strategy_commit=b05723ec..., signal_only=true,
+orders=false. Run: ground-zero-v81-c2c84ae8ec5a442291182026af2f91a4.
+MAIN writer launched exact payload, but generated BTC15_DASHBOARD_STATE_V2.py
+failed at line 23: from __future__ imports must occur at the beginning of the
+file. The added runtime import precedes the original future import. MAIN never
+served a candidate manifest. Run: ground-zero-main-4563c7eab70d4082af262e2667b325cf.
+Capture is now inactive on both services after restoration.
+
+4. Tests and focused verification
+Prior reviewed suite remains 19/19 PASS (hosted run 36662921728), including
+500/500 ordered fixture packets with no observed drops; not rerun or represented
+as fresh-event proof. Focused compilation of the unchanged reviewed MAIN
+assembly reproduced the live SyntaxError: FAIL. Payload bytes and manifest
+hash binding PASS. All 6,794 inspected event SHA256s and all 23 downloaded
+chunk hashes verified. Live capture completeness FAIL: producer loss confirmed.
+
+5. Fresh contract and inspected events
+KXBTC15M-26SEP292345-45; complete downloaded snapshot spans
+2026-09-30T03:32:57.730843Z through 03:33:04.181945Z.
+6,794 records: 3,391 raw receive observations, 3,389 applied-book observations,
+7 WAIT publications, 6 completed evaluations, 1 SOURCE_WAIT evaluation.
+Zero SIGNAL publications in this inspected snapshot. Four sequence gaps account
+for 25 missing packets; the producer independently reports 25 drops.
+The later manifest reports 85,277 packets and 268 missing sequence numbers in
+25 gap ranges. Its archive download is partial, not a complete inspected run.
+Restoration ended collection after concrete failures; no additional contracts
+were observed merely to wait for an event while the capture was already broken.
+
+6. EARLY reconstruction: FAIL
+No accessible fresh MAIN opportunity/origin/time/direction/executable-ask proof.
+The MAIN writer's persistent directory may contain records; these were not
+retrieved and no completeness or absence claim is made about that directory.
+
+7. FINAL linkage/protection: FAIL
+No demonstrated fresh immutable FINAL-to-correct-EARLY linkage or chronology.
+
+8. SCALP/V8.1 reconstruction: FAIL
+Actual producer gaps defeat complete executable entry-to-bid chronology. No
+entry signal occurred in the inspected snapshot. Stops, exits, MFE/MAE,
+stop-first, reversal and re-entry remain unqualified; none were synthesized.
+
+9. Official closeout: FAIL
+Official Kalshi response retained: open 2026-09-30T03:30:00Z, close 03:45:00Z,
+floor_strike 83283.66. At retrieval status=active and result/expiration_value
+were empty. Authoritative settlement and 60-of-60 closeout were not demonstrated
+by candidate evidence. Later REST quotes are not substituted for entry quotes.
+
+10. Strategy preservation and limits
+Qualified source commits and source branches stayed unchanged. Every reviewed
+payload file is byte-identical; no existing tracked source was edited. The
+prior structural/operation-parity tests remain supporting evidence. All
+inspected events are signal-only, orders=false. No threshold, weight, model,
+gate, source, persistence or lifecycle logic was edited. MAIN startup failure
+did interrupt service availability; no claim of unchanged physical cadence
+or successful end-to-end runtime equivalence is made. Original launchers were
+restored promptly rather than changing the reviewed payload to manufacture PASS.
+
+11. Remaining blockers / Ground Zero
+FAIL. The reviewed MAIN assembly is invalid Python, and live V8.1 producer
+capture drops packets. Both require a new narrowly scoped capture correction
+and qualification before another fresh Ground-Zero attempt. The Railway
+configuration-activation blocker itself is resolved.
+
+12. READY TO BEGIN LADDER IMPROVEMENT: NO
+Stopped. No orders, ladder tuning or multi-day prospective test started.
+
+Evidence notes
+results/ contains deployment/configuration, runtime error, restored health,
+official contract, focused compile and fresh inspection evidence.
+fresh/ contains original manifest snapshots, chunk receipts and the retained
+47,777,667-byte archive prefix. Only its first 5,834,627 bytes are the fully
+downloaded first snapshot (SHA256
+0d2be356a77076d9bfc82a5babfefba816c068249213ef7f9cc56be1986746f5).
+The full retained prefix may end within a gzip member; it is explicitly partial.
+Raw records retain their actual missing values and original clock flags.
