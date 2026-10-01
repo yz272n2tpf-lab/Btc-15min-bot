@@ -1,7 +1,7 @@
 name: BTC15 two capture repairs
 on:
   push:
-    branches: ['qualification/capture-repair-20260930']
+    branches: ['qualification/capture-repair-20260930', 'audit/capture-deque-race-fix-20261001']
 permissions:
   contents: read
 jobs:
