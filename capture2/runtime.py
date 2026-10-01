@@ -221,7 +221,7 @@ class BufferedDatagram:
                     self.stopping=True
                 if time.monotonic()>=next_report:
                     self._report();next_report=time.monotonic()+1
-                if not self.queue:
+                if not self.queue and not self.inflight:
                     origin=self.origin()
                     if self.stopping or origin is None or not origin.is_alive():
                         self.retirement_reason='EXPLICIT_CLOSE' if self.stopping else 'ORIGIN_THREAD_EXITED'
