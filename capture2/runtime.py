@@ -230,7 +230,12 @@ class BufferedDatagram:
                 # One immutable snapshot FIFO; encoding and gzip live only here.
                 # Queue entries remain charged until the complete frame is sent.
                 before=time.monotonic_ns();rows=[];charges=[];size=0
-                for event,charge in list(islice(self.queue,0,MAX_BATCH)):
+                # Never iterate the live deque: the native producer may append
+                # concurrently.  Peek by atomic indexed reads; only the sender
+                # removes entries after the complete frame is delivered.
+                for index in range(min(len(self.queue),MAX_BATCH)):
+                    try:event,charge=self.queue[index]
+                    except IndexError:break
                     encoded=envelope(event,self.owner.key)
                     if rows and size+len(encoded)+1>MAX_BATCH_RAW:break
                     rows.append((event,encoded));charges.append(charge);size+=len(encoded)+1
