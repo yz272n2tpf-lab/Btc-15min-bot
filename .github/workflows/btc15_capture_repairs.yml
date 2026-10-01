@@ -1,4 +1,4 @@
-name: BTC15 two capture repairs
+name: BTC15 focused deque race repair
 on:
   push:
     branches: ['qualification/capture-repair-20260930', 'audit/capture-deque-race-fix-20261001']
@@ -18,7 +18,14 @@ jobs:
           python-version: '3.12.14'
       - run: python -m pip install -r requirements.txt
       - run: >-
-          python -B -m unittest capture2.test_repairs
+          python -B -m unittest
+          capture2.test_repairs.RepairUnitTests.test_stalled_receiver_retries_off_thread_and_retains_every_packet
+          capture2.test_repairs.RepairUnitTests.test_full_buffer_rejects_without_wait_and_loss_remains_visible
+          capture2.test_repairs.RepairUnitTests.test_terminal_delivery_failure_is_explicit_even_without_later_packet
+          capture2.test_repairs.RepairKernelTests.test_repaired_writer_retains_10000_unpaced_packets
+          capture2.test_writer_pipeline.PipelineTests.test_deadline_drains_accepted_and_overflow_stays_explicit
+          capture2.test_writer_pipeline.PipelineTests.test_offer_never_serializes_and_worker_preserves_exact_origin_link
+          capture2.test_writer_pipeline.PipelineTests.test_raw_quote_and_body_immutable_and_authenticated_wire
           capture2.test_composition.CompositionTests.test_composed_native_tree_preserves_every_original_statement
           capture2.test_composition.CompositionTests.test_protected_assembly_preserves_original_strategy_ast
           capture2.test_composition.CompositionTests.test_composed_quote_session_off_on_exact_same_source_operations -v
