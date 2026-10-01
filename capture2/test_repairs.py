@@ -63,7 +63,8 @@ class RepairUnitTests(unittest.TestCase):
     def test_stalled_receiver_retries_off_thread_and_retains_every_packet(self):
         sink=HeldSocket();p=self.make(sink)
         try:
-            for i in range(2000):self.assertTrue(p.offer('OBSERVED',{'index':i}),p.last_error)
+            for i in range(2000):
+                self.assertTrue(p.offer('OBSERVED',{'index':i}),json.dumps(p.sock.snapshot(),sort_keys=True))
             wait_for(lambda:p.sock.retries>0)
             self.assertEqual(p.dropped,0);self.assertLessEqual(p.sock.high_water_bytes,p.sock.max_bytes)
             sink.ready=True;wait_for(lambda:len(sink.raw)==2000)
@@ -76,7 +77,7 @@ class RepairUnitTests(unittest.TestCase):
     def test_full_buffer_rejects_without_wait_and_loss_remains_visible(self):
         sink=HeldSocket();p=self.make(sink,max_packets=2,max_bytes=4096)
         try:
-            self.assertTrue(p.offer('OBSERVED',{'index':0}));self.assertTrue(p.offer('OBSERVED',{'index':1}))
+            self.assertTrue(p.offer('OBSERVED',{'index':0}),json.dumps(p.sock.snapshot(),sort_keys=True));self.assertTrue(p.offer('OBSERVED',{'index':1}),json.dumps(p.sock.snapshot(),sort_keys=True))
             self.assertFalse(p.offer('OBSERVED',{'index':2}));self.assertEqual(p.dropped,1)
             self.assertIn('CAPTURE_BUFFER_FULL',p.last_error);self.assertEqual(p.sock.rejected,1)
             sink.ready=True;wait_for(lambda:len(sink.raw)==2)
@@ -89,7 +90,7 @@ class RepairUnitTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             path=Path(d)/'transport-test.json';p=self.make(sink,status_path=path)
             try:
-                self.assertTrue(p.offer('OBSERVED',{'index':0}));wait_for(lambda:p.sock.finished)
+                self.assertTrue(p.offer('OBSERVED',{'index':0}),json.dumps(p.sock.snapshot(),sort_keys=True));wait_for(lambda:p.sock.finished)
                 value=json.loads(path.read_text());self.assertEqual(value['pending_packets'],1)
                 self.assertEqual(value['delivered'],0);self.assertIn('receiver gone',value['last_transport_error'])
                 self.assertFalse(p.offer('OBSERVED',{'index':1}));self.assertEqual(p.dropped,1)
