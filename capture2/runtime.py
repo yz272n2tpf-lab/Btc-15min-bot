@@ -140,7 +140,7 @@ class BufferedDatagram:
         if not 0<max_bytes<=16*1024*1024 or not 0<max_packets<=16384:raise ValueError('BUFFER_BOUND')
         self.address=address;self.end_boot_ns=end_boot_ns;self.status_path=status_path
         self.population=population;self.origin=None;self._terminal=None;self.retirement_reason=None
-        self.max_bytes=max_bytes;self.max_packets=max_packets;self.queue=deque()
+        self.max_bytes=max_bytes;self.max_packets=max_packets;self.queue=deque();self.inflight=[]
         self.enqueued_bytes=self.delivered_bytes=self.accepted=self.delivered=0
         self.retries=self.rejected=self.high_water_bytes=self.high_water_packets=0
         self.rejected_full=self.rejected_ended=self.backpressure_wait_ns=0
@@ -163,12 +163,12 @@ class BufferedDatagram:
         pending=self.enqueued_bytes-self.delivered_bytes
         if self.stopping or self.finished or time.clock_gettime_ns(time.CLOCK_BOOTTIME)>=self.end_boot_ns:
             self._reject('CAPTURE_BUFFER_ENDED');self.rejected_ended+=1;raise BufferError('CAPTURE_BUFFER_ENDED')
-        if len(self.queue)>=self.max_packets or pending+charge>self.max_bytes:
+        if len(self.queue)+len(self.inflight)>=self.max_packets or pending+charge>self.max_bytes:
             self._reject('CAPTURE_BUFFER_FULL');self.rejected_full+=1;raise BufferError('CAPTURE_BUFFER_FULL')
         self.enqueued_bytes+=charge;self.accepted+=1
         self.queue.append((event,charge))
         self.high_water_bytes=max(self.high_water_bytes,pending+charge)
-        self.high_water_packets=max(self.high_water_packets,len(self.queue))
+        self.high_water_packets=max(self.high_water_packets,len(self.queue)+len(self.inflight))
 
     def _reject(self,reason):
         self.rejected+=1
@@ -178,14 +178,14 @@ class BufferedDatagram:
 
     def snapshot(self):
         if self._terminal is not None:return dict(self._terminal)
-        flushed=self.accepted==self.delivered and not self.queue
+        flushed=self.accepted==self.delivered and not self.queue and not self.inflight
         complete=flushed and self.owner.offered==self.delivered and not self.owner.dropped and not self.last_transport_error
         return dict(producer_id=self.owner.identity.producer_id,process_id=os.getpid(),
                     observed_boot_ns=time.clock_gettime_ns(time.CLOCK_BOOTTIME),
                     offered=self.owner.offered,producer_dropped=self.owner.dropped,
                     producer_last_error=self.owner.last_error,accepted=self.accepted,
                     delivered=self.delivered,last_delivered_sequence=self.last_delivered_sequence,
-                    pending_packets=len(self.queue),pending_bytes=self.enqueued_bytes-self.delivered_bytes,
+                    pending_packets=len(self.queue)+len(self.inflight),pending_bytes=self.enqueued_bytes-self.delivered_bytes,
                     retry_eagain=self.retries,rejected=self.rejected,
                     rejected_full=self.rejected_full,rejected_ended=self.rejected_ended,
                     first_rejection=self.first_rejection,last_rejection=self.last_rejection,
@@ -230,15 +230,16 @@ class BufferedDatagram:
                 # One immutable snapshot FIFO; encoding and gzip live only here.
                 # Queue entries remain charged until the complete frame is sent.
                 before=time.monotonic_ns();rows=[];charges=[];size=0
-                # Never iterate the live deque: the native producer may append
-                # concurrently.  Peek by atomic indexed reads; only the sender
-                # removes entries after the complete frame is delivered.
-                for index in range(min(len(self.queue),MAX_BATCH)):
-                    try:event,charge=self.queue[index]
-                    except IndexError:break
+                # Sender owns a private in-flight batch. The native producer only
+                # appends to the shared deque and never waits on sender work.
+                while self.queue and len(self.inflight)<MAX_BATCH:
+                    event,charge=self.queue.popleft()
                     encoded=envelope(event,self.owner.key)
-                    if rows and size+len(encoded)+1>MAX_BATCH_RAW:break
-                    rows.append((event,encoded));charges.append(charge);size+=len(encoded)+1
+                    if self.inflight and size+len(encoded)+1>MAX_BATCH_RAW:
+                        self.queue.appendleft((event,charge));break
+                    self.inflight.append((event,charge,encoded));size+=len(encoded)+1
+                rows=[(event,encoded) for event,charge,encoded in self.inflight]
+                charges=[charge for event,charge,encoded in self.inflight]
                 raw=frame(rows,self.owner.identity_record,self.owner.key)
                 self.serialized+=len(rows);self.serialization_ns+=time.monotonic_ns()-before
                 while True:
@@ -253,8 +254,9 @@ class BufferedDatagram:
                         if time.clock_gettime_ns(time.CLOCK_BOOTTIME)>=self.end_boot_ns+5_000_000_000:
                             raise TimeoutError('CAPTURE_FLUSH_DEADLINE')
                 for (event,encoded),charge in zip(rows,charges):
-                    self.queue.popleft();self.delivered_bytes+=charge;self.delivered+=1
+                    self.delivered_bytes+=charge;self.delivered+=1
                     self.last_delivered_sequence=event['sequence']
+                self.inflight.clear()
                 self.frames+=1;self.wire_bytes+=len(raw)
         except Exception as exc:self.last_transport_error=type(exc).__name__+':'+str(exc)[:120]
         finally:
