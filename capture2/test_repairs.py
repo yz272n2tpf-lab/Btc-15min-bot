@@ -27,6 +27,7 @@ class HeldSocket:
     def setblocking(self,*a):pass
     def setsockopt(self,*a):pass
     def connect(self,*a):pass
+    def fileno(self):return self._writer.fileno() if hasattr(self,'_writer') else -1
     def close(self):pass
     def sendto(self,raw,*args):
         self.threads.add(threading.get_ident())
@@ -76,7 +77,7 @@ class RepairUnitTests(unittest.TestCase):
         finally:p.close();p.sock.thread.join(3)
 
     def test_full_buffer_rejects_without_wait_and_loss_remains_visible(self):
-        sink=HeldSocket();p=self.make(sink,max_packets=2,max_bytes=4096)
+        sink=HeldSocket();p=self.make(sink,max_packets=2,max_bytes=8192)
         try:
             self.assertTrue(p.offer('OBSERVED',{'index':0}),json.dumps(p.sock.snapshot(),sort_keys=True));self.assertTrue(p.offer('OBSERVED',{'index':1}),json.dumps(p.sock.snapshot(),sort_keys=True))
             self.assertFalse(p.offer('OBSERVED',{'index':2}));self.assertEqual(p.dropped,1)
