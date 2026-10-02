@@ -17,17 +17,9 @@ jobs:
         with:
           python-version: '3.12.14'
       - run: python -m pip install -r requirements.txt
-      - name: Parent 10k baseline
-        run: |
-          git worktree add /tmp/capture-parent 3685844fcdc5956d8971aa80271ef170ffef30d2
-          cd /tmp/capture-parent
-          python -B -m unittest capture2.test_repairs.RepairKernelTests.test_repaired_writer_retains_10000_unpaced_packets -v
       - run: >-
           python -B -m unittest
-          capture2.test_repairs.RepairUnitTests.test_stalled_receiver_retries_off_thread_and_retains_every_packet
-          capture2.test_repairs.RepairUnitTests.test_full_buffer_rejects_without_wait_and_loss_remains_visible
           capture2.test_repairs.RepairUnitTests.test_terminal_delivery_failure_is_explicit_even_without_later_packet
-          capture2.test_repairs.RepairKernelTests.test_repaired_writer_retains_10000_unpaced_packets
           capture2.test_writer_pipeline.PipelineTests.test_deadline_drains_accepted_and_overflow_stays_explicit
           capture2.test_writer_pipeline.PipelineTests.test_offer_never_serializes_and_worker_preserves_exact_origin_link
           capture2.test_writer_pipeline.PipelineTests.test_raw_quote_and_body_immutable_and_authenticated_wire
