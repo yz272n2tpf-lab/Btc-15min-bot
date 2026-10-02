@@ -122,3 +122,16 @@ def inventory_summary(rows):
         missing_early=sum("EARLY" in r["missing"] for r in rows),
         missing_final=sum("FINAL" in r["missing"] for r in rows),
         missing_scalp=sum("SCALP" in r["missing"] for r in rows))
+
+
+def research_readiness(cards):
+    """Precommitted descriptive readiness only; never selects or tunes strategy."""
+    inv=contract_inventory(cards);summary=inventory_summary(inv);reports=scorecards(cards)
+    blockers=[]
+    if summary["incomplete"]:blockers.append("INCOMPLETE_COMMON_UNIVERSE")
+    if summary["unlinked_final"]:blockers.append("FINAL_EARLY_LINKAGE_UNPROVEN")
+    if reports["early"]["calls"]==0:blockers.append("NO_QUALIFIED_EARLY_CALLS")
+    if reports["scalp"]["signals"]==0:blockers.append("NO_QUALIFIED_SCALP_SIGNALS")
+    return {"descriptive_only":True,"strategy_selection_permitted":False,
+            "inventory":summary,"blockers":blockers,
+            "reportable":{"early":reports["early"],"final":reports["final"],"scalp":reports["scalp"]}}
