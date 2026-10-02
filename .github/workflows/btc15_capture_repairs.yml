@@ -21,6 +21,10 @@ jobs:
           p=Path("capture2_payload.json")
           print("BTC15_REPAIRED_PAYLOAD_SHA256="+hashlib.sha256(p.read_bytes()).hexdigest())
           print("BTC15_REPAIRED_PAYLOAD_BYTES="+str(p.stat().st_size))
+          import json
+          payload=json.loads(p.read_text())
+          live={k:hashlib.sha256(v.encode()).hexdigest() for k,v in payload.items() if k.startswith("capture2/") and "/test_" not in k}
+          print("BTC15_REPAIRED_CAPTURE_HASHES="+json.dumps(live,sort_keys=True,separators=(",",":")))
           PY
       - uses: actions/setup-python@v5
         with:
