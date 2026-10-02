@@ -55,8 +55,7 @@ def explicit_early_records(protected):
         s=p["state"]; early=s.get("early") if isinstance(s.get("early"),dict) else {}
         side=str(early.get("side") or "").upper();ask=early.get("entry_ask");ts=early.get("origin_ts")
         if side not in ("UP","DOWN") or ask is None or ts is None: continue
-        rows.append(dict(provisional_candidate=True,origin_id=oid,ts=ts,side=side,ask=float(ask),
-                         seconds_left=float(early["seconds_left"]) if early.get("seconds_left") is not None else 0))
+        contract=early.get("contract") or early.get("ticker") or s.get("contract") or s.get("ticker")\n        if not contract: continue\n        rows.append(dict(provisional_candidate=True,origin_id=oid,contract=contract,ts=ts,side=side,ask=float(ask),\n                         seconds_left=float(early["seconds_left"]) if early.get("seconds_left") is not None else 0))
     return rows
 
 def explicit_final_records(protected):
@@ -67,8 +66,7 @@ def explicit_final_records(protected):
         if final.get("status")!="FINAL CALL": continue
         side=str(final.get("side") or "").upper();ts=final.get("origin_ts")
         if side not in ("UP","DOWN") or ts is None: continue
-        rows.append(dict(final_status="FINAL CALL",ts=ts,side=side,
-                         early_origin_id=final.get("early_origin_id")))
+        contract=final.get("contract") or final.get("ticker") or s.get("contract") or s.get("ticker")\n        if not contract: continue\n        rows.append(dict(final_status="FINAL CALL",contract=contract,ts=ts,side=side,\n                         early_origin_id=final.get("early_origin_id")))
     return rows
 
 
