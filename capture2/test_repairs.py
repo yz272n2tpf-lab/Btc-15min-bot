@@ -99,6 +99,29 @@ class RepairUnitTests(unittest.TestCase):
             finally:p.close();p.sock.thread.join(3)
 
 
+    def test_sender_never_iterates_live_deque_during_concurrent_offers(self):
+        sink=HeldSocket();sink.ready=True;p=self.make(sink)
+        errors=[]
+        def produce():
+            try:
+                for i in range(3000):
+                    if not p.offer('OBSERVED',{'index':i}):
+                        errors.append(p.last_error);break
+                    if i % 13 == 0:time.sleep(0)
+            except BaseException as exc:errors.append(type(exc).__name__+':'+str(exc))
+        t=threading.Thread(target=produce)
+        try:
+            t.start();t.join(4);self.assertFalse(t.is_alive())
+            wait_for(lambda:p.sock.delivered==p.sock.accepted,4)
+            self.assertEqual(errors,[])
+            self.assertIsNone(p.sock.last_transport_error)
+            self.assertEqual(p.dropped,0)
+            self.assertEqual(p.sock.accepted,3000)
+            self.assertEqual(p.sock.delivered,3000)
+            self.assertEqual(p.sock.snapshot()['pending_packets'],0)
+        finally:p.close();p.sock.thread.join(3)
+
+
 class RepairKernelTests(unittest.TestCase):
     def test_kernel_queue_reproduces_old_eagain_and_buffer_preserves_burst(self):
         with tempfile.TemporaryDirectory() as d:
