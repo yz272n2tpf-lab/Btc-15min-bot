@@ -12,10 +12,10 @@ class AdapterTests(unittest.TestCase):
   e={"kind":"PROTECTED_GENERATION","body":{"generation_id":"G","eligible_opportunity_id":"G","accepted_origin_id":None,"state":{"early":{"ready":True,"side":"UP","entry_ask":.30,"origin_ts":10}}}}
   p=adapt_protected([e]);self.assertEqual(explicit_early_records(p),[])
  def test_early_requires_explicit_accepted_origin(self):
-  e={"kind":"PROTECTED_GENERATION","body":{"generation_id":"G","accepted_origin_id":"A","state":{"early":{"ready":True,"side":"UP","entry_ask":.30,"origin_ts":10,"seconds_left":360}}}}
+  e={"kind":"PROTECTED_GENERATION","body":{"generation_id":"G","accepted_origin_id":"A","state":{"contract":"C","early":{"ready":True,"side":"UP","entry_ask":.30,"origin_ts":10,"seconds_left":360}}}}
   r=explicit_early_records(adapt_protected([e]));self.assertEqual(r[0]["origin_id"],"A")
  def test_final_does_not_infer_early_link(self):
-  e={"kind":"PROTECTED_GENERATION","body":{"state":{"final":{"status":"FINAL CALL","side":"UP","origin_ts":20}}}}
+  e={"kind":"PROTECTED_GENERATION","body":{"state":{"contract":"C","final":{"status":"FINAL CALL","side":"UP","origin_ts":20}}}}
   r=explicit_final_records(adapt_protected([e]));self.assertIsNone(r[0]["early_origin_id"])
 
  def test_quote_path_uses_applied_exchange_timestamp_and_same_side(self):
@@ -28,5 +28,9 @@ class AdapterTests(unittest.TestCase):
  def test_invalid_quote_is_excluded(self):
   q={"kind":"LIFECYCLE_EMISSION","body":{"emission":{"schema":"BTC15_QUOTE_APPLIED_V1","ticker":"C","valid":False,"exchange_ts_ms":11000,"best_bids":{"yes":{"price":"0.42"}}}}}
   self.assertEqual(quote_bid_observations([q]),[])
+
+ def test_contractless_protected_records_are_not_scoreable(self):
+  p=[{"kind":"PROTECTED_GENERATION","generation_id":"G","accepted_origin_id":"A","state":{"early":{"ready":True,"side":"UP","entry_ask":.30,"origin_ts":10,"seconds_left":360},"final":{"status":"FINAL CALL","side":"UP","origin_ts":20}}}]
+  self.assertEqual(explicit_early_records(p),[]);self.assertEqual(explicit_final_records(p),[])
 
 if __name__=="__main__":unittest.main()
