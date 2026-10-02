@@ -39,4 +39,17 @@ class Round2EvidenceTests(unittest.TestCase):
          {"early":{"status":"PASS"},"final":{"status":"PASS"},"scalp":{"status":"PASS"}}]
   s=union_summary(cards);self.assertEqual((s["contracts"],s["any"],s["pass"]),(3,2,1))
 
+ def test_empty_scorecards_have_safe_denominators(self):
+  r=scorecards([])
+  self.assertEqual(r["common_universe"]["contracts"],0)
+  self.assertIsNone(r["early"]["accuracy_pct"]);self.assertIsNone(r["early"]["coverage_pct"])
+  self.assertIsNone(r["final"]["native_accuracy_pct"]);self.assertIsNone(r["scalp"]["avg_mfe_c"])
+ def test_scorecards_keep_common_universe_denominator(self):
+  cards=[{"early":{"status":"QUALIFIED","correct":True,"ask":.30,"seconds_left":360,"le50":True,"ideal25_35":True},"final":{"status":"QUALIFIED","native_correct":True,"linked_status":"LINKED","delay_s":30},"scalp":{"status":"PASS","events":[]}},{"early":{"status":"PASS"},"final":{"status":"PASS"},"scalp":{"status":"PASS","events":[]}}]
+  r=scorecards(cards);self.assertEqual(r["early"]["coverage_pct"],50.0);self.assertEqual(r["early"]["accuracy_pct"],100.0);self.assertEqual(r["common_universe"]["pass"],1)
+ def test_scalp_target_counts_preserve_stop_first(self):
+  e={"status":"QUALIFIED","mfe_c":12,"mae_c":-11,"targets":{t:{"hit":t in (8,10),"time_s":2,"stop_first":t in (8,10)} for t in TARGETS}}
+  cards=[{"early":{"status":"PASS"},"final":{"status":"PASS"},"scalp":{"status":"QUALIFIED","events":[e]}}]
+  r=scorecards(cards);self.assertEqual(r["scalp"]["targets"][10]["hit"],1);self.assertEqual(r["scalp"]["targets"][10]["stop_first"],1)
+
 if __name__=="__main__":unittest.main()
