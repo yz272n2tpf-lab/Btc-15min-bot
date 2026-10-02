@@ -19,6 +19,7 @@ jobs:
       - run: python -m pip install -r requirements.txt
       - run: >-
           python -B -m unittest
+          capture2.test_repairs.RepairUnitTests.test_sender_never_iterates_live_deque_during_concurrent_offers
           capture2.test_repairs.RepairUnitTests.test_terminal_delivery_failure_is_explicit_even_without_later_packet
           capture2.test_writer_pipeline.PipelineTests.test_deadline_drains_accepted_and_overflow_stays_explicit
           capture2.test_writer_pipeline.PipelineTests.test_offer_never_serializes_and_worker_preserves_exact_origin_link
