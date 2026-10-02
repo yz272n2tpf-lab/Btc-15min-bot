@@ -70,3 +70,32 @@ def explicit_final_records(protected):
         rows.append(dict(final_status="FINAL CALL",ts=ts,side=side,
                          early_origin_id=final.get("early_origin_id")))
     return rows
+
+
+def quote_bid_observations(events):
+    """Executable best bids after original book acceptance; no fill inference."""
+    out=[]
+    for e in events:
+        if e.get("kind")!="LIFECYCLE_EMISSION": continue
+        x=_emission(e)
+        if not isinstance(x,dict) or x.get("schema")!="BTC15_QUOTE_APPLIED_V1" or x.get("valid") is not True: continue
+        bids=x.get("best_bids")
+        if not isinstance(bids,dict): continue
+        ts=x.get("exchange_ts_ms")
+        if ts is None: continue
+        for key,side in (("yes","UP"),("no","DOWN")):
+            level=bids.get(key)
+            if not isinstance(level,dict) or level.get("price") is None: continue
+            try: bid=float(level["price"])
+            except (TypeError,ValueError): continue
+            out.append(dict(contract=x.get("ticker"),side=side,ts=float(ts)/1000.0,bid=bid,
+                            sequence=x.get("sequence"),source="KALSHI_QUOTE_APPLIED"))
+    return out
+
+def scalp_paths_for_entries(entries, quote_events):
+    """Join only same-contract/same-side quotes at-or-after signal timestamp."""
+    quotes=quote_bid_observations(quote_events);out={}
+    for e in entries:
+        rows=[q for q in quotes if q["contract"]==e.get("contract") and q["side"]==e.get("side") and q["ts"]>=float(e["ts"])]
+        rows.sort(key=lambda r:(r["ts"],r.get("sequence") or -1));out[e["entry_id"]]=rows
+    return out
