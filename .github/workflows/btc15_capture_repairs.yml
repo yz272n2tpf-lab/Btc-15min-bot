@@ -13,6 +13,15 @@ jobs:
       OPENBLAS_NUM_THREADS: '1'
     steps:
       - uses: actions/checkout@v4
+      - name: Repaired payload identity
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          p=Path("capture2_payload.json")
+          print("BTC15_REPAIRED_PAYLOAD_SHA256="+hashlib.sha256(p.read_bytes()).hexdigest())
+          print("BTC15_REPAIRED_PAYLOAD_BYTES="+str(p.stat().st_size))
+          PY
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12.14'
