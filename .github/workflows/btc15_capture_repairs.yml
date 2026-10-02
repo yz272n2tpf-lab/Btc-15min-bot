@@ -30,6 +30,8 @@ jobs:
         with:
           python-version: '3.12.14'
       - run: python -m pip install -r requirements.txt
+      - name: Round-2 offline scorer rules
+        run: python -B -m unittest test_round2_evidence_scorer -v
       - run: >-
           python -B -m unittest
           capture2.test_repairs.RepairUnitTests.test_sender_never_iterates_live_deque_during_concurrent_offers
