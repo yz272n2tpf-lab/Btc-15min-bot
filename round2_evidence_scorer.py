@@ -68,3 +68,32 @@ def union_summary(cards):
         flags=[c["early"]["status"]=="QUALIFIED",c["final"]["status"]=="QUALIFIED",c["scalp"]["status"]=="QUALIFIED"]
         out["early"]+=flags[0];out["final"]+=flags[1];out["scalp"]+=flags[2];out["any"]+=any(flags);out["pass"]+=not any(flags)
     return dict(out)
+
+
+def pct(n,d): return None if not d else 100.0*n/d
+
+def scorecards(cards):
+    """Descriptive common-universe reports; no selection or tuning."""
+    n=len(cards)
+    early=[c["early"] for c in cards if c["early"]["status"]=="QUALIFIED"]
+    finals=[c["final"] for c in cards if c["final"]["status"]=="QUALIFIED"]
+    linked=[f for f in finals if f.get("linked_status")=="LINKED"]
+    scalps=[e for c in cards for e in c["scalp"]["events"] if e.get("status")=="QUALIFIED"]
+    er_correct=sum(bool(e.get("correct")) for e in early)
+    ideal=sum(bool(e.get("ideal25_35")) for e in early);le50=sum(bool(e.get("le50")) for e in early)
+    fn_correct=sum(bool(f.get("native_correct")) for f in finals)
+    targets={t:{"signals":len(scalps),"hit":sum(e["targets"][t]["hit"] for e in scalps),
+                "stop_first":sum(e["targets"][t]["stop_first"] for e in scalps)} for t in TARGETS}
+    return {
+      "common_universe":{"contracts":n,**union_summary(cards)},
+      "early":{"calls":len(early),"accuracy_pct":pct(er_correct,len(early)),"coverage_pct":pct(len(early),n),
+               "le50":le50,"ideal25_35":ideal,
+               "avg_ask":None if not early else sum(e["ask"] for e in early)/len(early),
+               "avg_seconds_left":None if not early else sum(e["seconds_left"] for e in early)/len(early)},
+      "final":{"native_calls":len(finals),"native_accuracy_pct":pct(fn_correct,len(finals)),
+               "linked_protections":len(linked),"linked_pct_of_final":pct(len(linked),len(finals)),
+               "avg_link_delay_s":None if not linked else sum(f["delay_s"] for f in linked)/len(linked)},
+      "scalp":{"signals":len(scalps),
+               "avg_mfe_c":None if not scalps else sum(e["mfe_c"] for e in scalps)/len(scalps),
+               "avg_mae_c":None if not scalps else sum(e["mae_c"] for e in scalps)/len(scalps),
+               "targets":targets}}
