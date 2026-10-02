@@ -62,4 +62,12 @@ class Round2EvidenceTests(unittest.TestCase):
   r=contract_inventory(cards)[0];self.assertTrue(r["complete"]);self.assertEqual(r["final_early_linkage"],"UNLINKED")
   self.assertEqual(inventory_summary([r])["unlinked_final"],1)
 
+ def test_readiness_never_authorizes_strategy_selection(self):
+  cards=[{"contract":"A","official_side":"UP","early":{"status":"PASS"},"final":{"status":"QUALIFIED","linked_status":"UNLINKED","native_correct":True,"native":{"side":"UP"}},"scalp":{"status":"PASS","events":[]}}]
+  r=research_readiness(cards);self.assertFalse(r["strategy_selection_permitted"])
+  self.assertIn("FINAL_EARLY_LINKAGE_UNPROVEN",r["blockers"]);self.assertIn("NO_QUALIFIED_EARLY_CALLS",r["blockers"]);self.assertIn("NO_QUALIFIED_SCALP_SIGNALS",r["blockers"])
+ def test_readiness_marks_incomplete_universe(self):
+  cards=[{"contract":"A","official_side":"UP","early":{"status":"MISSING"},"final":{"status":"PASS"},"scalp":{"status":"PASS","events":[]}}]
+  self.assertIn("INCOMPLETE_COMMON_UNIVERSE",research_readiness(cards)["blockers"])
+
 if __name__=="__main__":unittest.main()
