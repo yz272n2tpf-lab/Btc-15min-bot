@@ -52,4 +52,14 @@ class Round2EvidenceTests(unittest.TestCase):
   cards=[{"early":{"status":"PASS"},"final":{"status":"PASS"},"scalp":{"status":"QUALIFIED","events":[e]}}]
   r=scorecards(cards);self.assertEqual(r["scalp"]["targets"][10]["hit"],1);self.assertEqual(r["scalp"]["targets"][10]["stop_first"],1)
 
+ def test_inventory_missing_is_not_legitimate_pass(self):
+  cards=[{"contract":"A","official_side":"UP","early":{"status":"MISSING"},"final":{"status":"PASS"},"scalp":{"status":"PASS","events":[]}},
+         {"contract":"B","official_side":"DOWN","early":{"status":"PASS"},"final":{"status":"PASS"},"scalp":{"status":"PASS","events":[]}}]
+  s=inventory_summary(contract_inventory(cards))
+  self.assertEqual(s["complete"],1);self.assertEqual(s["incomplete"],1);self.assertEqual(s["legitimate_pass"],1);self.assertEqual(s["missing_early"],1)
+ def test_inventory_unlinked_final_is_visible_but_complete(self):
+  cards=[{"contract":"A","official_side":"UP","early":{"status":"PASS"},"final":{"status":"QUALIFIED","linked_status":"UNLINKED"},"scalp":{"status":"PASS","events":[]}}]
+  r=contract_inventory(cards)[0];self.assertTrue(r["complete"]);self.assertEqual(r["final_early_linkage"],"UNLINKED")
+  self.assertEqual(inventory_summary([r])["unlinked_final"],1)
+
 if __name__=="__main__":unittest.main()
