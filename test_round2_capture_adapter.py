@@ -18,4 +18,15 @@ class AdapterTests(unittest.TestCase):
   e={"kind":"PROTECTED_GENERATION","body":{"state":{"final":{"status":"FINAL CALL","side":"UP","origin_ts":20}}}}
   r=explicit_final_records(adapt_protected([e]));self.assertIsNone(r[0]["early_origin_id"])
 
+ def test_quote_path_uses_applied_exchange_timestamp_and_same_side(self):
+  q={"kind":"LIFECYCLE_EMISSION","body":{"emission":{"schema":"BTC15_QUOTE_APPLIED_V1","ticker":"C","valid":True,"exchange_ts_ms":11000,"sequence":2,"best_bids":{"yes":{"price":"0.42","quantity":"3"},"no":{"price":"0.57","quantity":"4"}}}}}
+  e={"entry_id":"E","contract":"C","side":"UP","ts":10}
+  p=scalp_paths_for_entries([e],[q]);self.assertEqual(p["E"][0]["bid"],.42);self.assertEqual(p["E"][0]["ts"],11)
+ def test_quote_before_signal_is_excluded(self):
+  q={"kind":"LIFECYCLE_EMISSION","body":{"emission":{"schema":"BTC15_QUOTE_APPLIED_V1","ticker":"C","valid":True,"exchange_ts_ms":9000,"sequence":1,"best_bids":{"yes":{"price":"0.99"}}}}}
+  self.assertEqual(scalp_paths_for_entries([{"entry_id":"E","contract":"C","side":"UP","ts":10}],[q])["E"],[])
+ def test_invalid_quote_is_excluded(self):
+  q={"kind":"LIFECYCLE_EMISSION","body":{"emission":{"schema":"BTC15_QUOTE_APPLIED_V1","ticker":"C","valid":False,"exchange_ts_ms":11000,"best_bids":{"yes":{"price":"0.42"}}}}}
+  self.assertEqual(quote_bid_observations([q]),[])
+
 if __name__=="__main__":unittest.main()
