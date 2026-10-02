@@ -26,6 +26,7 @@ class HeldSocket:
     def __init__(self):self.ready=False;self.raw=[];self.threads=set();self.fatal=False
     def setblocking(self,*a):pass
     def setsockopt(self,*a):pass
+    def connect(self,*a):pass
     def close(self):pass
     def sendto(self,raw,*args):
         self.threads.add(threading.get_ident())
