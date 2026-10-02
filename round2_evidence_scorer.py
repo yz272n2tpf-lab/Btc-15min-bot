@@ -97,3 +97,28 @@ def scorecards(cards):
                "avg_mfe_c":None if not scalps else sum(e["mfe_c"] for e in scalps)/len(scalps),
                "avg_mae_c":None if not scalps else sum(e["mae_c"] for e in scalps)/len(scalps),
                "targets":targets}}
+
+
+def contract_inventory(cards):
+    """One row per admitted common-universe contract; never collapse missing into PASS."""
+    rows=[]
+    for c in cards:
+        e,f,s=c["early"],c["final"],c["scalp"]
+        linked=("NOT_APPLICABLE" if f["status"]!="QUALIFIED" else f.get("linked_status","UNLINKED"))
+        states=[e["status"],f["status"],s["status"]]
+        rows.append(dict(contract=c["contract"],official_side=c.get("official_side"),
+            early_status=e["status"],final_status=f["status"],final_early_linkage=linked,
+            scalp_status=s["status"],actionable=any(x=="QUALIFIED" for x in states),
+            complete=all(x in ("QUALIFIED","PASS") for x in states),
+            missing=[name for name,x in zip(("EARLY","FINAL","SCALP"),states) if x=="MISSING"]))
+    return rows
+
+def inventory_summary(rows):
+    return dict(contracts=len(rows),complete=sum(r["complete"] for r in rows),
+        incomplete=sum(not r["complete"] for r in rows),
+        actionable=sum(r["actionable"] for r in rows),
+        legitimate_pass=sum(r["complete"] and not r["actionable"] for r in rows),
+        unlinked_final=sum(r["final_status"]=="QUALIFIED" and r["final_early_linkage"]=="UNLINKED" for r in rows),
+        missing_early=sum("EARLY" in r["missing"] for r in rows),
+        missing_final=sum("FINAL" in r["missing"] for r in rows),
+        missing_scalp=sum("SCALP" in r["missing"] for r in rows))
