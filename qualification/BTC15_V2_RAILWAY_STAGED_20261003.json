@@ -1,0 +1,584 @@
+{
+  "schema": "BTC15_V2_OPERATIONAL_APPROVAL_V1",
+  "candidate": "BTC15_LADDER_COMPLETION_20261003_V2",
+  "phase": "AWAITING_STAGED_QUALIFICATION_APPROVAL",
+  "candidate_commits": {
+    "main": "de4f3e20b8657eb8cfee91bd4e525c103b5bf513",
+    "v81": "60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1"
+  },
+  "manifest_sha256": "9333eff3c5db1783a533d484b5c3dd14045f33d3a711729e084603dc86cb69f5",
+  "scope": {
+    "projectId": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+    "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9"
+  },
+  "signal_only": true,
+  "orders": false,
+  "strategy_changed": false,
+  "qualification_services": {
+    "main": {
+      "serviceId": "e6101c69-18df-4522-99d8-94e363ad8b92",
+      "name": "btc15-v2-main-qualification",
+      "variables": {
+        "BTC15_LADDER_DATA_ROOT": "/data/btc15_ladders_v2",
+        "BTC15_USE_SHARED_BRTI": "1",
+        "BTC15_BRTI_TRANSPORT": "${{Btc-15min-bot.BTC15_BRTI_TRANSPORT}}",
+        "BTC15_BRTI_SHARED_URL": "${{Btc-15min-bot.BTC15_BRTI_SHARED_URL}}",
+        "KALSHI_KEY_ID": "${{Btc-15min-bot.KALSHI_KEY_ID}}",
+        "KALSHI_PRIVATE_KEY_B64": "${{Btc-15min-bot.KALSHI_PRIVATE_KEY_B64}}",
+        "PORT": "8080",
+        "PYTHONUNBUFFERED": "1",
+        "BTC15_ENABLE_INFORMATION_EXPORT": "1",
+        "BTC15_KALSHI_QUOTE_PROVENANCE_CANARY": "1",
+        "BTC15_BRTI_GATEWAY_URL": "${{Btc-15min-bot.BTC15_BRTI_GATEWAY_URL}}",
+        "BTC15_INLINE_SCALP_V1": "${{Btc-15min-bot.BTC15_INLINE_SCALP_V1}}",
+        "BTC15_DASH_V13_Z1": "${{Btc-15min-bot.BTC15_DASH_V13_Z1}}",
+        "BTC15_DASH_V13_Z2": "${{Btc-15min-bot.BTC15_DASH_V13_Z2}}",
+        "BTC15_DASH_V13_Z3": "${{Btc-15min-bot.BTC15_DASH_V13_Z3}}",
+        "BTC15_DASH_V13_Z4": "${{Btc-15min-bot.BTC15_DASH_V13_Z4}}",
+        "BTC15_DASH_V13_Z5": "${{Btc-15min-bot.BTC15_DASH_V13_Z5}}",
+        "BTC15_V81_LADDERS_URL": "https://btc15-v2-v81-qualification-production.up.railway.app/ladders"
+      },
+      "startCommand": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && python btc15_verify_ladder_freeze_v2.py --lane main && exec python -u btc15_information_install_v1.py'",
+      "domain": "btc15-v2-main-qualification-production.up.railway.app"
+    },
+    "v81": {
+      "serviceId": "725e8200-656a-4576-a62a-0b84fedf9ffd",
+      "name": "btc15-v2-v81-qualification",
+      "variables": {
+        "BTC15_LADDER_DATA_ROOT": "/data/btc15_ladders_v2",
+        "BTC15_USE_SHARED_BRTI": "1",
+        "BTC15_BRTI_TRANSPORT": "${{v81-live-diagnostics.BTC15_BRTI_TRANSPORT}}",
+        "BTC15_BRTI_SHARED_URL": "${{v81-live-diagnostics.BTC15_BRTI_SHARED_URL}}",
+        "KALSHI_KEY_ID": "${{v81-live-diagnostics.KALSHI_KEY_ID}}",
+        "KALSHI_PRIVATE_KEY_B64": "${{v81-live-diagnostics.KALSHI_PRIVATE_KEY_B64}}",
+        "PORT": "8080",
+        "PYTHONUNBUFFERED": "1",
+        "V81_DIAG_LIVE": "1"
+      },
+      "startCommand": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && python btc15_verify_ladder_freeze_v2.py --lane v81 && exec python -u v81_30_45_live_feed.py'",
+      "domain": "btc15-v2-v81-qualification-production.up.railway.app"
+    }
+  },
+  "staged_readback": {
+    "project": {
+      "id": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+      "name": "noble-warmth"
+    },
+    "environment": {
+      "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+      "name": "production"
+    },
+    "staged": {
+      "patchId": "19ab6a3d-1e97-4b38-896e-a64b7b8e59a8",
+      "status": "STAGED",
+      "changeCount": 57,
+      "message": null,
+      "createdAt": "2026-10-02T10:44:08.621Z",
+      "updatedAt": "2026-10-03T23:32:42.135Z"
+    },
+    "destructive": false,
+    "resources": [
+      {
+        "kind": "service",
+        "id": "725e8200-656a-4576-a62a-0b84fedf9ffd",
+        "name": "btc15-v2-v81-qualification",
+        "action": "update",
+        "changes": [
+          {
+            "path": "services.725e8200-656a-4576-a62a-0b84fedf9ffd.source.branch",
+            "displayName": "Branch",
+            "type": "added",
+            "from": "",
+            "to": "release/v81-ladder-completion-20261003",
+            "destructive": false
+          },
+          {
+            "path": "services.725e8200-656a-4576-a62a-0b84fedf9ffd.source.commitSha",
+            "displayName": "Commit Sha",
+            "type": "added",
+            "from": "",
+            "to": "60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1",
+            "destructive": false
+          },
+          {
+            "path": "services.725e8200-656a-4576-a62a-0b84fedf9ffd.source.image",
+            "displayName": "Image",
+            "type": "removed",
+            "from": "",
+            "to": "",
+            "destructive": false
+          },
+          {
+            "path": "services.725e8200-656a-4576-a62a-0b84fedf9ffd.source.repo",
+            "displayName": "Repo",
+            "type": "added",
+            "from": "",
+            "to": "yz272n2tpf-lab/Btc-15min-bot",
+            "destructive": false
+          },
+          {
+            "path": "services.725e8200-656a-4576-a62a-0b84fedf9ffd.build.builder",
+            "displayName": "Builder",
+            "type": "updated",
+            "from": "RAILPACK",
+            "to": "RAILPACK",
+            "destructive": false
+          },
+          {
+            "path": "services.725e8200-656a-4576-a62a-0b84fedf9ffd.deploy.healthcheckPath",
+            "displayName": "Healthcheck Path",
+            "type": "added",
+            "from": "",
+            "to": "/health",
+            "destructive": false
+          },
+          {
+            "path": "services.725e8200-656a-4576-a62a-0b84fedf9ffd.deploy.healthcheckTimeout",
+            "displayName": "Healthcheck Timeout",
+            "type": "added",
+            "from": "",
+            "to": "30",
+            "destructive": false
+          },
+          {
+            "path": "services.725e8200-656a-4576-a62a-0b84fedf9ffd.deploy.multiRegionConfig.iad.numReplicas",
+            "displayName": "Num Replicas",
+            "type": "added",
+            "from": "1",
+            "to": "1",
+            "destructive": false
+          },
+          {
+            "path": "services.725e8200-656a-4576-a62a-0b84fedf9ffd.deploy.restartPolicyMaxRetries",
+            "displayName": "Restart Policy Max Retries",
+            "type": "added",
+            "from": "",
+            "to": "10",
+            "destructive": false
+          },
+          {
+            "path": "services.725e8200-656a-4576-a62a-0b84fedf9ffd.deploy.restartPolicyType",
+            "displayName": "Restart Policy Type",
+            "type": "added",
+            "from": "",
+            "to": "ON_FAILURE",
+            "destructive": false
+          },
+          {
+            "path": "services.725e8200-656a-4576-a62a-0b84fedf9ffd.deploy.startCommand",
+            "displayName": "Start Command",
+            "type": "added",
+            "from": "",
+            "to": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && python btc15_verify_ladder_freeze_v2.py --lane v81 && exec python -u v81_30_45_live_feed.py'",
+            "destructive": false
+          },
+          {
+            "path": "services.725e8200-656a-4576-a62a-0b84fedf9ffd.volumeMounts.97cc9dcd-ef90-495e-a1be-ffda31eac1b3.mountPath",
+            "displayName": "Mount Path",
+            "type": "added",
+            "from": "",
+            "to": "/data",
+            "destructive": false
+          },
+          {
+            "path": "services.725e8200-656a-4576-a62a-0b84fedf9ffd.variables.BTC15_BRTI_SHARED_URL.encryptedValue",
+            "displayName": "BTC15_BRTI_SHARED_URL",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.725e8200-656a-4576-a62a-0b84fedf9ffd.variables.BTC15_BRTI_TRANSPORT.encryptedValue",
+            "displayName": "BTC15_BRTI_TRANSPORT",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.725e8200-656a-4576-a62a-0b84fedf9ffd.variables.BTC15_LADDER_DATA_ROOT.encryptedValue",
+            "displayName": "BTC15_LADDER_DATA_ROOT",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.725e8200-656a-4576-a62a-0b84fedf9ffd.variables.BTC15_USE_SHARED_BRTI.encryptedValue",
+            "displayName": "BTC15_USE_SHARED_BRTI",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.725e8200-656a-4576-a62a-0b84fedf9ffd.variables.KALSHI_KEY_ID.encryptedValue",
+            "displayName": "KALSHI_KEY_ID",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.725e8200-656a-4576-a62a-0b84fedf9ffd.variables.KALSHI_PRIVATE_KEY_B64.encryptedValue",
+            "displayName": "KALSHI_PRIVATE_KEY_B64",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.725e8200-656a-4576-a62a-0b84fedf9ffd.variables.PORT.encryptedValue",
+            "displayName": "PORT",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.725e8200-656a-4576-a62a-0b84fedf9ffd.variables.PYTHONUNBUFFERED.encryptedValue",
+            "displayName": "PYTHONUNBUFFERED",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.725e8200-656a-4576-a62a-0b84fedf9ffd.variables.V81_DIAG_LIVE.encryptedValue",
+            "displayName": "V81_DIAG_LIVE",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          }
+        ]
+      },
+      {
+        "kind": "service",
+        "id": "e6101c69-18df-4522-99d8-94e363ad8b92",
+        "name": "btc15-v2-main-qualification",
+        "action": "update",
+        "changes": [
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.source.branch",
+            "displayName": "Branch",
+            "type": "added",
+            "from": "",
+            "to": "release/ladder-completion-20261003",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.source.commitSha",
+            "displayName": "Commit Sha",
+            "type": "added",
+            "from": "",
+            "to": "de4f3e20b8657eb8cfee91bd4e525c103b5bf513",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.source.image",
+            "displayName": "Image",
+            "type": "removed",
+            "from": "",
+            "to": "",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.source.repo",
+            "displayName": "Repo",
+            "type": "added",
+            "from": "",
+            "to": "yz272n2tpf-lab/Btc-15min-bot",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.build.builder",
+            "displayName": "Builder",
+            "type": "updated",
+            "from": "RAILPACK",
+            "to": "RAILPACK",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.deploy.healthcheckPath",
+            "displayName": "Healthcheck Path",
+            "type": "added",
+            "from": "",
+            "to": "/health",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.deploy.healthcheckTimeout",
+            "displayName": "Healthcheck Timeout",
+            "type": "added",
+            "from": "",
+            "to": "120",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.deploy.multiRegionConfig.iad.numReplicas",
+            "displayName": "Num Replicas",
+            "type": "added",
+            "from": "1",
+            "to": "1",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.deploy.restartPolicyMaxRetries",
+            "displayName": "Restart Policy Max Retries",
+            "type": "added",
+            "from": "",
+            "to": "10",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.deploy.restartPolicyType",
+            "displayName": "Restart Policy Type",
+            "type": "added",
+            "from": "",
+            "to": "ON_FAILURE",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.deploy.startCommand",
+            "displayName": "Start Command",
+            "type": "added",
+            "from": "",
+            "to": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && python btc15_verify_ladder_freeze_v2.py --lane main && exec python -u btc15_information_install_v1.py'",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.volumeMounts.b6304c46-7027-4bfd-932d-94bb9c67da8e.mountPath",
+            "displayName": "Mount Path",
+            "type": "added",
+            "from": "",
+            "to": "/data",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.variables.BTC15_BRTI_GATEWAY_URL.encryptedValue",
+            "displayName": "BTC15_BRTI_GATEWAY_URL",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.variables.BTC15_BRTI_SHARED_URL.encryptedValue",
+            "displayName": "BTC15_BRTI_SHARED_URL",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.variables.BTC15_BRTI_TRANSPORT.encryptedValue",
+            "displayName": "BTC15_BRTI_TRANSPORT",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.variables.BTC15_DASH_V13_Z1.encryptedValue",
+            "displayName": "BTC15_DASH_V13_Z1",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.variables.BTC15_DASH_V13_Z2.encryptedValue",
+            "displayName": "BTC15_DASH_V13_Z2",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.variables.BTC15_DASH_V13_Z3.encryptedValue",
+            "displayName": "BTC15_DASH_V13_Z3",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.variables.BTC15_DASH_V13_Z4.encryptedValue",
+            "displayName": "BTC15_DASH_V13_Z4",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.variables.BTC15_DASH_V13_Z5.encryptedValue",
+            "displayName": "BTC15_DASH_V13_Z5",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.variables.BTC15_ENABLE_INFORMATION_EXPORT.encryptedValue",
+            "displayName": "BTC15_ENABLE_INFORMATION_EXPORT",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.variables.BTC15_INLINE_SCALP_V1.encryptedValue",
+            "displayName": "BTC15_INLINE_SCALP_V1",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.variables.BTC15_KALSHI_QUOTE_PROVENANCE_CANARY.encryptedValue",
+            "displayName": "BTC15_KALSHI_QUOTE_PROVENANCE_CANARY",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.variables.BTC15_LADDER_DATA_ROOT.encryptedValue",
+            "displayName": "BTC15_LADDER_DATA_ROOT",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.variables.BTC15_USE_SHARED_BRTI.encryptedValue",
+            "displayName": "BTC15_USE_SHARED_BRTI",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.variables.BTC15_V81_LADDERS_URL.encryptedValue",
+            "displayName": "BTC15_V81_LADDERS_URL",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.variables.KALSHI_KEY_ID.encryptedValue",
+            "displayName": "KALSHI_KEY_ID",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.variables.KALSHI_PRIVATE_KEY_B64.encryptedValue",
+            "displayName": "KALSHI_PRIVATE_KEY_B64",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.variables.PORT.encryptedValue",
+            "displayName": "PORT",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.e6101c69-18df-4522-99d8-94e363ad8b92.variables.PYTHONUNBUFFERED.encryptedValue",
+            "displayName": "PYTHONUNBUFFERED",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          }
+        ]
+      },
+      {
+        "kind": "volume",
+        "id": "97cc9dcd-ef90-495e-a1be-ffda31eac1b3",
+        "name": "btc15-v2-v81-journal",
+        "action": "create",
+        "changes": [
+          {
+            "path": "volumes.97cc9dcd-ef90-495e-a1be-ffda31eac1b3.region",
+            "displayName": "Region",
+            "type": "added",
+            "from": "",
+            "to": "iad",
+            "destructive": false
+          },
+          {
+            "path": "volumes.97cc9dcd-ef90-495e-a1be-ffda31eac1b3.sizeMB",
+            "displayName": "Size MB",
+            "type": "added",
+            "from": "",
+            "to": "2048",
+            "destructive": false
+          },
+          {
+            "path": "volumes.97cc9dcd-ef90-495e-a1be-ffda31eac1b3.isCreated",
+            "displayName": "Is Created",
+            "type": "added",
+            "from": "",
+            "to": "CREATED",
+            "destructive": false
+          }
+        ]
+      },
+      {
+        "kind": "volume",
+        "id": "b6304c46-7027-4bfd-932d-94bb9c67da8e",
+        "name": "btc15-v2-main-journal",
+        "action": "create",
+        "changes": [
+          {
+            "path": "volumes.b6304c46-7027-4bfd-932d-94bb9c67da8e.region",
+            "displayName": "Region",
+            "type": "added",
+            "from": "",
+            "to": "iad",
+            "destructive": false
+          },
+          {
+            "path": "volumes.b6304c46-7027-4bfd-932d-94bb9c67da8e.sizeMB",
+            "displayName": "Size MB",
+            "type": "added",
+            "from": "",
+            "to": "2048",
+            "destructive": false
+          },
+          {
+            "path": "volumes.b6304c46-7027-4bfd-932d-94bb9c67da8e.isCreated",
+            "displayName": "Is Created",
+            "type": "added",
+            "from": "",
+            "to": "CREATED",
+            "destructive": false
+          }
+        ]
+      }
+    ],
+    "sharedVariables": [],
+    "privateNetworkDisabled": null
+  },
+  "offline_gate": {
+    "chunk_id": "795efd",
+    "wall_time_seconds": 0.816514074,
+    "exit_code": 0,
+    "original_token_count": 243,
+    "output": "FROZEN V2 IDENTITY PASS | main | SIGNAL ONLY | NO ORDERS\nFROZEN V2 IDENTITY PASS | v81 | SIGNAL ONLY | NO ORDERS\n................LADDER PRODUCT | {\"lane\": \"main\", \"status\": \"AVAILABLE\", \"contract\": \"KXBTC15M-26OCT031615-15\", \"sequence\": 1, \"event\": \"BUY\", \"signal_only\": true, \"orders\": false}\n......................................LADDER PRODUCT | {\"lane\": \"v81\", \"status\": \"PASS\", \"contract\": \"KXBTC15M-26OCT031615-15\", \"sequence\": 1, \"event\": null, \"signal_only\": true, \"orders\": false}\nLADDER PRODUCT | {\"lane\": \"v81\", \"status\": \"AVAILABLE\", \"contract\": \"KXBTC15M-26OCT031615-15\", \"sequence\": 2, \"event\": \"SCALP_SIGNAL\", \"signal_only\": true, \"orders\": false}\nLADDER PRODUCT | {\"lane\": \"v81\", \"status\": \"AVAILABLE\", \"contract\": \"KXBTC15M-26OCT031615-15\", \"sequence\": 4, \"event\": \"SCALP_EXIT\", \"signal_only\": true, \"orders\": false}\n.....................................\n----------------------------------------------------------------------\nRan 91 tests in 0.708s\n\nOK\n"
+  },
+  "live_qualified": false,
+  "production_promoted": false,
+  "production_service_configs_unchanged": true,
+  "note": "Empty qualification services and their public domains exist, with latestDeployment=null. All code, journal mounts, variables and commands remain staged. Railway reuses the cleared patch container ID; no obsolete V1 fields remain. Secret values were not read; references are explicit."
+}
