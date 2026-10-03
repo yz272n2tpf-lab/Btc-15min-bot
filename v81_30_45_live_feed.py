@@ -11,6 +11,8 @@ V8.1 gate logic is unchanged. This revision adds diagnostic-only visibility:
 No threshold, route, confirmation, timing, or trading rule is changed.
 """
 import json, os, threading, time, sys, math
+from copy import deepcopy
+from btc15_scalp_journal_v1 import start as start_ladder_journal, offer as journal_offer
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from collections import defaultdict, deque
 
@@ -51,6 +53,9 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header('Content-Length',str(len(body)))
         self.end_headers(); self.wfile.write(body)
     def do_GET(self):
+        if self.path == '/ladders':
+            from btc15_ladder_journal_v1 import view
+            return self._send(200,view(os.getenv('BTC15_LADDER_DATA_ROOT','/data/btc15_ladders_v1'),'v81'))
         if self.path in ('/','/health'):
             return self._send(200,{
               'ok':True,'service':'v81-30-45-live-feed','signal_only':True,
@@ -133,6 +138,8 @@ def publish_wait(contract=None, seconds_left=None, diagnostics=None, reason=None
           'primary_wait_reason':reason or _primary_reason(diagnostics or []),
           'input_provenance':input_provenance,
         })
+        publication=deepcopy(STATE)
+    journal_offer(publication)
 
 def publish_signal(row, side, route, entry, bid, ts, diagnostics=None, entry_seconds_left=None, entry_provenance=None):
     now=time.time()
@@ -171,6 +178,8 @@ def publish_signal(row, side, route, entry, bid, ts, diagnostics=None, entry_sec
           'last_signal_event':event,
           'input_provenance':provenance,
         })
+        publication=deepcopy(STATE)
+    journal_offer(publication)
 
 def quality_30_45(row,side,f):
     # LOCKED V8.1 GATE — DO NOT RETUNE.
@@ -285,6 +294,7 @@ def main():
     if '--self-test' in sys.argv:
         return self_test()
     port=int(os.getenv('PORT','8080'))
+    start_ladder_journal()
     threading.Thread(target=loop,daemon=True).start()
     srv=ThreadingHTTPServer(('0.0.0.0',port),Handler)
     print(f'V81 FEED HTTP | port {port} | GATE DIAG V1',flush=True)
