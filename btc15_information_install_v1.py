@@ -47,6 +47,12 @@ def assemble(directory=BUILD):
         (d/name).write_bytes((ROOT/name).read_bytes())
     (d/'btc15_information_fields_v1.json').write_text(json.dumps(FIELD_CLASSES, sort_keys=True))
     server = d/'BTC15_DASHBOARD_LIVE_SERVER_V1.py'
+    # Product routes consume committed ladder snapshots. HTTP reads create no
+    # signal, confirmation, persistence hit, journal event or source request.
+    replace_once(server, '    def do_GET(self):\n',
+                 '    def do_GET(self):\n        from btc15_ladder_routes_v1 import serve as serve_ladders\n'
+                 '        if serve_ladders(self):\n            return\n')
+    replace_once(html, '</body>', '<script src="/ladders/panel.js"></script>\n</body>')
     replace_once(server, '    def do_GET(self):\n',
                  '    def do_GET(self):\n        from btc15_information_proxy_v1 import serve\n'
                  '        if serve(self):\n            return\n')
@@ -68,6 +74,9 @@ def assemble(directory=BUILD):
                     installed_files={p.name:hashlib.sha256(p.read_bytes()).hexdigest()
                                      for p in sorted(d.iterdir()) if p.is_file() and p.name!='manifest.json'})
     (d/'manifest.json').write_text(json.dumps(manifest, sort_keys=True, indent=2)+'\n')
+    # Compile the exact generated modules before any production child starts.
+    for generated in d.glob('*.py'):
+        compile(generated.read_bytes(), str(generated), 'exec')
     return d
 
 
