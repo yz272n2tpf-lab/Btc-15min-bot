@@ -16,6 +16,15 @@ class FinishedDirectionalTests(unittest.TestCase):
     def setUp(self):self.e=product.Directional();self.e.restore({})
     def step(self,**kw):
         f=frame(**kw);return self.e.process(f,f['captured_ts']+.01)
+    def test_restart_rejects_another_candidate_checkpoint(self):
+        _,saved,_=self.step();saved['candidate']='V1'
+        with self.assertRaisesRegex(ValueError,'CANDIDATE_MISMATCH'):product.Directional().restore(saved)
+    def test_restart_rejects_missing_or_changed_origin(self):
+        _,saved,_=self.step()
+        saved['origin']['original_ask']=.40
+        with self.assertRaisesRegex(ValueError,'ORIGIN_CONFLICT'):product.Directional().restore(saved)
+        saved['origin']=None
+        with self.assertRaisesRegex(ValueError,'ORIGIN_MISSING'):product.Directional().restore(saved)
     def test_value_ceiling_and_no_final_entry_veto(self):
         _,_,v=self.step(ask=.46);self.assertEqual(v['early']['guidance'],'PASS')
         _,_,v=self.step(offset=305,sequence=2,ask=.35)

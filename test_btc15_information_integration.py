@@ -41,13 +41,17 @@ class InstallTests(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):cls.temp.cleanup()
 
-    def test_original_html_survives_exactly_with_one_independent_panel(self):
+    def test_product_html_survives_exactly_with_separate_information_and_ladder_scripts(self):
         manifest=json.loads((self.d/'manifest.json').read_text())
         text=(self.d/'BTC_Kalshi_App_Live_v13.html').read_text()
         panel=(ROOT/'btc15_information_panel_v1.html').read_text()+'\n'
         self.assertEqual(text.count(panel),1)
-        self.assertEqual(hashlib.sha256(text.replace(panel,'',1).encode()).hexdigest(),manifest['original_patched_dashboard_sha256'])
-        self.assertEqual(text.count('id="v81-inline-scalp-script"'),1)
+        ladder='<script src="/ladders/panel.js"></script>\n'
+        self.assertEqual(text.count(ladder),1)
+        self.assertEqual(hashlib.sha256(text.replace(panel,'',1).replace(ladder,'',1).encode()).hexdigest(),manifest['original_patched_dashboard_sha256'])
+        self.assertEqual(text.count('id="v81-inline-scalp-script"'),0)
+        self.assertEqual(text.count('id="scalpCard"'),1)
+        self.assertIn('window.btc15RenderLadders()',text)
 
     def test_full_supervisor_chain_only_changes_child_constants(self):
         names=('btc15_run_full_validation_v1.py','btc15_run_with_rescue_v2_and_parity_v1.py',

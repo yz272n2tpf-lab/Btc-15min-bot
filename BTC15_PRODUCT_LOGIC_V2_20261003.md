@@ -77,7 +77,7 @@ Inside5minutes, existing weakening/conflict/pullback context escalates WATCH to 
 
 ### Integrity and journal
 
-Official900second windows and New York close-derived ticker are checked; fixed target cannot change under an origin. BRTI true source age<=5seconds; accepted quote age<=6seconds; Coinbase source age<=10seconds; no source clock after its causal cutoff. UI expiry uses server receipt and browser monotonic time, not the browser wall clock. Missing/unqualified data yield UNAVAILABLE; qualified insufficient edge yields PASS. Independent FINAL remains visible when only its EARLY helper fails.
+Official900second windows and New York close-derived ticker are checked; fixed target cannot change under an origin. BRTI true source age<=5seconds; accepted quote age<=6seconds; Coinbase source age<=10seconds; no source clock after its causal cutoff. UI expiry uses server receipt and browser monotonic time, not the browser wall clock. Restart refuses another candidate’s checkpoint or an origin that disagrees with its persisted position. Missing/unqualified data yield UNAVAILABLE; qualified insufficient edge yields PASS. Independent FINAL remains visible when only its EARLY helper fails.
 
 One queue of16 and one journal writer per lane. Transactional compressed event+checkpoint commits precede publication. Origins, FINAL identities/linkage, strictly later bids, transitions and terminals are retained. A bounded contract table distinguishes observed quiet slots, partial/missing slots, signal counts and unavailable observations, including missed slots across restart. Retention:30days or300,000events; SQLite page cap512MiB per lane; record/view cap64KiB. `/ladders/coverage` exposes at most96 recent contract summaries.
 

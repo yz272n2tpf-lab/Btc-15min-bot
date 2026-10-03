@@ -2,7 +2,7 @@
 
 Candidate: `BTC15_LADDER_COMPLETION_20261003_V2`.
 
-Local final gate: **89/89 tests passed** under Python3.12, including the Node dashboard DOM contract check. Manifest SHA256: `2b15692e33837dacfa33a71f421b56d7e8f52d065d7c9063085bbe0280399d2e`.
+Local final gate: **91/91 tests passed** under Python3.12, including the Node dashboard DOM contract check. Manifest SHA256: `9333eff3c5db1783a533d484b5c3dd14045f33d3a711729e084603dc86cb69f5`.
 
 Run from repository root:
 
@@ -31,3 +31,5 @@ The UI check executes the production JavaScript against the generated card struc
 These are functional/adversarial checks, not a historical policy backtest, live-market qualification, reliability estimate or claim of profitable execution. Runtime publication still requires the brief later approved live wiring check. No Railway approval was requested and no runtime was changed in this mission.
 
 Hosted CI status is recorded on PR #53 for the exact published commit. This file deliberately does not claim a hosted result before the run completes.
+
+The existing broader CI suite initially found three stale pre-ladder structural assertions. They now verify the exact approved quote-witness addition against the unchanged released bytes, all original native statements before the four observer calls, and both expected dashboard additions. No source-integrity gate was skipped. MAIN restart also explicitly rejects another candidate’s checkpoint and missing/conflicting origins.

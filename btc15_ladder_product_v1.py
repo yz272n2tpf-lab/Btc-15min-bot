@@ -120,16 +120,27 @@ def protected_frame(f, now):
 
 class Directional:
     def restore(self, saved):
+        if saved and saved.get('candidate') != CANDIDATE:
+            raise ValueError('DIRECTIONAL_CHECKPOINT_CANDIDATE_MISMATCH')
         self.state = decode_state(saved['manager']) if saved else manager.State()
         self.origin = saved.get('origin') if saved else None
         self.last = saved.get('last') if saved else None
         self.prior_final = saved.get('prior_final') if saved else None
         self.position_path = saved.get('position_path', {}) if saved else {}
+        position=self.state.position
+        if bool(position)!=bool(self.origin):
+            raise ValueError('DIRECTIONAL_CHECKPOINT_ORIGIN_MISSING')
         if self.origin:
+            o=self.origin
+            if (o['contract']!=position.contract_id or o['side']!=position.side or o['original_ask']!=position.entry_ask
+                or datetime.fromisoformat(o['signal_timestamp_utc'])!=position.entry_timestamp
+                or o['entry_provenance'].get('candidate')!=CANDIDATE
+                or o['origin_id']!=digest([CANDIDATE,o['contract'],[o['native_epoch'],o['native_sequence']],o['side']])):
+                raise ValueError('DIRECTIONAL_CHECKPOINT_ORIGIN_CONFLICT')
             self.position_path['missing'] = True
 
     def checkpoint(self):
-        return deepcopy(dict(manager=encode_state(self.state),origin=self.origin,last=self.last,prior_final=self.prior_final,position_path=self.position_path))
+        return deepcopy(dict(candidate=CANDIDATE,manager=encode_state(self.state),origin=self.origin,last=self.last,prior_final=self.prior_final,position_path=self.position_path))
 
     def process(self, f, now):
         record = dict(schema=SCHEMA, candidate=CANDIDATE, build=os.getenv('RAILWAY_GIT_COMMIT_SHA'),
