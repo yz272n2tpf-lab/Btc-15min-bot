@@ -1,40 +1,128 @@
 {
-  "candidate": "BTC15_LADDER_COMPLETION_20261003_V1",
   "baseline_main": "abe212b513827c8cec28a2f64e0161e79296bd82",
   "baseline_v81": "b05723ec622f901a05402ecf27f4d33505753ef1",
-  "signal_only": true,
-  "orders": false,
-  "development_decision": "B_NO_SUPPORTED_ALPHA_EXPANSION; COMPLETE_RECOVERED_LIFECYCLE_AND_EVENT_JOURNAL",
-  "entry_rules": "unchanged V4.7 45c/75%/8pt/2-10min/$25",
-  "final_rules": "unchanged V4.6 90%/<=8min/$75_over6_else$50/ratio1/target+BRTI side; no delay",
-  "lifecycle": "Recovered EARLY-only acceptance; immutable origin; HOLD; qualified FINAL agreement; latched PROTECT on opposition or loss of prior confirmation. Missing inputs suspend; no automatic EXIT",
-  "scalp": "unchanged V8.1 CORE/SURGE 30-45c/2_observations_4s/180s/20s_same_side_cooldown; original ask and later accepted bids journaled",
-  "unselected": "Serial/reversal research and V81 exit hypotheses remain unpromoted; no evidence-supported new rule selected",
-  "information": "5M <=300s / 3M <=180s; existing model flip probability informational only",
-  "brti_max_age_seconds": 5,
-  "failed_oct3_ground_zero_intervals": "EXCLUDED; no recovery or use",
-  "performance_claim": "No new prospective accuracy or execution performance claim",
-  "functional_tests": 61,
+  "candidate": "BTC15_LADDER_COMPLETION_20261003_V2",
+  "context": {
+    "five_minute": "CAUTION_WHEN_CONFLICT_WEAKENING_OR_PULLBACK",
+    "flip_risk": "MODEL_INFORMATION_ONLY_NO_EXIT_AUTHORITY",
+    "three_minute": "LIMITED_RUNWAY_CAUTION"
+  },
+  "early": {
+    "absolute_gap_min": 25,
+    "alpha_decision": "B_NO_SUPPORTED_ADDITIONAL_EXPANSION",
+    "ask_max": 0.45,
+    "ask_min_exclusive": 0,
+    "edge_gate": "REDUNDANT_REMOVED",
+    "entry_value_target": 0.5,
+    "fair_min": 0.75,
+    "ideal_band": [
+      0.25,
+      0.35
+    ],
+    "reliability": "NOT_ESTABLISHED",
+    "remaining_seconds": [
+      120,
+      600
+    ]
+  },
+  "early_helper": {
+    "exit": "NO_SUPPORTED_EARLY_THRESHOLD",
+    "link": "IMMUTABLE_EXPLICIT_ORIGIN",
+    "protect": "LATCH_ON_OPPOSITION_OR_LOSS_OF_PREVIOUS_FINAL_CONFIRMATION"
+  },
+  "failed_ground_zero_intervals": "EXCLUDED",
   "files_sha256": {
+    ".github/workflows/ladder-completion.yml": "ae26ebf2a180a416b3a47016e62ab68215226ac9a81348c759d8c2e6ad0f265e",
     "BTC15_DIRECTIONAL_POSITION_MANAGER_V1.py": "905cd56aa571948cf44ee8a14eafcd6908f24d136379d7aa34fec7457d8a97d7",
+    "BTC15_PRODUCT_LOGIC_V2_20261003.md": "a61e4865895fc0fc72b35b984d6fe1f1ec20ec23749d045ac01611ee1342fe95",
     "btc15_directional_signal_authority_v1.py": "d65a9b2fbdd0789c97a293c3cc4ba958682000cbc9c9263b15b8fd379defc1b8",
-    "btc15_ladder_journal_v1.py": "d918b3373303657407c4b96e59f06067d72d8e7b116daaf93c8e668270eed2bc",
-    "btc15_ladder_product_v1.py": "fe4f5f9eb20990372626b44beb2018badffaf4cffe8963301eb7db4e4309a1e7",
-    "btc15_scalp_journal_v1.py": "ff43518b5682d9e89aebf2b59e25a92fb0e2e3f38b4fe107ea5e983aabedc04a",
-    "btc15_ladder_routes_v1.py": "9c6cbdd4bca2d2ee998862f99e718a4fc831c4f5e59ad42e75235094b28bbf2e",
-    "btc15_ladder_panel_v1.js": "e4c27c49c76d1536fc9fb2e3a555b3904d0a4220be895add7e0d2ad15857ca42",
-    "btc15_information_install_v1.py": "db45b9cc90f907c240d29692d3c07e262bd71e30c62879325d054ef7075b2cfc",
+    "btc15_information_install_v1.py": "153ae8b53abe0efa931add2eca7215e7da7800876e8afbfb197bcf65ae9d656b",
     "btc15_information_native_offpath_candidate.py": "4b5e9ee39015690f82468395504d1f8dc4b69cfe26cc1f4b20866d95cae618de",
     "btc15_kalshi_quote_provenance_v1.py": "a21396b88b3820c8f99bbd800b43a5c449f1fd10d632f2e2535ed792402dbe9a",
-    "btc15_v81_qualified_inputs_v1.py": "cd4143b9c41e978e6ca38555e32b167ff3f511110efee173f59ca30c8f399e21",
-    "test_btc15_ladder_completion_v1.py": "f7da50d5b96082fce419881ef821d41c71ced62f050d0e0b86b1d7b0d0f51ce2",
-    "test_btc15_scalp_journal_v1.py": "bc81ecb1ccf3f9de6e6b7f14549b1454a45291a69f39b5b0ebc4ee83e05e1379",
+    "btc15_ladder_journal_v1.py": "cdba620f1550983b8df631addc92cb3746fd3a799031390d895bc7b2031bfc26",
+    "btc15_ladder_panel_v1.js": "8bb3d8fffda79e5550eda38b003186e614c7cce86d0bc59e1d61bfbd6eb12b47",
+    "btc15_ladder_product_v1.py": "f249360e5e8b5b1f8c12e918b09da9dc596b466c5234d87174832233d8938feb",
+    "btc15_ladder_routes_v1.py": "104b569f455b595327cf311becfd756c3ba250f3e3f4eed690b69ca1c9858fae",
+    "btc15_ladder_settlement_v2.py": "778f1014d04821768136c433f3286a78b8fc953d98e8433f1664374bb0e49dd9",
+    "btc15_position_context_v2.py": "1e2213236f8c4fdcc20ecdf7e5462d8273804481c215f606ecfa9da1ab76d1bb",
+    "btc15_recovered_exit_engine_v1.py": "22fdc4d682a9b661eabec5e3e52d5bb1d6f49247396149abe298049b1ada2439",
+    "btc15_scalp_journal_v1.py": "0e6bf086e767485bb02b9077ad6e3817cf7ad88a800811ae2d542be82710fb95",
+    "btc15_scalp_management_presentation_v1.py": "d904fff7693b37cce9089c44f84f2ece01c017bf7f040bda1831715d06122929",
+    "btc15_v81_qualified_inputs_v1.py": "5298599ca85b24f41d04e13f33d59b659d15aa37d509ed48d4f6ebc02341c435",
+    "btc15_verify_ladder_freeze_v2.py": "6f8965fe8269190361f38c1d327725a98076864fac25d6dcbb2fb01fcd300216",
+    "directional_shadow_examples_v1.py": "a34a8b1382b8d1f0ceebe992861b572ad895c2dcdaa51f61d0a67cb75d0dfee7",
+    "scalp_lead_shadow_v5.py": "f9b6b989794de56aea01a48aa984244f8ffafe97ba13560d77184baf7dcd85be",
+    "scalp_lead_unified_v8.py": "88714fd808d5e4b6d296d768448b579e8ebfb59b20bf7d614c778cae70eb0400",
+    "test_btc15_ladder_completion_v1.py": "0654daf7e8fed53d384d23614b21e12db7c62d2e1452b218cc01fdcf1e19fdae",
+    "test_btc15_ladder_ui_v2.cjs": "2c47f63a49d9042a774fdcf69d1ef4de3f77eb4c885b113fea9ad10149ac87de",
+    "test_btc15_product_logic_v2.py": "2f834804c7c195fffe2a9cc02451f7e6af3507a12c99b087b1b8109bc9cb6c77",
+    "test_btc15_scalp_journal_v1.py": "049afdc644f9b2e8094c15cc2e342d81b91157a62feaec906194c4fc386d834d",
     "test_directional_position_manager_v1.py": "021923ea4b934be38f740fbf336c84025fc8b9f9d7079b92e226f2bf8f3a7663",
-    "directional_shadow_examples_v1.py": "a34a8b1382b8d1f0ceebe992861b572ad895c2dcdaa51f61d0a67cb75d0dfee7"
+    "v81_30_45_live_feed.py": "f3ac25e5d63377451913048a10dfe54c8d3f0a7030a74787a4611d7bf6cfcab9"
+  },
+  "final": {
+    "added_delay": 0,
+    "brti_gap_min_exclusive": 11,
+    "distance_range_min": 1,
+    "fair_min": 0.9,
+    "gap_above_360": 75,
+    "gap_other": 50,
+    "independent": true,
+    "remaining_max": 480,
+    "requires_target_and_brti_same_side": true
+  },
+  "freeze_date": "2026-10-03",
+  "journal": {
+    "authoritative_settlement": "OFFICIAL_KALSHI_FINALIZED_YES_NO_ONLY",
+    "days": 30,
+    "max_events": 300000,
+    "max_record_bytes": 65536,
+    "queue": 16,
+    "sqlite_max_pages": 131072
+  },
+  "orders": false,
+  "policy_document": "BTC15_PRODUCT_LOGIC_V2_20261003.md",
+  "scalp": {
+    "arm": 0.05,
+    "confirm_count": 2,
+    "confirm_window_seconds": 4,
+    "confirmation": "DISTINCT_ACCEPTED_QUOTES_AFTER_PREDECESSOR_EXIT",
+    "entry_band": [
+      0.3,
+      0.45
+    ],
+    "exit_price": "ACTUAL_LATER_SAME_SIDE_BID_AT_GUIDANCE_TIME",
+    "giveback": 0.04,
+    "horizon_seconds": 180,
+    "policy_evidence": "RECOVERED_RISK_CONTROL_NOT_V81_STATISTICALLY_QUALIFIED",
+    "routes": [
+      "CORE",
+      "SURGE"
+    ],
+    "same_side_cooldown": 20,
+    "stop": null,
+    "target": null
+  },
+  "scope": "COMPLETE_PRODUCT_LOGIC; OFFLINE_QUALIFICATION; NO_RAILWAY_AUTHORIZATION",
+  "signal_only": true,
+  "source_limits_seconds": {
+    "brti": 5,
+    "btc": 10,
+    "lookback_slack": 6,
+    "quote": 6,
+    "scalp_decision": 3.5
   },
   "v81_files_sha256": {
-    "v81_30_45_live_feed.py": "951c0cc443c22d4ecd1c029d9aa4a48f3fe15f01b5278eeaaff2e2fdcf0a94e8",
-    "btc15_ladder_journal_v1.py": "d918b3373303657407c4b96e59f06067d72d8e7b116daaf93c8e668270eed2bc",
-    "btc15_scalp_journal_v1.py": "ff43518b5682d9e89aebf2b59e25a92fb0e2e3f38b4fe107ea5e983aabedc04a"
+    "btc15_ladder_journal_v1.py": "cdba620f1550983b8df631addc92cb3746fd3a799031390d895bc7b2031bfc26",
+    "btc15_ladder_settlement_v2.py": "778f1014d04821768136c433f3286a78b8fc953d98e8433f1664374bb0e49dd9",
+    "btc15_position_context_v2.py": "1e2213236f8c4fdcc20ecdf7e5462d8273804481c215f606ecfa9da1ab76d1bb",
+    "btc15_recovered_exit_engine_v1.py": "22fdc4d682a9b661eabec5e3e52d5bb1d6f49247396149abe298049b1ada2439",
+    "btc15_scalp_journal_v1.py": "0e6bf086e767485bb02b9077ad6e3817cf7ad88a800811ae2d542be82710fb95",
+    "btc15_scalp_management_presentation_v1.py": "d904fff7693b37cce9089c44f84f2ece01c017bf7f040bda1831715d06122929",
+    "btc15_v81_qualified_inputs_v1.py": "5298599ca85b24f41d04e13f33d59b659d15aa37d509ed48d4f6ebc02341c435",
+    "btc15_verify_ladder_freeze_v2.py": "6f8965fe8269190361f38c1d327725a98076864fac25d6dcbb2fb01fcd300216",
+    "scalp_lead_shadow_v5.py": "f9b6b989794de56aea01a48aa984244f8ffafe97ba13560d77184baf7dcd85be",
+    "scalp_lead_unified_v8.py": "88714fd808d5e4b6d296d768448b579e8ebfb59b20bf7d614c778cae70eb0400",
+    "v81_30_45_live_feed.py": "f3ac25e5d63377451913048a10dfe54c8d3f0a7030a74787a4611d7bf6cfcab9"
   }
 }

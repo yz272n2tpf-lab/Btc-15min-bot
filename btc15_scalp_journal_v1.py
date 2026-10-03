@@ -1,118 +1,254 @@
-"""V8.1 event-only chronology; consumes its existing accepted publications.
+"""Single durable V8.1 origin owner and signal-only guidance lifecycle.
 
-Original ask is immutable. Later bids must have a strictly later accepted
-quote identity/time and the same contract/side. Movement/target races are
-observations, never promised fills or a newly selected exit policy.
+Recovered 5c arm / 4c giveback mechanism; current risk policy, NOT a
+statistically qualified V8.1 policy. Entry detector stays in the native feed.
+No target/stop research result selects an entry, exit, reversal or re-entry.
 """
+from copy import deepcopy
+from dataclasses import asdict
 import os
 from pathlib import Path
-import time
 
-from btc15_ladder_journal_v1 import Worker,digest,SCHEMA
+from btc15_ladder_journal_v1 import Worker, digest, SCHEMA
+from btc15_recovered_exit_engine_v1 import Policy, Lifecycle
+from btc15_scalp_management_presentation_v1 import management_presentation
+from btc15_position_context_v2 import context
+from btc15_v81_qualified_inputs_v1 import require_qualified, epoch
 
-CANDIDATE='BTC15_LADDER_COMPLETION_20261003_V1'
-ROOT=Path(os.getenv('BTC15_LADDER_DATA_ROOT','/data/btc15_ladders_v1'))
-TARGETS=(8,10,15,20,30)
+CANDIDATE = 'BTC15_LADDER_COMPLETION_20261003_V2'
+ROOT = Path(os.getenv('BTC15_LADDER_DATA_ROOT', '/data/btc15_ladders_v2'))
+TARGETS = (8, 10, 15, 20, 30)
+POLICY = Policy('RECOVERED_ARM5_GIVEBACK4_HORIZON180_V2', arm=.05, giveback=.04)
+
+
+def lane(prior_side, side, index):
+    # Reused causal classification from scalp_reversal_reentry_ladder_v1._lane.
+    if index <= 1 or not prior_side:
+        return 'FIRST'
+    return 'REENTRY_CONTINUATION' if side == prior_side else 'REVERSAL_RECROSS'
+
+
+def later(q, previous, after):
+    return (q['source_ts_ms']/1000 > after and q['source_ts_ms'] > previous['source_ts_ms']
+            and q['validated_at_ms']/1000 > after
+            and (q['epoch'] != previous['epoch'] or
+                 (q['sid'] == previous['sid'] and q['sequence'] > previous['sequence'])))
 
 
 class Scalp:
-    def restore(self,saved):
-        self.origin=saved.get('origin')
-        self.path=saved.get('path',{})
-        self.last_at=saved.get('last_at')
+    def restore(self, saved):
+        if saved and saved.get('candidate') != CANDIDATE:
+            raise ValueError('SCALP_CHECKPOINT_CANDIDATE_MISMATCH')
+        self.origin = saved.get('origin')
+        self.path = saved.get('path', {})
+        self.terminal = saved.get('terminal')
+        self.contract = saved.get('contract')
+        self.closed = saved.get('closed')
+        self.last = saved.get('last')
+        self.index = saved.get('index', 0)
+        self.last_signal = saved.get('last_signal', {})
+        self.confirm = {}  # Never carry half-confirmation across restart.
+        self.engine = None
+        if self.origin:
+            self.path['missing'] = True
+            self.engine = self._engine()
+            self.engine.__dict__.update(saved.get('engine', {}))
+        self.restarted = bool(saved)
+
+    def _engine(self):
+        o = self.origin
+        return Lifecycle(POLICY, o['contract'], o['side'], o['original_ask'],
+                         o['signal_ts'], o['signal_ts'], o['close_ts'])
 
     def checkpoint(self):
-        return dict(origin=self.origin,path=self.path,last_at=self.last_at)
+        engine = {k:v for k,v in self.engine.__dict__.items() if k != 'policy'} if self.engine else None
+        return deepcopy(dict(candidate=CANDIDATE, origin=self.origin, path=self.path,
+            terminal=self.terminal, contract=self.contract, closed=self.closed,
+            last=self.last, index=self.index, last_signal=self.last_signal, engine=engine))
 
-    def process(self,s,now):
-        from btc15_v81_qualified_inputs_v1 import require_qualified
-        event=s.get('last_signal_event') or {}
-        record=dict(schema=SCHEMA,candidate=CANDIDATE,kind='SCALP_OBSERVATION',
-            contract=s.get('contract'),published_ts=now,signal_only=True,orders=False)
-        view=dict(candidate=CANDIDATE,published_ts=now,status='UNAVAILABLE',contract=s.get('contract'),
-            build=os.getenv('RAILWAY_GIT_COMMIT_SHA'),signal_only=True,orders=False)
+    def finish(self, reason, now, bid, q=None):
+        o = self.origin
+        self.terminal = dict(origin=deepcopy(o), path=deepcopy(self.path), reason=reason,
+            state='EXIT' if bid is not None else 'UNAVAILABLE', ts=now,
+            executable_exit_bid=bid, quote=deepcopy(q), observed_only=True,
+            horizon_delay_seconds=max(0., now-o['deadline']),
+            complete_path=not self.path['missing'], manual_fill=None, realized_profit=None)
+        self.confirm.clear()
+        return deepcopy(self.terminal)
+
+    def process(self, f, now):
+        record = dict(schema=SCHEMA, candidate=CANDIDATE, kind='SCALP_OBSERVATION',
+            contract=f.get('contract'), published_ts=now, signal_only=True, orders=False)
+        view = dict(candidate=CANDIDATE, build=os.getenv('RAILWAY_GIT_COMMIT_SHA'),
+            published_ts=now, status='UNAVAILABLE', guidance='UNAVAILABLE',
+            contract=f.get('contract'), origin=deepcopy(self.origin), signal_only=True,
+            orders=False, manual_execution_only=True)
+        if f.get('kind')=='SETTLEMENT':
+            record.update(kind='SETTLEMENT',settlement=f['settlement'])
+            return record,self.checkpoint(),view
         try:
-            p=s.get('input_provenance') or {}
-            q=p.get('quote') or {}
-            row=dict(q,ticker=s.get('contract'),target=p.get('target'),brti=(p.get('brti') or {}).get('value'),input_provenance=p)
-            require_qualified(row,now)
-            expires=min(p['close_ts'],p['brti']['source_ts_ms']/1000+5,q['source_ts_ms']/1000+6)
-            at=q['validated_at_ms']/1000
-            if self.last_at is not None and at<self.last_at:
-                raise ValueError('OUT_OF_ORDER_ACCEPTED_QUOTE')
-            continuity='OBSERVED' if self.last_at is not None and 0<=at-self.last_at<=6 else 'START_OR_MISSING_INTERVAL'
-            record.update(provenance=p,continuity=continuity)
-            self.last_at=at
-            terminal=None
-            if self.origin and (now>=self.origin['deadline'] or s.get('contract')!=self.origin['contract']):
-                terminal=dict(origin=self.origin,path=self.path,status='HORIZON' if s.get('contract')==self.origin['contract'] else 'ROLLOVER',
-                              executable_exit=None,complete_path=self.path.get('missing',True) is False and continuity=='OBSERVED')
-                record['terminal']=terminal
-                self.origin=None;self.path={}
-            if s.get('active') and event:
-                entry=event['entry_provenance'];side=event['side'];ts=event['signal_ts'];ask=event['entry_price']
-                erow=dict(entry['quote'],ticker=event['contract'],target=entry['target'],
-                          brti=entry['brti']['value'],input_provenance=entry)
-                require_qualified(erow,ts)
-                if (event['contract']!=s['contract'] or side not in ('UP','DOWN')
-                        or ask!=entry['quote'][side.lower()+'_ask'] or not ts<=now<min(ts+180,p['close_ts'])):
-                    raise ValueError('ORIGINAL_ENTRY_MISMATCH')
-                oid=digest([CANDIDATE,event['contract'],side,ts,entry['quote']['epoch'],entry['quote']['sequence']])
-                if self.origin is None:
-                    self.origin=dict(origin_id=oid,contract=event['contract'],side=side,signal_ts=ts,
-                        original_ask=ask,entry_provenance=entry,first_journal_ts=now,
-                        deadline=min(ts+180,entry['close_ts']),route=event['route'],manual_fill=None)
-                    self.path=dict(mfe=None,mae=None,samples=0,missing=now-ts>3.5,last_quote=None,
-                        targets={str(t):None for t in TARGETS},stop=None,armed5=False,armed10=False,
-                        giveback=None,terminal=None)
-                    record['event']='SCALP_SIGNAL';record['origin']=self.origin
-                if self.origin['origin_id']!=oid or self.origin['original_ask']!=ask:
-                    raise ValueError('ACTIVE_ORIGIN_REPLACEMENT')
-                originq=entry['quote'];lastq=self.path['last_quote'] or originq
-                later=(q['source_ts_ms']/1000>ts and q['source_ts_ms']>lastq['source_ts_ms'] and
-                    q['validated_at_ms']/1000>ts and
-                    (q['epoch']!=lastq['epoch'] or (q['sid']==lastq['sid'] and q['sequence']>lastq['sequence'])))
-                if (continuity!='OBSERVED' and self.path['samples']>0) or q['epoch']!=lastq['epoch']:
-                    self.path['missing']=True
-                if later:
-                    bid=q[side.lower()+'_bid'];gain=round(bid-ask,10)
-                    self.path['samples']+=1
-                    self.path['mfe']=gain if self.path['mfe'] is None else max(gain,self.path['mfe'])
-                    self.path['mae']=gain if self.path['mae'] is None else min(gain,self.path['mae'])
-                    hit=dict(ts=at,quote_source_ts=q['source_ts_ms']/1000,bid=bid,delta_cents=gain*100,
-                             seconds_since_signal=at-ts)
-                    if gain<=-.10 and self.path['stop'] is None:self.path['stop']=hit
+            if f.get('kind') != 'SCALP_DECISION':
+                raise ValueError(f.get('reason', 'SOURCE_UNAVAILABLE'))
+            row = f['row']; p = require_qualified(row, now); q = p['quote']
+            cut = row['ts']
+            if not cut <= f['captured_ts'] <= now or now-cut > 3.5:
+                raise ValueError('DECISION_CLOCK_UNQUALIFIED')
+            require_qualified(row, cut)
+            if self.last and cut <= self.last['cut']:
+                raise ValueError('DUPLICATE_OR_OUT_OF_ORDER_DECISION')
+            if self.last:
+                prev=self.last['quote']
+                if q['source_ts_ms']<prev['source_ts_ms']:
+                    raise ValueError('QUOTE_TIME_ROLLBACK')
+                if q['epoch']==prev['epoch']:
+                    if q['sid']!=prev['sid'] or q['sequence']<prev['sequence']:
+                        raise ValueError('QUOTE_SEQUENCE_ROLLBACK')
+                    if q['sequence']==prev['sequence'] and any(q[k]!=prev[k] for k in ('source_ts_ms','up_bid','up_ask','down_bid','down_ask')):
+                        raise ValueError('QUOTE_IDENTITY_CONFLICT')
+            if self.closed and (p['close_ts'] < self.closed or
+                    (p['close_ts'] == self.closed and row['ticker'] != self.contract)):
+                raise ValueError('OLDER_OR_CONFLICTING_CONTRACT')
+            continuity = ('OBSERVED' if self.last and not self.restarted and
+                0 < cut-self.last['cut'] <= 6 else 'START_OR_MISSING_INTERVAL')
+            self.restarted = False
+            rollover = self.contract is not None and row['ticker'] != self.contract
+            if rollover:
+                if self.origin and not self.terminal:
+                    self.path['missing'] = True
+                    record['terminal'] = self.finish('CONTRACT_CLOSED_WITHOUT_EXECUTABLE_EXIT', now, None)
+                self.origin = self.engine = self.terminal = None
+                self.path = {}; self.confirm.clear(); self.index = 0; self.last_signal = {}
+            self.contract, self.closed = row['ticker'], p['close_ts']
+            if self.origin and self.origin['target'] != p['target']:
+                raise ValueError('IMMUTABLE_TARGET_CONFLICT')
+            if self.origin and not self.terminal:
+                oq = self.path.get('last_quote') or self.origin['entry_provenance']['quote']
+                if continuity != 'OBSERVED' or q['epoch'] != oq['epoch']:
+                    self.path['missing'] = True
+                if later(q, oq, self.origin['signal_ts']):
+                    side = self.origin['side']; bid = q[side.lower()+'_bid']
+                    gain = round(bid-self.origin['original_ask'], 10)
+                    self.path['samples'] += 1
+                    self.path['mfe'] = gain if self.path['mfe'] is None else max(gain, self.path['mfe'])
+                    self.path['mae'] = gain if self.path['mae'] is None else min(gain, self.path['mae'])
+                    hit = dict(ts=now, quote_source_ts=q['source_ts_ms']/1000, bid=bid,
+                        delta_cents=gain*100, seconds_since_signal=now-self.origin['signal_ts'])
+                    if gain <= -.10 and self.path['stop'] is None:
+                        self.path['stop'] = dict(hit, targets_first=[t for t,h in self.path['targets'].items() if h])
                     for t in TARGETS:
-                        if gain>=t/100 and self.path['targets'][str(t)] is None:
-                            self.path['targets'][str(t)]=dict(hit,stop_first=self.path['stop'] is not None)
-                    self.path['armed5']|=gain>=.05;self.path['armed10']|=gain>=.10
-                    self.path['giveback']=self.path['mfe']-gain
-                    self.path['last_quote']=dict(q)
-                    record['later_bid']=dict(hit,side=side,origin_id=oid,quote=q)
-            elif self.origin and not terminal:
-                self.path['missing']=True
-            record.update(origin_id=(self.origin or {}).get('origin_id'),path=self.path)
-            view.update(status='AVAILABLE' if self.origin else 'PASS',expires_at=expires,
-                origin=self.origin,path=self.path,primary_wait_reason=s.get('primary_wait_reason'),
-                movement_state=s.get('status'),entry_band=[.30,.45],target_awareness=[.25,.35],
-                executable_current_bid=(q.get(self.origin['side'].lower()+'_bid') if self.origin else None),
-                exit_guidance=None,exit_reason='EXISTING_180S_LIFECYCLE_NO_SELECTED_STOP_OR_TRAIL',
-                signal_frequency_event=record.get('event'),continuity=continuity,
-                observed_target_cents=list(TARGETS),comparison_stop_cents=10,
-                observations_are_fills=False,terminal=terminal)
-        except (ValueError,KeyError,TypeError) as exc:
-            if self.origin:self.path['missing']=True
-            record['unavailable_reason']=str(exc);view['reason']=str(exc)
-        return record,self.checkpoint(),view
+                        if gain+1e-12 >= t/100 and self.path['targets'][str(t)] is None:
+                            self.path['targets'][str(t)] = dict(hit, stop_first=self.path['stop'] is not None)
+                    self.path.update(last_quote=deepcopy(q), current=hit,
+                        giveback=max(0.,self.path['mfe']-gain))
+                    record['later_bid'] = dict(hit, side=side, origin_id=self.origin['origin_id'], quote=q)
+                    if now >= self.origin['deadline']:
+                        # Adapt the offline engine's exact-deadline rule to live
+                        # guidance: actual current bid/time, NEVER a past fill.
+                        record['terminal'] = self.finish('HORIZON_180S', now, bid, q)
+                    else:
+                        result = self.engine.update(dict(observed_ts=now, ticker=self.contract,
+                            brti_source_ts=p['brti']['source_ts_ms']/1000,
+                            quote_validated_at_observation=True, **{side.lower()+'_bid':bid}))
+                        if result['status'] == 'PROTECT':
+                            record['terminal'] = self.finish('ARM5_GIVEBACK4', now, bid, q)
+                    if record.get('terminal'):
+                        record['event'] = 'SCALP_EXIT'
+                elif now >= self.origin['deadline']:
+                    raise ValueError('HORIZON_WAITING_FOR_STRICTLY_LATER_EXECUTABLE_BID')
+
+            # Serial ownership: only a genuine observed EXIT releases the lane;
+            # two fresh qualifying observations must then occur AFTER that EXIT.
+            can_enter = self.origin is None or (self.terminal and self.terminal['state'] == 'EXIT')
+            after = self.terminal['ts'] if self.terminal else -1
+            if can_enter and cut > after and q['source_ts_ms']/1000 > after:
+                for side in ('UP', 'DOWN'):
+                    proposal = f['proposals'][side]
+                    route = proposal.get('route'); key = side+':'+str(route)
+                    for k in list(self.confirm):
+                        if k.startswith(side+':') and k != key:
+                            del self.confirm[k]
+                    times = [t for t in self.confirm.get(key, []) if t >= cut-4.]
+                    ok = proposal.get('ok') is True and route in ('CORE','SURGE')
+                    if not ok:
+                        self.confirm[key] = []; continue
+                    if not .30 <= q[side.lower()+'_ask'] <= .45:
+                        raise ValueError('PROPOSED_ENTRY_OUTSIDE_V81_BAND')
+                    for seconds in (5,15,30):
+                        old=proposal['history'][str(seconds)]; hp=old['input_provenance']
+                        if hp['ticker']!=self.contract or hp['target']!=p['target'] or not cut-seconds-6 <= old['observed_ts'] <= cut-seconds:
+                            raise ValueError('FEATURE_LOOKBACK_UNQUALIFIED')
+                        require_qualified(dict(hp['quote'],ticker=hp['ticker'],target=hp['target'],brti=hp['brti']['value'],input_provenance=hp),old['observed_ts'])
+                    # A re-read of one book cannot manufacture confirmation.
+                    prev = self.last.get('quote') if self.last else None
+                    if prev is None or later(q, prev, after):
+                        times.append(cut)
+                    self.confirm[key] = times
+                    if len(times) < 2 or now-self.last_signal.get(side, 0) < 20:
+                        continue
+                    predecessor = self.terminal
+                    self.index += 1
+                    self.origin = dict(origin_id=digest([CANDIDATE,self.contract,side,now,q['epoch'],q['sequence']]),
+                        contract=self.contract, side=side, signal_ts=now, decision_ts=cut,
+                        original_ask=q[side.lower()+'_ask'], entry_provenance=deepcopy(p),
+                        entry_features=deepcopy(proposal.get('features')), feature_provenance=deepcopy(proposal['history']), route=route,
+                        target=p['target'], open_ts=p['open_ts'], close_ts=p['close_ts'],
+                        deadline=min(now+POLICY.horizon,p['close_ts']), serial_index=self.index,
+                        predecessor_id=(predecessor['origin']['origin_id'] if predecessor else None),
+                        predecessor_exit_ts=(predecessor['ts'] if predecessor else None),
+                        lane=lane(predecessor['origin']['side'] if predecessor else None,side,self.index), manual_fill=None)
+                    self.path = dict(mfe=None, mae=None, samples=0, missing=False, last_quote=None,
+                        targets={str(t):None for t in TARGETS}, stop=None, giveback=None, current=None)
+                    self.terminal = None; self.engine = self._engine(); self.confirm.clear()
+                    self.last_signal[side] = now
+                    record.update(event='SCALP_SIGNAL', origin=deepcopy(self.origin), predecessor_exit=predecessor)
+                    break
+            guidance = 'PASS'; current_bid = None; movement = None; ctx = None; presentation = None
+            if self.origin:
+                side = self.origin['side']
+                current_bid = q[side.lower()+'_bid']; movement = current_bid-self.origin['original_ask']
+                ctx = context(side, p['close_ts']-now, btc=row['btc'], brti=row['brti'], target=p['target'],
+                    giveback=bool(self.path.get('giveback',0) and self.path['giveback'] > 1e-12))
+                presentation = asdict(management_presentation(state='EXIT' if self.terminal else 'ACTIVE',
+                    peak_exec_gain=self.path['mfe'], exec_gain=(self.path.get('current') or {}).get('delta_cents',0)/100,
+                    arm_gain=POLICY.arm, exit_giveback=POLICY.giveback))
+                guidance = ('EXIT' if self.terminal else 'ENTER' if record.get('event') == 'SCALP_SIGNAL'
+                    else 'PROTECT' if presentation['protection_armed'] else ctx['state'])
+            self.last = dict(cut=cut, quote=deepcopy(q))
+            record.update(provenance=p, proposals=f['proposals'] if not self.origin else None,
+                origin_id=(self.origin or {}).get('origin_id'), guidance=guidance,
+                path=deepcopy(self.path), continuity=continuity, context=ctx)
+            view.update(status='AVAILABLE' if self.origin else 'PASS', guidance=guidance,
+                origin=deepcopy(self.origin), path=deepcopy(self.path), terminal=deepcopy(self.terminal),
+                contract=self.contract, target=p['target'], official_open=p['open_ts'], official_close=p['close_ts'],
+                expires_at=min(p['close_ts'],q['source_ts_ms']/1000+6,p['brti']['source_ts_ms']/1000+5,
+                    epoch(p['btc_source_utc'])+10, now+3.5),
+                executable_current_bid=current_bid, movement_cents=None if movement is None else movement*100,
+                context=ctx, presentation=presentation, policy=asdict(POLICY),
+                trailing_trigger_bid=(self.origin['original_ask']+self.path['mfe']-POLICY.giveback
+                    if presentation and presentation['protection_armed'] else None),
+                exit_guidance=(dict(current_executable_bid=current_bid, trigger=deepcopy(self.terminal),
+                    guaranteed_fill=False) if self.terminal else None),
+                diagnostics=f.get('diagnostics', []), confirmation_counts={k:len(v) for k,v in self.confirm.items()},
+                observed_target_cents=list(TARGETS), comparison_stop_cents=10,
+                target_stop_authority='OBSERVATIONAL_ONLY', policy_evidence='RECOVERED_RISK_POLICY_NOT_V81_STATISTICALLY_QUALIFIED',
+                continuity=continuity, input_provenance=p)
+        except (ValueError, KeyError, TypeError) as exc:
+            self.confirm.clear()
+            if self.origin:
+                self.path['missing'] = True
+            record['unavailable_reason'] = str(exc); view['reason'] = str(exc)
+            view['terminal'] = deepcopy(self.terminal)
+        return record, self.checkpoint(), view
 
 
-_worker=None
+_worker = None
 
 def start():
     global _worker
-    if _worker is None:_worker=Worker(ROOT,'v81',Scalp())
+    if _worker is None:
+        _worker = Worker(ROOT, 'v81', Scalp())
+        _worker.start_settlements()
 
-def offer(state):
+def offer(frame):
     if _worker is not None:
-        # Caller supplies a detached publication; no mutable source is retained.
-        _worker.offer(state)
+        return _worker.offer(deepcopy(frame))

@@ -5,6 +5,7 @@ their untimestamped prices never enter the detector. Shared BRTI cache only.
 SIGNAL ONLY / NO ORDERS.
 """
 from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 import math
 import os
 import time
@@ -66,7 +67,7 @@ def require_qualified(row, now):
     if (not finite(now) or not finite(opened) or not finite(closed)
             or closed - opened != 900 or opened % 900 != 0
             or not opened <= now < closed or row.get('ticker') != p.get('ticker')
-            or not str(row.get('ticker', '')).startswith('KXBTC15M-')
+            or row.get('ticker') != 'KXBTC15M-' + datetime.fromtimestamp(closed, timezone.utc).astimezone(ZoneInfo('America/New_York')).strftime('%y%b%d%H%M-%M').upper()
             or q.get('ticker') != row['ticker'] or not finite(row.get('target'))
             or row['target'] <= 0 or p.get('target') != row['target']):
         raise InputUnavailable('CONTRACT_IDENTITY_UNQUALIFIED')
@@ -87,6 +88,9 @@ def require_qualified(row, now):
             or not finite(b.get('value')) or not 1000 < b['value'] < 1_000_000
             or row.get('brti') != b['value']):
         raise InputUnavailable('BRTI_SOURCE_UNQUALIFIED')
+    btc_time = epoch(p.get('btc_source_utc'))
+    if not opened <= btc_time <= now or now-btc_time > 10:
+        raise InputUnavailable('BTC_SOURCE_UNQUALIFIED')
     return p
 
 
@@ -169,3 +173,4 @@ class QualifiedInputs:
                    **{k:quote[k] for k in ('up_bid','up_ask','down_bid','down_ask')})
         require_qualified(row, now)
         return row
+

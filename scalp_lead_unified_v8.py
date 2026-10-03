@@ -169,3 +169,4 @@ while True:
                 print('UNIFIED_V8 HEARTBEAT | %s | %.2fm | BTC %.2f | BRTI %s | UP %.3f | DOWN %.3f | pending %d'%(row['ticker'],row['left']/60,row['btc'],bv,row['up_ask'],row['down_ask'],len(pending)),flush=True)
     except Exception as e:print('UNIFIED_V8 WARNING | %s: %s'%(type(e).__name__,e),flush=True)
     time.sleep(max(.05,POLL-(time.time()-t)))
+
