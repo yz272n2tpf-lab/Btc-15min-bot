@@ -4,6 +4,7 @@ The entry and FINAL gates are the existing V4.7/V4.6 gates. The recovered
 reduce_signal supplies EARLY-only origin creation and monotone protection.
 No model refit, new threshold, simulated fill, order or market poll.
 """
+from copy import deepcopy
 from dataclasses import asdict
 from datetime import datetime, timezone
 import math
@@ -14,11 +15,12 @@ import uuid
 
 from btc15_directional_signal_authority_v1 import reduce_signal, encode_state, decode_state, manager
 from btc15_ladder_journal_v1 import Worker, digest, SCHEMA
+from btc15_position_context_v2 import context
 
-CANDIDATE = 'BTC15_LADDER_COMPLETION_20261003_V1'
+CANDIDATE = 'BTC15_LADDER_COMPLETION_20261003_V2'
 BASE_MAIN = 'abe212b513827c8cec28a2f64e0161e79296bd82'
 BASE_V81 = 'b05723ec622f901a05402ecf27f4d33505753ef1'
-ROOT = Path(os.getenv('BTC15_LADDER_DATA_ROOT', '/data/btc15_ladders_v1'))
+ROOT = Path(os.getenv('BTC15_LADDER_DATA_ROOT', '/data/btc15_ladders_v2'))
 
 
 def iso(at):
@@ -40,8 +42,8 @@ def native_frame(ns, quote, epoch, sequence, captured):
         contract=m['ticker'], official_open=opened, official_close=closed,
         target=float(ns['target']), btc_price=float(ns['btc']),
         btc_source=btc['source_utc'].timestamp(), btc_received=btc['observed_utc'].timestamp(),
-        fair=dict(f) if f else None, brti=dict(b) if b else None,
-        quote=quote, up_bid=ns['up_bid'], up_ask=ns['up_ask'],
+        fair=deepcopy(f) if f else None, brti=deepcopy(b) if b else None,
+        quote=deepcopy(quote), up_bid=ns['up_bid'], up_ask=ns['up_ask'],
         down_bid=ns['down_bid'], down_ask=ns['down_ask'],
         artifact=ns.get('_fair_model_artifact_sha256'), weights=ns.get('_fair_model_weights_sha256'))
 
@@ -70,6 +72,8 @@ def qualify(f, now):
     prices = q['quotes']
     if not all(finite(p) and 0 <= p <= 1 for p in prices) or prices[0]>prices[1] or prices[2]>prices[3]:
         raise ValueError('INVALID_EXECUTABLE_BOOK')
+    if not finite(f['btc_price']) or f['btc_price']<=0 or not finite(b.get('value')) or not 1000<b['value']<1_000_000:
+        raise ValueError('SOURCE_VALUE_INVALID')
     d = b['delivery']
     if (b.get('ready') is not True or not d.get('owner_epoch')
             or not b['cf_ts'] <= d['observed_ts'] <= cut <= at <= now
@@ -94,7 +98,7 @@ def protected_frame(f, now):
     left = f['official_close']-f['captured_ts']
     gap = f['btc_price']-f['target']
     bgap = b['value']-f['target']
-    early_gates = dict(ask_le45=ask<=.45, fair_ge75=p>=.75, edge_ge8=fair['edge']>=.08,
+    early_gates = dict(ask_le45=0<ask<=.45, fair_ge75=p>=.75,
         remaining_2_to10=120<=left<=600, gap_ge25=abs(gap)>=25)
     final_gates = dict(fair_ge90=p>=.90, remaining_le8=left<=480,
         gap_ok=abs(gap)>=(75 if left>360 else 50), distance_range_ge1=fair['dist_over_range5']>=1,
@@ -120,9 +124,12 @@ class Directional:
         self.origin = saved.get('origin') if saved else None
         self.last = saved.get('last') if saved else None
         self.prior_final = saved.get('prior_final') if saved else None
+        self.position_path = saved.get('position_path', {}) if saved else {}
+        if self.origin:
+            self.position_path['missing'] = True
 
     def checkpoint(self):
-        return dict(manager=encode_state(self.state),origin=self.origin,last=self.last,prior_final=self.prior_final)
+        return deepcopy(dict(manager=encode_state(self.state),origin=self.origin,last=self.last,prior_final=self.prior_final,position_path=self.position_path))
 
     def process(self, f, now):
         record = dict(schema=SCHEMA, candidate=CANDIDATE, build=os.getenv('RAILWAY_GIT_COMMIT_SHA'),
@@ -131,8 +138,8 @@ class Directional:
         view = dict(candidate=CANDIDATE, build=record['build'], published_ts=now,
             contract=f.get('contract'),status='UNAVAILABLE', signal_only=True, orders=False,
             manual_execution_only=True,origin=self.origin)
-        if f.get('kind') == 'SETTLEMENT':
-            record['settlement'] = f['settlement']
+        if f.get('kind') in ('SETTLEMENT','BRTI_CLOSEOUT'):
+            record['settlement' if f['kind']=='SETTLEMENT' else 'brti_closeout'] = f['settlement']
             view['reason'] = 'SETTLEMENT_RECORD_ONLY'
             return record,self.checkpoint(),view
         try:
@@ -148,6 +155,12 @@ class Directional:
             raw, qualified = protected_frame(f,now)
             if self.origin and self.origin['contract']==f['contract'] and self.origin['target']!=f['target']:
                 raise ValueError('IMMUTABLE_TARGET_CONFLICT')
+            # FINAL publication is independent of EARLY manager success.
+            standalone = dict(raw['final'],publication_id=digest([CANDIDATE,'FINAL',key]),
+                probability_up=f['fair']['up_fair'],probability_down=f['fair']['down_fair'],
+                state='FINAL_CALL' if raw['final']['ready'] else 'PASS',
+                confidence=raw['final']['confidence'],lock_state='QUALIFIED' if raw['final']['ready'] else 'UNLOCKED')
+            view.update(final=standalone,expires_at=expires,final_status='AVAILABLE')
             next_state,event,status,frame = reduce_signal(self.state,raw,qualified,datetime.fromtimestamp(now,timezone.utc))
             origin = self.origin if self.origin and self.origin['contract']==f['contract'] else None
             if event == 'BUY':
@@ -156,28 +169,68 @@ class Directional:
                     signal_timestamp_utc=iso(now), source_timestamp_utc=raw['source_timestamp_utc'],
                     native_epoch=key[0],native_sequence=key[1],target=f['target'],
                     official_open=f['official_open'],official_close=f['official_close'],
-                    entry_provenance=f, manual_fill=None)
-            final = dict(raw['final'],publication_id=digest([CANDIDATE,'FINAL',key]),
-                probability_up=f['fair']['up_fair'],probability_down=f['fair']['down_fair'],
-                state='FINAL_CALL' if raw['final']['ready'] else 'PASS',
-                early_origin_id=origin['origin_id'] if origin else None)
-            final['confidence_change'] = (None if not self.prior_final or self.prior_final['contract']!=f['contract']
-                else final['probability_up']-self.prior_final['probability_up'])
+                    entry_provenance=deepcopy(f), manual_fill=None)
+                self.position_path = dict(mfe=None,mae=None,last_quote=None,current=None,missing=False)
+            elif origin is None:
+                self.position_path = {}
+            final = dict(standalone, early_origin_id=origin['origin_id'] if origin else None)
+            same_prior = self.prior_final and self.prior_final['contract']==f['contract']
+            final['confidence_change'] = final['probability_up']-self.prior_final['probability_up'] if same_prior else None
             guidance = next_state.position.action.value if next_state.position else 'PASS'
-            linked = bool(origin)
-            warning = ('PROTECT' if guidance=='PROTECT' else 'CONFIRMED' if linked and manager._strong(frame,origin['side'])
-                       else 'WATCH' if linked else None)
+            warning = None; linked = bool(origin); ctx = None; bid = None; movement = None
+            helper = None
             if linked:
-                held_p = final['probability_up'] if origin['side']=='UP' else final['probability_down']
-                final['origin_side_probability'] = held_p
-                final['origin_probability_change'] = held_p-origin['entry_provenance']['fair'][origin['side'].lower()+'_fair']
+                side=origin['side']; held_p=final['probability_up'] if side=='UP' else final['probability_down']
+                entry_p=origin['entry_provenance']['fair'][side.lower()+'_fair']
+                prior_p=(self.prior_final['probability_up'] if side=='UP' else 1-self.prior_final['probability_up']) if same_prior else entry_p
+                strong=manager._strong(frame,side)
+                opposed=final['side']!=side
+                flipped=bool(opposed and same_prior and self.prior_final.get('last_call_side')==side and final['ready'])
+                bgap=f['brti']['value']-f['target']; gap=f['btc_price']-f['target']
+                final['context_state']=('MIXED' if not final['ready'] and
+                    (abs(bgap)<=11 or (bgap>0)!=(gap>0) or final['side']!=('UP' if gap>0 else 'DOWN'))
+                    else 'ALIGNED' if final['ready'] else 'UNCONFIRMED')
+                relation=('FLIPPED' if flipped else 'OPPOSES' if opposed else
+                    'CONFIRMS' if strong else 'MIXED' if final['context_state']=='MIXED' else
+                    'WEAKENS' if held_p < prior_p-1e-12 else 'STRENGTHENS' if held_p > prior_p+1e-12 else 'UNCHANGED')
+                # No arbitrary probability-drop threshold: loss of established
+                # FINAL qualification is the recovered material-deterioration rule.
+                material=bool(self.state.position and self.state.position.saw_strong_final and not strong)
+                bid=f[side.lower()+'_bid']; movement=bid-origin['original_ask']
+                q=f['quote']; previous=self.position_path.get('last_quote') or origin['entry_provenance']['quote']
+                signal_ts=datetime.fromisoformat(origin['signal_timestamp_utc']).timestamp()
+                if (q['exchange_ts_ms']/1000>signal_ts and q['exchange_ts_ms']>previous['exchange_ts_ms'] and
+                    (q['epoch']!=previous['epoch'] or (q['sid']==previous['sid'] and q['seq']>previous['seq']))):
+                    path=self.position_path
+                    path['mfe']=movement if path.get('mfe') is None else max(path['mfe'],movement)
+                    path['mae']=movement if path.get('mae') is None else min(path['mae'],movement)
+                    path['current']=dict(ts=now,bid=bid,delta_cents=movement*100)
+                    path['last_quote']=deepcopy(q)
+                    if continuity!='OBSERVED' or q['epoch']!=previous['epoch']:
+                        path['missing']=True
+                    record['later_bid']=dict(path['current'],origin_id=origin['origin_id'],side=side,quote=q)
+                ctx=context(side,f['official_close']-now,btc=f['btc_price'],brti=f['brti']['value'],target=f['target'],
+                    weakening=held_p<prior_p-1e-12 or final['context_state']=='MIXED',
+                    giveback=self.position_path.get('mfe') is not None and movement<self.position_path['mfe']-1e-12)
+                guidance=('PROTECT' if guidance=='PROTECT' else 'ENTER' if event=='BUY' else
+                    'CAUTION' if final['context_state']=='MIXED' else ctx['state'])
+                warning='PROTECT' if guidance=='PROTECT' else 'CONFIRMED' if strong else guidance
+                helper=dict(origin_id=origin['origin_id'],relation=relation,confirmed=strong,
+                    probability_trend='STRENGTHENS' if held_p>prior_p+1e-12 else 'WEAKENS' if held_p<prior_p-1e-12 else 'UNCHANGED',
+                    material_deterioration=material,clearance=strong,
+                    protect_latched=guidance=='PROTECT',state=guidance,
+                    reason='FINAL_OPPOSES_OR_CONFIRMATION_LOST' if guidance=='PROTECT' else relation,
+                    executable_bid=bid,exit_authority=False)
+                final.update(origin_side_probability=held_p,origin_probability_change=held_p-entry_p,helper=helper)
             left=f['official_close']-now
             view.update(status=status,expires_at=expires,official_open=f['official_open'],official_close=f['official_close'],
                 target=f['target'],native_epoch=key[0],native_sequence=key[1],feature_cutoff=f['feature_cutoff'],
                 source_timestamp_utc=raw['source_timestamp_utc'],origin=origin,early=dict(raw['early'],guidance=guidance,
                     pass_reasons=[k for k,v in raw['early']['conditions'].items() if not v],target_ask=.50,ideal_band=[.25,.35]),
                 final=final,warning=warning,final_link_basis='EXPLICIT_IMMUTABLE_ORIGIN' if linked else None,
-                exit_guidance=None,exit_reason='NO_SUPPORTED_EXECUTABLE_EXIT_RULE',
+                exit_guidance=None,exit_reason='EARLY_EXIT_THRESHOLD_NOT_SUPPORTED; PROTECT_GUIDANCE_AVAILABLE',
+                executable_current_bid=bid,movement_cents=None if movement is None else movement*100,
+                position_path=deepcopy(self.position_path),context=ctx,
                 flip_risk_pct=100*f['fair']['down_fair' if f['btc_price']>=f['target'] else 'up_fair'],
                 flip_risk_authority='MODEL_INFORMATION_ONLY',five_minute_caution=left<=300,
                 three_minute_guard=left<=180,phase='3M_GUARD' if left<=180 else '5M_CAUTION' if left<=300 else 'NORMAL',
@@ -185,12 +238,19 @@ class Directional:
                             btc_age=now-f['btc_source'],causal=True),continuity=continuity,
                 performance_status='CURRENT_LONG_RUN_ACCURACY_NOT_ESTABLISHED')
             record.update(event=event,origin_id=origin['origin_id'] if origin else None,final=final,
-                          early=view['early'],warning=warning,continuity=continuity)
+                          early=view['early'],warning=warning,continuity=continuity,origin=deepcopy(origin) if event=='BUY' else None,
+                          guidance=guidance,context=ctx,position_path=deepcopy(self.position_path))
             self.state,self.origin=next_state,origin
             self.last=dict(key=key,at=f['captured_ts'])
-            self.prior_final=dict(contract=f['contract'],probability_up=final['probability_up'])
+            self.prior_final=dict(contract=f['contract'],probability_up=final['probability_up'],side=final['side'],ready=final['ready'],
+                last_call_side=final['side'] if final['ready'] else self.prior_final.get('last_call_side') if same_prior else None)
         except (ValueError,KeyError,TypeError) as exc:
             view['reason']=str(exc);record['unavailable_reason']=str(exc)
+            if self.origin:self.position_path['missing']=True
+            if view.get('final_status')=='AVAILABLE':
+                view['final']['early_origin_id']=None
+                view['final']['helper_unavailable']=str(exc)
+                record['final']=view['final']
         return record,self.checkpoint(),view
 
 
@@ -203,6 +263,7 @@ def start():
     global _worker
     if _worker is None:
         _worker=Worker(ROOT,'main',Directional())
+        _worker.start_settlements()
 
 
 def offer(ns):
@@ -222,4 +283,4 @@ def offer(ns):
 
 def settlement(ticker, value):
     if _worker is not None:
-        _worker.offer(dict(kind='SETTLEMENT',contract=ticker,settlement=value))
+        _worker.offer(dict(kind='BRTI_CLOSEOUT',contract=ticker,settlement=value))

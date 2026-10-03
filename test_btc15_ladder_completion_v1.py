@@ -71,7 +71,7 @@ class DirectionalTests(unittest.TestCase):
 
     def test_two_minute_entry_is_actual_gate(self):
         _,_,out=self.step(offset=770)
-        self.assertEqual(out['early']['guidance'],'BUY')
+        self.assertEqual(out['early']['guidance'],'ENTER')
 
     def test_down_original_ask(self):
         _,_,out=self.step(side='DOWN')

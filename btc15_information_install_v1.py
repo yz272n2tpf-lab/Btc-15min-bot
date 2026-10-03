@@ -6,6 +6,7 @@ import gzip
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import signal
 import subprocess
@@ -39,6 +40,17 @@ def assemble(directory=BUILD):
     install_route(d)
     html = d/'BTC_Kalshi_App_Live_v13.html'
     diag.v1.base_fix.patch_html(html); diag.v1.patch_inline(html); diag.replace_inline_script(html)
+    # Keep the recovered card markup, but retire its conflicting V8.1 status
+    # renderer. The permanent lifecycle is the sole authority for these cards.
+    markup=html.read_text()
+    markup,n=re.subn(r'<script id="v81-inline-scalp-script">.*?</script>','',markup,flags=re.S)
+    if n!=1:raise RuntimeError('Pinned V8.1 renderer missing')
+    html.write_text(markup)
+    replace_once(html, "    setText('parityFooter',`PARITY: ${safe", "    if(window.btc15RenderLadders)window.btc15RenderLadders();\n    setText('parityFooter',`PARITY: ${safe")
+    replace_once(html, '<span>Your entry</span><strong id="earlyYourEntry">', '<span>Signal entry ASK</span><strong id="earlyYourEntry">')
+    replace_once(html, '<span>Current ask</span><strong id="earlyCurrentPrice">', '<span>Current executable price</span><strong id="earlyCurrentPrice">')
+    replace_once(html, '<span>Your entry</span><strong id="scalpYourEntry">', '<span>Signal entry ASK</span><strong id="scalpYourEntry">')
+    replace_once(html, '<span>Target</span><strong id="scalpTargetStrip">', '<span>Movement</span><strong id="scalpTargetStrip">')
     original_html = html.read_bytes()
     panel = (ROOT/'btc15_information_panel_v1.html').read_text()
     replace_once(html, '</body>', panel+'\n</body>')
@@ -148,6 +160,8 @@ def main():
     parser.add_argument('--assemble-only', action='store_true')
     parser.add_argument('--directory', type=Path, default=BUILD)
     args = parser.parse_args()
+    from btc15_verify_ladder_freeze_v2 import verify
+    verify(ROOT,'main')
     if not args.assemble_only and os.getenv('BTC15_ENABLE_INFORMATION_EXPORT') != '1':
         raise SystemExit('Explicit BTC15_ENABLE_INFORMATION_EXPORT=1 required; production unchanged')
     # Held by root only. SIGKILL releases it; no stale pidfile/restart authority.
