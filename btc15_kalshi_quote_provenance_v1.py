@@ -306,6 +306,12 @@ class Provider:
             tmp = path.with_suffix('.tmp')
             tmp.write_text(raw)
             tmp.replace(path)
+            # Constant-size witness of the exact accepted return value. Reused
+            # by native ladder journaling; no new quote read or full stream.
+            self.last_product_quote = dict(ticker=ticker, source_time=source_time,
+                epoch=self.epoch, consumed_ms=consumed, market_id=self.book.market_id,
+                sid=self.book.sid, seq=self.book.seq, exchange_ts_ms=self.book.ts_ms,
+                close_ms=close_ms, quotes=quotes)
             return quotes
 
     def session(self, ws, ticker):

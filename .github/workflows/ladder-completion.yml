@@ -1,0 +1,16 @@
+name: BTC15 ladder completion
+on:
+  pull_request:
+  push:
+    branches: [release/ladder-completion-20261003]
+jobs:
+  functional:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: python btc15_verify_ladder_freeze_v2.py
+      - run: python -m unittest test_btc15_ladder_completion_v1 test_btc15_scalp_journal_v1 test_btc15_product_logic_v2 test_directional_position_manager_v1

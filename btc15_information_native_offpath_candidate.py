@@ -37,6 +37,7 @@ def instrument(tree):
     blocks[0].body.append(ast.parse('_btc15_information_offer(globals())').body[0])
     blocks[0].body.append(ast.parse('_btc15_cohort_offer(globals())').body[0])
     blocks[0].body.append(ast.parse('_btc15_cohort_closeout_offer(globals())').body[0])
+    blocks[0].body.append(ast.parse('_btc15_ladder_offer(globals())').body[0])
     return ast.fix_missing_locations(tree)
 
 
@@ -111,6 +112,8 @@ def _cohort_closeout_worker(ns, stop_event=None):
                         out.write(json.dumps(row,separators=(',',':'),sort_keys=True,default=str)+'\n')
                         out.flush();os.fsync(out.fileno())
                     _COHORT_CLOSEOUT_SEEN.add(ticker);persisted.add(ticker)
+                    from btc15_ladder_product_v1 import settlement
+                    settlement(ticker, row['brti'])
         except Exception as exc:
             print('COHORT CLOSEOUT WARNING | '+type(exc).__name__+': '+str(exc),flush=True)
         stop_event.wait(1.0)
@@ -283,9 +286,12 @@ def main():
     if hashlib.sha1(f'blob {len(raw)}\0'.encode()+raw).hexdigest() != PR36_BLOB:
         raise SystemExit('Pinned PR36 byte identity required')
     export = NativeExport()
+    from btc15_ladder_product_v1 import start as start_ladders, offer as ladder_offer
+    start_ladders()
     server = server_for(export, args.port)
     threading.Thread(target=server.serve_forever, daemon=True, name='information-read-only-export').start()
     namespace = dict(__name__='__main__', __file__=str(BOT), _btc15_information_offer=export.offer, _btc15_cohort_offer=cohort_offer, _btc15_cohort_closeout_offer=cohort_closeout_offer)
+    namespace['_btc15_ladder_offer'] = ladder_offer
     try:
         exec(compile(instrument(ast.parse(raw)), str(BOT), 'exec'), namespace)
     finally:
