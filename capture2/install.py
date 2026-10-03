@@ -106,7 +106,7 @@ def begin(mode):
            source_hashes=[NATIVE_SHA,PROTECTED_SHA,QUOTE_SHA,V81_SHA,WRAPPER_SHA,PROTECTION_SHA],max_seconds=min(2100,remaining),
            capture_files={str(p.relative_to(ROOT)):digest(p.read_bytes()) for p in sorted((ROOT/'capture2').glob('*.py'))},
            end_boot_ns=time.clock_gettime_ns(time.CLOCK_BOOTTIME)+int(min(2100,remaining)*1000000000),
-           quota_bytes=512*1024*1024,port=8769,signal_only=True,orders=False,
+           quota_bytes=3*1024*1024*1024,port=8769,signal_only=True,orders=False,
            native_strategy_commit='abe212b513827c8cec28a2f64e0161e79296bd82' if mode=='main' else 'b05723ec622f901a05402ecf27f4d33505753ef1')
     config=root/'config.json';config.write_text(json.dumps(c));config.chmod(0o600)
     os.environ['BTC15_CAPTURE_CONFIG']=str(config)

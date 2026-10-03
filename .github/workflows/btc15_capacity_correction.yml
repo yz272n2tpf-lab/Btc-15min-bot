@@ -1,0 +1,24 @@
+name: BTC15 Oct 3 capacity-only qualification
+on:
+  push:
+    branches: ['audit/capacity-only-20261003']
+permissions:
+  contents: read
+jobs:
+  capacity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - run: python -B -m unittest capacity_correction.test_capacity.CapacityTests -v
+      - run: python -B -m capacity_correction.hosted_probe
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: capacity-correction-results
+          path: capacity_correction/hosted_result.json

@@ -16,14 +16,15 @@ import sqlite3
 import tempfile
 
 SCHEMA = 'BTC15_EVIDENCE_QUALIFICATION_V1'
+# Evidence-only capacity profile, qualified against the Oct 3 measured bursts.
 LIMITS = {
-    'main': ((100, 1100), (250, 2250), (1000, 4000), (5000, 10000), (10000, 20000)),
-    'v81': ((100, 350), (250, 750), (1000, 2500), (5000, 6250), (10000, 10000)),
+    'main': ((100, 2250), (250, 4500), (1000, 7000), (5000, 15000), (10000, 22500)),
+    'v81': ((100, 2250), (250, 4500), (1000, 7000), (5000, 15000), (10000, 22500)),
 }
 REASONS = frozenset(('RATE_ENVELOPE_EXCEEDED', 'SEQUENCE_GAP', 'CAPTURE_BUFFER_FULL',
                      'CENSUS_MISMATCH', 'INCOMPLETE_FLUSH', 'CAPTURE_FAILURE'))
-MAX_RECORDS = 4_000_000
-MAX_ARCHIVE = 1024*1024*1024
+MAX_RECORDS = 5_000_000
+MAX_ARCHIVE = 3*1024*1024*1024
 MAX_STREAMS = 65536
 
 def canonical(value):
