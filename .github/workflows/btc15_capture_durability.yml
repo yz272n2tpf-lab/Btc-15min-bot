@@ -1,0 +1,28 @@
+name: BTC15 sustained quote capture durability gate
+on:
+  push:
+    branches: ['qualification/capture-durability-20260930']
+permissions:
+  contents: read
+jobs:
+  focused-sustained:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - run: python -m pip install -r requirements.txt
+      - run: python -B -m capture2.test_durability
+      - run: python -B capture_durability/drain_boundary.py
+      - run: python -B -m capture2.test_durability --sustained main
+      - run: python -B -m capture2.test_durability --sustained v81
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: quote-durability-results
+          path: capture_durability/results/*.json

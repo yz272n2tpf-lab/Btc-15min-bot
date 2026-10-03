@@ -1,0 +1,3622 @@
+[
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "schema_version",
+    "lane": "SCALP",
+    "mapped_fields": "shared.schema_version",
+    "producer": "COMMON_OBSERVER",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "capture_run_id",
+    "lane": "SCALP",
+    "mapped_fields": "shared.capture_run_id",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "observer_epoch",
+    "lane": "SCALP",
+    "mapped_fields": "shared.observer_epoch",
+    "producer": "COMMON_OBSERVER",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "producer_instance_id",
+    "lane": "SCALP",
+    "mapped_fields": "shared.producer_instance_id",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "producer_epoch",
+    "lane": "SCALP",
+    "mapped_fields": "shared.producer_epoch",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "service_id",
+    "lane": "SCALP",
+    "mapped_fields": "shared.service_id",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "deployment_id",
+    "lane": "SCALP",
+    "mapped_fields": "shared.deployment_id",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "git_commit",
+    "lane": "SCALP",
+    "mapped_fields": "shared.git_commit",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "source_module_hashes",
+    "lane": "SCALP",
+    "mapped_fields": "shared.source_module_hashes",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "model_artifact_hash",
+    "lane": "SCALP",
+    "mapped_fields": "shared.model_artifact_hash",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "training_dataset_hash",
+    "lane": "SCALP",
+    "mapped_fields": "shared.training_dataset_hash",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "training_cutoff_utc",
+    "lane": "SCALP",
+    "mapped_fields": "shared.training_cutoff_utc",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "policy_id",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.policy_id",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "policy_hash",
+    "lane": "SCALP",
+    "mapped_fields": "shared.policy_hash",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "policy_constants",
+    "lane": "SCALP",
+    "mapped_fields": "shared.policy_constants",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "lane=SCALP",
+    "lane": "SCALP",
+    "mapped_fields": "protocol/manifest",
+    "producer": "DECLARED_CAPTURE_POLICY",
+    "status": "STATIC_REQUIREMENT",
+    "reason": "lane identity declaration only"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "mode=SIGNAL_ONLY",
+    "lane": "SCALP",
+    "mapped_fields": "protocol/manifest",
+    "producer": "DECLARED_CAPTURE_POLICY",
+    "status": "STATIC_REQUIREMENT",
+    "reason": "mode declaration only"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "orders_enabled=false",
+    "lane": "SCALP",
+    "mapped_fields": "protocol/manifest",
+    "producer": "DECLARED_CAPTURE_POLICY",
+    "status": "STATIC_REQUIREMENT",
+    "reason": "orders-disabled declaration only"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "official_contract_universe_manifest_hash",
+    "lane": "SCALP",
+    "mapped_fields": "shared.official_contract_universe_manifest_hash",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "partition_manifest_hash",
+    "lane": "SCALP",
+    "mapped_fields": "shared.partition_manifest_hash",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "run_started_utc",
+    "lane": "SCALP",
+    "mapped_fields": "shared.run_started_utc",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "run_stopped_utc",
+    "lane": "SCALP",
+    "mapped_fields": "shared.run_stopped_utc",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "capture_start_reason",
+    "lane": "SCALP",
+    "mapped_fields": "shared.capture_start_reason",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "1. Run and immutable policy manifest",
+    "requirement": "capture_end_reason",
+    "lane": "SCALP",
+    "mapped_fields": "shared.capture_end_reason",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "signal_id",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.signal_id",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "event_id",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.event_id",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "event_sequence",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.event_sequence",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "origin_hash",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.origin_hash",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "lane",
+    "lane": "SCALP",
+    "mapped_fields": "protocol/manifest",
+    "producer": "DECLARED_CAPTURE_POLICY",
+    "status": "STATIC_REQUIREMENT",
+    "reason": "SCALP declaration; not an observed signal"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "contract_ticker",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.contract_ticker",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "exchange_market_id",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.exchange_market_id",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "side",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.side",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "signal_generated_utc",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.signal_generated_utc",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "signal_published_utc",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.signal_published_utc",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "signal_received_utc",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.signal_received_utc",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "original_ask_decimal",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.original_market_ask_decimal",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "original_bid_decimal",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.original_market_bid_decimal",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "price_unit",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_decimal_units",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "quote_id",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.original_quote_id",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "book_sequence",
+    "lane": "SCALP",
+    "mapped_fields": "shared.book_sequence",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "quote_payload_sha256",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_payload_sha256",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "quote_source",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_source",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "quote_source_utc",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_source_utc",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "quote_received_utc",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_received_utc",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "quote_consumed_utc",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_consumed_utc",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "quote_validation_result",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_validation_result",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "ask_size",
+    "lane": "SCALP",
+    "mapped_fields": "shared.up_ask_size + shared.down_ask_size",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "bid_size",
+    "lane": "SCALP",
+    "mapped_fields": "shared.up_bid_size + shared.down_bid_size",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "decision_id",
+    "lane": "SCALP",
+    "mapped_fields": "shared.native_decision_id",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "model_evaluation_id",
+    "lane": "SCALP",
+    "mapped_fields": "shared.model_evaluation_id",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "policy_id",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.policy_id",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "model_hash",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.model_hash",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "feature_snapshot_id",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.feature_snapshot_id",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "feature_payload_sha256",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.feature_payload_sha256",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "feature_availability_cutoff_utc",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.feature_availability_cutoff_utc",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "signal_probability",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.probability",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "signal_strength",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.strength",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "seconds_left",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.seconds_left",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "elapsed_contract_seconds",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.elapsed_contract_seconds",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "2. Immutable origin event",
+    "requirement": "btc30_aligned",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.btc30_aligned",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "3. Official contract and executable quote path",
+    "requirement": "contract_ticker",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.contract_ticker",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "3. Official contract and executable quote path",
+    "requirement": "official_open_utc",
+    "lane": "SCALP",
+    "mapped_fields": "shared.official_open_utc",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "3. Official contract and executable quote path",
+    "requirement": "official_close_utc",
+    "lane": "SCALP",
+    "mapped_fields": "shared.official_close_utc",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "3. Official contract and executable quote path",
+    "requirement": "official_window_witness_id",
+    "lane": "SCALP",
+    "mapped_fields": "shared.official_window_witness",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "3. Official contract and executable quote path",
+    "requirement": "official_target",
+    "lane": "SCALP",
+    "mapped_fields": "shared.target",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "3. Official contract and executable quote path",
+    "requirement": "target_source_id",
+    "lane": "SCALP",
+    "mapped_fields": "shared.target_source_id",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "3. Official contract and executable quote path",
+    "requirement": "target_payload_sha256",
+    "lane": "SCALP",
+    "mapped_fields": "shared.target_payload_sha256",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "3. Official contract and executable quote path",
+    "requirement": "side_mapping",
+    "lane": "SCALP",
+    "mapped_fields": "shared.side_mapping",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "3. Official contract and executable quote path",
+    "requirement": "quote_id",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_id",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "3. Official contract and executable quote path",
+    "requirement": "book_sequence",
+    "lane": "SCALP",
+    "mapped_fields": "shared.book_sequence",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "3. Official contract and executable quote path",
+    "requirement": "bid_decimal",
+    "lane": "SCALP",
+    "mapped_fields": "shared.up_bid + shared.down_bid",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "3. Official contract and executable quote path",
+    "requirement": "ask_decimal",
+    "lane": "SCALP",
+    "mapped_fields": "shared.up_ask + shared.down_ask",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "3. Official contract and executable quote path",
+    "requirement": "bid_size",
+    "lane": "SCALP",
+    "mapped_fields": "shared.up_bid_size + shared.down_bid_size",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "3. Official contract and executable quote path",
+    "requirement": "ask_size",
+    "lane": "SCALP",
+    "mapped_fields": "shared.up_ask_size + shared.down_ask_size",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "3. Official contract and executable quote path",
+    "requirement": "source_utc",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_source_utc",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "3. Official contract and executable quote path",
+    "requirement": "request_started_utc",
+    "lane": "SCALP",
+    "mapped_fields": "shared.request_started_utc",
+    "producer": "COMMON_MAIN_RECEIPT",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "3. Official contract and executable quote path",
+    "requirement": "received_utc",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_received_utc",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "3. Official contract and executable quote path",
+    "requirement": "consumed_utc",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_consumed_utc",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "3. Official contract and executable quote path",
+    "requirement": "validated_utc",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_validated_utc",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "3. Official contract and executable quote path",
+    "requirement": "source_payload_sha256",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_payload_sha256",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "3. Official contract and executable quote path",
+    "requirement": "source_contract_ticker",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_source_contract_ticker",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "3. Official contract and executable quote path",
+    "requirement": "quote_status",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_status",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "3. Official contract and executable quote path",
+    "requirement": "rejection_reason",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_rejection_reason",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "lifecycle_event_id",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.lifecycle_event_id",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "event_sequence",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.transition_sequence",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "signal_id",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.signal_id",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "origin_hash",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.origin_hash",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "prior_state",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.prior_state",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "next_state",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.next_state",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "transition_kind",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.transition_kind",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "trigger_reason",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.trigger_reason",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "policy_id",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.policy_id",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "trigger_quote_id",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.trigger_quote_id",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "trigger_evidence_ids",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.trigger_evidence_ids",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "evaluated_utc",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.evaluated_utc",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "published_utc",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.published_utc",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "received_utc",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.received_utc",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "remaining_seconds",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.remaining_seconds",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "current_same_side_bid_decimal",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.current_same_side_bid_decimal",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "gross_unrealized_c_decimal",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.gross_unrealized_c_decimal",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "peak_bid_so_far_decimal",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.peak_bid_so_far_decimal",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "peak_gain_so_far_c_decimal",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.peak_gain_so_far_c_decimal",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "peak_quote_id",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.peak_quote_id",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "arm_threshold_c",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.arm_threshold_c",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "armed",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.armed",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "arm_event_id",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.arm_event_id",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "arm_quote_id",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.arm_quote_id",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "arm_utc",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.arm_utc",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "arm_observed_gain_c",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.arm_observed_gain_c",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "floor_c",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.floor_c",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "trail_c",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.trail_c",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "giveback_c",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.giveback_c",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "target_c",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.target_c",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "stop_c",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.stop_c",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "exit_bid_decimal",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.exit_bid_decimal",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "exit_guidance_event_id",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.exit_guidance_event_id",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "retirement_reason",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.retirement_reason",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "unavailable_reason",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.unavailable_reason",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "origin_retained",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.origin_retained",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "lifecycle_policy_hash",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.lifecycle_policy_hash",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "4. Every lifecycle transition, including non-exits",
+    "requirement": "transition_kind",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.transition_kind",
+    "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "5. Serial / reversal ownership",
+    "requirement": "contract_ticker",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.contract_ticker",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "5. Serial / reversal ownership",
+    "requirement": "signal_id",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.signal_id",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "5. Serial / reversal ownership",
+    "requirement": "origin_hash",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.origin_hash",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "5. Serial / reversal ownership",
+    "requirement": "serial_index",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.serial_index",
+    "producer": "SCALP_SERIAL_OWNER_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "5. Serial / reversal ownership",
+    "requirement": "prior_signal_id",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.prior_signal_id",
+    "producer": "SCALP_SERIAL_OWNER_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "5. Serial / reversal ownership",
+    "requirement": "prior_origin_side",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.prior_origin_side",
+    "producer": "SCALP_SERIAL_OWNER_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "5. Serial / reversal ownership",
+    "requirement": "lane_label",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.lane_label",
+    "producer": "SCALP_SERIAL_OWNER_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "5. Serial / reversal ownership",
+    "requirement": "prior_terminal_event_id",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.prior_terminal_event_id",
+    "producer": "SCALP_SERIAL_OWNER_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "5. Serial / reversal ownership",
+    "requirement": "prior_terminal_kind",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.prior_terminal_kind",
+    "producer": "SCALP_SERIAL_OWNER_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "5. Serial / reversal ownership",
+    "requirement": "prior_terminal_utc",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.prior_terminal_utc",
+    "producer": "SCALP_SERIAL_OWNER_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "5. Serial / reversal ownership",
+    "requirement": "elapsed_since_prior_origin_sec",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.elapsed_since_prior_origin_sec",
+    "producer": "SCALP_SERIAL_OWNER_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "5. Serial / reversal ownership",
+    "requirement": "elapsed_since_prior_terminal_sec",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.elapsed_since_prior_terminal_sec",
+    "producer": "SCALP_SERIAL_OWNER_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "5. Serial / reversal ownership",
+    "requirement": "active_origin_ids_at_decision",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.active_origin_ids_at_decision",
+    "producer": "SCALP_SERIAL_OWNER_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "5. Serial / reversal ownership",
+    "requirement": "overlap_allowed_by_policy",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.overlap_allowed_by_policy",
+    "producer": "SCALP_SERIAL_OWNER_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "5. Serial / reversal ownership",
+    "requirement": "reentry_gate_result",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.reentry_gate_result",
+    "producer": "SCALP_SERIAL_OWNER_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "5. Serial / reversal ownership",
+    "requirement": "suppression_reason",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.suppression_reason",
+    "producer": "SCALP_SERIAL_OWNER_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "5. Serial / reversal ownership",
+    "requirement": "source_candidate_id",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.source_candidate_id",
+    "producer": "SCALP_SERIAL_OWNER_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "5. Serial / reversal ownership",
+    "requirement": "source_candidate_hash",
+    "lane": "SCALP",
+    "mapped_fields": "scalp.source_candidate_hash",
+    "producer": "SCALP_SERIAL_OWNER_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "6. Admission, source witnesses and clock evidence",
+    "requirement": "BTC15_SOURCE_WITNESSES_V2",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_witness + shared.brti_witness + shared.btc_witness",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "6. Admission, source witnesses and clock evidence",
+    "requirement": "authority",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_witness + shared.brti_witness + shared.btc_witness",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "6. Admission, source witnesses and clock evidence",
+    "requirement": "clock_basis",
+    "lane": "SCALP",
+    "mapped_fields": "shared.clock_basis",
+    "producer": "CLOCK_MONITOR",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "6. Admission, source witnesses and clock evidence",
+    "requirement": "owner_epoch",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_witness + shared.brti_witness + shared.btc_witness",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "6. Admission, source witnesses and clock evidence",
+    "requirement": "source_utc",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_source_utc",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "6. Admission, source witnesses and clock evidence",
+    "requirement": "received_utc",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_received_utc",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "6. Admission, source witnesses and clock evidence",
+    "requirement": "validated_utc",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_validated_utc",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "6. Admission, source witnesses and clock evidence",
+    "requirement": "witnessed_utc",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_witness + shared.brti_witness + shared.btc_witness",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "6. Admission, source witnesses and clock evidence",
+    "requirement": "payload_sha256",
+    "lane": "SCALP",
+    "mapped_fields": "shared.quote_witness + shared.brti_witness + shared.btc_witness",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "6. Admission, source witnesses and clock evidence",
+    "requirement": "clock_domain",
+    "lane": "SCALP",
+    "mapped_fields": "shared.clock_domain",
+    "producer": "CLOCK_MONITOR",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "6. Admission, source witnesses and clock evidence",
+    "requirement": "clock_epoch",
+    "lane": "SCALP",
+    "mapped_fields": "shared.clock_epoch",
+    "producer": "CLOCK_MONITOR",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "SCALP_CAPTURE_SPEC",
+    "section": "6. Admission, source witnesses and clock evidence",
+    "requirement": "publication_completed_utc",
+    "lane": "SCALP",
+    "mapped_fields": "final.publication_completed_utc",
+    "producer": "FINAL_LINKED_EVENT_PRODUCER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "artifact_identity",
+    "requirement": "original_member_bytes",
+    "lane": "FINAL",
+    "mapped_fields": "shared.original_member_bytes",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "artifact_identity",
+    "requirement": "member_sha256",
+    "lane": "FINAL",
+    "mapped_fields": "shared.member_sha256",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "artifact_identity",
+    "requirement": "stream_id",
+    "lane": "FINAL",
+    "mapped_fields": "shared.stream_id",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "artifact_identity",
+    "requirement": "offset",
+    "lane": "FINAL",
+    "mapped_fields": "shared.offset",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "artifact_identity",
+    "requirement": "next_offset",
+    "lane": "FINAL",
+    "mapped_fields": "shared.end_offset",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "artifact_identity",
+    "requirement": "run_manifest_original_bytes",
+    "lane": "FINAL",
+    "mapped_fields": "shared.run_manifest_bytes",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "artifact_identity",
+    "requirement": "run_manifest_sha256",
+    "lane": "FINAL",
+    "mapped_fields": "shared.run_manifest_sha256",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "artifact_identity",
+    "requirement": "collector_commit",
+    "lane": "FINAL",
+    "mapped_fields": "shared.collector_commit",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "artifact_identity",
+    "requirement": "collector_file_fingerprints",
+    "lane": "FINAL",
+    "mapped_fields": "shared.collector_fingerprints",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "common_record",
+    "requirement": "schema_version",
+    "lane": "FINAL",
+    "mapped_fields": "shared.schema_version",
+    "producer": "COMMON_OBSERVER",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "common_record",
+    "requirement": "record_type",
+    "lane": "FINAL",
+    "mapped_fields": "shared.record_type",
+    "producer": "COMMON_OBSERVER",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "common_record",
+    "requirement": "run_id",
+    "lane": "FINAL",
+    "mapped_fields": "shared.run_id",
+    "producer": "COMMON_OBSERVER",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "common_record",
+    "requirement": "observer_epoch",
+    "lane": "FINAL",
+    "mapped_fields": "shared.observer_epoch",
+    "producer": "COMMON_OBSERVER",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "common_record",
+    "requirement": "sequence_in_process",
+    "lane": "FINAL",
+    "mapped_fields": "shared.sequence_in_process",
+    "producer": "COMMON_OBSERVER",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "common_record",
+    "requirement": "recorded_utc",
+    "lane": "FINAL",
+    "mapped_fields": "shared.recorded_utc",
+    "producer": "COMMON_OBSERVER",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "common_record",
+    "requirement": "sampling_seconds",
+    "lane": "FINAL",
+    "mapped_fields": "shared.sampling_seconds",
+    "producer": "COMMON_OBSERVER",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "common_record",
+    "requirement": "sources",
+    "lane": "FINAL",
+    "mapped_fields": "shared.sources",
+    "producer": "COMMON_OBSERVER",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "main_source",
+    "requirement": "sources[].service",
+    "lane": "FINAL",
+    "mapped_fields": "shared.sources",
+    "producer": "COMMON_OBSERVER",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "main_source",
+    "requirement": "sources[].request_started_utc",
+    "lane": "FINAL",
+    "mapped_fields": "shared.sources",
+    "producer": "COMMON_OBSERVER",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "main_source",
+    "requirement": "sources[].response_received_utc",
+    "lane": "FINAL",
+    "mapped_fields": "shared.sources",
+    "producer": "COMMON_OBSERVER",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "main_source",
+    "requirement": "sources[].http_status",
+    "lane": "FINAL",
+    "mapped_fields": "shared.sources",
+    "producer": "COMMON_OBSERVER",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "main_source",
+    "requirement": "sources[].error_type",
+    "lane": "FINAL",
+    "mapped_fields": "shared.sources",
+    "producer": "COMMON_OBSERVER",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "main_source",
+    "requirement": "sources[].state",
+    "lane": "FINAL",
+    "mapped_fields": "shared.sources",
+    "producer": "COMMON_OBSERVER",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "protected_publication",
+    "requirement": "display_build",
+    "lane": "FINAL",
+    "mapped_fields": "shared.display_build",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "protected_publication",
+    "requirement": "source_timestamp_utc",
+    "lane": "FINAL",
+    "mapped_fields": "shared.source_timestamp_utc",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "protected_publication",
+    "requirement": "generated_utc",
+    "lane": "FINAL",
+    "mapped_fields": "shared.generated_utc",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "protected_publication",
+    "requirement": "contract",
+    "lane": "FINAL",
+    "mapped_fields": "shared.contract",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "protected_publication",
+    "requirement": "timer.close_utc",
+    "lane": "FINAL",
+    "mapped_fields": "shared.close_utc",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "protected_publication",
+    "requirement": "timer.close_basis",
+    "lane": "FINAL",
+    "mapped_fields": "shared.close_basis",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "protected_publication",
+    "requirement": "timer.seconds_left",
+    "lane": "FINAL",
+    "mapped_fields": "shared.seconds_left",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "protected_publication",
+    "requirement": "market.target",
+    "lane": "FINAL",
+    "mapped_fields": "shared.target",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "protected_publication",
+    "requirement": "early",
+    "lane": "FINAL",
+    "mapped_fields": "early.early",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "protected_publication",
+    "requirement": "final",
+    "lane": "FINAL",
+    "mapped_fields": "final.final",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "protected_publication",
+    "requirement": "health",
+    "lane": "FINAL",
+    "mapped_fields": "shared.health",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "protected_publication",
+    "requirement": "parity",
+    "lane": "FINAL",
+    "mapped_fields": "shared.parity",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "protected_publication",
+    "requirement": "safety",
+    "lane": "FINAL",
+    "mapped_fields": "shared.safety",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "final",
+    "requirement": "final.source",
+    "lane": "FINAL",
+    "mapped_fields": "final.source",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "final",
+    "requirement": "final.ready",
+    "lane": "FINAL",
+    "mapped_fields": "final.ready",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "final",
+    "requirement": "final.side",
+    "lane": "FINAL",
+    "mapped_fields": "final.side",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "final",
+    "requirement": "final.confidence",
+    "lane": "FINAL",
+    "mapped_fields": "final.confidence",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "final",
+    "requirement": "final.conditions",
+    "lane": "FINAL",
+    "mapped_fields": "final.conditions",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "final",
+    "requirement": "final.recorded_final_call",
+    "lane": "FINAL",
+    "mapped_fields": "final.recorded_final_call",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "final",
+    "requirement": "final.recorded_side",
+    "lane": "FINAL",
+    "mapped_fields": "final.recorded_side",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "final",
+    "requirement": "final.recorded_confidence",
+    "lane": "FINAL",
+    "mapped_fields": "final.recorded_confidence",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "prices_and_health",
+    "requirement": "market.up_bid",
+    "lane": "FINAL",
+    "mapped_fields": "shared.up_bid",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "prices_and_health",
+    "requirement": "market.up_ask",
+    "lane": "FINAL",
+    "mapped_fields": "shared.up_ask",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "prices_and_health",
+    "requirement": "market.down_bid",
+    "lane": "FINAL",
+    "mapped_fields": "shared.down_bid",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "prices_and_health",
+    "requirement": "market.down_ask",
+    "lane": "FINAL",
+    "mapped_fields": "shared.down_ask",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "prices_and_health",
+    "requirement": "market.brti_ready",
+    "lane": "FINAL",
+    "mapped_fields": "shared.brti_ready",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "prices_and_health",
+    "requirement": "market.brti_age_seconds",
+    "lane": "FINAL",
+    "mapped_fields": "shared.brti_age_seconds",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "prices_and_health",
+    "requirement": "health.brti_fresh",
+    "lane": "FINAL",
+    "mapped_fields": "shared.brti_fresh",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "prices_and_health",
+    "requirement": "health.source_fresh",
+    "lane": "FINAL",
+    "mapped_fields": "shared.source_fresh",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "prices_and_health",
+    "requirement": "health.market_open",
+    "lane": "FINAL",
+    "mapped_fields": "shared.market_open",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "prices_and_health",
+    "requirement": "health.paired_quotes",
+    "lane": "FINAL",
+    "mapped_fields": "shared.paired_quotes",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "prices_and_health",
+    "requirement": "parity.timestamp_utc",
+    "lane": "FINAL",
+    "mapped_fields": "shared.timestamp_utc",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "prices_and_health",
+    "requirement": "parity.status",
+    "lane": "FINAL",
+    "mapped_fields": "shared.status",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "prices_and_health",
+    "requirement": "parity.contract",
+    "lane": "FINAL",
+    "mapped_fields": "shared.parity",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "prices_and_health",
+    "requirement": "parity.api_contract",
+    "lane": "FINAL",
+    "mapped_fields": "shared.api_contract",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "research_origin",
+    "requirement": "research_origin_id",
+    "lane": "FINAL",
+    "mapped_fields": "early.research_origin_id",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "research_origin",
+    "requirement": "origin_kind",
+    "lane": "FINAL",
+    "mapped_fields": "early.origin_kind",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "research_origin",
+    "requirement": "protocol_sha256",
+    "lane": "FINAL",
+    "mapped_fields": "early.protocol_sha256",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "research_origin",
+    "requirement": "contract",
+    "lane": "FINAL",
+    "mapped_fields": "early.origin_record",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "research_origin",
+    "requirement": "side",
+    "lane": "FINAL",
+    "mapped_fields": "early.original_side",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "research_origin",
+    "requirement": "origin_observation_timestamp",
+    "lane": "FINAL",
+    "mapped_fields": "early.origin_observation_timestamp",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "research_origin",
+    "requirement": "origin_available_timestamp",
+    "lane": "FINAL",
+    "mapped_fields": "early.origin_available_timestamp",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "research_origin",
+    "requirement": "original_same_side_ask",
+    "lane": "FINAL",
+    "mapped_fields": "early.original_ask",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "research_origin",
+    "requirement": "original_same_side_bid",
+    "lane": "FINAL",
+    "mapped_fields": "early.original_bid",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "research_origin",
+    "requirement": "original_member_reference",
+    "lane": "FINAL",
+    "mapped_fields": "early.original_member_reference",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "research_origin",
+    "requirement": "protected_snapshot_key",
+    "lane": "FINAL",
+    "mapped_fields": "early.protected_snapshot_key",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "research_origin",
+    "requirement": "protected_content_sha256",
+    "lane": "FINAL",
+    "mapped_fields": "early.protected_content_sha256",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "settlement",
+    "requirement": "contract_ticker",
+    "lane": "FINAL",
+    "mapped_fields": "scalp.contract_ticker",
+    "producer": "SCALP_ORIGIN_EVENT_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "settlement",
+    "requirement": "official_target",
+    "lane": "FINAL",
+    "mapped_fields": "shared.target",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "settlement",
+    "requirement": "official_open",
+    "lane": "FINAL",
+    "mapped_fields": "shared.official_open_utc",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "settlement",
+    "requirement": "official_close",
+    "lane": "FINAL",
+    "mapped_fields": "shared.official_close_utc",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "settlement",
+    "requirement": "final60_complete",
+    "lane": "FINAL",
+    "mapped_fields": "shared.final60_complete",
+    "producer": "POPULATION_CATALOG",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "settlement",
+    "requirement": "final60_count",
+    "lane": "FINAL",
+    "mapped_fields": "shared.final60_count",
+    "producer": "POPULATION_CATALOG",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "settlement",
+    "requirement": "final60_average",
+    "lane": "FINAL",
+    "mapped_fields": "shared.final60_average",
+    "producer": "POPULATION_CATALOG",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "settlement",
+    "requirement": "final60_side",
+    "lane": "FINAL",
+    "mapped_fields": "shared.final60_side",
+    "producer": "POPULATION_CATALOG",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "settlement",
+    "requirement": "authoritative_settlement_artifact_reference",
+    "lane": "FINAL",
+    "mapped_fields": "shared.settlement_artifact_ref",
+    "producer": "POPULATION_CATALOG",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "trusted_acquisition",
+    "requirement": "BTC15_DETACHED_COMMON_MEMBER_V1 acquisition manifest",
+    "lane": "FINAL",
+    "mapped_fields": "shared.acquisition_manifest",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "trusted_acquisition",
+    "requirement": "approved source/service/endpoint identity",
+    "lane": "FINAL",
+    "mapped_fields": "shared.source_service_identity + shared.endpoint",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "trusted_acquisition",
+    "requirement": "signer identity",
+    "lane": "FINAL",
+    "mapped_fields": "shared.signer_id",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "trusted_acquisition",
+    "requirement": "run/epoch/sequence/member binding",
+    "lane": "FINAL",
+    "mapped_fields": "shared.acquisition_manifest",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "trusted_acquisition",
+    "requirement": "independent reader authorization",
+    "lane": "FINAL",
+    "mapped_fields": "shared.reader_authorization",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "trusted_acquisition",
+    "requirement": "actual peer/redirect policy evidence",
+    "lane": "FINAL",
+    "mapped_fields": "shared.peer_identity + shared.redirect_policy",
+    "producer": "INDEPENDENT_ACQUIRER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "clock_certificates",
+    "requirement": "clock_id",
+    "lane": "FINAL",
+    "mapped_fields": "shared.clock_id",
+    "producer": "CLOCK_MONITOR",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "clock_certificates",
+    "requirement": "epoch",
+    "lane": "FINAL",
+    "mapped_fields": "shared.clock_epoch",
+    "producer": "CLOCK_MONITOR",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "clock_certificates",
+    "requirement": "measurement_id",
+    "lane": "FINAL",
+    "mapped_fields": "shared.measurement_id",
+    "producer": "CLOCK_MONITOR",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "clock_certificates",
+    "requirement": "reference_utc",
+    "lane": "FINAL",
+    "mapped_fields": "shared.reference_utc",
+    "producer": "CLOCK_MONITOR",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "clock_certificates",
+    "requirement": "valid_from_utc",
+    "lane": "FINAL",
+    "mapped_fields": "shared.valid_from_utc",
+    "producer": "CLOCK_MONITOR",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "clock_certificates",
+    "requirement": "valid_until_utc",
+    "lane": "FINAL",
+    "mapped_fields": "shared.valid_until_utc",
+    "producer": "CLOCK_MONITOR",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "clock_certificates",
+    "requirement": "error_us",
+    "lane": "FINAL",
+    "mapped_fields": "shared.error_us",
+    "producer": "CLOCK_MONITOR",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "clock_certificates",
+    "requirement": "rate_ppm",
+    "lane": "FINAL",
+    "mapped_fields": "shared.rate_ppm",
+    "producer": "CLOCK_MONITOR",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "clock_certificates",
+    "requirement": "read_error_us",
+    "lane": "FINAL",
+    "mapped_fields": "shared.read_error_us",
+    "producer": "CLOCK_MONITOR",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "clock_certificates",
+    "requirement": "trusted monitor attestation and revocation state",
+    "lane": "FINAL",
+    "mapped_fields": "shared.monitor_attestation + shared.revocation_state",
+    "producer": "CLOCK_MONITOR",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "immutable_accepted_origin_if_one_exists",
+    "requirement": "origin_id",
+    "lane": "FINAL",
+    "mapped_fields": "early.origin_record",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "immutable_accepted_origin_if_one_exists",
+    "requirement": "manager_signal_id",
+    "lane": "FINAL",
+    "mapped_fields": "early.origin_record",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "immutable_accepted_origin_if_one_exists",
+    "requirement": "contract.ticker",
+    "lane": "FINAL",
+    "mapped_fields": "early.origin_record",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "immutable_accepted_origin_if_one_exists",
+    "requirement": "contract.target",
+    "lane": "FINAL",
+    "mapped_fields": "early.origin_record",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "immutable_accepted_origin_if_one_exists",
+    "requirement": "side",
+    "lane": "FINAL",
+    "mapped_fields": "early.origin_record",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "immutable_accepted_origin_if_one_exists",
+    "requirement": "signal_timestamp_utc",
+    "lane": "FINAL",
+    "mapped_fields": "early.origin_record",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "immutable_accepted_origin_if_one_exists",
+    "requirement": "accepted_utc",
+    "lane": "FINAL",
+    "mapped_fields": "early.origin_record",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "immutable_accepted_origin_if_one_exists",
+    "requirement": "original_ask",
+    "lane": "FINAL",
+    "mapped_fields": "early.origin_record",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "immutable_accepted_origin_if_one_exists",
+    "requirement": "protected_early",
+    "lane": "FINAL",
+    "mapped_fields": "early.origin_record",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "immutable_accepted_origin_if_one_exists",
+    "requirement": "protected_publication",
+    "lane": "FINAL",
+    "mapped_fields": "early.origin_record",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "immutable_accepted_origin_if_one_exists",
+    "requirement": "protected_snapshot_key",
+    "lane": "FINAL",
+    "mapped_fields": "early.origin_record",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "immutable_accepted_origin_if_one_exists",
+    "requirement": "protected_content_sha256",
+    "lane": "FINAL",
+    "mapped_fields": "early.origin_record",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "immutable_accepted_origin_if_one_exists",
+    "requirement": "protected_source_timestamp_utc",
+    "lane": "FINAL",
+    "mapped_fields": "early.origin_record",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "immutable_accepted_origin_if_one_exists",
+    "requirement": "protected_generated_utc",
+    "lane": "FINAL",
+    "mapped_fields": "early.origin_record",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "immutable_accepted_origin_if_one_exists",
+    "requirement": "observer_received_utc",
+    "lane": "FINAL",
+    "mapped_fields": "early.origin_record",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "immutable_accepted_origin_if_one_exists",
+    "requirement": "signal_runtime_epoch",
+    "lane": "FINAL",
+    "mapped_fields": "early.origin_record",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "immutable_accepted_origin_if_one_exists",
+    "requirement": "signal_build",
+    "lane": "FINAL",
+    "mapped_fields": "early.origin_record",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "immutable_accepted_origin_if_one_exists",
+    "requirement": "protection_origin_link_basis",
+    "lane": "FINAL",
+    "mapped_fields": "early.origin_record",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "linked_guidance",
+    "requirement": "record_id",
+    "lane": "FINAL",
+    "mapped_fields": "final.record_id",
+    "producer": "FINAL_LINKED_EVENT_PRODUCER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "linked_guidance",
+    "requirement": "sequence",
+    "lane": "FINAL",
+    "mapped_fields": "final.sequence",
+    "producer": "FINAL_LINKED_EVENT_PRODUCER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "linked_guidance",
+    "requirement": "origin_id",
+    "lane": "FINAL",
+    "mapped_fields": "final.protected_evidence",
+    "producer": "FINAL_LINKED_EVENT_PRODUCER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "linked_guidance",
+    "requirement": "status",
+    "lane": "FINAL",
+    "mapped_fields": "final.status",
+    "producer": "FINAL_LINKED_EVENT_PRODUCER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "linked_guidance",
+    "requirement": "reason",
+    "lane": "FINAL",
+    "mapped_fields": "final.reason",
+    "producer": "FINAL_LINKED_EVENT_PRODUCER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "linked_guidance",
+    "requirement": "guidance",
+    "lane": "FINAL",
+    "mapped_fields": "final.guidance",
+    "producer": "FINAL_LINKED_EVENT_PRODUCER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "linked_guidance",
+    "requirement": "event",
+    "lane": "FINAL",
+    "mapped_fields": "final.event",
+    "producer": "FINAL_LINKED_EVENT_PRODUCER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "linked_guidance",
+    "requirement": "final_confirmation",
+    "lane": "FINAL",
+    "mapped_fields": "final.final_confirmation",
+    "producer": "FINAL_LINKED_EVENT_PRODUCER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "linked_guidance",
+    "requirement": "source_timestamp_utc",
+    "lane": "FINAL",
+    "mapped_fields": "final.protected_evidence",
+    "producer": "FINAL_LINKED_EVENT_PRODUCER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "linked_guidance",
+    "requirement": "observer_received_utc",
+    "lane": "FINAL",
+    "mapped_fields": "final.protected_evidence",
+    "producer": "FINAL_LINKED_EVENT_PRODUCER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "linked_guidance",
+    "requirement": "consumed_utc",
+    "lane": "FINAL",
+    "mapped_fields": "final.protected_evidence",
+    "producer": "FINAL_LINKED_EVENT_PRODUCER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "linked_guidance",
+    "requirement": "protected_evidence",
+    "lane": "FINAL",
+    "mapped_fields": "final.protected_evidence",
+    "producer": "FINAL_LINKED_EVENT_PRODUCER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "linked_guidance",
+    "requirement": "protected_snapshot_key",
+    "lane": "FINAL",
+    "mapped_fields": "final.protected_evidence",
+    "producer": "FINAL_LINKED_EVENT_PRODUCER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "linked_guidance",
+    "requirement": "protected_content_sha256",
+    "lane": "FINAL",
+    "mapped_fields": "final.protected_evidence",
+    "producer": "FINAL_LINKED_EVENT_PRODUCER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "linked_guidance",
+    "requirement": "publication_completed_utc",
+    "lane": "FINAL",
+    "mapped_fields": "final.publication_completed_utc",
+    "producer": "FINAL_LINKED_EVENT_PRODUCER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "linked_guidance",
+    "requirement": "five_minute_caution",
+    "lane": "FINAL",
+    "mapped_fields": "final.five_minute_caution",
+    "producer": "INFORMATION_READ_ONLY",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "linked_guidance",
+    "requirement": "three_minute_guard",
+    "lane": "FINAL",
+    "mapped_fields": "final.three_minute_guard",
+    "producer": "INFORMATION_READ_ONLY",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "linked_guidance",
+    "requirement": "flip_risk",
+    "lane": "FINAL",
+    "mapped_fields": "final.flip_risk",
+    "producer": "INFORMATION_READ_ONLY",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "exposure_and_expiry",
+    "requirement": "admission decision/reasons",
+    "lane": "FINAL",
+    "mapped_fields": "shared.admission_result + shared.admission_reason",
+    "producer": "EXPOSURE_REVALIDATOR",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "exposure_and_expiry",
+    "requirement": "predicate interval results",
+    "lane": "FINAL",
+    "mapped_fields": "shared.admission_predicate_intervals",
+    "producer": "EXPOSURE_REVALIDATOR",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "exposure_and_expiry",
+    "requirement": "availability check time",
+    "lane": "FINAL",
+    "mapped_fields": "shared.current_check_utc",
+    "producer": "EXPOSURE_REVALIDATOR",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "exposure_and_expiry",
+    "requirement": "display exposure recheck time",
+    "lane": "FINAL",
+    "mapped_fields": "shared.exposure_recheck_utc",
+    "producer": "EXPOSURE_REVALIDATOR",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "exposure_and_expiry",
+    "requirement": "guidance expiry",
+    "lane": "FINAL",
+    "mapped_fields": "shared.guidance_expiry",
+    "producer": "EXPOSURE_REVALIDATOR",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "exposure_and_expiry",
+    "requirement": "delivery completion witness if available",
+    "lane": "FINAL",
+    "mapped_fields": "shared.completed_delivery_witness",
+    "producer": "EXPOSURE_REVALIDATOR",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "exposure_and_expiry",
+    "requirement": "duplicate/conflict/replay/rollover/outage records",
+    "lane": "FINAL",
+    "mapped_fields": "shared.duplicate_conflict_replay_rollover_outage",
+    "producer": "EXPOSURE_REVALIDATOR",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "phase_and_risk",
+    "requirement": "actual published phase label",
+    "lane": "FINAL",
+    "mapped_fields": "final.published_phase_label",
+    "producer": "INFORMATION_READ_ONLY",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "phase_and_risk",
+    "requirement": "phase producer/version",
+    "lane": "FINAL",
+    "mapped_fields": "final.phase_source + final.phase_build",
+    "producer": "INFORMATION_READ_ONLY",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "phase_and_risk",
+    "requirement": "phase source/publication clocks",
+    "lane": "FINAL",
+    "mapped_fields": "final.phase_generated_utc + final.phase_publication_utc",
+    "producer": "INFORMATION_READ_ONLY",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "phase_and_risk",
+    "requirement": "phase immutable origin/contract binding",
+    "lane": "FINAL",
+    "mapped_fields": "final.phase_origin_id + final.phase_contract_binding",
+    "producer": "INFORMATION_READ_ONLY",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "phase_and_risk",
+    "requirement": "flip_risk value and definition",
+    "lane": "FINAL",
+    "mapped_fields": "final.flip_risk + final.flip_risk_definition",
+    "producer": "INFORMATION_READ_ONLY",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "phase_and_risk",
+    "requirement": "flip_risk producer/version",
+    "lane": "FINAL",
+    "mapped_fields": "final.flip_risk_producer + final.flip_risk_version",
+    "producer": "INFORMATION_READ_ONLY",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "phase_and_risk",
+    "requirement": "flip_risk source/publication clocks and availability",
+    "lane": "FINAL",
+    "mapped_fields": "final.flip_risk_source_utc + final.flip_risk_publication_utc + final.flip_risk_availability",
+    "producer": "INFORMATION_READ_ONLY",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "owner_witnesses",
+    "requirement": "authority",
+    "lane": "FINAL",
+    "mapped_fields": "shared.quote_witness + shared.brti_witness + shared.btc_witness",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "owner_witnesses",
+    "requirement": "clock_basis",
+    "lane": "FINAL",
+    "mapped_fields": "shared.quote_witness + shared.brti_witness + shared.btc_witness",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "owner_witnesses",
+    "requirement": "owner_epoch",
+    "lane": "FINAL",
+    "mapped_fields": "shared.quote_witness + shared.brti_witness + shared.btc_witness",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "owner_witnesses",
+    "requirement": "source_utc",
+    "lane": "FINAL",
+    "mapped_fields": "shared.quote_witness + shared.brti_witness + shared.btc_witness",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "owner_witnesses",
+    "requirement": "received_utc",
+    "lane": "FINAL",
+    "mapped_fields": "shared.quote_witness + shared.brti_witness + shared.btc_witness",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "owner_witnesses",
+    "requirement": "validated_utc",
+    "lane": "FINAL",
+    "mapped_fields": "shared.quote_witness + shared.brti_witness + shared.btc_witness",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "owner_witnesses",
+    "requirement": "witnessed_utc",
+    "lane": "FINAL",
+    "mapped_fields": "shared.quote_witness + shared.brti_witness + shared.btc_witness",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "owner_witnesses",
+    "requirement": "payload_sha256",
+    "lane": "FINAL",
+    "mapped_fields": "shared.quote_witness + shared.brti_witness + shared.btc_witness",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "native_context",
+    "requirement": "decision_utc",
+    "lane": "FINAL",
+    "mapped_fields": "shared.native_decision_utc",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "native_context",
+    "requirement": "consumption_completed_utc.quote",
+    "lane": "FINAL",
+    "mapped_fields": "shared.quote_consumption_completed_utc",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "native_context",
+    "requirement": "consumption_completed_utc.brti",
+    "lane": "FINAL",
+    "mapped_fields": "shared.brti_consumption_completed_utc",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "native_context",
+    "requirement": "consumption_completed_utc.btc",
+    "lane": "FINAL",
+    "mapped_fields": "shared.btc_consumption_completed_utc",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "native_context",
+    "requirement": "published_utc",
+    "lane": "FINAL",
+    "mapped_fields": "shared.native_published_utc",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "native_context",
+    "requirement": "completed_publication_utc",
+    "lane": "FINAL",
+    "mapped_fields": "shared.native_publication_completed_utc",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "native_context",
+    "requirement": "original observer observed_utc",
+    "lane": "FINAL",
+    "mapped_fields": "shared.recorded_utc",
+    "producer": "COMMON_OBSERVER",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "native_context",
+    "requirement": "native shared decision identity",
+    "lane": "FINAL",
+    "mapped_fields": "shared.native_decision_id",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "native_context",
+    "requirement": "native/capture/model/build identity",
+    "lane": "FINAL",
+    "mapped_fields": "shared.run_build + shared.model_hash + shared.capture_run_id",
+    "producer": "INDEPENDENT_ACQUIRER + NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "native_context",
+    "requirement": "official window witnesses",
+    "lane": "FINAL",
+    "mapped_fields": "shared.official_window_witness",
+    "producer": "NATIVE_V2_WITNESSES",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "FINAL_CAPTURE_SPEC",
+    "section": "native_context",
+    "requirement": "explicit FINAL-to-origin evidence mapping",
+    "lane": "FINAL",
+    "mapped_fields": "final.immutable_early_origin_id + final.link_basis",
+    "producer": "FINAL_LINKED_EVENT_PRODUCER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.source",
+    "lane": "EARLY",
+    "mapped_fields": "early.source",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.ready",
+    "lane": "EARLY",
+    "mapped_fields": "early.ready",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.side",
+    "lane": "EARLY",
+    "mapped_fields": "early.side",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.fair",
+    "lane": "EARLY",
+    "mapped_fields": "early.fair",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.edge",
+    "lane": "EARLY",
+    "mapped_fields": "early.edge",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.ask",
+    "lane": "EARLY",
+    "mapped_fields": "early.ask",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.bid",
+    "lane": "EARLY",
+    "mapped_fields": "early.bid",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.conditions",
+    "lane": "EARLY",
+    "mapped_fields": "early.conditions",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.early",
+    "lane": "EARLY",
+    "mapped_fields": "early.early",
+    "producer": "PROTECTED_MAIN",
+    "status": "PARSED_FIELD_IF_EMITTED",
+    "reason": "Preserve original value; parsed observation is not live admission"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.candidate_id",
+    "lane": "EARLY",
+    "mapped_fields": "early.candidate_id",
+    "producer": "NATIVE_EARLY_GATE_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.candidate_evaluation_id",
+    "lane": "EARLY",
+    "mapped_fields": "early.candidate_evaluation_id",
+    "producer": "NATIVE_EARLY_GATE_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.all_gate_results",
+    "lane": "EARLY",
+    "mapped_fields": "early.all_gate_results",
+    "producer": "NATIVE_EARLY_GATE_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.rejection_reasons",
+    "lane": "EARLY",
+    "mapped_fields": "early.rejection_reasons",
+    "producer": "NATIVE_EARLY_GATE_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.suppression_reasons",
+    "lane": "EARLY",
+    "mapped_fields": "early.suppression_reasons",
+    "producer": "NATIVE_EARLY_GATE_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.probability_threshold",
+    "lane": "EARLY",
+    "mapped_fields": "early.probability_threshold",
+    "producer": "NATIVE_EARLY_GATE_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.price_gate",
+    "lane": "EARLY",
+    "mapped_fields": "early.price_gate",
+    "producer": "NATIVE_EARLY_GATE_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.persistence_gate",
+    "lane": "EARLY",
+    "mapped_fields": "early.persistence_gate",
+    "producer": "NATIVE_EARLY_GATE_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.time_gate",
+    "lane": "EARLY",
+    "mapped_fields": "early.time_gate",
+    "producer": "NATIVE_EARLY_GATE_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.btc_target_context",
+    "lane": "EARLY",
+    "mapped_fields": "early.btc_target_context",
+    "producer": "NATIVE_EARLY_GATE_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.trajectory_history",
+    "lane": "EARLY",
+    "mapped_fields": "early.trajectory_history",
+    "producer": "NATIVE_EARLY_GATE_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.history_cutoff",
+    "lane": "EARLY",
+    "mapped_fields": "early.history_cutoff",
+    "producer": "NATIVE_EARLY_GATE_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.brti_selected_evidence",
+    "lane": "EARLY",
+    "mapped_fields": "early.brti_selected_evidence",
+    "producer": "NATIVE_EARLY_GATE_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.model_feature_context",
+    "lane": "EARLY",
+    "mapped_fields": "early.model_feature_context",
+    "producer": "NATIVE_EARLY_GATE_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.emitted_tradingview_context",
+    "lane": "EARLY",
+    "mapped_fields": "early.emitted_tradingview_context",
+    "producer": "NATIVE_EARLY_GATE_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.emitted_seconds_context",
+    "lane": "EARLY",
+    "mapped_fields": "early.emitted_seconds_context",
+    "producer": "NATIVE_EARLY_GATE_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.emitted_native_range_context",
+    "lane": "EARLY",
+    "mapped_fields": "early.emitted_native_range_context",
+    "producer": "NATIVE_EARLY_GATE_STREAM",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.origin_id",
+    "lane": "EARLY",
+    "mapped_fields": "early.origin_id",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.manager_signal_id",
+    "lane": "EARLY",
+    "mapped_fields": "early.manager_signal_id",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.original_side",
+    "lane": "EARLY",
+    "mapped_fields": "early.original_side",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.signal_timestamp_utc",
+    "lane": "EARLY",
+    "mapped_fields": "early.signal_timestamp_utc",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.accepted_utc",
+    "lane": "EARLY",
+    "mapped_fields": "early.accepted_utc",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.original_ask",
+    "lane": "EARLY",
+    "mapped_fields": "early.original_ask",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.original_bid",
+    "lane": "EARLY",
+    "mapped_fields": "early.original_bid",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.protected_snapshot_key",
+    "lane": "EARLY",
+    "mapped_fields": "early.protected_snapshot_key",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.protected_content_sha256",
+    "lane": "EARLY",
+    "mapped_fields": "early.protected_content_sha256",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.origin_record",
+    "lane": "EARLY",
+    "mapped_fields": "early.origin_record",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.origin_kind",
+    "lane": "EARLY",
+    "mapped_fields": "early.origin_kind",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.protocol_sha256",
+    "lane": "EARLY",
+    "mapped_fields": "early.protocol_sha256",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.research_origin_id",
+    "lane": "EARLY",
+    "mapped_fields": "early.research_origin_id",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.origin_observation_timestamp",
+    "lane": "EARLY",
+    "mapped_fields": "early.origin_observation_timestamp",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.origin_available_timestamp",
+    "lane": "EARLY",
+    "mapped_fields": "early.origin_available_timestamp",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.original_member_reference",
+    "lane": "EARLY",
+    "mapped_fields": "early.original_member_reference",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.signal_runtime_epoch",
+    "lane": "EARLY",
+    "mapped_fields": "early.signal_runtime_epoch",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.signal_build",
+    "lane": "EARLY",
+    "mapped_fields": "early.signal_build",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.protected_source_timestamp_utc",
+    "lane": "EARLY",
+    "mapped_fields": "early.protected_source_timestamp_utc",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.protected_generated_utc",
+    "lane": "EARLY",
+    "mapped_fields": "early.protected_generated_utc",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  },
+  {
+    "source": "EARLY_ROUND2_REQUIREMENTS",
+    "section": "protected state / candidate gates / research origins",
+    "requirement": "early.observer_received_utc",
+    "lane": "EARLY",
+    "mapped_fields": "early.observer_received_utc",
+    "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+    "status": "UNAVAILABLE_REQUIRED_PRODUCER",
+    "reason": "Required live producer/witness/link is not established"
+  }
+]

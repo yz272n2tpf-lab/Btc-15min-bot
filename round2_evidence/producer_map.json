@@ -1,0 +1,3349 @@
+{
+  "producers": {
+    "COMMON_OBSERVER": {
+      "component": "btc15_common_observer_v1.observe_forever",
+      "service": "scalp-finalprod-clean-v1",
+      "basis": "Already-produced original gzip member; no new observation",
+      "identity": "e98576f23e247349b90717aea3a3ad832d409354 reference; actual run/build must be bound"
+    },
+    "COMMON_MAIN_RECEIPT": {
+      "component": "btc15_common_observer_v1.read_source(main)",
+      "basis": "Collector clocks only, never native receipt"
+    },
+    "PROTECTED_MAIN": {
+      "component": "existing dashboard_state.json protected early/final objects",
+      "source": "sources[service=main].state",
+      "basis": "Complete parsed response only; startup _two_final_* forbidden",
+      "identity": "qualified lineage abe212b513827c8cec28a2f64e0161e79296bd82; per-response witness unavailable"
+    },
+    "BRTI_OWNER": {
+      "component": "existing sources[service=owner].state",
+      "basis": "Separate owner observation; cannot repair main cutoff or freshen main evidence"
+    },
+    "V81_PUBLICATION": {
+      "component": "existing sources[service=v81].state",
+      "basis": "Whole original state retained; not a complete per-event lifecycle log"
+    },
+    "SERIAL_PUBLICATION": {
+      "component": "existing sources[service=serial].state",
+      "basis": "Whole original state retained; not equivalent to actual user EXIT"
+    },
+    "INDEPENDENT_ACQUIRER": {
+      "component": "b025771 Policy/seal_member contract",
+      "basis": "API exists; real continuously detached materializer NOT ESTABLISHED"
+    },
+    "NATIVE_V2_WITNESSES": {
+      "component": "BTC15_SOURCE_WITNESSES_V2 / BTC15_NATIVE_CONTEXT_V2",
+      "basis": "Offline contracts only. No producer callback added; missing per-source/decision/publication evidence remains null"
+    },
+    "CLOCK_MONITOR": {
+      "component": "trusted per-domain host/NTS clock monitor",
+      "basis": "Not present. Certificate receiver is not a monitor or an attestation"
+    },
+    "EXPOSURE_REVALIDATOR": {
+      "component": "b025771 Admission.view plus future delivery seam",
+      "basis": "Offline guard exists; genuine delivery seam/witness not established"
+    },
+    "POPULATION_CATALOG": {
+      "component": "official Kalshi contract catalog and complete authoritative settlement/closeout stream",
+      "basis": "Existing metadata/scorer can describe contracts, but no independent complete Round2 catalog/settlement feed is wired"
+    },
+    "NATIVE_EARLY_GATE_STREAM": {
+      "component": "native EARLY evaluation at original cutoff",
+      "basis": "Protected conditions retained when emitted; all rejected/suppressed candidate events and all gate inputs are not emitted as a complete stream"
+    },
+    "DIRECTIONAL_AUTHORITY_LEDGER": {
+      "component": "btc15_directional_signal_authority_v1.Authority origins/records",
+      "basis": "dcc44cc offline candidate only; recorder cannot call authority to manufacture actual BUY origins"
+    },
+    "FINAL_LINKED_EVENT_PRODUCER": {
+      "component": "existing authority record with explicit origin and protected identity",
+      "basis": "Offline origin/event relation can be preserved. No matching live authority stream established"
+    },
+    "INFORMATION_READ_ONLY": {
+      "component": "abe212 information output; informational only",
+      "basis": "Common observer URL set does not include /information. Do not derive phase/risk or add GET"
+    },
+    "SCALP_ORIGIN_EVENT_STREAM": {
+      "component": "true-SCALP _maybe_true_scalp_signal; V8.1 owner entry event",
+      "basis": "Partial native summary/state exists; full immutable published-entry/first-quote provenance stream unavailable"
+    },
+    "SCALP_LIFECYCLE_EVENT_STREAM": {
+      "component": "_update_true_scalp_pending / _update_profit_shadow / V8.1 owner transitions",
+      "basis": "Native shadow exits differ from guidance. No continuous complete event and BRTI evaluation stream established"
+    },
+    "SCALP_SERIAL_OWNER_STREAM": {
+      "component": "serial owner and source candidate transitions",
+      "basis": "Requires actual predecessor/terminal links, suppression and unresolved-origin denominator; not reconstructed from counters"
+    }
+  },
+  "fields": [
+    {
+      "field": "shared.schema_version",
+      "lane": "SHARED",
+      "producer": "COMMON_OBSERVER",
+      "source_path": "schema_version",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.record_type",
+      "lane": "SHARED",
+      "producer": "COMMON_OBSERVER",
+      "source_path": "record_type",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.run_id",
+      "lane": "SHARED",
+      "producer": "COMMON_OBSERVER",
+      "source_path": "run_id",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.observer_epoch",
+      "lane": "SHARED",
+      "producer": "COMMON_OBSERVER",
+      "source_path": "observer_epoch",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.sequence_in_process",
+      "lane": "SHARED",
+      "producer": "COMMON_OBSERVER",
+      "source_path": "sequence_in_process",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.recorded_utc",
+      "lane": "SHARED",
+      "producer": "COMMON_OBSERVER",
+      "source_path": "recorded_utc",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.sampling_seconds",
+      "lane": "SHARED",
+      "producer": "COMMON_OBSERVER",
+      "source_path": "sampling_seconds",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.sources",
+      "lane": "SHARED",
+      "producer": "COMMON_OBSERVER",
+      "source_path": "sources",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.display_build",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "display_build",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.source_timestamp_utc",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "source_timestamp_utc",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.generated_utc",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "generated_utc",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.contract",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "contract",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.timer",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "timer",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.market",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "market",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.health",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "health",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.parity",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "parity",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.safety",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "safety",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.target",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "market.target",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.up_bid",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "market.up_bid",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.up_ask",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "market.up_ask",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.down_bid",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "market.down_bid",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.down_ask",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "market.down_ask",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.brti_ready",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "market.brti_ready",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.brti_age_seconds",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "market.brti_age_seconds",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.close_utc",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "timer.close_utc",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.close_basis",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "timer.close_basis",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.seconds_left",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "timer.seconds_left",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.brti_fresh",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "health.brti_fresh",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.source_fresh",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "health.source_fresh",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.market_open",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "health.market_open",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.paired_quotes",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "health.paired_quotes",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.timestamp_utc",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "parity.timestamp_utc",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.status",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "parity.status",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.api_contract",
+      "lane": "SHARED",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "parity.api_contract",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.request_started_utc",
+      "lane": "SHARED",
+      "producer": "COMMON_MAIN_RECEIPT",
+      "source_path": "request_started_utc",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.response_received_utc",
+      "lane": "SHARED",
+      "producer": "COMMON_MAIN_RECEIPT",
+      "source_path": "response_received_utc",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.http_status",
+      "lane": "SHARED",
+      "producer": "COMMON_MAIN_RECEIPT",
+      "source_path": "http_status",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.error_type",
+      "lane": "SHARED",
+      "producer": "COMMON_MAIN_RECEIPT",
+      "source_path": "error_type",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.owner_state",
+      "lane": "SHARED",
+      "producer": "BRTI_OWNER",
+      "source_path": "owner_state",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.original_member_bytes",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.member_sha256",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.stream_id",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.offset",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.end_offset",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.run_manifest_bytes",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.run_manifest_sha256",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.collector_commit",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.collector_fingerprints",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.signer_id",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.authenticated_route",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.peer_identity",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.redirect_policy",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.source_build",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.run_build",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.native_epoch",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.native_decision_id",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.model_hash",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.policy_hash",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.quote_id",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.book_sequence",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.quote_payload_sha256",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.quote_source_utc",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.quote_received_utc",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.quote_validated_utc",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.quote_consumed_utc",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.up_bid_size",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.up_ask_size",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.down_bid_size",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.down_ask_size",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.quote_decimal_units",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.brti_witness",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.btc_witness",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.quote_witness",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.native_cutoff_utc",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.native_consumption_completed_utc",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.native_publication_completed_utc",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.official_open_utc",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.official_close_utc",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.official_window_witness",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.official_target_witness",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.clock_id",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.clock_epoch",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.measurement_id",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.reference_utc",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.valid_from_utc",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.valid_until_utc",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.error_us",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.rate_ppm",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.read_error_us",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.step_status",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.suspension_status",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.restart_status",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.monitor_attestation",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.revocation_state",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.paired_utc_boottime",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.admission_result",
+      "lane": "SHARED",
+      "producer": "EXPOSURE_REVALIDATOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.admission_predicate_intervals",
+      "lane": "SHARED",
+      "producer": "EXPOSURE_REVALIDATOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.consumed_utc",
+      "lane": "SHARED",
+      "producer": "EXPOSURE_REVALIDATOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.current_check_utc",
+      "lane": "SHARED",
+      "producer": "EXPOSURE_REVALIDATOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.exposure_recheck_utc",
+      "lane": "SHARED",
+      "producer": "EXPOSURE_REVALIDATOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.guidance_expiry",
+      "lane": "SHARED",
+      "producer": "EXPOSURE_REVALIDATOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.completed_delivery_witness",
+      "lane": "SHARED",
+      "producer": "EXPOSURE_REVALIDATOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.eligible_contract_manifest",
+      "lane": "SHARED",
+      "producer": "POPULATION_CATALOG",
+      "source_path": null,
+      "producer_state": "MISSING_ROUND2_FEED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.scheduled_contract",
+      "lane": "SHARED",
+      "producer": "POPULATION_CATALOG",
+      "source_path": null,
+      "producer_state": "MISSING_ROUND2_FEED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.quiet_contract",
+      "lane": "SHARED",
+      "producer": "POPULATION_CATALOG",
+      "source_path": null,
+      "producer_state": "MISSING_ROUND2_FEED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.capture_start",
+      "lane": "SHARED",
+      "producer": "POPULATION_CATALOG",
+      "source_path": null,
+      "producer_state": "MISSING_ROUND2_FEED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.capture_end",
+      "lane": "SHARED",
+      "producer": "POPULATION_CATALOG",
+      "source_path": null,
+      "producer_state": "MISSING_ROUND2_FEED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.restart_reason",
+      "lane": "SHARED",
+      "producer": "POPULATION_CATALOG",
+      "source_path": null,
+      "producer_state": "MISSING_ROUND2_FEED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.gap_reason",
+      "lane": "SHARED",
+      "producer": "POPULATION_CATALOG",
+      "source_path": null,
+      "producer_state": "MISSING_ROUND2_FEED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.quote_reconnect",
+      "lane": "SHARED",
+      "producer": "POPULATION_CATALOG",
+      "source_path": null,
+      "producer_state": "MISSING_ROUND2_FEED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.authoritative_settlement",
+      "lane": "SHARED",
+      "producer": "POPULATION_CATALOG",
+      "source_path": null,
+      "producer_state": "MISSING_ROUND2_FEED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.final60_complete",
+      "lane": "SHARED",
+      "producer": "POPULATION_CATALOG",
+      "source_path": null,
+      "producer_state": "MISSING_ROUND2_FEED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.final60_count",
+      "lane": "SHARED",
+      "producer": "POPULATION_CATALOG",
+      "source_path": null,
+      "producer_state": "MISSING_ROUND2_FEED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.final60_average",
+      "lane": "SHARED",
+      "producer": "POPULATION_CATALOG",
+      "source_path": null,
+      "producer_state": "MISSING_ROUND2_FEED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.final60_side",
+      "lane": "SHARED",
+      "producer": "POPULATION_CATALOG",
+      "source_path": null,
+      "producer_state": "MISSING_ROUND2_FEED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.settlement_artifact_ref",
+      "lane": "SHARED",
+      "producer": "POPULATION_CATALOG",
+      "source_path": null,
+      "producer_state": "MISSING_ROUND2_FEED",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.capture_run_id",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_RUN_MANIFEST",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.producer_instance_id",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_RUN_MANIFEST",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.producer_epoch",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_RUN_MANIFEST",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.service_id",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_RUN_MANIFEST",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.deployment_id",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_RUN_MANIFEST",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.git_commit",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_RUN_MANIFEST",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.source_module_hashes",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_RUN_MANIFEST",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.model_artifact_hash",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_RUN_MANIFEST",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.training_dataset_hash",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_RUN_MANIFEST",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.training_cutoff_utc",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_RUN_MANIFEST",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.policy_constants",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_RUN_MANIFEST",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.official_contract_universe_manifest_hash",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_RUN_MANIFEST",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.partition_manifest_hash",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_RUN_MANIFEST",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.run_started_utc",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_RUN_MANIFEST",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.run_stopped_utc",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_RUN_MANIFEST",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.capture_start_reason",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_RUN_MANIFEST",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.capture_end_reason",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_RUN_MANIFEST",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.side_mapping",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.quote_source",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.quote_validation_result",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.quote_status",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.quote_rejection_reason",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.quote_source_contract_ticker",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.target_source_id",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.target_payload_sha256",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.expected_quote_cadence",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.quote_heartbeat",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.quote_last_good",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.quote_gap_intervals",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.source_sequence_continuity",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.original_quote_decimal_payload",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.model_evaluation_id",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.feature_validity_masks",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.source_ids",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.source_history_cutoff",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.clock_domain",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.certificate_sha256",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.clock_basis",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.reference_identity",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.monitor_runtime_epoch",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.offset_bound_evidence",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.rate_bound_evidence",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.read_bound_evidence",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.epoch_continuity_evidence",
+      "lane": "SHARED",
+      "producer": "CLOCK_MONITOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.acquisition_manifest",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.reader_authorization",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.endpoint",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.source_service_identity",
+      "lane": "SHARED",
+      "producer": "INDEPENDENT_ACQUIRER",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.admission_reason",
+      "lane": "SHARED",
+      "producer": "EXPOSURE_REVALIDATOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.duplicate_conflict_replay_rollover_outage",
+      "lane": "SHARED",
+      "producer": "EXPOSURE_REVALIDATOR",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.native_published_utc",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.native_decision_utc",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.quote_consumption_completed_utc",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.brti_consumption_completed_utc",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "shared.btc_consumption_completed_utc",
+      "lane": "SHARED",
+      "producer": "NATIVE_V2_WITNESSES",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "SHARED",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.source",
+      "lane": "EARLY",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "early.source",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.ready",
+      "lane": "EARLY",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "early.ready",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.side",
+      "lane": "EARLY",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "early.side",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.fair",
+      "lane": "EARLY",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "early.fair",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.edge",
+      "lane": "EARLY",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "early.edge",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.ask",
+      "lane": "EARLY",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "early.ask",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.bid",
+      "lane": "EARLY",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "early.bid",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.conditions",
+      "lane": "EARLY",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "early.conditions",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.early",
+      "lane": "EARLY",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "early",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.candidate_id",
+      "lane": "EARLY",
+      "producer": "NATIVE_EARLY_GATE_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.candidate_evaluation_id",
+      "lane": "EARLY",
+      "producer": "NATIVE_EARLY_GATE_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.all_gate_results",
+      "lane": "EARLY",
+      "producer": "NATIVE_EARLY_GATE_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.rejection_reasons",
+      "lane": "EARLY",
+      "producer": "NATIVE_EARLY_GATE_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.suppression_reasons",
+      "lane": "EARLY",
+      "producer": "NATIVE_EARLY_GATE_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.probability_threshold",
+      "lane": "EARLY",
+      "producer": "NATIVE_EARLY_GATE_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.price_gate",
+      "lane": "EARLY",
+      "producer": "NATIVE_EARLY_GATE_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.persistence_gate",
+      "lane": "EARLY",
+      "producer": "NATIVE_EARLY_GATE_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.time_gate",
+      "lane": "EARLY",
+      "producer": "NATIVE_EARLY_GATE_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.btc_target_context",
+      "lane": "EARLY",
+      "producer": "NATIVE_EARLY_GATE_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.trajectory_history",
+      "lane": "EARLY",
+      "producer": "NATIVE_EARLY_GATE_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.history_cutoff",
+      "lane": "EARLY",
+      "producer": "NATIVE_EARLY_GATE_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.brti_selected_evidence",
+      "lane": "EARLY",
+      "producer": "NATIVE_EARLY_GATE_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.model_feature_context",
+      "lane": "EARLY",
+      "producer": "NATIVE_EARLY_GATE_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.emitted_tradingview_context",
+      "lane": "EARLY",
+      "producer": "NATIVE_EARLY_GATE_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.emitted_seconds_context",
+      "lane": "EARLY",
+      "producer": "NATIVE_EARLY_GATE_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.emitted_native_range_context",
+      "lane": "EARLY",
+      "producer": "NATIVE_EARLY_GATE_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_LIVE_PRODUCER",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.origin_id",
+      "lane": "EARLY",
+      "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+      "source_path": null,
+      "producer_state": "OFFLINE_ONLY_NOT_NATIVE",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.manager_signal_id",
+      "lane": "EARLY",
+      "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+      "source_path": null,
+      "producer_state": "OFFLINE_ONLY_NOT_NATIVE",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.original_side",
+      "lane": "EARLY",
+      "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+      "source_path": null,
+      "producer_state": "OFFLINE_ONLY_NOT_NATIVE",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.signal_timestamp_utc",
+      "lane": "EARLY",
+      "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+      "source_path": null,
+      "producer_state": "OFFLINE_ONLY_NOT_NATIVE",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.accepted_utc",
+      "lane": "EARLY",
+      "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+      "source_path": null,
+      "producer_state": "OFFLINE_ONLY_NOT_NATIVE",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.original_ask",
+      "lane": "EARLY",
+      "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+      "source_path": null,
+      "producer_state": "OFFLINE_ONLY_NOT_NATIVE",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.original_bid",
+      "lane": "EARLY",
+      "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+      "source_path": null,
+      "producer_state": "OFFLINE_ONLY_NOT_NATIVE",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.protected_snapshot_key",
+      "lane": "EARLY",
+      "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+      "source_path": null,
+      "producer_state": "OFFLINE_ONLY_NOT_NATIVE",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.protected_content_sha256",
+      "lane": "EARLY",
+      "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+      "source_path": null,
+      "producer_state": "OFFLINE_ONLY_NOT_NATIVE",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.origin_record",
+      "lane": "EARLY",
+      "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+      "source_path": null,
+      "producer_state": "OFFLINE_ONLY_NOT_NATIVE",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.origin_kind",
+      "lane": "EARLY",
+      "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+      "source_path": null,
+      "producer_state": "OFFLINE_ONLY_NOT_NATIVE",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.protocol_sha256",
+      "lane": "EARLY",
+      "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+      "source_path": null,
+      "producer_state": "OFFLINE_ONLY_NOT_NATIVE",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.final",
+      "lane": "FINAL",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "final",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.research_origin_id",
+      "lane": "EARLY",
+      "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+      "source_path": null,
+      "producer_state": "OFFLINE_ONLY_NOT_NATIVE",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.origin_observation_timestamp",
+      "lane": "EARLY",
+      "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+      "source_path": null,
+      "producer_state": "OFFLINE_ONLY_NOT_NATIVE",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.origin_available_timestamp",
+      "lane": "EARLY",
+      "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+      "source_path": null,
+      "producer_state": "OFFLINE_ONLY_NOT_NATIVE",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.original_member_reference",
+      "lane": "EARLY",
+      "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+      "source_path": null,
+      "producer_state": "OFFLINE_ONLY_NOT_NATIVE",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.signal_runtime_epoch",
+      "lane": "EARLY",
+      "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+      "source_path": null,
+      "producer_state": "OFFLINE_ONLY_NOT_NATIVE",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.signal_build",
+      "lane": "EARLY",
+      "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+      "source_path": null,
+      "producer_state": "OFFLINE_ONLY_NOT_NATIVE",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.protected_source_timestamp_utc",
+      "lane": "EARLY",
+      "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+      "source_path": null,
+      "producer_state": "OFFLINE_ONLY_NOT_NATIVE",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.protected_generated_utc",
+      "lane": "EARLY",
+      "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+      "source_path": null,
+      "producer_state": "OFFLINE_ONLY_NOT_NATIVE",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "early.observer_received_utc",
+      "lane": "EARLY",
+      "producer": "DIRECTIONAL_AUTHORITY_LEDGER",
+      "source_path": null,
+      "producer_state": "OFFLINE_ONLY_NOT_NATIVE",
+      "required_for": "EARLY",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.source",
+      "lane": "FINAL",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "final.source",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.ready",
+      "lane": "FINAL",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "final.ready",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.side",
+      "lane": "FINAL",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "final.side",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.confidence",
+      "lane": "FINAL",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "final.confidence",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.conditions",
+      "lane": "FINAL",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "final.conditions",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.recorded_final_call",
+      "lane": "FINAL",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "final.recorded_final_call",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.recorded_side",
+      "lane": "FINAL",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "final.recorded_side",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.recorded_confidence",
+      "lane": "FINAL",
+      "producer": "PROTECTED_MAIN",
+      "source_path": "final.recorded_confidence",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.final_event_id",
+      "lane": "FINAL",
+      "producer": "FINAL_LINKED_EVENT_PRODUCER",
+      "source_path": null,
+      "producer_state": "MISSING_EXPLICIT_LIVE_LINK",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.final_publication_id",
+      "lane": "FINAL",
+      "producer": "FINAL_LINKED_EVENT_PRODUCER",
+      "source_path": null,
+      "producer_state": "MISSING_EXPLICIT_LIVE_LINK",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.evidence_inputs",
+      "lane": "FINAL",
+      "producer": "FINAL_LINKED_EVENT_PRODUCER",
+      "source_path": null,
+      "producer_state": "MISSING_EXPLICIT_LIVE_LINK",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.generated_identity",
+      "lane": "FINAL",
+      "producer": "FINAL_LINKED_EVENT_PRODUCER",
+      "source_path": null,
+      "producer_state": "MISSING_EXPLICIT_LIVE_LINK",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.publication_identity",
+      "lane": "FINAL",
+      "producer": "FINAL_LINKED_EVENT_PRODUCER",
+      "source_path": null,
+      "producer_state": "MISSING_EXPLICIT_LIVE_LINK",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.immutable_early_origin_id",
+      "lane": "FINAL",
+      "producer": "FINAL_LINKED_EVENT_PRODUCER",
+      "source_path": null,
+      "producer_state": "MISSING_EXPLICIT_LIVE_LINK",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.link_basis",
+      "lane": "FINAL",
+      "producer": "FINAL_LINKED_EVENT_PRODUCER",
+      "source_path": null,
+      "producer_state": "MISSING_EXPLICIT_LIVE_LINK",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.previous_state",
+      "lane": "FINAL",
+      "producer": "FINAL_LINKED_EVENT_PRODUCER",
+      "source_path": null,
+      "producer_state": "MISSING_EXPLICIT_LIVE_LINK",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.current_state",
+      "lane": "FINAL",
+      "producer": "FINAL_LINKED_EVENT_PRODUCER",
+      "source_path": null,
+      "producer_state": "MISSING_EXPLICIT_LIVE_LINK",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.saw_strong_final",
+      "lane": "FINAL",
+      "producer": "FINAL_LINKED_EVENT_PRODUCER",
+      "source_path": null,
+      "producer_state": "MISSING_EXPLICIT_LIVE_LINK",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.trigger_branch",
+      "lane": "FINAL",
+      "producer": "FINAL_LINKED_EVENT_PRODUCER",
+      "source_path": null,
+      "producer_state": "MISSING_EXPLICIT_LIVE_LINK",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.valid_opposing_not_ready",
+      "lane": "FINAL",
+      "producer": "FINAL_LINKED_EVENT_PRODUCER",
+      "source_path": null,
+      "producer_state": "MISSING_EXPLICIT_LIVE_LINK",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.qualified_opposing_confirmation",
+      "lane": "FINAL",
+      "producer": "FINAL_LINKED_EVENT_PRODUCER",
+      "source_path": null,
+      "producer_state": "MISSING_EXPLICIT_LIVE_LINK",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.five_minute_caution",
+      "lane": "FINAL",
+      "producer": "INFORMATION_READ_ONLY",
+      "source_path": null,
+      "producer_state": "NOT_IN_THIS_COMMON_SOURCE; NO_NEW_GET",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.three_minute_guard",
+      "lane": "FINAL",
+      "producer": "INFORMATION_READ_ONLY",
+      "source_path": null,
+      "producer_state": "NOT_IN_THIS_COMMON_SOURCE; NO_NEW_GET",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.flip_risk",
+      "lane": "FINAL",
+      "producer": "INFORMATION_READ_ONLY",
+      "source_path": null,
+      "producer_state": "NOT_IN_THIS_COMMON_SOURCE; NO_NEW_GET",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.phase_source",
+      "lane": "FINAL",
+      "producer": "INFORMATION_READ_ONLY",
+      "source_path": null,
+      "producer_state": "NOT_IN_THIS_COMMON_SOURCE; NO_NEW_GET",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.phase_build",
+      "lane": "FINAL",
+      "producer": "INFORMATION_READ_ONLY",
+      "source_path": null,
+      "producer_state": "NOT_IN_THIS_COMMON_SOURCE; NO_NEW_GET",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.phase_generated_utc",
+      "lane": "FINAL",
+      "producer": "INFORMATION_READ_ONLY",
+      "source_path": null,
+      "producer_state": "NOT_IN_THIS_COMMON_SOURCE; NO_NEW_GET",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.phase_contract_binding",
+      "lane": "FINAL",
+      "producer": "INFORMATION_READ_ONLY",
+      "source_path": null,
+      "producer_state": "NOT_IN_THIS_COMMON_SOURCE; NO_NEW_GET",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.record_id",
+      "lane": "FINAL",
+      "producer": "FINAL_LINKED_EVENT_PRODUCER",
+      "source_path": null,
+      "producer_state": "MISSING_EXPLICIT_LIVE_LINK",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.sequence",
+      "lane": "FINAL",
+      "producer": "FINAL_LINKED_EVENT_PRODUCER",
+      "source_path": null,
+      "producer_state": "MISSING_EXPLICIT_LIVE_LINK",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.status",
+      "lane": "FINAL",
+      "producer": "FINAL_LINKED_EVENT_PRODUCER",
+      "source_path": null,
+      "producer_state": "MISSING_EXPLICIT_LIVE_LINK",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.reason",
+      "lane": "FINAL",
+      "producer": "FINAL_LINKED_EVENT_PRODUCER",
+      "source_path": null,
+      "producer_state": "MISSING_EXPLICIT_LIVE_LINK",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.guidance",
+      "lane": "FINAL",
+      "producer": "FINAL_LINKED_EVENT_PRODUCER",
+      "source_path": null,
+      "producer_state": "MISSING_EXPLICIT_LIVE_LINK",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.event",
+      "lane": "FINAL",
+      "producer": "FINAL_LINKED_EVENT_PRODUCER",
+      "source_path": null,
+      "producer_state": "MISSING_EXPLICIT_LIVE_LINK",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.final_confirmation",
+      "lane": "FINAL",
+      "producer": "FINAL_LINKED_EVENT_PRODUCER",
+      "source_path": null,
+      "producer_state": "MISSING_EXPLICIT_LIVE_LINK",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.protected_evidence",
+      "lane": "FINAL",
+      "producer": "FINAL_LINKED_EVENT_PRODUCER",
+      "source_path": null,
+      "producer_state": "MISSING_EXPLICIT_LIVE_LINK",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.publication_completed_utc",
+      "lane": "FINAL",
+      "producer": "FINAL_LINKED_EVENT_PRODUCER",
+      "source_path": null,
+      "producer_state": "MISSING_EXPLICIT_LIVE_LINK",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.published_phase_label",
+      "lane": "FINAL",
+      "producer": "INFORMATION_READ_ONLY",
+      "source_path": null,
+      "producer_state": "NOT_IN_THIS_COMMON_SOURCE; NO_NEW_GET",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.phase_publication_utc",
+      "lane": "FINAL",
+      "producer": "INFORMATION_READ_ONLY",
+      "source_path": null,
+      "producer_state": "NOT_IN_THIS_COMMON_SOURCE; NO_NEW_GET",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.phase_origin_id",
+      "lane": "FINAL",
+      "producer": "INFORMATION_READ_ONLY",
+      "source_path": null,
+      "producer_state": "NOT_IN_THIS_COMMON_SOURCE; NO_NEW_GET",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.flip_risk_definition",
+      "lane": "FINAL",
+      "producer": "INFORMATION_READ_ONLY",
+      "source_path": null,
+      "producer_state": "NOT_IN_THIS_COMMON_SOURCE; NO_NEW_GET",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.flip_risk_producer",
+      "lane": "FINAL",
+      "producer": "INFORMATION_READ_ONLY",
+      "source_path": null,
+      "producer_state": "NOT_IN_THIS_COMMON_SOURCE; NO_NEW_GET",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.flip_risk_version",
+      "lane": "FINAL",
+      "producer": "INFORMATION_READ_ONLY",
+      "source_path": null,
+      "producer_state": "NOT_IN_THIS_COMMON_SOURCE; NO_NEW_GET",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.flip_risk_source_utc",
+      "lane": "FINAL",
+      "producer": "INFORMATION_READ_ONLY",
+      "source_path": null,
+      "producer_state": "NOT_IN_THIS_COMMON_SOURCE; NO_NEW_GET",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.flip_risk_publication_utc",
+      "lane": "FINAL",
+      "producer": "INFORMATION_READ_ONLY",
+      "source_path": null,
+      "producer_state": "NOT_IN_THIS_COMMON_SOURCE; NO_NEW_GET",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "final.flip_risk_availability",
+      "lane": "FINAL",
+      "producer": "INFORMATION_READ_ONLY",
+      "source_path": null,
+      "producer_state": "NOT_IN_THIS_COMMON_SOURCE; NO_NEW_GET",
+      "required_for": "FINAL",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.v81_state",
+      "lane": "SCALP",
+      "producer": "V81_PUBLICATION",
+      "source_path": "v81_state",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.serial_state",
+      "lane": "SCALP",
+      "producer": "SERIAL_PUBLICATION",
+      "source_path": "serial_state",
+      "producer_state": "PRESENT_IF_EMITTED",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.signal_id",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.event_id",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.event_sequence",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.origin_hash",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.contract_ticker",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.exchange_market_id",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.side",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.signal_generated_utc",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.signal_published_utc",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.signal_received_utc",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.published_entry_decimal",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.original_market_ask_decimal",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.original_market_bid_decimal",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.original_quote_id",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.first_post_publication_quote_id",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.first_post_receipt_quote_id",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.first_quote_received_utc",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.first_quote_ask_decimal",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.first_quote_bid_decimal",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.entry_admission_result",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.entry_rejection_reason",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.policy_id",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.model_hash",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.feature_snapshot_id",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.feature_payload_sha256",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.feature_availability_cutoff_utc",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.probability",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.strength",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.seconds_left",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.elapsed_contract_seconds",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.btc30_aligned",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.origin_gate_results",
+      "lane": "SCALP",
+      "producer": "SCALP_ORIGIN_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.lifecycle_event_id",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.signal_origin_id",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.prior_state",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.next_state",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.transition_kind",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.trigger_reason",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.trigger_quote_id",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.trigger_evidence_ids",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.evaluated_utc",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.published_utc",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.received_utc",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.current_same_side_bid_decimal",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.gross_unrealized_c_decimal",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.peak_bid_so_far_decimal",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.peak_gain_so_far_c_decimal",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.peak_quote_id",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.armed",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.arm_threshold_c",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.arm_event_id",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.arm_quote_id",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.arm_utc",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.arm_observed_gain_c",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.floor_c",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.trail_c",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.giveback_c",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.target_c",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.stop_c",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.exit_bid_decimal",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.exit_guidance_event_id",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.shadow_exit_id",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.retirement_reason",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.unavailable_reason",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.origin_retained",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.brti_protection_evaluations",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.brti_readiness",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.brti_side",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.brti_agreement",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.brti_witness_ref",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.serial_index",
+      "lane": "SCALP",
+      "producer": "SCALP_SERIAL_OWNER_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.prior_signal_id",
+      "lane": "SCALP",
+      "producer": "SCALP_SERIAL_OWNER_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.prior_origin_side",
+      "lane": "SCALP",
+      "producer": "SCALP_SERIAL_OWNER_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.lane_label",
+      "lane": "SCALP",
+      "producer": "SCALP_SERIAL_OWNER_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.prior_terminal_event_id",
+      "lane": "SCALP",
+      "producer": "SCALP_SERIAL_OWNER_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.prior_terminal_kind",
+      "lane": "SCALP",
+      "producer": "SCALP_SERIAL_OWNER_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.prior_terminal_utc",
+      "lane": "SCALP",
+      "producer": "SCALP_SERIAL_OWNER_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.elapsed_since_prior_origin_sec",
+      "lane": "SCALP",
+      "producer": "SCALP_SERIAL_OWNER_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.elapsed_since_prior_terminal_sec",
+      "lane": "SCALP",
+      "producer": "SCALP_SERIAL_OWNER_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.active_origin_ids_at_decision",
+      "lane": "SCALP",
+      "producer": "SCALP_SERIAL_OWNER_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.overlap_allowed_by_policy",
+      "lane": "SCALP",
+      "producer": "SCALP_SERIAL_OWNER_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.reentry_gate_result",
+      "lane": "SCALP",
+      "producer": "SCALP_SERIAL_OWNER_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.suppression_reason",
+      "lane": "SCALP",
+      "producer": "SCALP_SERIAL_OWNER_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.source_candidate_id",
+      "lane": "SCALP",
+      "producer": "SCALP_SERIAL_OWNER_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.source_candidate_hash",
+      "lane": "SCALP",
+      "producer": "SCALP_SERIAL_OWNER_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.never_armed",
+      "lane": "SCALP",
+      "producer": "SCALP_SERIAL_OWNER_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.armed_no_exit",
+      "lane": "SCALP",
+      "producer": "SCALP_SERIAL_OWNER_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.unqualified_entry",
+      "lane": "SCALP",
+      "producer": "SCALP_SERIAL_OWNER_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.lifecycle_policy_hash",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.remaining_seconds",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.transition_sequence",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.protection_missing_reason",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.evidence_role",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.user_guidance",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.horizon_end_reason",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    },
+    {
+      "field": "scalp.path_completeness",
+      "lane": "SCALP",
+      "producer": "SCALP_LIFECYCLE_EVENT_STREAM",
+      "source_path": null,
+      "producer_state": "MISSING_COMPLETE_LIVE_EVENT_STREAM",
+      "required_for": "SCALP",
+      "missing": "UNAVAILABLE; never backfill, infer a witness, or substitute another lane"
+    }
+  ]
+}

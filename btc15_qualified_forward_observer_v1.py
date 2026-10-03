@@ -1,7 +1,8 @@
 """Durable prospective evidence for raw gates versus publication eligibility.
 
-This observes the local dashboard API only. It does not generate signals, label
-settlement, change gates or claim a browser actually displayed a signal.
+This observes the local dashboard API only. Optional byte-preserving handoff uses
+the existing CSV append. Lifecycle evaluation and storage NEVER run in this
+process. No additional requests, settlement labels, orders or fill claims.
 """
 import csv
 import json
@@ -82,20 +83,33 @@ def append(record, path=OUT):
         os.fsync(stream.fileno())
 
 
+def collect_once(url):
+    state = None
+    try:
+        response = requests.get(url, timeout=2)
+        response.raise_for_status()
+        state = response.json()
+        received = datetime.now(timezone.utc)
+        record = observation(state, received)
+        record['record_type'] = 'OBSERVATION'
+        if os.getenv('BTC15_ENABLE_DIRECTIONAL_SIGNALS') == '1':
+            from btc15_protected_publication_handoff_v1 import envelope
+            record['protected_publication_bytes'] = envelope(response.content)
+    except Exception as exc:
+        received = datetime.now(timezone.utc)
+        record = dict(observed_utc=received.isoformat(),
+                      record_type='UNAVAILABLE', error_type=type(exc).__name__,
+                      signal_only=True, orders=False)
+    # Existing durable handoff only. No queue, consumer call, ACK or lifecycle DB.
+    append(record)
+    return record
+
+
 def main():
     url = 'http://127.0.0.1:' + os.getenv('PORT', '8080') + '/dashboard_state.json'
     while True:
         start = time.monotonic()
-        try:
-            response = requests.get(url, timeout=2)
-            response.raise_for_status()
-            record = observation(response.json())
-            record['record_type'] = 'OBSERVATION'
-        except Exception as exc:
-            record = dict(observed_utc=datetime.now(timezone.utc).isoformat(),
-                          record_type='UNAVAILABLE', error_type=type(exc).__name__,
-                          signal_only=True, orders=False)
-        append(record)
+        collect_once(url)
         time.sleep(max(.1, 5 - (time.monotonic() - start)))
 
 if __name__ == '__main__': main()

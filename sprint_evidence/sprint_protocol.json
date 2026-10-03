@@ -1,0 +1,118 @@
+{
+  "protocol_id": "BTC15_SEVEN_DAY_COMPLETION_V1_20260929",
+  "status": "PREREGISTERED_REVIEW_CANDIDATE_NOT_ACTIVATED",
+  "mandate_utc": "2026-09-29T19:04:12Z",
+  "completion_deadline_utc": "2026-10-06T19:04:12Z",
+  "completion_deadline_new_york": "2026-10-06T15:04:12-04:00",
+  "latest_candidate_freeze_utc": "2026-10-01T19:00:00Z",
+  "latest_candidate_freeze_new_york": "2026-10-01T15:00:00-04:00",
+  "sealed_forward_last_close_utc": "2026-10-06T19:00:00Z",
+  "maximum_forward_contracts_at_latest_freeze": 480,
+  "maximum_development_hours_from_mandate": 47.93,
+  "long_horizon_reference": "round2_evidence/protocol.json",
+  "long_horizon_T0_activated": false,
+  "capture_T0_utc": null,
+  "actual_freeze_utc": null,
+  "orders_enabled": false,
+  "automatic_retuning": false,
+  "production_deployment_authorized_by_this_mission": false,
+  "frozen_bases": {
+    "native": "abe212b513827c8cec28a2f64e0161e79296bd82",
+    "lifecycle": "dcc44cc858eb745953c48860bbe1e2e847860326",
+    "admission": "b02577151b392c91e93d9f373e130ebfea89a594",
+    "unified_evidence": "2bbd46dbef33d688faa47b523898b52d2b9341ce"
+  },
+  "activation": {
+    "T0": "First official 15-minute open strictly after separately reviewed qualified capture activation; never backdate. This is a new sprint T0, not activation of the frozen 56-day reference.",
+    "gates": [
+      "passive producers for required lane conclusions",
+      "bounded independently detached immutable acquisition",
+      "real admitted clock premises",
+      "offline adversarial and preservation controls",
+      "short hosted nonproduction OFF/ON/OFF-OFF comparison",
+      "bound producer/run/build/model/policy/partition identities",
+      "official contract catalog and outcome path",
+      "monitoring and local alert preservation",
+      "separate review before production activation"
+    ],
+    "late_capture": "Freeze/deadline do not slide. If capture qualifies after freeze, use unchanged reviewed baseline or PASS-only policy frozen by that point. Fewer forward contracts lower evidence confidence; technical unavailability is reported explicitly.",
+    "approval": "No paid resource provisioned before exact configuration/cost/rollback approval; no production deployment in this mission."
+  },
+  "stages": [
+    {
+      "stage": "A",
+      "start_utc": "2026-09-29T19:04:12Z",
+      "end_rule": "As soon as deterministic controls and short hosted nonproduction smoke pass; parallel with historical development",
+      "purpose": "Engineering/capture qualification; synthetic injections are test evidence, never live clock or market witnesses"
+    },
+    {
+      "stage": "B",
+      "start_utc": "2026-09-29T19:04:12Z",
+      "end_utc": "2026-10-01T19:00:00Z",
+      "purpose": "Historical causal replay and qualified live development only; all lanes in parallel; no reused historically inspected row is forward confirmation"
+    },
+    {
+      "stage": "C",
+      "latest_utc": "2026-10-01T19:00:00Z",
+      "purpose": "Freeze exact policy, extraction, feature, interpretation, dashboard, scorer and hypothesis/selection manifest hashes before the first forward contract opens; freeze earlier if ready"
+    },
+    {
+      "stage": "D",
+      "start_rule": "Official contract open at actual frozen boundary, no later than 2026-10-01T19:00:00Z",
+      "end_close_utc": "2026-10-06T19:00:00Z",
+      "purpose": "Sealed forward confirmation; no strategy tuning or development access to outcomes; publish finish-line classification by mandate deadline"
+    }
+  ],
+  "partition_rules": {
+    "membership": "One entire official contract and all its origins/events stay in the partition selected by official open. Development observations or origins never cross into forward confirmation.",
+    "seal": "Before first forward open: save signed/hash-bound freeze/partition manifest; enforce outcome access separation. Collector archives bytes; developer does not inspect forward outcomes until final unlock. Operational alerts remain visible without outcome labels.",
+    "seal_failure": "Preserve and label affected block PREVIOUSLY_INSPECTED; never relabel as unseen confirmation. Remaining future block may remain sealed with its original boundary. Deadline unchanged.",
+    "post_freeze_fix": "A required safety/capture repair creates a new build/run epoch and explicit evidence discontinuity. Do not pool it as the original frozen candidate; finish with honest limited/unavailable classification. No tuned strategy update during confirmation.",
+    "minimums": "No outcome-adaptive signal/contract floor reduction, extension, retrospective repartition or replacement. There is no mandatory 30-56 day development duration.",
+    "development_budget": "At most three newly preregistered interpretable hypotheses per lane, all hypotheses reported. Require genuinely richer causally qualified evidence. The eight rejected EARLY recorded-feature rules remain negative controls, not a renewed search family. No threshold sweep.",
+    "selection": "One deterministic development-only candidate per lane, or PASS-only. Its evidence needs, costs, selection rule, no-edge behavior and exact parameters are frozen before forward outcomes. This infrastructure package selects no new strategy."
+  },
+  "lane_scoring": {
+    "EARLY": "Report first genuine immutable origin per contract; <=50c and ideal 25-35c ASK strata; authoritative settled correctness, coverage over official catalog, timing, PASS/UNAVAILABLE and failure clusters. No accepted origin fabricated from research proposal or quote touch.",
+    "FINAL": "Confirmation/protection only, linked to immutable actual or explicitly research-only EARLY. Opposing ready=false and qualified opposing ready=true are separate. HOLD/weakening/PROTECT timing and recovery require genuine continuous evidence. Disagreement alone cannot EXIT.",
+    "SCALP": "Published entry and executable original/first post-publication ASK remain separate. Require strict later same-side BID and full observed path; target-first/stop-first within gaps unavailable. Preserve policy, serial ownership and genuine V8.1 transitions. Older shadow results are separate descriptive baseline."
+  },
+  "completeness": {
+    "catalog": "Account for every official scheduled eligible contract, including unknown/missing/WAIT/quiet; unknown catalog coverage blocks coverage claims.",
+    "individual": "All required origin/linkage/source/clock/quote/continuity/settlement witnesses genuine, causal and immutable as required. Otherwise UNAVAILABLE, retained in denominator.",
+    "conclusion_coverage_fraction": 0.99,
+    "reason": "Preserve frozen 99% observation/origin completeness criterion for general lane conclusions; lower completeness means limited/unavailable evidence, never a silently reduced gate or shifted sample.",
+    "source_clock": "No receipt-time substitution, synthetic source witness, BRTI-age-derived timestamp, or clock certificate without measured and justified premises. BRTI <=5s and native cadence remain unchanged."
+  },
+  "uncertainty": {
+    "binary": "95% Wilson intervals for unique-contract proportions. Publish n, correct/incorrect, exact days, exclusions, missingness worst/best bounds and price/timing strata.",
+    "signals": "2000-replicate contract-cluster bootstrap, seed 20260929, for origin/signal statistics; keep all a contract's records together.",
+    "dependence": "Report day-block sensitivity; fewer than three distinct days has unavailable day sensitivity. No seven-day sample proves permanent 90-95% population accuracy.",
+    "descriptive_floor": "Below 30 relevant unique contracts, report exact counts and wide intervals; label LIMITED SAMPLE and do not infer subgroup differences.",
+    "qualified_starting_early": "Requires all technical gates, complete sealed evidence, >=30 unique forward signal contracts over >=3 distinct days, forward observed correctness >=85%, Wilson lower >=85%, <=50c admitted ASK and no demonstrated incompatible failure cluster; still only a starting configuration, never permanent population proof. Below this predeclared standard may be PROMISING/LIMITED or PASS-only.",
+    "qualified_starting_final_scalp": "Technical qualification plus separately preregistered development-selected causal policy-specific acceptance criteria fixed before freeze; none are invented from shadow profits or a post-hoc best matrix cell. If no such candidate/evidence exists, classify limited/PASS-only/unavailable.",
+    "no_calendar_extension": "Statistical imprecision alone never extends the completion deadline; the finished signal-only dashboard can show PASS/UNAVAILABLE lanes while monitoring continues."
+  },
+  "finish_line_classes": [
+    "QUALIFIED STARTING CONFIGURATION",
+    "PROMISING / LIMITED PROSPECTIVE SAMPLE",
+    "PASS-ONLY / INSUFFICIENT EDGE",
+    "UNAVAILABLE \u2014 SPECIFIC TECHNICAL FAILURE"
+  ],
+  "current_lane_status": {
+    "EARLY": "PASS-ONLY / INSUFFICIENT EDGE: recorded-feature Round-1 family failed; no new selected richer candidate yet.",
+    "FINAL": "UNAVAILABLE \u2014 SPECIFIC TECHNICAL FAILURE for prospective protection inference until genuine protected trajectory, immutable origin/linkage and clocks are captured.",
+    "SCALP": "UNAVAILABLE \u2014 SPECIFIC TECHNICAL FAILURE for current V8.1 prospective qualification: genuine admitted entry/quote/transition evidence absent. Historical true-SCALP research baseline remains promising separately; zero new qualified prospective V8.1 results."
+  },
+  "monitoring": {
+    "implementation": "sprint_evidence/monitoring.py",
+    "specification": "sprint_evidence/monitoring_spec.md",
+    "operation": "Detect -> classify -> local alert outbox -> preserve evidence. No automatic strategy changes or orders. External delivery wiring requires reviewed deployment.",
+    "system": "All required witnessed checks pass => HEALTHY; warning margin => WATCH; evidenced incompatible change => DRIFT; missing/failed/future/expired check => UNAVAILABLE.",
+    "performance": "Rolling descriptive summaries; performance alarms only at fixed nonoverlapping 7-day checkpoints anchored to reviewed live-monitoring T0, >=100 unique relevant contracts across >=7 days. These are monitoring sufficiency gates, not sprint completion floors.",
+    "early_floor": 0.85,
+    "final_scalp_floor": null,
+    "alpha_spending": "Conditional heuristic one-sided Hoeffding screen at checkpoint k uses alpha=0.05/[3*k*(k+1)]. Its nominal <=5% total error bound requires independent/conditional Bernoulli premises, which market records do not establish. Do not claim controlled false-positive rate under unverified serial dependence. FINAL/SCALP have no unearned numerical floor.",
+    "no_tiny_sample_drift": "Insufficient contracts/days or absent policy baseline => WATCH/LIMITED SAMPLE, never statistical DRIFT. Technical faults remain immediate independent of sample size."
+  }
+}

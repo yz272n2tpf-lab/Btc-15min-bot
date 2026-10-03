@@ -1,0 +1,36 @@
+{
+  "parent": "e050501a93d175a2863f0712c119dbf94c210f11",
+  "changed_capture_modules": [
+    "capture2/runtime.py",
+    "capture2/writer.py"
+  ],
+  "new_capture_module": "capture2/wire.py",
+  "unchanged_payload_modules": [
+    "capture2/__init__.py",
+    "capture2/committed_rows.py",
+    "capture2/install.py",
+    "capture2/native_entry.py",
+    "capture2/protection_entry.py",
+    "sprint_evidence/passive_capture.py",
+    "sprint_evidence/quote_receive_capture.py",
+    "sprint_evidence/source_witness_capture.py",
+    "sprint_evidence/v81_capture.py"
+  ],
+  "strategy_source_commits": {
+    "main": "abe212b513827c8cec28a2f64e0161e79296bd82",
+    "v81": "b05723ec622f901a05402ecf27f4d33505753ef1"
+  },
+  "unchanged_native_hook_AST": true,
+  "payload_sha256": "cc8966338df3bceb608017fec3fd9db4a3e6e6beec98272eb9751fa85065cf2e",
+  "payload_bytes": 113876,
+  "capture_file_hashes": {
+    "capture2/__init__.py": "beee65d5a0f9808fa2132ce7ce8afd21c10b983ff8f56580414932b276e7a990",
+    "capture2/committed_rows.py": "2025499104890a87e4c62e4065973eddd406829f668f36b9b6f91ce0a35f3c93",
+    "capture2/install.py": "0dceb972b3fa4392b6d02eaa992c55f372de0936dfd7a5470035dfc0abae97c7",
+    "capture2/native_entry.py": "55910b88eec40baf1f1d189ae60ed934a09651c229f6884f92260530673a41e4",
+    "capture2/protection_entry.py": "9c6429aa6bb38b2072af8c36b8ecf6d6959231c053f8751ff5273b5df92d7296",
+    "capture2/runtime.py": "6de8da2d7aee2d961918a4b2106392369b8f2d60745daddfa279370fed385f32",
+    "capture2/writer.py": "eb225ed9a569c9a84512b853594a8646cf217667ef6c3e9cd614eaf889dda58c",
+    "capture2/wire.py": "32ee657d8b96ca4a7956c36103983da70bcb74350de9be5bcfe4484dea9c208e"
+  }
+}

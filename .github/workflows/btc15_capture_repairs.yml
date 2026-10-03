@@ -1,0 +1,44 @@
+name: BTC15 focused deque race repair
+on:
+  pull_request:
+    branches: ['main']
+permissions:
+  contents: read
+jobs:
+  focused:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Repaired payload identity
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          p=Path("capture2_payload.json")
+          print("BTC15_REPAIRED_PAYLOAD_SHA256="+hashlib.sha256(p.read_bytes()).hexdigest())
+          print("BTC15_REPAIRED_PAYLOAD_BYTES="+str(p.stat().st_size))
+          import json
+          payload=json.loads(p.read_text())
+          live={k:hashlib.sha256(v.encode()).hexdigest() for k,v in payload.items() if k.startswith("capture2/") and "/test_" not in k}
+          print("BTC15_REPAIRED_CAPTURE_HASHES="+json.dumps(live,sort_keys=True,separators=(",",":")))
+          PY
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - run: python -m pip install -r requirements.txt
+      - name: Round-2 offline scorer and adapter rules
+        run: python -B -m unittest test_round2_evidence_scorer test_round2_capture_adapter test_round2_normalize -v
+      - run: >-
+          python -B -m unittest
+          capture2.test_repairs.RepairUnitTests.test_sender_never_iterates_live_deque_during_concurrent_offers
+          capture2.test_repairs.RepairUnitTests.test_terminal_delivery_failure_is_explicit_even_without_later_packet
+          capture2.test_writer_pipeline.PipelineTests.test_deadline_drains_accepted_and_overflow_stays_explicit
+          capture2.test_writer_pipeline.PipelineTests.test_offer_never_serializes_and_worker_preserves_exact_origin_link
+          capture2.test_writer_pipeline.PipelineTests.test_raw_quote_and_body_immutable_and_authenticated_wire
+          capture2.test_composition.CompositionTests.test_composed_native_tree_preserves_every_original_statement
+          capture2.test_composition.CompositionTests.test_protected_assembly_preserves_original_strategy_ast
+          capture2.test_composition.CompositionTests.test_composed_quote_session_off_on_exact_same_source_operations -v

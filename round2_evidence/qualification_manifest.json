@@ -1,0 +1,26 @@
+{
+  "status":"BLOCKED_BEFORE_HOSTED",
+  "native_lineage":"abe212b513827c8cec28a2f64e0161e79296bd82",
+  "lifecycle_candidate":"dcc44cc858eb745953c48860bbe1e2e847860326",
+  "external_admission_candidate":"b02577151b392c91e93d9f373e130ebfea89a594",
+  "protected_source_sha256":"66cdbaa21daa848f261e87e1528dce5a0cadd700fe3be22567f664f968f6d1b7",
+  "model_artifact_sha256":"1bf10e755fc81584bab3c3682b16103353f84582c27bb003664de883e7e7c816",
+  "weights_sha256":"95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6",
+  "runtime":{"python":"3.12.14","scikit-learn":"1.9.0","numpy":"2.5.2","pandas":"3.0.5","scipy":"1.18.1","joblib":"1.5.3","requests":"2.32.5","cryptography":"50.0.0","websockets":"15.0.1"},
+  "test_only_dependency":"jsonschema==4.26.0; installed outside candidate/native environment",
+  "hosted_nonproduction":{
+    "status":"NOT_RUN_PREREQUISITES_BLOCKED",
+    "live_production_fixture_forbidden":true,
+    "required": ["independent original-member acquisition with authenticated route and continuity", "real per-domain clock bound monitor", "complete producer/event/catalog streams", "all offline controls pass", "pinned deployed build/model/runtime hashes"],
+    "design":"Isolated nonproduction environment; replay identical controlled logical inputs under native OFF/capture ON and OFF/OFF. No capture-driven evaluation or source selection. Preserve every raw input, selected evidence ID, protected decision/publication, clock certificate, acquisition member and consumer receipt. Reconstruct full chronology independently.",
+    "minimum_cycles_per_mode_per_load":30000,
+    "minimum_independent_starts":3,
+    "loads":["nominal","simultaneous lanes plus bounded backlog","consumer absent/crashed plus storage/network fault"],
+    "native_cadence_seconds":5,
+    "timing_gate":"No decision/source-selection differences. No added native callback/fsync/GET/serialization. Compare ON/OFF effect against OFF/OFF variability and require every interval-sensitive predicate invariant; any unexplained timing/selection difference fails. Timing margins must be approved before hosted observations.",
+    "failure_cases":["consumer absent","consumer crash/restart","storage full/locked","malformed/oversized member","backlog/overflow","network loss","clock expiry/step/suspension","source WAIT/recovery","quote gap/reconnect","rollover","service restart/runtime epoch","simultaneous EARLY/FINAL/SCALP"],
+    "raw_evidence_directory":null
+  },
+  "production":{"deployed":false,"capture_start_utc":null,"capture_run_id":null,"prospective_scoring_started":false,"new_recurring_cost_usd":0},
+  "no_qualification_claims":["live clock attestation","continuous detached acquisition","complete quote/lifecycle event capture","live executable shadow performance","production readiness"]
+}

@@ -1,0 +1,72 @@
+{
+  "protocol_id": "BTC15_UNIFIED_ROUND2_RESEARCH_V1_20260929",
+  "status": "FROZEN_DESIGN_NOT_ACTIVATED",
+  "capture_start_utc": null,
+  "production_capture_authorized": false,
+  "orders_enabled": false,
+  "strategy_changes": false,
+  "native_base": "abe212b513827c8cec28a2f64e0161e79296bd82",
+  "lifecycle_base": "dcc44cc858eb745953c48860bbe1e2e847860326",
+  "admission_base": "b02577151b392c91e93d9f373e130ebfea89a594",
+  "activation": {
+    "T0": "First official 15-minute contract open strictly after separately signed capture activation. No scoring before activation.",
+    "required": ["qualified continuous independent original-member acquisition", "trusted per-domain clock certificates and continuous invalidation", "complete lane-specific producers and official eligible-contract catalog", "all offline gates", "hosted nonproduction OFF/ON and OFF/OFF gates", "pinned code/model/runtime/run hashes", "explicit start boundary and signed partition manifest", "approval for any new paid resource"],
+    "no_backdating_or_old_data": true
+  },
+  "partitions": [
+    {"name":"development","open_day_inclusive":0,"open_day_exclusive":21,"minimum_unique_qualified_contracts":1000,"minimum_early_candidate_contracts":150,"minimum_final_research_origins":150,"minimum_scalp_signals":150,"minimum_scalp_contracts":100},
+    {"name":"validation","open_day_inclusive":21,"open_day_exclusive":35,"minimum_unique_qualified_contracts":600,"minimum_early_candidate_contracts":100,"minimum_final_research_origins":100,"minimum_scalp_signals":100,"minimum_scalp_contracts":70},
+    {"name":"final_prospective","open_day_inclusive":35,"open_day_exclusive":56,"minimum_unique_qualified_contracts":1000,"minimum_early_candidate_contracts":150,"minimum_final_research_origins":150,"minimum_scalp_signals":150,"minimum_scalp_contracts":100}
+  ],
+  "partition_rules": {
+    "membership": "Official contract open relative to T0. All origins/events for one contract stay together. A boundary contract is never split.",
+    "seal": "Validation/final outcome access must be denied to development readers; capture may archive bytes without making outcome tables available. Freeze candidate and extraction hashes before validation; freeze finalist before final release.",
+    "failure_to_seal": "Mark that block previously inspected; it cannot serve as unseen final prospective evidence.",
+    "small_sample": "Counts are feasibility floors, not a power guarantee. If unmet, report insufficient precision; never extend a block after viewing outcomes or silently move contracts. Any new protocol uses a newly declared future T0.",
+    "subgroups": "Below 30 unique contracts or 30 relevant events, report counts and unavailable inference. Display wide intervals above this floor as warranted.",
+    "candidate_authority": "Current EARLY family is not automatically the candidate. Development may discover whether genuine richer evidence supplies a useful discriminator. No threshold changes during collection.",
+    "modification_budget": "At most three interpretable hypotheses total per lane, only after a documented failure of the frozen baseline. Preregister hypotheses and extraction before validation. No hundreds-of-threshold search. No modifications have been proposed by this infrastructure mission."
+  },
+  "completeness_gates": {
+    "population": "100% of official scheduled eligible contracts accounted for, including missing capture, quiet, WAIT, rejected and suppressed. Unknown catalog coverage blocks all coverage claims.",
+    "individual_scoring": "Require complete immutable origin, bound producer/run/build identity, valid intervals for required ordering/freshness, exact original quote identity, no unresolved gaps over required horizon, complete causal transitions, and authoritative outcome when settlement is used. Otherwise UNAVAILABLE, retained in denominator.",
+    "claim_coverage_floor": 0.99,
+    "coverage_floor_scope": "At least 99% of eligible-contract observation windows complete and at least 99% of relevant origins fully scoreable in each partition for lane-level conclusions. Report every exclusion and time/contract distribution; no assumed missing-at-random.",
+    "quotes": "Require explicit source/book continuity and receipt/delivery identity. A 1-second sampled common snapshot is not proof of every exchange quote. No interpolation; target-stop order inside a gap is unavailable.",
+    "settlement": "Official authoritative settlement/closeout only. BRTI final60 inference requires established complete 60/60 score contract; incomplete is unavailable.",
+    "historical_status": "Previously inspected historical evidence is descriptive only. No historical row becomes prospective validation."
+  },
+  "early": {
+    "denominator": "Every eligible contract, every scheduled genuine evaluation, all gate-pass/fail/rejected/suppressed/no-signal events. Freeze source feature cutoff and full conditions.",
+    "metrics": ["unique-contract accuracy with confidence intervals", "accepted/rejected/no-signal/WAIT/UNAVAILABLE coverage", "entry ASK distribution, fair/edge calibration and Brier score where a true probability is emitted", "causal same-side BID trajectories at 30/60/120 seconds and close", "price deterioration before later confirmation"],
+    "no_pnl_claim": "No executable directional exit is validated. Quotes are descriptive; never claim fills or realized P&L."
+  },
+  "final": {
+    "research_origin_rule": "For each contract, freeze the first causally qualified protected EARLY publication with source FROZEN_TIER1, a UP/DOWN side, boolean ready, and original paired same-side quotes during elapsed seconds [60,600]. Keep ready true/false strata. No FINAL, future prices or settlement may decide origin membership. Explicit RESEARCH_ONLY ID is never an accepted BUY or native decision ID.",
+    "actual_origins": "Analyze genuine existing EARLY authority origins separately when explicitly linked. Never fabricate an accepted trade.",
+    "existing_semantics": "Replay existing dcc44cc semantics unchanged only with complete required input/state. Distinguish valid opposing FINAL ready=false from qualified opposing ready=true. Disagreement alone never EXIT.",
+    "metrics": ["first confirmation delay", "confirmation duration/persistence", "first loss and first opposing publication", "opposition ready/not-ready strata", "oscillation count per contract/minute", "observed probability trajectory", "settlement correctness conditional on confirmation, weakening and opposition", "failure/recovery event clusters", "PROTECT versus HOLD risk difference", "original ASK and same-side BID immediately before/at/after event"],
+    "timing_buckets_remaining_seconds": [[600,900],[300,600],[180,300],[60,180],[0,60]],
+    "recovery_horizons_seconds": [30,60,120],
+    "price_deterioration_bands_cents": [3,5,10],
+    "phase_fields": "5M CAUTION, 3M GUARD and Flip Risk require their genuine producer/version/definition and contract binding. Time buckets are not replacements."
+  },
+  "scalp": {
+    "policy": "Score each actually evidenced native true-SCALP, V8.1 and serial policy separately, unchanged. Never pool policy eras or retirement semantics.",
+    "target_cents": [3,5,7,10],
+    "stop_cents": [3,5,7,10],
+    "matrix": "Full 4-by-4 descriptive target/stop grid. Exact decimal BID minus immutable original ASK; strictly later only. First witnessed crossing wins only if path complete. A gap spanning a possible earlier crossing makes order unavailable. No future-max action.",
+    "horizon": "Publication/qualified first quote through official close; continue capture after protection to describe foregone later opportunity. Actual policy retirement/exit remain distinct.",
+    "metrics": ["signal and contract counts", "entry ASK mean median quantiles and <=50c / 25-35c shares", "MFE/MAE distributions and time to first extrema", "target-first stop-first neither unavailable", "time to target stop arm protection", "never armed armed-no-exit unqualified-entry", "protection gain retained/given back and later foregone gain", "gross cents only where actual causal exit rule exists", "FIRST/CONTINUATION/REVERSAL with explicit predecessor terminal", "overlapping origins, suppressed candidates and separation intervals"],
+    "separation_strata_seconds": [[0,15],[15,30],[30,60],[60,null]],
+    "entry_mismatch": "Preserve published entry and observed original/first post-publication ASK separately. Existing 40c published/57c observed class cannot be silently rebased or rescored as a different origin.",
+    "primary_target": "Intracontract price path; settlement direction is not the primary SCALP target."
+  },
+  "uncertainty": {
+    "proportions": "95% Wilson intervals for unique-contract outcomes; origin/signal summaries additionally use 2000-replicate contract-cluster bootstrap with seed 20260929.",
+    "dependence": "Keep all signals from a resampled contract together. Report unique days and contract counts. Day-block sensitivity required for any candidate promotion claim.",
+    "missing": "Report coverage and worst/best possible bounds separately from observed estimates; missing is never automatically loss, PASS, HOLD or synthetic exit.",
+    "multiplicity": "All preregistered target/stop cells reported. No selecting the best cell as a validated strategy. Development-only subgroup findings remain exploratory."
+  },
+  "promotion": "No result is production-qualified. A candidate requires separately reviewed prospective evidence and completed live admission infrastructure."
+}
