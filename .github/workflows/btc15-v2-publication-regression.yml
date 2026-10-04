@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - btc15_v2_product/journal.py
+      - btc15_v2_product/installer.py
+      - ops/v2_product/**
       - test_btc15_v2_replay_regression.py
       - .github/workflows/btc15-v2-publication-regression.yml
 permissions:
@@ -23,6 +25,7 @@ jobs:
           node-version: '22'
       - run: pip install -r requirements.txt
       - run: npm ci --prefix ops/v2_product --no-audit --no-fund
+      - run: node ops/v2_product/node_modules/playwright/cli.js install --with-deps chromium
       - run: python -m ops.v2_product.qualify_offline --lane main
       - uses: actions/upload-artifact@v4
         if: always()

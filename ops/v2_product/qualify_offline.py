@@ -28,6 +28,7 @@ def main():
     subprocess.run([sys.executable,'-m','ops.v2_product.ui_fixtures'],cwd=ROOT,check=True)
     run(['node','ops/v2_product/test_assembled_ui.cjs'],'assembled_ui_tests.log')
     subprocess.run([sys.executable,'-m','ops.v2_product.build_browser_fixture'],cwd=ROOT,check=True)
-    print('Offline checks complete. Browser layout, physical Safari and live acceptance are NOT established.')
+    run(['node','ops/v2_product/test_rendered_ui.cjs'],'rendered_ui_tests.log')
+    print('Offline and rendered Chromium checks complete. Physical Safari and live acceptance are NOT established.')
 
 if __name__=='__main__':main()

@@ -17,7 +17,7 @@
     "btc15_v2_product/__init__.py": "2a5053ccb3d4ce09441d4b004640958bbbb503e36eed7a287202a7dff2a430f6",
     "btc15_v2_product/admin.py": "33912a9118ba5f5671cdf98848aed18f1601047b6de61892d7e939d410fb8f84",
     "btc15_v2_product/bootstrap.py": "d92c039051a9b2fda51db8d6e4f840c3e3a36091341dca2ce1e521146bf401ec",
-    "btc15_v2_product/installer.py": "0dc5c7d16e2144ade194fc451517bf9766a9d81dd4a286b97002dad57c142243",
+    "btc15_v2_product/installer.py": "bc92d23acbda5457dc019ef97fab744b09eb1e97f5ae7b8e8a28643dcdec1c86",
     "btc15_v2_product/journal.py": "c66deea9ec77d7ab4a00dbcef0d367442849747836a54a8f5429895557a32d9b",
     "btc15_v2_product/panel.js": "f57516e2a37e1fff408e7044af0cc7c141cf0d6629839dc285ac3cf91d4bcedd",
     "btc15_v2_product/quote_view.py": "897261eba37b191c1ae356c5017f3b1c9cef3c008f206547fd02beef2598bb29",
