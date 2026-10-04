@@ -1,0 +1,34 @@
+{
+  "schema": "BTC15_GITHUB_REVIEW_ARTIFACT_VERIFICATION_R1",
+  "verified_at_utc": "2026-10-04T17:57:11.324621+00:00",
+  "artifact_commit": "5c7e101d80119864f6bb8e340c66658a72cd69e9",
+  "artifact_tree": "a2216243cf17165f82d9bf33991c80d86ad06eef",
+  "artifact_files_remote_hash_verified": 14,
+  "packaged_hashes_remote_verified": 90,
+  "both_remote_bundles_verified": true,
+  "rollback_package_intact": true,
+  "candidate_refs_published": false,
+  "candidate_commits_preserved_in_bundles": {
+    "main": "020f8a38d07e0a11e983a1e3bee3b06a4898c2f3",
+    "v81": "07406e46945cc0bfebbb25299c5da53e87ac6a2a"
+  },
+  "main_and_v81_configs_deployments_unchanged": {
+    "main": true,
+    "v81": true
+  },
+  "entire_environment_inventory_unchanged_ignoring_order": true,
+  "other_environment_differences": [],
+  "tests_rerun": false,
+  "candidate_modified": false,
+  "orders": false,
+  "production_deployed": false,
+  "release_status": "BLOCKED_UNAUTHENTICATED_GIT_PUSH_AND_V81_MISSING_MANIFEST_FILE",
+  "missing_v81_committed_file": "btc15_cohort_evidence_v1.py",
+  "completed_results_preserved": {
+    "main": 280,
+    "current_v81": 19,
+    "bridge": 17,
+    "assembled_dashboard_scenarios": 12,
+    "obsolete_baseline_equivalent_fixture_errors": 4
+  }
+}
