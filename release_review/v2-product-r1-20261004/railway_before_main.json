@@ -1,0 +1,103 @@
+{
+  "service": {
+    "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+    "name": "Btc-15min-bot",
+    "state": "live"
+  },
+  "environment": {
+    "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+    "name": "production"
+  },
+  "staged": null,
+  "config": {
+    "source": {
+      "repo": "yz272n2tpf-lab/Btc-15min-bot",
+      "branch": "release/ladder-completion-20261003",
+      "commitSha": "de4f3e20b8657eb8cfee91bd4e525c103b5bf513"
+    },
+    "networking": {
+      "serviceDomains": {
+        "btc-15min-bot-production.up.railway.app": {
+          "port": 8080
+        }
+      },
+      "privateNetworkEndpoint": "btc-15min-bot"
+    },
+    "build": {
+      "builder": "RAILPACK",
+      "buildEnvironment": "V3"
+    },
+    "deploy": {
+      "startCommand": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && python btc15_verify_ladder_freeze_v2.py --lane main && exec python -u btc15_information_install_v1.py'",
+      "healthcheckPath": "/health",
+      "healthcheckTimeout": 120,
+      "useLegacyStacker": false,
+      "ipv6EgressEnabled": false,
+      "runtime": "V2",
+      "multiRegionConfig": {
+        "iad": {
+          "numReplicas": 1
+        }
+      }
+    },
+    "volumeMounts": {
+      "6ced6b1a-3755-4518-a240-c895e936d443": {
+        "mountPath": "/data"
+      }
+    }
+  },
+  "stagedChanges": [],
+  "variableNames": [
+    "BTC15_BRTI_GATEWAY_URL",
+    "BTC15_BRTI_SHARED_URL",
+    "BTC15_BRTI_TRANSPORT",
+    "BTC15_DASH_V13_Z1",
+    "BTC15_DASH_V13_Z2",
+    "BTC15_DASH_V13_Z3",
+    "BTC15_DASH_V13_Z4",
+    "BTC15_DASH_V13_Z5",
+    "BTC15_ENABLE_INFORMATION_EXPORT",
+    "BTC15_INLINE_SCALP_V1",
+    "BTC15_KALSHI_QUOTE_PROVENANCE_CANARY",
+    "BTC15_LADDER_DATA_ROOT",
+    "BTC15_USE_SHARED_BRTI",
+    "BTC15_V81_LADDERS_URL",
+    "BTC15_VOLUME_DIAG",
+    "KALSHI_KEY_ID",
+    "KALSHI_PRIVATE_KEY_B64",
+    "PORT",
+    "PYTHONUNBUFFERED"
+  ],
+  "volumes": [
+    {
+      "id": "6ced6b1a-3755-4518-a240-c895e936d443",
+      "name": "btc-15min-bot-volume",
+      "mountPath": "/data",
+      "sizeMB": 10000,
+      "region": "iad",
+      "state": "live"
+    }
+  ],
+  "domains": {
+    "serviceDomains": [
+      {
+        "id": "2d02fd70-b865-4a79-87a9-948bae11e101",
+        "domain": "btc-15min-bot-production.up.railway.app",
+        "targetPort": 8080
+      }
+    ],
+    "customDomains": []
+  },
+  "tcpProxies": [],
+  "latestDeployment": {
+    "id": "ce0ac4dd-a3c4-49bb-8ca7-d1b7ed5be2fa",
+    "status": "SUCCESS",
+    "createdAt": "2026-10-04T04:12:31.560Z",
+    "url": null
+  },
+  "tracing": {
+    "tracingEnabled": false,
+    "autoInstrumentationEnabled": false,
+    "autoInstrumentationActive": false
+  }
+}

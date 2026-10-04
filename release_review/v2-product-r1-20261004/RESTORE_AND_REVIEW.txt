@@ -1,0 +1,11 @@
+OFFLINE CANDIDATE ONLY. SIGNAL ONLY / MANUAL EXECUTION ONLY / NO ORDERS.
+
+Verify SHA256SUMS before review. RELEASE_INDEX.json lists exact commits and prerequisites.
+Each incremental bundle requires its lane frozen_base commit in the local repository.
+Use git bundle verify <lane>-candidate.bundle in that repository, then git fetch <absolute-bundle-path> HEAD and inspect FETCH_HEAD in an isolated checkout. Do not push/deploy a moving branch or overwrite production.
+The bundled .patch is a review/application alternative; the commit/bundle identity remains the reviewed release identity.
+Read BTC15_V2_PRODUCT_RELEASE_REVIEW.md for offline reproduction, gated launch, cohort receipt, snapshots, rollback and bounded live acceptance.
+release_receipt.template.json is intentionally invalid; it cannot start or score production.
+qualification/browser_preview.html is an offline synthetic preview for an authorized browser. It is not a verified browser test or live dashboard.
+
+Current gaps: rendered/Safari verification blocked; D04 production inner cause unresolved; live strict scoreability, comparable production quote lag and actual alert delivery unverified. No production or alert/task changes occurred.

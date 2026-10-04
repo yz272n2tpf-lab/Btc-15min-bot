@@ -1,0 +1,1353 @@
+{
+  "project": {
+    "id": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+    "name": "noble-warmth",
+    "workspaceName": "yz272n2tpf-lab's Projects"
+  },
+  "environment": {
+    "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+    "name": "production",
+    "isEphemeral": false
+  },
+  "staged": null,
+  "region": null,
+  "services": [
+    {
+      "id": "fbe79688-25ed-4329-b0d6-c9b669559b17",
+      "name": "final-forward-scorecard-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-move-shadow-v1-20260912"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "48b86488-3688-40d3-82b4-ad5fe028a61f",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-15T19:55:38.110Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "fcfb3a93-f007-4061-9cb8-bdae28f72cc2",
+      "name": "scalp-developing-move-v1-forward",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "research/scalp-developing-move-filter-v1-20260921"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "8358775d-08d9-4bdb-af9d-fdf7b5d87f2f",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-21T20:13:55.574Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "e9399baa-25a8-4801-a374-ae6c5401060d",
+      "name": "combined-forward-scorecard-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-move-shadow-v1-20260912"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "4b23c967-5cae-49f0-b2de-7ee2aa74a8e1",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-15T19:49:39.005Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "f020787f-00fb-4a46-a36c-710f18bbf31e",
+      "name": "scalp-coverage-audit-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-move-shadow-v1-20260912"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "60b67800-6709-45fa-a558-de51fa2d9ec0",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-15T21:25:19.515Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "ca605c00-4608-4b32-b0bb-d1ca9c6b42a5",
+      "name": "scalp-lead-v4",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-lead-research-v3"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "db0473b2-22cd-46f3-9f63-efce713112a7",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-11T16:16:04.670Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "90d3435e-c98c-43ae-880f-cd629b9606e2",
+      "name": "scalp-lead-shadow",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "main"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "bd1faafd-3d39-4ff1-bf69-8e3b1e364068",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-11T16:16:19.458Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "90046a79-3f57-493f-b473-18d0031e8f0d",
+      "name": "scalp-display-bridge-v6",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-move-shadow-v1-20260912"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "52114b2d-2d17-44c3-9ee4-5454aec9222d",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-15T13:41:20.060Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "2b0060ac-e0d1-49a2-a2f6-b577fd9ac478",
+      "name": "scalp-lead-v5-main",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "main"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "c071ec85-f1d4-4fa5-865b-1ce21271ed58",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-11T16:16:27.603Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "cf307d3c-064f-4675-a2d5-c61ec0429f62",
+      "name": "rollover-handoff-predeploy-check",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "fix/rollover-staged-handoff-v1-20260922"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "d9fcf373-10ce-4ecd-8f6b-66a76f4c2803",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-22T21:25:18.516Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "10045980-cdd0-485a-a827-b50a3f0b4943",
+      "name": "v81-final-isolated-test",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "v81-immutable-20260911"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "8ae6c679-ac45-4935-9b81-1f3f4cf5deb4",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-23T03:46:03.437Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "174bd89d-264b-4882-8d5a-b8dbacf97181",
+      "name": "early-final-handoff-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-move-shadow-v1-20260912"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "43e32eee-afea-4986-a944-803a53945852",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-15T20:39:32.809Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "84f579fc-36d0-4170-8a28-6d26c01bb364",
+      "name": "v81-live-diag-shared-brti-shadow",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "v81-live-diag-shared-brti-shadow-20260913"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "1edca6fd-095d-4910-90af-a11c49c086db",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-13T05:18:39.829Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "b210d5f0-0616-4e39-9812-ce7b41b73d67",
+      "name": "combined-dashboard-shadow-v13",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-move-shadow-v1-20260912"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "0df31206-238e-46aa-b0f8-ef79773889b7",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-15T18:39:18.394Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "87801206-d705-43d6-8aa2-bfb1b11c1ff6",
+      "name": "combined-dashboard-shadow-v11",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-move-shadow-v1-20260912"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "12a26d34-ffe5-46b5-a29e-5f8a43a12a17",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-15T14:03:08.725Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "a0f417fe-9bfe-4d80-bcd0-5647a582a1e7",
+      "name": "scalp-reversal-reentry-holdout-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-reversal-reentry-ladder-v1"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "9933e54a-dad2-4c39-ae07-657d73eef847",
+        "status": "CRASHED",
+        "createdAt": "2026-09-18T03:21:39.535Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "afd8f1f0-65f6-46f0-a79b-ef582f35293f",
+      "name": "v81-30-45-live-feed-v2",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "v81-30-45-live-feed-immutable-20260912"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "ae6976a2-fb93-449a-a05d-f45dc32bd478",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-12T20:07:15.383Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "cc7ca702-ddbc-4f61-8205-873e34b7d740",
+      "name": "scalp-unarmed-live-tape-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "unarmed-health-startup-fix-20260918"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "d4d5f692-356e-4fec-b4aa-e04f54fe8986",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-20T19:40:10.557Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "b369287c-d8a1-4427-84de-25e39fe9fdf7",
+      "name": "scalp-finalprod-clean-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-finalprod-clean-v1-20260920"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [
+        {
+          "volumeId": "93e974dc-b8bb-4658-bed5-dc4815308396",
+          "volumeName": "scalp-finalprod-clean-v1-volume",
+          "mountPath": "/data"
+        }
+      ],
+      "latestDeployment": {
+        "id": "df8385ff-46a2-4dfb-af0a-07c25e5382aa",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-23T20:44:50.327Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "4a7f7942-7701-4441-8061-d1c6148d0e81",
+      "name": "scalp-entry-profit-holdout-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-entry-profit-ladder-v1"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "82056b10-b4be-4016-83d5-4388017fd9ab",
+        "status": "CRASHED",
+        "createdAt": "2026-09-18T03:55:10.632Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "0bda3f3d-90b7-4934-8636-d16a45a3dc32",
+      "name": "v81-immutable-test",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "v81-immutable-20260911"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "a36a2a6b-3463-4093-a5e5-c68c1ab82245",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-12T01:12:12.787Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "5a3eda51-3074-42aa-9e46-06695d47a378",
+      "name": "rollover-alt-discovery-probe-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "research/rollover-alternate-discovery-probe-v1-20260921"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "b6670de3-bc4c-413a-ba8d-dba49665959b",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-22T03:16:23.441Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "7e643823-456a-414b-a369-0ee40462223f",
+      "name": "scalp-lead-v5-live",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-lead-research-v3"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "1c0c5ea0-67a4-453c-ba7f-752433b66d67",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-11T16:13:26.389Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "6b847381-fc63-4421-b7bd-e8111c844e2f",
+      "name": "early-excursion-forward-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-move-shadow-v1-20260912"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "b6c7e09a-e6bd-4c36-a98c-48a50e72d0cf",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-15T22:33:47.303Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "c1db8b80-f656-4295-ade8-812c129f6c72",
+      "name": "combined-dashboard-shadow-v14",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-move-shadow-v1-20260912"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "95380505-ccb6-4489-bfec-299933596116",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-16T00:15:59.542Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "befbc458-e41e-4995-8354-fa5c7bbfe095",
+      "name": "information-identity-audit-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "audit/information-identity-projection-20260928"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "9ffd621f-63ef-4057-82bf-d12f747d7758",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-28T15:07:43.062Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "c0be1409-9fdf-47d8-a681-fba03dca378e",
+      "name": "information-identity-integration-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "integration/information-identity-v1-20260928"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "58e5d956-574d-4dfc-8287-178520a5defa",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-28T15:14:19.940Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "ea6e520b-fa94-49bb-abf9-094817ae3d6b",
+      "name": "scalp-lead-v6",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-lead-research-v3"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "3f4649ce-535d-4fab-ab31-6756117187d7",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-11T19:10:31.099Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "2e63484b-e726-41fc-980a-a117b5efdcfd",
+      "name": "scalp-v81-sub30-shadow",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-lead-research-v3"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "8eb3020c-6f36-40b5-9242-bd7f04f0b501",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-13T05:09:38.027Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "b883a5e1-7cef-4d3d-b3f6-cffccde53053",
+      "name": "scalp-v81-sub30-shadow-v2",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-lead-research-v3"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "ac70c610-5c36-4cc2-8479-2e1ee489b747",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-12T02:12:11.760Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "43e53181-102a-4759-a7cd-70875c605cf0",
+      "name": "v81-30-45-dashboard-validation-v3",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "v81-30-45-integration-immutable-20260912"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "242c233f-a16e-46a3-a373-6a536a6f199a",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-12T13:26:14.053Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "efb56ace-8c0e-4672-a772-6dd3b8633078",
+      "name": "early-forward-scorecard-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-move-shadow-v1-20260912"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "764934d0-a646-4363-942d-bba62e94a1b3",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-21T03:32:42.199Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "142e0fe5-13ce-4cb7-a08b-d4a65539fb47",
+      "name": "combined-dashboard-shadow-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-move-shadow-v1-20260912"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "3296cc04-c5b0-4256-8108-47e4861fdf20",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-15T05:02:45.985Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "f6e62c87-ac2a-4340-8be2-72932ad4c486",
+      "name": "scalp-lead-qualified",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-lead-research-v3"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "87cf1c7f-2ff6-41f9-8fb8-d5dcad7f0994",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-11T16:16:12.461Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "0fe5d048-873e-4c1c-a3d4-8e7216e44f3e",
+      "name": "brti-shared-feed-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "brti-shared-feed-v1-20260913"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "b0ddbbbb-7d7a-43ba-888f-9d7e8c6b3fd8",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-23T12:26:16.000Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "331072c6-1ab4-47dc-a6b4-c3af053e4975",
+      "name": "rollover-regression-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "research/rollover-production-regression-v1-20260922"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "ba81e05a-ad82-42f8-85d6-a233980e193b",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-22T18:35:26.613Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "9a566a85-0b12-4ab7-9c95-cced457e3bf5",
+      "name": "rollover-prediscovery-shadow-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "research/rollover-prediscovery-shadow-v1-20260922"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "3a07cc28-7569-4192-9ad6-dd87c63eb8c9",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-22T13:53:00.494Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "8b40a28c-1beb-4020-bdc2-e7e236fe3501",
+      "name": "scalp-move-shadow-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-move-shadow-v1-20260912"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [
+        {
+          "volumeId": "656da4af-6a3f-4907-95da-2c0c0000cf29",
+          "volumeName": "scalp-move-shadow-v1-volume",
+          "mountPath": "/data"
+        }
+      ],
+      "latestDeployment": {
+        "id": "009fce2f-af6d-4b3a-a4df-fff79e092c8b",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-23T03:44:45.779Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "c3043d22-9141-487b-8f5d-955ccb4cd8b0",
+      "name": "information-identity-integration-v2",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "integration/information-identity-v1-20260928"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "08de032e-0f5a-4f68-a4ad-a1cee0d28d90",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-28T15:30:23.412Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "56b8496c-8dea-409b-a236-9e139a9c2e96",
+      "name": "final-v4-review-tooling-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-move-shadow-v1-20260912"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "bf74b182-7507-4ed8-9a25-9e7041d37e1f",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-16T02:22:35.698Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "6c0ec9d5-2187-4623-97ec-44c3304b8074",
+      "name": "authoritative-scoreboard-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-move-shadow-v1-20260912"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "1bb0e9b5-a299-4516-bad4-79b57686b9ff",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-15T23:32:29.505Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "e6101c69-18df-4522-99d8-94e363ad8b92",
+      "name": "btc15-v2-main-qualification",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "release/ladder-completion-20261003"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [
+        {
+          "volumeId": "b6304c46-7027-4bfd-932d-94bb9c67da8e",
+          "volumeName": "btc15-v2-main-journal",
+          "mountPath": "/data"
+        }
+      ],
+      "latestDeployment": {
+        "id": "49b15e63-fdf8-4dd6-9589-de222bbe5fdf",
+        "status": "SUCCESS",
+        "createdAt": "2026-10-04T02:29:13.724Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+      "name": "v81-live-diagnostics",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "release/v81-ladder-completion-20261003"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [
+        {
+          "volumeId": "d5eeafca-e0fc-42f0-b7d1-4705907720c6",
+          "volumeName": "btc15-v81-ladder-journal-v2",
+          "mountPath": "/data"
+        }
+      ],
+      "latestDeployment": {
+        "id": "2051e772-bd39-4dea-a77d-52fea0a07c02",
+        "status": "SUCCESS",
+        "createdAt": "2026-10-04T04:12:31.585Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+      "name": "Btc-15min-bot",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "release/ladder-completion-20261003"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [
+        {
+          "volumeId": "6ced6b1a-3755-4518-a240-c895e936d443",
+          "volumeName": "btc-15min-bot-volume",
+          "mountPath": "/data"
+        }
+      ],
+      "latestDeployment": {
+        "id": "ce0ac4dd-a3c4-49bb-8ca7-d1b7ed5be2fa",
+        "status": "SUCCESS",
+        "createdAt": "2026-10-04T04:12:31.560Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "ad996e53-cf97-4e64-b4f0-94eb1577c53b",
+      "name": "recovered-native-identity-qualification-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "integration/recovered-native-identity-20260928"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "4cada7c0-62b7-4b26-898f-8a764ed3b642",
+        "status": "CRASHED",
+        "createdAt": "2026-09-28T18:07:51.162Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "725e8200-656a-4576-a62a-0b84fedf9ffd",
+      "name": "btc15-v2-v81-qualification",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "release/v81-ladder-completion-20261003"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [
+        {
+          "volumeId": "97cc9dcd-ef90-495e-a1be-ffda31eac1b3",
+          "volumeName": "btc15-v2-v81-journal",
+          "mountPath": "/data"
+        }
+      ],
+      "latestDeployment": {
+        "id": "39c95226-fff1-4f5f-8ce4-606c5e446a70",
+        "status": "SUCCESS",
+        "createdAt": "2026-10-04T02:29:13.728Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "ab491df9-2b75-43f2-92da-bc2a6db1cf6d",
+      "name": "rollover-core-integration-live-shadow",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "research/rollover-production-regression-v1-20260922"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "07204949-0f3a-4c5e-ae59-71da69f7a8c2",
+        "status": "CRASHED",
+        "createdAt": "2026-09-22T18:35:26.614Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "dc393dd9-ed9a-4dbb-a824-a9625ecbfd2f",
+      "name": "recovered-v11-identity-pr48",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "audit/identity-bound-info-20260928"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "6dcb4a8f-dbb8-4431-88f6-abf3a0542a1c",
+        "status": "FAILED",
+        "createdAt": "2026-09-28T10:43:36.631Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "f4d0996f-9dd1-47ba-a237-67353acd5bec",
+      "name": "scalp-incremental-disk-v2",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-incremental-disk-v2-20260918"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "657b6674-7641-4d43-b0f2-a4fe750d6041",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-18T19:15:30.699Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "fd54c023-b855-4ccb-90ca-4cbf772bdf4a",
+      "name": "rollover-canary-predeploy-check",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "research/rollover-production-canary-v1-20260922"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "9ee22695-1157-4407-9586-ec84c7ff3a70",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-22T19:39:03.253Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "568716be-9c96-446e-aecb-0fcd16158b8e",
+      "name": "scalp-lead-v6-main",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "main"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "c11b422f-86bc-45b2-9c57-b3ed26973021",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-28T19:55:49.574Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "21ec159d-fd25-482c-ad72-d53a98a39aa9",
+      "name": "csv-diagnostic-scan",
+      "state": "live",
+      "source": {
+        "image": "ghcr.io/railwayapp/function-bun:1.4.0",
+        "repo": null,
+        "branch": null
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "dd21b6a7-0847-44ac-847f-7745c0fe5ed1",
+        "status": "CRASHED",
+        "createdAt": "2026-09-26T15:13:38.141Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "c600567f-42e9-432a-839c-140131124fe0",
+      "name": "recovered-v11-preview-pr47",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "railway/code-change-6aufFQ"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "4d3f54c5-0508-4912-874c-db017dec72c1",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-28T18:18:20.081Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "0631afcb-482c-46ec-86b2-c1de2ebe9d84",
+      "name": "recovered-v11-identity-pr49",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "audit/identity-bound-info-20260928"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "005ea38f-8d7e-4fd4-9323-91f86bd87837",
+        "status": "CRASHED",
+        "createdAt": "2026-09-28T10:45:00.404Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    }
+  ],
+  "volumes": [
+    {
+      "id": "656da4af-6a3f-4907-95da-2c0c0000cf29",
+      "name": "scalp-move-shadow-v1-volume",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 5000,
+      "mountedOn": {
+        "serviceId": "8b40a28c-1beb-4020-bdc2-e7e236fe3501",
+        "serviceName": "scalp-move-shadow-v1",
+        "mountPath": "/data"
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "6ced6b1a-3755-4518-a240-c895e936d443",
+      "name": "btc-15min-bot-volume",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 10000,
+      "mountedOn": {
+        "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "serviceName": "Btc-15min-bot",
+        "mountPath": "/data"
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "93e974dc-b8bb-4658-bed5-dc4815308396",
+      "name": "scalp-finalprod-clean-v1-volume",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 50000,
+      "mountedOn": {
+        "serviceId": "b369287c-d8a1-4427-84de-25e39fe9fdf7",
+        "serviceName": "scalp-finalprod-clean-v1",
+        "mountPath": "/data"
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "d5eeafca-e0fc-42f0-b7d1-4705907720c6",
+      "name": "btc15-v81-ladder-journal-v2",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 2048,
+      "mountedOn": {
+        "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "serviceName": "v81-live-diagnostics",
+        "mountPath": "/data"
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "97cc9dcd-ef90-495e-a1be-ffda31eac1b3",
+      "name": "btc15-v2-v81-journal",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 2048,
+      "mountedOn": {
+        "serviceId": "725e8200-656a-4576-a62a-0b84fedf9ffd",
+        "serviceName": "btc15-v2-v81-qualification",
+        "mountPath": "/data"
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "b6304c46-7027-4bfd-932d-94bb9c67da8e",
+      "name": "btc15-v2-main-journal",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 2048,
+      "mountedOn": {
+        "serviceId": "e6101c69-18df-4522-99d8-94e363ad8b92",
+        "serviceName": "btc15-v2-main-qualification",
+        "mountPath": "/data"
+      },
+      "stagedChangeCount": 0
+    }
+  ],
+  "buckets": [],
+  "sharedVariableNames": []
+}

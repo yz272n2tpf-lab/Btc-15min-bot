@@ -1,0 +1,102 @@
+{
+  "candidate_refs_published": false,
+  "reason": "Authenticated Git push unavailable; exact commits preserved in original bundles",
+  "tests_rerun": false,
+  "candidate_modified": false,
+  "lanes": {
+    "main": {
+      "commit": "020f8a38d07e0a11e983a1e3bee3b06a4898c2f3",
+      "tree": "5ffab0fa22364129502d2c9bb817cc2eba862a1c",
+      "frozen_base": "de4f3e20b8657eb8cfee91bd4e525c103b5bf513",
+      "frozen_original_file_count": 697,
+      "original_files_changed": [],
+      "verified_release_file_hashes": {
+        "btc15_cohort_evidence_v1.py": "9812c23a6200bf31c2c5eb4e8f317fe32cfcafefeaa37d2a9b9a041967447d1a",
+        "btc15_v2_launch.py": "38827deefe67b0674236b5a7e02ec045b9590bb8ede7264b52a40cd13fa74453",
+        "btc15_v2_native.py": "a1cb9115a35da40ba93410cb72374d9068cf5501f5b2b9697bd500e5c49b9a7a",
+        "btc15_v2_product/__init__.py": "2a5053ccb3d4ce09441d4b004640958bbbb503e36eed7a287202a7dff2a430f6",
+        "btc15_v2_product/admin.py": "33912a9118ba5f5671cdf98848aed18f1601047b6de61892d7e939d410fb8f84",
+        "btc15_v2_product/bootstrap.py": "d92c039051a9b2fda51db8d6e4f840c3e3a36091341dca2ce1e521146bf401ec",
+        "btc15_v2_product/installer.py": "0dc5c7d16e2144ade194fc451517bf9766a9d81dd4a286b97002dad57c142243",
+        "btc15_v2_product/journal.py": "fc7e643cbcdff7f8e8a43197f2af21c5c4a1f6713ad14b5bc95e11969a968d90",
+        "btc15_v2_product/panel.js": "f57516e2a37e1fff408e7044af0cc7c141cf0d6629839dc285ac3cf91d4bcedd",
+        "btc15_v2_product/quote_view.py": "897261eba37b191c1ae356c5017f3b1c9cef3c008f206547fd02beef2598bb29",
+        "btc15_v2_product/release.py": "0d804e80104a8989e492e7219fd53e32d8e10c9baf963685a066b5af69daced5",
+        "btc15_v2_product/routes.py": "5c16ce96e45b416d15864e72b3397c5f8332fd3698a997bfa872e170f856b1fa",
+        "btc15_v2_product/runtime.py": "761295d314354507b74a43add6a3a2b4b17203a97d562092686b18446a6dccb1",
+        "ops/btc15_v2_scoring/bridge.py": "d298c22c317d0f4bac415a1f24264a9bf0349926bc7f9cc6e4b5dfe37cb121b4",
+        "ops/btc15_v2_scoring/completeness_diagnostics.py": "e46ae773d63e628e92d883ad81c91e028d65d5b39fea68c2a15cc06c602e73c1",
+        "ops/btc15_v2_scoring/product_cohort.py": "9a5f94d08fb07e01619f4f6011cde81f2049bc6a1395f4d97c50e1a37e589414",
+        "ops/btc15_v2_scoring/test_bridge.py": "012cbfeace70c5a27ab5ef73c0927010829e01f31269d4cbed698583cafb0f12",
+        "ops/btc15_v2_scoring/test_completeness_diagnostics.py": "40e674f9c7436879e70d485f719c4f8ba40b3b32ec141cda6db6ff8a0f89f25b",
+        "btc15_kalshi_quote_provenance_v1.py": "a21396b88b3820c8f99bbd800b43a5c449f1fd10d632f2e2535ed792402dbe9a",
+        "btc15_brti_shared_consumer_v1.py": "c49ef2191259a99e3914f704c90ab5e2ee36874e344a125ac8e2ffa288af4f49",
+        "requirements.txt": "510246d681fc831ae8361577c90afcc8fc894968e15fb4688657a528cd785e8a",
+        "bot_two_output_build_v4_13_profit_protection_shadow.py": "323f7a38726bab23743a1895a5c743613b9cd0cea37dc80edb69cdbaeed43202",
+        "completion_audit/fair_input_candidate.py": "f4ff1bbaf1da21a025c5f1e073c651ae430756b6074d26d4481ac9ba98541f2a",
+        "completion_audit/model_artifact/frozen_fair_candidate.joblib": "1bf10e755fc81584bab3c3682b16103353f84582c27bb003664de883e7e7c816",
+        "completion_audit/frozen_model_artifact.py": "977a3867d39bf8a5a3f50b22af2a2cab0583951c6c5c6110ad5a69f728bf0aef",
+        "btc15_decision_clock_v1.py": "c22153098c04dd43dc3532f642987576d537bb811d0369e03575f2fc456716eb",
+        "kalshi_scalp_shadow_events_v1.csv": "92b9b168440f9b735e98b74aaeca13e26fcf680cb9acaeee5cf2b5984812419b"
+      },
+      "manifest_required_files_missing_from_commit": [],
+      "release_manifest_committed_tree_status": "PASS",
+      "original_freeze_manifest_verified": true
+    },
+    "v81": {
+      "commit": "07406e46945cc0bfebbb25299c5da53e87ac6a2a",
+      "tree": "2a32b72db1a0eb9a9beb28d42ad659e35a8b9d0e",
+      "frozen_base": "60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1",
+      "frozen_original_file_count": 607,
+      "original_files_changed": [],
+      "verified_release_file_hashes": {
+        "btc15_v2_launch.py": "38827deefe67b0674236b5a7e02ec045b9590bb8ede7264b52a40cd13fa74453",
+        "btc15_v2_native.py": "a1cb9115a35da40ba93410cb72374d9068cf5501f5b2b9697bd500e5c49b9a7a",
+        "btc15_v2_product/__init__.py": "2a5053ccb3d4ce09441d4b004640958bbbb503e36eed7a287202a7dff2a430f6",
+        "btc15_v2_product/admin.py": "33912a9118ba5f5671cdf98848aed18f1601047b6de61892d7e939d410fb8f84",
+        "btc15_v2_product/bootstrap.py": "d92c039051a9b2fda51db8d6e4f840c3e3a36091341dca2ce1e521146bf401ec",
+        "btc15_v2_product/installer.py": "0dc5c7d16e2144ade194fc451517bf9766a9d81dd4a286b97002dad57c142243",
+        "btc15_v2_product/journal.py": "fc7e643cbcdff7f8e8a43197f2af21c5c4a1f6713ad14b5bc95e11969a968d90",
+        "btc15_v2_product/panel.js": "f57516e2a37e1fff408e7044af0cc7c141cf0d6629839dc285ac3cf91d4bcedd",
+        "btc15_v2_product/quote_view.py": "897261eba37b191c1ae356c5017f3b1c9cef3c008f206547fd02beef2598bb29",
+        "btc15_v2_product/release.py": "0d804e80104a8989e492e7219fd53e32d8e10c9baf963685a066b5af69daced5",
+        "btc15_v2_product/routes.py": "5c16ce96e45b416d15864e72b3397c5f8332fd3698a997bfa872e170f856b1fa",
+        "btc15_v2_product/runtime.py": "761295d314354507b74a43add6a3a2b4b17203a97d562092686b18446a6dccb1",
+        "ops/btc15_v2_scoring/bridge.py": "d298c22c317d0f4bac415a1f24264a9bf0349926bc7f9cc6e4b5dfe37cb121b4",
+        "ops/btc15_v2_scoring/completeness_diagnostics.py": "e46ae773d63e628e92d883ad81c91e028d65d5b39fea68c2a15cc06c602e73c1",
+        "ops/btc15_v2_scoring/product_cohort.py": "9a5f94d08fb07e01619f4f6011cde81f2049bc6a1395f4d97c50e1a37e589414",
+        "ops/btc15_v2_scoring/test_bridge.py": "012cbfeace70c5a27ab5ef73c0927010829e01f31269d4cbed698583cafb0f12",
+        "ops/btc15_v2_scoring/test_completeness_diagnostics.py": "40e674f9c7436879e70d485f719c4f8ba40b3b32ec141cda6db6ff8a0f89f25b",
+        "btc15_kalshi_quote_provenance_v1.py": "758e172fd5b6c31472a828676d7b00ab284438de95029a2d5f9c1c2efc06f247",
+        "btc15_brti_shared_consumer_v1.py": "c49ef2191259a99e3914f704c90ab5e2ee36874e344a125ac8e2ffa288af4f49",
+        "requirements.txt": "64e574062380acfd02fe8c1b7437c37b2b0e0c2dfb6168526fa2d26dc3a83113"
+      },
+      "manifest_required_files_missing_from_commit": [
+        "btc15_cohort_evidence_v1.py"
+      ],
+      "release_manifest_committed_tree_status": "FAIL_MISSING_REQUIRED_FILE",
+      "original_freeze_manifest_verified": true
+    }
+  },
+  "package_files": {
+    "BTC15_V2_Offline_Release_Package_20261004.zip": "cab80bc15f65b90e79ba814236e0687e7f0a1fba81b4471410d49a85448d3dd6",
+    "BTC15_V2_Offline_Correction_Review_20261004.pdf": "ddaa8f500e0912da17dab5fb62a24b79622819cc8f91e25fb0d62e57461da56a",
+    "BTC15_V2_Release_SHA256SUMS.txt": "2955d17b966f2fa8be0b2b1b95ab9aac7962b0f2affd2adca380161cdf923b99"
+  },
+  "packaged_hashes_verified": 90,
+  "both_bundles_verified": true,
+  "rollback_package_intact": true,
+  "completed_tests": {
+    "main": 280,
+    "current_v81": 19,
+    "bridge": 17,
+    "assembled_dashboard_dom_scenarios": 12
+  },
+  "obsolete_v81_fixture": {
+    "pass": 14,
+    "errors": 4,
+    "baseline_equivalent": true,
+    "unchanged": true
+  },
+  "new_publication_blocker": "V81 exact committed tree omits btc15_cohort_evidence_v1.py required by release manifest; earlier workspace verification had that untracked file. Candidate not modified."
+}

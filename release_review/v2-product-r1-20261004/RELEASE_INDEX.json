@@ -1,0 +1,41 @@
+{
+  "schema": "BTC15_REVIEWED_OFFLINE_RELEASE_INDEX_R1",
+  "revision": "BTC15_V2_PRODUCT_20261004_R1",
+  "status": "REVIEW_CANDIDATE_NOT_PRODUCTION_AUTHORIZATION",
+  "strategy": "BTC15_LADDER_COMPLETION_20261003_V2",
+  "lanes": {
+    "main": {
+      "candidate_commit": "020f8a38d07e0a11e983a1e3bee3b06a4898c2f3",
+      "frozen_base": "de4f3e20b8657eb8cfee91bd4e525c103b5bf513",
+      "bundle": "main-candidate.bundle",
+      "bundle_sha256": "3e71a3e9b99bcda2187bcd2eeb702b08d2615c2191e13b6e8fbd815c153097c9",
+      "patch": "main-candidate.patch",
+      "patch_sha256": "fc378a7db128dd710b634397f9b47854484487b6cd61691b0d291162c0abded4",
+      "pushed": false,
+      "deployed": false
+    },
+    "v81": {
+      "candidate_commit": "07406e46945cc0bfebbb25299c5da53e87ac6a2a",
+      "frozen_base": "60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1",
+      "bundle": "v81-candidate.bundle",
+      "bundle_sha256": "d1aad2a367e818cde37e28fffc8fe9092b0f78bb6e1301ab83f53f3ea163cac8",
+      "patch": "v81-candidate.patch",
+      "patch_sha256": "9f22a372090a50c06da2e91359cdc44ba4d8d66208ff0b809ea4a9f273f7148a",
+      "pushed": false,
+      "deployed": false
+    }
+  },
+  "manifest_sha256": "7289357977b4771b16644b32f75101883a4ecaaf7e8f82eef8d8042848d040f0",
+  "bridge_base": "1d942014af22ab4acb3048a29dbbc831d5ecc924",
+  "handoff": "61b3b4ddb3a816559355802ddd8dba27abfcdf00",
+  "signal_only": true,
+  "manual_execution_only": true,
+  "orders": false,
+  "production_modified": false,
+  "release_blocks": [
+    "Rendered assembled-browser and physical Safari verification unavailable in this environment",
+    "D04 production stall inner cause remains unresolved; no optimization selected",
+    "User production approval required"
+  ],
+  "live_acceptance_pending": true
+}
