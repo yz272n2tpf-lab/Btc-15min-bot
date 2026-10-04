@@ -1,0 +1,1380 @@
+{
+  "before": {
+    "observed_at": "2026-10-04T02:58:01.790Z",
+    "services": {
+      "main": {
+        "service": {
+          "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+          "name": "Btc-15min-bot",
+          "state": "live"
+        },
+        "environment": {
+          "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+          "name": "production"
+        },
+        "staged": null,
+        "config": {
+          "source": {
+            "repo": "yz272n2tpf-lab/Btc-15min-bot",
+            "branch": "main",
+            "checkSuites": false
+          },
+          "networking": {
+            "serviceDomains": {
+              "btc-15min-bot-production.up.railway.app": {
+                "port": 8080
+              }
+            },
+            "privateNetworkEndpoint": "btc-15min-bot"
+          },
+          "build": {
+            "builder": "RAILPACK",
+            "buildEnvironment": "V3"
+          },
+          "deploy": {
+            "startCommand": "/bin/sh -c 'sleep 3; echo \"BTC15 VOLUME INVENTORY BEGIN\" >&2; du -ah /data 2>/dev/null | sort -hr | head -40 >&2; echo \"BTC15 VOLUME INVENTORY END\" >&2; sleep 1; python btc15_preserve_evidence_v1.py --root /data --label pre-two-clock-pr37-20260925 && exec python -u btc15_information_install_v1.py'",
+            "healthcheckPath": "/health",
+            "healthcheckTimeout": 120,
+            "useLegacyStacker": false,
+            "ipv6EgressEnabled": false,
+            "runtime": "V2",
+            "multiRegionConfig": {
+              "iad": {
+                "numReplicas": 1
+              }
+            }
+          },
+          "volumeMounts": {
+            "6ced6b1a-3755-4518-a240-c895e936d443": {
+              "mountPath": "/data"
+            }
+          }
+        },
+        "stagedChanges": [],
+        "variableNames": [
+          "BTC15_BRTI_GATEWAY_URL",
+          "BTC15_BRTI_SHARED_URL",
+          "BTC15_BRTI_TRANSPORT",
+          "BTC15_CAPTURE_ACTIVATION",
+          "BTC15_DASH_V13_Z1",
+          "BTC15_DASH_V13_Z2",
+          "BTC15_DASH_V13_Z3",
+          "BTC15_DASH_V13_Z4",
+          "BTC15_DASH_V13_Z5",
+          "BTC15_ENABLE_INFORMATION_EXPORT",
+          "BTC15_INLINE_SCALP_V1",
+          "BTC15_KALSHI_QUOTE_PROVENANCE_CANARY",
+          "BTC15_USE_SHARED_BRTI",
+          "BTC15_VOLUME_DIAG",
+          "KALSHI_KEY_ID",
+          "KALSHI_PRIVATE_KEY_B64",
+          "PORT",
+          "PYTHONUNBUFFERED"
+        ],
+        "volumes": [
+          {
+            "id": "6ced6b1a-3755-4518-a240-c895e936d443",
+            "name": "btc-15min-bot-volume",
+            "mountPath": "/data",
+            "sizeMB": 10000,
+            "region": "iad",
+            "state": "live"
+          }
+        ],
+        "domains": {
+          "serviceDomains": [
+            {
+              "id": "2d02fd70-b865-4a79-87a9-948bae11e101",
+              "domain": "btc-15min-bot-production.up.railway.app",
+              "targetPort": 8080
+            }
+          ],
+          "customDomains": []
+        },
+        "tcpProxies": [],
+        "latestDeployment": {
+          "id": "6a6581ba-fc0a-4021-84c4-9c1896c4f179",
+          "status": "SUCCESS",
+          "createdAt": "2026-10-03T18:16:25.597Z",
+          "url": null
+        },
+        "tracing": {
+          "tracingEnabled": false,
+          "autoInstrumentationEnabled": false,
+          "autoInstrumentationActive": false
+        }
+      },
+      "v81": {
+        "service": {
+          "id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+          "name": "v81-live-diagnostics",
+          "state": "live"
+        },
+        "environment": {
+          "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+          "name": "production"
+        },
+        "staged": null,
+        "config": {
+          "source": {
+            "repo": "yz272n2tpf-lab/Btc-15min-bot",
+            "branch": "v81-live-diagnostics-20260912",
+            "checkSuites": false
+          },
+          "networking": {
+            "serviceDomains": {
+              "v81-live-diagnostics-production.up.railway.app": {
+                "port": 8080
+              }
+            }
+          },
+          "build": {
+            "builder": "RAILPACK",
+            "buildEnvironment": "V3"
+          },
+          "deploy": {
+            "startCommand": "python -u v81_30_45_live_feed.py",
+            "healthcheckPath": "/health",
+            "healthcheckTimeout": 30,
+            "restartPolicyMaxRetries": 3,
+            "useLegacyStacker": false,
+            "ipv6EgressEnabled": false,
+            "runtime": "V2",
+            "multiRegionConfig": {
+              "iad": {
+                "numReplicas": 1
+              }
+            }
+          }
+        },
+        "stagedChanges": [],
+        "variableNames": [
+          "BTC15_BRTI_SHARED_URL",
+          "BTC15_BRTI_TRANSPORT",
+          "BTC15_CAPTURE_ACTIVATION",
+          "BTC15_USE_SHARED_BRTI",
+          "KALSHI_KEY_ID",
+          "KALSHI_PRIVATE_KEY_B64",
+          "PYTHONUNBUFFERED",
+          "V81_DIAG_LIVE"
+        ],
+        "volumes": [],
+        "domains": {
+          "serviceDomains": [
+            {
+              "id": "123de58c-63f7-4f5f-928c-54a86ee4c7fb",
+              "domain": "v81-live-diagnostics-production.up.railway.app",
+              "targetPort": 8080
+            }
+          ],
+          "customDomains": []
+        },
+        "tcpProxies": [],
+        "latestDeployment": {
+          "id": "54a117aa-1809-4c56-8d32-190fbc5c1ce9",
+          "status": "SUCCESS",
+          "createdAt": "2026-10-03T18:16:27.487Z",
+          "url": null
+        },
+        "tracing": {
+          "tracingEnabled": false,
+          "autoInstrumentationEnabled": false,
+          "autoInstrumentationActive": false
+        }
+      },
+      "qualification_main": {
+        "service": {
+          "id": "e6101c69-18df-4522-99d8-94e363ad8b92",
+          "name": "btc15-v2-main-qualification",
+          "state": "live"
+        },
+        "environment": {
+          "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+          "name": "production"
+        },
+        "staged": null,
+        "config": {
+          "source": {
+            "repo": "yz272n2tpf-lab/Btc-15min-bot",
+            "branch": "release/ladder-completion-20261003",
+            "commitSha": "de4f3e20b8657eb8cfee91bd4e525c103b5bf513"
+          },
+          "networking": {
+            "serviceDomains": {
+              "btc15-v2-main-qualification-production.up.railway.app": {
+                "port": 8080
+              }
+            }
+          },
+          "build": {
+            "builder": "RAILPACK",
+            "buildEnvironment": "V3"
+          },
+          "deploy": {
+            "startCommand": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && python btc15_verify_ladder_freeze_v2.py --lane main && exec python -u btc15_information_install_v1.py'",
+            "healthcheckPath": "/health",
+            "healthcheckTimeout": 120,
+            "useLegacyStacker": false,
+            "ipv6EgressEnabled": false,
+            "runtime": "V2",
+            "multiRegionConfig": {
+              "iad": {
+                "numReplicas": 1
+              }
+            }
+          },
+          "volumeMounts": {
+            "b6304c46-7027-4bfd-932d-94bb9c67da8e": {
+              "mountPath": "/data"
+            }
+          }
+        },
+        "stagedChanges": [],
+        "variableNames": [
+          "BTC15_BRTI_GATEWAY_URL",
+          "BTC15_BRTI_SHARED_URL",
+          "BTC15_BRTI_TRANSPORT",
+          "BTC15_DASH_V13_Z1",
+          "BTC15_DASH_V13_Z2",
+          "BTC15_DASH_V13_Z3",
+          "BTC15_DASH_V13_Z4",
+          "BTC15_DASH_V13_Z5",
+          "BTC15_ENABLE_INFORMATION_EXPORT",
+          "BTC15_INLINE_SCALP_V1",
+          "BTC15_KALSHI_QUOTE_PROVENANCE_CANARY",
+          "BTC15_LADDER_DATA_ROOT",
+          "BTC15_USE_SHARED_BRTI",
+          "BTC15_V81_LADDERS_URL",
+          "KALSHI_KEY_ID",
+          "KALSHI_PRIVATE_KEY_B64",
+          "PORT",
+          "PYTHONUNBUFFERED"
+        ],
+        "volumes": [
+          {
+            "id": "b6304c46-7027-4bfd-932d-94bb9c67da8e",
+            "name": "btc15-v2-main-journal",
+            "mountPath": "/data",
+            "sizeMB": 2048,
+            "region": "iad",
+            "state": "live"
+          }
+        ],
+        "domains": {
+          "serviceDomains": [
+            {
+              "id": "383dc98f-75dc-4a35-9549-fc2b41dd929b",
+              "domain": "btc15-v2-main-qualification-production.up.railway.app",
+              "targetPort": 8080
+            }
+          ],
+          "customDomains": []
+        },
+        "tcpProxies": [],
+        "latestDeployment": {
+          "id": "49b15e63-fdf8-4dd6-9589-de222bbe5fdf",
+          "status": "SUCCESS",
+          "createdAt": "2026-10-04T02:29:13.724Z",
+          "url": null
+        },
+        "tracing": {
+          "tracingEnabled": false,
+          "autoInstrumentationEnabled": false,
+          "autoInstrumentationActive": false
+        }
+      },
+      "qualification_v81": {
+        "service": {
+          "id": "725e8200-656a-4576-a62a-0b84fedf9ffd",
+          "name": "btc15-v2-v81-qualification",
+          "state": "live"
+        },
+        "environment": {
+          "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+          "name": "production"
+        },
+        "staged": null,
+        "config": {
+          "source": {
+            "repo": "yz272n2tpf-lab/Btc-15min-bot",
+            "branch": "release/v81-ladder-completion-20261003",
+            "commitSha": "60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1"
+          },
+          "networking": {
+            "serviceDomains": {
+              "btc15-v2-v81-qualification-production.up.railway.app": {
+                "port": 8080
+              }
+            }
+          },
+          "build": {
+            "builder": "RAILPACK",
+            "buildEnvironment": "V3"
+          },
+          "deploy": {
+            "startCommand": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && python btc15_verify_ladder_freeze_v2.py --lane v81 && exec python -u v81_30_45_live_feed.py'",
+            "healthcheckPath": "/health",
+            "healthcheckTimeout": 30,
+            "useLegacyStacker": false,
+            "ipv6EgressEnabled": false,
+            "runtime": "V2",
+            "multiRegionConfig": {
+              "iad": {
+                "numReplicas": 1
+              }
+            }
+          },
+          "volumeMounts": {
+            "97cc9dcd-ef90-495e-a1be-ffda31eac1b3": {
+              "mountPath": "/data"
+            }
+          }
+        },
+        "stagedChanges": [],
+        "variableNames": [
+          "BTC15_BRTI_SHARED_URL",
+          "BTC15_BRTI_TRANSPORT",
+          "BTC15_LADDER_DATA_ROOT",
+          "BTC15_USE_SHARED_BRTI",
+          "KALSHI_KEY_ID",
+          "KALSHI_PRIVATE_KEY_B64",
+          "PORT",
+          "PYTHONUNBUFFERED",
+          "V81_DIAG_LIVE"
+        ],
+        "volumes": [
+          {
+            "id": "97cc9dcd-ef90-495e-a1be-ffda31eac1b3",
+            "name": "btc15-v2-v81-journal",
+            "mountPath": "/data",
+            "sizeMB": 2048,
+            "region": "iad",
+            "state": "live"
+          }
+        ],
+        "domains": {
+          "serviceDomains": [
+            {
+              "id": "7b4d91cf-f1c4-41f1-973f-5e5f0f7193ed",
+              "domain": "btc15-v2-v81-qualification-production.up.railway.app",
+              "targetPort": 8080
+            }
+          ],
+          "customDomains": []
+        },
+        "tcpProxies": [],
+        "latestDeployment": {
+          "id": "39c95226-fff1-4f5f-8ce4-606c5e446a70",
+          "status": "SUCCESS",
+          "createdAt": "2026-10-04T02:29:13.728Z",
+          "url": null
+        },
+        "tracing": {
+          "tracingEnabled": false,
+          "autoInstrumentationEnabled": false,
+          "autoInstrumentationActive": false
+        }
+      }
+    }
+  },
+  "after": {
+    "observed_at": "2026-10-04T03:02:51.407Z",
+    "services": {
+      "main": {
+        "service": {
+          "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+          "name": "Btc-15min-bot",
+          "state": "live-with-staged-changes"
+        },
+        "environment": {
+          "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+          "name": "production"
+        },
+        "staged": {
+          "patchId": "bac367fe-44f2-4d94-b5e2-d2e623340f46",
+          "status": "STAGED",
+          "changeCount": 24,
+          "message": null,
+          "createdAt": "2026-10-04T02:59:46.057Z",
+          "updatedAt": "2026-10-04T03:02:26.998Z"
+        },
+        "config": {
+          "source": {
+            "repo": "yz272n2tpf-lab/Btc-15min-bot",
+            "branch": "release/ladder-completion-20261003",
+            "checkSuites": false,
+            "image": null,
+            "commitSha": "de4f3e20b8657eb8cfee91bd4e525c103b5bf513"
+          },
+          "networking": {
+            "serviceDomains": {
+              "btc-15min-bot-production.up.railway.app": {
+                "port": 8080
+              }
+            },
+            "privateNetworkEndpoint": "btc-15min-bot"
+          },
+          "build": {
+            "builder": "RAILPACK",
+            "buildEnvironment": "V3"
+          },
+          "deploy": {
+            "startCommand": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && python btc15_verify_ladder_freeze_v2.py --lane main && exec python -u btc15_information_install_v1.py'",
+            "healthcheckPath": "/health",
+            "healthcheckTimeout": 120,
+            "useLegacyStacker": false,
+            "ipv6EgressEnabled": false,
+            "runtime": "V2",
+            "multiRegionConfig": {
+              "iad": {
+                "numReplicas": 1
+              }
+            },
+            "restartPolicyType": "ON_FAILURE",
+            "restartPolicyMaxRetries": 10
+          },
+          "volumeMounts": {
+            "6ced6b1a-3755-4518-a240-c895e936d443": {
+              "mountPath": "/data"
+            }
+          }
+        },
+        "stagedChanges": [
+          {
+            "path": "services.ab28dca6-7bea-4956-bdb9-dbb7b4c74635.source.branch",
+            "displayName": "Branch",
+            "type": "updated",
+            "from": "main",
+            "to": "release/ladder-completion-20261003",
+            "destructive": false
+          },
+          {
+            "path": "services.ab28dca6-7bea-4956-bdb9-dbb7b4c74635.source.commitSha",
+            "displayName": "Commit Sha",
+            "type": "added",
+            "from": "",
+            "to": "de4f3e20b8657eb8cfee91bd4e525c103b5bf513",
+            "destructive": false
+          },
+          {
+            "path": "services.ab28dca6-7bea-4956-bdb9-dbb7b4c74635.source.image",
+            "displayName": "Image",
+            "type": "removed",
+            "from": "",
+            "to": "",
+            "destructive": false
+          },
+          {
+            "path": "services.ab28dca6-7bea-4956-bdb9-dbb7b4c74635.source.repo",
+            "displayName": "Repo",
+            "type": "updated",
+            "from": "yz272n2tpf-lab/Btc-15min-bot",
+            "to": "yz272n2tpf-lab/Btc-15min-bot",
+            "destructive": false
+          },
+          {
+            "path": "services.ab28dca6-7bea-4956-bdb9-dbb7b4c74635.deploy.restartPolicyMaxRetries",
+            "displayName": "Restart Policy Max Retries",
+            "type": "added",
+            "from": "",
+            "to": "10",
+            "destructive": false
+          },
+          {
+            "path": "services.ab28dca6-7bea-4956-bdb9-dbb7b4c74635.deploy.restartPolicyType",
+            "displayName": "Restart Policy Type",
+            "type": "added",
+            "from": "",
+            "to": "ON_FAILURE",
+            "destructive": false
+          },
+          {
+            "path": "services.ab28dca6-7bea-4956-bdb9-dbb7b4c74635.deploy.startCommand",
+            "displayName": "Start Command",
+            "type": "updated",
+            "from": "/bin/sh -c 'sleep 3; echo \"BTC15 VOLUME INVENTORY BEGIN\" >&2; du -ah /data 2>/dev/null | sort -hr | head -40 >&2; echo \"BTC15 VOLUME INVENTORY END\" >&2; sleep 1; python btc15_preserve_evidence_v1.py --root /data --label pre-two-clock-pr37-20260925 && exec python -u btc15_information_install_v1.py'",
+            "to": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && python btc15_verify_ladder_freeze_v2.py --lane main && exec python -u btc15_information_install_v1.py'",
+            "destructive": false
+          },
+          {
+            "path": "services.ab28dca6-7bea-4956-bdb9-dbb7b4c74635.variables.BTC15_CAPTURE_ACTIVATION",
+            "displayName": "BTC15_CAPTURE_ACTIVATION",
+            "type": "removed",
+            "from": "",
+            "to": "",
+            "destructive": false
+          },
+          {
+            "path": "services.ab28dca6-7bea-4956-bdb9-dbb7b4c74635.variables.BTC15_LADDER_DATA_ROOT.encryptedValue",
+            "displayName": "BTC15_LADDER_DATA_ROOT",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.ab28dca6-7bea-4956-bdb9-dbb7b4c74635.variables.BTC15_V81_LADDERS_URL.encryptedValue",
+            "displayName": "BTC15_V81_LADDERS_URL",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          }
+        ],
+        "variableNames": [
+          "BTC15_BRTI_GATEWAY_URL",
+          "BTC15_BRTI_SHARED_URL",
+          "BTC15_BRTI_TRANSPORT",
+          "BTC15_CAPTURE_ACTIVATION",
+          "BTC15_DASH_V13_Z1",
+          "BTC15_DASH_V13_Z2",
+          "BTC15_DASH_V13_Z3",
+          "BTC15_DASH_V13_Z4",
+          "BTC15_DASH_V13_Z5",
+          "BTC15_ENABLE_INFORMATION_EXPORT",
+          "BTC15_INLINE_SCALP_V1",
+          "BTC15_KALSHI_QUOTE_PROVENANCE_CANARY",
+          "BTC15_LADDER_DATA_ROOT",
+          "BTC15_USE_SHARED_BRTI",
+          "BTC15_V81_LADDERS_URL",
+          "BTC15_VOLUME_DIAG",
+          "KALSHI_KEY_ID",
+          "KALSHI_PRIVATE_KEY_B64",
+          "PORT",
+          "PYTHONUNBUFFERED"
+        ],
+        "volumes": [
+          {
+            "id": "6ced6b1a-3755-4518-a240-c895e936d443",
+            "name": "btc-15min-bot-volume",
+            "mountPath": "/data",
+            "sizeMB": 10000,
+            "region": "iad",
+            "state": "live"
+          }
+        ],
+        "domains": {
+          "serviceDomains": [
+            {
+              "id": "2d02fd70-b865-4a79-87a9-948bae11e101",
+              "domain": "btc-15min-bot-production.up.railway.app",
+              "targetPort": 8080
+            }
+          ],
+          "customDomains": []
+        },
+        "tcpProxies": [],
+        "latestDeployment": {
+          "id": "6a6581ba-fc0a-4021-84c4-9c1896c4f179",
+          "status": "SUCCESS",
+          "createdAt": "2026-10-03T18:16:25.597Z",
+          "url": null
+        },
+        "tracing": {
+          "tracingEnabled": false,
+          "autoInstrumentationEnabled": false,
+          "autoInstrumentationActive": false
+        }
+      },
+      "v81": {
+        "service": {
+          "id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+          "name": "v81-live-diagnostics",
+          "state": "live-with-staged-changes"
+        },
+        "environment": {
+          "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+          "name": "production"
+        },
+        "staged": {
+          "patchId": "bac367fe-44f2-4d94-b5e2-d2e623340f46",
+          "status": "STAGED",
+          "changeCount": 24,
+          "message": null,
+          "createdAt": "2026-10-04T02:59:46.057Z",
+          "updatedAt": "2026-10-04T03:02:26.998Z"
+        },
+        "config": {
+          "source": {
+            "repo": "yz272n2tpf-lab/Btc-15min-bot",
+            "branch": "release/v81-ladder-completion-20261003",
+            "checkSuites": false,
+            "image": null,
+            "commitSha": "60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1"
+          },
+          "networking": {
+            "serviceDomains": {
+              "v81-live-diagnostics-production.up.railway.app": {
+                "port": 8080
+              }
+            }
+          },
+          "build": {
+            "builder": "RAILPACK",
+            "buildEnvironment": "V3"
+          },
+          "deploy": {
+            "startCommand": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && python btc15_verify_ladder_freeze_v2.py --lane v81 && exec python -u v81_30_45_live_feed.py'",
+            "healthcheckPath": "/health",
+            "healthcheckTimeout": 30,
+            "restartPolicyMaxRetries": 10,
+            "useLegacyStacker": false,
+            "ipv6EgressEnabled": false,
+            "runtime": "V2",
+            "multiRegionConfig": {
+              "iad": {
+                "numReplicas": 1
+              }
+            },
+            "restartPolicyType": "ON_FAILURE"
+          },
+          "volumeMounts": {
+            "d5eeafca-e0fc-42f0-b7d1-4705907720c6": {
+              "mountPath": "/data"
+            }
+          }
+        },
+        "stagedChanges": [
+          {
+            "path": "services.6025e83e-a41c-4e0a-8c16-f71120bd501b.source.branch",
+            "displayName": "Branch",
+            "type": "updated",
+            "from": "v81-live-diagnostics-20260912",
+            "to": "release/v81-ladder-completion-20261003",
+            "destructive": false
+          },
+          {
+            "path": "services.6025e83e-a41c-4e0a-8c16-f71120bd501b.source.commitSha",
+            "displayName": "Commit Sha",
+            "type": "added",
+            "from": "",
+            "to": "60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1",
+            "destructive": false
+          },
+          {
+            "path": "services.6025e83e-a41c-4e0a-8c16-f71120bd501b.source.image",
+            "displayName": "Image",
+            "type": "removed",
+            "from": "",
+            "to": "",
+            "destructive": false
+          },
+          {
+            "path": "services.6025e83e-a41c-4e0a-8c16-f71120bd501b.source.repo",
+            "displayName": "Repo",
+            "type": "updated",
+            "from": "yz272n2tpf-lab/Btc-15min-bot",
+            "to": "yz272n2tpf-lab/Btc-15min-bot",
+            "destructive": false
+          },
+          {
+            "path": "services.6025e83e-a41c-4e0a-8c16-f71120bd501b.deploy.restartPolicyMaxRetries",
+            "displayName": "Restart Policy Max Retries",
+            "type": "updated",
+            "from": "3",
+            "to": "10",
+            "destructive": false
+          },
+          {
+            "path": "services.6025e83e-a41c-4e0a-8c16-f71120bd501b.deploy.restartPolicyType",
+            "displayName": "Restart Policy Type",
+            "type": "added",
+            "from": "",
+            "to": "ON_FAILURE",
+            "destructive": false
+          },
+          {
+            "path": "services.6025e83e-a41c-4e0a-8c16-f71120bd501b.deploy.startCommand",
+            "displayName": "Start Command",
+            "type": "updated",
+            "from": "python -u v81_30_45_live_feed.py",
+            "to": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && python btc15_verify_ladder_freeze_v2.py --lane v81 && exec python -u v81_30_45_live_feed.py'",
+            "destructive": false
+          },
+          {
+            "path": "services.6025e83e-a41c-4e0a-8c16-f71120bd501b.volumeMounts.d5eeafca-e0fc-42f0-b7d1-4705907720c6.mountPath",
+            "displayName": "Mount Path",
+            "type": "added",
+            "from": "",
+            "to": "/data",
+            "destructive": false
+          },
+          {
+            "path": "services.6025e83e-a41c-4e0a-8c16-f71120bd501b.variables.BTC15_CAPTURE_ACTIVATION",
+            "displayName": "BTC15_CAPTURE_ACTIVATION",
+            "type": "removed",
+            "from": "",
+            "to": "",
+            "destructive": false
+          },
+          {
+            "path": "services.6025e83e-a41c-4e0a-8c16-f71120bd501b.variables.BTC15_LADDER_DATA_ROOT.encryptedValue",
+            "displayName": "BTC15_LADDER_DATA_ROOT",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          },
+          {
+            "path": "services.6025e83e-a41c-4e0a-8c16-f71120bd501b.variables.PORT.encryptedValue",
+            "displayName": "PORT",
+            "type": "added",
+            "from": "",
+            "to": "<redacted>",
+            "destructive": false
+          }
+        ],
+        "variableNames": [
+          "BTC15_BRTI_SHARED_URL",
+          "BTC15_BRTI_TRANSPORT",
+          "BTC15_CAPTURE_ACTIVATION",
+          "BTC15_LADDER_DATA_ROOT",
+          "BTC15_USE_SHARED_BRTI",
+          "KALSHI_KEY_ID",
+          "KALSHI_PRIVATE_KEY_B64",
+          "PORT",
+          "PYTHONUNBUFFERED",
+          "V81_DIAG_LIVE"
+        ],
+        "volumes": [
+          {
+            "id": "d5eeafca-e0fc-42f0-b7d1-4705907720c6",
+            "name": "btc15-v81-ladder-journal-v2",
+            "mountPath": "/data",
+            "sizeMB": 2048,
+            "region": "iad",
+            "state": "staged-create"
+          }
+        ],
+        "domains": {
+          "serviceDomains": [
+            {
+              "id": "123de58c-63f7-4f5f-928c-54a86ee4c7fb",
+              "domain": "v81-live-diagnostics-production.up.railway.app",
+              "targetPort": 8080
+            }
+          ],
+          "customDomains": []
+        },
+        "tcpProxies": [],
+        "latestDeployment": {
+          "id": "54a117aa-1809-4c56-8d32-190fbc5c1ce9",
+          "status": "SUCCESS",
+          "createdAt": "2026-10-03T18:16:27.487Z",
+          "url": null
+        },
+        "tracing": {
+          "tracingEnabled": false,
+          "autoInstrumentationEnabled": false,
+          "autoInstrumentationActive": false
+        }
+      },
+      "qualification_main": {
+        "service": {
+          "id": "e6101c69-18df-4522-99d8-94e363ad8b92",
+          "name": "btc15-v2-main-qualification",
+          "state": "live"
+        },
+        "environment": {
+          "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+          "name": "production"
+        },
+        "staged": {
+          "patchId": "bac367fe-44f2-4d94-b5e2-d2e623340f46",
+          "status": "STAGED",
+          "changeCount": 24,
+          "message": null,
+          "createdAt": "2026-10-04T02:59:46.057Z",
+          "updatedAt": "2026-10-04T03:02:26.998Z"
+        },
+        "config": {
+          "source": {
+            "repo": "yz272n2tpf-lab/Btc-15min-bot",
+            "branch": "release/ladder-completion-20261003",
+            "commitSha": "de4f3e20b8657eb8cfee91bd4e525c103b5bf513"
+          },
+          "networking": {
+            "serviceDomains": {
+              "btc15-v2-main-qualification-production.up.railway.app": {
+                "port": 8080
+              }
+            }
+          },
+          "build": {
+            "builder": "RAILPACK",
+            "buildEnvironment": "V3"
+          },
+          "deploy": {
+            "startCommand": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && python btc15_verify_ladder_freeze_v2.py --lane main && exec python -u btc15_information_install_v1.py'",
+            "healthcheckPath": "/health",
+            "healthcheckTimeout": 120,
+            "useLegacyStacker": false,
+            "ipv6EgressEnabled": false,
+            "runtime": "V2",
+            "multiRegionConfig": {
+              "iad": {
+                "numReplicas": 1
+              }
+            }
+          },
+          "volumeMounts": {
+            "b6304c46-7027-4bfd-932d-94bb9c67da8e": {
+              "mountPath": "/data"
+            }
+          }
+        },
+        "stagedChanges": [],
+        "variableNames": [
+          "BTC15_BRTI_GATEWAY_URL",
+          "BTC15_BRTI_SHARED_URL",
+          "BTC15_BRTI_TRANSPORT",
+          "BTC15_DASH_V13_Z1",
+          "BTC15_DASH_V13_Z2",
+          "BTC15_DASH_V13_Z3",
+          "BTC15_DASH_V13_Z4",
+          "BTC15_DASH_V13_Z5",
+          "BTC15_ENABLE_INFORMATION_EXPORT",
+          "BTC15_INLINE_SCALP_V1",
+          "BTC15_KALSHI_QUOTE_PROVENANCE_CANARY",
+          "BTC15_LADDER_DATA_ROOT",
+          "BTC15_USE_SHARED_BRTI",
+          "BTC15_V81_LADDERS_URL",
+          "KALSHI_KEY_ID",
+          "KALSHI_PRIVATE_KEY_B64",
+          "PORT",
+          "PYTHONUNBUFFERED"
+        ],
+        "volumes": [
+          {
+            "id": "b6304c46-7027-4bfd-932d-94bb9c67da8e",
+            "name": "btc15-v2-main-journal",
+            "mountPath": "/data",
+            "sizeMB": 2048,
+            "region": "iad",
+            "state": "live"
+          }
+        ],
+        "domains": {
+          "serviceDomains": [
+            {
+              "id": "383dc98f-75dc-4a35-9549-fc2b41dd929b",
+              "domain": "btc15-v2-main-qualification-production.up.railway.app",
+              "targetPort": 8080
+            }
+          ],
+          "customDomains": []
+        },
+        "tcpProxies": [],
+        "latestDeployment": {
+          "id": "49b15e63-fdf8-4dd6-9589-de222bbe5fdf",
+          "status": "SUCCESS",
+          "createdAt": "2026-10-04T02:29:13.724Z",
+          "url": null
+        },
+        "tracing": {
+          "tracingEnabled": false,
+          "autoInstrumentationEnabled": false,
+          "autoInstrumentationActive": false
+        }
+      },
+      "qualification_v81": {
+        "service": {
+          "id": "725e8200-656a-4576-a62a-0b84fedf9ffd",
+          "name": "btc15-v2-v81-qualification",
+          "state": "live"
+        },
+        "environment": {
+          "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+          "name": "production"
+        },
+        "staged": {
+          "patchId": "bac367fe-44f2-4d94-b5e2-d2e623340f46",
+          "status": "STAGED",
+          "changeCount": 24,
+          "message": null,
+          "createdAt": "2026-10-04T02:59:46.057Z",
+          "updatedAt": "2026-10-04T03:02:26.998Z"
+        },
+        "config": {
+          "source": {
+            "repo": "yz272n2tpf-lab/Btc-15min-bot",
+            "branch": "release/v81-ladder-completion-20261003",
+            "commitSha": "60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1"
+          },
+          "networking": {
+            "serviceDomains": {
+              "btc15-v2-v81-qualification-production.up.railway.app": {
+                "port": 8080
+              }
+            }
+          },
+          "build": {
+            "builder": "RAILPACK",
+            "buildEnvironment": "V3"
+          },
+          "deploy": {
+            "startCommand": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && python btc15_verify_ladder_freeze_v2.py --lane v81 && exec python -u v81_30_45_live_feed.py'",
+            "healthcheckPath": "/health",
+            "healthcheckTimeout": 30,
+            "useLegacyStacker": false,
+            "ipv6EgressEnabled": false,
+            "runtime": "V2",
+            "multiRegionConfig": {
+              "iad": {
+                "numReplicas": 1
+              }
+            }
+          },
+          "volumeMounts": {
+            "97cc9dcd-ef90-495e-a1be-ffda31eac1b3": {
+              "mountPath": "/data"
+            }
+          }
+        },
+        "stagedChanges": [],
+        "variableNames": [
+          "BTC15_BRTI_SHARED_URL",
+          "BTC15_BRTI_TRANSPORT",
+          "BTC15_LADDER_DATA_ROOT",
+          "BTC15_USE_SHARED_BRTI",
+          "KALSHI_KEY_ID",
+          "KALSHI_PRIVATE_KEY_B64",
+          "PORT",
+          "PYTHONUNBUFFERED",
+          "V81_DIAG_LIVE"
+        ],
+        "volumes": [
+          {
+            "id": "97cc9dcd-ef90-495e-a1be-ffda31eac1b3",
+            "name": "btc15-v2-v81-journal",
+            "mountPath": "/data",
+            "sizeMB": 2048,
+            "region": "iad",
+            "state": "live"
+          }
+        ],
+        "domains": {
+          "serviceDomains": [
+            {
+              "id": "7b4d91cf-f1c4-41f1-973f-5e5f0f7193ed",
+              "domain": "btc15-v2-v81-qualification-production.up.railway.app",
+              "targetPort": 8080
+            }
+          ],
+          "customDomains": []
+        },
+        "tcpProxies": [],
+        "latestDeployment": {
+          "id": "39c95226-fff1-4f5f-8ce4-606c5e446a70",
+          "status": "SUCCESS",
+          "createdAt": "2026-10-04T02:29:13.728Z",
+          "url": null
+        },
+        "tracing": {
+          "tracingEnabled": false,
+          "autoInstrumentationEnabled": false,
+          "autoInstrumentationActive": false
+        }
+      }
+    }
+  },
+  "live_configs_after": {
+    "main": {
+      "service": {
+        "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "name": "Btc-15min-bot"
+      },
+      "environment": {
+        "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "name": "production"
+      },
+      "config": {
+        "source": {
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "main",
+          "checkSuites": false
+        },
+        "networking": {
+          "serviceDomains": {
+            "btc-15min-bot-production.up.railway.app": {
+              "port": 8080
+            }
+          },
+          "privateNetworkEndpoint": "btc-15min-bot"
+        },
+        "build": {
+          "builder": "RAILPACK",
+          "buildEnvironment": "V3"
+        },
+        "deploy": {
+          "startCommand": "/bin/sh -c 'sleep 3; echo \"BTC15 VOLUME INVENTORY BEGIN\" >&2; du -ah /data 2>/dev/null | sort -hr | head -40 >&2; echo \"BTC15 VOLUME INVENTORY END\" >&2; sleep 1; python btc15_preserve_evidence_v1.py --root /data --label pre-two-clock-pr37-20260925 && exec python -u btc15_information_install_v1.py'",
+          "healthcheckPath": "/health",
+          "healthcheckTimeout": 120,
+          "useLegacyStacker": false,
+          "ipv6EgressEnabled": false,
+          "runtime": "V2",
+          "multiRegionConfig": {
+            "iad": {
+              "numReplicas": 1
+            }
+          }
+        },
+        "volumeMounts": {
+          "6ced6b1a-3755-4518-a240-c895e936d443": {
+            "mountPath": "/data"
+          }
+        }
+      },
+      "variableNames": [
+        "BTC15_BRTI_GATEWAY_URL",
+        "BTC15_BRTI_SHARED_URL",
+        "BTC15_BRTI_TRANSPORT",
+        "BTC15_CAPTURE_ACTIVATION",
+        "BTC15_DASH_V13_Z1",
+        "BTC15_DASH_V13_Z2",
+        "BTC15_DASH_V13_Z3",
+        "BTC15_DASH_V13_Z4",
+        "BTC15_DASH_V13_Z5",
+        "BTC15_ENABLE_INFORMATION_EXPORT",
+        "BTC15_INLINE_SCALP_V1",
+        "BTC15_KALSHI_QUOTE_PROVENANCE_CANARY",
+        "BTC15_USE_SHARED_BRTI",
+        "BTC15_VOLUME_DIAG",
+        "KALSHI_KEY_ID",
+        "KALSHI_PRIVATE_KEY_B64",
+        "PORT",
+        "PYTHONUNBUFFERED"
+      ],
+      "staged": {
+        "patchId": "bac367fe-44f2-4d94-b5e2-d2e623340f46",
+        "patchStatus": "STAGED",
+        "changeCount": 10,
+        "config": {
+          "deploy": {
+            "startCommand": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && python btc15_verify_ladder_freeze_v2.py --lane main && exec python -u btc15_information_install_v1.py'",
+            "restartPolicyType": "ON_FAILURE",
+            "restartPolicyMaxRetries": 10
+          },
+          "source": {
+            "repo": "yz272n2tpf-lab/Btc-15min-bot",
+            "image": null,
+            "branch": "release/ladder-completion-20261003",
+            "commitSha": "de4f3e20b8657eb8cfee91bd4e525c103b5bf513"
+          }
+        },
+        "variableNames": [
+          "BTC15_CAPTURE_ACTIVATION",
+          "BTC15_LADDER_DATA_ROOT",
+          "BTC15_V81_LADDERS_URL"
+        ]
+      }
+    },
+    "v81": {
+      "service": {
+        "id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "name": "v81-live-diagnostics"
+      },
+      "environment": {
+        "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "name": "production"
+      },
+      "config": {
+        "source": {
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "v81-live-diagnostics-20260912",
+          "checkSuites": false
+        },
+        "networking": {
+          "serviceDomains": {
+            "v81-live-diagnostics-production.up.railway.app": {
+              "port": 8080
+            }
+          }
+        },
+        "build": {
+          "builder": "RAILPACK",
+          "buildEnvironment": "V3"
+        },
+        "deploy": {
+          "startCommand": "python -u v81_30_45_live_feed.py",
+          "healthcheckPath": "/health",
+          "healthcheckTimeout": 30,
+          "restartPolicyMaxRetries": 3,
+          "useLegacyStacker": false,
+          "ipv6EgressEnabled": false,
+          "runtime": "V2",
+          "multiRegionConfig": {
+            "iad": {
+              "numReplicas": 1
+            }
+          }
+        }
+      },
+      "variableNames": [
+        "BTC15_BRTI_SHARED_URL",
+        "BTC15_BRTI_TRANSPORT",
+        "BTC15_CAPTURE_ACTIVATION",
+        "BTC15_USE_SHARED_BRTI",
+        "KALSHI_KEY_ID",
+        "KALSHI_PRIVATE_KEY_B64",
+        "PYTHONUNBUFFERED",
+        "V81_DIAG_LIVE"
+      ],
+      "staged": {
+        "patchId": "bac367fe-44f2-4d94-b5e2-d2e623340f46",
+        "patchStatus": "STAGED",
+        "changeCount": 11,
+        "config": {
+          "deploy": {
+            "startCommand": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && python btc15_verify_ladder_freeze_v2.py --lane v81 && exec python -u v81_30_45_live_feed.py'",
+            "restartPolicyType": "ON_FAILURE",
+            "restartPolicyMaxRetries": 10
+          },
+          "source": {
+            "repo": "yz272n2tpf-lab/Btc-15min-bot",
+            "image": null,
+            "branch": "release/v81-ladder-completion-20261003",
+            "commitSha": "60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1"
+          },
+          "volumeMounts": {
+            "d5eeafca-e0fc-42f0-b7d1-4705907720c6": {
+              "mountPath": "/data"
+            }
+          }
+        },
+        "variableNames": [
+          "BTC15_CAPTURE_ACTIVATION",
+          "BTC15_LADDER_DATA_ROOT",
+          "PORT"
+        ]
+      }
+    }
+  },
+  "stage_receipts": [
+    {
+      "lane": "main",
+      "operation": "source",
+      "result": {
+        "service": {
+          "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+          "name": "Btc-15min-bot"
+        },
+        "source": {
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "release/ladder-completion-20261003",
+          "commitSha": "de4f3e20b8657eb8cfee91bd4e525c103b5bf513",
+          "image": null
+        },
+        "staged": {
+          "patchId": "bac367fe-44f2-4d94-b5e2-d2e623340f46",
+          "changeCount": 10
+        }
+      }
+    },
+    {
+      "lane": "main",
+      "operation": "variables",
+      "result": {
+        "environment": {
+          "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+          "name": "production"
+        },
+        "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "variableNames": [
+          "BTC15_LADDER_DATA_ROOT",
+          "BTC15_V81_LADDERS_URL"
+        ],
+        "skippedDeploys": true,
+        "staged": {
+          "patchId": "bac367fe-44f2-4d94-b5e2-d2e623340f46",
+          "changeCount": 12
+        }
+      }
+    },
+    {
+      "lane": "main",
+      "operation": "start_and_restart_policy",
+      "result": {
+        "service": {
+          "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+          "name": "Btc-15min-bot"
+        },
+        "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "updatedFields": [
+          "startCommand",
+          "restartPolicyType",
+          "restartPolicyMaxRetries"
+        ],
+        "staged": {
+          "patchId": "bac367fe-44f2-4d94-b5e2-d2e623340f46",
+          "changeCount": 15
+        }
+      }
+    },
+    {
+      "lane": "v81",
+      "operation": "source",
+      "result": {
+        "service": {
+          "id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+          "name": "v81-live-diagnostics"
+        },
+        "source": {
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "release/v81-ladder-completion-20261003",
+          "commitSha": "60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1",
+          "image": null
+        },
+        "staged": {
+          "patchId": "bac367fe-44f2-4d94-b5e2-d2e623340f46",
+          "changeCount": 19
+        }
+      }
+    },
+    {
+      "lane": "v81",
+      "operation": "variables",
+      "result": {
+        "environment": {
+          "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+          "name": "production"
+        },
+        "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "variableNames": [
+          "BTC15_LADDER_DATA_ROOT",
+          "PORT"
+        ],
+        "skippedDeploys": true,
+        "staged": {
+          "patchId": "bac367fe-44f2-4d94-b5e2-d2e623340f46",
+          "changeCount": 21
+        }
+      }
+    },
+    {
+      "lane": "v81",
+      "operation": "start_and_restart_policy",
+      "result": {
+        "service": {
+          "id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+          "name": "v81-live-diagnostics"
+        },
+        "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "updatedFields": [
+          "startCommand",
+          "restartPolicyType",
+          "restartPolicyMaxRetries"
+        ],
+        "staged": {
+          "patchId": "bac367fe-44f2-4d94-b5e2-d2e623340f46",
+          "changeCount": 24
+        }
+      }
+    }
+  ],
+  "capture_removal": {
+    "tool_result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "tool call error: tool call failed for `codex_apps/railway.railway-agent`\n\nCaused by:\n    Mcp error: -32603: MCP request timed out"
+        }
+      ],
+      "isError": true
+    },
+    "independent_readback": {
+      "project": {
+        "id": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+        "name": "noble-warmth"
+      },
+      "environment": {
+        "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "name": "production"
+      },
+      "staged": {
+        "patchId": "bac367fe-44f2-4d94-b5e2-d2e623340f46",
+        "status": "STAGED",
+        "changeCount": 2,
+        "message": null,
+        "createdAt": "2026-10-04T02:59:46.057Z",
+        "updatedAt": "2026-10-04T02:59:48.900Z"
+      },
+      "destructive": false,
+      "resources": [
+        {
+          "kind": "service",
+          "id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+          "name": "v81-live-diagnostics",
+          "action": "update",
+          "changes": [
+            {
+              "path": "services.6025e83e-a41c-4e0a-8c16-f71120bd501b.variables.BTC15_CAPTURE_ACTIVATION",
+              "displayName": "BTC15_CAPTURE_ACTIVATION",
+              "type": "removed",
+              "from": "",
+              "to": "",
+              "destructive": false
+            }
+          ]
+        },
+        {
+          "kind": "service",
+          "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+          "name": "Btc-15min-bot",
+          "action": "update",
+          "changes": [
+            {
+              "path": "services.ab28dca6-7bea-4956-bdb9-dbb7b4c74635.variables.BTC15_CAPTURE_ACTIVATION",
+              "displayName": "BTC15_CAPTURE_ACTIVATION",
+              "type": "removed",
+              "from": "",
+              "to": "",
+              "destructive": false
+            }
+          ]
+        }
+      ],
+      "sharedVariables": [],
+      "privateNetworkDisabled": null
+    },
+    "note": "Agent response timed out after the exact two removals were staged. Readback established actual result; no retry was performed."
+  },
+  "patch_audit": {
+    "passed": true,
+    "fields": 24,
+    "resources": 3,
+    "patch_id": "bac367fe-44f2-4d94-b5e2-d2e623340f46",
+    "exact_variable_changes": 6,
+    "qualification_resources_unchanged": true,
+    "production_live_configuration_unchanged": true,
+    "production_deployments_unchanged": true,
+    "main_existing_volume_unchanged": true,
+    "new_v81_volume_staged_not_provisioned": true,
+    "expected_fields": {
+      "services.ab28dca6-7bea-4956-bdb9-dbb7b4c74635.source.branch": "release/ladder-completion-20261003",
+      "services.ab28dca6-7bea-4956-bdb9-dbb7b4c74635.source.commitSha": "de4f3e20b8657eb8cfee91bd4e525c103b5bf513",
+      "services.ab28dca6-7bea-4956-bdb9-dbb7b4c74635.source.image": "",
+      "services.ab28dca6-7bea-4956-bdb9-dbb7b4c74635.source.repo": "yz272n2tpf-lab/Btc-15min-bot",
+      "services.ab28dca6-7bea-4956-bdb9-dbb7b4c74635.deploy.startCommand": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && python btc15_verify_ladder_freeze_v2.py --lane main && exec python -u btc15_information_install_v1.py'",
+      "services.ab28dca6-7bea-4956-bdb9-dbb7b4c74635.deploy.restartPolicyType": "ON_FAILURE",
+      "services.ab28dca6-7bea-4956-bdb9-dbb7b4c74635.deploy.restartPolicyMaxRetries": "10",
+      "services.ab28dca6-7bea-4956-bdb9-dbb7b4c74635.variables.BTC15_CAPTURE_ACTIVATION": "",
+      "services.ab28dca6-7bea-4956-bdb9-dbb7b4c74635.variables.BTC15_LADDER_DATA_ROOT.encryptedValue": "<redacted>",
+      "services.ab28dca6-7bea-4956-bdb9-dbb7b4c74635.variables.BTC15_V81_LADDERS_URL.encryptedValue": "<redacted>",
+      "services.6025e83e-a41c-4e0a-8c16-f71120bd501b.source.branch": "release/v81-ladder-completion-20261003",
+      "services.6025e83e-a41c-4e0a-8c16-f71120bd501b.source.commitSha": "60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1",
+      "services.6025e83e-a41c-4e0a-8c16-f71120bd501b.source.image": "",
+      "services.6025e83e-a41c-4e0a-8c16-f71120bd501b.source.repo": "yz272n2tpf-lab/Btc-15min-bot",
+      "services.6025e83e-a41c-4e0a-8c16-f71120bd501b.deploy.startCommand": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && python btc15_verify_ladder_freeze_v2.py --lane v81 && exec python -u v81_30_45_live_feed.py'",
+      "services.6025e83e-a41c-4e0a-8c16-f71120bd501b.deploy.restartPolicyType": "ON_FAILURE",
+      "services.6025e83e-a41c-4e0a-8c16-f71120bd501b.deploy.restartPolicyMaxRetries": "10",
+      "services.6025e83e-a41c-4e0a-8c16-f71120bd501b.variables.BTC15_CAPTURE_ACTIVATION": "",
+      "services.6025e83e-a41c-4e0a-8c16-f71120bd501b.variables.BTC15_LADDER_DATA_ROOT.encryptedValue": "<redacted>",
+      "services.6025e83e-a41c-4e0a-8c16-f71120bd501b.variables.PORT.encryptedValue": "<redacted>",
+      "services.6025e83e-a41c-4e0a-8c16-f71120bd501b.volumeMounts.d5eeafca-e0fc-42f0-b7d1-4705907720c6.mountPath": "/data",
+      "volumes.d5eeafca-e0fc-42f0-b7d1-4705907720c6.region": "iad",
+      "volumes.d5eeafca-e0fc-42f0-b7d1-4705907720c6.sizeMB": "2048",
+      "volumes.d5eeafca-e0fc-42f0-b7d1-4705907720c6.isCreated": "CREATED"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 # BTC15 current state and finish line
 
-Updated: 2026-10-04 02:48 UTC. Transition: USER_APPLIED_EXACT_V2_QUALIFICATION_PATCH → BRIEF_FUNCTIONAL_QUALIFICATION_PASS → AWAIT_SEPARATE_PRODUCTION_APPROVAL.
+Updated: 2026-10-04 03:10 UTC. Transition: BRIEF_FUNCTIONAL_QUALIFICATION_PASS → EXACT_PRODUCTION_PATCH_STAGED → AWAIT_EXPLICIT_PRODUCTION_APPROVAL.
 
 This is the authoritative operational state document, on documentation-only branch ops/btc15-v2-qualification-20261003. The frozen runtime branches and PR #53 head are unchanged. This document and its evidence are committed transactionally. BUILT, QUALIFIED, qualification DEPLOYED, and production DEPLOYED are distinct.
 
@@ -27,29 +27,29 @@ All sixteen capabilities are BUILT/DONE and deployed on the two isolated qualifi
 
 LIVE means an observed live publication/readback. FIXTURE means the existing exact frozen deterministic/adversarial branch gate. A fixture is not represented as an observed market event. No accepted live EARLY/SCALP origin or EXIT was present in the saved before/after restart samples.
 
-| Capability | BUILT / DONE | SHADOW-ONLY | QUALIFIED evidence | DEPLOYED |
+| Capability | BUILT / DONE | SHADOW-ONLY | QUALIFIED evidence | CURRENTLY V2 PRODUCTION DEPLOYED |
 |---|---|---|---|---|
-| 1. Finished EARLY | YES | NO | LIVE eligibility/PASS reasons; FIXTURE qualified ENTER, immutable origin and recovery | Qualification only |
-| 2. Independent FINAL | YES | NO | LIVE UP/DOWN probabilities, direction, confidence, publication ID, UNLOCKED/PASS; FIXTURE qualified call | Qualification only |
-| 3. FINAL → EARLY helper/protection | YES | NO | FIXTURE explicit origin linkage, confirmation, strengthening, weakening, MIXED, opposition/flip, clearance and latched PROTECT; LIVE no false linkage without origin | Qualification only |
-| 4. Actionable SCALP lifecycle | YES | NO | LIVE V8.1 eligibility/PASS/provenance; FIXTURE ENTER/HOLD/WATCH/CAUTION/PROTECT/EXIT and serial ownership | Qualification only |
-| 5. Recovered profit protection | YES | NO | FIXTURE frozen +5¢ arm / 4¢ giveback; risk-policy evidence status preserved | Qualification only |
-| 6. Latched EXIT | YES | NO | FIXTURE actual-bid terminal, recovery, no repricing, handoff/re-entry/reversal | Qualification only |
-| 7. Executable prices | YES | NO | LIVE accepted timestamped executable book; FIXTURE immutable origin ask, strictly later same-contract/same-side bids and actual EXIT bid | Qualification only |
-| 8. 5M CAUTION | YES | NO | FIXTURE causal weakening/conflict/pullback caution; no timer EXIT authority | Qualification only |
-| 9. 3M guard rails | YES | NO | FIXTURE limited-runway caution; stronger PROTECT/EXIT preserved | Qualification only |
-| 10. Flip-risk | YES | NO: informational | LIVE percentage and MODEL_INFORMATION_ONLY authority; FIXTURE cannot independently invoke EXIT | Qualification only |
-| 11. PASS / UNAVAILABLE | YES | NO | LIVE fresh PASS and SOURCE_EXPIRED UNAVAILABLE; FIXTURE future/nonfinite/mismatched/stale fail-closed branches | Qualification only |
-| 12. Permanent bounded journal | YES | NO | LIVE both lane publications, SQLite coverage readback, volume restart recovery and official pending-result receipts; FIXTURE event/checkpoint atomicity, origin/terminal recovery and bounds | Qualification only |
-| 13. Exact Kalshi alignment | YES | NO | LIVE both lanes match official ticker, 900-second window and unchanged target before/after restart; FIXTURE target/identity mutation rejection | Qualification only |
-| 14. BRTI ≤5 seconds | YES | NO | LIVE true source ages at publication and read; accepted quote/Coinbase freshness and causal timing; FIXTURE future/rollback rejection | Qualification only |
-| 15. SIGNAL ONLY | YES | NO | LIVE signal_only=true, manual_execution_only=true; frozen UI/fixture enforcement | Qualification only |
-| 16. NO ORDERS | YES | NO | LIVE orders=false; unchanged certified source/manifest, no order placement/routing/object or credential expansion introduced | Qualification only |
+| 1. Finished EARLY | YES | NO | LIVE eligibility/PASS reasons; FIXTURE qualified ENTER, immutable origin and recovery | NO (qualification only) |
+| 2. Independent FINAL | YES | NO | LIVE UP/DOWN probabilities, direction, confidence, publication ID, UNLOCKED/PASS; FIXTURE qualified call | NO (qualification only) |
+| 3. FINAL → EARLY helper/protection | YES | NO | FIXTURE explicit origin linkage, confirmation, strengthening, weakening, MIXED, opposition/flip, clearance and latched PROTECT; LIVE no false linkage without origin | NO (qualification only) |
+| 4. Actionable SCALP lifecycle | YES | NO | LIVE V8.1 eligibility/PASS/provenance; FIXTURE ENTER/HOLD/WATCH/CAUTION/PROTECT/EXIT and serial ownership | NO (qualification only) |
+| 5. Recovered profit protection | YES | NO | FIXTURE frozen +5¢ arm / 4¢ giveback; risk-policy evidence status preserved | NO (qualification only) |
+| 6. Latched EXIT | YES | NO | FIXTURE actual-bid terminal, recovery, no repricing, handoff/re-entry/reversal | NO (qualification only) |
+| 7. Executable prices | YES | NO | LIVE accepted timestamped executable book; FIXTURE immutable origin ask, strictly later same-contract/same-side bids and actual EXIT bid | NO (qualification only) |
+| 8. 5M CAUTION | YES | NO | FIXTURE causal weakening/conflict/pullback caution; no timer EXIT authority | NO (qualification only) |
+| 9. 3M guard rails | YES | NO | FIXTURE limited-runway caution; stronger PROTECT/EXIT preserved | NO (qualification only) |
+| 10. Flip-risk | YES | NO: informational | LIVE percentage and MODEL_INFORMATION_ONLY authority; FIXTURE cannot independently invoke EXIT | NO (qualification only) |
+| 11. PASS / UNAVAILABLE | YES | NO | LIVE fresh PASS and SOURCE_EXPIRED UNAVAILABLE; FIXTURE future/nonfinite/mismatched/stale fail-closed branches | NO (qualification only) |
+| 12. Permanent bounded journal | YES | NO | LIVE both lane publications, SQLite coverage readback, volume restart recovery and official pending-result receipts; FIXTURE event/checkpoint atomicity, origin/terminal recovery and bounds | NO (qualification only) |
+| 13. Exact Kalshi alignment | YES | NO | LIVE both lanes match official ticker, 900-second window and unchanged target before/after restart; FIXTURE target/identity mutation rejection | NO (qualification only) |
+| 14. BRTI ≤5 seconds | YES | NO | LIVE true source ages at publication and read; accepted quote/Coinbase freshness and causal timing; FIXTURE future/rollback rejection | NO (qualification only) |
+| 15. SIGNAL ONLY | YES | NO | LIVE signal_only=true, manual_execution_only=true; frozen UI/fixture enforcement | NO (qualification only) |
+| 16. NO ORDERS | YES | NO | LIVE orders=false; unchanged certified source/manifest, no order placement/routing/object or credential expansion introduced | NO (qualification only) |
 
 Additional classifications:
 
 - **DONE:** exact deployment/configuration readback, frozen-byte startup verification before and after controlled restarts, required persistent storage, staged MAIN→V8.1 URL/CORS, source/official alignment, readable independent FINAL, journal readback/recovery, existing 91-test functional gate and official receipt-path functional check.
-- **MISSING:** no blocking product implementation or brief functional qualification item identified. Live origin-linked protection/EXIT/handoff events and finalized live journal outcomes were not observed; their fixture coverage is explicit. Both lanes did receive and persist real official pending-result receipts. Production promotion approval and production V8.1 persistent storage remain outstanding.
+- **MISSING:** no blocking product implementation or brief functional qualification item identified. Live origin-linked protection/EXIT/handoff events and finalized live journal outcomes were not observed; their fixture coverage is explicit. Both lanes did receive and persist real official pending-result receipts. Production promotion approval and actual production V8.1 persistent-storage provisioning/durability verification remain outstanding; its new volume is staged only.
 - **SHADOW-ONLY / observational:** historical alternative exit policies and +8/+10/+15/+20/+30¢ target / −10¢ comparison-stop telemetry have no additional execution authority. Legacy shadow wrappers remain research/informational; they do not replace the active V2 product endpoint.
 - **QUALIFIED:** exact V2 for brief signal-only functional/wiring operation, with the LIVE/FIXTURE distinction above. Not qualified for an 85%/90% reliability claim, FINAL calibration, profitable SCALP execution or increased signal frequency.
 - **DEPLOYED:** exact V2 on qualification MAIN and V8.1 only. Production still runs the older frozen baseline.
@@ -59,7 +59,7 @@ Additional classifications:
 
 Evidence directory: [qualification/v2_live_20261004](qualification/v2_live_20261004). Raw JSON contains source timestamps, original responses, deployment IDs and fixture output. The original approval payload [BTC15_V2_RAILWAY_STAGED_20261003.json](qualification/BTC15_V2_RAILWAY_STAGED_20261003.json) is unchanged; SHA256 2c6165d819d7e2db8813b95af59d0490a0e3762e716ce8677e586112fc7fe5e7.
 
-The user applied the exact 57-field / four-resource patch in Railway's dashboard. The old connector cancellation was an authorization-path failure, not a rejection of the candidate. No connector deployment attempt was repeated in this mission. Readback now shows the services/volumes LIVE and no pending environment patch.
+The user applied the exact 57-field / four-resource patch in Railway's dashboard. The old connector cancellation was an authorization-path failure, not a rejection of the candidate. No connector deployment attempt was repeated in this mission. At qualification completion, readback showed the services/volumes LIVE and no pending environment patch. The subsequent production-preparation transition is documented below.
 
 Project noble-warmth / baea4e22-d004-4434-b2c5-81a7fbc05086; environment named production / 61775c5d-c583-4dfc-af41-f25578856fd9. Only the two isolated qualification services were restarted. Environment naming does not imply production service promotion.
 
@@ -116,23 +116,92 @@ python -m unittest test_btc15_ladder_completion_v1 test_btc15_scalp_journal_v1 t
 
 This gate covers the immutable EARLY origin/helper sequence, independent FINAL fallback, SCALP actual ask/later bid, protection/overshoot/latched EXIT, serial handoff/re-entry/reversal, target/stop chronology, 5M/3M context, flip informational authority, future/stale/sequence rejection, checkpoint identity and durable atomicity. Its synthetic signals are not market observations. Prior exact-SHA hosted CI remains successful; no new broad test campaign was started.
 
-## Production unchanged and next approval
+## Exact production patch prepared — STOP for approval
 
-Production MAIN deployment remains **6a6581ba-fc0a-4021-84c4-9c1896c4f179**. Production V8.1 remains **54a117aa-1809-4c56-8d32-190fbc5c1ce9**. Neither service was restarted, redeployed, reconfigured or given a new volume. No production changes are staged.
+Newest post-qualification authority was read directly from repository commit **11f874c1f033dbae40a3f196ebf79ae79fb2f0ec** before preparation. It consistently records all sixteen capabilities BUILT/DONE, offline QUALIFIED, and brief functional/live-wiring QUALIFIED within the documented LIVE/FIXTURE scope. No runtime source, thresholds, weights, protection policy, timing, freshness or strategy behavior was changed.
 
-**Current blocker/next action: separate explicit production-promotion approval.** Brief V2 functional qualification passes; product logic remains frozen. The proposal is concrete but NOT STAGED, NOT APPROVED and NOT APPLIED:
+**Current blocker/next action: explicit user approval of the exact pending production patch.**
 
-[Exact production proposal](qualification/BTC15_V2_PRODUCTION_PROMOTION_PROPOSAL_20261004.json).
+Railway patch **bac367fe-44f2-4d94-b5e2-d2e623340f46** is **STAGED, NOT COMMITTED**, with **24 fields across exactly three resources**. Snapshot update timestamp: **2026-10-04T03:02:26.998Z**. The new V8.1 volume is staged-create, not mounted/provisioned. Production durability must be verified after approved deployment.
 
-| Proposed resource | Exact production action requiring approval |
+Machine-readable approval authority: [BTC15_V2_PRODUCTION_STAGED_20261004.json](qualification/BTC15_V2_PRODUCTION_STAGED_20261004.json). It contains every before/after field, source SHA, literal non-secret variable assignment, removal, complete start commands, exact resource allowlist, qualified-configuration differences, credential-binding treatment, sixteen-capability reconciliation and readback. It supersedes the earlier proposed-only JSON as the operational approval payload; that historical proposal is preserved.
+
+Project **noble-warmth / baea4e22-d004-4434-b2c5-81a7fbc05086**; environment **production / 61775c5d-c583-4dfc-af41-f25578856fd9**.
+
+| Resource | Exact staged operation |
 |---|---|
-| Btc-15min-bot / ab28dca6-7bea-4956-bdb9-dbb7b4c74635 | Pin release/ladder-completion-20261003 to MAIN de4f3e20b8657eb8cfee91bd4e525c103b5bf513; use the already-qualified MAIN mount-guard/frozen-verifier/installer start command. Keep existing 10,000 MB /data volume 6ced6b1a-3755-4518-a240-c895e936d443 and its contents. Set BTC15_LADDER_DATA_ROOT=/data/btc15_ladders_v2 and BTC15_V81_LADDERS_URL=https://v81-live-diagnostics-production.up.railway.app/ladders. Remove BTC15_CAPTURE_ACTIVATION to keep retired capture disabled. |
-| v81-live-diagnostics / 6025e83e-a41c-4e0a-8c16-f71120bd501b | Pin release/v81-ladder-completion-20261003 to V8.1 60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1; use the already-qualified V8.1 mount-guard/frozen-verifier/live-feed start command. Set BTC15_LADDER_DATA_ROOT=/data/btc15_ladders_v2 and PORT=8080. Remove BTC15_CAPTURE_ACTIVATION. |
-| New production volume btc15-v81-ladder-journal-v2 | Create 2,048 MB in iad and mount /data on production V8.1 only. Production V8.1 currently has no persistent volume. Do not move either qualification volume or reuse its data as a new production denominator. |
+| Btc-15min-bot / ab28dca6-7bea-4956-bdb9-dbb7b4c74635 | Update only source pin, start/restart policy and listed variables. Before SHA abe212b513827c8cec28a2f64e0161e79296bd82 → after SHA de4f3e20b8657eb8cfee91bd4e525c103b5bf513 on release/ladder-completion-20261003. |
+| v81-live-diagnostics / 6025e83e-a41c-4e0a-8c16-f71120bd501b | Update only source pin, start/restart policy, listed variables and new volume mount. Before SHA b05723ec622f901a05402ecf27f4d33505753ef1 → after SHA 60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1 on release/v81-ladder-completion-20261003. |
+| btc15-v81-ladder-journal-v2 / d5eeafca-e0fc-42f0-b7d1-4705907720c6 | Stage creation of exactly one 2,048 MB volume in iad, mounted at /data on production V8.1. Currently staged-create. |
 
-Both proposed production services use RAILPACK, one iad replica, existing domains/port8080, /health, MAIN120s/V8.1 30s health timeout, ON_FAILURE10 as qualified. Preserve all other variables and credentials; no shared-variable/BRTI-owner changes. Qualification services/volumes remain unchanged. The proposal replaces the legacy MAIN inventory/preservation startup wrapper with the qualified frozen verifier command; it deletes no existing evidence.
+MAIN's existing **10,000 MB** volume **6ced6b1a-3755-4518-a240-c895e936d443** remains attached at /data, unchanged in size, identity and configuration. No move, replacement, wipe, truncation or historical-evidence operation is staged. Both lanes use /data/btc15_ladders_v2, with lane-specific SQLite/JSON files coexisting with existing evidence.
 
-Approval would touch production and cause deployment startup interruption. After explicit approval, stage only these three resources, review the exact pending scope, apply through the supported Railway confirmation path, verify frozen startup/source wiring and production journal durability, then update this document. Preserve current production deployment/configuration receipts and all volumes for rollback. PR #53 is not silently merged or undrafted.
+### Exact variable changes and preserved references
+
+| Production service | Variable | Before → after on commit |
+|---|---|---|
+| MAIN | BTC15_LADDER_DATA_ROOT | Absent → /data/btc15_ladders_v2 |
+| MAIN | BTC15_V81_LADDERS_URL | Absent → https://v81-live-diagnostics-production.up.railway.app/ladders |
+| MAIN | BTC15_CAPTURE_ACTIVATION | Present → removed |
+| V8.1 | BTC15_LADDER_DATA_ROOT | Absent → /data/btc15_ladders_v2 |
+| V8.1 | PORT | Absent → 8080 |
+| V8.1 | BTC15_CAPTURE_ACTIVATION | Present → removed |
+
+Only the two retired capture activations are removed. No other existing variable is changed. Inventory may continue displaying the live capture name while deletion is pending; the raw patch explicitly records removal, and live configuration is intentionally unchanged.
+
+Existing KALSHI_KEY_ID and KALSHI_PRIVATE_KEY_B64 bindings remain untouched on each production service. Qualification referenced those keys on Btc-15min-bot and v81-live-diagnostics respectively. Production retains those exact source bindings; it does not add self-references or copy/recreate credential values. The snapshot contains the exact Railway reference expressions used in qualification, every preserved variable name and the KEEP_EXISTING_BINDING_UNCHANGED instruction.
+
+Existing BTC15_BRTI_SHARED_URL, BTC15_BRTI_TRANSPORT and MAIN BTC15_BRTI_GATEWAY_URL remain unchanged. Shared-BRTI/export/provenance/live flags retain their established production bindings; qualification used those same source bindings or documented literals. OAuth readback exposes names, not secret values. No secret was read, printed, rotated, replaced or recreated. No new BRTI owner or shared variable is staged.
+
+### Exact startup and deployment settings
+
+MAIN's legacy inventory/preservation wrapper is replaced by the exact qualified MAIN command:
+
+~~~sh
+/bin/sh -c 'test "$RAILWAY_VOLUME_MOUNT_PATH" = "/data" && test -n "$RAILWAY_VOLUME_ID" && python btc15_verify_ladder_freeze_v2.py --lane main && exec python -u btc15_information_install_v1.py'
+~~~
+
+V8.1's prior command was python -u v81_30_45_live_feed.py. It is replaced by the exact qualified V8.1 command:
+
+~~~sh
+/bin/sh -c 'test "$RAILWAY_VOLUME_MOUNT_PATH" = "/data" && test -n "$RAILWAY_VOLUME_ID" && python btc15_verify_ladder_freeze_v2.py --lane v81 && exec python -u v81_30_45_live_feed.py'
+~~~
+
+Both fail before runtime startup when required Railway volume metadata is absent and verify the frozen lane bytes. Removing the old MAIN wrapper deletes no evidence; V2 writes its separate bounded journal paths.
+
+Staged deployment overrides are ON_FAILURE and maximum retries 10 for both. MAIN previously omitted those serialized overrides; V8.1 previously had retry override 3. Both exact qualified source commits contain railway.json with ON_FAILURE/10, so the explicit production setting matches the qualified policy.
+
+Healthchecks are unchanged: /health, MAIN120s, V8.1 30s. Builder RAILPACK, one iad replica, runtime V2, existing domains/port8080, IPv6 and existing networking remain unchanged. No custom build/pre-deploy command, tracing, resource-limit change, extra service, or PR merge is included.
+
+### Difference from qualified configuration
+
+All differences are explained in the approval snapshot:
+
+- Existing production names/domains replace qualification names/domains; MAIN points to production V8.1 /ladders.
+- Volume IDs differ by isolation; MAIN retains its larger existing volume and history. Journal paths, bounds and code are identical.
+- Production retains the exact bindings referenced by qualification, rather than adding self-references or exposing values.
+- ON_FAILURE/10 is explicit in production and is the same policy in both qualified source railway.json files.
+- Existing source.checkSuites=false and MAIN private DNS label remain unchanged. Exact commit pins prevent automatic branch advancement.
+- The connector reasserts the same repository and clears an already absent image field on each service. These four non-semantic bookkeeping fields are counted in the 24-field patch.
+- Existing MAIN BTC15_VOLUME_DIAG is preserved because it is not on the removal allowlist. Static inspection found no reference in the checked frozen Python sources or five decoded installer payloads. The qualified startup command does not invoke the legacy inventory wrapper.
+
+No unexplained strategy or source-semantic difference was identified.
+
+### Isolation and approval audit
+
+Readback verifies all 24 pending field paths and values against the expected allowlist. There are exactly three resources, zero shared-variable changes, zero unrelated resource changes and no destructive volume operation.
+
+Both production live configurations and variable-name inventories remain identical to the pre-preparation readback. Production deployment IDs remain **6a6581ba-fc0a-4021-84c4-9c1896c4f179** (MAIN) and **54a117aa-1809-4c56-8d32-190fbc5c1ce9** (V8.1), at their baseline SHAs. No production deployment, restart, rebuild or live configuration application occurred.
+
+Both qualification services, their two volumes, source pins, variables, domains, tracing settings and deployment IDs are unchanged, with zero per-service staged changes. PR #53 remains DRAFT / DO NOT DEPLOY; no merge or undraft is required to deploy the exact pinned commits after approval.
+
+Supporting receipts: [v2_production_preparation_20261004](qualification/v2_production_preparation_20261004). The narrow capture-variable removal tool timed out after staging exactly its two pending removals; independent readback established the outcome, so it was not retried. No deployment approval action was invoked.
+
+Before committing after approval, re-read the pending patch and require the same patch ID, timestamp, 24 fields, three resource IDs, pins, commands, variables and mounts. If anything was added or changed, STOP. Railway commits the entire pending environment patch.
+
+Required user reply: **APPROVE EXACT V2 PRODUCTION PROMOTION**.
+
+After that separate approval only: apply the exact reviewed patch through the supported Railway confirmation path, verify actual production frozen startup, mounts/journal durability, production /ladders wiring, causal freshness/official alignment and SIGNAL ONLY / NO ORDERS, then update this document. Preserve both qualification services and all volumes until a later explicitly authorized cleanup decision. No multi-day performance hold or strategy change is part of promotion.
 
 ## Permanent anti-drift rules
 
