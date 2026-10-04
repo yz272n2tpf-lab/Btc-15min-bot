@@ -1,0 +1,15 @@
+{
+  "request_observed_at": "2026-10-04T04:39:27.476Z",
+  "authoritative_docs_commit_before_run": "bdfb6507d039d5c77a964a9e2afa3dbdfe37990e",
+  "result": {
+    "success": true,
+    "automation_id": "6a9a3752ab6c8191a728578348df6984",
+    "message": "Immediate run requested. The saved schedule is unchanged.",
+    "automation": null,
+    "assistant_response_guidance": "Confirm only that an immediate run was requested. Execution and delivery happen asynchronously using the task's saved settings; do not claim that the task has completed or that a message has been delivered."
+  },
+  "run_completion_verified": false,
+  "delivery_verified": false,
+  "no_schedule_prompt_or_task_creation": true,
+  "user_action": "ChatGPT Settings > Notifications: enable desired available task notification channel, grant any requested device/browser permission, then confirm actual daily-test receipt."
+}

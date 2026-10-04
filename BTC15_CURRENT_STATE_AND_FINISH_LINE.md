@@ -1,6 +1,6 @@
 # BTC15 current state and finish line
 
-Updated: 2026-10-04T04:38:21.994138+00:00. Transition: USER_APPLIED_EXACT_V2 → PRODUCTION_OPERATION_VERIFIED → OPERATING_CLOSEOUT_PARTIAL.
+Updated: 2026-10-04T04:40:34.284920+00:00. Transition: USER_APPLIED_EXACT_V2 → PRODUCTION_OPERATION_VERIFIED → OPERATING_CLOSEOUT_PARTIAL.
 
 **V2 production is deployed and serving. Do not redeploy or repeat qualification.** The former STAGED / AWAIT APPROVAL state at documentation commit `677200b3ad1a40c555e50394b485d6445887a909` is superseded by the user's dashboard application of patch `bac367fe-44f2-4d94-b5e2-d2e623340f46` and the successful live readbacks below. Deployment initiation was not accepted as completion. No assistant deployment, restart, runtime edit, threshold change or order was performed.
 
@@ -64,7 +64,7 @@ These are lane-specific recording starts, not complete-window statistical cohort
 
 ## Alerts, cleanup and handoff
 
-The existing daily scorecard and hourly integrity watch are enabled and their saved prompts are V2-aligned. They were not duplicated or rewritten. Notification delivery remains PENDING until a supported run and actual receipt are confirmed; see the consolidated checklist for the test receipt.
+The existing daily scorecard and hourly integrity watch are enabled and their saved prompts are V2-aligned. They were not duplicated or rewritten. The existing daily task accepted one immediate run request after the deployed-state handoff was committed; its schedule and prompt were unchanged. Execution completion and notification delivery remain PENDING; see `alert_test_request.json` in the evidence directory and the consolidated checklist. Do not create a duplicate or repeat the test request.
 
 Archive cleanup is BLOCKED at shared-browser authentication. The user's existing Codespace is reported running, but the one bounded access check still required GitHub sign-in. The Railway UI also required the user's existing-account sign-in. No more authentication attempts or alternate routes were tried. No Codespace, service, deployment, volume, credential or evidence was retired/deleted. All 33 old candidate service UUIDs still exist among 53 current services; that does not imply all are running or that all should retire. Six volumes remain. Current bills and all-platform totals are unverified; the old $52.43/$56.26 numbers were projected Railway CPU+RAM only.
 
