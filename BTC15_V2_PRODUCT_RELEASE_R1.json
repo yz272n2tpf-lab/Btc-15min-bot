@@ -18,7 +18,7 @@
     "btc15_v2_product/admin.py": "33912a9118ba5f5671cdf98848aed18f1601047b6de61892d7e939d410fb8f84",
     "btc15_v2_product/bootstrap.py": "d92c039051a9b2fda51db8d6e4f840c3e3a36091341dca2ce1e521146bf401ec",
     "btc15_v2_product/installer.py": "0dc5c7d16e2144ade194fc451517bf9766a9d81dd4a286b97002dad57c142243",
-    "btc15_v2_product/journal.py": "fc7e643cbcdff7f8e8a43197f2af21c5c4a1f6713ad14b5bc95e11969a968d90",
+    "btc15_v2_product/journal.py": "c66deea9ec77d7ab4a00dbcef0d367442849747836a54a8f5429895557a32d9b",
     "btc15_v2_product/panel.js": "f57516e2a37e1fff408e7044af0cc7c141cf0d6629839dc285ac3cf91d4bcedd",
     "btc15_v2_product/quote_view.py": "897261eba37b191c1ae356c5017f3b1c9cef3c008f206547fd02beef2598bb29",
     "btc15_v2_product/release.py": "0d804e80104a8989e492e7219fd53e32d8e10c9baf963685a066b5af69daced5",
@@ -49,6 +49,7 @@
     }
   },
   "performance_optimization": "NONE: production stall not reproduced offline; stage instrumentation only",
+  "publication_repair": "MAIN background BRTI closeouts wait for durable queue progress; native admission, cadence and fail-closed gates unchanged. Oct 4 incident attribution PROBABLE / NOT PROVEN.",
   "source_change": "Official metadata preparation and SAME timestamped WS provider, native consumption/qualification unchanged",
   "evidence_change": "Separate revision/deployment root; startup/restart slot excluded; additive admin only; strict classifier unchanged",
   "deployment": "NOT_AUTHORIZED; startup requires reviewed manifest/build authorization or reviewed receipt; scoring requires independent actual deployment receipt"

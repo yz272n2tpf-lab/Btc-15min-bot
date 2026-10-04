@@ -26,6 +26,7 @@ def build():
         files_sha256={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(files)},
         lane_protected_files=protected,
         performance_optimization='NONE: production stall not reproduced offline; stage instrumentation only',
+        publication_repair='MAIN background BRTI closeouts wait for durable queue progress; native admission, cadence and fail-closed gates unchanged. Oct 4 incident attribution PROBABLE / NOT PROVEN.',
         source_change='Official metadata preparation and SAME timestamped WS provider, native consumption/qualification unchanged',
         evidence_change='Separate revision/deployment root; startup/restart slot excluded; additive admin only; strict classifier unchanged',
         deployment='NOT_AUTHORIZED; startup requires reviewed manifest/build authorization or reviewed receipt; scoring requires independent actual deployment receipt')

@@ -9,7 +9,7 @@ ROOT=Path(__file__).resolve().parents[2]
 SUITE=['test_btc15_ladder_completion_v1','test_btc15_product_logic_v2','test_btc15_scalp_journal_v1',
        'test_directional_position_manager_v1','test_btc15_frozen_fair_production',
        'test_btc15_information_static','test_btc15_information_integration','test_btc15_information_v1',
-       'test_btc15_v2_product_r1','test_btc15_kalshi_quote_provenance_regressions',
+       'test_btc15_v2_product_r1','test_btc15_v2_replay_regression','test_btc15_kalshi_quote_provenance_regressions',
        'test_btc15_brti_delivery_v1','test_btc15_decision_clock_v1']
 
 def main():

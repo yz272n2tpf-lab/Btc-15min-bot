@@ -3,6 +3,8 @@ from copy import deepcopy
 import json
 import os
 from pathlib import Path
+import queue
+import threading
 import time
 import uuid
 import btc15_ladder_journal_v1 as frozen
@@ -74,8 +76,66 @@ class ProcessorEnvelope:
 
 class RevisionWorker(ORIGINAL_WORKER):
     def __init__(self,root,lane,processor,clock=time.time):
+        self.replay_lock=threading.Lock()
+        self.replay_committed=self.replay_waits=self.replay_failures=0
         super().__init__(root,lane,ProcessorEnvelope(processor,lane),clock)
+
+    def _replay_status(self,status):
+        receipt=dict(schema='BTC15_CLOSEOUT_BACKPRESSURE_R1',lane=self.lane,status=status,
+            committed=self.replay_committed,waits=self.replay_waits,failures=self.replay_failures,
+            accepted=self.accepted,written=self.written,drops=self.dropped,queue_depth=self.queue.qsize(),
+            reason=self.failed,signal_only=True,orders=False)
+        print('LADDER CLOSEOUT REPLAY | '+json.dumps(receipt),flush=True)
+        admin=ADMINS.get(self.lane)
+        if admin:admin.offer(receipt)
+
+    def _replay_healthy(self):
+        if self.failed or not self.thread.is_alive():
+            raise RuntimeError(self.failed or 'JOURNAL_WORKER_STOPPED')
+
+    def _replay_drain(self):
+        # Wait ONLY on the background closeout caller. Native offer stays nonblocking.
+        # task_done follows commit (and, for native records, atomic JSON replacement).
+        if self.queue.unfinished_tasks:
+            self.replay_waits+=1
+            if self.replay_waits & (self.replay_waits-1)==0:self._replay_status('BACKPRESSURE')
+        with self.queue.all_tasks_done:
+            while self.queue.unfinished_tasks:
+                self._replay_healthy()
+                self.queue.all_tasks_done.wait(.1)
+        self._replay_healthy()
+
+    def _offer_closeout(self,value):
+        # The frozen copier durably appends native-cohort.jsonl before calling us.
+        # Admit at most one replay record until durable progress, instead of filling
+        # the 16-slot action queue. No processor/state/journal format is changed.
+        with self.replay_lock:
+            try:
+                self._replay_drain()
+                while True:
+                    self._replay_healthy()
+                    try:
+                        self.queue.put((value,None),timeout=.1)
+                        self.accepted+=1
+                        break
+                    except queue.Full:
+                        # A concurrent native burst may take the available slots.
+                        # Replay waits; it must never latch JOURNAL_QUEUE_FULL.
+                        self.replay_waits+=1
+                        if self.replay_waits & (self.replay_waits-1)==0:self._replay_status('BACKPRESSURE')
+                self._replay_drain()
+                self.replay_committed+=1
+                return True
+            except RuntimeError:
+                self.replay_failures+=1
+                self._replay_status('FAILED')
+                # The frozen copier logs this exception; the durable cohort row is
+                # retained. Never acknowledge a closeout after a writer failure.
+                raise
+
     def offer(self,value):
+        if self.lane=='main' and value is not None and value.get('kind')=='BRTI_CLOSEOUT':
+            return self._offer_closeout(value)
         a=getattr(LOCAL,'attempt',None)
         result=super().offer((value,a['attempt_id'] if a else None)) if value is not None else super().offer(None)
         admin=ADMINS.get(self.lane)
