@@ -1,0 +1,226 @@
+{
+  "candidate": "BTC15_LADDER_COMPLETION_20261003_V2",
+  "observed_at": 1791081756.714073,
+  "lanes": {
+    "main": {
+      "result": "PASS",
+      "deploy_id": "49b15e63-fdf8-4dd6-9589-de222bbe5fdf",
+      "sha": "de4f3e20b8657eb8cfee91bd4e525c103b5bf513",
+      "volume": {
+        "id": "b6304c46-7027-4bfd-932d-94bb9c67da8e",
+        "name": "btc15-v2-main-journal",
+        "mountPath": "/data",
+        "sizeMB": 2048,
+        "region": "iad",
+        "state": "live"
+      },
+      "journal_root": "/data/btc15_ladders_v2",
+      "variable_names_match": true,
+      "values_readback": "OAuth names only; approved applied snapshot plus live wiring",
+      "start_command_matches": true,
+      "samples": [
+        {
+          "published_ts": 1791081160.2915158,
+          "served_ts": 1791081162.799902,
+          "status": "PASS",
+          "source_ages_at_publication": {
+            "brti_age": 1.291515827178955,
+            "quote_age": 0.07451581954956055,
+            "btc_age": 1.2418618202209473
+          },
+          "source_ages_at_read": {
+            "brti_age": 3.7999019622802734,
+            "quote_age": 2.582901954650879,
+            "btc_age": 3.7502479553222656
+          }
+        },
+        {
+          "published_ts": 1791081562.5796282,
+          "served_ts": 1791081564.0458791,
+          "status": "PASS",
+          "source_ages_at_publication": {
+            "brti_age": 2.5796282291412354,
+            "quote_age": 0.0806281566619873,
+            "btc_age": 0.5405211448669434
+          },
+          "source_ages_at_read": {
+            "brti_age": 4.045879125595093,
+            "quote_age": 1.5468790531158447,
+            "btc_age": 2.006772041320801
+          }
+        }
+      ],
+      "journal_before": {
+        "denominator": "contracts",
+        "drops": 0,
+        "max_records": 300000,
+        "queue_depth": 0,
+        "quiet_means": "OBSERVED_WITHOUT_SIGNAL; inspect missing flag",
+        "retained_from_sequence": 1,
+        "retention_days": 30,
+        "schema": "BTC15_LADDER_JOURNAL_V1",
+        "sequence": 22,
+        "settlement": "OFFICIAL_KALSHI_FINALIZED_ONLY",
+        "written": 22
+      },
+      "journal_after": {
+        "denominator": "contracts",
+        "drops": 0,
+        "max_records": 300000,
+        "queue_depth": 0,
+        "quiet_means": "OBSERVED_WITHOUT_SIGNAL; inspect missing flag",
+        "retained_from_sequence": 1,
+        "retention_days": 30,
+        "schema": "BTC15_LADDER_JOURNAL_V1",
+        "sequence": 94,
+        "settlement": "OFFICIAL_KALSHI_FINALIZED_ONLY",
+        "written": 14
+      },
+      "persisted_pre_restart_records": 80,
+      "coverage_first_at_unchanged": 1791081055.2781744,
+      "coverage_observations_before": 24,
+      "coverage_observations_after": 95,
+      "live_origin_observed": false,
+      "live_exit_observed": false
+    },
+    "v81": {
+      "result": "PASS",
+      "deploy_id": "39c95226-fff1-4f5f-8ce4-606c5e446a70",
+      "sha": "60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1",
+      "volume": {
+        "id": "97cc9dcd-ef90-495e-a1be-ffda31eac1b3",
+        "name": "btc15-v2-v81-journal",
+        "mountPath": "/data",
+        "sizeMB": 2048,
+        "region": "iad",
+        "state": "live"
+      },
+      "journal_root": "/data/btc15_ladders_v2",
+      "variable_names_match": true,
+      "values_readback": "OAuth names only; approved applied snapshot plus live wiring",
+      "start_command_matches": true,
+      "samples": [
+        {
+          "published_ts": 1791081163.6403048,
+          "served_ts": 1791081164.3475454,
+          "status": "PASS",
+          "source_ages_at_publication": {
+            "brti_age": 1.6403048038482666,
+            "quote_age": 0.03730487823486328,
+            "btc_age": 0.6434206962585449
+          },
+          "source_ages_at_read": {
+            "brti_age": 2.3475453853607178,
+            "quote_age": 0.7445454597473145,
+            "btc_age": 1.350661277770996
+          }
+        },
+        {
+          "published_ts": 1791081553.0164096,
+          "served_ts": 1791081553.3338978,
+          "status": "PASS",
+          "source_ages_at_publication": {
+            "brti_age": 2.0164096355438232,
+            "quote_age": 0.039409637451171875,
+            "btc_age": 2.16029953956604
+          },
+          "source_ages_at_read": {
+            "brti_age": 2.333897829055786,
+            "quote_age": 0.35689783096313477,
+            "btc_age": 2.477787733078003
+          }
+        }
+      ],
+      "journal_before": {
+        "denominator": "contracts",
+        "drops": 0,
+        "max_records": 300000,
+        "queue_depth": 0,
+        "quiet_means": "OBSERVED_WITHOUT_SIGNAL; inspect missing flag",
+        "retained_from_sequence": 1,
+        "retention_days": 30,
+        "schema": "BTC15_LADDER_JOURNAL_V1",
+        "sequence": 146,
+        "settlement": "OFFICIAL_KALSHI_FINALIZED_ONLY",
+        "written": 146
+      },
+      "journal_after": {
+        "denominator": "contracts",
+        "drops": 0,
+        "max_records": 300000,
+        "queue_depth": 0,
+        "quiet_means": "OBSERVED_WITHOUT_SIGNAL; inspect missing flag",
+        "retained_from_sequence": 1,
+        "retention_days": 30,
+        "schema": "BTC15_LADDER_JOURNAL_V1",
+        "sequence": 535,
+        "settlement": "OFFICIAL_KALSHI_FINALIZED_ONLY",
+        "written": 55
+      },
+      "persisted_pre_restart_records": 480,
+      "coverage_first_at_unchanged": 1791081018.6079752,
+      "coverage_observations_before": 156,
+      "coverage_observations_after": 538,
+      "live_origin_observed": false,
+      "live_exit_observed": false
+    }
+  },
+  "scope": "BRIEF_FUNCTIONAL_ONLY_NOT_PERFORMANCE_QUALIFICATION",
+  "official": {
+    "ticker": "KXBTC15M-26OCT032245-45",
+    "open": 1791081000.0,
+    "close": 1791081900.0,
+    "target": 84822.76
+  },
+  "production_unchanged": {
+    "production_main": "6a6581ba-fc0a-4021-84c4-9c1896c4f179",
+    "production_v81": "54a117aa-1809-4c56-8d32-190fbc5c1ce9"
+  },
+  "approved_snapshot_sha256": "2c6165d819d7e2db8813b95af59d0490a0e3762e716ce8677e586112fc7fe5e7",
+  "live_settlement_receipts": {
+    "main": {
+      "read_at": 1791082064.733184,
+      "settlement": {
+        "close_ts": 1791081900,
+        "endpoint": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTC15M-26OCT032245-45",
+        "expiration_value": "84792.27",
+        "market_status": "determined",
+        "open_ts": 1791081000,
+        "received_ts": 1791081912.6609042,
+        "result": "no",
+        "settlement_ts": null,
+        "settlement_value_dollars": "0.0000",
+        "side": null,
+        "source": "OFFICIAL_KALSHI_GET_MARKET",
+        "status": "PENDING_OR_NONBINARY",
+        "target": 84822.76,
+        "ticker": "KXBTC15M-26OCT032245-45"
+      },
+      "classification": "OBSERVED_LIVE_GET_PARSE_COMMIT_READBACK; FINALIZATION_PENDING_NOT_INFERRED"
+    },
+    "v81": {
+      "read_at": 1791082064.6778686,
+      "settlement": {
+        "close_ts": 1791081900,
+        "endpoint": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTC15M-26OCT032245-45",
+        "expiration_value": "84792.27",
+        "market_status": "determined",
+        "open_ts": 1791081000,
+        "received_ts": 1791081919.057591,
+        "result": "no",
+        "settlement_ts": null,
+        "settlement_value_dollars": "0.0000",
+        "side": null,
+        "source": "OFFICIAL_KALSHI_GET_MARKET",
+        "status": "PENDING_OR_NONBINARY",
+        "target": 84822.76,
+        "ticker": "KXBTC15M-26OCT032245-45"
+      },
+      "classification": "OBSERVED_LIVE_GET_PARSE_COMMIT_READBACK; FINALIZATION_PENDING_NOT_INFERRED"
+    }
+  },
+  "result": "BRIEF_V2_FUNCTIONAL_QUALIFICATION_PASS",
+  "production_promotion": "NOT_APPROVED_NOT_STAGED_NOT_APPLIED",
+  "finalized_live_settlement_observed": false,
+  "strategy_changes": false
+}

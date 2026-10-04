@@ -1,0 +1,89 @@
+{
+  "kind": "REAL_OFFICIAL_RECEIPT_THROUGH_FROZEN_PROCESSORS_AND_TEMP_JOURNALS_NOT_LIVE_SERVICE_RECEIPT",
+  "source_evidence": "official_prior_settled.json",
+  "transport_note": "Official GET observed separately using urllib; existing frozen SettlementReader transport/control-flow fixture passed in 91-test gate. Scratch Python has no requests; deployed runtime does.",
+  "lanes": {
+    "main": {
+      "persisted_readback": {
+        "contracts": [
+          {
+            "opened": 1791080100,
+            "ticker": "KXBTC15M-26OCT032230-30",
+            "first_at": 1791080101.0,
+            "last_at": 1791080101.0,
+            "observations": 1,
+            "unavailable": 0,
+            "signals": 0,
+            "final_calls": 0,
+            "missing": 0,
+            "settlement_status": "AUTHORITATIVE",
+            "settlement_checked": 1791081681.7375925,
+            "settlement": {
+              "close_ts": 1791081000.0,
+              "endpoint": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTC15M-26OCT032230-30",
+              "expiration_value": "84822.76",
+              "market_status": "finalized",
+              "open_ts": 1791080100.0,
+              "received_ts": 1791081681.7375925,
+              "result": "yes",
+              "settlement_ts": "2026-10-04T02:30:07.213817Z",
+              "settlement_value_dollars": "1.0000",
+              "side": "UP",
+              "source": "OFFICIAL_KALSHI_GET_MARKET",
+              "status": "AUTHORITATIVE",
+              "target": 84817.37,
+              "ticker": "KXBTC15M-26OCT032230-30"
+            },
+            "quiet": true,
+            "coverage_state": "OBSERVED_TO_LAST_RECEIPT"
+          }
+        ],
+        "signal_only": true,
+        "orders": false,
+        "retention_days": 30
+      },
+      "no_origin_created": true
+    },
+    "v81": {
+      "persisted_readback": {
+        "contracts": [
+          {
+            "opened": 1791080100,
+            "ticker": "KXBTC15M-26OCT032230-30",
+            "first_at": 1791080101.0,
+            "last_at": 1791080101.0,
+            "observations": 1,
+            "unavailable": 0,
+            "signals": 0,
+            "final_calls": 0,
+            "missing": 0,
+            "settlement_status": "AUTHORITATIVE",
+            "settlement_checked": 1791081681.7375925,
+            "settlement": {
+              "close_ts": 1791081000.0,
+              "endpoint": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTC15M-26OCT032230-30",
+              "expiration_value": "84822.76",
+              "market_status": "finalized",
+              "open_ts": 1791080100.0,
+              "received_ts": 1791081681.7375925,
+              "result": "yes",
+              "settlement_ts": "2026-10-04T02:30:07.213817Z",
+              "settlement_value_dollars": "1.0000",
+              "side": "UP",
+              "source": "OFFICIAL_KALSHI_GET_MARKET",
+              "status": "AUTHORITATIVE",
+              "target": 84817.37,
+              "ticker": "KXBTC15M-26OCT032230-30"
+            },
+            "quiet": true,
+            "coverage_state": "OBSERVED_TO_LAST_RECEIPT"
+          }
+        ],
+        "signal_only": true,
+        "orders": false,
+        "retention_days": 30
+      },
+      "no_origin_created": true
+    }
+  }
+}

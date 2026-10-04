@@ -1,0 +1,10 @@
+{
+  "url": "https://btc15-v2-v81-qualification-production.up.railway.app/ladders",
+  "http": 200,
+  "headers": {
+    "access-control-allow-origin": "*",
+    "cache-control": "no-store",
+    "content-type": "application/json"
+  },
+  "observed_at": 1791081687.2063944
+}

@@ -1,0 +1,11 @@
+{
+  "http": 200,
+  "observed_at": 1791081560.3012958,
+  "body": {
+    "ok": true,
+    "service": "v81-30-45-live-feed",
+    "signal_only": true,
+    "orders": false,
+    "diagnostic_version": "V81_GATE_DIAG_V1"
+  }
+}

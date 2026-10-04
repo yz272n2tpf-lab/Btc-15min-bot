@@ -1,0 +1,43 @@
+{
+  "observed_at": 1791081499.6015294,
+  "kind": "EXISTING_FROZEN_OFFLINE_FIXTURES_NOT_LIVE_EVENTS",
+  "manifest_sha256": "9333eff3c5db1783a533d484b5c3dd14045f33d3a711729e084603dc86cb69f5",
+  "commands": [
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "btc15_verify_ladder_freeze_v2.py"
+      ],
+      "returncode": 0,
+      "stdout": "FROZEN V2 IDENTITY PASS | main | SIGNAL ONLY | NO ORDERS\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "btc15_verify_ladder_freeze_v2.py",
+        "--lane",
+        "v81",
+        "--root",
+        "../v81"
+      ],
+      "returncode": 0,
+      "stdout": "FROZEN V2 IDENTITY PASS | v81 | SIGNAL ONLY | NO ORDERS\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "unittest",
+        "test_btc15_ladder_completion_v1",
+        "test_btc15_scalp_journal_v1",
+        "test_btc15_product_logic_v2",
+        "test_directional_position_manager_v1"
+      ],
+      "returncode": 0,
+      "stdout": "LADDER PRODUCT | {\"lane\": \"main\", \"status\": \"AVAILABLE\", \"contract\": \"KXBTC15M-26OCT031615-15\", \"sequence\": 1, \"event\": \"BUY\", \"signal_only\": true, \"orders\": false}\nLADDER PRODUCT | {\"lane\": \"v81\", \"status\": \"PASS\", \"contract\": \"KXBTC15M-26OCT031615-15\", \"sequence\": 1, \"event\": null, \"signal_only\": true, \"orders\": false}\nLADDER PRODUCT | {\"lane\": \"v81\", \"status\": \"AVAILABLE\", \"contract\": \"KXBTC15M-26OCT031615-15\", \"sequence\": 2, \"event\": \"SCALP_SIGNAL\", \"signal_only\": true, \"orders\": false}\nLADDER PRODUCT | {\"lane\": \"v81\", \"status\": \"AVAILABLE\", \"contract\": \"KXBTC15M-26OCT031615-15\", \"sequence\": 4, \"event\": \"SCALP_EXIT\", \"signal_only\": true, \"orders\": false}\n",
+      "stderr": "...........................................................................................\n----------------------------------------------------------------------\nRan 91 tests in 0.562s\n\nOK\n"
+    }
+  ]
+}

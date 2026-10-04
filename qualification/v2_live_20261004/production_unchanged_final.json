@@ -1,0 +1,70 @@
+{
+  "observed_at": "2026-10-04T02:47:42.513Z",
+  "production": {
+    "main": {
+      "deployments": [
+        {
+          "id": "6a6581ba-fc0a-4021-84c4-9c1896c4f179",
+          "status": "SUCCESS",
+          "createdAt": "2026-10-03T18:16:25.597Z",
+          "updatedAt": "2026-10-03T18:17:10.390Z",
+          "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+          "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+          "url": null,
+          "snapshotId": "b6817d50-29a2-41be-b3f6-d012306e6b2a",
+          "canRollback": true,
+          "canRedeploy": true,
+          "regions": [
+            "iad"
+          ],
+          "meta": {
+            "reason": "deploy",
+            "commitMessage": "Merge PR51: recover qualified information ingress after startup\n\nHosted run 36475307989: 392/392 tests and all packaged-runtime authority gates passed. Tested tree 8021dc82d5ba43b4e34845d90150b48f6f2bd95b exactly matches local candidate c9c563f and published head 5b93ad9. Owner explicitly authorized controlled rollout after qualification. No strategy/model/timing/source-contract/cohort changes; signal only, no orders.",
+            "commitHash": "abe212b513827c8cec28a2f64e0161e79296bd82",
+            "branch": "main"
+          }
+        }
+      ]
+    },
+    "v81": {
+      "deployments": [
+        {
+          "id": "54a117aa-1809-4c56-8d32-190fbc5c1ce9",
+          "status": "SUCCESS",
+          "createdAt": "2026-10-03T18:16:27.487Z",
+          "updatedAt": "2026-10-03T18:16:57.226Z",
+          "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+          "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+          "url": null,
+          "snapshotId": "b89e3a7a-b3c4-4fdb-a8c1-83ef58c46933",
+          "canRollback": true,
+          "canRedeploy": true,
+          "regions": [
+            "iad"
+          ],
+          "meta": {
+            "reason": "deploy",
+            "commitMessage": "Require timestamped contiguous quotes for V8.1 source qualification\n\nPreserve strategy gates and source clocks. Fail closed on quote/BRTI gaps; keep immutable entry provenance. SIGNAL ONLY / NO ORDERS.",
+            "commitHash": "b05723ec622f901a05402ecf27f4d33505753ef1",
+            "branch": "v81-live-diagnostics-20260912"
+          }
+        }
+      ]
+    }
+  },
+  "pending_patch": {
+    "project": {
+      "id": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+      "name": "noble-warmth"
+    },
+    "environment": {
+      "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+      "name": "production"
+    },
+    "staged": null,
+    "destructive": false,
+    "resources": [],
+    "sharedVariables": [],
+    "privateNetworkDisabled": null
+  }
+}

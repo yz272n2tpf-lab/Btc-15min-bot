@@ -1,0 +1,58 @@
+{
+  "http": 200,
+  "observed_at": 1791082064.733184,
+  "body": {
+    "contracts": [
+      {
+        "opened": 1791081900,
+        "ticker": "KXBTC15M-26OCT032300-00",
+        "first_at": 1791081913.2356231,
+        "last_at": 1791082063.3012314,
+        "observations": 31,
+        "unavailable": 0,
+        "signals": 0,
+        "final_calls": 0,
+        "missing": 0,
+        "settlement_status": "PENDING",
+        "settlement_checked": 0.0,
+        "settlement": null,
+        "quiet": true,
+        "coverage_state": "OBSERVED_TO_LAST_RECEIPT"
+      },
+      {
+        "opened": 1791081000,
+        "ticker": "KXBTC15M-26OCT032245-45",
+        "first_at": 1791081055.2781744,
+        "last_at": 1791081862.6692934,
+        "observations": 153,
+        "unavailable": 0,
+        "signals": 0,
+        "final_calls": 0,
+        "missing": 1,
+        "settlement_status": "PENDING_OR_NONBINARY",
+        "settlement_checked": 1791081912.6609042,
+        "settlement": {
+          "close_ts": 1791081900,
+          "endpoint": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTC15M-26OCT032245-45",
+          "expiration_value": "84792.27",
+          "market_status": "determined",
+          "open_ts": 1791081000,
+          "received_ts": 1791081912.6609042,
+          "result": "no",
+          "settlement_ts": null,
+          "settlement_value_dollars": "0.0000",
+          "side": null,
+          "source": "OFFICIAL_KALSHI_GET_MARKET",
+          "status": "PENDING_OR_NONBINARY",
+          "target": 84822.76,
+          "ticker": "KXBTC15M-26OCT032245-45"
+        },
+        "quiet": true,
+        "coverage_state": "MISSING_OR_PARTIAL"
+      }
+    ],
+    "signal_only": true,
+    "orders": false,
+    "retention_days": 30
+  }
+}

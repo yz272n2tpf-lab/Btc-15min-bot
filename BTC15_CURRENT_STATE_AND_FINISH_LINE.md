@@ -1,178 +1,147 @@
 # BTC15 current state and finish line
 
-Updated: 2026-10-04 00:12 UTC (October 3, 20:12 New York). Transition: **USER_APPROVED_EXACT_V2_PAYLOAD → RAILWAY_COMMIT_CONFIRMATION_CANCELLED**.
+Updated: 2026-10-04 02:48 UTC. Transition: USER_APPLIED_EXACT_V2_QUALIFICATION_PATCH → BRIEF_FUNCTIONAL_QUALIFICATION_PASS → AWAIT_SEPARATE_PRODUCTION_APPROVAL.
 
-This is the authoritative operational state document. It lives on documentation-only branch `ops/btc15-v2-qualification-20261003`; the frozen runtime branches and PR #53 head remain unchanged. Update this document and its supporting approval snapshot in one Git commit at every major qualification/deployment transition. A successful build is not live qualification, and qualification is not production deployment.
+This is the authoritative operational state document, on documentation-only branch ops/btc15-v2-qualification-20261003. The frozen runtime branches and PR #53 head are unchanged. This document and its evidence are committed transactionally. BUILT, QUALIFIED, qualification DEPLOYED, and production DEPLOYED are distinct.
 
 ## Authoritative identities
 
 | Item | Exact identity |
 |---|---|
-| Candidate | `BTC15_LADDER_COMPLETION_20261003_V2` |
-| MAIN candidate | `de4f3e20b8657eb8cfee91bd4e525c103b5bf513` |
-| MAIN tree | `9103a8d16bfd84f7c13bb4fe82f4001c09697247` |
-| V8.1 candidate | `60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1` |
-| V8.1 tree | `a082eb5486d32defba89010e9fa964394d1ce90d` |
-| Frozen manifest SHA256 | `9333eff3c5db1783a533d484b5c3dd14045f33d3a711729e084603dc86cb69f5` |
-| Product authority | `BTC15_PRODUCT_LOGIC_V2_20261003.md` at the frozen MAIN commit |
-| PR #53 | DRAFT / DO NOT DEPLOY; open, not merged; head remains exact MAIN candidate |
-| Existing production MAIN baseline | `abe212b513827c8cec28a2f64e0161e79296bd82` |
-| Existing production V8.1 baseline | `b05723ec622f901a05402ecf27f4d33505753ef1` |
+| Candidate | BTC15_LADDER_COMPLETION_20261003_V2 |
+| MAIN candidate | de4f3e20b8657eb8cfee91bd4e525c103b5bf513 |
+| MAIN tree | 9103a8d16bfd84f7c13bb4fe82f4001c09697247 |
+| V8.1 candidate | 60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1 |
+| V8.1 tree | a082eb5486d32defba89010e9fa964394d1ce90d |
+| Frozen manifest SHA256 | 9333eff3c5db1783a533d484b5c3dd14045f33d3a711729e084603dc86cb69f5 |
+| Product authority | BTC15_PRODUCT_LOGIC_V2_20261003.md at frozen MAIN SHA |
+| PR #53 | DRAFT / DO NOT DEPLOY; not merged; exact MAIN candidate head |
+| Production MAIN baseline | abe212b513827c8cec28a2f64e0161e79296bd82 |
+| Production V8.1 baseline | b05723ec622f901a05402ecf27f4d33505753ef1 |
 
-The exact commit/tree identities were read from GitHub. Local manifest-covered files plus manifest/verifier were compared to their Git blobs: 31 MAIN files and 12 V8.1 files match. The existing state-document path was checked in both complete candidate trees and MAIN candidate path history before creating this document. The accepted recovery/audit and frozen certificate were reused; no ladder research or development was reopened.
+The prior exact commit/tree/blob verification and accepted recovery audit remain authoritative. No recovery, ladder development, strategy change, threshold/weight change, historical sweep or capture work was repeated.
 
 ## Fixed sixteen-capability finish line
 
-Statuses below concern **V2**, not the older production baseline. “Offline PASS” means the exact frozen functional/adversarial gate passed; it does not imply every branch has occurred live.
+All sixteen capabilities are BUILT/DONE and deployed on the two isolated qualification services. All pass the frozen functional gate. “Qualified” below means brief functional qualification, not statistical performance qualification. Every row remains **NOT DEPLOYED TO PRODUCTION**.
 
-| Capability | BUILT / DONE | SHADOW-ONLY | Offline qualified | Live QUALIFIED | V2 DEPLOYED to production | Frozen scope / limitation |
-|---|---|---|---|---|---|---|
-| 1. Finished EARLY | YES | NO | PASS | PENDING | NO | Frozen entry gates and origin; outcome B for unsupported additional alpha expansion. |
-| 2. Independent FINAL | YES | NO | PASS | PENDING | NO | Own direction, probability, confidence/lock and original timing. |
-| 3. FINAL → EARLY helper/protection | YES | NO | PASS | PENDING | NO | Immutable linkage, confirmation/MIXED/opposition/flip, latched PROTECT; unsupported automatic EARLY EXIT remains absent. |
-| 4. Actionable SCALP lifecycle | YES | NO | PASS | PENDING | NO | ENTER/HOLD/WATCH/CAUTION/PROTECT/EXIT; serial ownership. |
-| 5. Recovered profit protection | YES | NO | PASS | PENDING | NO | Frozen 5¢ arm / 4¢ giveback risk policy; no statistical performance qualification. |
-| 6. Latched EXIT | YES | NO | PASS | PENDING | NO | Actual observed EXIT and predecessor survive checkpoint recovery. |
-| 7. Executable price semantics | YES | NO | PASS | PENDING | NO | Original ask, strictly later same-side accepted bids, actual-bid EXIT; no fill claims. |
-| 8. 5M CAUTION | YES | NO | PASS | PENDING | NO | Existing deterioration/conflict context; no timer EXIT authority. |
-| 9. 3M guard rails | YES | NO | PASS | PENDING | NO | Limited-runway CAUTION; stronger existing states preserved. |
-| 10. Flip-risk | YES | NO | PASS | PENDING | NO | Active informational output only; no automatic exit threshold. |
-| 11. PASS / UNAVAILABLE | YES | NO | PASS | PENDING | NO | Qualified insufficient edge versus unavailable/stale/inconsistent evidence. |
-| 12. Permanent bounded journal | YES | NO | PASS | PENDING | NO | Both lane implementations, atomic event/checkpoint, coverage denominator, official settlement receipt path. |
-| 13. Exact Kalshi alignment | YES | NO | PASS | PENDING | NO | Official ticker/900-second window and immutable official target. |
-| 14. BRTI ≤5 seconds | YES | NO | PASS | PENDING | NO | True source age, causal cutoff and read-time expiry; no future observations. |
-| 15. SIGNAL ONLY | YES | NO | PASS | PENDING | NO | Guidance, UI and records; no assumed manual fill. |
-| 16. NO ORDERS | YES | NO | PASS | PENDING | NO | No placement, routing, order objects or automated execution added. |
+LIVE means an observed live publication/readback. FIXTURE means the existing exact frozen deterministic/adversarial branch gate. A fixture is not represented as an observed market event. No accepted live EARLY/SCALP origin or EXIT was present in the saved before/after restart samples.
+
+| Capability | BUILT / DONE | SHADOW-ONLY | QUALIFIED evidence | DEPLOYED |
+|---|---|---|---|---|
+| 1. Finished EARLY | YES | NO | LIVE eligibility/PASS reasons; FIXTURE qualified ENTER, immutable origin and recovery | Qualification only |
+| 2. Independent FINAL | YES | NO | LIVE UP/DOWN probabilities, direction, confidence, publication ID, UNLOCKED/PASS; FIXTURE qualified call | Qualification only |
+| 3. FINAL → EARLY helper/protection | YES | NO | FIXTURE explicit origin linkage, confirmation, strengthening, weakening, MIXED, opposition/flip, clearance and latched PROTECT; LIVE no false linkage without origin | Qualification only |
+| 4. Actionable SCALP lifecycle | YES | NO | LIVE V8.1 eligibility/PASS/provenance; FIXTURE ENTER/HOLD/WATCH/CAUTION/PROTECT/EXIT and serial ownership | Qualification only |
+| 5. Recovered profit protection | YES | NO | FIXTURE frozen +5¢ arm / 4¢ giveback; risk-policy evidence status preserved | Qualification only |
+| 6. Latched EXIT | YES | NO | FIXTURE actual-bid terminal, recovery, no repricing, handoff/re-entry/reversal | Qualification only |
+| 7. Executable prices | YES | NO | LIVE accepted timestamped executable book; FIXTURE immutable origin ask, strictly later same-contract/same-side bids and actual EXIT bid | Qualification only |
+| 8. 5M CAUTION | YES | NO | FIXTURE causal weakening/conflict/pullback caution; no timer EXIT authority | Qualification only |
+| 9. 3M guard rails | YES | NO | FIXTURE limited-runway caution; stronger PROTECT/EXIT preserved | Qualification only |
+| 10. Flip-risk | YES | NO: informational | LIVE percentage and MODEL_INFORMATION_ONLY authority; FIXTURE cannot independently invoke EXIT | Qualification only |
+| 11. PASS / UNAVAILABLE | YES | NO | LIVE fresh PASS and SOURCE_EXPIRED UNAVAILABLE; FIXTURE future/nonfinite/mismatched/stale fail-closed branches | Qualification only |
+| 12. Permanent bounded journal | YES | NO | LIVE both lane publications, SQLite coverage readback, volume restart recovery and official pending-result receipts; FIXTURE event/checkpoint atomicity, origin/terminal recovery and bounds | Qualification only |
+| 13. Exact Kalshi alignment | YES | NO | LIVE both lanes match official ticker, 900-second window and unchanged target before/after restart; FIXTURE target/identity mutation rejection | Qualification only |
+| 14. BRTI ≤5 seconds | YES | NO | LIVE true source ages at publication and read; accepted quote/Coinbase freshness and causal timing; FIXTURE future/rollback rejection | Qualification only |
+| 15. SIGNAL ONLY | YES | NO | LIVE signal_only=true, manual_execution_only=true; frozen UI/fixture enforcement | Qualification only |
+| 16. NO ORDERS | YES | NO | LIVE orders=false; unchanged certified source/manifest, no order placement/routing/object or credential expansion introduced | Qualification only |
 
 Additional classifications:
 
-- **SHADOW-ONLY / telemetry:** descriptive historical alternative exit policies and the +8/+10/+15/+20/+30¢ target / −10¢ comparison-stop analysis are not promoted execution policies. Current telemetry is recorded; it has no extra automatic exit authority. Flip-risk is active informational context, not a missing feature.
-- **MISSING operational evidence:** actual Railway volume provisioning for qualification, live V2 wiring observations, live journal readback, restart durability and official-settlement receipt-path verification. No product logic is reclassified as missing.
-- **REJECTED/SUPERSEDED:** V1 qualification configuration is obsolete and its 19 pending changes were cleared. Historical rejected families retain their accepted audit dispositions. Unsupported EARLY automatic EXIT, added fixed SCALP targets/stops and statistical performance claims were not introduced.
-- **QUALIFIED:** exact offline gate only. Live qualification is PENDING.
-- **DEPLOYED:** V2 has never deployed to either qualification service or production. Both qualification services currently have `latestDeployment=null`.
+- **DONE:** exact deployment/configuration readback, frozen-byte startup verification before and after controlled restarts, required persistent storage, staged MAIN→V8.1 URL/CORS, source/official alignment, readable independent FINAL, journal readback/recovery, existing 91-test functional gate and official receipt-path functional check.
+- **MISSING:** no blocking product implementation or brief functional qualification item identified. Live origin-linked protection/EXIT/handoff events and finalized live journal outcomes were not observed; their fixture coverage is explicit. Both lanes did receive and persist real official pending-result receipts. Production promotion approval and production V8.1 persistent storage remain outstanding.
+- **SHADOW-ONLY / observational:** historical alternative exit policies and +8/+10/+15/+20/+30¢ target / −10¢ comparison-stop telemetry have no additional execution authority. Legacy shadow wrappers remain research/informational; they do not replace the active V2 product endpoint.
+- **QUALIFIED:** exact V2 for brief signal-only functional/wiring operation, with the LIVE/FIXTURE distinction above. Not qualified for an 85%/90% reliability claim, FINAL calibration, profitable SCALP execution or increased signal frequency.
+- **DEPLOYED:** exact V2 on qualification MAIN and V8.1 only. Production still runs the older frozen baseline.
+- **REJECTED/SUPERSEDED:** V1 qualification obsolete; Ground Zero retired and both failed Oct. 3 intervals excluded. Unsupported EARLY automatic EXIT and fixed SCALP target/stop promotion remain absent. Rejected historical entry families retain their accepted audit dispositions. No supported additional EARLY alpha expansion was established (frozen completion outcome B).
 
-## Completed exact offline gate
+## Actual qualification evidence
 
-Both frozen verifiers passed. The exact focused suite passed **91/91** on this mission, including existing local recovery and causal/adversarial branches:
+Evidence directory: [qualification/v2_live_20261004](qualification/v2_live_20261004). Raw JSON contains source timestamps, original responses, deployment IDs and fixture output. The original approval payload [BTC15_V2_RAILWAY_STAGED_20261003.json](qualification/BTC15_V2_RAILWAY_STAGED_20261003.json) is unchanged; SHA256 2c6165d819d7e2db8813b95af59d0490a0e3762e716ce8677e586112fc7fe5e7.
 
-```sh
+The user applied the exact 57-field / four-resource patch in Railway's dashboard. The old connector cancellation was an authorization-path failure, not a rejection of the candidate. No connector deployment attempt was repeated in this mission. Readback now shows the services/volumes LIVE and no pending environment patch.
+
+Project noble-warmth / baea4e22-d004-4434-b2c5-81a7fbc05086; environment named production / 61775c5d-c583-4dfc-af41-f25578856fd9. Only the two isolated qualification services were restarted. Environment naming does not imply production service promotion.
+
+| Lane | Service / ID | Deployed instance | Persistent volume |
+|---|---|---|---|
+| MAIN | btc15-v2-main-qualification / e6101c69-18df-4522-99d8-94e363ad8b92 | 49b15e63-fdf8-4dd6-9589-de222bbe5fdf; exact de4f3e20… | b6304c46-7027-4bfd-932d-94bb9c67da8e; btc15-v2-main-journal; 2,048 MB; iad; /data |
+| V8.1 | btc15-v2-v81-qualification / 725e8200-656a-4576-a62a-0b84fedf9ffd | 39c95226-fff1-4f5f-8ce4-606c5e446a70; exact 60e6ebdd… | 97cc9dcd-ef90-495e-a1be-ffda31eac1b3; btc15-v2-v81-journal; 2,048 MB; iad; /data |
+
+Both deployments were created 2026-10-04 02:29:13 UTC. Initial startup logs report FROZEN V2 IDENTITY PASS at 02:30:19. MAIN's controlled restart reported PASS at 02:37:40; V8.1 at 02:38:18. Restart reused the same images/deployment IDs; no rebuild or configuration change. Both services subsequently returned healthy HTTP 200.
+
+Live source pins, start commands, variable-name sets and two volume configurations match the reviewed snapshot. OAuth redacts variable values; no secret values were requested or copied. The applied approval snapshot plus successful source connections, mounted-volume guard, journal recovery and rendered dashboard URL establish the relevant wiring. Both journal roots are /data/btc15_ladders_v2; lane files are main.sqlite3/main.json and v81.sqlite3/v81.json.
+
+The served MAIN panel resolves V8.1 to https://btc15-v2-v81-qualification-production.up.railway.app/ladders. V8.1 responds HTTP 200 with Access-Control-Allow-Origin: * and Cache-Control: no-store. Existing frozen DOM/expiry fixtures passed.
+
+### Official alignment and causal freshness
+
+Both lanes matched official market KXBTC15M-26OCT032245-45, open 2026-10-04 02:30:00 UTC, close 02:45:00 UTC, target **84822.76**. Target, ticker and window were unchanged after restart. Independent official GET is saved in official_current.json.
+
+| Lane/sample | BRTI age at publication / read | Quote age at publication / read | Coinbase age at publication / read |
+|---|---|---|---|
+| MAIN before restart | 1.292s / 3.800s | 0.075s / 2.583s | 1.242s / 3.750s |
+| MAIN after restart | 2.580s / 4.046s | 0.081s / 1.547s | 0.541s / 2.007s |
+| V8.1 before restart | 1.640s / 2.348s | 0.037s / 0.745s | 0.643s / 1.351s |
+| V8.1 after restart | 2.016s / 2.334s | 0.039s / 0.357s | 2.160s / 2.478s |
+
+MAIN's causal feature cutoff and health checks passed. V8.1 preserved qualified BRTI source time/owner epoch/sequence and contiguous accepted quote source/validation timestamps, market ID/ticker and executable book. All saved accepted samples had source times no later than publication and remained within source limits at read time. Expired MAIN responses correctly suppressed actionable guidance as UNAVAILABLE; no gate was loosened.
+
+Independent FINAL before restart: UP 0.4834328815, DOWN 0.5165671185, DOWN preferred, UNLOCKED/PASS, final_status AVAILABLE. After restart: UP 0.2537132002, DOWN 0.7462867998, also independently readable. No EARLY origin existed, and early_origin_id remained null rather than being invented.
+
+### Journal durability and denominator
+
+| Lane | Pre-restart sampled sequence | Post-restart sequence / process writes | Persisted record count at process startup | Original contract first_at | Coverage observations before / after |
+|---|---|---|---|---|---|
+| MAIN | 22 | 94 / 14 | 80 | 1791081055.2781744, unchanged | 24 / 95 |
+| V8.1 | 146 | 535 / 55 | 480 | 1791081018.6079752, unchanged | 156 / 538 |
+
+The journal continued writing between initial readback and restart, explaining startup counts greater than the earlier samples. Persisted sequence minus new-process writes proves recovery; read-only SQLite coverage retained the original first_at and accumulated counts. MAIN's native epoch and V8.1's book epoch changed across process restarts, as expected. Both sampled queue depths/drops were zero. Active-origin and latched-terminal restoration are fixture-verified; no live active origin existed to test that branch during these restarts.
+
+Both initial contract denominators correctly report quiet=true and MISSING_OR_PARTIAL because qualification began inside the window and included startup/restart gaps. These are not complete performance cohorts or manufactured PASS opportunities. Existing bounds remain queue16, record/view64KiB, SQLite512MiB, 30days/300,000events, coverage96contracts.
+
+### Settlement path and existing fixtures
+
+The official prior market KXBTC15M-26OCT032230-30 returned finalized / yes, settlement_ts 2026-10-04T02:30:07.213817Z, expiration_value 84822.76. That real receipt passed the exact frozen receipt parser and both lane processors into isolated temporary SQLite journals, then survived readback as AUTHORITATIVE / UP without creating an origin. This is a functional receipt-path check using a real official result, **not a live service journal receipt**.
+
+The existing SettlementReader fixture verifies bounded GET-only lookup, finalized-only acceptance, exact contract/window, persistence and no repeated finalized lookup. During documentation work the contract closed naturally. Final live coverage readback at 02:47:44 UTC showed BOTH running services had fetched and persisted the official result: market_status=determined, result=no, expiration_value=84792.27, settlement_ts=null. MAIN received it at 02:45:12.661 and V8.1 at 02:45:19.058. Both correctly recorded PENDING_OR_NONBINARY with side=null because determined is not finalized. This directly proves the live GET → parser → writer → SQLite readback path and its refusal to invent an authoritative result. The new 02:45–03:00 contract was separately journaled. No idling or forced polling of the settlement worker was required, and no live finalized receipt is claimed. Scratch Python lacked requests for a proposed additional direct-reader invocation; the existing fixture and real receipt check were used without installing dependencies or changing runtime code.
+
+Both local frozen-byte verifiers passed and the exact existing gate passed **91/91** again:
+
+~~~sh
 python btc15_verify_ladder_freeze_v2.py
 python btc15_verify_ladder_freeze_v2.py --lane v81 --root ../v81
 python -m unittest test_btc15_ladder_completion_v1 test_btc15_scalp_journal_v1 test_btc15_product_logic_v2 test_directional_position_manager_v1
-```
+~~~
 
-Local invocation used the primary Python 3.12 runtime and MAIN/V8.1 source directories. The supporting snapshot records the exact invocation output. Existing hosted broad CI for exact MAIN SHA was independently read back as completed/success: https://github.com/yz272n2tpf-lab/Btc-15min-bot/actions/runs/37158456627 . No extra historical sweep or new test laboratory was created.
+This gate covers the immutable EARLY origin/helper sequence, independent FINAL fallback, SCALP actual ask/later bid, protection/overshoot/latched EXIT, serial handoff/re-entry/reversal, target/stop chronology, 5M/3M context, flip informational authority, future/stale/sequence rejection, checkpoint identity and durable atomicity. Its synthetic signals are not market observations. Prior exact-SHA hosted CI remains successful; no new broad test campaign was started.
 
-The local SQLite close/reopen tests prove local checkpoint behavior. They do **not** prove Railway volume durability. The 16 capabilities are present in the unchanged frozen bytes; passing tests do not enlarge that certificate's scope.
+## Production unchanged and next approval
 
-## Concrete Railway approval payload
+Production MAIN deployment remains **6a6581ba-fc0a-4021-84c4-9c1896c4f179**. Production V8.1 remains **54a117aa-1809-4c56-8d32-190fbc5c1ce9**. Neither service was restarted, redeployed, reconfigured or given a new volume. No production changes are staged.
 
-Project `noble-warmth` / `baea4e22-d004-4434-b2c5-81a7fbc05086`.
-Environment is named `production` / `61775c5d-c583-4dfc-af41-f25578856fd9`, but this proposal touches only the isolated qualification services listed below. It does not promote the candidate or modify the production MAIN/V8.1 services.
+**Current blocker/next action: separate explicit production-promotion approval.** Brief V2 functional qualification passes; product logic remains frozen. The proposal is concrete but NOT STAGED, NOT APPROVED and NOT APPLIED:
 
-| Lane | Service / ID | Pinned candidate | Persistent volume to provision |
-|---|---|---|---|
-| MAIN | `btc15-v2-main-qualification` / `e6101c69-18df-4522-99d8-94e363ad8b92` | `de4f3e20b8657eb8cfee91bd4e525c103b5bf513` | `btc15-v2-main-journal` / `b6304c46-7027-4bfd-932d-94bb9c67da8e`; 2,048 MB; iad; /data |
-| V8.1 | `btc15-v2-v81-qualification` / `725e8200-656a-4576-a62a-0b84fedf9ffd` | `60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1` | `btc15-v2-v81-journal` / `97cc9dcd-ef90-495e-a1be-ffda31eac1b3`; 2,048 MB; iad; /data |
+[Exact production proposal](qualification/BTC15_V2_PRODUCTION_PROMOTION_PROPOSAL_20261004.json).
 
-Both services are pinned using Railway's `source.commitSha`; branch pushes cannot advance those pins. Repository: `yz272n2tpf-lab/Btc-15min-bot`. MAIN branch is `release/ladder-completion-20261003`; V8.1 branch is `release/v81-ladder-completion-20261003`.
+| Proposed resource | Exact production action requiring approval |
+|---|---|
+| Btc-15min-bot / ab28dca6-7bea-4956-bdb9-dbb7b4c74635 | Pin release/ladder-completion-20261003 to MAIN de4f3e20b8657eb8cfee91bd4e525c103b5bf513; use the already-qualified MAIN mount-guard/frozen-verifier/installer start command. Keep existing 10,000 MB /data volume 6ced6b1a-3755-4518-a240-c895e936d443 and its contents. Set BTC15_LADDER_DATA_ROOT=/data/btc15_ladders_v2 and BTC15_V81_LADDERS_URL=https://v81-live-diagnostics-production.up.railway.app/ladders. Remove BTC15_CAPTURE_ACTIVATION to keep retired capture disabled. |
+| v81-live-diagnostics / 6025e83e-a41c-4e0a-8c16-f71120bd501b | Pin release/v81-ladder-completion-20261003 to V8.1 60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1; use the already-qualified V8.1 mount-guard/frozen-verifier/live-feed start command. Set BTC15_LADDER_DATA_ROOT=/data/btc15_ladders_v2 and PORT=8080. Remove BTC15_CAPTURE_ACTIVATION. |
+| New production volume btc15-v81-ladder-journal-v2 | Create 2,048 MB in iad and mount /data on production V8.1 only. Production V8.1 currently has no persistent volume. Do not move either qualification volume or reuse its data as a new production denominator. |
 
-Two small isolated volumes are necessary because neither qualification lane had persistent storage and production's attached MAIN volume cannot be shared between running services. No existing volume is resized, moved, deleted or reused. Journal root on each is `/data/btc15_ladders_v2`, containing `main.sqlite3` / `main.json` or `v81.sqlite3` / `v81.json`. Existing journal bounds are unchanged: 512 MiB SQLite page cap per lane, 30 days / 300,000 events, queue 16, 64 KiB record/view cap.
+Both proposed production services use RAILPACK, one iad replica, existing domains/port8080, /health, MAIN120s/V8.1 30s health timeout, ON_FAILURE10 as qualified. Preserve all other variables and credentials; no shared-variable/BRTI-owner changes. Qualification services/volumes remain unchanged. The proposal replaces the legacy MAIN inventory/preservation startup wrapper with the qualified frozen verifier command; it deletes no existing evidence.
 
-Production MAIN already has its separate 10,000 MB `/data` volume `6ced6b1a-3755-4518-a240-c895e936d443`. Production V8.1 still has no volume. Its final storage attachment/promotion remains a separately approved production transition; qualification storage does not falsely certify production durability.
-
-Public domains already allocated to the **empty, never-deployed** qualification services:
-
-- MAIN: `https://btc15-v2-main-qualification-production.up.railway.app`
-- V8.1 ladder endpoint: `https://btc15-v2-v81-qualification-production.up.railway.app/ladders`
-
-Railway rejected public-domain creation for staged-only services. The preparation therefore created empty service shells and domains without a source/build/deployment, then staged the source, storage, variables and startup configuration. No application process was started. The abandoned staged-only shell entries were removed before final review.
-
-### Variables to apply
-
-Only these service-scoped variables will be set. There are no shared-variable changes. `${{...}}` expressions are Railway references to existing configuration/credentials; secret values were not retrieved or copied into this document. Reference rendering is verified after approved deployment without printing credentials. No Ground Zero capture activation is configured.
-
-| Variable | MAIN qualification | V8.1 qualification |
-|---|---|---|
-| `BTC15_BRTI_GATEWAY_URL` | `${{Btc-15min-bot.BTC15_BRTI_GATEWAY_URL}}` | Not set |
-| `BTC15_BRTI_SHARED_URL` | `${{Btc-15min-bot.BTC15_BRTI_SHARED_URL}}` | `${{v81-live-diagnostics.BTC15_BRTI_SHARED_URL}}` |
-| `BTC15_BRTI_TRANSPORT` | `${{Btc-15min-bot.BTC15_BRTI_TRANSPORT}}` | `${{v81-live-diagnostics.BTC15_BRTI_TRANSPORT}}` |
-| `BTC15_DASH_V13_Z1` | `${{Btc-15min-bot.BTC15_DASH_V13_Z1}}` | Not set |
-| `BTC15_DASH_V13_Z2` | `${{Btc-15min-bot.BTC15_DASH_V13_Z2}}` | Not set |
-| `BTC15_DASH_V13_Z3` | `${{Btc-15min-bot.BTC15_DASH_V13_Z3}}` | Not set |
-| `BTC15_DASH_V13_Z4` | `${{Btc-15min-bot.BTC15_DASH_V13_Z4}}` | Not set |
-| `BTC15_DASH_V13_Z5` | `${{Btc-15min-bot.BTC15_DASH_V13_Z5}}` | Not set |
-| `BTC15_ENABLE_INFORMATION_EXPORT` | `1` | Not set |
-| `BTC15_INLINE_SCALP_V1` | `${{Btc-15min-bot.BTC15_INLINE_SCALP_V1}}` | Not set |
-| `BTC15_KALSHI_QUOTE_PROVENANCE_CANARY` | `1` | Not set |
-| `BTC15_LADDER_DATA_ROOT` | `/data/btc15_ladders_v2` | `/data/btc15_ladders_v2` |
-| `BTC15_USE_SHARED_BRTI` | `1` | `1` |
-| `BTC15_V81_LADDERS_URL` | `https://btc15-v2-v81-qualification-production.up.railway.app/ladders` | Not set |
-| `KALSHI_KEY_ID` | `${{Btc-15min-bot.KALSHI_KEY_ID}}` | `${{v81-live-diagnostics.KALSHI_KEY_ID}}` |
-| `KALSHI_PRIVATE_KEY_B64` | `${{Btc-15min-bot.KALSHI_PRIVATE_KEY_B64}}` | `${{v81-live-diagnostics.KALSHI_PRIVATE_KEY_B64}}` |
-| `PORT` | `8080` | `8080` |
-| `PYTHONUNBUFFERED` | `1` | `1` |
-| `V81_DIAG_LIVE` | Not set | `1` |
-
-### Start commands and deployment settings
-
-MAIN:
-
-```sh
-/bin/sh -c 'test "$RAILWAY_VOLUME_MOUNT_PATH" = "/data" && test -n "$RAILWAY_VOLUME_ID" && python btc15_verify_ladder_freeze_v2.py --lane main && exec python -u btc15_information_install_v1.py'
-```
-
-V8.1:
-
-```sh
-/bin/sh -c 'test "$RAILWAY_VOLUME_MOUNT_PATH" = "/data" && test -n "$RAILWAY_VOLUME_ID" && python btc15_verify_ladder_freeze_v2.py --lane v81 && exec python -u v81_30_45_live_feed.py'
-```
-
-These commands fail before runtime startup if the expected Railway volume metadata is absent, verify frozen lane bytes, then run the existing frozen entry point. No runtime source, strategy threshold or weight changes.
-
-Both: RAILPACK, one replica in iad, port 8080, healthcheck `/health`, restart `ON_FAILURE` with 10 retries (matching the frozen repository's railway.json). MAIN healthcheck timeout 120 seconds; V8.1 30 seconds. No custom build/pre-deploy command, source-root change, new upstream BRTI owner, tracing system or order capability.
-
-### Reviewed pending patch
-
-Patch container `19ab6a3d-1e97-4b38-896e-a64b7b8e59a8`, **57 pending fields**, four resources, non-destructive. Railway reused the cleared patch container ID; its contents are a new V2-only configuration. No V1 source SHA, old qualification-service change, shared variable, production-service change or unrelated resource remains.
-
-Machine-readable approval payload and readback: `qualification/BTC15_V2_RAILWAY_STAGED_20261003.json`.
-
-Before applying, re-read the pending patch and compare its four-resource allowlist, exact SHAs, commands, variables and mounts against that snapshot. If another actor adds a change, do not commit the expanded patch under this approval. Railway accept-deploy applies **all** staged environment changes.
-
-Production before/after readbacks have identical configurations, volumes and deployment identities:
-
-- MAIN deployment `6a6581ba-fc0a-4021-84c4-9c1896c4f179`.
-- V8.1 deployment `54a117aa-1809-4c56-8d32-190fbc5c1ce9`.
-
-## Current blocker and next action
-
-**USER APPROVAL RECEIVED; RAILWAY CONNECTOR CONFIRMATION DID NOT COMPLETE.** On October 3 at 20:10 New York, the user explicitly approved the exact two-service/four-resource qualification payload, including volumes, reviewed variables/start commands, brief live wiring, journal durability/restart and settlement-path checks. Production remains excluded.
-
-The pending patch was re-read immediately before the commit attempt and matched the repository-preserved approval snapshot exactly: 57 fields, four approved resources, no extras, unchanged patch timestamp. The `railway_accept_deploy` call returned: **“Cancelled — the user did not approve this action. No changes were made.”** This is the connector result, not an assertion that the user's written approval was absent.
-
-Post-cancellation readback confirmed the same 57-field patch remains STAGED, both qualification services still have `latestDeployment=null`, and both 2,048 MB volumes remain `staged-create`. No live qualification, restart, settlement-path observation or production promotion occurred. The original approved payload file remains unchanged; the attempt receipt is `qualification/BTC15_V2_QUALIFICATION_ATTEMPT_20261004.json`.
-
-Next action: complete the connector's deployment confirmation, then re-check the unchanged approved patch before committing. Do not retry through another deployment route to bypass the cancelled confirmation. No broader scope approval or product redesign is needed.
-
-After the connector confirmation completes:
-
-1. Commit only the reviewed V2 patch. Confirm exact deployment SHAs and startup verifier output; check both mounts/root paths and the staged V8.1 URL.
-2. Observe official Kalshi ticker/window/immutable target, true BRTI age ≤5s, accepted quote provenance/freshness, Coinbase freshness and no future observations. Confirm readable independent FINAL, PASS versus UNAVAILABLE, signal_only=true and orders=false.
-3. Match live publications to existing bounded journal records: immutable EARLY/SCALP origin where observed, actual ask/later same-side bid, genuine FINAL linkage, protection/EXIT and predecessor identity. Use existing deterministic fixtures for unobserved state branches; label fixture proof separately from live wiring evidence. Never fabricate a live event or require a multi-day signal cohort.
-4. Read back durable journal/checkpoint/coverage state; perform a controlled restart of each qualification lane and prove persisted origins/terminals/sequence remain intact with the same volume. Confirm official settlement receipt handling through the existing GET-only path, preserving pending/unavailable outcomes. Do not wait idly for market settlement.
-5. Update this document transactionally with actual evidence and DONE / MISSING / SHADOW-ONLY / QUALIFIED / DEPLOYED / REJECTED statuses. If a narrow wiring/storage defect appears, isolate it without reopening strategy development.
-6. If brief qualification passes, **STOP FOR SEPARATE PRODUCTION PROMOTION APPROVAL** and present the exact production source/storage/variable/start-command proposal. Do not infer promotion approval from qualification approval.
+Approval would touch production and cause deployment startup interruption. After explicit approval, stage only these three resources, review the exact pending scope, apply through the supported Railway confirmation path, verify frozen startup/source wiring and production journal durability, then update this document. Preserve current production deployment/configuration receipts and all volumes for rollback. PR #53 is not silently merged or undrafted.
 
 ## Permanent anti-drift rules
 
 - **RECOVER BEFORE REBUILDING.** Check repository/history before declaring product behavior missing.
 - Supporting infrastructure cannot redefine the product objective or move the fixed sixteen-capability finish line.
-- The V2 completion certificate is authoritative. No strategy, threshold, weight or ladder-development change is authorized in this mission.
-- Ground Zero is retired. Both failed Oct. 3 intervals remain excluded from scoring, training, tuning, selection and validation.
-- V1 qualification is obsolete; do not use its source SHA, startup gate or service configuration.
-- No multi-week or multi-day pre-deployment statistical campaign is required. Brief functional qualification is distinct from future performance evidence.
-- Never claim 85%/90% EARLY reliability, calibrated FINAL probabilities, profitable SCALP execution or increased signal frequency from these functional checks.
-- **SIGNAL ONLY / NO ORDERS / NO AUTOMATED EXECUTION** is invariant.
-- BUILT, SHADOW-ONLY, QUALIFIED and DEPLOYED are distinct. Do not promote a status without its evidence and required approval.
+- The V2 completion certificate is authoritative. Strategy, thresholds, weights and ladder logic remain unchanged.
+- Ground Zero is retired. Both failed Oct. 3 intervals stay excluded from scoring, training, tuning, candidate selection and validation.
+- V1 qualification is obsolete. Its source/configuration must not be reused.
+- No multi-day or multi-week pre-deployment performance campaign is required. Function and live wiring are distinct from future statistical performance.
+- Do not claim EARLY 85%/90% reliability, FINAL calibration, profitable SCALP execution or increased frequency from this qualification.
+- **SIGNAL ONLY / NO ORDERS / NO AUTOMATED EXECUTION.** Guidance assumes no actual manual fill.
+- Update this document and supporting evidence in one commit at each major transition. A build is not deployment; qualification is not production promotion.

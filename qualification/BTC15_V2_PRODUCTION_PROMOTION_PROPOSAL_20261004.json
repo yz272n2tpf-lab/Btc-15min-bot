@@ -1,0 +1,99 @@
+{
+  "schema": "BTC15_V2_PRODUCTION_PROMOTION_PROPOSAL_V1",
+  "status": "PROPOSED_ONLY_NOT_STAGED_NOT_APPROVED_NOT_APPLIED",
+  "candidate": "BTC15_LADDER_COMPLETION_20261003_V2",
+  "scope": {
+    "projectId": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+    "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9"
+  },
+  "resources": "Two existing production services plus one new production V8.1 volume; three resources only",
+  "services": {
+    "main": {
+      "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+      "name": "Btc-15min-bot",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "release/ladder-completion-20261003",
+        "commitSha": "de4f3e20b8657eb8cfee91bd4e525c103b5bf513"
+      },
+      "startCommand": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && python btc15_verify_ladder_freeze_v2.py --lane main && exec python -u btc15_information_install_v1.py'",
+      "set_variables": {
+        "BTC15_LADDER_DATA_ROOT": "/data/btc15_ladders_v2",
+        "BTC15_V81_LADDERS_URL": "https://v81-live-diagnostics-production.up.railway.app/ladders"
+      },
+      "remove_variables": [
+        "BTC15_CAPTURE_ACTIVATION"
+      ],
+      "other_variables": "PRESERVE_INCLUDING_EXISTING_SEALED_CREDENTIALS",
+      "deploy": {
+        "builder": "RAILPACK",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 120,
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10,
+        "region": "iad",
+        "replicas": 1
+      },
+      "domain": "https://btc-15min-bot-production.up.railway.app",
+      "volume": {
+        "action": "KEEP",
+        "id": "6ced6b1a-3755-4518-a240-c895e936d443",
+        "sizeMB": 10000,
+        "mountPath": "/data",
+        "region": "iad"
+      }
+    },
+    "v81": {
+      "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+      "name": "v81-live-diagnostics",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "release/v81-ladder-completion-20261003",
+        "commitSha": "60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1"
+      },
+      "startCommand": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && python btc15_verify_ladder_freeze_v2.py --lane v81 && exec python -u v81_30_45_live_feed.py'",
+      "set_variables": {
+        "BTC15_LADDER_DATA_ROOT": "/data/btc15_ladders_v2",
+        "PORT": "8080"
+      },
+      "remove_variables": [
+        "BTC15_CAPTURE_ACTIVATION"
+      ],
+      "other_variables": "PRESERVE_INCLUDING_EXISTING_SEALED_CREDENTIALS",
+      "deploy": {
+        "builder": "RAILPACK",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 30,
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10,
+        "region": "iad",
+        "replicas": 1
+      },
+      "domain": "https://v81-live-diagnostics-production.up.railway.app",
+      "volume": {
+        "action": "CREATE_AND_MOUNT",
+        "name": "btc15-v81-ladder-journal-v2",
+        "sizeMB": 2048,
+        "mountPath": "/data",
+        "region": "iad"
+      }
+    }
+  },
+  "qualifications": "Keep qualification services and both qualification volumes unchanged",
+  "strategy_changes": false,
+  "signal_only": true,
+  "orders": false,
+  "automated_execution": false,
+  "qualification_payload_changed": false,
+  "production_touched_during_qualification": false,
+  "removed_capture_variable_reason": "Explicitly prevent retired Ground Zero capture activation during promotion; no capture repair or evidence migration",
+  "approval_required": "Separate explicit user production approval; review exact final staged patch before commit",
+  "rollback": {
+    "main_source": "abe212b513827c8cec28a2f64e0161e79296bd82",
+    "main_deployment": "6a6581ba-fc0a-4021-84c4-9c1896c4f179",
+    "v81_source": "b05723ec622f901a05402ecf27f4d33505753ef1",
+    "v81_deployment": "54a117aa-1809-4c56-8d32-190fbc5c1ce9",
+    "prior_configuration_evidence": "v2_live_20261004/railway_readback.json",
+    "retain_all_volumes_and_journals": true
+  }
+}

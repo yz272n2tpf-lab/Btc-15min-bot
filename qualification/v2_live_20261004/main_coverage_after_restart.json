@@ -1,0 +1,27 @@
+{
+  "http": 200,
+  "observed_at": 1791081567.7679646,
+  "body": {
+    "contracts": [
+      {
+        "opened": 1791081000,
+        "ticker": "KXBTC15M-26OCT032245-45",
+        "first_at": 1791081055.2781744,
+        "last_at": 1791081567.6032395,
+        "observations": 95,
+        "unavailable": 0,
+        "signals": 0,
+        "final_calls": 0,
+        "missing": 1,
+        "settlement_status": "PENDING",
+        "settlement_checked": 0.0,
+        "settlement": null,
+        "quiet": true,
+        "coverage_state": "MISSING_OR_PARTIAL"
+      }
+    ],
+    "signal_only": true,
+    "orders": false,
+    "retention_days": 30
+  }
+}
