@@ -1,0 +1,18 @@
+{
+  "tested_at": "2026-10-04T05:02:02.874764+00:00",
+  "evidence_class": "SYNTHETIC_FIXTURE_ONLY",
+  "command": "python -m unittest discover -s ops/btc15_v2_scoring -p test_bridge.py -v",
+  "tests_run": 11,
+  "failures": 0,
+  "errors": 0,
+  "successful": true,
+  "production_acceptance_proven": false,
+  "source_sha256": {
+    "ops/btc15_v2_scoring/bridge.py": "21729b1ad3bf307b6bd67b07c364386aac817541717fbf7d6ce43c931552b9c0",
+    "ops/btc15_v2_scoring/test_bridge.py": "012cbfeace70c5a27ab5ef73c0927010829e01f31269d4cbed698583cafb0f12",
+    "btc15_cohort_evidence_v1.py": "9812c23a6200bf31c2c5eb4e8f317fe32cfcafefeaa37d2a9b9a041967447d1a",
+    "btc15_ladder_journal_v1.py": "51ab74d1efda963bb84192654bd95e15d79e7b5229c5430819a663e991ef55c5"
+  },
+  "snapshot_method": "mode=ro + SQLite backup; committed WAL inclusion; unchanged source DB/WAL bytes; open source reader does not acquire writer lock",
+  "forward_proof": "Same fixture journals append second full contract; same adapter/scorer code yields two complete fixture contracts, repeated snapshot deterministic; fixtures never VERIFIED production"
+}

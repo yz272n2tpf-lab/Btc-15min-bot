@@ -1,6 +1,6 @@
 # BTC15 current state and finish line
 
-Updated: 2026-10-04T04:40:34.284920+00:00. Transition: USER_APPLIED_EXACT_V2 → PRODUCTION_OPERATION_VERIFIED → OPERATING_CLOSEOUT_PARTIAL.
+Updated: 2026-10-04T05:00:35.182260+00:00. Transition: VERIFIED_PRODUCTION_UNCHANGED → OFFLINE_V2_SCORING_BRIDGE_VERIFIED → PRODUCTION_SCORING_BLOCKED.
 
 **V2 production is deployed and serving. Do not redeploy or repeat qualification.** The former STAGED / AWAIT APPROVAL state at documentation commit `677200b3ad1a40c555e50394b485d6445887a909` is superseded by the user's dashboard application of patch `bac367fe-44f2-4d94-b5e2-d2e623340f46` and the successful live readbacks below. Deployment initiation was not accepted as completion. No assistant deployment, restart, runtime edit, threshold change or order was performed.
 
@@ -60,7 +60,11 @@ Prior qualification detail remains in [qualification/v2_live_20261004](qualifica
 
 These are lane-specific recording starts, not complete-window statistical cohort starts. At the saved read, the startup 04:00–04:15 window and the 04:15–04:30 window were MISSING_OR_PARTIAL in both lanes. Their data remain separate from complete cohorts, qualification, older versions and missing outcomes. MAIN had an authoritative finalized DOWN receipt for the startup contract; V8.1's sampled receipt remained pending. No pending result is promoted to settled.
 
-**Recording is VERIFIED; end-to-end V2 scoring is BLOCKED.** No consistent full production event snapshot was acquired, and the recovered historical scorers do not yet establish a compatible V2 bridge. `/ladders/coverage` is a bounded coverage summary, not a replacement for full event history. No V2 success rate, P&L, calibration or readiness claim is made. First complete scoreable contract and statistical cohort start remain PENDING; this is not a new pre-launch wait requirement. See the closeout checklist for exact schema/path evidence and next action.
+**Recording is VERIFIED; end-to-end V2 production scoring is BLOCKED.** The [read-only scoring bridge](ops/btc15_v2_scoring/README.md) is now implemented and passes **11/11 focused offline tests**, including a second later contract without schema repair. It reuses the unchanged established scorer classifiers and retains V2 official finalized receipts; it does not fabricate old native JSONL/60-sample closeout semantics. Snapshot acquisition, exact source/service/deployment/build checks, raw event hashes, immutable origins, separate FINAL/helper behavior and later same-side bid chronology are covered. Fixtures remain explicitly separate and cannot be marked production VERIFIED.
+
+No full production SQLite snapshot pair was acquired. A bounded scoring-coverage read at **2026-10-04 04:48:43–48 UTC** showed four observed windows in each lane, **all missing/partial**. MAIN had three authoritative receipts; V8.1 had two, with its 04:30–04:45 result still pending in that sample. None is a proven complete scoreable contract. Coverage summaries are not event snapshots. No production accuracy, P&L or calibration result was calculated, and the exact complete V2 production cohort start remains PENDING.
+
+Evidence: [bridge verification and acceptance status](qualification/v2_scoring_bridge_20261004). **One precise next action:** acquire both detached production SQLite backups and generated receipts through the existing authorized runtime file/exec route, then run the committed bridge once. Existing-account sign-in is required for that route; no new authentication attempt, exporter, account, credential or alternate route was created during this scoring mission. If the snapshots still contain only partial windows, keep BLOCKED with those missing reasons. No deployment, strategy change, cleanup or new multi-day pre-launch requirement is authorized by this step.
 
 ## Alerts, cleanup and handoff
 

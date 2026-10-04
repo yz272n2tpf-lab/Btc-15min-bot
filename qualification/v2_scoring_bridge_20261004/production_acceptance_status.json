@@ -1,0 +1,44 @@
+{
+  "updated_at": "2026-10-04T05:00:35.182260+00:00",
+  "scoring_status": "BLOCKED",
+  "production_acceptance_proven": false,
+  "exact_v2_production_cohort_start": null,
+  "production_sqlite_snapshot_acquired": false,
+  "adapter_implemented": true,
+  "established_scorer_modified": false,
+  "offline_verification": {
+    "tests_passed": 11,
+    "evidence_class": "SYNTHETIC_FIXTURE_ONLY",
+    "forward_contract_schema_test": "PASS"
+  },
+  "actual_production_scores": null,
+  "latest_coverage_only": {
+    "main": {
+      "read_at": 1791089323.436232,
+      "contracts": 4,
+      "missing_or_partial": 4,
+      "authoritative_receipts": 3
+    },
+    "v81": {
+      "read_at": 1791089328.4814637,
+      "contracts": 4,
+      "missing_or_partial": 4,
+      "authoritative_receipts": 2
+    }
+  },
+  "blockers": [
+    "No consistent full production SQLite snapshot pair and acquisition receipts are available through the current access.",
+    "No complete eligible production contract is established: every window in latest bounded coverage has missing=1 in both lanes."
+  ],
+  "one_precise_next_action": "Acquire the two detached production SQLite backups plus generated receipts through the existing authorized runtime file/exec route, then run the committed bridge once. Existing-account sign-in is required for that route; do not create an alternate access path.",
+  "not_performed": [
+    "redeploy",
+    "restart",
+    "production/config/strategy change",
+    "cleanup",
+    "new authentication attempt",
+    "trading",
+    "repeated qualification"
+  ],
+  "base_handoff": "6df602e1e4413dbb460b63b3b68e822d65ffa676"
+}

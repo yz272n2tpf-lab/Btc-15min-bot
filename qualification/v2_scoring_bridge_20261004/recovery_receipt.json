@@ -1,0 +1,13 @@
+{
+  "scope": "Existing docs tree/frozen journal/scorer files and previously recovered Library packages; bounded repository-index searches",
+  "code_search": {
+    "results": []
+  },
+  "commit_search": {
+    "commits": []
+  },
+  "conclusion": "No compatible existing V2 adapter recovered; zero search hits alone do not establish absence from every branch.",
+  "prior_handoff": "6df602e1e4413dbb460b63b3b68e822d65ffa676",
+  "reused_scorer_path": "btc15_cohort_evidence_v1.py",
+  "reused_scorer_blob": "1cce9e32ce6ef5ebac027ae9f30076acf5670468"
+}
