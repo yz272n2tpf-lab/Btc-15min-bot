@@ -33,6 +33,19 @@ def assemble(directory):
       #v2QuoteClock{font-size:.8rem;overflow-wrap:anywhere;color:var(--muted,#aab4c8)}
       #upOdds,#downOdds{font-size:clamp(1.1rem,4vw,2rem);overflow-wrap:anywhere}
       #flipRisk{color:var(--muted,#aab4c8);font-size:clamp(1.1rem,4vw,2rem);overflow-wrap:anywhere}
+      /* The frozen desktop columns need >1000px; phone reflow ends at 700px. */
+      .odds{grid-template-columns:auto minmax(0,1fr)}
+      .odds .kalshi-condition{grid-column:1/-1;white-space:normal;overflow-wrap:anywhere}
+      @media (min-width:701px) and (max-width:1100px){
+        .primary-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto auto auto}
+        .primary-grid>*{min-width:0}
+        .right-stack{grid-column:1/-1;grid-row:2;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto;align-items:start}
+        .right-stack>*{min-width:0}
+        .chart-card{grid-row:3}
+        .odds-grid{grid-template-columns:1fr}
+        .secondary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+        .market-card{grid-column:1/-1}
+      }
     </style>'''
     html=html.replace('</head>',css+'\n</head>')
     html=html.replace('<script src="/ladders/panel.js"></script>',

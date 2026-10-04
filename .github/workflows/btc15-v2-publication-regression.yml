@@ -1,0 +1,51 @@
+name: BTC15 V2 publication repair qualification
+on:
+  pull_request:
+    paths:
+      - btc15_v2_product/journal.py
+      - btc15_v2_product/installer.py
+      - ops/v2_product/**
+      - test_btc15_v2_replay_regression.py
+      - .github/workflows/btc15-v2-publication-regression.yml
+permissions:
+  contents: read
+jobs:
+  repaired-main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: pip install -r requirements.txt
+      - run: npm ci --prefix ops/v2_product --no-audit --no-fund
+      - run: node ops/v2_product/node_modules/playwright/cli.js install --with-deps chromium
+      - run: python -m ops.v2_product.qualify_offline --lane main
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: exact-main-publication-qualification
+          path: qualification/v2_product_20261004
+  unchanged-v81:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 985260e4166559701fc96b5582ca2211619d53ee
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: python -m ops.v2_product.qualify_offline --lane v81
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: unchanged-v81-publication-qualification
+          path: qualification/v2_product_20261004

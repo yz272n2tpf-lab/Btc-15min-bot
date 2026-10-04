@@ -5,5 +5,8 @@
   "description": "Offline DOM qualification only; not production dependencies",
   "dependencies": {
     "jsdom": "26.1.0"
+  },
+  "devDependencies": {
+    "playwright": "1.55.0"
   }
 }

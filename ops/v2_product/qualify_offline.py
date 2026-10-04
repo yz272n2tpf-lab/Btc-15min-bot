@@ -9,7 +9,7 @@ ROOT=Path(__file__).resolve().parents[2]
 SUITE=['test_btc15_ladder_completion_v1','test_btc15_product_logic_v2','test_btc15_scalp_journal_v1',
        'test_directional_position_manager_v1','test_btc15_frozen_fair_production',
        'test_btc15_information_static','test_btc15_information_integration','test_btc15_information_v1',
-       'test_btc15_v2_product_r1','test_btc15_kalshi_quote_provenance_regressions',
+       'test_btc15_v2_product_r1','test_btc15_v2_replay_regression','test_btc15_kalshi_quote_provenance_regressions',
        'test_btc15_brti_delivery_v1','test_btc15_decision_clock_v1']
 
 def main():
@@ -28,6 +28,7 @@ def main():
     subprocess.run([sys.executable,'-m','ops.v2_product.ui_fixtures'],cwd=ROOT,check=True)
     run(['node','ops/v2_product/test_assembled_ui.cjs'],'assembled_ui_tests.log')
     subprocess.run([sys.executable,'-m','ops.v2_product.build_browser_fixture'],cwd=ROOT,check=True)
-    print('Offline checks complete. Browser layout, physical Safari and live acceptance are NOT established.')
+    run(['node','ops/v2_product/test_rendered_ui.cjs'],'rendered_ui_tests.log')
+    print('Offline and rendered Chromium checks complete. Physical Safari and live acceptance are NOT established.')
 
 if __name__=='__main__':main()
