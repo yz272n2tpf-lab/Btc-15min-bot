@@ -1,0 +1,10 @@
+{
+  "checked_at": "2026-10-04T04:32:00Z",
+  "codespace_running": "USER_REPORTED; not independently inspected",
+  "codespaces_page": "https://github.com/codespaces",
+  "observed_result": "Redirect to Sign in to GitHub; Username or email address and Password required",
+  "railway_page": "https://railway.com/project/baea4e22-d004-4434-b2c5-81a7fbc05086",
+  "railway_login": "Continue with GitHub / Log in using email; prior Apple method not offered",
+  "disposition": "Stopped cleanup path. No credential entry, authorization waits, account/key/Codespace creation or alternative authentication route.",
+  "next_action": "User must authorize sign-in to existing GitHub account in this shared browser and select the existing running BTC15 Codespace. Existing Safari sign-in does not establish shared-browser authentication. Railway must use the existing account; do not switch account or create credentials."
+}

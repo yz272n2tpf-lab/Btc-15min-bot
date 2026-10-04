@@ -1,0 +1,20 @@
+{
+  "url": "https://btc-15min-bot-production.up.railway.app/",
+  "started_at": 1791087521.48878,
+  "completed_at": 1791087526.6839483,
+  "status": 200,
+  "headers": {
+    "Cache-Control": "no-store, max-age=0",
+    "Content-Type": "text/html; charset=utf-8",
+    "Date": "Sun, 04 Oct 2026 04:18:46 GMT",
+    "Server": "railway-hikari",
+    "x-content-type-options": "nosniff",
+    "x-railway-request-id": "C2tFtdoVTMukoF7eozsQ6Q",
+    "Content-Length": "75403",
+    "x-hikari-trace": "ord1.zmv5",
+    "x-railway-edge": "ord1",
+    "vary": "accept-encoding",
+    "Connection": "close"
+  },
+  "bytes": 75403
+}

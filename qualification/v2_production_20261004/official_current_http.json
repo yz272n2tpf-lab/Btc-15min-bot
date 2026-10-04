@@ -1,0 +1,17 @@
+{
+  "url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTC15M-26OCT040030-30",
+  "started_at": 1791087711.5652559,
+  "completed_at": 1791087716.4351695,
+  "status": 200,
+  "headers": {
+    "Date": "Sun, 04 Oct 2026 04:21:56 GMT",
+    "Content-Type": "application/json",
+    "Transfer-Encoding": "chunked",
+    "Connection": "close",
+    "content-security-policy": "default-src 'none';",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "vary": "Accept-Encoding",
+    "x-content-type-options": "nosniff",
+    "x-kalshi-cache-hits": "1"
+  }
+}

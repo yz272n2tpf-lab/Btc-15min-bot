@@ -1,0 +1,77 @@
+# BTC15 V2 operating closeout — 2026-10-04
+
+Production operation is verified within the saved observation scope. Scoring, notification receipt, and archive cleanup are not fully closed. This document supplements `BTC15_CURRENT_STATE_AND_FINISH_LINE.md`; all evidence paths below are under [qualification/v2_production_20261004](qualification/v2_production_20261004).
+
+## Consolidated checklist
+
+| Item | Status | Evidence | Exact next action |
+|---|---|---|---|
+| User-applied patch reconciled with earlier STAGED state | VERIFIED | `deployment_receipts.json`, `environment.json`; exact patch and both deployments SUCCESS | None; do not reapply patch |
+| Exact frozen production pins and runtime refs | VERIFIED | `service0.json`, `service1.json`, `runtime_main_ref.json`, `runtime_v81_ref.json` | Preserve frozen SHAs and branches |
+| Startup frozen-byte verifiers | VERIFIED | `reconcile1.json`, `startup_v81_verifier.json` | None; reuse receipts |
+| Mounted persistent journals and readback | VERIFIED | Live `/data` mounts, guarded commands, `main_coverage.json`, `v81_coverage.json`; sequences 44/317, zero queue/drops | Continue existing recording; do not restart merely to repeat qualification |
+| Production dashboard wiring | VERIFIED | `main_dashboard.html`, `panel_wiring.js`, HTTP receipts; exact frozen JS after production URL substitution | None; no new UI or runtime deployment |
+| Official contract/target/window and fresh sources | VERIFIED | `official_current.json`, lane snapshots, `production_checks.json` | Existing watch handles subsequent integrity checks; no continuous availability inference |
+| SIGNAL ONLY / MANUAL / NO ORDERS | VERIFIED | Both production snapshots, startup markers and frozen identity | Maintain these boundaries |
+| Lane recording start and partial-window separation | VERIFIED | `v2_cohort_start.json`, coverage readbacks | Preserve actual first observation times; do not substitute qualification or deployment timestamps |
+| Consistent production event snapshot | BLOCKED | Only disk-view/coverage routes exposed; `railway_snapshot_capability.json` timed out, no snapshot returned | After existing-account access is restored, use an already authorized runtime file/exec capability to take a SQLite read-only backup to a detached artifact; no new exporter or live database mutation |
+| Existing V2 offline scoring bridge | BLOCKED | Recovered package/schema inspection below; no compatible adapter recovered | Locate and inspect any existing V2 adapter in the existing Codespace; then prove exact frozen production snapshot → offline scorer → reproducible scorecard. If absent, prepare an offline compatibility change for review; do not invent performance results |
+| First complete statistical cohort and ladder scores | PENDING | Initial two observed windows partial; no full snapshot/scorer receipt | On a verified snapshot identify complete eligible contracts, deduplicate events/calls and require authoritative outcomes; record actual cohort start and exclusions. No extra pre-launch duration gate |
+| Snapshot cadence/retention coverage | PENDING | Frozen journal caps: 30 days OR 300,000 records; 512 MiB, 96-contract coverage | Recover and verify the existing snapshot job/checkpoint before older events age out; report retained sequence gaps. Do not deploy a replacement recorder |
+| Existing daily and watch prompts / enabled state | VERIFIED | `automations_before.json`; exact task IDs below, V2 prompts enabled | Keep existing prompts/schedules; no duplicates |
+| Supported immediate delivery test | PENDING | To be appended after this authority is committed, so task reads current deployed status | Run existing daily task once with saved prompt/delivery settings; capture supported-tool receipt |
+| Actual execution and notification receipt | PENDING | Task enabled is not execution/delivery proof; push/email controls not exposed in task API | Confirm completed task output and Eric's receipt. User: ChatGPT Settings → Notifications → task notifications; enable the desired supported channel and any device permission requested |
+| Current Railway resource inventory vs old cleanup list | VERIFIED | `environment.json`, `cleanup_reconciliation.json`: 53 services, 6 volumes, all 33 old IDs present, 10 additions | Review each current deployment and dependency, not names/order alone |
+| Codespace uncommitted work and unique archives | BLOCKED | `access_blocker.json`; running reported by user; shared browser redirected to GitHub sign-in | User signs into existing GitHub account in shared browser, opens the existing running BTC15 Codespace; then inventory dirty/untracked work and validate off-service archives before retirement |
+| Railway cleanup UI/account access | BLOCKED | One bounded login attempt offers GitHub/email and needs user action | User signs into the existing Railway account; do not create an account or choose an alternate credential route. No more attempts in this run |
+| Qualification services/volumes preserved | VERIFIED | Current inventory and `reconcile2.json`; exact protected IDs in current-state document | Keep until explicit archive-verified cleanup decision |
+| Retirement execution | BLOCKED | No lossless per-resource archive proof; 0 retirements performed | Verify archive manifests/hashes, unique RAM state, source/config/logs, dependency ownership and uncommitted work; approve exact current stop targets. Preserve service objects, credentials and volumes |
+| Current costs and realized savings | BLOCKED | No current billing receipt. Two-service metrics below are not a bill; zero savings from this mission | After existing-account sign-in obtain dated Railway usage/billing and GitHub/Codespaces billing separately. Do not reuse old projected CPU/RAM figures as totals |
+| Documentation handoff and deployment receipts | VERIFIED | This documentation-branch commit includes state, checklist and machine evidence; prior state archived verbatim | Continue from this commit; do not repeat the completed checks |
+
+## Scoring recovery and exact boundaries
+
+The production paths are `/data/btc15_ladders_v2/main.sqlite3` and `/data/btc15_ladders_v2/v81.sqlite3`, with lane `.json` materialized views. Frozen `btc15_ladder_journal_v1.py` uses `BTC15_LADDER_JOURNAL_V1`, WAL with FULL synchronous writes; events carry sequence, time, contract, kind, SHA256 and zlib-compressed JSON body, with metadata, state and contracts tables. The HTTP routes expose the current view, bounded contract coverage and panel JS, not all journal events. The inspection recovered paths/schema, not file access.
+
+For a consistent snapshot, use SQLite's backup mechanism from a source opened read-only into a separate destination. Copying the live `.sqlite3` alone can omit its WAL. Do not checkpoint, truncate, modify the source, declare an actively written file immutable, add an exporter or restart production. A snapshot receipt must identify the service/deployment/SHA, lane/schema, source, UTC bounds, retained/min/max sequence, row counts, integrity result and file hash. Check journal identity and event-body hashes after decompression. Pair lane snapshots explicitly; do not pretend sequential backups are simultaneous.
+
+Recovered packages were reused from existing saved artifacts:
+
+- `BTC15_Ladder_Analysis_20261003.zip` (`libfile_7e9218d0e7408191b18a58db34ad701d`): `analyze_existing_ladders.py` uses pinned historical source CSVs and research diagnostics. It is not the live V2 journal bridge.
+- `BTC15_Prospective_Evidence_Bundle.zip` (`libfile_0f19497c5b28819181fff2a35388462a`): `audit_baseline.py` / `audit_ladders.py` consume `BTC15_COHORT_NATIVE_V1` JSONL via `read_native_cohort`, with `timestamp_utc` and 60/60 BRTI settlement requirements. V2 stores SQLite events and official finalized Kalshi receipt semantics; compatibility has not been demonstrated.
+- Repository `btc15_master_build_scorecard_v1.py` drives historical accepted-union/Rescue V2 CSV scoring. Older Rescue V2 must not be mislabeled BTC15 ladder-completion V2.
+
+No V2 event snapshot or completed adapter/scorer run receipt was obtained. The read-only Railway capability request timed out; no filesystem result or billing access is inferred. No new scorer, collector, account, key or alternate access path was created. The archive authentication blocker did not prevent connected production, prompt, repository or documentation work.
+
+The eventual offline scorecard must retain source rows sufficient to reproduce immutable origins/entries, subsequent executable bids, protection/EXIT chronology and FINAL call identity. Count unique eligible contracts/calls, not per-publication `final_calls`. Keep complete quiet windows distinct from partial/unavailable windows; keep pending/nonbinary/missing receipts outside settled accuracy denominators. Separate version, production/qualification, lane and contract identity. Preserve frozen strategy semantics; do not tune gates to make incomplete evidence scoreable. Accuracy/calibration, excursion/lifecycle telemetry and hypothetical executable-price results are distinct; none establishes actual manual fills or P&L.
+
+Actual recording begins MAIN 04:14:21.909025Z and V8.1 04:13:31.705281Z on 2026-10-04. Startup contract `KXBTC15M-26OCT040015-15` is partial in both lanes. The sampled `KXBTC15M-26OCT040030-30` window also has missing flags: MAIN began observing at 04:15:19.565253Z and had an unavailable observation; V8.1 had 27 unavailable observations at readback. A later complete window has not been established from these receipts. MAIN's finalized startup receipt is DOWN (`no`), target 84826.77, expiration value 84804.99, official settlement 04:15:07.406310Z. V8.1's sampled receipt remains pending; it must not borrow MAIN's status without its own verified event evidence or an explicitly documented offline official join.
+
+At a hypothetical sustained one event/second, the 300,000-event cap is about 3.47 days; 30 days is not guaranteed retention. This arithmetic is a capacity warning, not an observed eviction or deadline. Full-history continuity and snapshot cadence are unverified.
+
+## Alert identities and delivery controls
+
+| Task | Existing ID | Saved state |
+|---|---|---|
+| BTC15 daily scorecard | 6a9a3752ab6c8191a728578348df6984 | Enabled; daily 08-hour rule, flexible schedule, America/New_York; prompt updated 2026-10-04 04:07:05Z |
+| BTC15 integrity watch | 6aa3fd90bebc81918d82ff88676fd928 | Enabled; hourly condition watch, America/New_York; prompt updated 2026-10-04 04:06:38Z |
+
+Both prompts name exact frozen SHAs, actual production IDs, current authoritative docs and read-only boundaries. They separate partial windows/qualification/older cohorts and prohibit strategy changes/trading. The watch only notifies on qualifying new integrity events; absence of a notification cannot prove delivery failure or success. No fake production fault is injected for a test. The disabled historical nonproduction test is not reactivated. `next_run_time=null` in peek is not proof that an enabled task is disabled or that it has run. The supported run-now control confirms a request only, not execution or delivery. No push/email preference field is exposed by the connected task controls.
+
+User action for delivery: ChatGPT web Settings → Notifications, review task notification channels and enable the desired available push/email channel; accept any requested device/browser permission. Then confirm receipt of the daily test. Official guidance inspected: https://learn.chatgpt.com/docs/notifications . No user channel/device setting is represented as enabled without readback.
+
+## Archive-first cleanup and costs
+
+The saved September 25 package allowed stopping specifically reviewed deployments only after lossless off-service archive checks; service objects, variable/credential bindings and volumes must remain. Its 33-entry order is stale. All old candidate IDs remain present, with differing current deployment states; CRASHED/FAILED is not evidence of successful archival or retirement. Ten services were added since the old 43-service inventory, including both protected V2 qualification services. Full mappings and current last-deployment statuses are in `cleanup_reconciliation.json`.
+
+Keep the production MAIN/V8.1/BRTI dependencies and the existing `scalp-move-shadow-v1` and `scalp-finalprod-clean-v1` evidence roots. The old five non-exportable RAM holders (combined-forward-scorecard, final-forward-scorecard, early-final-handoff, early-excursion, scalp-coverage-audit) retain their archive gates. Do not stop them merely because they appeared on an old list. Do not disable auto-deploy or stop any deployment until the exact current archive/dependency review passes. No credentials, remote keys or evidence were deleted in this run.
+
+The user reports the existing BTC15 Codespace ON/RUNNING. One bounded check of the existing Codespaces page still redirected to GitHub login. No Codespace workspace, dirty files, processes, billing or archival status was inspected. The cleanup path stopped immediately at direct sign-in. In the shared browser, use https://github.com/codespaces → Sign in to the existing `yz272n2tpf-lab` GitHub account → open the existing running BTC15 Codespace. A separate Safari session does not authenticate the shared browser. Do not create a replacement Codespace. Railway's project login likewise requires the user's existing account; GitHub/email choices were visible and the previously reported Apple method was not. Do not invent a replacement account or credential method.
+
+**Completed retirements: 0. Realized savings attributable to this mission: $0. Confirmed current bill/all-platform total: unavailable.** The old $52.43/$56.26 figures were projected Railway CPU+RAM, not a current bill or a Railway+GitHub total. No price extrapolation was made. Existing one-hour/61-sample production metrics include time before V2 completed startup: MAIN mean CPU_USAGE 1.799768668, mean MEMORY_USAGE_GB 2.642533191; V8.1 0.045096871 and 0.059306555 respectively. Current sampled disk usage was MAIN 6.199861248 GB and V8.1 0.074530816 GB. These two-service mixed-version measurements cannot establish current steady V2 or all-project spending. Volume configured size is not measured usage. No supported Codespaces bill was retrieved.
+
+## Evidence and verification scope
+
+`SHA256SUMS.json` hashes the committed evidence payloads. Public HTTP receipts record collection time/status/headers; control-plane snapshots retain exact resource identifiers. Sensitive credential values were not requested or committed. The staged approval payload already in `qualification/BTC15_V2_PRODUCTION_STAGED_20261004.json` remains unchanged; the user-applied patch is reconciled through observed source/configuration, startup and live endpoints.
+
+No runtime branch/source edit, order, strategy change, qualification rerun, production restart/redeploy, credential operation or resource retirement was performed. Documentation is committed only to the authoritative operations branch. Production checks are point-in-time evidence and must not be rephrased as indefinite health, delivery or performance guarantees.

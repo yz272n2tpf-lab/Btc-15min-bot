@@ -1,0 +1,34 @@
+{
+  "applied_patch_id": "bac367fe-44f2-4d94-b5e2-d2e623340f46",
+  "application_authority": "User applied reviewed 24-change patch through Railway dashboard",
+  "deployment_success_source": "Connected Railway deployment list and service health readback",
+  "deployments": [
+    {
+      "id": "2051e772-bd39-4dea-a77d-52fea0a07c02",
+      "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+      "status": "SUCCESS",
+      "createdAt": "2026-10-04T04:12:31.585Z",
+      "updatedAt": "2026-10-04T04:13:35.526Z",
+      "meta": {
+        "reason": "deploy",
+        "commitMessage": "Align companion freeze with final MAIN V2 identity and checkpoint gate\n\nV81 runtime bytes unchanged. Shared final manifest for MAIN de4f3e20b8657eb8cfee91bd4e525c103b5bf513. No deployment.",
+        "commitHash": "60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1",
+        "branch": "release/v81-ladder-completion-20261003"
+      }
+    },
+    {
+      "id": "ce0ac4dd-a3c4-49bb-8ca7-d1b7ed5be2fa",
+      "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+      "status": "SUCCESS",
+      "createdAt": "2026-10-04T04:12:31.560Z",
+      "updatedAt": "2026-10-04T04:13:47.295Z",
+      "meta": {
+        "reason": "deploy",
+        "commitMessage": "Close checkpoint identity gap and preserve exact baseline regression checks for V2 additions\n\nReject wrong-candidate or inconsistent EARLY checkpoints. Update three obsolete pre-ladder assertions to check the exact authorized observer, quote witness and dashboard additions while keeping original source equality. Same strategy policy; final frozen manifest; 91 focused tests pass. No deployment.",
+        "commitHash": "de4f3e20b8657eb8cfee91bd4e525c103b5bf513",
+        "branch": "release/ladder-completion-20261003"
+      }
+    }
+  ],
+  "no_assistant_deployment_restart_or_config_change": true
+}

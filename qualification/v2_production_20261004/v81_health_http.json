@@ -1,0 +1,19 @@
+{
+  "url": "https://v81-live-diagnostics-production.up.railway.app/health",
+  "started_at": 1791087521.4835503,
+  "completed_at": 1791087527.6815205,
+  "status": 200,
+  "headers": {
+    "access-control-allow-origin": "*",
+    "Cache-Control": "no-store",
+    "Content-Type": "application/json",
+    "Date": "Sun, 04 Oct 2026 04:18:47 GMT",
+    "Server": "railway-hikari",
+    "x-railway-request-id": "d1t3gWt6SiCJ5Wf-woOzXw",
+    "Content-Length": "117",
+    "x-hikari-trace": "ord1.x8wt",
+    "x-railway-edge": "ord1",
+    "Connection": "close"
+  },
+  "bytes": 117
+}

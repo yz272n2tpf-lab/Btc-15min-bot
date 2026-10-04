@@ -1,0 +1,1332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#06101c"/>
+<title>BTC 15-Minute — Live Kalshi Trading Signals</title>
+<style>
+:root{
+  --bg:#020914;--panel:#071322;--panel2:#081727;--line:#17354a;
+  --text:#edf5ff;--muted:#8394a7;--muted2:#64788b;--green:#29f28f;--red:#ff5160;
+  --blue:#4b78ff;--yellow:#e7d341;--orange:#f6a63d;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#000814;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+.app-shell{
+  max-width:1440px;margin:0 auto;padding:14px 16px 16px;
+  background:
+    radial-gradient(circle at 50% -15%,rgba(38,75,110,.20),transparent 35%),
+    linear-gradient(180deg,#030b15,#020812 78%,#020611)
+}
+.topbar{
+  display:grid;grid-template-columns:auto 1fr auto;gap:22px;align-items:center;
+  border-bottom:1px solid #142b3e;padding:6px 0 12px
+}
+.brand{display:flex;align-items:center;gap:12px}
+.btc-dot{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#ff8d22;color:#fff;font-size:26px;font-weight:800}
+.brand-title{font-weight:800;font-size:22px;letter-spacing:.01em}
+.brand-sub{color:#b7c8da;font-size:13px}
+.top-copy{text-align:center;color:#71879b;font-size:10px;letter-spacing:.23em}
+.live-box{border:1px solid var(--line);border-radius:13px;padding:8px 12px;min-width:205px;font-size:11px;color:#b8c6d4}
+.live-row{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:2px}
+.live-pill{color:var(--green);font-weight:800}
+.next-contract{font-size:9px;color:#6f8398;margin-top:3px;text-align:right}
+.current-contract-strip{
+  margin-top:10px;padding:8px 12px;border:1px solid #152d40;border-radius:10px;background:#06111e;
+  color:#566474;font-weight:700;font-size:12px
+}
+.current-contract-strip strong{color:#667382}
+
+.card{
+  background:linear-gradient(180deg,rgba(7,20,34,.99),rgba(4,14,26,.99));
+  border:1px solid #18364c;border-radius:15px;box-shadow:inset 0 1px rgba(255,255,255,.02);
+  overflow:hidden
+}
+.card-label{display:inline-flex;border-radius:8px;padding:7px 10px;font-size:11px;font-weight:800;letter-spacing:.04em}
+.green-label{color:#a6ffd4;background:#0d442f;border:1px solid #166644}
+.yellow-label{color:#eaf66d}
+.blue-label{color:#79a0ff}
+
+.primary-grid{
+  display:grid;grid-template-columns:1.05fr 2.3fr 1fr;gap:12px;margin-top:12px;align-items:stretch
+}
+.left-stack,.right-stack{display:grid;gap:12px;align-content:start}
+.final-card,.early-card,.scalp-card,.timer-card,.chart-card{padding:14px}
+.final-card{border-color:#1d7861}
+.hero-up{display:flex;align-items:center;gap:10px;margin:12px 0 10px}
+.arrow{font-size:62px;line-height:.9;color:var(--green);text-shadow:0 0 15px rgba(41,242,143,.20)}
+.side{font-size:56px;line-height:.95;color:var(--green);font-weight:900}
+.confidence{font-size:31px;font-weight:900;color:var(--green)}
+.confidence-label{font-size:11px;color:#60eeb0;font-weight:700}
+.action-stage{border:1px solid #1b4c43;border-radius:11px;padding:9px 10px;background:#071d1a}
+.action-title{font-size:9px;color:#8aa1b4;letter-spacing:.16em}
+.action-main{font-size:23px;font-weight:900;margin-top:2px}
+.action-hold{color:var(--green)}
+.action-watch{color:var(--yellow)}
+.action-protect{color:var(--orange)}
+.action-exit{color:var(--red)}
+.action-sub{font-size:10px;color:#9fb1bd;margin-top:2px}
+.section-title{font-size:12px;font-weight:700;margin:10px 0 7px}
+.odds-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:7px}
+.odds{padding:8px;border-radius:10px;border:1px solid #28506a;display:flex;align-items:center;justify-content:space-between;gap:6px;min-width:0}
+.odds span{font-size:9px}.odds strong{font-size:20px}.odds button{border:0;border-radius:7px;padding:5px 7px;font-weight:800;font-size:9px;flex:0 0 auto}
+.odds.up{background:#082c25}.odds.up strong{color:var(--green)}.odds.up button{background:var(--green);color:#032317}
+.odds.down{background:#2a1420}.odds.down strong{color:#e8a9dc}.odds.down button{background:#f04d58;color:#fff}
+
+.chart-card{position:relative}
+.chart-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.chart-head span{color:#b6c4cf;font-size:11px}
+.price-block{display:flex;gap:10px;align-items:center}
+.price-block strong{font-size:14px}.price-block span{color:var(--green);font-weight:700}
+.static-chart{display:block;width:100%;height:auto;background:#06111e;border-radius:8px;border:1px solid #102a3c}
+.static-chart.small{height:68px}
+.gridline{stroke:#173043;stroke-width:1}
+.startline{stroke:#86a8c4;stroke-width:1;stroke-dasharray:5 5}
+.indicator-row{position:relative;margin-top:5px}
+.indicator-head{position:absolute;left:9px;top:6px;z-index:2;font-size:9px;color:#c8d5df}
+.timeframe-tabs{display:flex;gap:7px;margin-top:8px}
+.timeframe-tabs button{background:#0c1a29;border:1px solid #1b3950;color:#b8c8d7;border-radius:7px;padding:5px 10px;font-size:10px}
+.timeframe-tabs button.active{background:#225fc0;color:#fff;border-color:#3a7fea}
+
+.timer-title{font-size:11px;font-weight:800}
+.timer-card{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center}
+.timer-ring{
+  width:92px;height:92px;border-radius:50%;display:grid;place-items:center;
+  background:radial-gradient(circle at center,#071522 52%,transparent 53%),conic-gradient(var(--green) 0 72%,#1b2d41 72% 100%)
+}
+.timer-ring div{display:flex;flex-direction:column;text-align:center}
+.timer-ring strong{font-size:23px}.timer-ring span{font-size:8px;color:#b4c1cb}
+.timer-meta{font-size:10px;color:#9aa9b6;line-height:1.5}
+.timer-meta strong{display:block;color:#d7e5ef;font-size:12px}
+
+.early-head,.scalp-head{display:flex;align-items:center;gap:8px;margin-top:8px}
+.early-title{font-weight:800;font-size:13px}.muted{color:#97a8b5;font-size:9px}
+.state-pill{margin-left:auto;border-radius:7px;padding:5px 8px;font-size:9px;font-weight:900}
+.state-good{background:#0d6a4b;color:#9dffd1}
+.state-watch{background:#2f354b;color:#c7d0df}
+.flow-list{margin-top:9px;border-top:1px solid #183346}
+.flow-list div{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid #12293b}
+.flow-list span{color:#8399aa;font-size:10px}.flow-list strong{font-size:10px;text-align:right}
+.flow-list .emph strong{color:var(--green)}
+.flow-status{margin-top:8px;border-radius:8px;padding:7px 8px;font-size:9px;font-weight:800}
+.flow-status.good{background:#0d442f;border:1px solid #1a7650;color:#a2ffd2}
+.flow-status.warn{background:#493d0c;border:1px solid #7a6816;color:#f0df68}
+.flow-status.exit{background:#441219;border:1px solid #7c1d29;color:#ff99a2}
+
+.scalp-active{display:flex;align-items:center;justify-content:space-between;margin-top:8px;border:1px solid #1b3a50;border-radius:9px;padding:8px;background:#09261f}
+.scalp-side{display:flex;align-items:center;gap:8px}
+.scalp-arrow{font-size:27px;color:var(--green);font-weight:900}
+.scalp-side div{display:flex;flex-direction:column}.scalp-side strong{font-size:12px}.scalp-side span{font-size:9px;color:#94a6b5}
+.secondary-grid{
+  display:grid;grid-template-columns:repeat(4,1fr) 1.4fr;gap:12px;margin-top:12px
+}
+.metric-card,.market-card,.notes-card,.art-card{padding:13px}
+.metric-title{font-size:10px;font-weight:800;color:#d8e5ef}
+.metric-sub{font-size:9px;color:#7990a3;margin-top:2px}
+.signal-bars{height:45px;display:flex;align-items:end;gap:4px;margin-top:9px}
+.signal-bars i{width:9px;background:var(--green);border-radius:2px}
+.signal-bars i:nth-child(1){height:13px}.signal-bars i:nth-child(2){height:18px}.signal-bars i:nth-child(3){height:24px}.signal-bars i:nth-child(4){height:31px}.signal-bars i:nth-child(5){height:38px}.signal-bars i:nth-child(6){height:44px}
+.metric-word{font-size:18px;font-weight:800;margin-top:4px}
+.evidence-bar{height:10px;border-radius:999px;background:#112536;margin-top:14px;overflow:hidden}
+.evidence-fill{height:100%;width:86%;background:linear-gradient(90deg,#236ce0,#29f28f)}
+.metric-number{font-size:24px;font-weight:900;margin-top:7px}
+.metric-number.green{color:var(--green)}
+.momentum-badge{display:inline-flex;margin-top:10px;padding:6px 9px;border-radius:999px;background:#0d442f;color:#a5ffd4;border:1px solid #1a7650;font-size:10px;font-weight:900}
+.market-card{grid-column:span 2}
+.market-card dl{margin:8px 0 0}.market-card dl div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #183044}
+dt{color:#98aabd;font-size:10px}dd{margin:0;font-size:10px}.positive{color:var(--green);font-weight:700}
+.context-banner{margin-top:9px;padding:8px 10px;border-radius:9px;background:#0d442f;border:1px solid #1a7650;color:#a2ffd2;font-size:10px;font-weight:800}
+.tertiary-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:12px;margin-top:12px}
+.notes-card ul{padding-left:17px;color:#d2dde5;font-size:10px;line-height:1.7}
+.discipline-line{color:var(--yellow);font-weight:800;font-size:10px}
+.art-card{position:relative;min-height:150px;display:grid;place-items:center;background:
+  radial-gradient(circle at 52% 42%,rgba(177,121,51,.08),transparent 28%),
+  linear-gradient(180deg,#0a1520,#040b12 70%)}
+.mountain-layer{position:absolute;inset:0;background:
+  linear-gradient(145deg,transparent 0 52%,rgba(74,88,98,.24) 52% 59%,transparent 59%),
+  linear-gradient(35deg,transparent 0 55%,rgba(55,69,80,.25) 55% 62%,transparent 62%);opacity:.95}
+.geometry{position:absolute;width:58%;height:88%;color:#b88d4c;opacity:.8;filter:drop-shadow(0 0 3px rgba(184,141,76,.10))}
+.quote{position:absolute;right:18px;bottom:13px;text-align:center;font-family:Georgia,serif;font-style:italic;color:#e7e8ec;font-size:15px;line-height:1.22}
+.footer{display:flex;gap:16px;align-items:center;padding:10px 4px 0;color:#607488;font-size:8px;letter-spacing:.11em}.footer-spacer{flex:1}
+
+@media (max-width:1100px){
+  .app-shell{padding:10px}.primary-grid{grid-template-columns:1fr 1.95fr .95fr}
+  .secondary-grid{grid-template-columns:repeat(4,1fr)}
+  .market-card{grid-column:1/-1}
+}
+@media (max-width:820px){
+  .top-copy{display:none}.topbar{grid-template-columns:1fr auto}
+  .primary-grid{grid-template-columns:1fr 1.7fr}.right-stack{grid-column:1/-1;grid-template-columns:1fr 1fr}
+  .secondary-grid{grid-template-columns:1fr 1fr}
+  .market-card{grid-column:1/-1}.tertiary-grid{grid-template-columns:1fr}
+}
+
+.trade-ladder{margin-top:9px;border:1px solid #17384d;border-radius:10px;overflow:hidden;background:#061522}
+.trade-ladder .ladder-row{display:grid;grid-template-columns:1fr auto;gap:10px;padding:7px 9px;border-bottom:1px solid #12293b;align-items:center}
+.trade-ladder .ladder-row:last-child{border-bottom:0}
+.trade-ladder span{font-size:9px;color:#8399aa}
+.trade-ladder strong{font-size:9px;text-align:right}
+.ladder-buy strong{color:var(--green)}
+.ladder-watch strong{color:var(--yellow)}
+.ladder-protect strong{color:var(--orange)}
+.ladder-exit strong{color:var(--red)}
+.position-strip{margin-top:8px;display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.position-strip .pos{border:1px solid #17384d;border-radius:8px;padding:7px;background:#071522}
+.position-strip span{display:block;font-size:8px;color:#74899a}
+.position-strip strong{display:block;font-size:13px;margin-top:2px}
+.position-strip .gain strong{color:var(--green)}
+.reason-line{margin-top:7px;font-size:9px;color:#9fb1bd}
+
+
+/* v5 polish: tighter, cleaner, priority-first */
+.primary-grid{grid-template-columns:1.02fr 2.12fr 1.18fr;gap:10px}
+.left-stack,.right-stack{gap:10px}
+.final-card,.early-card,.scalp-card,.timer-card,.chart-card{padding:12px}
+.hero-up{margin:9px 0 8px}.arrow{font-size:55px}.side{font-size:50px}.confidence{font-size:28px}
+.trade-ladder{margin-top:7px}.trade-ladder .ladder-row{padding:5px 7px}
+.trade-ladder span,.trade-ladder strong{font-size:8.5px}
+.position-strip{margin-top:6px;gap:5px}.position-strip .pos{padding:5px 6px}.position-strip strong{font-size:11px}
+.flow-list{margin-top:6px}.flow-list div{padding:5px 0}
+.flow-status{margin-top:6px;padding:6px 7px}
+.odds{overflow:hidden}.odds button{max-width:52px}
+.chart-card{display:flex;flex-direction:column}
+.chart-card>.static-chart:first-of-type{height:250px}
+.indicator-row .static-chart.small{height:54px}
+.indicator-row{margin-top:4px}
+.timeframe-tabs{margin-top:6px}
+.timer-card{padding:10px}.timer-ring{width:78px;height:78px}.timer-ring strong{font-size:20px}
+.scalp-card{padding:11px}
+.scalp-active{margin-top:6px;padding:6px}
+.secondary-grid{gap:10px;margin-top:10px;padding-top:10px;border-top:1px solid #132b3d}
+.metric-card,.market-card,.notes-card,.art-card{padding:11px}
+.market-card{border-color:#1a4057}
+.tertiary-grid{gap:10px;margin-top:10px;padding-top:10px;border-top:1px solid #132b3d}
+.notes-card,.art-card{min-height:135px}
+.art-card{background:radial-gradient(circle at 52% 42%,rgba(177,121,51,.055),transparent 24%),linear-gradient(180deg,#09131d,#030a11 72%)}
+.geometry{opacity:.86;filter:drop-shadow(0 0 2px rgba(184,141,76,.08))}
+.quote{font-size:14px}
+.opposite-scalp{margin-top:7px;border:1px solid #3c2630;border-radius:9px;padding:7px;background:#17121a}
+.opposite-scalp .scalp-arrow{color:var(--red)}
+.opposite-scalp .state-pill{background:#272c3a;color:#aeb8c5}
+.opposite-scalp .scalp-side span{color:#8d98a6}
+.kalshi-condition{font-size:8px;font-weight:900;border-radius:999px;padding:3px 6px;white-space:nowrap}
+.cond-good{background:#0d442f;color:#9dffd1}
+.cond-watch{background:#4a3e0b;color:#f0df68}
+.odds{display:grid;grid-template-columns:auto auto 1fr;align-items:center}
+.odds .kalshi-condition{justify-self:end}
+
+
+/* V6: surgical iPad layout pass based on actual screenshots */
+html,body{overflow-x:hidden}
+.app-shell{max-width:none;width:100%;padding:8px 10px 12px}
+.topbar{padding:4px 0 8px;gap:12px}
+.current-contract-strip{margin-top:6px;padding:5px 9px;font-size:10px}
+
+/* Core trading workspace: deliberately fit within one iPad landscape viewport. */
+.primary-grid{
+  grid-template-columns:minmax(230px,.92fr) minmax(430px,1.82fr) minmax(265px,1.04fr);
+  gap:8px;margin-top:8px;align-items:start
+}
+.left-stack,.right-stack{gap:8px}
+.final-card,.early-card,.scalp-card,.timer-card,.chart-card{padding:9px}
+.card{border-radius:12px}
+.card-label{padding:5px 7px;font-size:9px}
+.hero-up{margin:6px 0}.arrow{font-size:43px}.side{font-size:39px}.confidence{font-size:23px}.confidence-label{font-size:8px}
+.action-stage{padding:6px 7px}.action-main{font-size:18px}.action-sub,.reason-line{font-size:8px}
+.section-title{font-size:10px;margin:6px 0 5px}
+.odds-grid{gap:5px}
+.odds{padding:5px 6px;gap:4px;grid-template-columns:auto auto minmax(34px,1fr)}
+.odds span{font-size:8px}.odds strong{font-size:16px}
+.kalshi-condition{font-size:7px;padding:2px 4px;justify-self:end;max-width:100%;overflow:visible}
+.trade-ladder{margin-top:5px}
+.trade-ladder .ladder-row{padding:3px 5px;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr)}
+.trade-ladder span,.trade-ladder strong{font-size:7.5px;line-height:1.15}
+.flow-list{margin-top:4px}.flow-list div{padding:3px 0}.flow-list span,.flow-list strong{font-size:7.5px}
+.flow-status{margin-top:4px;padding:4px 5px;font-size:7.5px}
+.position-strip{margin-top:4px;gap:4px}.position-strip .pos{padding:4px}.position-strip span{font-size:7px}.position-strip strong{font-size:9px}
+.early-head{margin-top:5px}.early-title{font-size:10px}.muted{font-size:7px}.state-pill{font-size:7px;padding:3px 5px}
+
+/* Chart uses its space instead of leaving a large dead lower area. */
+.chart-card>.static-chart:first-of-type{height:190px}
+.indicator-row{margin-top:3px}
+.indicator-row .static-chart.small{height:38px}
+.indicator-head{font-size:7px;top:4px}
+.chart-head{margin-bottom:4px}.chart-head span{font-size:8px}.price-block strong{font-size:11px}
+.timeframe-tabs{margin-top:4px;gap:4px}.timeframe-tabs button{padding:3px 7px;font-size:8px}
+.chart-card{min-height:0}
+
+/* Timer and two scalp blocks remain visible in the right column. */
+.timer-card{grid-template-columns:68px 1fr;padding:7px}
+.timer-ring{width:62px;height:62px}.timer-ring strong{font-size:16px}.timer-ring span{font-size:6px}
+.timer-meta{font-size:7px}.timer-meta strong{font-size:9px}
+.scalp-active{margin-top:4px;padding:4px}.scalp-arrow{font-size:19px}.scalp-side strong{font-size:9px}.scalp-side span{font-size:7px}
+.opposite-scalp{margin-top:4px;padding:4px}
+
+/* Supporting area: one tight aligned band, then market context. */
+.secondary-grid{
+  grid-template-columns:repeat(4,minmax(0,1fr)) minmax(250px,1.35fr);
+  gap:7px;margin-top:7px;padding-top:7px;align-items:stretch
+}
+.metric-card,.market-card{padding:8px;min-height:106px}
+.metric-title{font-size:8px}.metric-sub{font-size:7px}
+.signal-bars{height:31px;margin-top:5px}.signal-bars i{width:7px}
+.signal-bars i:nth-child(1){height:9px}.signal-bars i:nth-child(2){height:13px}.signal-bars i:nth-child(3){height:17px}.signal-bars i:nth-child(4){height:22px}.signal-bars i:nth-child(5){height:27px}.signal-bars i:nth-child(6){height:31px}
+.metric-word{font-size:14px;margin-top:2px}
+.evidence-bar{margin-top:8px;height:7px}.metric-number{font-size:17px;margin-top:4px}
+.momentum-badge{margin-top:6px;padding:4px 6px;font-size:8px}
+.market-card{grid-column:auto}
+.market-card dl{margin-top:4px}.market-card dl div{padding:3px 0}.market-card dt,.market-card dd{font-size:7.5px}
+.context-banner{margin-top:5px;padding:5px 6px;font-size:7.5px}
+
+/* Lower reference row: clean two-column alignment, no giant gaps. */
+.tertiary-grid{grid-template-columns:minmax(280px,.9fr) minmax(0,1.6fr);gap:7px;margin-top:7px;padding-top:7px;align-items:stretch}
+.notes-card,.art-card{padding:8px;min-height:108px}
+.notes-card ul{font-size:8px;line-height:1.45;margin:6px 0;padding-left:14px}
+.discipline-line{font-size:8px}
+.art-card{min-height:108px}.geometry{width:48%;height:92%}.quote{font-size:12px;right:12px;bottom:9px}
+.footer{padding-top:6px;font-size:7px}
+
+/* Section labels tighter. */
+.secondary-grid + *{}
+
+
+/* V7: readability + dead-space reclamation only */
+.primary-grid{
+  grid-template-columns:minmax(275px,1.02fr) minmax(430px,1.72fr) minmax(300px,1.08fr);
+  gap:9px;
+}
+.final-card,.early-card,.scalp-card,.timer-card{padding:12px}
+.card-label{font-size:11px;padding:6px 8px}
+.hero-up{margin:8px 0}
+.arrow{font-size:52px}.side{font-size:47px}.confidence{font-size:27px}.confidence-label{font-size:9px}
+.action-title{font-size:9px}.action-main{font-size:23px}.action-sub,.reason-line{font-size:9px}
+.section-title{font-size:11px}
+.odds span{font-size:9px}.odds strong{font-size:18px}.kalshi-condition{font-size:8px}
+.trade-ladder .ladder-row{padding:5px 7px}
+.trade-ladder span,.trade-ladder strong{font-size:9px;line-height:1.25}
+.early-title{font-size:12px}.muted{font-size:8px}.state-pill{font-size:8px}
+.flow-list div{padding:5px 0}.flow-list span,.flow-list strong{font-size:9px}
+.flow-status{font-size:9px;padding:6px 7px}
+.position-strip .pos{padding:6px}.position-strip span{font-size:8px}.position-strip strong{font-size:12px}
+
+/* Reclaim the obvious center/right dead space: chart is shorter, not the text. */
+.chart-card>.static-chart:first-of-type{height:150px}
+.indicator-row .static-chart.small{height:31px}
+.chart-head span{font-size:9px}.price-block strong{font-size:12px}
+.timeframe-tabs button{font-size:9px;padding:4px 8px}
+.chart-card{padding:10px}
+
+/* Make timer/scalp readable with reclaimed space. */
+.timer-card{grid-template-columns:76px 1fr;padding:10px}
+.timer-ring{width:70px;height:70px}.timer-ring strong{font-size:19px}
+.timer-meta{font-size:8px}.timer-meta strong{font-size:10px}
+.scalp-active{padding:6px}.scalp-arrow{font-size:23px}.scalp-side strong{font-size:10px}.scalp-side span{font-size:8px}
+.opposite-scalp{padding:6px}
+
+/* Pull supporting content upward and make its grid visually even. */
+.secondary-grid{margin-top:8px;padding-top:8px;gap:8px;align-items:stretch}
+.metric-card,.market-card{min-height:112px}
+.tertiary-grid{margin-top:8px;padding-top:8px;gap:8px}
+.notes-card,.art-card{min-height:112px}
+
+
+/* V8: proportion correction based on latest iPad screenshots */
+.primary-grid{
+  grid-template-columns:minmax(315px,1.18fr) minmax(360px,1.38fr) minmax(325px,1.16fr);
+  gap:10px;
+}
+.left-stack,.right-stack{gap:10px}
+
+/* Make the three decision zones the stars. */
+.final-card,.early-card,.scalp-card,.timer-card{padding:14px}
+.card-label{font-size:12px;padding:7px 9px}
+.hero-up{margin:9px 0}
+.arrow{font-size:58px}.side{font-size:52px}.confidence{font-size:30px}.confidence-label{font-size:10px}
+.action-title{font-size:10px}.action-main{font-size:25px}.action-sub,.reason-line{font-size:9.5px}
+.section-title{font-size:11px}
+.trade-ladder .ladder-row{padding:6px 8px}
+.trade-ladder span,.trade-ladder strong{font-size:9.5px;line-height:1.25}
+.flow-list div{padding:6px 0}.flow-list span,.flow-list strong{font-size:9.5px}
+.flow-status{font-size:9.5px;padding:7px 8px}
+.position-strip .pos{padding:7px}.position-strip span{font-size:8.5px}.position-strip strong{font-size:13px}
+.early-title{font-size:13px}.muted{font-size:8.5px}.state-pill{font-size:8.5px}
+.odds span{font-size:9.5px}.odds strong{font-size:19px}.kalshi-condition{font-size:8px}
+
+/* Chart intentionally smaller and lower-density so it doesn't dominate. */
+.chart-card{padding:10px}
+.chart-card>.static-chart:first-of-type{height:128px}
+.indicator-row .static-chart.small{height:27px}
+.chart-head{margin-bottom:3px}
+.chart-head span{font-size:8.5px}.price-block strong{font-size:11px}
+.indicator-head{font-size:6.5px}
+.timeframe-tabs{margin-top:3px}
+.timeframe-tabs button{font-size:8px;padding:3px 7px}
+
+/* Use the reclaimed vertical space on right for timer + both scalp blocks. */
+.timer-card{grid-template-columns:82px 1fr;padding:11px}
+.timer-ring{width:76px;height:76px}.timer-ring strong{font-size:20px}
+.timer-meta{font-size:8.5px}.timer-meta strong{font-size:10.5px}
+.scalp-card{padding:12px}
+.scalp-active{padding:7px}.scalp-arrow{font-size:24px}.scalp-side strong{font-size:10.5px}.scalp-side span{font-size:8px}
+.opposite-scalp{padding:7px}
+
+/* Pull the lower dashboard up to eliminate the large middle/right black band. */
+.secondary-grid{margin-top:4px;padding-top:4px}
+.tertiary-grid{margin-top:6px;padding-top:6px}
+
+
+/* V9: hard fix for the iPad screenshots — eliminate the black L, enlarge decision panels */
+.primary-grid{
+  display:grid;
+  grid-template-columns:minmax(320px,1.12fr) minmax(390px,1.42fr) minmax(330px,1.16fr);
+  gap:10px;
+  align-items:stretch;
+}
+.left-stack,.right-stack{
+  display:grid;
+  grid-template-rows:auto 1fr;
+  gap:10px;
+  height:100%;
+}
+.chart-card{
+  height:100%;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+}
+.chart-card>.static-chart:first-of-type{height:155px;flex:0 0 155px}
+.indicator-row .static-chart.small{height:30px}
+.chart-head{margin-bottom:4px}
+.timeframe-tabs{margin-top:4px}
+
+/* Use reclaimed width/height for the actual decision cards. */
+.final-card,.early-card,.scalp-card,.timer-card{padding:15px}
+.card-label{font-size:12px;padding:7px 9px}
+.arrow{font-size:61px}.side{font-size:55px}.confidence{font-size:31px}.confidence-label{font-size:10px}
+.action-main{font-size:26px}.action-sub,.reason-line{font-size:10px}
+.trade-ladder .ladder-row{padding:6px 8px}
+.trade-ladder span,.trade-ladder strong{font-size:10px;line-height:1.22}
+.flow-list div{padding:6px 0}.flow-list span,.flow-list strong{font-size:10px}
+.position-strip .pos{padding:7px}.position-strip span{font-size:9px}.position-strip strong{font-size:13px}
+.flow-status{font-size:10px;padding:7px 8px}
+.early-title{font-size:14px}.muted{font-size:9px}.state-pill{font-size:9px}
+.odds{padding:7px 8px}.odds span{font-size:10px}.odds strong{font-size:20px}.kalshi-condition{font-size:8.5px}
+.timer-card{grid-template-columns:86px 1fr;padding:12px}
+.timer-ring{width:80px;height:80px}.timer-ring strong{font-size:21px}
+.timer-meta{font-size:9px}.timer-meta strong{font-size:11px}
+.scalp-card{padding:13px}
+.scalp-active{padding:7px}.scalp-arrow{font-size:25px}.scalp-side strong{font-size:11px}.scalp-side span{font-size:8.5px}
+.opposite-scalp{padding:7px}
+
+/* IMPORTANT: pull the support band directly under the tallest top card set. */
+.secondary-grid{
+  margin-top:8px;
+  padding-top:8px;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr)) minmax(280px,1.35fr);
+  gap:8px;
+  align-items:stretch;
+}
+.metric-card,.market-card{
+  min-height:118px;
+  height:100%;
+}
+.tertiary-grid{
+  margin-top:8px;
+  padding-top:8px;
+  grid-template-columns:minmax(300px,.9fr) minmax(0,1.65fr);
+  gap:8px;
+  align-items:stretch;
+}
+.notes-card,.art-card{min-height:118px;height:100%}
+
+/* Keep the whole page compact enough to avoid scroll for the decision workspace. */
+.app-shell{padding-bottom:8px}
+.footer{padding-top:5px}
+
+
+/* V10: new hierarchy based on actual workflow
+   TOP ROW = Final Outcome | Early Opportunity | Timer + Scalp
+   CHART = full-width row underneath
+   Supporting sections remain below
+*/
+.primary-grid{
+  display:grid;
+  grid-template-columns:minmax(300px,1fr) minmax(340px,1.15fr) minmax(330px,1fr);
+  grid-template-rows:auto auto;
+  gap:10px;
+  align-items:start;
+}
+
+/* Let Final and Early become independent top-row grid items */
+.left-stack{display:contents}
+.final-card{grid-column:1;grid-row:1}
+.early-card{grid-column:2;grid-row:1}
+.right-stack{
+  grid-column:3;
+  grid-row:1;
+  display:grid;
+  grid-template-rows:auto auto;
+  gap:10px;
+}
+
+/* Full-width chart under the decision row */
+.chart-card{
+  grid-column:1 / -1;
+  grid-row:2;
+  width:100%;
+  margin:0;
+  padding:10px 12px;
+  display:flex;
+  flex-direction:column;
+}
+.chart-card>.static-chart:first-of-type{height:185px;flex:0 0 185px}
+.indicator-row .static-chart.small{height:36px}
+.chart-head{margin-bottom:5px}
+.chart-head span{font-size:10px}
+.price-block strong{font-size:13px}
+.indicator-head{font-size:8px}
+.timeframe-tabs{margin-top:5px}
+
+/* Make the top decision row truly readable */
+.final-card,.early-card,.timer-card,.scalp-card{padding:16px}
+.card-label{font-size:13px;padding:7px 10px}
+.hero-up{margin:10px 0}
+.arrow{font-size:66px}
+.side{font-size:60px}
+.confidence{font-size:34px}
+.confidence-label{font-size:11px}
+.action-title{font-size:11px}
+.action-main{font-size:29px}
+.action-sub,.reason-line{font-size:10.5px}
+.section-title{font-size:12px}
+.odds{padding:8px 9px}
+.odds span{font-size:10px}
+.odds strong{font-size:22px}
+.kalshi-condition{font-size:9px}
+
+.early-title{font-size:15px}
+.muted{font-size:9.5px}
+.state-pill{font-size:9.5px;padding:5px 8px}
+.flow-list div{padding:7px 0}
+.flow-list span,.flow-list strong{font-size:10.5px}
+.position-strip{gap:6px}
+.position-strip .pos{padding:8px}
+.position-strip span{font-size:9px}
+.position-strip strong{font-size:14px}
+.trade-ladder .ladder-row{padding:7px 9px}
+.trade-ladder span,.trade-ladder strong{font-size:10.5px;line-height:1.25}
+.flow-status{font-size:10.5px;padding:8px 9px}
+
+.timer-card{grid-template-columns:92px 1fr;padding:13px}
+.timer-ring{width:86px;height:86px}
+.timer-ring strong{font-size:23px}
+.timer-meta{font-size:9.5px}
+.timer-meta strong{font-size:11.5px}
+
+.scalp-card{padding:14px}
+.scalp-active{padding:8px}
+.scalp-arrow{font-size:28px}
+.scalp-side strong{font-size:12px}
+.scalp-side span{font-size:9px}
+.opposite-scalp{padding:8px}
+
+/* Remove leftover height behavior from prior versions */
+.final-card,.early-card,.right-stack,.chart-card{height:auto;min-height:0}
+
+/* Keep lower dashboard exactly where it belongs, just tight and aligned */
+.secondary-grid{margin-top:9px;padding-top:8px;gap:8px}
+.tertiary-grid{margin-top:8px;padding-top:8px;gap:8px}
+
+
+/* V11: keep V10 hierarchy, pull scalp fully into first view, preserve/bump readability */
+.primary-grid{
+  grid-template-columns:minmax(305px,1fr) minmax(345px,1.14fr) minmax(330px,1fr);
+  gap:9px;
+  align-items:start;
+}
+
+/* Keep top-row text strong; do NOT shrink fonts. */
+.final-card,.early-card,.timer-card,.scalp-card{padding:15px}
+.card-label{font-size:13px}
+.trade-ladder span,.trade-ladder strong{font-size:10.75px}
+.flow-list span,.flow-list strong{font-size:10.75px}
+.action-sub,.reason-line{font-size:10.75px}
+.early-title{font-size:15.5px}
+.position-strip span{font-size:9.25px}
+.position-strip strong{font-size:14.5px}
+.scalp-side strong{font-size:12.25px}
+.scalp-side span{font-size:9.25px}
+.timer-meta{font-size:9.75px}
+.timer-meta strong{font-size:11.75px}
+
+/* Compress containers, not text. */
+.timer-card{
+  grid-template-columns:78px 1fr;
+  padding:10px 12px;
+}
+.timer-ring{width:72px;height:72px}
+.timer-ring strong{font-size:21px}
+
+.right-stack{
+  gap:7px;
+  grid-template-rows:auto auto;
+}
+
+/* Tighten only vertical chrome inside scalp card so both UP + DOWN remain visible. */
+.scalp-card{padding:11px 12px}
+.scalp-active{padding:6px 7px;margin-top:5px}
+.position-strip{margin-top:5px}
+.trade-ladder{margin-top:5px}
+.trade-ladder .ladder-row{padding:5px 7px}
+.flow-status{margin-top:5px;padding:6px 7px}
+.opposite-scalp{margin-top:5px;padding:6px}
+
+/* Chart remains full-width under top row, slightly shorter to protect first-view fit. */
+.chart-card{
+  grid-column:1 / -1;
+  grid-row:2;
+  padding:9px 11px;
+}
+.chart-card>.static-chart:first-of-type{
+  height:150px;
+  flex:0 0 150px;
+}
+.indicator-row .static-chart.small{height:31px}
+.chart-head{margin-bottom:4px}
+.timeframe-tabs{margin-top:4px}
+
+/* Lower dashboard unchanged in content, pulled tight underneath. */
+.secondary-grid{margin-top:7px;padding-top:7px}
+.tertiary-grid{margin-top:7px;padding-top:7px}
+
+
+/* V12 PHONE ONLY — iPad/desktop V11 remains unchanged */
+@media (max-width:700px){
+  .app-shell{width:100%;max-width:none;padding:8px}
+  .topbar{display:grid;grid-template-columns:1fr auto;gap:7px;padding:3px 0 7px}
+  .top-copy{display:none}.btc-dot{width:34px;height:34px;font-size:20px}
+  .brand-title{font-size:16px}.brand-sub{font-size:9px}
+  .live-box{min-width:130px;padding:6px 7px;font-size:8px}
+  .current-contract-strip{margin-top:5px;padding:5px 7px;font-size:8px}
+
+  .primary-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto auto auto;gap:7px;margin-top:7px}
+  .left-stack{display:contents}
+  .final-card{grid-column:1;grid-row:1 / span 2}
+  .early-card{grid-column:2;grid-row:1}
+  .right-stack{display:contents}
+  .timer-card{grid-column:2;grid-row:2}
+  .scalp-card{grid-column:1/-1;grid-row:3}
+  .chart-card{grid-column:1/-1;grid-row:4}
+
+  .final-card,.early-card,.timer-card,.scalp-card{padding:9px}
+  .card-label{font-size:9px;padding:5px 6px}
+  .hero-up{margin:5px 0;gap:6px}.arrow{font-size:38px}.side{font-size:34px}.confidence{font-size:20px}.confidence-label{font-size:7px}
+  .action-stage{padding:5px 6px}.action-title{font-size:7px}.action-main{font-size:17px}.action-sub,.reason-line{font-size:7px}
+  .section-title{font-size:8px;margin:5px 0 4px}
+  .odds-grid{grid-template-columns:1fr;gap:4px}.odds{padding:4px 5px}.odds span{font-size:7px}.odds strong{font-size:14px}.kalshi-condition{font-size:6.5px}
+  .trade-ladder{margin-top:4px}.trade-ladder .ladder-row{padding:3px 4px;grid-template-columns:.8fr 1.2fr}
+  .trade-ladder span,.trade-ladder strong{font-size:6.8px;line-height:1.15}
+  .early-title{font-size:10px}.muted{font-size:6.5px}.state-pill{font-size:6.5px;padding:3px 4px}
+  .flow-list{margin-top:3px}.flow-list div{padding:3px 0}.flow-list span,.flow-list strong{font-size:6.8px}
+  .position-strip{gap:3px;margin-top:3px}.position-strip .pos{padding:4px}.position-strip span{font-size:6px}.position-strip strong{font-size:9px}
+  .flow-status{margin-top:3px;padding:4px;font-size:6.8px}
+
+  .timer-card{grid-template-columns:58px 1fr;padding:7px}.timer-ring{width:54px;height:54px}.timer-ring strong{font-size:15px}.timer-ring span{font-size:5px}
+  .timer-meta{font-size:6.5px}.timer-meta strong{font-size:8px}
+
+  .scalp-card{display:grid;grid-template-columns:1fr 1fr;column-gap:6px;align-items:start}
+  .scalp-card>.card-label{grid-column:1/-1}
+  .scalp-active{grid-column:1;margin:3px 0 0;padding:5px}
+  .scalp-card>.position-strip{grid-column:1}.scalp-card>.trade-ladder{grid-column:1}.scalp-card>.flow-status{grid-column:1}
+  .opposite-scalp{grid-column:2;grid-row:2/span 4;margin:3px 0 0;padding:5px;height:100%}
+  .scalp-arrow{font-size:19px}.scalp-side strong{font-size:8px}.scalp-side span{font-size:6.5px}
+
+  .chart-card{padding:7px}.chart-card>.static-chart:first-of-type{height:120px;flex:0 0 120px}
+  .indicator-row .static-chart.small{height:26px}.chart-head span{font-size:7px}.price-block strong{font-size:9px}.price-block span{font-size:7px}
+  .timeframe-tabs button{font-size:7px;padding:3px 6px}
+
+  .secondary-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:7px;padding-top:7px}
+  .metric-card,.market-card{min-height:0;padding:8px}.market-card{grid-column:1/-1}
+  .tertiary-grid{display:grid;grid-template-columns:1fr;gap:6px;margin-top:7px;padding-top:7px}
+  .notes-card,.art-card{min-height:105px}.footer{font-size:6px;gap:8px;flex-wrap:wrap}
+}
+
+
+/* V13 LIVE DATA WIRING — layout preserved; data/status only */
+.live-pill.live-ok{color:var(--green)}
+.live-pill.live-warn{color:var(--yellow)}
+.live-pill.live-stale{color:var(--red)}
+.final-card.down-mode{border-color:#7a2631}
+.final-card.down-mode .arrow,.final-card.down-mode .side,.final-card.down-mode .confidence,.final-card.down-mode .confidence-label{color:var(--red)}
+.final-card.wait-mode .arrow,.final-card.wait-mode .side,.final-card.wait-mode .confidence{color:#a8b7c5;text-shadow:none}
+.odds .cond-good{background:#0d442f;color:#9dffd1}
+.odds .cond-watch{background:#4a3e0b;color:#f0df68}
+.odds .cond-bad{background:#441219;color:#ff99a2}
+.metric-number.text-state{font-size:18px;line-height:1.15}
+.data-pulse{animation:dataPulse .45s ease-out}
+@keyframes dataPulse{from{opacity:.72}to{opacity:1}}
+.indicator-unavailable{font-size:11px;color:#9eafbf;padding:20px 8px 4px;min-height:38px;border:1px solid #18364c;border-radius:6px}.timeframe-tabs button:disabled{opacity:.55;cursor:not-allowed}.evidence-fill{width:0}.signal-bars i{opacity:.12}
+</style>
+<style id="btc15-render-fix-v4">
+#btcPrice { color:#f3f5f7 !important; opacity:1 !important; text-shadow:none !important; }
+.chart-card > svg { opacity:1 !important; visibility:visible !important; transition:none !important; animation:none !important; }
+#finalReason {
+  min-height:4.2em !important;
+  height:4.2em !important;
+  line-height:1.4em !important;
+  overflow:hidden !important;
+  display:-webkit-box !important;
+  -webkit-line-clamp:3 !important;
+  -webkit-box-orient:vertical !important;
+}
+#finalActionSub { min-height:2.8em !important; }
+/* UI LOCK: never allow the temporary V8.1 overlay to alter the frozen layout. */
+#v81ScalpCard { display:none !important; }
+</style>
+<!-- BTC15_RENDER_FIX_V4 -->
+</head>
+<body>
+<main class="app-shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="btc-dot">₿</div>
+      <div>
+        <div class="brand-title">BTC 15-Minute</div>
+        <div class="brand-sub">Kalshi Trading Signals</div>
+      </div>
+    </div>
+    <div class="top-copy">REAL DATA. REAL ANALYSIS. REAL OPPORTUNITY.</div>
+    <div class="live-box">
+      <div id="liveDate">—</div>
+      <div class="live-row"><span id="liveTime">—</span><span class="live-pill" id="liveStatus">● CONNECTING</span></div>
+      <div class="next-contract" id="nextContract">Next contract: —</div>
+    </div>
+  </header>
+
+  <div class="current-contract-strip">CURRENT CONTRACT: <strong id="currentContract">BTC 15-MINUTE · CONNECTING</strong></div>
+
+  <section class="primary-grid">
+    <div class="left-stack">
+      <article class="card final-card" id="finalCard">
+        <div class="card-label green-label">FINAL OUTCOME</div>
+        <div class="hero-up">
+          <div class="arrow" id="finalArrow">↑</div>
+          <div>
+            <div class="side" id="finalSide">—</div>
+            <div class="confidence" id="finalConfidence">—</div>
+            <div class="confidence-label">MODEL ESTIMATE</div>
+          </div>
+        </div>
+
+        <div class="action-stage">
+          <div class="action-title">ACTION</div>
+          <div class="action-main action-watch" id="finalAction">WATCH</div>
+          <div class="action-sub" id="finalActionSub">Waiting for live state…</div>
+          <div class="reason-line" id="finalReason">Reason: Connecting to the read-only live adapter.</div>
+        </div>
+
+        <div class="trade-ladder">
+          <div class="ladder-row ladder-buy"><span>Buy / Add zone</span><strong id="finalBuyZone">Use active Entry card</strong></div>
+          <div class="ladder-row"><span>Hold zone</span><strong id="finalHoldZone">Waiting for FINAL gate</strong></div>
+          <div class="ladder-row ladder-watch"><span>Watch zone</span><strong id="finalWatchZone">Live reversal state</strong></div>
+          <div class="ladder-row ladder-protect"><span>Protect profits</span><strong id="finalProtectZone">Shadow validation in progress</strong></div>
+          <div class="ladder-row ladder-exit"><span>Exit now</span><strong id="finalExitZone">No validated exit rule yet</strong></div>
+        </div>
+
+        <div class="section-title">Kalshi Buy Quotes (Ask)</div>
+        <div class="odds-grid">
+          <div class="odds up"><span>UP</span><strong id="upOdds">—</strong><span class="kalshi-condition cond-watch" id="upCondition">WAIT</span></div>
+          <div class="odds down"><span>DOWN</span><strong id="downOdds">—</strong><span class="kalshi-condition cond-watch" id="downCondition">WAIT</span></div>
+        </div>
+      </article>
+
+      <article class="card early-card">
+        <div class="card-label yellow-label">⚡ EARLY OPPORTUNITY</div>
+        <div class="early-head">
+          <div>
+            <div class="early-title" id="earlyTitle">Watching for entry</div>
+            <div class="muted">Opportunity status</div>
+          </div>
+          <div class="state-pill state-watch" id="earlyState">WATCHING</div>
+        </div>
+        <div class="flow-list">
+          <div class="emph"><span>Entry range</span><strong id="earlyEntry">Waiting for Tier-1</strong></div>
+          <div><span>Once entered</span><strong id="earlyAfterEntry">Signal only · you execute</strong></div>
+        </div>
+        <div class="position-strip">
+          <div class="pos"><span>Signal entry ASK</span><strong id="earlyYourEntry">—</strong></div>
+          <div class="pos"><span>Current executable price</span><strong id="earlyCurrentPrice">—</strong></div>
+          <div class="pos gain"><span>Model edge</span><strong id="earlyEdge">—</strong></div>
+        </div>
+        <div class="trade-ladder">
+          <div class="ladder-row ladder-buy"><span>Entry</span><strong id="earlyLadderEntry">≤45¢ frozen Tier-1</strong></div>
+          <div class="ladder-row"><span>Hold</span><strong id="earlyLadderHold">Waiting for live gate</strong></div>
+          <div class="ladder-row ladder-watch"><span>Watch</span><strong id="earlyLadderWatch">Live reversal state</strong></div>
+          <div class="ladder-row ladder-protect"><span>Protect profits</span><strong id="earlyLadderProtect">Policy pending validation</strong></div>
+          <div class="ladder-row ladder-exit"><span>Exit now</span><strong id="earlyLadderExit">No validated exit rule yet</strong></div>
+        </div>
+        <div class="flow-status warn" id="earlyFlow">Watching frozen Tier-1 gate</div>
+      </article>
+    </div>
+
+    <article class="card chart-card">
+      <div class="chart-head">
+        <div><strong>BTC PRICE · BRTI</strong> <span>(sampled reference · 15m contract)</span></div>
+        <div class="price-block"><strong id="btcPrice">—</strong><span id="btcGap">—</span></div>
+      </div>
+
+      <svg viewBox="0 0 900 340" class="static-chart" preserveAspectRatio="none">
+        <g>
+          <line x1="112.5" y1="0" x2="112.5" y2="340" class="gridline"/><line x1="225" y1="0" x2="225" y2="340" class="gridline"/><line x1="337.5" y1="0" x2="337.5" y2="340" class="gridline"/><line x1="450" y1="0" x2="450" y2="340" class="gridline"/><line x1="562.5" y1="0" x2="562.5" y2="340" class="gridline"/><line x1="675" y1="0" x2="675" y2="340" class="gridline"/><line x1="787.5" y1="0" x2="787.5" y2="340" class="gridline"/>
+          <line x1="0" y1="68" x2="900" y2="68" class="gridline"/><line x1="0" y1="136" x2="900" y2="136" class="gridline"/><line x1="0" y1="204" x2="900" y2="204" class="gridline"/><line x1="0" y1="272" x2="900" y2="272" class="gridline"/>
+        </g>
+        <polyline id="chartBtcPath" points="" fill="none" stroke="#2e78ff" stroke-width="2.2"/>
+        <polyline id="chartTargetPath" points="" fill="none" stroke="#f6a63d" stroke-width="1.8"/>
+      </svg>
+
+      <div class="indicator-row">
+        <div class="indicator-head">RSI (14)</div><div class="indicator-unavailable">NOT CONNECTED — no live indicator feed</div>
+      </div>
+      <div class="indicator-row">
+        <div class="indicator-head">MACD</div><div class="indicator-unavailable">NOT CONNECTED — no live indicator feed</div>
+      </div>
+      <div class="indicator-row">
+        <div class="indicator-head">Volume</div><div class="indicator-unavailable">NOT CONNECTED — no live indicator feed</div>
+      </div>
+      <div class="timeframe-tabs" title="Indicator/candle intervals are not yet connected"><button disabled>1m · pending</button><button disabled>3m · pending</button><button disabled>5m · pending</button><button disabled class="active">15m · sampled line</button></div>
+    </article>
+
+    <div class="right-stack">
+      <article class="card timer-card">
+        <div class="timer-ring"><div><strong id="timerRemaining">—</strong><span>REMAINING</span></div></div>
+        <div class="timer-meta">
+          <div class="timer-title">CONTRACT TIMER</div>
+          Contract ends<strong id="timerEnd">—</strong>
+        </div>
+      </article>
+
+      <article class="card scalp-card" id="scalpCard">
+        <div class="card-label blue-label">◎ SCALP / REVERSAL</div>
+        <div class="scalp-active" id="scalpActive">
+          <div class="scalp-side">
+            <span class="scalp-arrow" id="scalpArrow">↑</span>
+            <div><strong id="scalpTitle">SCALP —</strong><span id="scalpEntry">Watching frozen gate</span></div>
+          </div>
+          <div class="state-pill state-watch" id="scalpState">WATCHING</div>
+        </div>
+        <div class="position-strip">
+          <div class="pos"><span>Signal entry ASK</span><strong id="scalpYourEntry">—</strong></div>
+          <div class="pos"><span>Exit bid</span><strong id="scalpCurrentPrice">—</strong></div>
+          <div class="pos gain"><span>Movement</span><strong id="scalpTargetStrip">—</strong></div>
+        </div>
+        <div class="trade-ladder">
+          <div class="ladder-row ladder-buy"><span>Entry</span><strong id="scalpLadderEntry">≤70¢ frozen scalp</strong></div>
+          <div class="ladder-row"><span>Hold</span><strong id="scalpLadderHold">Up to 5m horizon</strong></div>
+          <div class="ladder-row ladder-watch"><span>Watch</span><strong id="scalpLadderWatch">Live reversal state</strong></div>
+          <div class="ladder-row ladder-protect"><span>Target exit</span><strong id="scalpLadderProtect">+8¢ frozen target</strong></div>
+          <div class="ladder-row ladder-exit"><span>Exit / stop</span><strong id="scalpLadderExit">−10¢ frozen stop</strong></div>
+        </div>
+        <div class="flow-status warn" id="scalpFlow">Watching frozen strong-scalp gate</div>
+        <div class="opposite-scalp">
+          <div class="scalp-active" style="margin:0;background:transparent;border:0;padding:0">
+            <div class="scalp-side">
+              <span class="scalp-arrow" id="oppositeArrow">↓</span>
+              <div><strong id="oppositeTitle">SCALP DOWN</strong><span id="oppositeEntry">Separate opposite-side setup</span></div>
+            </div>
+            <div class="state-pill" id="oppositeState">WAITING</div>
+          </div>
+          <div class="trade-ladder">
+            <div class="ladder-row ladder-buy"><span>Entry</span><strong>Independent output not connected</strong></div>
+            <div class="ladder-row"><span>Hold</span><strong>Not active</strong></div>
+            <div class="ladder-row ladder-watch"><span>Watch</span><strong>Independent output not connected</strong></div>
+            <div class="ladder-row ladder-protect"><span>Target exit</span><strong>No linked position</strong></div>
+            <div class="ladder-row ladder-exit"><span>Exit / stop</span><strong>No linked position</strong></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="secondary-grid">
+    <article class="card metric-card">
+      <div class="metric-title">SIGNAL STRENGTH</div><div class="metric-sub">Current agreement</div>
+      <div class="signal-bars"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="metric-word" id="signalStrength">—</div>
+    </article>
+
+    <article class="card metric-card">
+      <div class="metric-title">EVIDENCE SCORE</div><div class="metric-sub" id="evidenceSub">FINAL gate checks</div>
+      <div class="evidence-bar"><div class="evidence-fill"></div></div>
+      <div class="metric-number" id="evidenceScore">— / 7</div>
+    </article>
+
+    <article class="card metric-card">
+      <div class="metric-title">FLIP RISK</div><div class="metric-sub">Probability feed not connected</div>
+      <div class="metric-number green" id="flipRisk">—</div>
+      <div class="metric-sub" id="flipRiskSub">Live reversal state</div>
+    </article>
+
+    <article class="card metric-card">
+      <div class="metric-title">MARKET MOMENTUM</div><div class="metric-sub">Directional pressure</div>
+      <div class="momentum-badge" id="momentumBadge">—</div>
+      <div class="metric-sub" id="momentumSub">Live directional pressure</div>
+    </article>
+
+    <article class="card market-card">
+      <div class="card-label blue-label">▥ MARKET CONTEXT</div>
+      <dl>
+        <div><dt>Overall trend</dt><dd class="positive" id="contextTrend">—</dd></div>
+        <div><dt>5m range</dt><dd id="contextRange">—</dd></div>
+        <div><dt>BRTI</dt><dd id="contextBrti">—</dd></div>
+        <div><dt>Target / BTC</dt><dd id="contextLevels">—</dd></div>
+      </dl>
+      <div class="context-banner" id="contextBanner">Connecting to live market context…</div>
+    </article>
+  </section>
+
+  <section class="tertiary-grid">
+    <article class="card notes-card">
+      <div class="card-label blue-label">▤ QUICK NOTES</div>
+      <ul>
+        <li>Let the bot confirm.</li>
+        <li>Follow the active trade card.</li>
+        <li>Protect profits only when instructed.</li>
+      </ul>
+      <div class="discipline-line">Discipline creates opportunity.</div>
+    </article>
+
+    <article class="card art-card" aria-label="Mountains and sacred geometry">
+      <div class="mountain-layer"></div>
+      <svg class="geometry" viewBox="0 0 300 180" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="1.1">
+          <circle cx="150" cy="90" r="58"/><circle cx="120" cy="90" r="58"/><circle cx="180" cy="90" r="58"/>
+          <circle cx="150" cy="60" r="58"/><circle cx="150" cy="120" r="58"/>
+          <path d="M150 17 L213 126 L87 126 Z"/><path d="M150 163 L87 54 L213 54 Z"/>
+        </g>
+      </svg>
+      <div class="quote">“Discipline<br/>creates opportunity.”</div>
+    </article>
+  </section>
+
+  <footer class="footer"><span id="parityFooter">PARITY: —</span><span>BTC 15-MINUTE TRADING ASSISTANT</span><span class="footer-spacer"></span><span>SIGNALS ONLY</span><span>YOU EXECUTE TRADES</span></footer>
+</main>
+
+<script>
+/* Display-only synchronization. No trading or order logic. */
+(function(root) {
+  'use strict';
+  function finite(v) {
+    if ((typeof v !== 'number' && typeof v !== 'string') || (typeof v === 'string' && !v.trim())) return NaN;
+    const n = Number(v);
+    return Number.isFinite(n) ? n : NaN;
+  }
+  function timestamp(v) {
+    if (typeof v !== 'string' || !v.trim()) return NaN;
+    return Date.parse(v);
+  }
+  class SnapshotClock {
+    constructor() {
+      this.contract = null; this.sourceMs = -Infinity; this.closeMs = NaN;
+      this.generatedMs = -Infinity; this.serverBaseMs = NaN; this.monoBaseMs = NaN;
+      this.rejectReason = ''; this.uncertaintyMs = NaN;
+    }
+    accept(d, sentMono, receivedMono) {
+      const gen = timestamp(d.generated_utc);
+      const source = timestamp(d.source_timestamp_utc);
+      const close = timestamp(d.timer && d.timer.close_utc);
+      const contract = typeof d.contract === 'string' ? d.contract : '';
+      const rtt = receivedMono - sentMono;
+      this.rejectReason = '';
+      if (!contract || ![gen, source, close, rtt].every(Number.isFinite) || rtt < 0 || rtt > 10000) {
+        this.rejectReason = 'Missing or invalid timing data'; return false;
+      }
+      if (source > gen + 1000 || close < source || close - source > 901000) {
+        this.rejectReason = 'Inconsistent source clock'; return false;
+      }
+      if (gen === this.generatedMs && (source !== this.sourceMs || contract !== this.contract)) {
+        this.rejectReason = 'Inconsistent cached snapshot'; return false;
+      }
+      if (gen < this.generatedMs || source < this.sourceMs) {
+        this.rejectReason = 'Older snapshot rejected'; return false;
+      }
+      if (this.contract && contract !== this.contract && (close <= this.closeMs || source <= this.sourceMs)) {
+        this.rejectReason = 'Old contract rejected'; return false;
+      }
+      if (contract === this.contract && Math.abs(close - this.closeMs) > 1000) {
+        this.rejectReason = 'Contract deadline changed unexpectedly'; return false;
+      }
+      if (contract !== this.contract) this.closeMs = Math.round(close / 1000) * 1000;
+      this.contract = contract; this.sourceMs = source;
+      if (gen === this.generatedMs) return true; // Cached JSON must not restart the clock.
+      this.generatedMs = gen;
+      // Server wall time plus an estimated one-way network transit time. The
+      // estimate can be imperfect; it does not accumulate per refresh.
+      this.serverBaseMs = gen + rtt / 2;
+      this.monoBaseMs = receivedMono; this.uncertaintyMs = rtt / 2;
+      return true;
+    }
+    now(mono) { return this.serverBaseMs + Math.max(0, mono - this.monoBaseMs); }
+    left(mono) { return Math.max(0, (this.closeMs - this.now(mono)) / 1000); }
+    age(mono) { return (this.now(mono) - this.sourceMs) / 1000; }
+    fresh(mono) { const a = this.age(mono); return Number.isFinite(a) && a >= 0 && a <= 15 && this.left(mono) > 0; }
+  }
+  root.BTC15Sync131 = {finite, timestamp, SnapshotClock};
+})(typeof globalThis !== 'undefined' ? globalThis : this);
+
+
+(() => {
+  const N = BTC15Sync131.finite;
+  const clock = new BTC15Sync131.SnapshotClock();
+  let latestState = null, networkHealthy = false, timerHandle = null, pollActive = false;
+  let viewEpoch=0, activeAbort=null, requireNewGeneration=false, clockTrusted=false;
+  const $ = (id) => document.getElementById(id);
+  const fmtPct = (v, d=0) => Number.isFinite(v) ? `${(v*100).toFixed(d)}%` : '—';
+  const fmtC = (v, d=1) => Number.isFinite(v) ? `${(v*100).toFixed(d)}¢` : '—';
+  const fmtDollar = (v, d=2) => Number.isFinite(v) ? `$${N(v).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d})}` : '—';
+  const fmtSignedDollar = (v) => Number.isFinite(v) ? `${v>=0?'+':'−'}$${Math.abs(v).toFixed(2)}` : '—';
+  const safe = (v, fallback='—') => (v === null || v === undefined || v === '') ? fallback : String(v);
+  const etDate = (d) => new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',weekday:'short',month:'short',day:'numeric',year:'numeric'}).format(d);
+  const etTime = (d) => new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true}).format(d) + ' ET';
+  const mmss = (seconds) => {
+    if (!Number.isFinite(seconds)) return '—';
+    seconds=Math.max(0,Math.round(seconds));
+    const m=Math.floor(seconds/60), s=seconds%60;
+    return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  };
+  const setText = (id, value) => { const el=$(id); if(el && el.textContent!==value) el.textContent=value; };
+  const setStatePill = (id, text, kind='watch') => {
+    const el=$(id); if(!el) return; el.textContent=text; el.classList.remove('state-good','state-watch');
+    if(kind==='good') el.classList.add('state-good'); else el.classList.add('state-watch');
+  };
+  const setFlow = (id, text, kind='warn') => {
+    const el=$(id); if(!el) return; el.textContent=text; el.classList.remove('good','warn','exit'); el.classList.add(kind);
+  };
+  const setCond = (id, text, kind='watch') => {
+    const el=$(id); if(!el) return; el.textContent=text; el.classList.remove('cond-good','cond-watch','cond-bad'); el.classList.add(`cond-${kind}`);
+  };
+
+  // Display-only history: never fed back into a price, timing, or signal gate.
+  let lastBrtiDisplay=null;
+  let lastChartSignature=null;
+  function retainBrtiDisplay(d){
+    if(lastBrtiDisplay && lastBrtiDisplay.contract!==d.contract)lastBrtiDisplay=null;
+    const m=d.market||{}, value=N(m.brti_value), rawAge=N(m.brti_age_seconds);
+    const source=Date.parse(d.source_timestamp_utc), target=N(m.target);
+    if(d.safety?.read_only!==true || d.safety?.orders_enabled!==false || d.health?.paired_quotes!==true)return;
+    if(m.brti_ready!==true || !Number.isFinite(value) || value<=0 || !Number.isFinite(rawAge) || rawAge<0 || !Number.isFinite(source))return;
+    const observed=source-rawAge*1000;
+    // Duplicate/older samples cannot refresh the age or replace newer history.
+    if(lastBrtiDisplay && observed<=lastBrtiDisplay.observed)return;
+    lastBrtiDisplay={contract:d.contract,value,target,observed};
+  }
+  function renderBrtiDisplay(d,forcedUnavailable=false){
+    const price=$('btcPrice'), gap=$('btcGap');
+    const note=document.querySelector('.chart-head > div:first-child span');
+    const chart=document.querySelector('.chart-card > svg');
+    const record=lastBrtiDisplay && d && lastBrtiDisplay.contract===d.contract?lastBrtiDisplay:null;
+    const m=d?.market||{};
+    const observed=Date.parse(d?.source_timestamp_utc)-N(m.brti_age_seconds)*1000;
+    const sameSample=record && Number.isFinite(observed) && Math.abs(observed-record.observed)<0.001 && N(m.brti_value)===record.value;
+    const sourceFresh=networkHealthy && clockTrusted && clock.fresh(performance.now()) && d?.health?.paired_quotes===true;
+    const current=Boolean(!forcedUnavailable && sourceFresh && sameSample && freshBrti(d));
+    const age=record && clockTrusted?(clock.now(performance.now())-record.observed)/1000:NaN;
+    const ageLabel=Number.isFinite(age)&&age>=0?`${age.toFixed(1)}s old`:'age pending resync';
+    setText('btcPrice',record?fmtDollar(record.value):'—');
+    setText('btcGap',record && Number.isFinite(record.target)?fmtSignedDollar(record.value-record.target):'—');
+    if(price){
+      price.dataset.priceState=record?(current?'fresh':'last-received'):'unavailable';
+      price.style.color=record&&!current?'var(--yellow)':'';
+      price.title=record?`Last received BRTI · ${etTime(new Date(record.observed))}. ${current?'Fresh sample, not a native-app parity guarantee.':'Historical display only; not current signal input.'}`:'BRTI unavailable; Coinbase is not substituted.';
+    }
+    if(gap){gap.style.color=record&&!current?'var(--yellow)':'';gap.title=record?'Gap at last received BRTI sample':'BRTI unavailable';}
+    let label='BRTI UNAVAILABLE · no substitute';
+    if(record){
+      const ended=clockTrusted && clock.left(performance.now())===0;
+      label=current?`BRTI · ${ageLabel}`:!clockTrusted?`LAST BRTI · resyncing`:ended?`ENDED · LAST BRTI · ${ageLabel}`:!networkHealthy?`OFFLINE · LAST BRTI · ${ageLabel}`:`STALE · LAST BRTI · ${ageLabel}`;
+    }
+    if(note && note.textContent!==label)note.textContent=label;
+    if(chart){chart.style.opacity='1';chart.dataset.stale=current?'false':'true';}
+   if(gap){const _gt=(gap.textContent||'').trim();const _neg=/[-\u2212]/.test(_gt);const _hasNum=/\d/.test(_gt);gap.style.setProperty('color',_neg?'#ff4d67':(_hasNum?'#35d07f':'#f3f5f7'),'important');}}
+
+  function currentBrtiAge(d) {
+    return N(d.market?.brti_age_seconds) + clock.age(performance.now());
+  }
+  function freshBrti(d) {
+    const age=currentBrtiAge(d);
+    return d.market?.brti_ready===true && Number.isFinite(N(d.market?.brti_value)) && Number.isFinite(age) && age>=0 && age<=5;
+  }
+  function usableFrame(d) {
+    const parityAge = (clock.now(performance.now()) - Date.parse(d.parity?.timestamp_utc || ''))/1000;
+    return networkHealthy && clockTrusted && clock.fresh(performance.now()) && d.health?.paired_quotes === true
+      && d.safety?.read_only===true && d.safety?.orders_enabled===false
+      && d.parity?.contract===d.contract && d.parity?.api_contract===d.contract
+      && d.parity?.status === 'PASS' && Number.isFinite(parityAge) && parityAge >= 0 && parityAge <= 45;
+  }
+  function markUnavailable(reason) {
+    const el=$('liveStatus');
+    if(el){el.textContent=reason;el.classList.remove('live-ok','live-warn');el.classList.add('live-stale');}
+    const action=$('finalAction');
+    if(action){action.textContent='WAIT';action.classList.remove('action-hold','action-protect','action-exit');action.classList.add('action-watch');}
+    setText('finalSide','WAIT');setText('finalArrow','·');
+    setText('finalActionSub','Diagnostic display · fresh data required');setText('finalReason',reason);
+    for(const id of ['upOdds','downOdds','earlyCurrentPrice','earlyEdge','scalpCurrentPrice','finalConfidence','scalpTargetStrip','contextRange','contextLevels','flipRisk'])setText(id,'—');
+    setCond('upCondition','WAIT');setCond('downCondition','WAIT');
+    setStatePill('earlyState','WAIT');setStatePill('scalpState','WAIT');
+    setText('earlyTitle','Waiting for fresh data');setText('scalpEntry','Waiting for fresh data');
+    setText('earlyAfterEntry','Position not linked');setText('earlyEntry','Unavailable until source is fresh');
+    setText('earlyLadderEntry','Unavailable until source is fresh');setText('earlyLadderHold','No live guidance while unavailable');
+    setText('scalpLadderEntry','Unavailable until source is fresh');setText('scalpLadderHold','No live guidance while unavailable');
+    for(const id of ['finalBuyZone','finalHoldZone','finalWatchZone','earlyLadderWatch','scalpLadderWatch'])setText(id,'Unavailable');
+    setText('signalStrength','NOT CONNECTED');setText('evidenceScore','— / 7');
+    setText('momentumBadge','UNAVAILABLE');setText('momentumSub','Fresh BRTI required');
+    setText('contextTrend','Unavailable');setText('contextBrti','Unavailable');
+    setText('contextBanner','Live market context unavailable.');setText('flipRiskSub','Probability not connected');
+    setText('parityFooter','PARITY: NOT CURRENTLY VERIFIED');
+    setText('oppositeState','NOT CONNECTED');
+    setFlow('earlyFlow',reason,'warn');setFlow('scalpFlow',reason,'warn');
+    const fill=document.querySelector('.evidence-fill');if(fill)fill.style.width='0%';
+    const chart=document.querySelector('.chart-card > svg');if(chart){chart.style.opacity='1';chart.dataset.stale='true';}
+    renderBrtiDisplay(latestState,true);
+  }
+  function liveCountdown(){
+    const serverNow=clock.now(performance.now());
+    const now=Number.isFinite(serverNow)?new Date(serverNow):new Date();
+    setText('liveDate', etDate(now)); setText('liveTime', etTime(now));
+    const left=clockTrusted?clock.left(performance.now()):NaN;
+    setText('timerRemaining', mmss(left));
+    setText('nextContract',Number.isFinite(left)?(left>0?`Contract ends in ${mmss(left)}`:'Awaiting next contract'):'Clock not synchronized');
+    setText('timerEnd',clockTrusted && Number.isFinite(clock.closeMs)?etTime(new Date(clock.closeMs)):'Resynchronizing');
+    const ring=document.querySelector('.timer-ring');
+    if(ring && Number.isFinite(left)){
+      const angle=Math.max(0,Math.min(360,left/900*360));
+      ring.style.background=`radial-gradient(circle at center,#071522 52%,transparent 53%),conic-gradient(var(--green) 0deg ${angle}deg,#1b2d41 ${angle}deg 360deg)`;
+    }
+    if(latestState){
+      if(!networkHealthy) markUnavailable('● RESYNCING / OFFLINE');
+      else if(!clockTrusted) markUnavailable('● CLOCK NOT SYNCHRONIZED');
+      else if(!clock.fresh(performance.now())) markUnavailable(left===0?'● CONTRACT ENDED · WAIT':'● STALE SOURCE · WAIT');
+      else applyState(latestState,false);
+    }
+  }
+
+  function renderMainChart(d){
+    const svg=document.querySelector('.chart-card > svg'); if(!svg)return;
+    const pts=(d.chart?.points||[]).map(p=>({t:Date.parse(p.t),v:N(p.brti),age:N(p.brti_age_sec)}))
+      .filter(p=>Number.isFinite(p.t)&&Number.isFinite(p.v)&&Number.isFinite(p.age)&&p.age>=0&&p.age<=5)
+      .sort((a,b)=>a.t-b.t);
+    const w=Math.max(320,svg.clientWidth||900), h=Math.max(120,svg.clientHeight||150);
+    const signature=JSON.stringify([d.contract,w,h,N(d.market?.target),pts]);
+    if(signature===lastChartSignature)return; // Do not rebuild identical history.
+    lastChartSignature=signature;
+    const oldChartNodes=Array.from(svg.childNodes);svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+    svg.setAttribute('aria-label','Sampled BRTI reference history with actual timestamps and contract target. Not a candle or forecast chart.');
+    const ns='http://www.w3.org/2000/svg';
+    function add(tag,attrs,text){const el=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))el.setAttribute(k,String(v));if(text!==undefined)el.textContent=text;svg.appendChild(el);return el;}
+    if(!pts.length){add('text',{x:12,y:28,fill:'#9eafbf','font-size':12},'BRTI history unavailable — no substitute price');oldChartNodes.forEach(n=>n.remove());return;}
+    const left=10,right=w-89,top=12,bottom=h-25;
+    const target=N(d.market?.target), vals=pts.map(p=>p.v);
+    if(Number.isFinite(target))vals.push(target);
+    let low=Math.min(...vals),high=Math.max(...vals),span=Math.max(high-low,1);low-=span*.12;high+=span*.12;
+    const end=clock.closeMs,begin=end-900000;
+    const x=t=>left+(right-left)*(t-begin)/(end-begin);
+    const y=v=>bottom-(bottom-top)*(v-low)/(high-low);
+    for(let i=0;i<4;i++){
+      const value=low+(high-low)*i/3,py=y(value);
+      add('line',{x1:left,x2:right,y1:py,y2:py,stroke:'#173043','stroke-width':1});
+      add('text',{x:right+5,y:py+4,fill:'#9eafbf','font-size':10,'font-family':'system-ui'},value.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}));
+    }
+    for(let i=0;i<4;i++){
+      const t=begin+i*300000,px=x(t);
+      add('line',{x1:px,x2:px,y1:top,y2:bottom,stroke:'#173043','stroke-width':1});
+      const time=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(t));
+      add('text',{x:px,y:h-7,fill:'#9eafbf','font-size':10,'text-anchor':i===0?'start':i===3?'end':'middle'},time);
+    }
+    if(Number.isFinite(target)){
+      const py=y(target);add('line',{x1:left,x2:right,y1:py,y2:py,stroke:'#f6a63d','stroke-width':1,'stroke-dasharray':'4 4'});
+      add('text',{x:left+5,y:Math.max(top+10,py-4),fill:'#f6a63d','font-size':10},`TARGET ${target.toFixed(2)}`);
+    }
+    let path='',previous=null;
+    for(const p of pts){if(p.t<begin||p.t>end)continue;
+      path+=`${!previous||p.t-previous.t>15000?'M':'L'}${x(p.t).toFixed(2)},${y(p.v).toFixed(2)} `;previous=p;}
+    add('path',{d:path,fill:'none',stroke:'#4b91ff','stroke-width':1.7,'stroke-linejoin':'round','stroke-linecap':'round','vector-effect':'non-scaling-stroke'});
+    if(previous)add('circle',{cx:x(previous.t),cy:y(previous.v),r:2.5,fill:'#4b91ff'});
+    const cross=add('line',{x1:0,x2:0,y1:top,y2:bottom,stroke:'#7e93a7','stroke-width':1,'stroke-dasharray':'3 3',visibility:'hidden'});
+    const tip=add('text',{x:left+4,y:top+10,fill:'#edf5ff','font-size':11,visibility:'hidden'});
+    oldChartNodes.forEach(n=>n.remove());svg.onpointermove=event=>{const rect=svg.getBoundingClientRect();const px=(event.clientX-rect.left)/rect.width*w;const t=begin+(px-left)/(right-left)*(end-begin);
+      let best=pts[0];for(const p of pts){if(Math.abs(p.t-t)<Math.abs(best.t-t))best=p;}
+      cross.setAttribute('x1',x(best.t));cross.setAttribute('x2',x(best.t));cross.setAttribute('visibility','visible');
+      tip.textContent=`BRTI ${fmtDollar(best.v)} · ${etTime(new Date(best.t))} · sampled`;
+      tip.setAttribute('visibility','visible');};
+    svg.onpointerleave=()=>{cross.setAttribute('visibility','hidden');tip.setAttribute('visibility','hidden');};
+  }
+
+  function applyState(d,drawChart=true){
+    const usable=usableFrame(d);
+    // Keep raw qualification diagnostics but never present stale data as action.
+    d={...d,final:{...d.final,ready:usable && freshBrti(d) && d.final?.ready===true},
+      early:{...d.early,ready:usable && d.early?.ready===true},
+      scalp:{...d.scalp,ready:usable && d.scalp?.ready===true}};
+    const status=$('liveStatus');
+    if(status){
+      status.classList.remove('live-ok','live-warn','live-stale');
+      status.textContent=usable?(freshBrti(d)?'● DATA FRESH · DIAGNOSTIC':'● BRTI STALE · WAIT'):'● PARITY / DATA CHECK';
+      status.classList.add(usable && freshBrti(d)?'live-ok':'live-warn');
+    }
+    setText('currentContract',d.contract?`BTC 15-MINUTE · ${d.contract} · DIAGNOSTIC V13.2-P1`:'WAITING FOR CONTRACT');
+
+    const m=d.market||{}, f=d.final||{}, e=d.early||{}, sc=d.scalp||{};
+    if(drawChart)renderMainChart(d);
+    // The readout below labels BRTI age separately from quote/source age.
+    const pref=(f.side||m.preferred_side||'').toUpperCase();
+    const conf=N(f.confidence);
+    const finalCard=$('finalCard');
+    if(finalCard){
+      finalCard.classList.remove('down-mode','wait-mode');
+      if(pref==='DOWN') finalCard.classList.add('down-mode');
+      if(!pref) finalCard.classList.add('wait-mode');
+    }
+    setText('finalArrow',pref==='DOWN'?'↓':pref==='UP'?'↑':'·');
+    setText('finalSide',pref||'WAIT');
+    setText('finalConfidence',fmtPct(conf,1));
+    const finalAction=$('finalAction');
+    if(finalAction){
+      finalAction.classList.remove('action-hold','action-watch','action-protect','action-exit');
+      if(f.ready){finalAction.textContent='QUALIFIED';finalAction.classList.add('action-hold');}
+      else{finalAction.textContent=usable && freshBrti(d)?'WATCH':'WAIT';finalAction.classList.add('action-watch');}
+    }
+    setText('finalActionSub',f.ready?`${pref} FINAL qualified · ${fmtPct(conf,1)}`:(Number.isFinite(conf)&&conf>=0.90?`${pref} probability ${fmtPct(conf,1)} · FINAL gate still pending`:`Continuous ${pref||'direction'} probability · FINAL not qualified`));
+    const unmet=[];
+    if(!usable)unmet.push('current same-contract parity');
+    if(!freshBrti(d))unmet.push('fresh BRTI');
+    const c=f.conditions||{};
+    if(!c.minutes_left_lte_8) unmet.push('time'); if(!c.fair_gte_90) unmet.push('90% fair'); if(!c.gap_ok) unmet.push('gap');
+    if(!c.dist_over_range5_gte_1) unmet.push('distance/range'); if(!c.preferred_matches_target) unmet.push('target match'); if(!c.direct_brti_authority_ready) unmet.push('direct BRTI'); if(!c.preferred_matches_brti) unmet.push('BRTI agreement');
+    setText('finalReason',f.ready?'Reason: Frozen FINAL gate is qualified. Protection remains shadow-only.':`Reason: Waiting on ${unmet.join(' · ')||'FINAL gate'}.`);
+    setText('finalBuyZone', e.ready ? `EARLY active · ${fmtC(e.ask)}` : sc.ready ? `SCALP active · ${fmtC(sc.ask)}` : 'No entry signal');
+    setText('finalHoldZone', f.ready ? `${pref} FINAL qualified · not a position` : 'Waiting for FINAL gate');
+    setText('finalWatchZone',`Reversal: ${safe(m.reversal_state,'WARMING')}`);
+    setText('finalProtectZone','Shadow validation in progress');
+    setText('finalExitZone','No validated FINAL exit rule yet');
+
+    const upAsk=N(m.up_ask), downAsk=N(m.down_ask);
+    setText('upOdds',fmtPct(upAsk,1)); setText('downOdds',fmtPct(downAsk,1));
+    setCond('upCondition','ASK','watch');
+    setCond('downCondition','ASK','watch');
+
+    const earlySide=(e.side||pref||'').toUpperCase();
+    setText('earlyTitle',e.ready?`Potential ${earlySide} Entry`:`Watching ${earlySide||'market'} Entry`);
+    setStatePill('earlyState',e.ready?'GOOD':'WATCHING',e.ready?'good':'watch');
+    setText('earlyEntry',e.ready?`≤45¢ · now ${fmtC(N(e.ask))}`:`Wait · now ${fmtC(N(e.ask))}`);
+    setText('earlyAfterEntry','Position not linked · signal only');
+    setText('earlyCurrentPrice',fmtC(N(e.ask)));
+    setText('earlyEdge',Number.isFinite(N(e.edge))?`${(N(e.edge)*100).toFixed(1)}¢`:'—');
+    setText('earlyLadderEntry',`≤45¢ · now ${fmtC(N(e.ask))}`);
+    setText('earlyLadderHold',e.ready?'Frozen Tier-1 remains qualified':'No Tier-1 entry yet');
+    setText('earlyLadderWatch',`Reversal: ${safe(m.reversal_state,'WARMING')}`);
+    setText('earlyLadderProtect','Protection policy pending validation');
+    setText('earlyLadderExit','No validated Tier-1 exit rule yet');
+    setFlow('earlyFlow',e.ready?`${earlySide} Tier-1 gate QUALIFIES · position not linked`:'Watching frozen Tier-1 gate',e.ready?'good':'warn');
+
+    const brtiAge=currentBrtiAge(d);
+    renderBrtiDisplay(d);
+
+    const scalpSide=(sc.side||pref||'').toUpperCase();
+    const scalpOpp=scalpSide==='UP'?'DOWN':scalpSide==='DOWN'?'UP':'DOWN';
+    setText('scalpArrow',scalpSide==='DOWN'?'↓':'↑');
+    setText('scalpTitle',`SCALP ${scalpSide||'—'}`);
+    setText('scalpEntry',sc.ready?`Now ${fmtC(N(sc.ask))} · max 70¢`:'Waiting for frozen gate');
+    setStatePill('scalpState',sc.ready?'QUALIFIES':'WATCHING',sc.ready?'good':'watch');
+    setText('scalpCurrentPrice',fmtC(N(sc.bid)));
+    setText('scalpTargetStrip','—');
+    setText('scalpLadderEntry',`Ask ≤70¢ · now ${fmtC(N(sc.ask))}`);
+    setText('scalpLadderHold',`Up to ${safe(sc.horizon_minutes,5)}m horizon`);
+    setText('scalpLadderWatch',`Reversal: ${safe(m.reversal_state,'WARMING')}`);
+    setText('scalpLadderProtect','Position not linked');
+    setText('scalpLadderExit','Position not linked');
+    setFlow('scalpFlow',sc.ready?`${scalpSide} strong-scalp gate QUALIFIES · diagnostic only`:'Watching frozen strong-scalp gate',sc.ready?'good':'warn'); if(typeof renderV81ScalpInline==='function')renderV81ScalpInline(d);
+    setText('oppositeArrow',scalpOpp==='DOWN'?'↓':'↑');
+    setText('oppositeTitle',`SCALP ${scalpOpp}`);
+    setText('oppositeEntry','Separate opposite-side setup');
+    setText('oppositeState','NOT CONNECTED');
+
+    const q=[c.minutes_left_lte_8,c.fair_gte_90,c.gap_ok,c.dist_over_range5_gte_1,c.preferred_matches_target,c.direct_brti_authority_ready,c.preferred_matches_brti].filter(Boolean).length;
+    const p=N(m.preferred_side?conf:e.fair);
+    let strength='WARMING';
+    if(Number.isFinite(p)){ strength=p>=.90?'STRONG':p>=.75?'GOOD':p>=.60?'MODERATE':'WEAK'; }
+    setText('signalStrength','NOT CONNECTED');
+    setText('evidenceScore',`${q} / 7`);
+    const fill=document.querySelector('.evidence-fill'); if(fill)fill.style.width=`${q/7*100}%`;
+    document.querySelectorAll('.signal-bars i').forEach(el=>el.style.opacity='.12');
+    const rev=safe(m.reversal_state,'WARMING').toUpperCase();
+    setText('flipRisk','—');
+    setText('flipRiskSub',`Probability not connected · reversal ${rev}`);
+    setText('momentumBadge',`${pref||'—'} · ${rev}`);
+    setText('momentumSub',freshBrti(d)?`BRTI ${safe(m.brti_side,'—')} · ${brtiAge.toFixed(1)}s`:'BRTI stale / unavailable');
+
+    setText('contextTrend',pref||'—');
+    setText('contextRange',Number.isFinite(N(m.range5))?fmtDollar(N(m.range5)):'—');
+    setText('contextBrti',freshBrti(d)?`${safe(m.brti_side,'—')} · ${brtiAge.toFixed(1)}s`:'STALE / UNAVAILABLE');
+    setText('contextLevels',`${fmtDollar(N(m.target))} / ${fmtDollar(N(m.btc_price))} Coinbase`);
+    const align=freshBrti(d) && m.brti_side===pref;
+    setText('contextBanner',`${align?'BRTI aligned':'BRTI not aligned'} · ${pref||'—'} preferred · reversal ${rev}.`);
+    if(window.btc15RenderLadders)window.btc15RenderLadders();
+    setText('parityFooter',`PARITY: ${safe(d.parity?.status,'WAIT')}${d.parity?.shadow_only?' · SHADOW':''}`);
+  }
+
+  function invalidateView(){
+    viewEpoch++;networkHealthy=false;clockTrusted=false;
+    requireNewGeneration=Number.isFinite(clock.generatedMs);
+    clearTimeout(timerHandle);if(activeAbort)activeAbort.abort();
+    markUnavailable('● RESYNCING');setText('timerRemaining','—');setText('timerEnd','Resynchronizing');
+  }
+  async function refresh(){
+    if(pollActive || document.visibilityState==='hidden')return;
+    pollActive=true;clearTimeout(timerHandle);
+    const epoch=viewEpoch, controller=new AbortController();activeAbort=controller;
+    const deadline=setTimeout(()=>controller.abort(),8000);
+    const sent=performance.now();
+    try{
+      const response=await fetch('/dashboard_state.json',{cache:'no-store',signal:controller.signal});
+      if(!response.ok)throw new Error(`HTTP ${response.status}`);
+      const d=await response.json(),received=performance.now();
+      if(epoch!==viewEpoch || document.visibilityState==='hidden')throw new Error('Response from previous app view rejected');
+      if(requireNewGeneration && Date.parse(d.generated_utc)<=clock.generatedMs)throw new Error('Awaiting fresh server clock');
+      if(!clock.accept(d,sent,received))throw new Error(clock.rejectReason);
+      requireNewGeneration=false;clockTrusted=true;networkHealthy=true;latestState=d;
+      retainBrtiDisplay(d);applyState(d);liveCountdown();
+    }catch(error){
+      networkHealthy=false;
+      if(document.visibilityState!=='hidden')markUnavailable(`● RESYNCING · ${error.name==='AbortError'?'request timeout':error.message}`);
+    }finally{
+      clearTimeout(deadline);pollActive=false;activeAbort=null;
+      if(document.visibilityState!=='hidden')timerHandle=setTimeout(refresh,epoch!==viewEpoch?0:Math.max(1000,5000-(performance.now()-sent)));
+    }
+  }
+  document.addEventListener('visibilitychange',()=>{invalidateView();if(document.visibilityState==='visible')refresh();});
+  window.addEventListener('pagehide',invalidateView);
+  window.addEventListener('pageshow',()=>{invalidateView();refresh();});
+  window.addEventListener('resize',()=>{if(latestState && clockTrusted && Number.isFinite(clock.closeMs))renderMainChart(latestState);});
+  liveCountdown();setInterval(liveCountdown,1000);refresh();
+
+})();
+</script>
+
+<!-- BTC15_V81_INLINE_SCALP_V1 -->
+
+<!-- BTC15_V81_INLINE_SCALP_DIAG_V2 -->
+<!-- Independent information namespace; existing PR36 cards and scripts unchanged. -->
+<section id="btc15-information-panel" aria-label="Read-only market information" style="margin:16px;padding:16px;border:1px solid #64748b;border-radius:8px">
+  <h2>Market information</h2>
+  <p>Information only — no entry, management or exit advice. Native signal cards keep their original clock.</p>
+  <p id="btc15-information-status" role="status">WAIT — information unavailable</p>
+  <p id="btc15-information-assessment"></p>
+</section>
+<script src="/information/view.js"></script>
+<script src="/information/panel.js"></script>
+
+<script src="/ladders/panel.js"></script>
+</body>
+</html>

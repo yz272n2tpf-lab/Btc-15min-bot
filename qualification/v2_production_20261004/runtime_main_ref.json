@@ -1,0 +1,10 @@
+{
+  "ref": "refs/heads/release/ladder-completion-20261003",
+  "node_id": "REF_kwDOT2pnqNoALXJlZnMvaGVhZHMvcmVsZWFzZS9sYWRkZXItY29tcGxldGlvbi0yMDI2MTAwMw",
+  "url": "https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/refs/heads/release/ladder-completion-20261003",
+  "object": {
+    "sha": "de4f3e20b8657eb8cfee91bd4e525c103b5bf513",
+    "type": "commit",
+    "url": "https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/commits/de4f3e20b8657eb8cfee91bd4e525c103b5bf513"
+  }
+}

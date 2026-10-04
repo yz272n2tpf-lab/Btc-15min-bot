@@ -1,0 +1,20 @@
+{
+  "url": "https://btc-15min-bot-production.up.railway.app/ladders/coverage",
+  "started_at": 1791087521.4850903,
+  "completed_at": 1791087526.6797464,
+  "status": 200,
+  "headers": {
+    "Cache-Control": "no-store, max-age=0",
+    "Content-Type": "application/json",
+    "Date": "Sun, 04 Oct 2026 04:18:46 GMT",
+    "Server": "railway-hikari",
+    "x-content-type-options": "nosniff",
+    "x-railway-request-id": "eUZUILW_T_K_mvum8u2xcg",
+    "Content-Length": "1157",
+    "x-hikari-trace": "ord1.x8wt",
+    "x-railway-edge": "ord1",
+    "vary": "accept-encoding",
+    "Connection": "close"
+  },
+  "bytes": 1157
+}

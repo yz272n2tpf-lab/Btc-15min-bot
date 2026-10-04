@@ -1,0 +1,36 @@
+{
+  "service": {
+    "id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+    "name": "v81-live-diagnostics"
+  },
+  "environment": {
+    "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+    "name": "production"
+  },
+  "metrics": [
+    {
+      "measurement": "CPU_USAGE",
+      "current": 0,
+      "average": 0.045096871311475405,
+      "min": 0,
+      "max": 0.0788953,
+      "sampleCount": 61
+    },
+    {
+      "measurement": "MEMORY_USAGE_GB",
+      "current": 0.045461504,
+      "average": 0.05930655475409836,
+      "min": 0.032997376,
+      "max": 0.063883264,
+      "sampleCount": 61
+    },
+    {
+      "measurement": "DISK_USAGE_GB",
+      "current": 0.074530816,
+      "average": 0.01014136026229508,
+      "min": 0,
+      "max": 0.074530816,
+      "sampleCount": 61
+    }
+  ]
+}

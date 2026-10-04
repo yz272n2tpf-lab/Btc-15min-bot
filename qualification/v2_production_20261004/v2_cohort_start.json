@@ -1,0 +1,29 @@
+{
+  "candidate": "BTC15_LADDER_COMPLETION_20261003_V2",
+  "builds": {
+    "main": "de4f3e20b8657eb8cfee91bd4e525c103b5bf513",
+    "v81": "60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1"
+  },
+  "initial_partial_contract": "KXBTC15M-26OCT040015-15",
+  "first_journal_observation_by_lane": {
+    "main": {
+      "epoch": 1791087261.9090252,
+      "utc": "2026-10-04T04:14:21.909025+00:00",
+      "contract": "KXBTC15M-26OCT040015-15"
+    },
+    "v81": {
+      "epoch": 1791087211.7052805,
+      "utc": "2026-10-04T04:13:31.705281+00:00",
+      "contract": "KXBTC15M-26OCT040015-15"
+    }
+  },
+  "first_complete_scoreable_contract": null,
+  "statistical_cohort_start": "PENDING_COMPLETE_SNAPSHOT_AND_SCORER_VERIFICATION",
+  "partial_windows": [
+    "KXBTC15M-26OCT040015-15",
+    "KXBTC15M-26OCT040030-30"
+  ],
+  "scores": null,
+  "scorecard_ready": false,
+  "scope": "Initial detached coverage readback at approximately 2026-10-04T04:18:47Z; not full event snapshot."
+}

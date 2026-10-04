@@ -1,0 +1,312 @@
+{
+  "snapshot_acquired": false,
+  "compatible_adapter_verified": false,
+  "scorer_run_completed": false,
+  "scored_cohort": null,
+  "source_inspections": [
+    {
+      "path": "closeout/recovered_code/BTC15_Ladder_Analysis_20261003/analyze_existing_ladders.py",
+      "sha256": "7d642c9ec430e4e514008e187e9de6210f35f472a80df85a877789c632854fce",
+      "selected_contract_lines": [
+        {
+          "line": 56,
+          "text": "    assert dt(p['timestamp_utc']) > dt(o['origin_timestamp'])"
+        },
+        {
+          "line": 74,
+          "text": "           or (hit is not None and first_gap is not None and dt(first_gap['timestamp_utc']) <= dt(hit['timestamp_utc']))"
+        },
+        {
+          "line": 83,
+          "text": "                event_timestamp=hit['timestamp_utc'] if valid_hit else None,"
+        },
+        {
+          "line": 86,
+          "text": "                event_seconds=(dt(hit['timestamp_utc'])-dt(o['origin_timestamp'])).total_seconds() if valid_hit else None,"
+        },
+        {
+          "line": 87,
+          "text": "                later_target_after_stop=bool(status == 'STOP_FIRST' and any(dt(p['timestamp_utc']) > dt(hit['timestamp_utc']) and D(p['gain_c']) >= target for p in ps)))"
+        }
+      ]
+    },
+    {
+      "path": "closeout/recovered_code/BTC15_Prospective_Evidence_Bundle/audit_baseline.py",
+      "sha256": "ca8b58a21ffc567254fc0f01e361e4cb505f93ccb0d0adc11363bb2a8d641474",
+      "selected_contract_lines": [
+        {
+          "line": 17,
+          "text": " rows,bad=load(); pro=[r for r in rows if dt(r['timestamp_utc'])>=BOUNDARY]"
+        },
+        {
+          "line": 36,
+          "text": " summary={'sha256':hashlib.sha256(SOURCE.read_bytes()).hexdigest(),'bytes':SOURCE.stat().st_size,'boundary':BOUNDARY.isoformat(),'total_rows':len(rows),'malformed':bad,'prospective_rows':len(pro),'preboundary_rows':len(rows)-len(pro),'prospective_contracts':len(groups),'complete_settlements':len(settlements),'settlement_split':dict(collections.Counter(s['final60_side'] for s in settlements.values())),'row_statuses':counts('final_status'),'final_sources':counts('final_call_source'),'ordinary_rows':len(ordinary),'settled_ordinary_rows':len(so),'early_true':sum((r.get('early') or {}).get('provisional_candidate') is True for r in pro),'early_persistence':dict(collections.Counter((r.get('early') or {}).get('candidate_persistence_30s') for r in pro)),'opportunity':opportunity,'pending':{k:{'observations':sum(bool(r.get(k)) for r in pro),'contracts':len(set(r['contract'] for r in pro if r.get(k))),'counts':counts(k)} for k in ['true_scalp_pending','profit_pending']},'first_timestamp':min(r['timestamp_utc'] for r in pro),'last_timestamp':max(r['timestamp_utc'] for r in pro),'timestamp_reversals':[[pro[i-1]['_line'],r['_line'],pro[i-1]['timestamp_utc'],r['timestamp_utc']] for i,r in enumerate(pro) if i and dt(r['timestamp_utc'])<dt(pro[i-1]['timestamp_utc'])],'duplicate_contract_timestamps':sum(n-1 for n in collections.Counter((r['contract'],r['timestamp_utc']) for r in pro).values() if n>1),'schemas':counts('schema'),'signal_only':counts('signal_only'),'orders':counts('orders'),'keys':keys,'unsettled':{k:{'first':min(r['timestamp_utc'] for r in rs),'last':max(r['timestamp_utc'] for r in rs),'brti_closeouts':[(r['_line'],r.get('brti')) for r in rs if (r.get('brti') or {}).get('final60_count')]} for k,rs in groups.items() if k not in settlements},'scorer_counts':{key:dict(collections.Counter(rep['paths'][key] for k,rep in reports.items() if k in settlements)) for key in ['final_status','early_status','scalp_status','profit_status']}}"
+        }
+      ]
+    },
+    {
+      "path": "closeout/recovered_code/BTC15_Prospective_Evidence_Bundle/audit_ladders.py",
+      "sha256": "737ca55e2b55aeb7ca734745540e42d8ee9819f03bd4e0830ae662d6fda2c277",
+      "selected_contract_lines": [
+        {
+          "line": 20,
+          "text": " e=r['early'];b=r['brti'];t=dt(r['timestamp_utc']);src=dt(b['brti_timestamp_utc']) if b.get('brti_timestamp_utc') else None"
+        },
+        {
+          "line": 22,
+          "text": " return {'brti_source_time_not_future':age is not None and age>=0,'brti_source_age_le5':age is not None and 0<=age<=5,'brti_ready_flag':b.get('direct_brti_ready') is True,'nested_identity_matches':e['contract']==b['contract']==r['contract'] and e['target']==b['target']==r['target'] and e['timestamp_utc']==b['timestamp_utc']==r['timestamp_utc'],'clock_matches_native_close':abs((close_time(r['contract'])-t).total_seconds()-r['seconds_left'])<.000001,'valid_pair_prices':all(0<=r[f'{s}_bid']<=r[f'{s}_ask']<=1 for s in ['up','down']),'preferred_ask_matches_side':e['preferred_ask']==r[e['preferred_side'].lower()+'_ask']}"
+        },
+        {
+          "line": 36,
+          "text": " rows,_=load();pro=[r for r in rows if dt(r['timestamp_utc'])>=BOUNDARY]"
+        },
+        {
+          "line": 39,
+          "text": " ordinary=sorted([r for r in pro if r.get('early')],key=lambda r:(dt(r['timestamp_utc']),r['_line']))"
+        },
+        {
+          "line": 48,
+          "text": "  e=r['early'];b=r['brti'];g=gates(r);flags=causal_flags(r);t=dt(r['timestamp_utc']);age=(t-dt(b['brti_timestamp_utc'])).total_seconds()"
+        },
+        {
+          "line": 55,
+          "text": "  obs.append({'line':r['_line'],'contract':r['contract'],'timestamp_utc':r['timestamp_utc'],'official_contract':r['contract'] in official,'complete_settlement':r['contract'] in settled,'preferred_side':e['preferred_side'],'ask':e['preferred_ask'],'bid':r[e['preferred_side'].lower()+'_bid'],'fair':e['preferred_fair'],'edge':e['edge'],'btc_gap':e['btc_gap'],'seconds_left_exact':r['seconds_left'],'seconds_left_logged_rounded':e['seconds_left'],**{k+'_passes':v for k,v in g.items()},'rejection_combination':'|'.join(k for k,v in g.items() if not v),'provisional_recorded':e['provisional_candidate'],'protected_tier1_numeric_screen':all(gates(r,'tier1').values()),'persistence_logged':e['candidate_persistence_30s'],**flags,'brti_age_from_explicit_source_seconds':age,'quote_source_and_receipt':'UNAVAILABLE','brti_receipt':'UNAVAILABLE','strategy_capture_identity':'UNAVAILABLE','publication_timestamp':'UNAVAILABLE','actual_early_origin':'UNAVAILABLE',**f,'final_range_ratio':'UNAVAILABLE'})"
+        },
+        {
+          "line": 60,
+          "text": "  return None if r is None else {'line':r['_line'],'ts':r['timestamp_utc'],'side':r['early']['preferred_side'],'ask':r['early']['preferred_ask'],'fair':r['early']['preferred_fair'],'edge':r['early']['edge'],'seconds_left':r['seconds_left'],'gap':r['early']['btc_gap'],'failures':'|'.join(k for k,v in gates(r).items() if not v)}"
+        },
+        {
+          "line": 65,
+          "text": "   gap=(dt(r['timestamp_utc'])-dt(prev['timestamp_utc'])).total_seconds()"
+        },
+        {
+          "line": 66,
+          "text": "   if gap>10:gaps.append({'contract':k,'previous_line':prev['_line'],'next_line':r['_line'],'previous_ts':prev['timestamp_utc'],'next_ts':r['timestamp_utc'],'gap_seconds':gap,'cause':'UNAVAILABLE'})"
+        },
+        {
+          "line": 71,
+          "text": "  rec={'contract':k,'native_open_utc':start.isoformat(),'native_close_utc':end.isoformat(),'official':k in official,'settlement_receipt_complete':k in settled,'settlement_side':settled.get(k,{}).get('final60_side'),'ordinary_rows':len(rs),'first_observation':rs[0]['timestamp_utc'] if rs else None,'last_observation':rs[-1]['timestamp_utc'] if rs else None,'first_seen_seconds_after_open':(dt(rs[0]['timestamp_utc'])-start).total_seconds() if rs else None,'last_seen_seconds_before_close':(end-dt(rs[-1]['timestamp_utc'])).total_seconds() if rs else None,'scorer_final':base[k]['paths']['final_status'],'scorer_early':base[k]['paths']['early_status'],'scorer_scalp':base[k]['paths']['scalp_status'],'scorer_profit':base[k]['paths']['profit_status'],'first_full_provisional':'NONE' if rs else 'UNAVAILABLE_NO_DECISION_EVIDENCE','earliest_possible_authorized_entry':'UNAVAILABLE_MISSING_PROTECTED_AUTHORITY_AND_SOURCE_PROVENANCE','full_provisional_numeric_rows':sum(all(gates(r).values()) for r in rs),'protected_tier1_numeric_rows':sum(all(gates(r,'tier1').values()) for r in rs),'true_scalp_pending_observations':sum(bool(r['true_scalp_pending']) for r in rs),'profit_pending_observations':sum(bool(r['profit_pending']) for r in rs),'first_affordable_edge':json.dumps(cheap),'first_one_gate_near_miss':json.dumps(near),'first_tier1_numeric':json.dumps(tier),'min_simultaneous_gate_failures':min((sum(not v for v in gates(r).values()) for r in rs),default=None),'brti_ready_false_rows':sum(r['brti']['direct_brti_ready'] is not True for r in rs),'full_source_qualified_rows':0,'lifecycle_status':'UNAVAILABLE_NO_ORIGIN_LINKAGE'}"
+        },
+        {
+          "line": 78,
+          "text": "     pending.append({'contract':k,'counter':field,'first_positive_line':run[0]['_line'],'last_positive_line':run[-1]['_line'],'first_positive_ts':run[0]['timestamp_utc'],'last_positive_ts':run[-1]['timestamp_utc'],'positive_observations':len(run),'previous_zero_line':prior['_line'] if prior else None,'next_zero_line':after['_line'] if after else None,'observed_span_seconds':(dt(run[-1]['timestamp_utc'])-dt(run[0]['timestamp_utc'])).total_seconds(),'lifecycle':'UNAVAILABLE','entry_id':'UNAVAILABLE','side':'UNAVAILABLE','entry_ask':'UNAVAILABLE','target_stop_order':'UNAVAILABLE','MFE_MAE':'UNAVAILABLE'})"
+        },
+        {
+          "line": 86,
+          "text": "    old=next((x for x in reversed(rs[:i]) if dt(x['timestamp_utc'])<=dt(r['timestamp_utc'])-timedelta(seconds=seconds)),None)"
+        },
+        {
+          "line": 90,
+          "text": " last=max(dt(r['timestamp_utc']) for r in pro);expected=[];end=BOUNDARY+timedelta(seconds=900)"
+        },
+        {
+          "line": 95,
+          "text": " scalar={**{'gate_failures_settled_rows':gs,'candidate_flag_mismatches':mismatches,'source_flag_failures_all_ordinary':dict(source_counts)},'official_contracts_present':len(official),'official_complete_closeouts':len(official_settled),'official_settlement_split':dict(collections.Counter(settled[k]['final60_side'] for k in official_settled)),'official_closeout_only':sum(not groups[k] for k in official_settled),'official_decision_covered_settled':sum(bool(groups[k]) for k in official_settled),'expected_expired_official_slots':len(expected),'absent_expired_slots':absent,'elapsed_missing_closeout_contracts':[k for k in official if k not in settled and close_time(k)<=last],'not_yet_closed':[k for k in official if close_time(k)>last],'journal_gate_all_pass':sum(all(gates(r).values()) for r in so),'tier1_numeric_all_pass':sum(all(gates(r,'tier1').values()) for r in so),'tier1_numeric_contracts':len({r['contract'] for r in so if all(gates(r,'tier1').values())}),'final_observable_subset_pass_rows':len(final_partial),'final_observable_subset_contracts':len({r['contract'] for r in final_partial}),'final_ratio_missing_all_ordinary':len(ordinary),'pending_run_counts':dict(collections.Counter(r['counter'] for r in pending)),'gaps_over10_seconds':len(gaps),'gap_total_seconds':sum(r['gap_seconds'] for r in gaps),'max_gap_seconds':max(r['gap_seconds'] for r in gaps),'all_quote_provenance_missing_rows':len(ordinary),'all_strategy_capture_identity_missing_rows':len(ordinary),'side_delta_change_counts':dict(collections.Counter(r['window_s'] for r in side_delta))}"
+        }
+      ]
+    },
+    {
+      "path": "closeout/recovered_code/BTC15_Ladder_Analysis_20261003/frozen_sources/score_final_mixed_45s_union_impact_v1.py",
+      "sha256": "60f5dcb36c0b45e2176af3fcab877bc64960f5adf7174b4612c00764c9bcb40d",
+      "selected_contract_lines": [
+        {
+          "line": 35,
+          "text": "u[\"timestamp_utc\"] = pd.to_datetime("
+        },
+        {
+          "line": 36,
+          "text": "    u[\"timestamp_utc\"], errors=\"coerce\", utc=True"
+        },
+        {
+          "line": 75,
+          "text": "    [\"contract\",\"timestamp_utc\"]"
+        },
+        {
+          "line": 90,
+          "text": "    original_ts = r[\"timestamp_utc\"]"
+        },
+        {
+          "line": 109,
+          "text": "            & (ready[\"timestamp_utc\"] > original_ts)"
+        },
+        {
+          "line": 110,
+          "text": "            & (ready[\"timestamp_utc\"] <= deadline)"
+        },
+        {
+          "line": 121,
+          "text": "            rr = cand.sort_values(\"timestamp_utc\").iloc[0]"
+        },
+        {
+          "line": 122,
+          "text": "            guarded_ts = rr[\"timestamp_utc\"]"
+        }
+      ]
+    },
+    {
+      "path": "closeout/recovered_code/BTC15_Ladder_Analysis_20261003/frozen_sources/score_final_mixed_delay_recheck_v1.py",
+      "sha256": "472f2c5c229f1ceac489d12645a31c1e68c6ba88361621c03dcad9b22676bfbd",
+      "selected_contract_lines": [
+        {
+          "line": 40,
+          "text": "u[\"timestamp_utc\"] = pd.to_datetime("
+        },
+        {
+          "line": 41,
+          "text": "    u[\"timestamp_utc\"],errors=\"coerce\",utc=True"
+        },
+        {
+          "line": 95,
+          "text": "    .sort_values([\"contract\",\"timestamp_utc\"])"
+        },
+        {
+          "line": 132,
+          "text": "        base_ts = base[\"timestamp_utc\"]"
+        },
+        {
+          "line": 159,
+          "text": "            & (f[\"timestamp_utc\"] >= base_ts + pd.Timedelta(seconds=delay))"
+        },
+        {
+          "line": 171,
+          "text": "        chosen = cf.sort_values(\"timestamp_utc\").iloc[0].copy()"
+        },
+        {
+          "line": 173,
+          "text": "            chosen[\"timestamp_utc\"] - base_ts"
+        },
+        {
+          "line": 273,
+          "text": "            & (f[\"timestamp_utc\"]>=b[\"timestamp_utc\"]+pd.Timedelta(seconds=delay))"
+        },
+        {
+          "line": 279,
+          "text": "        ].sort_values(\"timestamp_utc\")"
+        }
+      ]
+    },
+    {
+      "path": "closeout/recovered_code/BTC15_Prospective_Evidence_Bundle/sources/btc15_cohort_evidence_v1.py",
+      "sha256": "9812c23a6200bf31c2c5eb4e8f317fe32cfcafefeaa37d2a9b9a041967447d1a",
+      "selected_contract_lines": [
+        {
+          "line": 166,
+          "text": "def read_native_cohort(path, ticker):"
+        },
+        {
+          "line": 172,
+          "text": "        if row.get('schema')!='BTC15_COHORT_NATIVE_V1':"
+        },
+        {
+          "line": 180,
+          "text": "    rows.sort(key=lambda r:r['timestamp_utc'])"
+        }
+      ]
+    },
+    {
+      "path": "closeout/source/btc15_master_build_scorecard_v1.py",
+      "sha256": "c6d7204ef161f57a467a6d16c3eb17954066691514a4c04302ce5095eb507911",
+      "selected_contract_lines": [
+        {
+          "line": 9,
+          "text": "- Runs the frozen Rescue V2 prospective scorekeeper."
+        },
+        {
+          "line": 25,
+          "text": "RESCUE = ROOT / \"rescue_v2_frozen_prospective_scorekeeper.py\""
+        },
+        {
+          "line": 55,
+          "text": "        \"snapshot_utc\", \"timestamp_utc\", \"signal_timestamp_utc\","
+        },
+        {
+          "line": 56,
+          "text": "        \"candle_end_utc\", \"outcome_timestamp_utc\""
+        },
+        {
+          "line": 95,
+          "text": "print(\"\\nRESCUE V2 \u2014 FROZEN PROSPECTIVE SHADOW\")"
+        },
+        {
+          "line": 97,
+          "text": "rrc, rescue_out = run_capture(RESCUE)"
+        },
+        {
+          "line": 111,
+          "text": "    print(\"Rescue V2 scorer could not run.\")"
+        },
+        {
+          "line": 117,
+          "text": "print(\"\u2713 Rescue V1 remains rejected.\")"
+        },
+        {
+          "line": 118,
+          "text": "print(\"\u2713 Rescue V2 remains frozen; no threshold changes.\")"
+        },
+        {
+          "line": 124,
+          "text": "print(\"Do not promote Rescue V2 from historical 14/14 alone.\")"
+        }
+      ]
+    },
+    {
+      "path": "closeout/source/btc15_ladder_journal_v1.py",
+      "sha256": "51ab74d1efda963bb84192654bd95e15d79e7b5229c5430819a663e991ef55c5",
+      "selected_contract_lines": [
+        {
+          "line": 18,
+          "text": "SCHEMA = 'BTC15_LADDER_JOURNAL_V1'"
+        },
+        {
+          "line": 43,
+          "text": "            CREATE TABLE IF NOT EXISTS meta(k TEXT PRIMARY KEY,v TEXT NOT NULL);"
+        },
+        {
+          "line": 44,
+          "text": "            CREATE TABLE IF NOT EXISTS events(seq INTEGER PRIMARY KEY,at REAL NOT NULL,"
+        },
+        {
+          "line": 47,
+          "text": "            CREATE TABLE IF NOT EXISTS contracts(opened INTEGER PRIMARY KEY,ticker TEXT,"
+        }
+      ]
+    },
+    {
+      "path": "closeout/source/btc15_ladder_routes_v1.py",
+      "sha256": "539e7266a815f0e37d97bcda244d3a645e6807de12a7cfa41d8352d02cd41daa",
+      "selected_contract_lines": [
+        {
+          "line": 13,
+          "text": "    if path=='/ladders/coverage':"
+        },
+        {
+          "line": 16,
+          "text": "    if path=='/ladders':"
+        },
+        {
+          "line": 20,
+          "text": "    if path=='/ladders/panel.js':"
+        },
+        {
+          "line": 22,
+          "text": "        url=os.getenv('BTC15_V81_LADDERS_URL','https://v81-live-diagnostics-production.up.railway.app/ladders')"
+        },
+        {
+          "line": 23,
+          "text": "        if not url.startswith('https://') or not url.endswith('/ladders'):raise ValueError('SCALP_PUBLIC_URL_INVALID')"
+        }
+      ]
+    }
+  ],
+  "existing_packages": [
+    {
+      "name": "BTC15_Ladder_Analysis_20261003.zip",
+      "sha256": "bcb327d72a55f178adfc6fe5bb2158d9e812add7ed3d27ff8da11fc068c73e75"
+    },
+    {
+      "name": "BTC15_Prospective_Evidence_Bundle.zip",
+      "sha256": "bcdffbf8c3b4cf747719e7fa59bb7527c5d682820fe0915256f852d71b59898a"
+    }
+  ]
+}

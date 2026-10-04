@@ -1,0 +1,19 @@
+{
+  "url": "https://btc-15min-bot-production.up.railway.app/ladders/panel.js",
+  "started_at": 1791087711.5659978,
+  "completed_at": 1791087716.0105472,
+  "status": 200,
+  "headers": {
+    "Cache-Control": "no-store, max-age=0",
+    "Content-Type": "application/javascript",
+    "Date": "Sun, 04 Oct 2026 04:21:56 GMT",
+    "Server": "railway-hikari",
+    "x-content-type-options": "nosniff",
+    "x-railway-request-id": "usVDKyRsTY6GKSsNo3UVLg",
+    "Content-Length": "8044",
+    "x-hikari-trace": "ord1.zmv5",
+    "x-railway-edge": "ord1",
+    "vary": "accept-encoding",
+    "Connection": "close"
+  }
+}

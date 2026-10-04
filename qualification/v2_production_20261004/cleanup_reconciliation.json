@@ -1,0 +1,691 @@
+{
+  "status": "BLOCKED_ARCHIVE_ACCESS",
+  "current_service_count": 53,
+  "volume_count": 6,
+  "prior_retirement_candidates": 33,
+  "prior_candidates_still_present": 33,
+  "completed_retirements_this_mission": [],
+  "realized_savings_this_mission_usd": 0,
+  "current_bill": "UNAVAILABLE",
+  "all_platform_total": "UNAVAILABLE",
+  "new_since_old_43_service_inventory": [
+    {
+      "id": "c0be1409-9fdf-47d8-a681-fba03dca378e",
+      "name": "information-identity-integration-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "integration/information-identity-v1-20260928"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "58e5d956-574d-4dfc-8287-178520a5defa",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-28T15:14:19.940Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "befbc458-e41e-4995-8354-fa5c7bbfe095",
+      "name": "information-identity-audit-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "audit/information-identity-projection-20260928"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "9ffd621f-63ef-4057-82bf-d12f747d7758",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-28T15:07:43.062Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "c3043d22-9141-487b-8f5d-955ccb4cd8b0",
+      "name": "information-identity-integration-v2",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "integration/information-identity-v1-20260928"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "08de032e-0f5a-4f68-a4ad-a1cee0d28d90",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-28T15:30:23.412Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "21ec159d-fd25-482c-ad72-d53a98a39aa9",
+      "name": "csv-diagnostic-scan",
+      "state": "live",
+      "source": {
+        "image": "ghcr.io/railwayapp/function-bun:1.4.0",
+        "repo": null,
+        "branch": null
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "dd21b6a7-0847-44ac-847f-7745c0fe5ed1",
+        "status": "CRASHED",
+        "createdAt": "2026-09-26T15:13:38.141Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "c600567f-42e9-432a-839c-140131124fe0",
+      "name": "recovered-v11-preview-pr47",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "railway/code-change-6aufFQ"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "4d3f54c5-0508-4912-874c-db017dec72c1",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-28T18:18:20.081Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "e6101c69-18df-4522-99d8-94e363ad8b92",
+      "name": "btc15-v2-main-qualification",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "release/ladder-completion-20261003"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [
+        {
+          "volumeId": "b6304c46-7027-4bfd-932d-94bb9c67da8e",
+          "volumeName": "btc15-v2-main-journal",
+          "mountPath": "/data"
+        }
+      ],
+      "latestDeployment": {
+        "id": "49b15e63-fdf8-4dd6-9589-de222bbe5fdf",
+        "status": "SUCCESS",
+        "createdAt": "2026-10-04T02:29:13.724Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "725e8200-656a-4576-a62a-0b84fedf9ffd",
+      "name": "btc15-v2-v81-qualification",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "release/v81-ladder-completion-20261003"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [
+        {
+          "volumeId": "97cc9dcd-ef90-495e-a1be-ffda31eac1b3",
+          "volumeName": "btc15-v2-v81-journal",
+          "mountPath": "/data"
+        }
+      ],
+      "latestDeployment": {
+        "id": "39c95226-fff1-4f5f-8ce4-606c5e446a70",
+        "status": "SUCCESS",
+        "createdAt": "2026-10-04T02:29:13.728Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "ad996e53-cf97-4e64-b4f0-94eb1577c53b",
+      "name": "recovered-native-identity-qualification-v1",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "integration/recovered-native-identity-20260928"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "4cada7c0-62b7-4b26-898f-8a764ed3b642",
+        "status": "CRASHED",
+        "createdAt": "2026-09-28T18:07:51.162Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "dc393dd9-ed9a-4dbb-a824-a9625ecbfd2f",
+      "name": "recovered-v11-identity-pr48",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "audit/identity-bound-info-20260928"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "6dcb4a8f-dbb8-4431-88f6-abf3a0542a1c",
+        "status": "FAILED",
+        "createdAt": "2026-09-28T10:43:36.631Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "0631afcb-482c-46ec-86b2-c1de2ebe9d84",
+      "name": "recovered-v11-identity-pr49",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "audit/identity-bound-info-20260928"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [],
+      "latestDeployment": {
+        "id": "005ea38f-8d7e-4fd4-9323-91f86bd87837",
+        "status": "CRASHED",
+        "createdAt": "2026-09-28T10:45:00.404Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    }
+  ],
+  "old_candidates_reconciled": [
+    {
+      "old_order": 14,
+      "id": "84f579fc-36d0-4170-8a28-6d26c01bb364",
+      "name": "v81-live-diag-shared-brti-shadow",
+      "current_deployment": {
+        "id": "1edca6fd-095d-4910-90af-a11c49c086db",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-13T05:18:39.829Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 11,
+      "id": "4a7f7942-7701-4441-8061-d1c6148d0e81",
+      "name": "scalp-entry-profit-holdout-v1",
+      "current_deployment": {
+        "id": "82056b10-b4be-4016-83d5-4388017fd9ab",
+        "status": "CRASHED",
+        "createdAt": "2026-09-18T03:55:10.632Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 25,
+      "id": "2b0060ac-e0d1-49a2-a2f6-b577fd9ac478",
+      "name": "scalp-lead-v5-main",
+      "current_deployment": {
+        "id": "c071ec85-f1d4-4fa5-865b-1ce21271ed58",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-11T16:16:27.603Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 28,
+      "id": "0bda3f3d-90b7-4934-8636-d16a45a3dc32",
+      "name": "v81-immutable-test",
+      "current_deployment": {
+        "id": "a36a2a6b-3463-4093-a5e5-c68c1ab82245",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-12T01:12:12.787Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 12,
+      "id": "a0f417fe-9bfe-4d80-bcd0-5647a582a1e7",
+      "name": "scalp-reversal-reentry-holdout-v1",
+      "current_deployment": {
+        "id": "9933e54a-dad2-4c39-ae07-657d73eef847",
+        "status": "CRASHED",
+        "createdAt": "2026-09-18T03:21:39.535Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 6,
+      "id": "b210d5f0-0616-4e39-9812-ce7b41b73d67",
+      "name": "combined-dashboard-shadow-v13",
+      "current_deployment": {
+        "id": "0df31206-238e-46aa-b0f8-ef79773889b7",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-15T18:39:18.394Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 5,
+      "id": "87801206-d705-43d6-8aa2-bfb1b11c1ff6",
+      "name": "combined-dashboard-shadow-v11",
+      "current_deployment": {
+        "id": "12a26d34-ffe5-46b5-a29e-5f8a43a12a17",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-15T14:03:08.725Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 15,
+      "id": "afd8f1f0-65f6-46f0-a79b-ef582f35293f",
+      "name": "v81-30-45-live-feed-v2",
+      "current_deployment": {
+        "id": "ae6976a2-fb93-449a-a05d-f45dc32bd478",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-12T20:07:15.383Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 18,
+      "id": "10045980-cdd0-485a-a827-b50a3f0b4943",
+      "name": "v81-final-isolated-test",
+      "current_deployment": {
+        "id": "8ae6c679-ac45-4935-9b81-1f3f4cf5deb4",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-23T03:46:03.437Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 2,
+      "id": "fcfb3a93-f007-4061-9cb8-bdae28f72cc2",
+      "name": "scalp-developing-move-v1-forward",
+      "current_deployment": {
+        "id": "8358775d-08d9-4bdb-af9d-fdf7b5d87f2f",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-21T20:13:55.574Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 33,
+      "id": "cf307d3c-064f-4675-a2d5-c61ec0429f62",
+      "name": "rollover-handoff-predeploy-check",
+      "current_deployment": {
+        "id": "d9fcf373-10ce-4ecd-8f6b-66a76f4c2803",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-22T21:25:18.516Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 9,
+      "id": "90046a79-3f57-493f-b473-18d0031e8f0d",
+      "name": "scalp-display-bridge-v6",
+      "current_deployment": {
+        "id": "52114b2d-2d17-44c3-9ee4-5454aec9222d",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-15T13:41:20.060Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 23,
+      "id": "ca605c00-4608-4b32-b0bb-d1ca9c6b42a5",
+      "name": "scalp-lead-v4",
+      "current_deployment": {
+        "id": "db0473b2-22cd-46f3-9f63-efce713112a7",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-11T16:16:04.670Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 21,
+      "id": "90d3435e-c98c-43ae-880f-cd629b9606e2",
+      "name": "scalp-lead-shadow",
+      "current_deployment": {
+        "id": "bd1faafd-3d39-4ff1-bf69-8e3b1e364068",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-11T16:16:19.458Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 1,
+      "id": "cc7ca702-ddbc-4f61-8205-873e34b7d740",
+      "name": "scalp-unarmed-live-tape-v1",
+      "current_deployment": {
+        "id": "d4d5f692-356e-4fec-b4aa-e04f54fe8986",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-20T19:40:10.557Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 19,
+      "id": "2e63484b-e726-41fc-980a-a117b5efdcfd",
+      "name": "scalp-v81-sub30-shadow",
+      "current_deployment": {
+        "id": "8eb3020c-6f36-40b5-9242-bd7f04f0b501",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-13T05:09:38.027Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 22,
+      "id": "f6e62c87-ac2a-4340-8be2-72932ad4c486",
+      "name": "scalp-lead-qualified",
+      "current_deployment": {
+        "id": "87cf1c7f-2ff6-41f9-8fb8-d5dcad7f0994",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-11T16:16:12.461Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 24,
+      "id": "7e643823-456a-414b-a369-0ee40462223f",
+      "name": "scalp-lead-v5-live",
+      "current_deployment": {
+        "id": "1c0c5ea0-67a4-453c-ba7f-752433b66d67",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-11T16:13:26.389Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 26,
+      "id": "ea6e520b-fa94-49bb-abf9-094817ae3d6b",
+      "name": "scalp-lead-v6",
+      "current_deployment": {
+        "id": "3f4649ce-535d-4fab-ab31-6756117187d7",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-11T19:10:31.099Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 4,
+      "id": "6c0ec9d5-2187-4623-97ec-44c3304b8074",
+      "name": "authoritative-scoreboard-v1",
+      "current_deployment": {
+        "id": "1bb0e9b5-a299-4516-bad4-79b57686b9ff",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-15T23:32:29.505Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 10,
+      "id": "efb56ace-8c0e-4672-a772-6dd3b8633078",
+      "name": "early-forward-scorecard-v1",
+      "current_deployment": {
+        "id": "764934d0-a646-4363-942d-bba62e94a1b3",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-21T03:32:42.199Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 7,
+      "id": "c1db8b80-f656-4295-ade8-812c129f6c72",
+      "name": "combined-dashboard-shadow-v14",
+      "current_deployment": {
+        "id": "95380505-ccb6-4489-bfec-299933596116",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-16T00:15:59.542Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 29,
+      "id": "43e53181-102a-4759-a7cd-70875c605cf0",
+      "name": "v81-30-45-dashboard-validation-v3",
+      "current_deployment": {
+        "id": "242c233f-a16e-46a3-a373-6a536a6f199a",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-12T13:26:14.053Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 27,
+      "id": "b883a5e1-7cef-4d3d-b3f6-cffccde53053",
+      "name": "scalp-v81-sub30-shadow-v2",
+      "current_deployment": {
+        "id": "ac70c610-5c36-4cc2-8479-2e1ee489b747",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-12T02:12:11.760Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 8,
+      "id": "142e0fe5-13ce-4cb7-a08b-d4a65539fb47",
+      "name": "combined-dashboard-shadow-v1",
+      "current_deployment": {
+        "id": "3296cc04-c5b0-4256-8108-47e4861fdf20",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-15T05:02:45.985Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 17,
+      "id": "9a566a85-0b12-4ab7-9c95-cced457e3bf5",
+      "name": "rollover-prediscovery-shadow-v1",
+      "current_deployment": {
+        "id": "3a07cc28-7569-4192-9ad6-dd87c63eb8c9",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-22T13:53:00.494Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 16,
+      "id": "5a3eda51-3074-42aa-9e46-06695d47a378",
+      "name": "rollover-alt-discovery-probe-v1",
+      "current_deployment": {
+        "id": "b6670de3-bc4c-413a-ba8d-dba49665959b",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-22T03:16:23.441Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 30,
+      "id": "331072c6-1ab4-47dc-a6b4-c3af053e4975",
+      "name": "rollover-regression-v1",
+      "current_deployment": {
+        "id": "ba81e05a-ad82-42f8-85d6-a233980e193b",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-22T18:35:26.613Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 3,
+      "id": "56b8496c-8dea-409b-a236-9e139a9c2e96",
+      "name": "final-v4-review-tooling-v1",
+      "current_deployment": {
+        "id": "bf74b182-7507-4ed8-9a25-9e7041d37e1f",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-16T02:22:35.698Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 31,
+      "id": "ab491df9-2b75-43f2-92da-bc2a6db1cf6d",
+      "name": "rollover-core-integration-live-shadow",
+      "current_deployment": {
+        "id": "07204949-0f3a-4c5e-ae59-71da69f7a8c2",
+        "status": "CRASHED",
+        "createdAt": "2026-09-22T18:35:26.614Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 13,
+      "id": "f4d0996f-9dd1-47ba-a237-67353acd5bec",
+      "name": "scalp-incremental-disk-v2",
+      "current_deployment": {
+        "id": "657b6674-7641-4d43-b0f2-a4fe750d6041",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-18T19:15:30.699Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 32,
+      "id": "fd54c023-b855-4ccb-90ca-4cbf772bdf4a",
+      "name": "rollover-canary-predeploy-check",
+      "current_deployment": {
+        "id": "9ee22695-1157-4407-9586-ec84c7ff3a70",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-22T19:39:03.253Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    },
+    {
+      "old_order": 20,
+      "id": "568716be-9c96-446e-aecb-0fcd16158b8e",
+      "name": "scalp-lead-v6-main",
+      "current_deployment": {
+        "id": "c11b422f-86bc-45b2-9c57-b3ed26973021",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-28T19:55:49.574Z",
+        "url": null
+      },
+      "archive_gate": "NOT_VERIFIED",
+      "retirement": "NOT_PERFORMED"
+    }
+  ],
+  "protected_qualification_services": [
+    "e6101c69-18df-4522-99d8-94e363ad8b92",
+    "725e8200-656a-4576-a62a-0b84fedf9ffd"
+  ],
+  "no_service_volume_credential_or_repo_deletion": true
+}

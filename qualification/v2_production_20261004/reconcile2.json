@@ -1,0 +1,159 @@
+{
+  "environment": {
+    "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+    "name": "production"
+  },
+  "services": [
+    {
+      "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+      "serviceName": "v81-live-diagnostics",
+      "state": "online",
+      "statusText": "Online",
+      "activeDeployments": [
+        {
+          "id": "2051e772-bd39-4dea-a77d-52fea0a07c02",
+          "status": "SUCCESS",
+          "createdAt": "2026-10-04T04:12:31.585Z",
+          "statusUpdatedAt": "2026-10-04T04:13:35.525Z"
+        }
+      ],
+      "replicaStatus": {
+        "running": 1,
+        "crashed": 0,
+        "total": 1
+      },
+      "cronJob": null,
+      "issues": {
+        "warningCount": 0,
+        "criticalCount": 0
+      },
+      "recentFailures": 0,
+      "recentFailedDeployments": [],
+      "hasIssues": false,
+      "isCronJob": false,
+      "hasVolume": true
+    },
+    {
+      "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+      "serviceName": "Btc-15min-bot",
+      "state": "online",
+      "statusText": "Online",
+      "activeDeployments": [
+        {
+          "id": "ce0ac4dd-a3c4-49bb-8ca7-d1b7ed5be2fa",
+          "status": "SUCCESS",
+          "createdAt": "2026-10-04T04:12:31.560Z",
+          "statusUpdatedAt": "2026-10-04T04:13:47.294Z"
+        }
+      ],
+      "replicaStatus": {
+        "running": 1,
+        "crashed": 0,
+        "total": 1
+      },
+      "cronJob": null,
+      "issues": {
+        "warningCount": 0,
+        "criticalCount": 0
+      },
+      "recentFailures": 0,
+      "recentFailedDeployments": [],
+      "hasIssues": false,
+      "isCronJob": false,
+      "hasVolume": true
+    },
+    {
+      "serviceId": "725e8200-656a-4576-a62a-0b84fedf9ffd",
+      "serviceName": "btc15-v2-v81-qualification",
+      "state": "online",
+      "statusText": "Online",
+      "activeDeployments": [
+        {
+          "id": "39c95226-fff1-4f5f-8ce4-606c5e446a70",
+          "status": "SUCCESS",
+          "createdAt": "2026-10-04T02:29:13.728Z",
+          "statusUpdatedAt": "2026-10-04T02:38:18.589Z"
+        }
+      ],
+      "replicaStatus": {
+        "running": 1,
+        "crashed": 0,
+        "total": 1
+      },
+      "cronJob": null,
+      "issues": {
+        "warningCount": 0,
+        "criticalCount": 0
+      },
+      "recentFailures": 0,
+      "recentFailedDeployments": [],
+      "hasIssues": false,
+      "isCronJob": false,
+      "hasVolume": true
+    },
+    {
+      "serviceId": "e6101c69-18df-4522-99d8-94e363ad8b92",
+      "serviceName": "btc15-v2-main-qualification",
+      "state": "online",
+      "statusText": "Online",
+      "activeDeployments": [
+        {
+          "id": "49b15e63-fdf8-4dd6-9589-de222bbe5fdf",
+          "status": "SUCCESS",
+          "createdAt": "2026-10-04T02:29:13.724Z",
+          "statusUpdatedAt": "2026-10-04T02:37:40.792Z"
+        }
+      ],
+      "replicaStatus": {
+        "running": 1,
+        "crashed": 0,
+        "total": 1
+      },
+      "cronJob": null,
+      "issues": {
+        "warningCount": 0,
+        "criticalCount": 0
+      },
+      "recentFailures": 0,
+      "recentFailedDeployments": [],
+      "hasIssues": false,
+      "isCronJob": false,
+      "hasVolume": true
+    },
+    {
+      "serviceId": "0fe5d048-873e-4c1c-a3d4-8e7216e44f3e",
+      "serviceName": "brti-shared-feed-v1",
+      "state": "online",
+      "statusText": "Online",
+      "activeDeployments": [
+        {
+          "id": "b0ddbbbb-7d7a-43ba-888f-9d7e8c6b3fd8",
+          "status": "SUCCESS",
+          "createdAt": "2026-09-23T12:26:16.000Z",
+          "statusUpdatedAt": "2026-09-23T12:27:15.501Z"
+        }
+      ],
+      "replicaStatus": {
+        "running": 1,
+        "crashed": 0,
+        "total": 1
+      },
+      "cronJob": null,
+      "issues": {
+        "warningCount": 0,
+        "criticalCount": 0
+      },
+      "recentFailures": 0,
+      "recentFailedDeployments": [],
+      "hasIssues": false,
+      "isCronJob": false,
+      "hasVolume": false
+    }
+  ],
+  "pendingWork": [],
+  "summary": {
+    "totalServices": 5,
+    "servicesWithIssues": 0,
+    "totalFailures": 0
+  }
+}

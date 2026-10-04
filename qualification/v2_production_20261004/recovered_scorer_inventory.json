@@ -1,0 +1,351 @@
+{
+  "authority_commit": "677200b3ad1a40c555e50394b485d6445887a909",
+  "matching_files": [
+    {
+      "path": ".github/workflows/ladder-completion.yml",
+      "sha": "74d563fdad22f3a4b5cf4938ae0cb48e8988c461",
+      "size": 541
+    },
+    {
+      "path": ".kalshi_15m_ladder_state.json",
+      "sha": "cd57d6e9ed57c824aacb98a8c54b912545ec8d90",
+      "size": 62
+    },
+    {
+      "path": "BTC15_CORE_PRODUCTION_CANDIDATE_LOCK_V1/score_union_coverage_gap_audit_v1.py",
+      "sha": "9292de7da60a29171a1f1d4265bd8a5869ab1be2",
+      "size": 11800
+    },
+    {
+      "path": "BTC15_CORE_PRODUCTION_CANDIDATE_LOCK_V1/score_v4_13_forward_run.py",
+      "sha": "eb42dfbb41ab00d8f1d56c31ef56b05493e75d82",
+      "size": 5977
+    },
+    {
+      "path": "BTC15_LADDER_COMPLETION_FREEZE_20261003.json",
+      "sha": "232c8b3fba8547dde0c9ca7551b8a485235ec82c",
+      "size": 6779
+    },
+    {
+      "path": "BTC15_LADDER_RECOVERY_20261003.md",
+      "sha": "546a1f575ee8eaeed116783941df398829748722",
+      "size": 8870
+    },
+    {
+      "path": "BTC15_V4_12_MORNING_SCORER.zip",
+      "sha": "37751903edbf68aca40a60d7e78632c1598a7a41",
+      "size": 984
+    },
+    {
+      "path": "BTC15_V4_13_FORWARD_SCORER.zip",
+      "sha": "03fe6c84c1106d992628eb0e198d6ff7268f0d76",
+      "size": 2230
+    },
+    {
+      "path": "accepted_union_scorecard_v1_holdout_detail.csv",
+      "sha": "c6e2847a464f73c70a7dd223b8b5609dee343820",
+      "size": 5239
+    },
+    {
+      "path": "accepted_union_scorecard_v1_summary.txt",
+      "sha": "a6da1be6ba3d84511c48ced7cd29e75e7adcb8ae",
+      "size": 381
+    },
+    {
+      "path": "bot_before_validated_onboarding_ladder.py",
+      "sha": "05fceb634b40d7050ed477c6c06be87d562b6999",
+      "size": 39352
+    },
+    {
+      "path": "btc15_cohort_evidence_v1.py",
+      "sha": "1cce9e32ce6ef5ebac027ae9f30076acf5670468",
+      "size": 11464
+    },
+    {
+      "path": "btc15_ladder_journal_v1.py",
+      "sha": "562196c2de9fafd2f7859edfc9b577b00e10b7df",
+      "size": 11577
+    },
+    {
+      "path": "btc15_ladder_panel_v1.js",
+      "sha": "110d6d4ee646a403d77ad1a8e9cd3138c86284cc",
+      "size": 7999
+    },
+    {
+      "path": "btc15_ladder_product_v1.py",
+      "sha": "bef8759d80bec8a7acbcf454345d583326e363a5",
+      "size": 18915
+    },
+    {
+      "path": "btc15_ladder_routes_v1.py",
+      "sha": "60ae402a82b494b9bea7aa2d590ed916983c607f",
+      "size": 1181
+    },
+    {
+      "path": "btc15_ladder_settlement_v2.py",
+      "sha": "11ec3a43b6f3af4c16dd10690eab49eefdaca29c",
+      "size": 3025
+    },
+    {
+      "path": "btc15_master_build_scorecard_v1.py",
+      "sha": "891b984af1d247d7bdc1b4e1fa8d700d055d5027",
+      "size": 4169
+    },
+    {
+      "path": "btc15_verify_ladder_freeze_v2.py",
+      "sha": "576602a5edfcc814b3846554a57b3f0d68a090ff",
+      "size": 925
+    },
+    {
+      "path": "completion_audit/SCORECARD.md",
+      "sha": "a5ca15905ee54ff6601659347fac158ecb07697f",
+      "size": 9365
+    },
+    {
+      "path": "completion_audit/historical_ladder_union.txt",
+      "sha": "f9f2a32c74d5aea93114ccea69f3804963154082",
+      "size": 1400
+    },
+    {
+      "path": "docs/BRTI_FIX_SCORECARD_20260919.md",
+      "sha": "2673693d3b3960ee2cd514669d1808d5d34ba622",
+      "size": 1280
+    },
+    {
+      "path": "docs/BRTI_WEBSOCKET_DASHBOARD_CANARY_SCORECARD_20260919.md",
+      "sha": "13b2ccef6d9efe58615311c69741ab54a5134aa5",
+      "size": 1935
+    },
+    {
+      "path": "docs/BRTI_WEBSOCKET_FULLBOT_CANARY_SCORECARD_20260919.md",
+      "sha": "264c754a2c4afc535d68df49960871d17ede22cd",
+      "size": 1358
+    },
+    {
+      "path": "integrate_validated_onboarding_ladder.py",
+      "sha": "50fee7ee4326712c58eecfbe68480d92921264ea",
+      "size": 7160
+    },
+    {
+      "path": "kalshi_accepted_union_scorecard_v1.py",
+      "sha": "4c6eb889e2a6dcf550ed322d7f598e93fe148b7e",
+      "size": 7136
+    },
+    {
+      "path": "kalshi_attractive_entry_lifecycle_snapshots.csv",
+      "sha": "df0adef80155ec0435a4ac97460db6c69133d733",
+      "size": 124269
+    },
+    {
+      "path": "kalshi_dynamic_signal_ladder_validation.py",
+      "sha": "11f0aeb5e77cd322e01b4236ee9af8e0b83faf6a",
+      "size": 11981
+    },
+    {
+      "path": "kalshi_flow_matched_snapshots.csv",
+      "sha": "26f56f7b827e381daf5a45fb1a82b8797e0e9a38",
+      "size": 678642
+    },
+    {
+      "path": "kalshi_official_truth_final_call_rescore_details.csv",
+      "sha": "e3fca605cfbf9501c8ad32c9f64a2b76956854ed",
+      "size": 57389
+    },
+    {
+      "path": "kalshi_official_truth_final_call_rescorer.py",
+      "sha": "69b8ef38ca36a92c70454e9b9d6500ac9b587e6a",
+      "size": 8780
+    },
+    {
+      "path": "kalshi_official_truth_final_call_rescorer_v2.py",
+      "sha": "fa3334744f0546c72674a041f20105a5af1e9fb1",
+      "size": 8800
+    },
+    {
+      "path": "kalshi_official_truth_layer_a_rescore_details.csv",
+      "sha": "3975dbafbc4819df601ded3ba10a17f767da1b83",
+      "size": 101463
+    },
+    {
+      "path": "kalshi_official_truth_layer_a_rescorer.py",
+      "sha": "eaf0bff935aa80298b7796ef2b0e3f076b54ebca",
+      "size": 10946
+    },
+    {
+      "path": "kalshi_onboarding_ladder_validation.py",
+      "sha": "2d7c3216f723d101840fe4f2e1124558f58d6037",
+      "size": 12556
+    },
+    {
+      "path": "kalshi_scalp_shadow_snapshots_v1.csv",
+      "sha": "f744e29a007c1cf62b943a7f94978656d63c3fe1",
+      "size": 12273752
+    },
+    {
+      "path": "ladder_map.txt",
+      "sha": "c190af7a5cb31b440f59ae8d631d40f3f0ae15b6",
+      "size": 39497
+    },
+    {
+      "path": "map_onboarding_ladder_integration.py",
+      "sha": "0e9a1422c6832b6ed99fa278249dabedcea2ad9b",
+      "size": 6276
+    },
+    {
+      "path": "rescue_v2_frozen_prospective_scorekeeper.py",
+      "sha": "c29789557ac037a01d5e1be306fc5667c163677d",
+      "size": 9939
+    },
+    {
+      "path": "score_chop_reversal_event_detector_v1.py",
+      "sha": "14b7a3cbf8deb17368851dcf894f932450de6406",
+      "size": 18903
+    },
+    {
+      "path": "score_combined_flow_test.py",
+      "sha": "844531df7f3513ceb52ee16b01c5c575302564b5",
+      "size": 5546
+    },
+    {
+      "path": "score_confirmation_failure_forward_validation.py",
+      "sha": "41ca4e2803d9dc1e57d10854506e5ce4b3e4204d",
+      "size": 6220
+    },
+    {
+      "path": "score_final_45s_reconciliation_v1.py",
+      "sha": "7aed7a452b42458e3a462d2fae8bd0d7d1438100",
+      "size": 8923
+    },
+    {
+      "path": "score_final_forward_v413.py",
+      "sha": "e21ffe36a41b0102b362a4abadcd4566d270d37a",
+      "size": 5429
+    },
+    {
+      "path": "score_final_mixed_45s_union_impact_v1.py",
+      "sha": "fa28c81357f9522e9469faa9eae5978018886468",
+      "size": 7977
+    },
+    {
+      "path": "score_final_mixed_delay_recheck_v1.py",
+      "sha": "b7920f818824cb5378f128bd130b8d1d899797f7",
+      "size": 9904
+    },
+    {
+      "path": "score_flow_test.py",
+      "sha": "3e4ba3a0fd9e7ba43e838930110aca7b70b05d94",
+      "size": 5079
+    },
+    {
+      "path": "score_frozen_3m_guard_forward_validation.py",
+      "sha": "ecdbf08a7891f2db6d4deb63613f8a5c089bf342",
+      "size": 3251
+    },
+    {
+      "path": "score_gap_feasibility_final_miss_audit_v1.py",
+      "sha": "671fcb5833adeb6de9568a6ff96cd96f4df4cca7",
+      "size": 11879
+    },
+    {
+      "path": "score_layer_a_forward_validation.py",
+      "sha": "cc160c1164a2cacb371de4503f55144777ff1443",
+      "size": 8681
+    },
+    {
+      "path": "score_layer_b_forward_validation.py",
+      "sha": "f006f7e31745f7fc4eaf712a161438271aef253e",
+      "size": 7409
+    },
+    {
+      "path": "score_scalp_exit_optimizer_v1.py",
+      "sha": "e8771f29198e62498612ccf8a01158c7b378b823",
+      "size": 12962
+    },
+    {
+      "path": "score_secondary_scalp_gapfiller_v1.py",
+      "sha": "c1d288d5dce2589abdd26b0415b636021b4f086c",
+      "size": 17174
+    },
+    {
+      "path": "score_secondary_scalp_gapfiller_v1_1.py",
+      "sha": "fc7c62cc23570867d00b3838046a766dc65b19c5",
+      "size": 17631
+    },
+    {
+      "path": "score_secondary_scalp_roi_v2.py",
+      "sha": "ba5feef97062f95d6e2cf68e75c4ca86192029c3",
+      "size": 19448
+    },
+    {
+      "path": "score_three_ladder_union_sep6.py",
+      "sha": "8bffec0830bb591474ff00ee7567d932f0517983",
+      "size": 4120
+    },
+    {
+      "path": "score_three_ladder_union_sep6_exact.py",
+      "sha": "08dbcea681157b5768b33a5afb021c17c2467a9e",
+      "size": 5001
+    },
+    {
+      "path": "score_three_ladder_union_sep6_v2.py",
+      "sha": "267fb0c1f225eb673cb292fdbef707157e6deb8e",
+      "size": 5166
+    },
+    {
+      "path": "score_three_ladder_union_sep6_v3.py",
+      "sha": "62a108633c0fbee5363b1fd3d28965985ccd0203",
+      "size": 5347
+    },
+    {
+      "path": "score_unified_early_sequence_v3.py",
+      "sha": "9c2b1dd0e47065dd48e243fc4c0dde1aeaeb140d",
+      "size": 18335
+    },
+    {
+      "path": "score_unified_early_tournament_v2.py",
+      "sha": "0f5012bfc51cd59bab07cf4d8d6322947984be36",
+      "size": 17902
+    },
+    {
+      "path": "score_unified_early_v1.py",
+      "sha": "eb589f2a5bdf94e9c0c57522e3d8d2eb7c2a2cab",
+      "size": 13008
+    },
+    {
+      "path": "score_union_aligned.py",
+      "sha": "a507fdd3ba0c46e2a889d307f96dfc24d9356fcb",
+      "size": 5529
+    },
+    {
+      "path": "score_union_coverage_gap_audit_v1.py",
+      "sha": "9292de7da60a29171a1f1d4265bd8a5869ab1be2",
+      "size": 11800
+    },
+    {
+      "path": "score_v4_12_morning.py",
+      "sha": "420a58d2984b30b24c512ad9ecdda9a99e10e6ed",
+      "size": 1953
+    },
+    {
+      "path": "score_v4_13_forward_run.py",
+      "sha": "eb42dfbb41ab00d8f1d56c31ef56b05493e75d82",
+      "size": 5977
+    },
+    {
+      "path": "test_btc15_ladder_completion_v1.py",
+      "sha": "6662b789e10d057f7b481b932efee87fd0566204",
+      "size": 8493
+    },
+    {
+      "path": "test_btc15_ladder_ui_v2.cjs",
+      "sha": "347d2231bfbc6bb9f12207a238b55daf39be1fc6",
+      "size": 2237
+    },
+    {
+      "path": "union_optimizer_processed_snapshot_cache.csv",
+      "sha": "bb7180286608b450bd0fca07ddfbe6b7d5c1dc69",
+      "size": 1529277
+    }
+  ],
+  "scope": "Filenames and source/schema inspection only; no historical outcomes rescored."
+}

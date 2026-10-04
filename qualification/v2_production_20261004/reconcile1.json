@@ -1,0 +1,31 @@
+{
+  "scope": "deployment",
+  "deploymentId": "ce0ac4dd-a3c4-49bb-8ca7-d1b7ed5be2fa",
+  "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+  "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+  "status": "SUCCESS",
+  "deploy": [
+    {
+      "timestamp": "2026-10-04T04:13:43.522706327Z",
+      "severity": "info",
+      "message": "FROZEN V2 IDENTITY PASS | main | SIGNAL ONLY | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-10-04T04:13:43.522709557Z",
+      "severity": "info",
+      "message": "FROZEN V2 IDENTITY PASS | main | SIGNAL ONLY | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    }
+  ]
+}

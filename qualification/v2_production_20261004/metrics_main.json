@@ -1,0 +1,36 @@
+{
+  "service": {
+    "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+    "name": "Btc-15min-bot"
+  },
+  "environment": {
+    "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+    "name": "production"
+  },
+  "metrics": [
+    {
+      "measurement": "CPU_USAGE",
+      "current": 0,
+      "average": 1.7997686680327871,
+      "min": 0,
+      "max": 3.780294033333333,
+      "sampleCount": 61
+    },
+    {
+      "measurement": "MEMORY_USAGE_GB",
+      "current": 2.30479872,
+      "average": 2.6425331913442616,
+      "min": 1.528348672,
+      "max": 3.292176384,
+      "sampleCount": 61
+    },
+    {
+      "measurement": "DISK_USAGE_GB",
+      "current": 6.199861248,
+      "average": 6.188708242885246,
+      "min": 6.178750464,
+      "max": 6.199861248,
+      "sampleCount": 61
+    }
+  ]
+}
