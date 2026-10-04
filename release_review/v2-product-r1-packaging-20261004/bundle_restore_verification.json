@@ -1,0 +1,17 @@
+{
+  "prerequisite_note": "Local partial-clone upload-pack could not supply historical promised objects. Frozen base commits were instead fetched read-only, shallow, from the same GitHub repository; no candidate content or history changed.",
+  "lanes": {
+    "main": {
+      "commit": "020f8a38d07e0a11e983a1e3bee3b06a4898c2f3",
+      "tree": "5ffab0fa22364129502d2c9bb817cc2eba862a1c",
+      "bundle_restored_into_base_only_repository": true,
+      "scorer_in_restored_commit": true
+    },
+    "v81": {
+      "commit": "985260e4166559701fc96b5582ca2211619d53ee",
+      "tree": "172b9eaa9686b165ec3cd396ba9398b715d31028",
+      "bundle_restored_into_base_only_repository": true,
+      "scorer_in_restored_commit": true
+    }
+  }
+}

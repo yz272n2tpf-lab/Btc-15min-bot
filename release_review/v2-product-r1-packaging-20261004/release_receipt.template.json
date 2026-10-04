@@ -1,0 +1,28 @@
+{
+  "schema": "BTC15_V2_RELEASE_RECEIPT_R1",
+  "revision": "BTC15_V2_PRODUCT_20261004_R1",
+  "strategy": "BTC15_LADDER_COMPLETION_20261003_V2",
+  "evidence_class": "UNVERIFIED_TEMPLATE",
+  "template": true,
+  "signal_only": true,
+  "orders": false,
+  "project": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+  "environment": "61775c5d-c583-4dfc-af41-f25578856fd9",
+  "manifest_sha256": "7289357977b4771b16644b32f75101883a4ecaaf7e8f82eef8d8042848d040f0",
+  "lanes": {
+    "main": {
+      "build": "020f8a38d07e0a11e983a1e3bee3b06a4898c2f3",
+      "service": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+      "volume": "6ced6b1a-3755-4518-a240-c895e936d443",
+      "deployment": null,
+      "started_at": null
+    },
+    "v81": {
+      "build": "985260e4166559701fc96b5582ca2211619d53ee",
+      "service": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+      "volume": "d5eeafca-e0fc-42f0-b7d1-4705907720c6",
+      "deployment": null,
+      "started_at": null
+    }
+  }
+}

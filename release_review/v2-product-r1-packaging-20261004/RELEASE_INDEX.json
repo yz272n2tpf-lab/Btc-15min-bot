@@ -1,0 +1,63 @@
+{
+  "schema": "BTC15_REVIEWED_PACKAGING_CORRECTION_INDEX_R1",
+  "revision": "BTC15_V2_PRODUCT_20261004_R1",
+  "status": "PACKAGING_VERIFIED_EXACT_REF_PUBLICATION_BLOCKED",
+  "strategy": "BTC15_LADDER_COMPLETION_20261003_V2",
+  "lanes": {
+    "main": {
+      "candidate_commit": "020f8a38d07e0a11e983a1e3bee3b06a4898c2f3",
+      "frozen_base": "de4f3e20b8657eb8cfee91bd4e525c103b5bf513",
+      "bundle": "main-candidate.bundle",
+      "bundle_sha256": "3e71a3e9b99bcda2187bcd2eeb702b08d2615c2191e13b6e8fbd815c153097c9",
+      "pushed": false,
+      "deployed": false,
+      "tree": "5ffab0fa22364129502d2c9bb817cc2eba862a1c",
+      "intended_branch": "candidate/v2-product-20261004"
+    },
+    "v81": {
+      "candidate_commit": "985260e4166559701fc96b5582ca2211619d53ee",
+      "frozen_base": "60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1",
+      "bundle": "v81-candidate-corrected.bundle",
+      "bundle_sha256": "a19550c78677e6f2b5cb275dd5330aedfa047fc7808789220cac5b6aa36f3b9a",
+      "pushed": false,
+      "deployed": false,
+      "tree": "172b9eaa9686b165ec3cd396ba9398b715d31028",
+      "parent": "07406e46945cc0bfebbb25299c5da53e87ac6a2a",
+      "intended_branch": "candidate/v81-product-20261004",
+      "packaging_only_patch": "v81-packaging-only.patch"
+    }
+  },
+  "manifest_sha256": "7289357977b4771b16644b32f75101883a4ecaaf7e8f82eef8d8042848d040f0",
+  "bridge_base": "1d942014af22ab4acb3048a29dbbc831d5ecc924",
+  "handoff": "61b3b4ddb3a816559355802ddd8dba27abfcdf00",
+  "signal_only": true,
+  "manual_execution_only": true,
+  "orders": false,
+  "production_modified": false,
+  "release_blocks": [
+    "Exact candidate refs require existing authenticated Git push; connector cannot import exact local commit objects; browser is signed out",
+    "Rendered assembled-browser and physical Safari verification unavailable in this environment",
+    "D04 production stall inner cause remains unresolved; no optimization selected",
+    "User production approval required"
+  ],
+  "live_acceptance_pending": true,
+  "previous_review_commit": "613161e7d69f4f4662db307b867031de335c24bf",
+  "original_archive": {
+    "file": "original/BTC15_V2_Offline_Release_Package_20261004.zip",
+    "sha256": "cab80bc15f65b90e79ba814236e0687e7f0a1fba81b4471410d49a85448d3dd6",
+    "packaged_hashes_verified": 90,
+    "original_v81_bundle_preserved_as_historical_evidence": true
+  },
+  "completed_results_preserved": {
+    "main": 280,
+    "current_v81": 19,
+    "bridge": 17,
+    "assembled_dashboard_dom": 12,
+    "obsolete_v81_baseline_equivalent_errors": 4
+  },
+  "affected_checks_this_correction": {
+    "release_and_freeze": "PASS",
+    "clean_commit_scoring_bridge_pass": 17,
+    "shared_runtime_content_changed": false
+  }
+}

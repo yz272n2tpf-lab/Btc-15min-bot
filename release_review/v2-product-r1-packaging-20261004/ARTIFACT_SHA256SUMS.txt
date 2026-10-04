@@ -1,0 +1,2 @@
+12e64a18cb2b50ff7083853602fed444fa269cde393be5b176236edd45552ae5  BTC15_V2_Corrected_Release_Package_20261004.zip
+a19550c78677e6f2b5cb275dd5330aedfa047fc7808789220cac5b6aa36f3b9a  v81-candidate-corrected.bundle
