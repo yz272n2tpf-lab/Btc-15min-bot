@@ -1,0 +1,22 @@
+test_directional_losses_and_down_bid (test_bridge.BridgeTests.test_directional_losses_and_down_bid) ... ok
+test_end_to_end_fixture_and_forward_contracts (test_bridge.BridgeTests.test_end_to_end_fixture_and_forward_contracts) ... ok
+test_hash_and_old_build_fail_closed (test_bridge.BridgeTests.test_hash_and_old_build_fail_closed) ... ok
+test_incomplete_tail_without_next_rollover_is_excluded (test_bridge.BridgeTests.test_incomplete_tail_without_next_rollover_is_excluded) ... ok
+test_later_bid_cannot_be_equal_to_signal_time_or_wrong_side (test_bridge.BridgeTests.test_later_bid_cannot_be_equal_to_signal_time_or_wrong_side) ... ok
+test_partial_and_unavailable_never_complete_pass (test_bridge.BridgeTests.test_partial_and_unavailable_never_complete_pass) ... ok
+test_pending_not_finalized_and_target_mismatch_not_settled (test_bridge.BridgeTests.test_pending_not_finalized_and_target_mismatch_not_settled) ... ok
+test_production_rejects_fixture_and_wrong_runtime (test_bridge.BridgeTests.test_production_rejects_fixture_and_wrong_runtime) ... ok
+test_snapshot_reads_committed_wal_without_source_changes (test_bridge.BridgeTests.test_snapshot_reads_committed_wal_without_source_changes) ... ok
+test_startup_contract_not_backfilled (test_bridge.BridgeTests.test_startup_contract_not_backfilled) ... ok
+test_stop_first_remains_observational_and_unresolved (test_bridge.BridgeTests.test_stop_first_remains_observational_and_unresolved) ... ok
+test_absent_lane_is_not_reported_as_corrupt_census (test_completeness_diagnostics.DiagnosticsTests.test_absent_lane_is_not_reported_as_corrupt_census) ... ok
+test_edges_and_gaps_still_block_schedule_coverage (test_completeness_diagnostics.DiagnosticsTests.test_edges_and_gaps_still_block_schedule_coverage) ... ok
+test_independent_calls_are_deduplicated_by_contract_not_publication (test_completeness_diagnostics.DiagnosticsTests.test_independent_calls_are_deduplicated_by_contract_not_publication) ... ok
+test_pending_is_separate_from_partial (test_completeness_diagnostics.DiagnosticsTests.test_pending_is_separate_from_partial) ... ok
+test_recorded_unavailable_is_not_storage_loss_or_pass (test_completeness_diagnostics.DiagnosticsTests.test_recorded_unavailable_is_not_storage_loss_or_pass) ... ok
+test_unexplained_flag_stays_blocked (test_completeness_diagnostics.DiagnosticsTests.test_unexplained_flag_stays_blocked) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.533s
+
+OK

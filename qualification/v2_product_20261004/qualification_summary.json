@@ -1,0 +1,66 @@
+{
+  "schema": "BTC15_V2_OFFLINE_QUALIFICATION_R1",
+  "revision": "BTC15_V2_PRODUCT_20261004_R1",
+  "status": "OFFLINE_TESTS_PASS_RENDERED_BROWSER_BLOCKED_LIVE_NOT_RUN",
+  "production_modified": false,
+  "orders": false,
+  "signal_only": true,
+  "manual_execution_only": true,
+  "tests": [
+    {
+      "suite": "MAIN frozen and coordinated offline tests",
+      "tests": 280,
+      "result": "PASS",
+      "log": "offline_qualification_tests.log"
+    },
+    {
+      "suite": "Current V81 source contract tests on actual V81 candidate",
+      "tests": 19,
+      "result": "PASS",
+      "log": "v81_current_source_tests.log"
+    },
+    {
+      "suite": "Existing bridge and additive descriptive diagnostics",
+      "tests": 17,
+      "result": "PASS",
+      "log": "scoring_tests.log"
+    },
+    {
+      "suite": "Assembled HTML all four scripts / JSDOM",
+      "scenarios": 12,
+      "result": "PASS",
+      "log": "assembled_ui_results.json"
+    }
+  ],
+  "legacy_suite": {
+    "tests": 18,
+    "passed": 14,
+    "errors": 4,
+    "exact_frozen_baseline_same_errors": true,
+    "reason": "Obsolete test fixture APIs and omitted required BTC source timestamp; original test file preserved",
+    "logs": [
+      "v81_tests.log",
+      "v81_frozen_baseline_tests.log"
+    ]
+  },
+  "fixture_progression": [
+    1,
+    2
+  ],
+  "fixture_production_claim": false,
+  "performance_optimization": "NONE",
+  "blocked": [
+    "Rendered browser preview security policy",
+    "Physical iPhone/iPad Safari acceptance"
+  ],
+  "pending_live": [
+    "D04 production inner-stage attribution",
+    "Comparable accepted-book/DOM latency and price delta",
+    "At least one real strict fully scoreable settled contract plus later accumulation",
+    "Actual alert delivery receipt"
+  ],
+  "semantic_inventory": [
+    "main_semantic_inventory.json",
+    "v81_semantic_inventory.json"
+  ]
+}

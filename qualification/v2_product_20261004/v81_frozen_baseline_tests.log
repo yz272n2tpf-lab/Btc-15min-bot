@@ -1,0 +1,81 @@
+test_captured_40c_rest_entry_is_replaced_by_57c_ws_ask (test_v81_qualified_inputs.Adapter.test_captured_40c_rest_entry_is_replaced_by_57c_ws_ask) ... ok
+test_cross_close_and_invalid_official_window_rejected (test_v81_qualified_inputs.Adapter.test_cross_close_and_invalid_official_window_rejected) ... ok
+test_fixed_target_or_clock_drift_rejected (test_v81_qualified_inputs.Adapter.test_fixed_target_or_clock_drift_rejected) ... ok
+test_network_wait_cannot_turn_old_brti_into_fresh (test_v81_qualified_inputs.Adapter.test_network_wait_cannot_turn_old_brti_into_fresh) ... ok
+test_no_ws_fails_closed_without_rest_or_brti_fallback (test_v81_qualified_inputs.Adapter.test_no_ws_fails_closed_without_rest_or_brti_fallback) ... ok
+test_refresh_quotes_after_network_wait (test_v81_qualified_inputs.Adapter.test_refresh_quotes_after_network_wait) ... ok
+test_rest_quotes_missing_does_not_remove_valid_ws_opportunity (test_v81_qualified_inputs.Adapter.test_rest_quotes_missing_does_not_remove_valid_ws_opportunity) ... ok
+test_shared_owner_required (test_v81_qualified_inputs.Adapter.test_shared_owner_required) ... ok
+test_actual_loop_failure_clears_confirmation_publishes_wait (test_v81_qualified_inputs.DecoderAndRecovery.test_actual_loop_failure_clears_confirmation_publishes_wait) ... V81 | RECOVERED LIFECYCLE V2 | SIGNAL ONLY | NO ORDERS
+ERROR
+test_duplicate_does_not_renew_quote_timestamp (test_v81_qualified_inputs.DecoderAndRecovery.test_duplicate_does_not_renew_quote_timestamp) ... ok
+test_empty_book_cannot_be_replaced_by_rest (test_v81_qualified_inputs.DecoderAndRecovery.test_empty_book_cannot_be_replaced_by_rest) ... ok
+test_rollover_resets_without_ticker_leakage (test_v81_qualified_inputs.DecoderAndRecovery.test_rollover_resets_without_ticker_leakage) ... ok
+test_snapshot_only_gap_and_reconnect (test_v81_qualified_inputs.DecoderAndRecovery.test_snapshot_only_gap_and_reconnect) ... ok
+test_brti_boundary_future_missing_not_receipt_time (test_v81_qualified_inputs.SourceAge.test_brti_boundary_future_missing_not_receipt_time) ... ERROR
+test_current_publication_cannot_renew_expired_sources (test_v81_qualified_inputs.SourceAge.test_current_publication_cannot_renew_expired_sources) ... ERROR
+test_quote_age_and_source_ticker (test_v81_qualified_inputs.SourceAge.test_quote_age_and_source_ticker) ... ok
+test_row_prices_must_match_exact_provenance (test_v81_qualified_inputs.SourceAge.test_row_prices_must_match_exact_provenance) ... ok
+test_stale_publication_and_horizon_fail_closed (test_v81_qualified_inputs.SourceAge.test_stale_publication_and_horizon_fail_closed) ... ERROR
+
+======================================================================
+ERROR: test_actual_loop_failure_clears_confirmation_publishes_wait (test_v81_qualified_inputs.DecoderAndRecovery.test_actual_loop_failure_clears_confirmation_publishes_wait)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<actual loop>", line 127, in loop
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1198, in _execute_mock_call
+    raise effect
+btc15_v81_qualified_inputs_v1.InputUnavailable: TIMESTAMPED_QUOTES_UNAVAILABLE
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/7500f1a32278/v81_oracle/test_v81_qualified_inputs.py", line 211, in test_actual_loop_failure_clears_confirmation_publishes_wait
+    with self.assertRaises(EndIteration):scope['loop']()
+                                         ^^^^^^^^^^^^^^^
+  File "<actual loop>", line 149, in loop
+NameError: name 'journal_offer' is not defined
+
+======================================================================
+ERROR: test_brti_boundary_future_missing_not_receipt_time (test_v81_qualified_inputs.SourceAge.test_brti_boundary_future_missing_not_receipt_time)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7500f1a32278/v81_oracle/test_v81_qualified_inputs.py", line 127, in test_brti_boundary_future_missing_not_receipt_time
+    if ok:inputs.require_qualified(row,NOW)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/7500f1a32278/v81_oracle/btc15_v81_qualified_inputs_v1.py", line 91, in require_qualified
+    btc_time = epoch(p.get('btc_source_utc'))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/7500f1a32278/v81_oracle/btc15_v81_qualified_inputs_v1.py", line 29, in epoch
+    parsed = datetime.fromisoformat(str(value).replace('Z', '+00:00'))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Invalid isoformat string: 'None'
+
+======================================================================
+ERROR: test_current_publication_cannot_renew_expired_sources (test_v81_qualified_inputs.SourceAge.test_current_publication_cannot_renew_expired_sources)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7500f1a32278/v81_oracle/test_v81_qualified_inputs.py", line 145, in test_current_publication_cannot_renew_expired_sources
+    scope['publish_signal'](row,'UP','CORE',.44,.43,NOW)
+    ~~~~~^^^^^^^^^^^^^^^^^^
+KeyError: 'publish_signal'
+
+======================================================================
+ERROR: test_stale_publication_and_horizon_fail_closed (test_v81_qualified_inputs.SourceAge.test_stale_publication_and_horizon_fail_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/7500f1a32278/v81_oracle/test_v81_qualified_inputs.py", line 156, in test_stale_publication_and_horizon_fail_closed
+    scope['publish_signal'](row,'UP','CORE',.44,.43,NOW)
+    ~~~~~^^^^^^^^^^^^^^^^^^
+KeyError: 'publish_signal'
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.031s
+
+FAILED (errors=4)

@@ -1,0 +1,183 @@
+/* Sole owner of V2 action cards and executable price readouts. SIGNAL ONLY. */
+(() => {
+  'use strict';
+  const REVISION='BTC15_V2_PRODUCT_20261004_R1',STRATEGY='BTC15_LADDER_COMPLETION_20261003_V2';
+  const caches={main:null,scalp:null,quote:null},requests={main:null,scalp:null,quote:null};
+  const clocks={main:null,scalp:null,quote:null}; // Monotonic floor survives hide/resume; cached replies cannot renew leases.
+  let epoch=0,identity=null,quoteHistory=null;const receipts=[];
+  const node=id=>document.getElementById(id);
+  const text=(id,v)=>{const n=node(id);if(n&&n.textContent!==String(v))n.textContent=String(v);};
+  const cents=v=>Number.isFinite(v)?(100*v).toFixed(1)+'¢':'Unavailable';
+  const pct=v=>Number.isFinite(v)?(100*v).toFixed(1)+'%':'Unavailable';
+  const human=v=>String(v||'').replace(/_/g,' ').toLowerCase();
+  const finite=Number.isFinite;
+  const key=i=>i&&[i.contract,i.target,i.official_open,i.official_close].join('|');
+  function official(i,at){
+    if(!(i&&finite(i.target)&&i.target>0&&finite(i.official_open)&&i.official_open%900===0&&i.official_close-i.official_open===900&&i.official_open<=at&&at<i.official_close))return false;
+    const p=Object.fromEntries(new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',year:'2-digit',month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date(i.official_close*1000)).map(p=>[p.type,p.value]));
+    return i.contract===`KXBTC15M-${p.year}${p.month.toUpperCase()}${p.day}${p.hour}${p.minute}-${p.minute}`;
+  }
+  function current(lane){const c=caches[lane];return c&&performance.now()<c.deadline&&document.visibilityState!=='hidden'?c.data:null;}
+  function classes(id,value){const n=node(id);if(n&&n.className!==value)n.className=value;}
+  function pill(id,v){text(id,v);classes(id,'state-pill '+(['ENTER','HOLD','AVAILABLE','QUALIFIED'].includes(v)?'state-good':'state-watch'));}
+  function unavailable(prefix,reason,origin){
+    pill(prefix+'State','UNAVAILABLE');text(prefix+'Title',prefix.toUpperCase()+' · UNAVAILABLE');text(prefix+'Arrow','—');
+    text(prefix+'Entry',human(reason));text(prefix+'CurrentPrice','Unavailable');
+    text(prefix+'YourEntry',origin?'Origin ASK '+cents(origin.original_ask)+' · historical':'No current origin');
+    for(const k of ['Entry','Hold','Watch','Protect','Exit'])text(prefix+'Ladder'+k,'UNAVAILABLE · fresh evidence required');
+    text(prefix+'Flow','SIGNAL ONLY · MANUAL EXECUTION ONLY · NO ORDERS');
+  }
+  function render(){
+    const now=performance.now(),m=current('main'),s=current('scalp'),q=current('quote');
+    if(identity&&now>=identity.deadline)identity=null;
+    const ident=identity?.value;
+    const qualified=m&&m.status!=='UNAVAILABLE'&&key(m.official_identity)===key(ident);
+    const aligned=s&&s.status!=='UNAVAILABLE'&&ident&&key(s.official_identity)===key(ident);
+    text('currentContract',ident?'BTC 15-MINUTE · '+ident.contract+' · V2':'BTC 15-MINUTE · IDENTITY UNAVAILABLE');
+    text('liveStatus','MAIN '+(qualified?m.status:'UNAVAILABLE')+' · SCALP '+(aligned?s.status:'UNAVAILABLE'));
+    classes('liveStatus','live-status '+(qualified?'live-ok':'live-warn'));
+    const f=qualified?m.final:null;
+    classes('finalCard','card final-card '+(f?.ready?(f.side==='DOWN'?'down-mode':''):'wait-mode'));
+    if(f){
+      text('finalArrow',f.ready?(f.side==='DOWN'?'↓':'↑'):'—');
+      text('finalSide',f.ready?f.side+' FINAL':'PASS');
+      text('finalAction',f.ready?'QUALIFIED':'UNLOCKED / PASS');
+      text('finalConfidence','Model only: '+pct(f.confidence));
+      text('finalActionSub',`UP ${pct(f.probability_up)} · DOWN ${pct(f.probability_down)} · independent model`);
+      text('finalReason',f.ready?'Independent FINAL call qualified':'FINAL entry not qualified');
+      text('finalBuyZone',m.origin&&f.early_origin_id===m.origin.origin_id?'Linked EARLY '+m.origin.side:'No linked EARLY origin');
+      text('finalHoldZone',f.helper?.confirmed?'EARLY confirmed · '+f.helper.state:human(f.state));
+      text('finalWatchZone',f.helper?human(f.helper.relation)+' · '+human(f.helper.probability_trend):'No position assumed');
+      text('finalProtectZone',f.helper?.protect_latched?'PROTECT · support lost or opposed':'No new protection instruction');
+      text('finalExitZone','No supported EARLY EXIT threshold · no automatic EXIT');
+    }else{
+      text('finalArrow','—');text('finalSide','UNAVAILABLE');text('finalConfidence','Model unavailable');text('finalAction','UNAVAILABLE');
+      text('finalActionSub',human(m?.reason||'Fresh native evidence required'));text('finalReason','No current actionable FINAL guidance');
+      for(const id of ['finalBuyZone','finalHoldZone','finalWatchZone','finalProtectZone','finalExitZone'])text(id,'Unavailable');
+    }
+    if(!qualified){
+      unavailable('early',m?.reason||'Fresh native evidence required',m?.origin);
+      text('earlyAfterEntry','No current guidance');text('earlyEdge','Unavailable');
+      text('flipRisk','Unavailable');text('flipRiskSub','Fresh model inputs required');
+      text('contextBanner','Native action inputs unavailable · freshness limits unchanged');
+    }else{
+      const e=m.early,o=m.origin,h=f?.helper,ctx=m.context;
+      pill('earlyState',e.guidance);text('earlyTitle',o?'EARLY '+o.side:'EARLY · '+e.guidance);
+      text('earlyEntry',o?'Origin ASK '+cents(o.original_ask):'Current ASK '+cents(e.ask));
+      text('earlyYourEntry',o?cents(o.original_ask)+' · signal ASK':'No accepted origin');
+      text('earlyCurrentPrice',o?'BID '+cents(m.executable_current_bid):'ASK '+cents(e.ask));
+      text('earlyEdge',o?m.movement_cents.toFixed(1)+'¢ gross movement':cents(e.edge)+' model edge');
+      text('earlyAfterEntry',o?e.guidance+' · '+human(h?.relation):'PASS · '+e.pass_reasons.map(human).join(', '));
+      text('earlyLadderEntry','≤45¢ · fair ≥75% · 2–10m · |gap| ≥$25');
+      text('earlyLadderHold',h?.confirmed?'FINAL confirms · '+e.guidance:o?e.guidance:'No position assumed');
+      text('earlyLadderWatch',ctx?human(ctx.phase)+' · '+ctx.reasons.map(human).join('; '):'Await qualified entry');
+      text('earlyLadderProtect',h?.protect_latched?'PROTECT · review exposure at current bid':o?'Monitor FINAL support and bid':'No origin to protect');
+      text('earlyLadderExit','No supported EARLY EXIT rule · PROTECT is risk guidance');
+      text('earlyFlow',`${m.contract} · ${o?'If manually entered: '+e.guidance:'PASS'} · SIGNAL ONLY / NO ORDERS`);
+      text('flipRisk',m.flip_risk_pct.toFixed(1)+'%');text('flipRiskSub','Model context only · no exit authority');
+      text('contextBanner',human(m.phase)+' · '+(ctx?ctx.reasons.map(human).join('; '):'No active EARLY origin'));
+    }
+    text('oppositeArrow','—');text('oppositeTitle','SERIAL REVERSAL / RE-ENTRY');
+    if(!aligned){
+      unavailable('scalp',s?.reason||'Fresh aligned SCALP evidence required',key(s?.official_identity)===key(ident)?s?.origin:null);
+      text('scalpTargetStrip','Unavailable');text('oppositeEntry','Fresh same-contract setup required');text('oppositeState','WAIT');
+    }else{
+      const o=s.origin;
+      pill('scalpState',s.guidance);text('scalpTitle','SCALP '+(o?.side||'PASS'));text('scalpArrow',o?(o.side==='DOWN'?'↓':'↑'):'—');
+      text('scalpEntry',o?'Origin ASK '+cents(o.original_ask):'30–45¢ · CORE/SURGE · awaiting confirmation');
+      text('scalpYourEntry',o?cents(o.original_ask)+' · signal ASK':'No accepted origin');
+      text('scalpCurrentPrice',o?'BID '+cents(s.executable_current_bid):'No active origin');
+      text('scalpTargetStrip',o?s.movement_cents.toFixed(1)+'¢ gross':'PASS');
+      text('scalpLadderEntry',o?human(o.lane)+' · #'+o.serial_index:'30–45¢ · ideal overlap 30–35¢');
+      text('scalpLadderHold',o?s.guidance+' · maximum 180s signal horizon':'No position assumed');
+      text('scalpLadderWatch',s.context?human(s.context.phase)+' · '+s.context.reasons.map(human).join('; '):'Fresh qualifying observations required');
+      text('scalpLadderProtect',s.presentation?.protection_armed?'PROTECT · trail trigger '+cents(s.trailing_trigger_bid):'Arms at +5¢ executable gain');
+      text('scalpLadderExit',s.guidance==='EXIT'?'EXIT · current BID '+cents(s.executable_current_bid)+' · trigger BID '+cents(s.terminal.executable_exit_bid):'4¢ peak giveback after arm, or 180s horizon');
+      text('scalpFlow',`${o?'If manually entered: '+s.guidance+'. ':''}${s.terminal?human(s.terminal.reason)+'. ':''}No assumed fill; fees excluded. SIGNAL ONLY / NO ORDERS`);
+      text('oppositeEntry',o?'Next origin requires a later qualified setup after EXIT':'Both sides evaluated');text('oppositeState',s.guidance==='EXIT'?'RECONFIRM':'WAIT');
+    }
+    const freshQuote=q&&q.status==='AVAILABLE'&&ident&&key(q.official_identity)===key(ident);
+    text('upOdds',freshQuote?cents(q.up_ask):'Unavailable');text('downOdds',freshQuote?cents(q.down_ask):'Unavailable');
+    text('upCondition',freshQuote?'ASK · BID '+cents(q.up_bid):'NO EXECUTABLE QUOTE');
+    text('downCondition',freshQuote?'ASK · BID '+cents(q.down_bid):'NO EXECUTABLE QUOTE');
+    text('v2QuoteClock',freshQuote?`Source ${new Date(q.exchange_ts*1000).toISOString()} · seq ${q.sequence} · presentation only`:human(q?.reason||'Current executable quote unavailable'));
+    for(const id of ['upOdds','downOdds']){
+      const n=node(id);if(n){const value=freshQuote?[q.epoch,q.sid,q.sequence,q.exchange_ts].join('|'):'';if(n.dataset.quoteIdentity!==value)n.dataset.quoteIdentity=value;if(!freshQuote)n.dataset.quoteEvidence='';}
+    }
+    if(freshQuote){
+      const tuple=[key(ident),q.epoch,q.sid,q.sequence].join('|');
+      if(tuple!==quoteHistory){
+        quoteHistory=tuple;
+        receipts.push(Object.freeze({tuple,exchange_ts:q.exchange_ts,accepted_ts:q.accepted_ts,published_ts:q.published_ts,
+          received_monotonic:caches.quote.received,rendered_monotonic:now,
+          source_age_upper_ms:(q.served_ts-q.exchange_ts)*1000+caches.quote.rtt+(now-caches.quote.received),
+          accepted_to_published_ms:(q.published_ts-q.accepted_ts)*1000,
+          published_to_render_lower_ms:Math.max(0,(q.served_ts-q.published_ts)*1000+(now-caches.quote.received)),
+          published_to_render_upper_ms:Math.max(0,(q.served_ts-q.published_ts)*1000+caches.quote.rtt+(now-caches.quote.received)),
+          up_ask:q.up_ask,down_ask:q.down_ask,signal_only:true,orders:false}));
+        if(receipts.length>120)receipts.shift();
+        for(const id of ['upOdds','downOdds']){const n=node(id);if(n)n.dataset.quoteEvidence=JSON.stringify(receipts[receipts.length-1]);}
+      }
+    }
+  }
+  function accept(lane,data,sent,received){
+    if(!data||data.signal_only!==true||data.orders!==false||!finite(data.served_ts))throw Error('SAFETY_SCHEMA');
+    if(lane==='quote'){
+      if(data.schema!=='BTC15_EXECUTABLE_QUOTE_R1'||data.revision!==REVISION||data.authority!=='PRICE_PRESENTATION_ONLY')throw Error('QUOTE_SCHEMA');
+    }else if(data.schema!=='BTC15_V2_PRODUCT_ENVELOPE_R1'||data.product_revision!==REVISION||data.candidate!==STRATEGY||data.lane!==(lane==='scalp'?'v81':'main'))throw Error('PRODUCT_SCHEMA');
+    const rtt=received-sent,priorClock=clocks[lane];
+    const serverNow=Math.max(data.served_ts,priorClock?priorClock.server+(received-priorClock.received)/1000:-Infinity);
+    clocks[lane]={server:serverNow,received};
+    const i=data.official_identity;
+    if((lane==='main'||lane==='quote')&&official(i,serverNow)){
+      if(identity&&identity.value.official_open>i.official_open)throw Error('IDENTITY_ROLLBACK');
+      if(identity&&identity.value.contract===i.contract&&key(identity.value)!==key(i))throw Error('FIXED_IDENTITY_CONFLICT');
+      identity={value:i,deadline:received+(i.official_close-serverNow)*1000-rtt};
+    }
+    if(data.status==='UNAVAILABLE')return {data,deadline:received+2000,received,rtt}; // Reason only; never an action lease.
+    if(!['AVAILABLE','PASS'].includes(data.status)||!finite(data.published_ts)||!finite(data.expires_at)||data.published_ts>data.served_ts||!official(i,data.served_ts))throw Error('CLOCK_OR_IDENTITY');
+    if(lane!=='quote'){
+      if(data.contract!==i.contract||data.target!==i.target||data.official_open!==i.official_open||data.official_close!==i.official_close||data.expires_at>i.official_close)throw Error('ACTION_IDENTITY');
+      if(data.origin&&(!['UP','DOWN'].includes(data.origin.side)||data.origin.contract!==i.contract||!finite(data.origin.original_ask)||!finite(data.movement_cents)||!finite(data.executable_current_bid)))throw Error('ACTION_ORIGIN');
+      if(data.context&&(!Array.isArray(data.context.reasons)||typeof data.context.phase!=='string'))throw Error('CONTEXT');
+      if(lane==='main'){
+        const f=data.final,e=data.early;
+        if(!f||!e||typeof f.ready!=='boolean'||!['UP','DOWN'].includes(f.side)||!['confidence','probability_up','probability_down'].every(k=>finite(f[k])&&f[k]>=0&&f[k]<=1)||typeof e.guidance!=='string'||!Array.isArray(e.pass_reasons)||!finite(data.flip_risk_pct)||typeof data.phase!=='string')throw Error('MAIN_PAYLOAD');
+      }else if(!['PASS','ENTER','HOLD','CAUTION','PROTECT','EXIT'].includes(data.guidance)||(data.guidance==='EXIT'&&(!data.terminal||!finite(data.terminal.executable_exit_bid))))throw Error('SCALP_PAYLOAD');
+    }
+    if(lane==='quote'){
+      if(!data.epoch||!Number.isInteger(data.sid)||!Number.isInteger(data.sequence)||!finite(data.exchange_ts)||!finite(data.accepted_ts)||!(i.official_open<=data.exchange_ts&&data.exchange_ts<=data.accepted_ts&&data.accepted_ts<=data.published_ts)||data.expires_at>Math.min(i.official_close,data.exchange_ts+6))throw Error('QUOTE_PROVENANCE');
+      if(!['up_ask','up_bid','down_ask','down_bid'].every(k=>finite(data[k])&&data[k]>=0&&data[k]<=1)||data.up_bid>data.up_ask||data.down_bid>data.down_ask)throw Error('QUOTE_VALUES');
+      const old=caches.quote?.data;
+      if(old?.status==='AVAILABLE'&&key(old.official_identity)===key(i)&&data.exchange_ts<old.exchange_ts)throw Error('QUOTE_ROLLBACK');
+      if(old?.epoch===data.epoch&&(old.sid!==data.sid||old.sequence>data.sequence))throw Error('QUOTE_SEQUENCE_ROLLBACK');
+    }
+    const old=caches[lane]?.data;
+    if(old?.published_ts>data.published_ts)throw Error('PUBLICATION_ROLLBACK');
+    return {data,deadline:received+Math.max(0,(data.expires_at-serverNow)*1000)-rtt,received,rtt};
+  }
+  async function poll(lane,url){
+    if(requests[lane]||document.visibilityState==='hidden')return;
+    const controller=new AbortController(),generation=epoch,token={controller,generation};requests[lane]=token;
+    const timeout=setTimeout(()=>controller.abort(),3000),sent=performance.now();
+    try{
+      const response=await fetch(url,{cache:'no-store',signal:controller.signal});if(!response.ok)throw Error('HTTP');
+      const data=await response.json(),received=performance.now();
+      if(generation!==epoch||document.visibilityState==='hidden')return;
+      caches[lane]=accept(lane,data,sent,received);
+    }catch{if(generation===epoch)caches[lane]=null;}
+    finally{clearTimeout(timeout);if(requests[lane]===token)requests[lane]=null;}
+    render();
+  }
+  function refresh(){if(document.visibilityState!=='hidden'){poll('main','/ladders');poll('scalp',__V81_LADDERS_URL__);}}
+  function refreshQuotes(){poll('quote','/ladders/quotes');}
+  function invalidate(){epoch++;identity=null;quoteHistory=null;for(const lane of Object.keys(caches)){requests[lane]?.controller.abort();requests[lane]=null;caches[lane]=null;}render();}
+  document.addEventListener('visibilitychange',()=>{invalidate();if(document.visibilityState!=='hidden'){refresh();refreshQuotes();}});
+  window.addEventListener('pagehide',invalidate);
+  window.addEventListener('pageshow',()=>{invalidate();refresh();refreshQuotes();});
+  window.btc15RenderLadders=render;
+  // Read-only bounded render receipts for paired acceptance measurements. No automatic external telemetry.
+  window.btc15QuoteRenderReceipts=()=>receipts.map(r=>({...r}));
+  setInterval(refresh,1000);setInterval(refreshQuotes,500);setInterval(render,100);
+  render();refresh();refreshQuotes();
+})();

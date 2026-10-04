@@ -1,0 +1,102 @@
+{
+  "schema": "BTC15_D04_LEGACY_SHADOW_TIMING_V1",
+  "evidence_class": "OFFLINE_FROZEN_SOURCE",
+  "source_blob": "c579fd22127e5af3bd14e287cb27b631459fbcd7",
+  "training_ms": 236.44441800570348,
+  "fitted_model_class": "HistGradientBoostingClassifier",
+  "parameters": {
+    "categorical_features": "from_dtype",
+    "class_weight": null,
+    "early_stopping": "auto",
+    "interaction_cst": null,
+    "l2_regularization": 1.0,
+    "learning_rate": 0.04,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": 4,
+    "max_features": 1.0,
+    "max_iter": 250,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 15,
+    "monotonic_cst": null,
+    "n_iter_no_change": 10,
+    "random_state": 3,
+    "scoring": "loss",
+    "tol": 1e-07,
+    "validation_fraction": 0.1,
+    "verbose": 0,
+    "warm_start": false
+  },
+  "threadpools": [
+    {
+      "user_api": "blas",
+      "internal_api": "openblas",
+      "num_threads": 9,
+      "prefix": "libscipy_openblas",
+      "filepath": "/workspace/scratch/7500f1a32278/v2_env/lib/python3.12/site-packages/numpy.libs/libscipy_openblas64_-61654e39.so",
+      "version": "0.3.34.0.0",
+      "threading_layer": "pthreads",
+      "architecture": "SkylakeX"
+    },
+    {
+      "user_api": "openmp",
+      "internal_api": "openmp",
+      "num_threads": 9,
+      "prefix": "libgomp",
+      "filepath": "/workspace/scratch/7500f1a32278/v2_env/lib/python3.12/site-packages/scikit_learn.libs/libgomp-e985bcbb.so.1.0.0",
+      "version": null
+    },
+    {
+      "user_api": "blas",
+      "internal_api": "openblas",
+      "num_threads": 9,
+      "prefix": "libscipy_openblas",
+      "filepath": "/workspace/scratch/7500f1a32278/v2_env/lib/python3.12/site-packages/scipy.libs/libscipy_openblas-5f890258.so",
+      "version": "0.3.31.dev",
+      "threading_layer": "pthreads",
+      "architecture": "SkylakeX"
+    }
+  ],
+  "samples": [
+    {
+      "workers": "DEFAULT",
+      "elapsed_ms": 5.96975399821531,
+      "probability": 0.8027999786351341
+    },
+    {
+      "workers": 1,
+      "elapsed_ms": 5.774723998911213,
+      "probability": 0.8027999786351341
+    },
+    {
+      "workers": "DEFAULT",
+      "elapsed_ms": 74.68442399840569,
+      "probability": 0.8027999786351341
+    },
+    {
+      "workers": 1,
+      "elapsed_ms": 6.041020998964086,
+      "probability": 0.8027999786351341
+    }
+  ],
+  "equal_probabilities": true,
+  "complete_loop_with_legacy_shadow_ms": [
+    59.94992500200169,
+    55.525266005133744,
+    55.052056995918974,
+    50.36884199944325,
+    55.855496000731364,
+    58.07234699750552,
+    53.768723002576735,
+    52.29998099821387,
+    48.226212995359674,
+    53.755977998662274
+  ],
+  "optimization_selected": false,
+  "limitations": [
+    "Local CPU/thread environment differs from production",
+    "Same offline-fitted frozen startup model used for both contexts; no new artifact deployed"
+  ],
+  "signal_only": true,
+  "orders": false
+}

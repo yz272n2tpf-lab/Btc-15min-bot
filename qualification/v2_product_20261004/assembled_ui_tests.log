@@ -1,0 +1,54 @@
+{
+  "schema": "BTC15_ASSEMBLED_UI_TEST_R1",
+  "status": "PASS",
+  "evidence_class": "OFFLINE_DOM_INTEGRATION",
+  "scripts": [
+    "legacy-inline.js",
+    "btc15_information_view_v1.js",
+    "btc15_information_panel_v1.js",
+    "product-panel.js"
+  ],
+  "checks": [
+    "Initial real-processor fixture; unqualified 95% FINAL remains dominant PASS; actual later-bid EXIT",
+    "All assembled scripts, legacy success/timer callbacks and detached ownership",
+    "Typed unavailable MAIN retains official identity only; independent fresh SCALP remains visible",
+    "Target mismatch rejected",
+    "Malformed action payload rejected and cleared",
+    "Network loss and source expiry clear every actionable field",
+    "AbortController timeout fallback, hide/resume cancellation and late previous-generation replies",
+    "bfcache lifecycle requires refetch",
+    "Repeated cached served timestamps cannot renew source leases",
+    "Comparable accepted tuple → DOM: injected 3¢ move reflected; measured delta zero after render",
+    "Out-of-order accepted sequence fails closed",
+    "Hidden across rollover: exact new identity, old origins discarded"
+  ],
+  "owned_writes": 490,
+  "legacy_owned_writes": 0,
+  "errors": [],
+  "quote_measurement": {
+    "scope": "SYNTHETIC_SAME_CLOCK",
+    "injected_change_cents": 3,
+    "post_render_up_delta_cents": 0,
+    "post_render_down_delta_cents": 0,
+    "receipt": {
+      "tuple": "KXBTC15M-26OCT031615-15|80000|1791057600|1791058500|q|1|51",
+      "exchange_ts": 1791057921.02,
+      "accepted_ts": 1791057921.1200001,
+      "published_ts": 1791057921.21,
+      "received_monotonic": 16700,
+      "rendered_monotonic": 16700,
+      "source_age_upper_ms": 200.00004768371582,
+      "accepted_to_published_ms": 89.99991416931152,
+      "published_to_render_lower_ms": 9.999990463256836,
+      "published_to_render_upper_ms": 9.999990463256836,
+      "up_ask": 0.38,
+      "down_ask": 0.63,
+      "signal_only": true,
+      "orders": false
+    }
+  },
+  "physical_safari": "NOT_TESTED_REQUIRES_USER_DEVICE_ACCEPTANCE",
+  "visual_layout": "REQUIRES_RENDERED_BROWSER_CHECK",
+  "signal_only": true,
+  "orders": false
+}
