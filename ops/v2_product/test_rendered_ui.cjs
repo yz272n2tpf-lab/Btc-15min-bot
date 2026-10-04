@@ -24,6 +24,7 @@ const widths=[390,430,820,1180,700,701,1100,1101];
             return {width:innerWidth,scrollWidth:document.documentElement.scrollWidth,
               final:text('finalAction'),early:text('earlyState'),scalp:text('scalpState'),up:text('upOdds'),down:text('downOdds'),
               scalpBounds:rect(document.getElementById('scalpCard')),
+              quotes:[...document.querySelectorAll('.odds')].map(e=>({box:rect(e),children:[...e.children].map(c=>({...rect(c),scrollWidth:c.scrollWidth,clientWidth:c.clientWidth}))})),
               cards:[...document.querySelectorAll('article.card')].map((e,i)=>({id:e.id||e.className+'-'+i,...rect(e)})).filter(r=>r.width&&r.height),
               actions:owned.map(id=>{const elements=document.querySelectorAll('#'+CSS.escape(id));const e=elements[0];
                 return {id,count:elements.length,...rect(e),fontSize:parseFloat(getComputedStyle(e).fontSize)};})};
@@ -31,6 +32,10 @@ const widths=[390,430,820,1180,700,701,1100,1101];
           assert.ok(measured.scrollWidth<=width+1,`Document overflow at ${width}`);
           for(const card of measured.cards){
             assert.ok(card.x>=-1&&card.x+card.width<=width+1,`Clipped card at ${width}: ${JSON.stringify(card)}`);
+          }
+          for(const quote of measured.quotes)for(const child of quote.children){
+            assert.ok(child.x>=quote.box.x&&child.x+child.width<=quote.box.x+quote.box.width,`Clipped quote content at ${width}`);
+            assert.ok(child.scrollWidth<=child.clientWidth+1,`Clipped quote text at ${width}`);
           }
           for(let i=0;i<measured.cards.length;i++)for(let j=i+1;j<measured.cards.length;j++){
             const a=measured.cards[i],b=measured.cards[j];

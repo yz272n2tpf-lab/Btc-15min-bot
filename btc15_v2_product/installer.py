@@ -34,6 +34,8 @@ def assemble(directory):
       #upOdds,#downOdds{font-size:clamp(1.1rem,4vw,2rem);overflow-wrap:anywhere}
       #flipRisk{color:var(--muted,#aab4c8);font-size:clamp(1.1rem,4vw,2rem);overflow-wrap:anywhere}
       /* The frozen desktop columns need >1000px; phone reflow ends at 700px. */
+      .odds{grid-template-columns:auto minmax(0,1fr)}
+      .odds .kalshi-condition{grid-column:1/-1;white-space:normal;overflow-wrap:anywhere}
       @media (min-width:701px) and (max-width:1100px){
         .primary-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto auto auto}
         .primary-grid>*{min-width:0}
