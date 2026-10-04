@@ -1,0 +1,73 @@
+{
+  "schema": "BTC15_V2_QUALIFICATION_ATTEMPT_V1",
+  "timestamp_utc": "2026-10-04T00:12:11Z",
+  "candidate": "BTC15_LADDER_COMPLETION_20261003_V2",
+  "written_user_approval_received": true,
+  "approved_snapshot_commit": "f222301d85e59cbe96f9bd8eadc8dcdd4e92f99c",
+  "precommit_snapshot_match": true,
+  "approved_resource_count": 4,
+  "approved_field_count": 57,
+  "commit_attempt_result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Cancelled — the user did not approve this action. No changes were made."
+      }
+    ],
+    "structuredContent": {
+      "error_code": "INVALID_ARGUMENT"
+    },
+    "isError": true
+  },
+  "post_attempt_staged": {
+    "patchId": "19ab6a3d-1e97-4b38-896e-a64b7b8e59a8",
+    "status": "STAGED",
+    "changeCount": 57,
+    "message": null,
+    "createdAt": "2026-10-02T10:44:08.621Z",
+    "updatedAt": "2026-10-03T23:32:42.135Z"
+  },
+  "qualification_services": {
+    "main": {
+      "service": {
+        "id": "e6101c69-18df-4522-99d8-94e363ad8b92",
+        "name": "btc15-v2-main-qualification",
+        "state": "live-with-staged-changes"
+      },
+      "latestDeployment": null,
+      "volumes": [
+        {
+          "id": "b6304c46-7027-4bfd-932d-94bb9c67da8e",
+          "name": "btc15-v2-main-journal",
+          "mountPath": "/data",
+          "sizeMB": 2048,
+          "region": "iad",
+          "state": "staged-create"
+        }
+      ]
+    },
+    "v81": {
+      "service": {
+        "id": "725e8200-656a-4576-a62a-0b84fedf9ffd",
+        "name": "btc15-v2-v81-qualification",
+        "state": "live-with-staged-changes"
+      },
+      "latestDeployment": null,
+      "volumes": [
+        {
+          "id": "97cc9dcd-ef90-495e-a1be-ffda31eac1b3",
+          "name": "btc15-v2-v81-journal",
+          "mountPath": "/data",
+          "sizeMB": 2048,
+          "region": "iad",
+          "state": "staged-create"
+        }
+      ]
+    }
+  },
+  "live_qualified": false,
+  "production_promoted": false,
+  "signal_only": true,
+  "orders": false,
+  "next_action": "Complete Railway connector deployment confirmation; recompare exact approved patch before any commit. Do not bypass cancellation."
+}

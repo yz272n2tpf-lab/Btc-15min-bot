@@ -1,6 +1,6 @@
 # BTC15 current state and finish line
 
-Updated: 2026-10-03 UTC. Transition: **V2_OFFLINE_GATE_PASSED → AWAITING_STAGED_QUALIFICATION_APPROVAL**.
+Updated: 2026-10-04 00:12 UTC (October 3, 20:12 New York). Transition: **USER_APPROVED_EXACT_V2_PAYLOAD → RAILWAY_COMMIT_CONFIRMATION_CANCELLED**.
 
 This is the authoritative operational state document. It lives on documentation-only branch `ops/btc15-v2-qualification-20261003`; the frozen runtime branches and PR #53 head remain unchanged. Update this document and its supporting approval snapshot in one Git commit at every major qualification/deployment transition. A successful build is not live qualification, and qualification is not production deployment.
 
@@ -148,9 +148,15 @@ Production before/after readbacks have identical configurations, volumes and dep
 
 ## Current blocker and next action
 
-**STOPPED BEFORE RAILWAY DEPLOYMENT APPROVAL.** Ask the user to approve this exact isolated V2 qualification payload, including two persistent volumes, the stated variables/start commands, brief functional live verification and controlled restart of the two qualification services. Do not call accept-deploy until explicit approval. Attaching/provisioning the volumes and deploying are one Railway commit; actual durability cannot truthfully be verified before that approval.
+**USER APPROVAL RECEIVED; RAILWAY CONNECTOR CONFIRMATION DID NOT COMPLETE.** On October 3 at 20:10 New York, the user explicitly approved the exact two-service/four-resource qualification payload, including volumes, reviewed variables/start commands, brief live wiring, journal durability/restart and settlement-path checks. Production remains excluded.
 
-After approval:
+The pending patch was re-read immediately before the commit attempt and matched the repository-preserved approval snapshot exactly: 57 fields, four approved resources, no extras, unchanged patch timestamp. The `railway_accept_deploy` call returned: **“Cancelled — the user did not approve this action. No changes were made.”** This is the connector result, not an assertion that the user's written approval was absent.
+
+Post-cancellation readback confirmed the same 57-field patch remains STAGED, both qualification services still have `latestDeployment=null`, and both 2,048 MB volumes remain `staged-create`. No live qualification, restart, settlement-path observation or production promotion occurred. The original approved payload file remains unchanged; the attempt receipt is `qualification/BTC15_V2_QUALIFICATION_ATTEMPT_20261004.json`.
+
+Next action: complete the connector's deployment confirmation, then re-check the unchanged approved patch before committing. Do not retry through another deployment route to bypass the cancelled confirmation. No broader scope approval or product redesign is needed.
+
+After the connector confirmation completes:
 
 1. Commit only the reviewed V2 patch. Confirm exact deployment SHAs and startup verifier output; check both mounts/root paths and the staged V8.1 URL.
 2. Observe official Kalshi ticker/window/immutable target, true BRTI age ≤5s, accepted quote provenance/freshness, Coinbase freshness and no future observations. Confirm readable independent FINAL, PASS versus UNAVAILABLE, signal_only=true and orders=false.
