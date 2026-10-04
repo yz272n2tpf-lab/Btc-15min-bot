@@ -1,0 +1,38 @@
+{
+  "schema": "BTC15_SEMANTIC_INVENTORY_R1",
+  "lane": "v81",
+  "frozen_base": "60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1",
+  "original_tracked_files": 607,
+  "original_tracked_files_changed": [],
+  "original_bridge_sha256": "21729b1ad3bf307b6bd67b07c364386aac817541717fbf7d6ce43c931552b9c0",
+  "established_scorer_sha256": "9812c23a6200bf31c2c5eb4e8f317fe32cfcafefeaa37d2a9b9a041967447d1a",
+  "strict_bridge_functions_ast_identical": [
+    "authoritative",
+    "canonical",
+    "epoch",
+    "event_identity",
+    "file_sha",
+    "lane_contract",
+    "load_scorer",
+    "metadata",
+    "number",
+    "origin_check",
+    "readonly",
+    "require",
+    "scalp_paths",
+    "sha",
+    "snapshot",
+    "ticker",
+    "utc",
+    "write_json"
+  ],
+  "bridge_functions_with_additive_changes": [
+    "load_snapshot",
+    "main",
+    "production_snapshot",
+    "score"
+  ],
+  "interpretation": "Byte/AST identity plus separate runtime differential tests; no claim that network availability is identical",
+  "orders": false,
+  "signal_only": true
+}

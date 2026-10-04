@@ -1,0 +1,9 @@
+{
+  "name": "btc15-v2-offline-ui-qualification",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Offline DOM qualification only; not production dependencies",
+  "dependencies": {
+    "jsdom": "26.1.0"
+  }
+}

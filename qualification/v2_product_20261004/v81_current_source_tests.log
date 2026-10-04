@@ -1,0 +1,24 @@
+test_captured_40c_rest_entry_is_replaced_by_57c_ws_ask (test_v81_product_source_r1.Adapter.test_captured_40c_rest_entry_is_replaced_by_57c_ws_ask) ... ok
+test_cross_close_and_invalid_official_window_rejected (test_v81_product_source_r1.Adapter.test_cross_close_and_invalid_official_window_rejected) ... ok
+test_fixed_target_or_clock_drift_rejected (test_v81_product_source_r1.Adapter.test_fixed_target_or_clock_drift_rejected) ... ok
+test_network_wait_cannot_turn_old_brti_into_fresh (test_v81_product_source_r1.Adapter.test_network_wait_cannot_turn_old_brti_into_fresh) ... ok
+test_no_ws_fails_closed_without_rest_or_brti_fallback (test_v81_product_source_r1.Adapter.test_no_ws_fails_closed_without_rest_or_brti_fallback) ... ok
+test_refresh_quotes_after_network_wait (test_v81_product_source_r1.Adapter.test_refresh_quotes_after_network_wait) ... ok
+test_rest_quotes_missing_does_not_remove_valid_ws_opportunity (test_v81_product_source_r1.Adapter.test_rest_quotes_missing_does_not_remove_valid_ws_opportunity) ... ok
+test_shared_owner_required (test_v81_product_source_r1.Adapter.test_shared_owner_required) ... ok
+test_actual_loop_failure_clears_confirmation_publishes_wait (test_v81_product_source_r1.DecoderAndRecovery.test_actual_loop_failure_clears_confirmation_publishes_wait) ... ok
+test_duplicate_does_not_renew_quote_timestamp (test_v81_product_source_r1.DecoderAndRecovery.test_duplicate_does_not_renew_quote_timestamp) ... ok
+test_empty_book_cannot_be_replaced_by_rest (test_v81_product_source_r1.DecoderAndRecovery.test_empty_book_cannot_be_replaced_by_rest) ... ok
+test_rollover_resets_without_ticker_leakage (test_v81_product_source_r1.DecoderAndRecovery.test_rollover_resets_without_ticker_leakage) ... ok
+test_snapshot_only_gap_and_reconnect (test_v81_product_source_r1.DecoderAndRecovery.test_snapshot_only_gap_and_reconnect) ... ok
+test_brti_boundary_future_missing_not_receipt_time (test_v81_product_source_r1.SourceAge.test_brti_boundary_future_missing_not_receipt_time) ... ok
+test_btc_age_and_causality_boundaries_remain_exact (test_v81_product_source_r1.SourceAge.test_btc_age_and_causality_boundaries_remain_exact) ... ok
+test_current_publication_cannot_renew_expired_sources (test_v81_product_source_r1.SourceAge.test_current_publication_cannot_renew_expired_sources) ... ok
+test_quote_age_and_source_ticker (test_v81_product_source_r1.SourceAge.test_quote_age_and_source_ticker) ... ok
+test_row_prices_must_match_exact_provenance (test_v81_product_source_r1.SourceAge.test_row_prices_must_match_exact_provenance) ... ok
+test_stale_publication_and_horizon_fail_closed (test_v81_product_source_r1.SourceAge.test_stale_publication_and_horizon_fail_closed) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.012s
+
+OK
