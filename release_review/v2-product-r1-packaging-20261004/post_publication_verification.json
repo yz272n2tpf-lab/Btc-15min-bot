@@ -1,0 +1,43 @@
+{
+  "schema": "BTC15_PACKAGING_CORRECTION_GITHUB_READBACK_R1",
+  "verified_at_utc": "2026-10-04T18:20:27.949753+00:00",
+  "artifact_commit": "eeb783fbbe36cea9f0f52528c5b7c046d9f5ce11",
+  "artifact_tree": "1802f9f3424f8f1ed3609dcf1ab664c27961e90b",
+  "review_branch": "ops/v2-product-review-20261004",
+  "remote_artifact_files_verified": 23,
+  "corrected_package_sha256": "12e64a18cb2b50ff7083853602fed444fa269cde393be5b176236edd45552ae5",
+  "corrected_package_hashes_verified": 19,
+  "original_nested_package_hashes_verified": 90,
+  "original_review_folder_unchanged": true,
+  "both_active_bundles_verified": true,
+  "rollback_package_intact": true,
+  "packaging_blocker_closed": true,
+  "candidate_refs_published": false,
+  "remote_refs": {
+    "refs/heads/ops/v2-product-review-20261004": "eeb783fbbe36cea9f0f52528c5b7c046d9f5ce11",
+    "refs/heads/release/ladder-completion-20261003": "de4f3e20b8657eb8cfee91bd4e525c103b5bf513",
+    "refs/heads/release/v81-ladder-completion-20261003": "60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1"
+  },
+  "remaining_publication_blocker": "Existing authenticated exact-object Git push required. GitHub connector cannot import original local commit metadata; browser signed out. No credential creation attempted.",
+  "railway_configs_deployments_unchanged": {
+    "main": true,
+    "v81": true,
+    "environment": true
+  },
+  "railway_main_v81_unchanged_since_previous_review": true,
+  "railway_service_count": 53,
+  "railway_staged_changes": null,
+  "corrected_v81_commit": "985260e4166559701fc96b5582ca2211619d53ee",
+  "main_commit_unchanged": "020f8a38d07e0a11e983a1e3bee3b06a4898c2f3",
+  "full_qualification_repeated": false,
+  "affected_bridge_tests_pass": 17,
+  "affected_tests_failed": 0,
+  "obsolete_v81_fixture_errors": {
+    "count": 4,
+    "unchanged": true,
+    "frozen_baseline_equivalent": true
+  },
+  "production_deployed": false,
+  "orders": false,
+  "status": "PACKAGING_CLOSED_EXACT_REF_PUBLICATION_BLOCKED"
+}

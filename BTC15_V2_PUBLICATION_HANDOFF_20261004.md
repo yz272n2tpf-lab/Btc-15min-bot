@@ -50,4 +50,10 @@ Read-only Railway inspection preserves MAIN source `de4f3e20b8657eb8cfee91bd4e52
 
 Previously open rendered/physical iPhone/iPad Safari checks, D04 live attribution, comparable production quote lag, actual alert delivery and bounded real contract-plus-rollover scoring acceptance remain open. No synthetic result is promoted into a production claim, no gate is waived and no multi-day performance campaign is requested.
 
+## Verified GitHub readback
+
+Artifact publication commit: `eeb783fbbe36cea9f0f52528c5b7c046d9f5ce11`; tree: `1802f9f3424f8f1ed3609dcf1ab664c27961e90b`. Readback at 2026-10-04T18:20:27Z verified all 23 published artifact files, all 19 correction-package hashes, all 90 original nested hashes, both active bundles and the unchanged original review folder. Corrected ZIP SHA256: `12e64a18cb2b50ff7083853602fed444fa269cde393be5b176236edd45552ae5`.
+
+`post_publication_verification.json` and the three `railway_after_*.json` files in the correction folder record the result. MAIN and V8.1 configuration/deployment readbacks are identical to the previous review and this mission's before snapshots. The entire 53-service environment inventory is unchanged after ignoring list order, with no staged changes. Remote candidate refs are still absent; frozen production Git refs remain exact.
+
 **Status: packaging-correct review package published; exact candidate refs still blocked; not publication-complete and not authorized for production deployment.**
