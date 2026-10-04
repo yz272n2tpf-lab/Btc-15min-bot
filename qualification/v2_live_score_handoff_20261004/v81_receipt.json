@@ -1,0 +1,27 @@
+{
+  "schema": "BTC15_V2_SQLITE_SNAPSHOT_V1",
+  "candidate": "BTC15_LADDER_COMPLETION_20261003_V2",
+  "evidence_class": "PRODUCTION",
+  "lane": "v81",
+  "identity": {
+    "build": "60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1",
+    "service": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+    "deployment": "2051e772-bd39-4dea-a77d-52fea0a07c02",
+    "interval": 6,
+    "project": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+    "environment": "61775c5d-c583-4dfc-af41-f25578856fd9",
+    "volume": "d5eeafca-e0fc-42f0-b7d1-4705907720c6",
+    "basis": "RUNTIME_ENVIRONMENT_ALLOWLIST"
+  },
+  "source": "/data/btc15_ladders_v2/v81.sqlite3",
+  "source_open_mode": "ro",
+  "method": "sqlite3.Connection.backup",
+  "started_at": 1791122649.9352767,
+  "finished_at": 1791122650.2756355,
+  "snapshot_sha256": "9e0450a1ce7534b905fd0aaeafdce6f216c0bd208d6d3a461a474a404ab47766",
+  "journal_id": "26db7273-7e8e-4658-b6c4-b6b0770c7c4d",
+  "minimum_sequence": 1,
+  "maximum_sequence": 35511,
+  "event_count": 35511,
+  "integrity_check": "ok"
+}
