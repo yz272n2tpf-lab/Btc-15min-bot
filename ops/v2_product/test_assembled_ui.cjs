@@ -57,19 +57,19 @@ const flush=async()=>{for(let i=0;i<8;i++)await Promise.resolve();};
   await advance(1100);assert.equal(txt('upOdds'),'35.0¢');assert.equal(txt('finalAction'),'UNLOCKED / PASS');
   assert.equal(writes.filter(x=>!x.stack.includes('product-panel.js')).length,0,'Legacy code mutated owned live DOM');checks.push('All assembled scripts, legacy success/timer callbacks and detached ownership');
   payload.main={...clone(fixture.main),status:'UNAVAILABLE',reason:'SOURCE_EXPIRED',historical_only:true};delete payload.main.expires_at;delete payload.main.final;
-  await advance(1000);assert.equal(txt('earlyState'),'UNAVAILABLE');assert.equal(txt('scalpState'),'EXIT');assert.equal(txt('finalArrow'),'—');assert.equal(txt('finalSide'),'UNAVAILABLE');checks.push('Typed unavailable MAIN retains official identity only; independent fresh SCALP remains visible');
-  payload.scalp.target++;payload.scalp.official_identity.target++;await advance(1000);assert.equal(txt('scalpState'),'UNAVAILABLE');checks.push('Target mismatch rejected');
-  payload.scalp=clone(fixture.scalp);payload.scalp.guidance='EXIT';delete payload.scalp.terminal;await advance(1000);assert.equal(txt('scalpState'),'UNAVAILABLE');checks.push('Malformed action payload rejected and cleared');
+  await advance(1000);assert.equal(txt('earlyState'),'WAIT');assert.equal(txt('scalpState'),'EXIT');assert.equal(txt('finalArrow'),'—');assert.equal(txt('finalSide'),'FINAL · WAIT');assert.equal(txt('finalAction'),'WAIT / REFRESHING');checks.push('Typed MAIN source loss retains informational reference only; independent fresh SCALP remains visible');
+  payload.scalp.target++;payload.scalp.official_identity.target++;await advance(1000);assert.equal(txt('scalpState'),'WAIT');assert.match(txt('scalpFlow'),/NO CURRENT ACTION AUTHORITY/);checks.push('Target mismatch rejected for action while display remains informative');
+  payload.scalp=clone(fixture.scalp);payload.scalp.guidance='EXIT';delete payload.scalp.terminal;await advance(1000);assert.equal(txt('scalpState'),'WAIT');checks.push('Malformed action payload rejected for action and shown as WAIT');
   payload.main=clone(fixture.main);payload.scalp=clone(fixture.scalp);offline=true;await advance(5000);
-  assert.equal(txt('upOdds'),'Unavailable');assert.equal(txt('earlyState'),'UNAVAILABLE');assert.equal(txt('scalpState'),'UNAVAILABLE');checks.push('Network loss and source expiry clear every actionable field');
+  assert.equal(txt('upOdds'),'35.0¢ LAST');assert.equal(txt('earlyState'),'WAIT');assert.equal(txt('scalpState'),'WAIT');assert.equal(txt('finalAction'),'WAIT / REFRESHING');for(const id of owned)assert.doesNotMatch(txt(id),/UNAVAILABLE/i);checks.push('Network loss and source expiry suppress action authority while retaining clearly labelled last-qualified information');
   offline=false;pending=true;await advance(1100);assert.ok(deferred.length>=3);
-  visible=false;d.dispatchEvent(new w.Event('visibilitychange'));assert.equal(txt('finalAction'),'UNAVAILABLE');
+  visible=false;d.dispatchEvent(new w.Event('visibilitychange'));assert.equal(txt('finalAction'),'WAIT / REFRESHING');
   assert.ok(requests.filter(r=>r.url==='/ladders').at(-1).signal.aborted);
   pending=false;fresh();visible=true;d.dispatchEvent(new w.Event('visibilitychange'));await flush();
   const current=txt('finalAction');for(const resolve of deferred.splice(0))resolve();await flush();assert.equal(txt('finalAction'),current);checks.push('AbortController timeout fallback, hide/resume cancellation and late previous-generation replies');
-  w.dispatchEvent(new w.Event('pagehide'));assert.equal(txt('earlyState'),'UNAVAILABLE');
+  w.dispatchEvent(new w.Event('pagehide'));assert.equal(txt('earlyState'),'WAIT');
   w.dispatchEvent(new w.Event('pageshow'));await flush();assert.equal(txt('finalAction'),'UNLOCKED / PASS');checks.push('bfcache lifecycle requires refetch');
-  await advance(6000);assert.equal(txt('finalAction'),'UNAVAILABLE');assert.equal(txt('upOdds'),'Unavailable');checks.push('Repeated cached served timestamps cannot renew source leases');
+  await advance(6000);assert.equal(txt('finalAction'),'WAIT / REFRESHING');assert.equal(txt('upOdds'),'35.0¢ LAST');checks.push('Repeated cached served timestamps cannot renew action leases; last-qualified display remains explicitly non-authoritative');
   // Same accepted provider advances by 3 cents; display receipt and latest comparable book share the exact tuple.
   fresh();payload.quote.sequence++;payload.quote.up_bid+=.03;payload.quote.up_ask+=.03;payload.quote.down_bid-=.03;payload.quote.down_ask-=.03;
   await advance(500);assert.equal(txt('upOdds'),'38.0¢');assert.equal(txt('downOdds'),'63.0¢');
@@ -79,7 +79,16 @@ const flush=async()=>{for(let i=0;i<8;i++)await Promise.resolve();};
   checks.push('Comparable accepted tuple → DOM: injected 3¢ move reflected; measured delta zero after render');
   offline=true;await advance(500);assert.equal(txt('upOdds'),'38.0¢');assert.equal(txt('downOdds'),'63.0¢');offline=false;
   checks.push('500ms transient browser transport failure preserves the original accepted quote lease');
-  const old=clone(payload.quote);payload.quote.sequence--;await advance(500);assert.equal(txt('upOdds'),'Unavailable');checks.push('Out-of-order accepted sequence fails closed');
+  const old=clone(payload.quote);payload.quote.sequence--;await advance(500);assert.equal(txt('upOdds'),'38.0¢ LAST');checks.push('Out-of-order accepted sequence fails closed for current quote while last-qualified presentation remains labelled');
+  payload.quote=old;payload.main=clone(fixture.main);payload.scalp=clone(fixture.scalp);
+  payload.scalp.status='PASS';payload.scalp.guidance='PASS';payload.scalp.origin=null;payload.scalp.terminal=null;
+  payload.scalp.diagnostics=[
+    {side:'UP',ask:.98,in_30_45_band:false,reason:'PRICE_OUTSIDE_30_45C'},
+    {side:'DOWN',ask:.02,in_30_45_band:false,reason:'PRICE_OUTSIDE_30_45C'}
+  ];
+  fresh();await advance(1000);assert.equal(txt('scalpState'),'PASS');
+  assert.match(txt('scalpEntry'),/PASS · no side in 30–45¢ entry band · UP 98\.0¢ · DOWN 2\.0¢/);
+  checks.push('Healthy SCALP PASS exposes exact non-entry reason instead of looking dead');
   payload.quote=old;payload.main=clone(fixture.main);payload.scalp=clone(fixture.scalp);
   for(const lane of ['main','scalp','quote']){
     const x=payload[lane],i=x.official_identity;i.official_open+=900;i.official_close+=900;i.contract='KXBTC15M-26OCT031630-30';
