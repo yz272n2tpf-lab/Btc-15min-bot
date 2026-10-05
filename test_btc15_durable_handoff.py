@@ -163,6 +163,20 @@ with tempfile.TemporaryDirectory() as td:
                 self.assertTrue(w.offer(frame(ENTRY+10,2,False)));self.assertTrue(w.wait_idle(5))
                 self.assertEqual([s for s,_ in records(td)],[1,2]);self.assertEqual(w.dropped,0)
             finally:w.close()
+            # A clean restart republishes the same committed count, never +1.
+            import btc15_v2_product.durable_handoff as handoff
+            published=threading.Event();original_publish=handoff.atomic_json
+            def republish(path,value):
+                original_publish(path,value);published.set()
+            with patch.object(handoff,'atomic_json',republish):
+                w=DurableWorker(td,'v81',Scalp(),lambda:ENTRY+11)
+                try:
+                    self.assertTrue(published.wait(5));self.assertTrue(w.wait_idle(5))
+                    v=public_view(td,'v81',ENTRY+11)
+                    self.assertEqual(v['journal']['written'],2)
+                    self.assertEqual(v['journal']['queue_depth'],0)
+                    self.assertEqual(len(records(td)),2)
+                finally:w.close()
 
     def test_capacity_rejection_has_durable_evidence_and_is_not_latched(self):
         with tempfile.TemporaryDirectory() as td:

@@ -34,7 +34,7 @@
     "ops/btc15_v2_scoring/test_bridge.py": "012cbfeace70c5a27ab5ef73c0927010829e01f31269d4cbed698583cafb0f12",
     "ops/btc15_v2_scoring/test_completeness_diagnostics.py": "40e674f9c7436879e70d485f719c4f8ba40b3b32ec141cda6db6ff8a0f89f25b",
     "btc15_v2_product/fair_readiness.py": "368a1c8ae8edc56f25e0d6b372baacbf8acbe30816fb9ca578e2b8f59ce4416c",
-    "btc15_v2_product/durable_handoff.py": "862c5c60afc47d3cd9c9dce7b4e39df911603796c05fc764b937a74e8bafbd4e",
+    "btc15_v2_product/durable_handoff.py": "cfe1a69a1611f0cd2ccde1db5574254d958745e6cdb3547f43291f93d6c5e3b8",
     "btc15_v2_product/indicators.py": "98052605bc935fe8fabc9a72fd93c7cbbb56a84f75bb3b665b1725bc51d98bb9"
   },
   "lane_protected_files": {
