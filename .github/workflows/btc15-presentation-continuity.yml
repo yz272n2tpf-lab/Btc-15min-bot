@@ -29,7 +29,7 @@ jobs:
           node-version: '22'
       - run: python -m pip install -r requirements.txt
       - run: npm ci --prefix ops/v2_product --no-audit --no-fund
-      - run: node ops/v2_product/node_modules/playwright/cli.js install --with-deps chromium
+      - run: node ops/v2_product/node_modules/playwright/cli.js install chromium
       - name: Exact release and semantic freeze
         run: |
           python btc15_v2_launch.py --lane main --directory qualification/v2_product_20261004/dashboard
