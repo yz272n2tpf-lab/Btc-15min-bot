@@ -80,13 +80,13 @@ const flush=async()=>{for(let i=0;i<8;i++)await Promise.resolve();};
   offline=true;await advance(500);assert.equal(txt('upOdds'),'38.0¢');assert.equal(txt('downOdds'),'63.0¢');offline=false;
   checks.push('500ms transient browser transport failure preserves the original accepted quote lease');
   const old=clone(payload.quote);payload.quote.sequence--;await advance(500);assert.equal(txt('upOdds'),'38.0¢ LAST');checks.push('Out-of-order accepted sequence fails closed for current quote while last-qualified presentation remains labelled');
-  payload.quote=old;payload.main=clone(fixture.main);payload.scalp=clone(fixture.scalp);
+  fresh();
   payload.scalp.status='PASS';payload.scalp.guidance='PASS';payload.scalp.origin=null;payload.scalp.terminal=null;
   payload.scalp.diagnostics=[
     {side:'UP',ask:.98,in_30_45_band:false,reason:'PRICE_OUTSIDE_30_45C'},
     {side:'DOWN',ask:.02,in_30_45_band:false,reason:'PRICE_OUTSIDE_30_45C'}
   ];
-  fresh();visible=false;d.dispatchEvent(new w.Event('visibilitychange'));visible=true;d.dispatchEvent(new w.Event('visibilitychange'));await flush();await advance(1100);
+  visible=false;d.dispatchEvent(new w.Event('visibilitychange'));visible=true;d.dispatchEvent(new w.Event('visibilitychange'));await flush();await advance(1100);
   assert.equal(txt('scalpState'),'PASS');
   assert.match(txt('scalpEntry'),/PASS · no side in 30–45¢ entry band · UP 98\.0¢ · DOWN 2\.0¢/);
   checks.push('Healthy SCALP PASS exposes exact non-entry reason instead of looking dead');
