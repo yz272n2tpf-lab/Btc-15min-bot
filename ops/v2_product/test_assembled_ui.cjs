@@ -86,7 +86,8 @@ const flush=async()=>{for(let i=0;i<8;i++)await Promise.resolve();};
     {side:'UP',ask:.98,in_30_45_band:false,reason:'PRICE_OUTSIDE_30_45C'},
     {side:'DOWN',ask:.02,in_30_45_band:false,reason:'PRICE_OUTSIDE_30_45C'}
   ];
-  fresh();await advance(1000);assert.equal(txt('scalpState'),'PASS');
+  fresh();visible=false;d.dispatchEvent(new w.Event('visibilitychange'));visible=true;d.dispatchEvent(new w.Event('visibilitychange'));await flush();
+  assert.equal(txt('scalpState'),'PASS');
   assert.match(txt('scalpEntry'),/PASS · no side in 30–45¢ entry band · UP 98\.0¢ · DOWN 2\.0¢/);
   checks.push('Healthy SCALP PASS exposes exact non-entry reason instead of looking dead');
   payload.quote=old;payload.main=clone(fixture.main);payload.scalp=clone(fixture.scalp);
