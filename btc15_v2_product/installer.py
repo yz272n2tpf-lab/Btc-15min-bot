@@ -23,7 +23,43 @@ def assemble(directory):
     for name in owned:
         if name=='signalStrength':continue  # Preserve its original neutral markup.
         html=re.sub(r'(<[^>]+id="'+re.escape(name)+r'"[^>]*>)([^<]*)(</)',
-                    lambda m:m[1]+(('—' if 'Arrow' in name else 'UNAVAILABLE') if m[2].strip() else m[2])+m[3],html)
+                    lambda m:m[1]+(('—' if 'Arrow' in name else 'WAIT / REFRESHING') if m[2].strip() else m[2])+m[3],html)
+    # Only the existing informational DOM setter is wrapped. Retained strings
+    # cannot flow back into the native owner, clock or action-card renderer.
+    old_setter="  const setText = (id, value) => { const el=$(id); if(el && el.textContent!==value) el.textContent=value; };"
+    new_setter=r"""  const lowerIds=new Set(['evidenceScore','momentumBadge','momentumSub','contextTrend','contextRange','contextBrti','contextLevels']);
+  const lowerHistory=new Map(); let lowerQualified=false,lowerContract=null;
+  const setText = (id, value) => {
+    if(lowerIds.has(id)){
+      const valid=lowerQualified && !/unavailable|not connected|fresh brti required|^—(?: \/ 7)?$/i.test(String(value));
+      if(valid)lowerHistory.set(id,{value,contract:lowerContract});
+      else {const prior=lowerHistory.get(id);value=prior?prior.value+' · LAST QUALIFIED / REFRESHING · '+prior.contract:'WAIT / REFRESHING';}
+    }
+    const el=$(id); if(el && el.textContent!==value) el.textContent=value;
+  };"""
+    if html.count(old_setter)!=1:raise ValueError('PINNED_INFORMATION_DOM_SEAM')
+    html=html.replace(old_setter,new_setter)
+    html=html.replace('  function markUnavailable(reason) {','  function markUnavailable(reason) {\n    lowerQualified=false;')
+    html=html.replace('    const usable=usableFrame(d);','    const usable=usableFrame(d);\n    lowerQualified=usable && freshBrti(d);lowerContract=d.contract;')
+    html=html.replace('let lastChartSignature=null;','let lastChartSignature=null,lastChartContract=null,chartRefreshing=false;')
+    html=html.replace('    if(signature===lastChartSignature)return;',"    chartRefreshing=!pts.length;\n    if(chartRefreshing && lastChartContract===d.contract && svg.querySelector('path'))return;\n    lastChartContract=d.contract;\n    if(signature===lastChartSignature)return;")
+    html=html.replace('    if(note && note.textContent!==label)',"    if(chartRefreshing)label+=' · Chart LAST QUALIFIED / REFRESHING';\n    if(note && note.textContent!==label)")
+    html=html.replace("const fill=document.querySelector('.evidence-fill');if(fill)fill.style.width='0%';", "// Retain the labeled last-qualified informational bar during refresh.")
+    html=html.replace('if(lastBrtiDisplay && lastBrtiDisplay.contract!==d.contract)lastBrtiDisplay=null;','// Previous-contract BRTI may remain explicitly historical information.')
+    html=html.replace('lastBrtiDisplay && d && lastBrtiDisplay.contract===d.contract?lastBrtiDisplay:null','lastBrtiDisplay')
+    html=html.replace('const sameSample=record && Number.isFinite(observed)','const sameSample=record && record.contract===d?.contract && Number.isFinite(observed)')
+    html=html.replace("setText('btcPrice',record?fmtDollar(record.value):'—');","setText('btcPrice',record?fmtDollar(record.value):'REFRESHING');")
+    html=html.replace("setText('btcGap',record && Number.isFinite(record.target)?fmtSignedDollar(record.value-record.target):'—');","setText('btcGap',record && Number.isFinite(record.target)?fmtSignedDollar(record.value-record.target):'REFRESHING');")
+    html=html.replace("    if(chartRefreshing)label+=", "    if(record && record.contract!==d?.contract)label+=' · '+record.contract;\n    if(chartRefreshing)label+=")
+    html=html.replace('BRTI unavailable','BRTI refresh pending')
+    html=html.replace('BRTI UNAVAILABLE · no substitute','WAIT — BRTI refresh pending')
+    html=html.replace('LAST BRTI','LAST QUALIFIED BRTI / REFRESHING')
+    html=html.replace('BRTI history unavailable — no substitute price','WAIT — BRTI history refresh pending')
+    html=html.replace('Independent output not connected','WAIT — next qualified setup required')
+    html=html.replace('Probability feed not connected','Model context only')
+    html=html.replace('NOT CONNECTED — no live indicator feed','WAIT — indicator refresh pending')
+    html=html.replace('WAIT — information unavailable','WAIT — information refresh pending')
+    html=html.replace('id="btc15-information-assessment"></p>','id="btc15-information-assessment">WAIT — information refresh pending</p>')
     html=html.replace('<span>Target exit</span>','<span>Protection</span>').replace('<span>Exit / stop</span>','<span>Exit guidance</span>')
     css='''<style id="v2-product-layout">
       #finalSide{font-size:clamp(1.25rem,5vw,2rem);overflow-wrap:anywhere}
@@ -50,7 +86,7 @@ def assemble(directory):
     </style>'''
     html=html.replace('</head>',css+'\n</head>')
     html=html.replace('<script src="/ladders/panel.js"></script>',
-        '<p id="v2QuoteClock" role="status">Current executable quotes unavailable</p>\n<script src="/ladders/panel.js"></script>')
+        '<p id="v2QuoteClock" role="status">WAIT — timestamped quote refresh pending</p>\n<script src="/ladders/panel.js"></script>')
     path.write_text(html)
     server=d/'BTC15_DASHBOARD_LIVE_SERVER_V1.py'
     replace_once(server,'from btc15_ladder_routes_v1 import serve as serve_ladders','from btc15_v2_product.routes import serve as serve_ladders')

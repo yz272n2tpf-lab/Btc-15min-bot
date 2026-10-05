@@ -5,11 +5,14 @@
   const caches={main:null,scalp:null,quote:null},requests={main:null,scalp:null,quote:null};
   const clocks={main:null,scalp:null,quote:null}; // Monotonic floor survives hide/resume; cached replies cannot renew leases.
   let epoch=0,identity=null,quoteHistory=null;const receipts=[];
-  let indicators=null,indicatorRequest=null,indicatorClock=null;
+  let indicators=null,indicatorRequest=null,indicatorClock=null,lastIndicators=null;
+  // Strings only, display-only: never read by accept(), current(), or any action gate.
+  const history={main:null,scalp:null,quote:null};
+  const infoIds={main:['finalConfidence','finalActionSub','earlyEntry','earlyYourEntry','earlyCurrentPrice','earlyEdge','flipRisk','signalStrength'],scalp:['scalpYourEntry','scalpCurrentPrice','scalpTargetStrip'],quote:['upOdds','downOdds']};
   const node=id=>document.getElementById(id);
   const text=(id,v)=>{const n=node(id);if(n&&n.textContent!==String(v))n.textContent=String(v);};
-  const cents=v=>Number.isFinite(v)?(100*v).toFixed(1)+'¢':'Unavailable';
-  const pct=v=>Number.isFinite(v)?(100*v).toFixed(1)+'%':'Unavailable';
+  const cents=v=>Number.isFinite(v)?(100*v).toFixed(1)+'¢':'REFRESHING';
+  const pct=v=>Number.isFinite(v)?(100*v).toFixed(1)+'%':'REFRESHING';
   const human=v=>String(v||'').replace(/_/g,' ').toLowerCase();
   const finite=Number.isFinite;
   const key=i=>i&&[i.contract,i.target,i.official_open,i.official_close].join('|');
@@ -21,12 +24,43 @@
   function current(lane){const c=caches[lane];return c&&performance.now()<c.deadline&&document.visibilityState!=='hidden'?c.data:null;}
   function classes(id,value){const n=node(id);if(n&&n.className!==value)n.className=value;}
   function pill(id,v){text(id,v);classes(id,'state-pill '+(['ENTER','HOLD','AVAILABLE','QUALIFIED'].includes(v)?'state-good':'state-watch'));}
-  function unavailable(prefix,reason,origin){
-    pill(prefix+'State','UNAVAILABLE');text(prefix+'Title',prefix.toUpperCase()+' · UNAVAILABLE');text(prefix+'Arrow','—');
-    text(prefix+'Entry',human(reason));text(prefix+'CurrentPrice','Unavailable');
-    text(prefix+'YourEntry',origin?'Origin ASK '+cents(origin.original_ask)+' · historical':'No current origin');
-    for(const k of ['Entry','Hold','Watch','Protect','Exit'])text(prefix+'Ladder'+k,'UNAVAILABLE · fresh evidence required');
-    text(prefix+'Flow','SIGNAL ONLY · MANUAL EXECUTION ONLY · NO ORDERS');
+  const reasons={
+    REVALIDATION_DISAGREES_WAIT_NATIVE:'native revalidation disagrees; awaiting next native observation',
+    REVALIDATION_IDENTITY_OR_CLOCK:'identity / clock refresh pending',
+    REVALIDATION_EXPIRED_OR_NONCAUSAL:'source refresh pending',
+    REVALIDATION_PENDING:'native revalidation pending',
+    TIMESTAMPED_QUOTES_UNAVAILABLE:'timestamped quote refresh pending',
+    OFFICIAL_MARKET_UNQUALIFIED:'official market refresh pending',
+    SOURCE_EXPIRED:'source refresh pending',
+    PRICE_OUTSIDE_30_45C:'price outside 30–45¢',
+    NO_SIDE_IN_30_45C:'price outside 30–45¢',
+    BASE_NOT_READY:'base not ready',
+    EVIDENCE_BELOW_CORE_SURGE:'evidence below CORE/SURGE',
+    READY_CONFIRMING:'confirmation pending', FEATURES_NOT_READY:'feature history not ready',
+    BRTI_NOT_FRESH:'BRTI refresh pending'
+  };
+  const reasonText=v=>reasons[v]||human(v||'source refresh pending').replace(/unavailable|not connected/g,'refresh pending');
+  function remember(lane,ident,at){
+    history[lane]={identity:key(ident),contract:ident.contract,at,values:Object.fromEntries(infoIds[lane].map(id=>[id,node(id)?.textContent]))};
+  }
+  function retained(lane,id,ident,label=true){
+    const h=history[lane],value=h?.values[id];
+    return value&&(!ident||h.identity===key(ident))?value+(label?' · LAST QUALIFIED':'')+(!ident?' · '+h.contract:''):'REFRESHING';
+  }
+  function waiting(prefix,reason,ident){
+    pill(prefix+'State','WAIT');text(prefix+'Title',prefix.toUpperCase()+' · REFRESHING');text(prefix+'Arrow','—');
+    text(prefix+'Entry','WAIT — '+reasonText(reason));
+    const lane=prefix==='early'?'main':'scalp';
+    text(prefix+'CurrentPrice',retained(lane,prefix+'CurrentPrice',ident));
+    text(prefix+'YourEntry',retained(lane,prefix+'YourEntry',ident));
+    for(const k of ['Entry','Hold','Watch','Protect','Exit'])text(prefix+'Ladder'+k,'WAIT · current authority refresh pending');
+    text(prefix+'Flow','WAIT — '+reasonText(reason)+' · SIGNAL ONLY / NO ORDERS');
+  }
+  function scalpPass(s){
+    const ds=Array.isArray(s.diagnostics)?s.diagnostics.filter(d=>d&&d.reason):[];
+    if(!ds.length)return 'PASS — '+reasonText(s.reason||'native gates not qualified');
+    if(ds.every(d=>d.reason===ds[0].reason))return 'PASS — '+reasonText(ds[0].reason);
+    return ds.map(d=>(['UP','DOWN'].includes(d.side)?d.side+' ':'')+'PASS — '+reasonText(d.reason)).join(' · ');
   }
   function render(){
     const now=performance.now(),m=current('main'),s=current('scalp'),q=current('quote');
@@ -35,18 +69,20 @@
     const iv=indicators&&now<indicators.deadline&&document.visibilityState!=='hidden'?indicators.data:null;
     const cells=document.querySelectorAll('.indicator-row .indicator-unavailable');
     const number=v=>Math.abs(v)>=10000?v.toPrecision(5):v.toFixed(2);
-    const values=iv?[finite(iv.rsi)?number(iv.rsi):null,finite(iv.macd)?`${number(iv.macd)} / ${number(iv.signal)} / ${number(iv.histogram)}`:null,number(iv.volume)+' BTC']:[];
-    cells.forEach((n,index)=>{const value=values[index]||'NOT CONNECTED — no live indicator feed';if(n.textContent!==value)n.textContent=value;});
+    if(iv)lastIndicators=iv;
+    const shownIndicators=iv||lastIndicators;
+    const values=shownIndicators?[finite(shownIndicators.rsi)?number(shownIndicators.rsi):null,finite(shownIndicators.macd)?`${number(shownIndicators.macd)} / ${number(shownIndicators.signal)} / ${number(shownIndicators.histogram)}`:null,number(shownIndicators.volume)+' BTC']:[];
+    cells.forEach((n,index)=>{const value=values[index]?(values[index]+(!iv?' · LAST QUALIFIED / REFRESHING':'')):'WAIT — indicator history refresh pending';if(n.textContent!==value)n.textContent=value;});
     const qualified=m&&m.status!=='UNAVAILABLE'&&key(m.official_identity)===key(ident);
     const aligned=s&&s.status!=='UNAVAILABLE'&&ident&&key(s.official_identity)===key(ident);
-    text('currentContract',ident?'BTC 15-MINUTE · '+ident.contract+' · V2':'BTC 15-MINUTE · IDENTITY UNAVAILABLE');
-    text('liveStatus','MAIN '+(qualified?m.status:'UNAVAILABLE')+' · SCALP '+(aligned?s.status:'UNAVAILABLE'));
+    text('currentContract',ident?'BTC 15-MINUTE · '+ident.contract+' · V2':'BTC 15-MINUTE · WAIT — official identity refresh pending');
+    text('liveStatus','MAIN '+(qualified?m.status:'WAIT / REFRESHING')+' · SCALP '+(aligned?s.status:'WAIT / REFRESHING'));
     classes('liveStatus','live-status '+(qualified?'live-ok':'live-warn'));
     const f=qualified?m.final:null;
     classes('finalCard','card final-card '+(f?.ready?(f.side==='DOWN'?'down-mode':''):'wait-mode'));
     // Original V13 display classification (8e25678); no strategy authority.
     const probability=f?.confidence;
-    text('signalStrength',finite(probability)?(probability>=.90?'STRONG':probability>=.75?'GOOD':probability>=.60?'MODERATE':'WEAK'):'NOT CONNECTED');
+    text('signalStrength',finite(probability)?(probability>=.90?'STRONG':probability>=.75?'GOOD':probability>=.60?'MODERATE':'WEAK'):retained('main','signalStrength',ident));
     if(f){
       text('finalArrow',f.ready?(f.side==='DOWN'?'↓':'↑'):'—');
       text('finalSide',f.ready?f.side+' FINAL':'PASS');
@@ -60,15 +96,15 @@
       text('finalProtectZone',f.helper?.protect_latched?'PROTECT · support lost or opposed':'No new protection instruction');
       text('finalExitZone','No supported EARLY EXIT threshold · no automatic EXIT');
     }else{
-      text('finalArrow','—');text('finalSide','UNAVAILABLE');text('finalConfidence','Model unavailable');text('finalAction','UNAVAILABLE');
-      text('finalActionSub',human(m?.reason||'Fresh native evidence required'));text('finalReason','No current actionable FINAL guidance');
-      for(const id of ['finalBuyZone','finalHoldZone','finalWatchZone','finalProtectZone','finalExitZone'])text(id,'Unavailable');
+      text('finalArrow','—');text('finalSide','WAIT');text('finalConfidence',retained('main','finalConfidence',ident));text('finalAction','WAIT');
+      text('finalActionSub','WAIT — '+reasonText(m?.reason));text('finalReason','No current actionable FINAL guidance');
+      for(const id of ['finalBuyZone','finalHoldZone','finalWatchZone','finalProtectZone','finalExitZone'])text(id,'WAIT · current authority refresh pending');
     }
     if(!qualified){
-      unavailable('early',m?.reason||'Fresh native evidence required',m?.origin);
-      text('earlyAfterEntry','No current guidance');text('earlyEdge','Unavailable');
-      text('flipRisk','Unavailable');text('flipRiskSub','Fresh model inputs required');
-      text('contextBanner','Native action inputs unavailable · freshness limits unchanged');
+      waiting('early',m?.reason,ident);
+      text('earlyAfterEntry','WAIT — '+reasonText(m?.reason));text('earlyEdge',retained('main','earlyEdge',ident));
+      text('flipRisk',retained('main','flipRisk',ident,false));text('flipRiskSub','LAST QUALIFIED / REFRESHING · no action authority');
+      text('contextBanner','WAIT — '+reasonText(m?.reason));
     }else{
       const e=m.early,o=m.origin,h=f?.helper,ctx=m.context;
       const prices=m.presentation_revalidation?.prices;
@@ -91,15 +127,15 @@
     }
     text('oppositeArrow','—');text('oppositeTitle','SERIAL REVERSAL / RE-ENTRY');
     if(!aligned){
-      unavailable('scalp',s?.reason||'Fresh aligned SCALP evidence required',key(s?.official_identity)===key(ident)?s?.origin:null);
-      text('scalpTargetStrip','Unavailable');text('oppositeEntry','Fresh same-contract setup required');text('oppositeState','WAIT');
+      waiting('scalp',s?.reason,ident);
+      text('scalpTargetStrip',retained('scalp','scalpTargetStrip',ident));text('oppositeEntry','Fresh same-contract setup required');text('oppositeState','WAIT');
     }else{
       const o=s.origin;
       pill('scalpState',s.guidance);text('scalpTitle','SCALP '+(o?.side||'PASS'));text('scalpArrow',o?(o.side==='DOWN'?'↓':'↑'):'—');
-      text('scalpEntry',o?'Origin ASK '+cents(o.original_ask):'30–45¢ · CORE/SURGE · awaiting confirmation');
+      text('scalpEntry',o?'Origin ASK '+cents(o.original_ask):scalpPass(s));
       text('scalpYourEntry',o?cents(o.original_ask)+' · signal ASK':'No accepted origin');
       text('scalpCurrentPrice',o?'BID '+cents(s.executable_current_bid):'No active origin');
-      text('scalpTargetStrip',o?s.movement_cents.toFixed(1)+'¢ gross':'PASS');
+      text('scalpTargetStrip',o?s.movement_cents.toFixed(1)+'¢ gross':scalpPass(s));
       text('scalpLadderEntry',o?human(o.lane)+' · #'+o.serial_index:'30–45¢ · ideal overlap 30–35¢');
       text('scalpLadderHold',o?s.guidance+' · maximum 180s signal horizon':'No position assumed');
       text('scalpLadderWatch',s.context?human(s.context.phase)+' · '+s.context.reasons.map(human).join('; '):'Fresh qualifying observations required');
@@ -108,15 +144,18 @@
       text('scalpFlow',`${o?'If manually entered: '+s.guidance+'. ':''}${s.terminal?human(s.terminal.reason)+'. ':''}No assumed fill; fees excluded. SIGNAL ONLY / NO ORDERS`);
       text('oppositeEntry',o?'Next origin requires a later qualified setup after EXIT':'Both sides evaluated');text('oppositeState',s.guidance==='EXIT'?'RECONFIRM':'WAIT');
     }
+    if(qualified)remember('main',ident,m.published_ts);
+    if(aligned)remember('scalp',ident,s.published_ts);
     const freshQuote=q&&q.status==='AVAILABLE'&&ident&&key(q.official_identity)===key(ident);
-    text('upOdds',freshQuote?cents(q.up_ask):'Unavailable');text('downOdds',freshQuote?cents(q.down_ask):'Unavailable');
-    text('upCondition',freshQuote?'ASK · BID '+cents(q.up_bid):'NO EXECUTABLE QUOTE');
-    text('downCondition',freshQuote?'ASK · BID '+cents(q.down_bid):'NO EXECUTABLE QUOTE');
-    text('v2QuoteClock',freshQuote?`Source ${new Date(q.exchange_ts*1000).toISOString()} · seq ${q.sequence} · presentation only`:human(q?.reason||'Current executable quote unavailable'));
+    text('upOdds',freshQuote?cents(q.up_ask):retained('quote','upOdds',ident,false));text('downOdds',freshQuote?cents(q.down_ask):retained('quote','downOdds',ident,false));
+    text('upCondition',freshQuote?'ASK · BID '+cents(q.up_bid):(history.quote&&(!ident||history.quote.identity===key(ident))?'LAST QUALIFIED / REFRESHING · ':'WAIT — ')+'timestamped quote refresh pending');
+    text('downCondition',freshQuote?'ASK · BID '+cents(q.down_bid):(history.quote&&(!ident||history.quote.identity===key(ident))?'LAST QUALIFIED / REFRESHING · ':'WAIT — ')+'timestamped quote refresh pending');
+    text('v2QuoteClock',freshQuote?`Source ${new Date(q.exchange_ts*1000).toISOString()} · seq ${q.sequence} · presentation only`:'WAIT — '+reasonText(q?.reason||'TIMESTAMPED_QUOTES_UNAVAILABLE'));
     for(const id of ['upOdds','downOdds']){
       const n=node(id);if(n){const value=freshQuote?[q.epoch,q.sid,q.sequence,q.exchange_ts].join('|'):'';if(n.dataset.quoteIdentity!==value)n.dataset.quoteIdentity=value;if(!freshQuote)n.dataset.quoteEvidence='';}
     }
     if(freshQuote){
+      remember('quote',ident,q.exchange_ts);
       const tuple=[key(ident),q.epoch,q.sid,q.sequence].join('|');
       if(tuple!==quoteHistory){
         quoteHistory=tuple;

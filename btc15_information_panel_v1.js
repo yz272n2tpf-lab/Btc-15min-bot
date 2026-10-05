@@ -1,13 +1,14 @@
 'use strict';
 (() => {
-  let token = null, busy = false, generation = 0;
+  let token = null, busy = false, generation = 0, lastQualified = null;
   const status = document.getElementById('btc15-information-status');
   const assessment = document.getElementById('btc15-information-assessment');
   function render() {
     const view = informationView(token, performance.now());
-    status.textContent = view.status === 'AVAILABLE' ? view.label : 'WAIT — information unavailable';
-    const a = view.assessment;
-    assessment.textContent = a ? `${a.ticker} · descriptive UP ${(a.probability_up*100).toFixed(1)}% · DOWN ${(a.probability_down*100).toFixed(1)}% · Flip risk ${Number(a.flip_risk_pct).toFixed(1)}% · ${a.protection_phase === '3M_GUARD' ? '3M GUARD' : a.protection_phase === '5M_CAUTION' ? '5M CAUTION' : 'NORMAL'} · Profit protection ${a.profit_protection_status === 'OBSERVE_ONLY_NO_POSITION_CONTEXT' ? 'OBSERVE' : 'UNAVAILABLE'} · BRTI ${a.brti_agrees ? 'agrees' : 'differs'}` : '';
+    if (view.assessment) lastQualified = view.assessment;
+    status.textContent = view.status === 'AVAILABLE' ? view.label : lastQualified ? 'LAST QUALIFIED / REFRESHING — information only' : 'WAIT — information refresh pending';
+    const a = view.assessment || lastQualified;
+    assessment.textContent = a ? `${a.ticker} · descriptive UP ${(a.probability_up*100).toFixed(1)}% · DOWN ${(a.probability_down*100).toFixed(1)}% · Flip risk ${Number(a.flip_risk_pct).toFixed(1)}% · ${a.protection_phase === '3M_GUARD' ? '3M GUARD' : a.protection_phase === '5M_CAUTION' ? '5M CAUTION' : 'NORMAL'} · Profit protection ${a.profit_protection_status === 'OBSERVE_ONLY_NO_POSITION_CONTEXT' ? 'OBSERVE' : 'REFRESHING'} · BRTI ${a.brti_agrees ? 'agrees' : 'differs'}` : 'WAIT — information refresh pending';
   }
   async function poll() {
     if (busy || document.hidden) return;
