@@ -67,8 +67,8 @@ const widths=[390,430,820,1180,700,701,1100,1101];
           }
           assert.equal(measured.final,expected);
           assert.equal(measured.scalp,state==='fresh'?'EXIT':'WAIT');
-          assert.equal(measured.up,state==='fresh'?'35.0¢':'WAIT');
-          assert.equal(measured.down,state==='fresh'?'66.0¢':'WAIT');
+          assert.equal(measured.up,state==='fresh'?'35.0¢':'35.0¢ LAST');
+          assert.equal(measured.down,state==='fresh'?'66.0¢':'66.0¢ LAST');
           if(state==='unavailable')for(const a of measured.actions)assert.doesNotMatch(String(a.text||''),/UNAVAILABLE/i);
           if(state==='fresh'){
             await page.evaluate(()=>window.dispatchEvent(new Event('pagehide')));
