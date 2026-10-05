@@ -18,7 +18,7 @@
     "btc15_v2_product/admin.py": "33912a9118ba5f5671cdf98848aed18f1601047b6de61892d7e939d410fb8f84",
     "btc15_v2_product/bootstrap.py": "d92c039051a9b2fda51db8d6e4f840c3e3a36091341dca2ce1e521146bf401ec",
     "btc15_v2_product/installer.py": "0dc5c7d16e2144ade194fc451517bf9766a9d81dd4a286b97002dad57c142243",
-    "btc15_v2_product/journal.py": "fc7e643cbcdff7f8e8a43197f2af21c5c4a1f6713ad14b5bc95e11969a968d90",
+    "btc15_v2_product/journal.py": "12481937a6d10d8319283929cb02274c2806bebf1be187f6bf29648a5b2dc8bc",
     "btc15_v2_product/panel.js": "f57516e2a37e1fff408e7044af0cc7c141cf0d6629839dc285ac3cf91d4bcedd",
     "btc15_v2_product/quote_view.py": "897261eba37b191c1ae356c5017f3b1c9cef3c008f206547fd02beef2598bb29",
     "btc15_v2_product/release.py": "0d804e80104a8989e492e7219fd53e32d8e10c9baf963685a066b5af69daced5",
@@ -28,7 +28,8 @@
     "ops/btc15_v2_scoring/completeness_diagnostics.py": "e46ae773d63e628e92d883ad81c91e028d65d5b39fea68c2a15cc06c602e73c1",
     "ops/btc15_v2_scoring/product_cohort.py": "9a5f94d08fb07e01619f4f6011cde81f2049bc6a1395f4d97c50e1a37e589414",
     "ops/btc15_v2_scoring/test_bridge.py": "012cbfeace70c5a27ab5ef73c0927010829e01f31269d4cbed698583cafb0f12",
-    "ops/btc15_v2_scoring/test_completeness_diagnostics.py": "40e674f9c7436879e70d485f719c4f8ba40b3b32ec141cda6db6ff8a0f89f25b"
+    "ops/btc15_v2_scoring/test_completeness_diagnostics.py": "40e674f9c7436879e70d485f719c4f8ba40b3b32ec141cda6db6ff8a0f89f25b",
+    "btc15_v2_product/durable_handoff.py": "862c5c60afc47d3cd9c9dce7b4e39df911603796c05fc764b937a74e8bafbd4e"
   },
   "lane_protected_files": {
     "main": {
@@ -48,8 +49,10 @@
       "requirements.txt": "64e574062380acfd02fe8c1b7437c37b2b0e0c2dfb6168526fa2d26dc3a83113"
     }
   },
-  "performance_optimization": "NONE: production stall not reproduced offline; stage instrumentation only",
+  "performance_optimization": "No strategy optimization. V81 bounded durable publication handoff; no permanent queue-full poison.",
   "source_change": "Official metadata preparation and SAME timestamped WS provider, native consumption/qualification unchanged",
   "evidence_change": "Separate revision/deployment root; startup/restart slot excluded; additive admin only; strict classifier unchanged",
-  "deployment": "NOT_AUTHORIZED; startup requires reviewed manifest/build authorization or reviewed receipt; scoring requires independent actual deployment receipt"
+  "deployment": "NOT_AUTHORIZED; startup requires reviewed manifest/build authorization or reviewed receipt; scoring requires independent actual deployment receipt",
+  "publication_repair": "V81 bounded durable inbox; product transaction checkpoints exact input cursor and view; no permanent queue-full latch; background settlement backpressure.",
+  "qualification_status": "OFFLINE_TARGETED_GATES_PASS; STAGE_ONLY; PHYSICAL_DEVICE_ACCEPTANCE_PENDING"
 }

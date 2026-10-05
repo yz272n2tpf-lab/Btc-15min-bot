@@ -48,7 +48,16 @@ class RevisionJournal(ORIGINAL_JOURNAL):
     def commit(self,record,state):
         # New immutable receipt fields do not enter process(), qualify(), origins or state.
         record['product']['runtime_epoch']=self.boot
-        seq=super().commit(record,state)
+        handoff=getattr(self,'handoff',None)
+        if handoff:
+            cursor,view=handoff
+            self.db.execute('INSERT OR REPLACE INTO meta VALUES (?,?)',('handoff_cursor',str(cursor)))
+            if record.get('kind')!='SETTLEMENT':
+                self.db.execute('INSERT OR REPLACE INTO meta VALUES (?,?)',('handoff_view',frozen.packed(view).decode()))
+        try:seq=super().commit(record,state)
+        except Exception:
+            self.db.rollback()
+            raise
         admin=ADMINS.get(self.get('lane'))
         if admin:admin.pipeline(record,seq,time.time())
         return seq
@@ -85,7 +94,14 @@ class RevisionWorker(ORIGINAL_WORKER):
 
 def install(admin=None):
     if admin:ADMINS[admin.lane]=admin
-    frozen.Journal=RevisionJournal;frozen.Worker=RevisionWorker
+    frozen.Journal=RevisionJournal;frozen.Worker=worker_for
+
+
+def worker_for(root,lane,processor,clock=time.time):
+    if lane=='v81':
+        from .durable_handoff import DurableWorker
+        return DurableWorker(root,lane,processor,clock)
+    return RevisionWorker(root,lane,processor,clock)
 
 
 def unavailable(lane,reason,now,value=None):
@@ -98,17 +114,26 @@ def unavailable(lane,reason,now,value=None):
         out['official_identity']=identity;out['contract']=identity['contract']
         origin=value.get('origin')
         if origin and origin.get('contract')==identity['contract']:out['origin']=origin
-    for key in ('published_ts','journal','administrative_journal'):
+    for key in ('published_ts','journal','administrative_journal','handoff'):
         if key in value:out[key]=value[key]
     return out
 
 
 def public_view(root,lane,now=None):
     now=time.time() if now is None else now
+    if lane=='v81':
+        from .durable_handoff import ACTIVE
+        worker=ACTIVE.get(str(Path(root).resolve()))
+        if worker and (worker.failed or worker.pressure or not worker.thread.is_alive()):
+            value=unavailable(lane,worker.failed or 'HANDOFF_BACKPRESSURE',now)
+            value['handoff']=worker.health()
+            return value
     try:
         raw=(Path(root)/(lane+'.json')).read_bytes()
         if len(raw)>frozen.MAX_BYTES:raise ValueError('OVERSIZE_VIEW')
         v=json.loads(raw)
+        if lane=='v81' and worker:
+            v['handoff']=worker.health()
         try:
             health=(Path(root)/(lane+'.admin-health.json')).read_bytes()
             if len(health)<=4096:v['administrative_journal']=json.loads(health)
