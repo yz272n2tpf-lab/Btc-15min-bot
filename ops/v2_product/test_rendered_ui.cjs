@@ -17,7 +17,7 @@ const widths=[390,430,820,1180,700,701,1100,1101];
         for(const state of ['fresh','unavailable']){
           await page.goto(pathToFileURL(path.join(out,'browser_fixture.html')).href+(state==='unavailable'?'#unavailable':''));
           const expected=state==='fresh'?'UNLOCKED / PASS':'WAIT / REFRESHING';
-          await page.waitForFunction(({expected,state})=>document.getElementById('finalAction').textContent===expected&&document.getElementById('scalpState').textContent===(state==='fresh'?'EXIT':'WAIT')&&document.getElementById('upOdds').textContent===(state==='fresh'?'35.0¢':'WAIT'),{expected,state});
+          await page.waitForTimeout(750);
           const measured=await page.evaluate(owned=>{
             const rect=e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height};};
             const text=id=>document.getElementById(id).textContent;
@@ -65,6 +65,7 @@ const widths=[390,430,820,1180,700,701,1100,1101];
               assert.ok(negativeControl.x+negativeControl.width>820,'Legacy negative control must fail');
             }
           }
+          assert.equal(measured.final,expected);
           assert.equal(measured.scalp,state==='fresh'?'EXIT':'WAIT');
           assert.equal(measured.up,state==='fresh'?'35.0¢':'WAIT');
           assert.equal(measured.down,state==='fresh'?'66.0¢':'WAIT');
