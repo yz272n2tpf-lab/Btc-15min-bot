@@ -17,22 +17,25 @@
     "btc15_v2_product/__init__.py": "2a5053ccb3d4ce09441d4b004640958bbbb503e36eed7a287202a7dff2a430f6",
     "btc15_v2_product/admin.py": "33912a9118ba5f5671cdf98848aed18f1601047b6de61892d7e939d410fb8f84",
     "btc15_v2_product/bootstrap.py": "42d48f2543a8ffeffa34435821f906b69c4b585b07837d17b36f4e527e5d5aae",
-    "btc15_v2_product/installer.py": "d205ab76831510428994c0a49fb0db72641235fad3063e90641b4f70dacb66c6",
-    "btc15_v2_product/journal.py": "c69948afd73ca8c7f7b601165e80448dccf7ca3c990b4946fdc73d86e932747f",
-    "btc15_v2_product/panel.js": "25c394ae0bb2fe3ab67d7554528459b0438c7b61b478a82c3874e171f2ad7fba",
+    "btc15_v2_product/installer.py": "872e750a006fa26ee214d24867bf18ee5f561e082782ef55624c22dd2055cf55",
+    "btc15_v2_product/journal.py": "5f02183b44d529e131a0f95e34862da4ba001b7a9cd809e15728aa77b6a2ed80",
+    "btc15_v2_product/panel.js": "c6ccf541b8f26a1143cacf3fbce64149c0a8a3c90cad0ea364917d89ac6d70f8",
     "btc15_v2_product/quote_transport.py": "48ff0785fb120c19ad2973f06ce18a4cb1922ec05067b34ae0e025eb075c8633",
     "btc15_v2_product/quote_view.py": "a2e3180dae69fe6d304e30a7259ba2f764ea4cb7e277aa2236cb98b715be62fe",
     "btc15_v2_product/release.py": "0d804e80104a8989e492e7219fd53e32d8e10c9baf963685a066b5af69daced5",
     "btc15_v2_product/revalidation.py": "e958a71f63c2e474973fef0995a4cc84b2df9d31ef3f92c9ccf0790d51ad0268",
     "btc15_v2_product/revalidation_transport.py": "b68d05533c3bd007cdf2c279e1ce840b1385a1992b3be3c96883f67284637085",
-    "btc15_v2_product/routes.py": "5572000a7d646f5694302e31f4437d1065c747990967c69f9758080e35ca0cb1",
-    "btc15_v2_product/runtime.py": "3efc85d088691d2d116c84c46495fee106adaa8402923cdf068bb332c3f15fbf",
+    "btc15_v2_product/routes.py": "df02050e261932268e3a8f426086c464736389540b47ca30b89d5c62f8e5889e",
+    "btc15_v2_product/runtime.py": "8e43597b8d4b28dcac70a5cde2e6bc11dad6b37eb25daed58ac132bc645988fe",
     "btc15_v2_product/worker.py": "5c009d576ac016a8ce9237f4b9548e1c671cd3c78a12bf22728d813b7bc1b226",
     "ops/btc15_v2_scoring/bridge.py": "d298c22c317d0f4bac415a1f24264a9bf0349926bc7f9cc6e4b5dfe37cb121b4",
     "ops/btc15_v2_scoring/completeness_diagnostics.py": "e46ae773d63e628e92d883ad81c91e028d65d5b39fea68c2a15cc06c602e73c1",
     "ops/btc15_v2_scoring/product_cohort.py": "9a5f94d08fb07e01619f4f6011cde81f2049bc6a1395f4d97c50e1a37e589414",
     "ops/btc15_v2_scoring/test_bridge.py": "012cbfeace70c5a27ab5ef73c0927010829e01f31269d4cbed698583cafb0f12",
-    "ops/btc15_v2_scoring/test_completeness_diagnostics.py": "40e674f9c7436879e70d485f719c4f8ba40b3b32ec141cda6db6ff8a0f89f25b"
+    "ops/btc15_v2_scoring/test_completeness_diagnostics.py": "40e674f9c7436879e70d485f719c4f8ba40b3b32ec141cda6db6ff8a0f89f25b",
+    "btc15_v2_product/fair_readiness.py": "368a1c8ae8edc56f25e0d6b372baacbf8acbe30816fb9ca578e2b8f59ce4416c",
+    "btc15_v2_product/durable_handoff.py": "862c5c60afc47d3cd9c9dce7b4e39df911603796c05fc764b937a74e8bafbd4e",
+    "btc15_v2_product/indicators.py": "98052605bc935fe8fabc9a72fd93c7cbbb56a84f75bb3b665b1725bc51d98bb9"
   },
   "lane_protected_files": {
     "main": {
@@ -52,9 +55,12 @@
       "requirements.txt": "64e574062380acfd02fe8c1b7437c37b2b0e0c2dfb6168526fa2d26dc3a83113"
     }
   },
-  "performance_optimization": "NONE: production stall not reproduced offline; stage instrumentation only",
-  "publication_repair": "MAIN background BRTI closeouts wait for durable queue progress; native admission, cadence and fail-closed gates unchanged. Oct 4 incident attribution PROBABLE / NOT PROVEN.",
+  "performance_optimization": "No strategy optimization. V81 bounded durable publication handoff; no permanent queue-full poison.",
+  "publication_repair": "V81 bounded durable inbox, atomic product cursor, non-latching capacity evidence, background settlement backpressure; frozen processor and processing clock unchanged.",
   "source_change": "Official metadata preparation and SAME timestamped WS provider, native consumption/qualification unchanged",
   "evidence_change": "Separate revision/deployment root; startup/restart slot excluded; additive admin only; strict classifier unchanged",
-  "deployment": "NOT_AUTHORIZED; startup requires reviewed manifest/build authorization or reviewed receipt; scoring requires independent actual deployment receipt"
+  "deployment": "NOT_AUTHORIZED; startup requires reviewed manifest/build authorization or reviewed receipt; scoring requires independent actual deployment receipt",
+  "visible_completion_status": "OFFLINE_TARGETED_GATES_PASS; STAGE_ONLY; PHYSICAL_DEVICE_ACCEPTANCE_PENDING",
+  "display_indicators": "DISPLAY ONLY: Coinbase completed 1m; RSI14 Wilder; SMA-seeded MACD12/26/9; latest completed Volume BTC. Candle close age <75s; no native inputs changed.",
+  "qualification_status": "OFFLINE_TARGETED_GATES_PASS; STAGE_ONLY; PHYSICAL_DEVICE_ACCEPTANCE_PENDING"
 }

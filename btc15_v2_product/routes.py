@@ -23,5 +23,9 @@ def serve(handler):
         handler._send(200,'application/javascript',script.replace('__V81_LADDERS_URL__',json.dumps(url)).encode());return True
     elif path=='/ladders/quotes':
         value=QUOTES.capture()
+    elif path=='/ladders/indicators':
+        from .indicators import FEED
+        FEED.start()
+        value=FEED.capture()
     else:return False
     handler._send(200,'application/json',json.dumps(value,allow_nan=False,separators=(',',':')).encode());return True

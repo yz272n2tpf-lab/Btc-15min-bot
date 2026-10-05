@@ -7,7 +7,7 @@ from btc15_information_install_v1 import assemble as frozen_assemble,replace_onc
 
 def owned_id(name):
     return name.startswith(('early','final','scalp','opposite')) or name in {
-        'flipRisk','flipRiskSub','contextBanner','upOdds','downOdds','upCondition','downCondition','currentContract','liveStatus'}
+        'flipRisk','flipRiskSub','signalStrength','contextBanner','upOdds','downOdds','upCondition','downCondition','currentContract','liveStatus'}
 
 def assemble(directory):
     d=frozen_assemble(directory);path=d/'BTC_Kalshi_App_Live_v13.html';html=path.read_text()
@@ -21,6 +21,7 @@ def assemble(directory):
     html=html.replace('if(window.btc15RenderLadders)window.btc15RenderLadders();','')
     # Initial HTML also fails closed before scripts load or when scripts fail.
     for name in owned:
+        if name=='signalStrength':continue  # Preserve its original neutral markup.
         html=re.sub(r'(<[^>]+id="'+re.escape(name)+r'"[^>]*>)([^<]*)(</)',
                     lambda m:m[1]+(('—' if 'Arrow' in name else 'UNAVAILABLE') if m[2].strip() else m[2])+m[3],html)
     html=html.replace('<span>Target exit</span>','<span>Protection</span>').replace('<span>Exit / stop</span>','<span>Exit guidance</span>')

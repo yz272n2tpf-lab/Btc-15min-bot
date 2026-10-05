@@ -5,6 +5,7 @@
   const caches={main:null,scalp:null,quote:null},requests={main:null,scalp:null,quote:null};
   const clocks={main:null,scalp:null,quote:null}; // Monotonic floor survives hide/resume; cached replies cannot renew leases.
   let epoch=0,identity=null,quoteHistory=null;const receipts=[];
+  let indicators=null,indicatorRequest=null,indicatorClock=null;
   const node=id=>document.getElementById(id);
   const text=(id,v)=>{const n=node(id);if(n&&n.textContent!==String(v))n.textContent=String(v);};
   const cents=v=>Number.isFinite(v)?(100*v).toFixed(1)+'¢':'Unavailable';
@@ -31,6 +32,11 @@
     const now=performance.now(),m=current('main'),s=current('scalp'),q=current('quote');
     if(identity&&now>=identity.deadline)identity=null;
     const ident=identity?.value;
+    const iv=indicators&&now<indicators.deadline&&document.visibilityState!=='hidden'?indicators.data:null;
+    const cells=document.querySelectorAll('.indicator-row .indicator-unavailable');
+    const number=v=>Math.abs(v)>=10000?v.toPrecision(5):v.toFixed(2);
+    const values=iv?[finite(iv.rsi)?number(iv.rsi):null,finite(iv.macd)?`${number(iv.macd)} / ${number(iv.signal)} / ${number(iv.histogram)}`:null,number(iv.volume)+' BTC']:[];
+    cells.forEach((n,index)=>{const value=values[index]||'NOT CONNECTED — no live indicator feed';if(n.textContent!==value)n.textContent=value;});
     const qualified=m&&m.status!=='UNAVAILABLE'&&key(m.official_identity)===key(ident);
     const aligned=s&&s.status!=='UNAVAILABLE'&&ident&&key(s.official_identity)===key(ident);
     text('currentContract',ident?'BTC 15-MINUTE · '+ident.contract+' · V2':'BTC 15-MINUTE · IDENTITY UNAVAILABLE');
@@ -38,6 +44,9 @@
     classes('liveStatus','live-status '+(qualified?'live-ok':'live-warn'));
     const f=qualified?m.final:null;
     classes('finalCard','card final-card '+(f?.ready?(f.side==='DOWN'?'down-mode':''):'wait-mode'));
+    // Original V13 display classification (8e25678); no strategy authority.
+    const probability=f?.confidence;
+    text('signalStrength',finite(probability)?(probability>=.90?'STRONG':probability>=.75?'GOOD':probability>=.60?'MODERATE':'WEAK'):'NOT CONNECTED');
     if(f){
       text('finalArrow',f.ready?(f.side==='DOWN'?'↓':'↑'):'—');
       text('finalSide',f.ready?f.side+' FINAL':'PASS');
@@ -184,13 +193,35 @@
   }
   function refresh(){if(document.visibilityState!=='hidden'){poll('main','/ladders');poll('scalp',__V81_LADDERS_URL__);}}
   function refreshQuotes(){poll('quote','/ladders/quotes');}
-  function invalidate(){epoch++;identity=null;quoteHistory=null;for(const lane of Object.keys(caches)){requests[lane]?.controller.abort();requests[lane]=null;caches[lane]=null;}render();}
-  document.addEventListener('visibilitychange',()=>{invalidate();if(document.visibilityState!=='hidden'){refresh();refreshQuotes();}});
+  async function refreshIndicators(){
+    if(indicatorRequest||document.visibilityState==='hidden')return;
+    const controller=new AbortController(),generation=epoch,sent=performance.now();indicatorRequest=controller;
+    const timeout=setTimeout(()=>controller.abort(),3000);
+    try{
+      const response=await fetch('/ladders/indicators',{cache:'no-store',signal:controller.signal});
+      if(!response.ok)throw Error('INDICATOR_HTTP');
+      const d=await response.json(),received=performance.now();
+      if(generation!==epoch)return;
+      if(d.schema!=='BTC15_DISPLAY_INDICATORS_R1'||d.authority!=='DISPLAY_ONLY'||d.signal_only!==true||d.orders!==false||!finite(d.served_ts))throw Error('INDICATOR_SCHEMA');
+      const server=Math.max(d.served_ts,indicatorClock?indicatorClock.server+(received-indicatorClock.received)/1000:-Infinity);
+      indicatorClock={server,received};
+      if(d.status==='UNAVAILABLE'){indicators=null;return;}
+      if(d.status!=='AVAILABLE'||d.provider!=='COINBASE_EXCHANGE'||d.product!=='BTC-USD'||d.granularity!==60||d.volume_unit!=='BTC'||!Number.isInteger(d.completed_count)||d.completed_count<1||d.completed_count>300||!['candle_open','candle_close','request_cutoff','received_ts','expires_at','volume'].every(k=>finite(d[k]))||d.candle_open%60||d.candle_close-d.candle_open!==60||!(d.candle_close<=d.request_cutoff&&d.request_cutoff<=d.received_ts&&d.received_ts<=d.served_ts)||d.expires_at!==d.candle_close+75||d.volume<0)throw Error('INDICATOR_PROVENANCE');
+      if(d.completed_count>=15?(!finite(d.rsi)||d.rsi<0||d.rsi>100):d.rsi!==null)throw Error('RSI_HISTORY');
+      if(d.completed_count>=34?(!['macd','signal','histogram'].every(k=>finite(d[k]))||Math.abs(d.macd-d.signal-d.histogram)>1e-8):[d.macd,d.signal,d.histogram].some(v=>v!==null))throw Error('MACD_HISTORY');
+      if(indicators&&d.candle_close<indicators.data.candle_close)throw Error('INDICATOR_ROLLBACK');
+      indicators={data:d,deadline:received+Math.max(0,(d.expires_at-server)*1000)-(received-sent)};
+    }catch{if(generation===epoch)indicators=null;}
+    finally{clearTimeout(timeout);if(indicatorRequest===controller)indicatorRequest=null;render();}
+  }
+  function invalidate(){epoch++;identity=null;quoteHistory=null;indicators=null;indicatorRequest?.abort();indicatorRequest=null;for(const lane of Object.keys(caches)){requests[lane]?.controller.abort();requests[lane]=null;caches[lane]=null;}render();}
+  document.addEventListener('visibilitychange',()=>{invalidate();if(document.visibilityState!=='hidden'){refresh();refreshQuotes();refreshIndicators();}});
   window.addEventListener('pagehide',invalidate);
-  window.addEventListener('pageshow',()=>{invalidate();refresh();refreshQuotes();});
+  window.addEventListener('pageshow',()=>{invalidate();refresh();refreshQuotes();refreshIndicators();});
   window.btc15RenderLadders=render;
   // Read-only bounded render receipts for paired acceptance measurements. No automatic external telemetry.
   window.btc15QuoteRenderReceipts=()=>receipts.map(r=>({...r}));
   setInterval(refresh,1000);setInterval(()=>poll('main','/ladders'),250);setInterval(refreshQuotes,500);setInterval(render,100);
-  render();refresh();refreshQuotes();
+  setInterval(refreshIndicators,1000);
+  render();refresh();refreshQuotes();refreshIndicators();
 })();

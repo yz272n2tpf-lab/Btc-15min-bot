@@ -55,6 +55,8 @@ def instrument(tree,lane):
 
 
 def prepare_main(ns,pool):
+    from .fair_readiness import install as install_fair_readiness
+    install_fair_readiness(ns)
     original=ns['get_active_market']
     preparation=Preparation(ns['kalshi_get'],ns['extract_target'],pool)
     # Move the original optional unopened-list observation off the action path.
