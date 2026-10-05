@@ -77,6 +77,8 @@ const flush=async()=>{for(let i=0;i<8;i++)await Promise.resolve();};
   assert.equal(measured.up_ask,payload.quote.up_ask);assert.equal(measured.down_ask,payload.quote.down_ask);
   assert.equal(measured.accepted_to_published_ms,(payload.quote.published_ts-payload.quote.accepted_ts)*1000);
   checks.push('Comparable accepted tuple → DOM: injected 3¢ move reflected; measured delta zero after render');
+  offline=true;await advance(500);assert.equal(txt('upOdds'),'38.0¢');assert.equal(txt('downOdds'),'63.0¢');offline=false;
+  checks.push('500ms transient browser transport failure preserves the original accepted quote lease');
   const old=clone(payload.quote);payload.quote.sequence--;await advance(500);assert.equal(txt('upOdds'),'Unavailable');checks.push('Out-of-order accepted sequence fails closed');
   payload.quote=old;payload.main=clone(fixture.main);payload.scalp=clone(fixture.scalp);
   for(const lane of ['main','scalp','quote']){

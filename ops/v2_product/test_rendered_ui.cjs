@@ -17,7 +17,7 @@ const widths=[390,430,820,1180,700,701,1100,1101];
         for(const state of ['fresh','unavailable']){
           await page.goto(pathToFileURL(path.join(out,'browser_fixture.html')).href+(state==='unavailable'?'#unavailable':''));
           const expected=state==='fresh'?'UNLOCKED / PASS':'UNAVAILABLE';
-          await page.waitForFunction(text=>document.getElementById('finalAction').textContent===text,expected);
+          await page.waitForFunction(({expected,state})=>document.getElementById('finalAction').textContent===expected&&document.getElementById('scalpState').textContent===(state==='fresh'?'EXIT':'UNAVAILABLE')&&document.getElementById('upOdds').textContent===(state==='fresh'?'35.0¢':'Unavailable'),{expected,state});
           const measured=await page.evaluate(owned=>{
             const rect=e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height};};
             const text=id=>document.getElementById(id).textContent;

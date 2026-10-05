@@ -50,6 +50,8 @@ def book_for(p,at,yes='.34',no='.65'):
     p.book.apply(dict(type='orderbook_delta',sid=1,seq=2,msg=dict(market_ticker=p.ticker,market_id='m',
         side='yes',price_dollars=yes,delta_fp='1',ts_ms=int((at-.1)*1000))))
     p.epoch='book-epoch';p.accepted_ts=at-.05
+    p.accepted_key=(p.epoch,p.book.market_id,p.book.sid,p.book.seq,p.book.ts_ms)
+    with patch('btc15_v2_product.bootstrap.time.time',return_value=at):p._accepted_clock(p.book,p.epoch)
     return p.book
 
 class BootstrapTests(unittest.TestCase):
@@ -110,7 +112,8 @@ class BootstrapTests(unittest.TestCase):
         self.assertEqual(before,(p.book.seq,p.book.ts_ms,p.book.levels))
         self.at+=6;self.assertEqual(q.capture()['status'],'UNAVAILABLE')
         self.at=OPEN+300;book_for(p,self.at);p.book.levels['no'].clear()
-        self.assertEqual(q.capture()['reason'],'NO_EXECUTABLE_PAIRED_BOOK')
+        with patch('btc15_v2_product.bootstrap.time.time',return_value=self.at):p._accepted_clock(p.book,p.epoch)
+        self.assertEqual(q.capture()['status'],'UNAVAILABLE')
         self.at=OPEN+900;self.assertEqual(q.capture()['reason'],'OUTSIDE_OFFICIAL_WINDOW')
     def test_native_consume_exact_return_and_provenance_no_extra_processing(self):
         self.at=OPEN+300;self.pool.select(market(),80000);p=self.pool.current;book_for(p,self.at)

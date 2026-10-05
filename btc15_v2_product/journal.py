@@ -163,7 +163,7 @@ def unavailable(lane,reason,now,value=None):
     return out
 
 
-def public_view(root,lane,now=None):
+def public_view(root,lane,now=None,confirmation=None):
     now=time.time() if now is None else now
     try:
         raw=(Path(root)/(lane+'.json')).read_bytes()
@@ -177,6 +177,16 @@ def public_view(root,lane,now=None):
             or v.get('candidate')!=STRATEGY or v.get('signal_only') is not True or v.get('orders') is not False):
             raise ValueError('PRODUCT_IDENTITY')
         if v.get('status')=='UNAVAILABLE':return unavailable(lane,v.get('reason','SOURCE_UNAVAILABLE'),now,v)
+        if lane=='main' and confirmation is not None:
+            from .revalidation import apply
+            required=callable(confirmation)
+            if required:
+                confirmation=confirmation(v)
+                # Include bounded handoff wait/inference time in the lease check.
+                now=time.time()
+            renewed=apply(v,confirmation,now)
+            if renewed is not None:return renewed
+            if required:return unavailable(lane,'REVALIDATION_PENDING',now,v)
         if not v['published_ts']<=now<v['expires_at']:return unavailable(lane,'SOURCE_EXPIRED',now,v)
         v['served_ts']=now;return v
     except (OSError,ValueError,KeyError,TypeError):return unavailable(lane,'JOURNAL_UNAVAILABLE',now)

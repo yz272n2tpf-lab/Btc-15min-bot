@@ -62,11 +62,14 @@
       text('contextBanner','Native action inputs unavailable · freshness limits unchanged');
     }else{
       const e=m.early,o=m.origin,h=f?.helper,ctx=m.context;
+      const prices=m.presentation_revalidation?.prices;
+      const ask=prices?prices[e.side.toLowerCase()+'_ask']:e.ask;
+      const bid=prices&&o?prices[o.side.toLowerCase()+'_bid']:m.executable_current_bid;
       pill('earlyState',e.guidance);text('earlyTitle',o?'EARLY '+o.side:'EARLY · '+e.guidance);
-      text('earlyEntry',o?'Origin ASK '+cents(o.original_ask):'Current ASK '+cents(e.ask));
+      text('earlyEntry',o?'Origin ASK '+cents(o.original_ask):'Current ASK '+cents(ask));
       text('earlyYourEntry',o?cents(o.original_ask)+' · signal ASK':'No accepted origin');
-      text('earlyCurrentPrice',o?'BID '+cents(m.executable_current_bid):'ASK '+cents(e.ask));
-      text('earlyEdge',o?m.movement_cents.toFixed(1)+'¢ gross movement':cents(e.edge)+' model edge');
+      text('earlyCurrentPrice',o?'BID '+cents(bid):'ASK '+cents(ask));
+      text('earlyEdge',o?((bid-o.original_ask)*100).toFixed(1)+'¢ gross movement':cents(e.edge)+' model edge');
       text('earlyAfterEntry',o?e.guidance+' · '+human(h?.relation):'PASS · '+e.pass_reasons.map(human).join(', '));
       text('earlyLadderEntry','≤45¢ · fair ≥75% · 2–10m · |gap| ≥$25');
       text('earlyLadderHold',h?.confirmed?'FINAL confirms · '+e.guidance:o?e.guidance:'No position assumed');
@@ -143,6 +146,11 @@
       if(lane==='main'){
         const f=data.final,e=data.early;
         if(!f||!e||typeof f.ready!=='boolean'||!['UP','DOWN'].includes(f.side)||!['confidence','probability_up','probability_down'].every(k=>finite(f[k])&&f[k]>=0&&f[k]<=1)||typeof e.guidance!=='string'||!Array.isArray(e.pass_reasons)||!finite(data.flip_risk_pct)||typeof data.phase!=='string')throw Error('MAIN_PAYLOAD');
+        const p=data.presentation_revalidation;
+        if(p){
+          const s=p.source;
+          if(p.schema!=='BTC15_READ_ONLY_REVALIDATION_R1'||p.status!=='CONFIRMED'||p.authority!=='PRESENTATION_CONFIRMATION_ONLY'||p.signal_only!==true||p.orders!==false||p.native_epoch!==data.native_epoch||p.native_sequence!==data.native_sequence||key(p.official_identity)!==key(i)||!s||!s.brti_epoch||!s.quote_epoch||!Number.isInteger(s.sid)||!Number.isInteger(s.sequence)||!['brti','brti_received','btc','btc_received','quote','quote_accepted','cut'].every(k=>finite(s[k]))||!(s.brti<=s.brti_received&&s.brti_received<=s.cut&&s.btc<=s.btc_received&&s.btc_received<=s.cut&&s.quote<=s.quote_accepted&&s.quote_accepted<=s.cut&&s.cut<=p.checked_ts&&p.checked_ts<=data.served_ts)||data.expires_at!==p.expires_at||data.expires_at>Math.min(i.official_close,s.brti+5,s.btc+10,s.quote+6)||!p.prices||!['up_bid','up_ask','down_bid','down_ask'].every(k=>finite(p.prices[k])&&p.prices[k]>=0&&p.prices[k]<=1)||p.prices.up_bid>p.prices.up_ask||p.prices.down_bid>p.prices.down_ask)throw Error('REVALIDATION_PROOF');
+        }
       }else if(!['PASS','ENTER','HOLD','CAUTION','PROTECT','EXIT'].includes(data.guidance)||(data.guidance==='EXIT'&&(!data.terminal||!finite(data.terminal.executable_exit_bid))))throw Error('SCALP_PAYLOAD');
     }
     if(lane==='quote'){
@@ -161,11 +169,16 @@
     const controller=new AbortController(),generation=epoch,token={controller,generation};requests[lane]=token;
     const timeout=setTimeout(()=>controller.abort(),3000),sent=performance.now();
     try{
-      const response=await fetch(url,{cache:'no-store',signal:controller.signal});if(!response.ok)throw Error('HTTP');
+      let response;try{response=await fetch(url,{cache:'no-store',signal:controller.signal});}catch{throw Error('QUOTE_TRANSPORT');}
+      if(!response.ok)throw Error('HTTP');
       const data=await response.json(),received=performance.now();
       if(generation!==epoch||document.visibilityState==='hidden')return;
       caches[lane]=accept(lane,data,sent,received);
-    }catch{if(generation===epoch)caches[lane]=null;}
+    }catch(error){if(generation===epoch){
+      // Keep only a transport-interrupted quote, on its ORIGINAL monotonic lease.
+      // Malformed/revoked observations, action failures and lifecycle changes clear.
+      if(lane!=='quote'||!['HTTP','QUOTE_TRANSPORT'].includes(error.message))caches[lane]=null;
+    }}
     finally{clearTimeout(timeout);if(requests[lane]===token)requests[lane]=null;}
     render();
   }
@@ -178,6 +191,6 @@
   window.btc15RenderLadders=render;
   // Read-only bounded render receipts for paired acceptance measurements. No automatic external telemetry.
   window.btc15QuoteRenderReceipts=()=>receipts.map(r=>({...r}));
-  setInterval(refresh,1000);setInterval(refreshQuotes,500);setInterval(render,100);
+  setInterval(refresh,1000);setInterval(()=>poll('main','/ladders'),250);setInterval(refreshQuotes,500);setInterval(render,100);
   render();refresh();refreshQuotes();
 })();
