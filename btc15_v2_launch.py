@@ -28,6 +28,6 @@ def main():
     from btc15_v2_product.installer import assemble
     with open('/tmp/btc15-two-clock.lock','a') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
-        return supervise(assemble(a.directory))
+        return supervise(assemble(a.directory),worker_script=ROOT/'btc15_v2_product/worker.py')
 
 if __name__=='__main__':raise SystemExit(main())

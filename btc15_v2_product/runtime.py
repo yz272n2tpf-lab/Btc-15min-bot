@@ -1,4 +1,4 @@
-"""Explicit integration seams around frozen native loops. No new evaluation clock."""
+"""Frozen native action clocks; independent read-only source projections."""
 import ast
 from copy import deepcopy
 import json
@@ -91,10 +91,21 @@ def native_main():
     if hashlib.sha1(f'blob {len(raw)}\0'.encode()+raw).hexdigest()!=native.PR36_BLOB:raise ValueError('FROZEN_NATIVE_BYTES')
     pool=Pool();export=native.NativeExport(provider_reader=lambda:pool.current)
     projection=QuoteProjection(pool)
+    from .revalidation import InputProjection
+    revalidation=InputProjection(export,projection)
     server=native.server_for(export,8766)
     original_get=server.RequestHandlerClass.do_GET
     def do_GET(handler):
         try:
+            if handler.path=='/revalidation-input':
+                try:
+                    value=revalidation.capture();code=200
+                except Exception:
+                    value=dict(status='UNAVAILABLE');code=503
+                raw=json.dumps(value,allow_nan=False,separators=(',',':')).encode()
+                handler.send_response(code);handler.send_header('Content-Type','application/json')
+                handler.send_header('Cache-Control','no-store');handler.send_header('Content-Length',str(len(raw)))
+                handler.end_headers();handler.wfile.write(raw);return
             if handler.path=='/executable-quote':
                 raw=json.dumps(projection.capture(),allow_nan=False,separators=(',',':')).encode()
                 handler.send_response(200);handler.send_header('Content-Type','application/json')

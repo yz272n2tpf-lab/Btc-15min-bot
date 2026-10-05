@@ -54,7 +54,9 @@ const flush=async()=>{for(let i=0;i<8;i++)await Promise.resolve();};
   assert.equal(txt('finalAction'),'UNLOCKED / PASS');assert.equal(txt('finalSide'),'PASS');assert.match(txt('finalConfidence'),/95.0%/);
   assert.equal(txt('scalpState'),'EXIT');assert.match(txt('scalpLadderExit'),/current BID 68.0¢ · trigger BID 68.0¢/);
   assert.equal(txt('upOdds'),'35.0¢');assert.equal(txt('downOdds'),'66.0¢');checks.push('Initial real-processor fixture; unqualified 95% FINAL remains dominant PASS; actual later-bid EXIT');
-  await advance(1100);assert.equal(txt('upOdds'),'35.0¢');assert.equal(txt('finalAction'),'UNLOCKED / PASS');
+  offline=true;await advance(500);assert.equal(txt('upOdds'),'35.0¢');offline=false;
+  checks.push('500ms transient transport failure retains quote only to original source deadline');
+  await advance(600);assert.equal(txt('upOdds'),'35.0¢');assert.equal(txt('finalAction'),'UNLOCKED / PASS');
   assert.equal(writes.filter(x=>!x.stack.includes('product-panel.js')).length,0,'Legacy code mutated owned live DOM');checks.push('All assembled scripts, legacy success/timer callbacks and detached ownership');
   payload.main={...clone(fixture.main),status:'UNAVAILABLE',reason:'SOURCE_EXPIRED',historical_only:true};delete payload.main.expires_at;delete payload.main.final;
   await advance(1000);assert.equal(txt('earlyState'),'UNAVAILABLE');assert.equal(txt('scalpState'),'EXIT');assert.equal(txt('finalArrow'),'—');assert.equal(txt('finalSide'),'UNAVAILABLE');checks.push('Typed unavailable MAIN retains official identity only; independent fresh SCALP remains visible');
@@ -90,7 +92,7 @@ const flush=async()=>{for(let i=0;i<8;i++)await Promise.resolve();};
   visible=true;d.dispatchEvent(new w.Event('visibilitychange'));await flush();
   assert.match(txt('currentContract'),/1630-30/);assert.doesNotMatch(txt('earlyYourEntry'),/35.0¢/);assert.equal(txt('scalpState'),'PASS');checks.push('Hidden across rollover: exact new identity, old origins discarded');
   assert.equal(writes.filter(x=>!x.stack.includes('product-panel.js')).length,0,'Legacy failure/resume mutated live cards');
-  assert.equal(errors.length,0,errors.join('\n'));assert.doesNotMatch(html,/DIAGNOSTIC V13\.2-P1/);
+  assert.equal(errors.length,0,errors.join('\n'));assert.equal(sources.length,1);assert.equal(sources[0],'product-panel.js');assert.doesNotMatch(d.body.textContent,/NOT CONNECTED|not connected|RSI|MACD|SMA|SIGNAL STRENGTH/i);checks.push('Complete page has one V2 owner and no dead legacy widgets');assert.doesNotMatch(html,/DIAGNOSTIC V13\.2-P1/);
   const report={schema:'BTC15_ASSEMBLED_UI_TEST_R1',status:'PASS',evidence_class:'OFFLINE_DOM_INTEGRATION',
     scripts:sources,checks,owned_writes:writes.length,legacy_owned_writes:0,errors,
     quote_measurement:{scope:'SYNTHETIC_SAME_CLOCK',injected_change_cents:3,post_render_up_delta_cents:0,post_render_down_delta_cents:0,receipt:measured},
