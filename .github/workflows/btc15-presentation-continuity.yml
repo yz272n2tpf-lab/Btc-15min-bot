@@ -1,0 +1,46 @@
+name: BTC15 targeted presentation continuity
+
+on:
+  pull_request:
+    paths:
+      - btc15_v2_product/panel.js
+      - btc15_v2_product/installer.py
+      - BTC15_V2_PRODUCT_RELEASE_R1.json
+      - ops/v2_product/test_assembled_ui.cjs
+      - ops/v2_product/test_rendered_ui.cjs
+      - .github/workflows/btc15-presentation-continuity.yml
+
+permissions:
+  contents: read
+
+jobs:
+  targeted-presentation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python -m pip install -r requirements.txt
+      - run: npm ci --prefix ops/v2_product --no-audit --no-fund
+      - run: node ops/v2_product/node_modules/playwright/cli.js install --with-deps chromium
+      - name: Exact release and semantic freeze
+        run: |
+          python btc15_v2_launch.py --lane main --directory qualification/v2_product_20261004/dashboard
+          python -m ops.v2_product.semantic_inventory --lane main
+      - name: Read-only authority boundary
+        run: python -m unittest test_btc15_read_only_revalidation test_btc15_narrow_continuity -v
+      - name: Assembled DOM continuity
+        run: |
+          python -m ops.v2_product.ui_fixtures
+          node ops/v2_product/test_assembled_ui.cjs
+      - name: Rendered browser continuity
+        run: |
+          python -m ops.v2_product.build_browser_fixture
+          node ops/v2_product/test_rendered_ui.cjs
