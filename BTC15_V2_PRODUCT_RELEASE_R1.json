@@ -17,9 +17,9 @@
     "btc15_v2_product/__init__.py": "2a5053ccb3d4ce09441d4b004640958bbbb503e36eed7a287202a7dff2a430f6",
     "btc15_v2_product/admin.py": "33912a9118ba5f5671cdf98848aed18f1601047b6de61892d7e939d410fb8f84",
     "btc15_v2_product/bootstrap.py": "42d48f2543a8ffeffa34435821f906b69c4b585b07837d17b36f4e527e5d5aae",
-    "btc15_v2_product/installer.py": "872e750a006fa26ee214d24867bf18ee5f561e082782ef55624c22dd2055cf55",
+    "btc15_v2_product/installer.py": "c1dcabb44dffca00dec47fd46d0dbd6270025972cb85ef0d5256f8924c2e06ce",
     "btc15_v2_product/journal.py": "5f02183b44d529e131a0f95e34862da4ba001b7a9cd809e15728aa77b6a2ed80",
-    "btc15_v2_product/panel.js": "c6ccf541b8f26a1143cacf3fbce64149c0a8a3c90cad0ea364917d89ac6d70f8",
+    "btc15_v2_product/panel.js": "bc85ebcfb032e151f8a1404bca9102b61dd53f0029a0f6ed9457f9d66fb5005d",
     "btc15_v2_product/quote_transport.py": "48ff0785fb120c19ad2973f06ce18a4cb1922ec05067b34ae0e025eb075c8633",
     "btc15_v2_product/quote_view.py": "a2e3180dae69fe6d304e30a7259ba2f764ea4cb7e277aa2236cb98b715be62fe",
     "btc15_v2_product/release.py": "0d804e80104a8989e492e7219fd53e32d8e10c9baf963685a066b5af69daced5",
@@ -60,7 +60,7 @@
   "source_change": "Official metadata preparation and SAME timestamped WS provider, native consumption/qualification unchanged",
   "evidence_change": "Separate revision/deployment root; startup/restart slot excluded; additive admin only; strict classifier unchanged",
   "deployment": "NOT_AUTHORIZED; startup requires reviewed manifest/build authorization or reviewed receipt; scoring requires independent actual deployment receipt",
-  "visible_completion_status": "OFFLINE_TARGETED_GATES_PASS; STAGE_ONLY; PHYSICAL_DEVICE_ACCEPTANCE_PENDING",
+  "visible_completion_status": "OFFLINE_TARGETED_PRESENTATION_CONTINUITY_REPAIR_PENDING_QUALIFICATION; NO_DEPLOY",
   "display_indicators": "DISPLAY ONLY: Coinbase completed 1m; RSI14 Wilder; SMA-seeded MACD12/26/9; latest completed Volume BTC. Candle close age <75s; no native inputs changed.",
-  "qualification_status": "OFFLINE_TARGETED_GATES_PASS; STAGE_ONLY; PHYSICAL_DEVICE_ACCEPTANCE_PENDING"
+  "qualification_status": "OFFLINE_TARGETED_PRESENTATION_CONTINUITY_REPAIR_PENDING_QUALIFICATION; NO_DEPLOY"
 }
