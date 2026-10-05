@@ -1,4 +1,4 @@
-"""Assemble the entire frozen dashboard, then retire legacy action DOM ownership."""
+"""Recover card markup, then assemble a complete page with sole V2 ownership."""
 import hashlib
 import json
 from pathlib import Path
@@ -15,7 +15,8 @@ def assemble(directory):
     old='const $ = (id) => document.getElementById(id);'
     if html.count(old)!=1:raise ValueError('PINNED_LEGACY_DOM_SEAM')
     # Detached nodes retain legacy algorithm execution/error behavior, but can
-    # never mutate an action card. All non-action chart/timer DOM stays intact.
+    # never mutate an action card during recovery. complete_page below removes
+    # all obsolete chart/indicator DOM and scripts from the delivered product.
     new='const retiredActionIds=new Set('+json.dumps(owned)+');\n  const retiredNodes=new Map();\n  const $ = (id) => { if(!retiredActionIds.has(id))return document.getElementById(id); if(!retiredNodes.has(id)){const n=document.getElementById(id);retiredNodes.set(id,n?n.cloneNode(true):null);}return retiredNodes.get(id); };'
     html=html.replace(old,new).replace('DIAGNOSTIC V13.2-P1','V2')
     html=html.replace('if(window.btc15RenderLadders)window.btc15RenderLadders();','')
@@ -50,12 +51,15 @@ def assemble(directory):
     html=html.replace('</head>',css+'\n</head>')
     html=html.replace('<script src="/ladders/panel.js"></script>',
         '<p id="v2QuoteClock" role="status">Current executable quotes unavailable</p>\n<script src="/ladders/panel.js"></script>')
+    from .page import complete_page,SOURCES
+    html=complete_page(html)
+    owned=sorted(set(re.findall(r'id="([^\"]+)"',html))-set(re.findall(r'<style id="([^\"]+)"',html)))
     path.write_text(html)
     server=d/'BTC15_DASHBOARD_LIVE_SERVER_V1.py'
     replace_once(server,'from btc15_ladder_routes_v1 import serve as serve_ladders','from btc15_v2_product.routes import serve as serve_ladders')
     wrapper=d/'btc15_run_with_rescue_v2_shadow_v1.py'
     replace_once(wrapper,str(ROOT/'btc15_information_native_offpath_candidate.py'),str(ROOT/'btc15_v2_native.py'))
-    manifest=dict(schema='BTC15_V2_ASSEMBLED_DASHBOARD_R1',owned_action_ids=owned,
+    manifest=dict(schema='BTC15_V2_ASSEMBLED_DASHBOARD_R1',owned_action_ids=owned,visible_widget_sources=SOURCES,legacy_scripts=0,
         files={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(d.iterdir()) if p.is_file() and p.name!='manifest.json'},
         signal_only=True,orders=False)
     (d/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')

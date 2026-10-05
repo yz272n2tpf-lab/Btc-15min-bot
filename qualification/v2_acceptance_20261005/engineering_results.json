@@ -1,0 +1,156 @@
+{
+  "status": "OFFLINE_ASSEMBLED_ENGINEERING_PASS",
+  "production_acceptance": "NOT_ACCEPTED",
+  "physical_safari": "NOT_TESTED",
+  "main_base": "a4461acbcf4b6260f074262dc1cb85d310f06af7",
+  "v81_unchanged": "985260e4166559701fc96b5582ca2211619d53ee",
+  "manifest_sha256": "cb3abe5c2e84ab5de89e44e58bb85aca9b6f6d309442863df47b7a40781c1235",
+  "module_tests": 303,
+  "module_suites": 15,
+  "scoring_tests": 17,
+  "v81_exact_source_tests": 19,
+  "read_only_continuity": {
+    "status": "PASS",
+    "native_cadence_seconds": 5,
+    "faster_layer": "READ_ONLY",
+    "results": [
+      {
+        "brti_native_age": 1.0,
+        "native_evaluations": 12,
+        "fast_confirmations": 600,
+        "visible_samples": 5988,
+        "holes": 0,
+        "native_records_byte_equivalent": true
+      },
+      {
+        "brti_native_age": 2.0,
+        "native_evaluations": 12,
+        "fast_confirmations": 600,
+        "visible_samples": 5988,
+        "holes": 0,
+        "native_records_byte_equivalent": true
+      },
+      {
+        "brti_native_age": 3.0,
+        "native_evaluations": 12,
+        "fast_confirmations": 600,
+        "visible_samples": 5988,
+        "holes": 0,
+        "native_records_byte_equivalent": true
+      },
+      {
+        "brti_native_age": 4.9,
+        "native_evaluations": 12,
+        "fast_confirmations": 600,
+        "visible_samples": 5988,
+        "holes": 0,
+        "native_records_byte_equivalent": true
+      }
+    ],
+    "scope": "Continuously qualified advancing owner sources; no synthetic freshness extension."
+  },
+  "assembled_product_continuity": {
+    "status": "PASS",
+    "scope": "REAL_LOOPBACK_ASSEMBLED_PRODUCT_SYNTHETIC_OWNER_SOURCES",
+    "native_cadence_seconds": 5,
+    "brti_age_at_native_cut": 4.9,
+    "samples": 440,
+    "holes": [],
+    "errors": [],
+    "signal_only": true,
+    "orders": false,
+    "native_journals": {
+      "main": {
+        "written": 4,
+        "drops": 0
+      },
+      "v81": {
+        "written": 17,
+        "drops": 0
+      }
+    },
+    "read_only_worker_exit_before_stop": null
+  },
+  "rendered_scenarios": 32,
+  "rendered_engine": "Chromium",
+  "rendered_states": [
+    "fresh",
+    "revalidated",
+    "pending",
+    "unavailable"
+  ],
+  "rendered_required_widths": [
+    390,
+    430,
+    820,
+    1180
+  ],
+  "full_page_vertical_coverage": true,
+  "legacy_visible_widgets": 0,
+  "duplicate_owners": 0,
+  "quote_concurrency": {
+    "locked_owner_reads": 512,
+    "concurrent_transport_readers": 128,
+    "concurrent_real_route_reads": 96,
+    "poll_ms": 500,
+    "stale_expiry": "PASS"
+  },
+  "historical_replay": {
+    "evidence_class": "FIXTURE",
+    "status": "PASS",
+    "closeouts": 800,
+    "bursts": 4,
+    "native_publications": 805,
+    "concurrent_publications": 805,
+    "accepted": 1605,
+    "written": 1605,
+    "dropped": 0,
+    "replay_waits": 807,
+    "contracts": [
+      "KXBTC15M-26OCT031615-15",
+      "KXBTC15M-26OCT031630-30",
+      "KXBTC15M-26OCT031645-45",
+      "KXBTC15M-26OCT031700-00",
+      "KXBTC15M-26OCT031715-15"
+    ],
+    "native_rejections": 0,
+    "admin_drops": 0,
+    "first_publication": 1791057900.26,
+    "last_publication": 1791061920.26,
+    "signal_only": true,
+    "orders": false
+  },
+  "strict_scoring_fixture": {
+    "evidence_class": "FIXTURE",
+    "production_claim": false,
+    "checkpoints": [
+      {
+        "total_contracts": 1,
+        "fully_scoreable_settled": 1,
+        "pending": 0,
+        "partial_missing": 0,
+        "both_lanes_settled_including_partial": 1
+      },
+      {
+        "total_contracts": 2,
+        "fully_scoreable_settled": 2,
+        "pending": 0,
+        "partial_missing": 0,
+        "both_lanes_settled_including_partial": 2
+      }
+    ]
+  },
+  "native_action_clock": "UNCHANGED",
+  "read_only_cadence_ms": 100,
+  "action_browser_poll_ms": 250,
+  "quote_browser_poll_ms": 500,
+  "protected_strategy_model_files": "BYTE_IDENTICAL",
+  "freshness_limits_seconds": {
+    "brti": 5,
+    "btc": 10,
+    "quote": 6
+  },
+  "orders": false,
+  "signal_only": true,
+  "final_gate": "Exact deployed production build on physical iPad/iPhone through complete contract, rollover, settlement, strict scoreable contract and alert delivery; any failure NOT ACCEPTED."
+}

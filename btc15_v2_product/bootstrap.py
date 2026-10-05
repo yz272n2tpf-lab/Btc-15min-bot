@@ -49,10 +49,27 @@ def _accepted_session():
 
 class PreparedProvider(quotes.Provider):
     session=_accepted_session()
+    @property
+    def book(self):return getattr(self,'_book',None)
+    @book.setter
+    def book(self,value):
+        # Disconnect/bootstrap revokes the presentation snapshot immediately.
+        if value is None:self.presentation_quote=None
+        self._book=value
     def _accepted_clock(self,book,epoch):
         key=(epoch,book.market_id,book.sid,book.seq,book.ts_ms)
         if key!=getattr(self,'accepted_key',None):
             self.accepted_key=key;self.accepted_ts=time.time()
+        # Original owner lock is held, after the accepted decoder publication.
+        # Detached tuple only: no consume(), frame(), network read or strategy call.
+        try:
+            if self.book is not book:raise ValueError('BOOK_REVOKED')
+            at=time.time();values=book.quotes(int(at*1000),self.close_ms)
+            if not book.ts_ms/1000<=self.accepted_ts<=at:raise ValueError('ACCEPTANCE_CLOCK')
+            snapshot=(self.ticker,epoch,book.market_id,book.sid,book.seq,book.ts_ms/1000,
+                      self.accepted_ts,at,values)
+        except (ValueError,TypeError):snapshot=None
+        self.presentation_quote=snapshot
     def frame(self,ticker,close_ms):
         # Call the unchanged V81 frame method with this same provider object.
         from btc15_v81_qualified_inputs_v1 import QuoteProvider

@@ -13,12 +13,15 @@ def build():
     window.fetch=async function(url,options={}){
       let lane=String(url).includes('fixture-v81')?'scalp':url==='/ladders'?'main':url==='/ladders/quotes'?'quote':null;
       let data=lane?JSON.parse(JSON.stringify(fixtureData[lane])):{status:'WAIT'};
-      if(lane){const delta=(performance.now()-previewStart)/1000;for(const key of ['published_ts','served_ts','expires_at','exchange_ts','accepted_ts'])if(Number.isFinite(data[key]))data[key]+=delta;}
+      if(lane==='main'&&location.hash==='#revalidated')data=JSON.parse(JSON.stringify(fixtureData.main_revalidated));
+      if(lane){const delta=(performance.now()-previewStart)/1000;for(const key of ['published_ts','served_ts','expires_at','exchange_ts','accepted_ts'])if(Number.isFinite(data[key]))data[key]+=delta;
+        const p=data.presentation_revalidation;if(p){for(const key of ['checked_ts','expires_at','native_expires_at'])p[key]+=delta;for(const key of ['brti','brti_received','btc','btc_received','quote','quote_accepted','cut'])p.source[key]+=delta;}}
       if(location.hash==='#unavailable'&&lane){data.status='UNAVAILABLE';data.reason='SOURCE_EXPIRED';delete data.expires_at;delete data.final;}
+      if(location.hash==='#pending'&&lane==='main'){data.status='UNAVAILABLE';data.reason='REVALIDATION_DISAGREES_WAIT_NATIVE';delete data.expires_at;delete data.final;}
       return {ok:true,headers:{get:()=>null},json:async()=>data};
     };
     </script>'''.replace('FIXTURE',json.dumps(fixture))
-    html=html.replace('<script>',script+'\n<script>',1)
+    html=html.replace('</head>',script+'\n</head>',1)
     replacements={'/information/view.js':'btc15_information_view_v1.js','/information/panel.js':'btc15_information_panel_v1.js','/ladders/panel.js':'btc15_v2_product/panel.js'}
     for src,name in replacements.items():
         raw=(ROOT/name).read_text().replace('__V81_LADDERS_URL__',json.dumps('/fixture-v81/ladders'))
