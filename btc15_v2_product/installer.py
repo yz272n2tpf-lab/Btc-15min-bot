@@ -23,7 +23,7 @@ def assemble(directory):
     for name in owned:
         if name=='signalStrength':continue  # Preserve its original neutral markup.
         html=re.sub(r'(<[^>]+id="'+re.escape(name)+r'"[^>]*>)([^<]*)(</)',
-                    lambda m:m[1]+(('—' if 'Arrow' in name else 'UNAVAILABLE') if m[2].strip() else m[2])+m[3],html)
+                    lambda m:m[1]+(('—' if 'Arrow' in name else 'WAIT') if m[2].strip() else m[2])+m[3],html)
     html=html.replace('<span>Target exit</span>','<span>Protection</span>').replace('<span>Exit / stop</span>','<span>Exit guidance</span>')
     css='''<style id="v2-product-layout">
       #finalSide{font-size:clamp(1.25rem,5vw,2rem);overflow-wrap:anywhere}
@@ -50,7 +50,7 @@ def assemble(directory):
     </style>'''
     html=html.replace('</head>',css+'\n</head>')
     html=html.replace('<script src="/ladders/panel.js"></script>',
-        '<p id="v2QuoteClock" role="status">Current executable quotes unavailable</p>\n<script src="/ladders/panel.js"></script>')
+        '<p id="v2QuoteClock" role="status">REFRESHING · awaiting executable quotes</p>\n<script src="/ladders/panel.js"></script>')
     path.write_text(html)
     server=d/'BTC15_DASHBOARD_LIVE_SERVER_V1.py'
     replace_once(server,'from btc15_ladder_routes_v1 import serve as serve_ladders','from btc15_v2_product.routes import serve as serve_ladders')

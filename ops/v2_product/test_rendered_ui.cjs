@@ -16,8 +16,8 @@ const widths=[390,430,820,1180,700,701,1100,1101];
       try{
         for(const state of ['fresh','unavailable']){
           await page.goto(pathToFileURL(path.join(out,'browser_fixture.html')).href+(state==='unavailable'?'#unavailable':''));
-          const expected=state==='fresh'?'UNLOCKED / PASS':'UNAVAILABLE';
-          await page.waitForFunction(({expected,state})=>document.getElementById('finalAction').textContent===expected&&document.getElementById('scalpState').textContent===(state==='fresh'?'EXIT':'UNAVAILABLE')&&document.getElementById('upOdds').textContent===(state==='fresh'?'35.0¢':'Unavailable'),{expected,state});
+          const expected=state==='fresh'?'UNLOCKED / PASS':'WAIT / REFRESHING';
+          await page.waitForTimeout(750);
           const measured=await page.evaluate(owned=>{
             const rect=e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height};};
             const text=id=>document.getElementById(id).textContent;
@@ -27,7 +27,7 @@ const widths=[390,430,820,1180,700,701,1100,1101];
               quotes:[...document.querySelectorAll('.odds')].map(e=>({box:rect(e),children:[...e.children].map(c=>({...rect(c),scrollWidth:c.scrollWidth,clientWidth:c.clientWidth}))})),
               cards:[...document.querySelectorAll('article.card')].map((e,i)=>({id:e.id||e.className+'-'+i,...rect(e)})).filter(r=>r.width&&r.height),
               actions:owned.map(id=>{const elements=document.querySelectorAll('#'+CSS.escape(id));const e=elements[0];
-                return {id,count:elements.length,...rect(e),fontSize:parseFloat(getComputedStyle(e).fontSize)};})};
+                return {id,count:elements.length,...rect(e),fontSize:parseFloat(getComputedStyle(e).fontSize),text:e.textContent};})};
           },manifest.owned_action_ids);
           assert.ok(measured.scrollWidth<=width+1,`Document overflow at ${width}`);
           for(const card of measured.cards){
@@ -65,12 +65,14 @@ const widths=[390,430,820,1180,700,701,1100,1101];
               assert.ok(negativeControl.x+negativeControl.width>820,'Legacy negative control must fail');
             }
           }
-          assert.equal(measured.scalp,state==='fresh'?'EXIT':'UNAVAILABLE');
-          assert.equal(measured.up,state==='fresh'?'35.0¢':'Unavailable');
-          assert.equal(measured.down,state==='fresh'?'66.0¢':'Unavailable');
+          assert.equal(measured.final,expected);
+          assert.equal(measured.scalp,state==='fresh'?'EXIT':'WAIT');
+          assert.equal(measured.up,state==='fresh'?'35.0¢':'35.0¢ LAST');
+          assert.equal(measured.down,state==='fresh'?'66.0¢':'66.0¢ LAST');
+          if(state==='unavailable')for(const a of measured.actions)assert.doesNotMatch(String(a.text||''),/UNAVAILABLE/i);
           if(state==='fresh'){
             await page.evaluate(()=>window.dispatchEvent(new Event('pagehide')));
-            assert.equal(await page.locator('#earlyState').textContent(),'UNAVAILABLE');
+            assert.equal(await page.locator('#earlyState').textContent(),'WAIT');
             await page.evaluate(()=>window.dispatchEvent(new Event('pageshow')));
             await page.waitForFunction(()=>document.getElementById('finalAction').textContent==='UNLOCKED / PASS');
             assert.equal(await page.locator('#scalpState').textContent(),'EXIT');
