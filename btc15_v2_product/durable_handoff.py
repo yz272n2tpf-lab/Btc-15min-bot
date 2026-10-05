@@ -176,8 +176,11 @@ class DurableWorker:
             return self.changed.wait_for(lambda: self.inbox.depth == 0 or not self.thread.is_alive(), timeout) and self.inbox.depth == 0
 
     def _publish(self, journal, view, seq):
-        view['journal'] = dict(schema=SCHEMA, sequence=seq, written=self.written+1,
-            queue_depth=max(0,self.inbox.depth-1), drops=self.dropped,
+        committed = int(journal.get('handoff_cursor', '0'))
+        pending = self.inbox.peek()
+        unacknowledged_commit = bool(pending and pending[0] <= committed)
+        view['journal'] = dict(schema=SCHEMA, sequence=seq, written=committed,
+            queue_depth=max(0,self.inbox.depth-int(unacknowledged_commit)), drops=self.dropped,
             retained_from_sequence=int(journal.get('retained_from_sequence', '1')),
             retention_days=30, max_records=MAX_RECORDS, denominator='contracts',
             quiet_means='OBSERVED_WITHOUT_SIGNAL; inspect missing flag', settlement='OFFICIAL_KALSHI_FINALIZED_ONLY')
