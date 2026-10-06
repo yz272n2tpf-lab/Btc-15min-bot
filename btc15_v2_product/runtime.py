@@ -72,7 +72,70 @@ def prepare_main(ns,pool):
 
 def _positive_target(value):
     try:
-        value=float(str(value).replace(',', '').replace('
+        value=float(str(value).replace(',', '').replace(chr(36), ''))
+        return value if math.isfinite(value) and value>0 else None
+    except (TypeError,ValueError):
+        return None
+
+
+def _v81_prepared_target(m,get,legacy):
+    """Mirror MAIN target recovery only for the prepared V81 source seam."""
+    value=_positive_target(legacy(m))
+    if value is not None:return value
+    dollar=re.escape(chr(36))
+    patterns=(
+        r"Target\s*Price\s*:\s*"+dollar+r"?\s*([0-9][0-9,]*(?:\.[0-9]+)?)",
+        dollar+r"([0-9][0-9,]*(?:\.[0-9]+)?)\s*target",
+    )
+    def parse(obj):
+        for key in ('floor_strike','functional_strike'):
+            value=_positive_target(obj.get(key))
+            if value is not None:return value
+        for raw in (obj.get('yes_sub_title'),obj.get('title'),obj.get('subtitle')):
+            text=str(raw or '')
+            for pattern in patterns:
+                match=re.search(pattern,text,flags=re.IGNORECASE)
+                if match:
+                    value=_positive_target(match.group(1))
+                    if value is not None:return value
+        return None
+    value=parse(m)
+    if value is not None:return value
+    ticker=str(m.get('ticker') or '')
+    if not ticker:return None
+    try:
+        exact=get('/trade-api/v2/markets/'+ticker)
+        exact=exact.get('market',exact)
+    except Exception:
+        return None
+    return parse(exact) if isinstance(exact,dict) else None
+
+
+def _v81_selected_target(m,pool):
+    """Snapshot consumes only the target fixed by the prepared official identity."""
+    try:
+        selected=identity(m);official=pool.official
+        if not official or any(selected[k]!=official[k] for k in ('contract','official_open','official_close')):
+            return None
+        return _positive_target(official.get('target'))
+    except (ValueError,KeyError,TypeError):
+        return None
+
+
+def prepare_v81(ns,pool):
+    owner=ns['_qualified_inputs'];original=owner.market;legacy_target=owner.target
+    admin=ns['_v2_admin'];original_get=owner.get;original_brti=owner.brti_read
+    owner.get=lambda *a,**k:admin.call('coinbase_http',original_get,*a,**k)
+    owner.brti_read=lambda:admin.call('shared_brti_read',original_brti)
+    def get(path,params=None):
+        response=ns['requests'].get(ns['MARKET']+path,headers=ns['hdr']('GET',path),params=params,timeout=7)
+        response.raise_for_status();return response.json()
+    preparation=Preparation(get,lambda m:_v81_prepared_target(m,get,legacy_target),pool)
+    owner.market=lambda:admin.call('official_market_selection',preparation.select,original)
+    owner.target=lambda m:_v81_selected_target(m,pool)
+    owner.provider=pool
+    preparation.start();return preparation
+
 
 def native_main():
     import hashlib
