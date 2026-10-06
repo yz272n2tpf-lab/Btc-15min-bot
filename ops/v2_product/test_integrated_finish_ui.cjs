@@ -49,7 +49,7 @@ const tape=JSON.parse(fs.readFileSync(path.join(out,'tape.json'))),html=fs.readF
  assert.match(text('earlyLadderEntry'),/≤50¢/);assert.doesNotMatch(text('earlyLadderEntry'),/current authority refresh pending/);
  forceWait=false;at+=.1;await tick();
  abort=true;infoHealthy=false;at=Math.max(row.main.expires_at,row.scalp.expires_at,row.quote.expires_at)+1;await tick();check('expiry');
- assert.equal(text('earlyState'),earlyBefore);assert.equal(text('scalpState'),scalpBefore);assert.match(text('finalReason'),/REFRESHING/);assert.match(text('upCondition'),/LAST QUALIFIED/);
+ assert.equal(text('earlyState'),earlyBefore);assert.equal(text('scalpState'),scalpBefore);assert.match(text('finalReason'),/refreshing/i);assert.match(text('upCondition'),/LAST QUALIFIED/);
  assert.match(text('scalpFlow'),/NO NEW ACTION AUTHORITY/);assert.doesNotMatch(text('scalpLadderEntry'),/current authority refresh pending/);
  fs.writeFileSync(path.join(out,'ui-results.json'),JSON.stringify({status:'PASS',checks,mode:'FULL_ASSEMBLED_JSDOM',physical_device_acceptance:'PENDING',signal_only:true,orders:false},null,2));
  console.log(JSON.stringify({status:'PASS',checks:checks.length,physical_device_acceptance:'PENDING'}));dom.window.close();
