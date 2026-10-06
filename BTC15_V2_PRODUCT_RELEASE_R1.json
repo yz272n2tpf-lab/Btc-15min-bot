@@ -39,7 +39,7 @@
     "btc15_information_panel_v1.js": "db3b1408435fe39c31f1df0c931e058a1bce1d8aefae3c82479ac59d66a14534",
     "btc15_v2_product/directional.py": "ac03a5cdcdb4854357d1dd6dd4e2a7e8f7afb0db38aac8397b8a16bfa11d42bc",
     "btc15_v2_product/scalp.py": "cbe257a76b93128fed10c8a83b0ac8739871d723df7196f6c91f80df3432d538",
-    "btc15_v2_product/scalp_feed.py": "c5fc216a979b3e1898e4f8e905f9a1346e9e8362a9bb9a6c8a365289c8a03db9",
+    "btc15_v2_product/scalp_feed.py": "c6dbcfc8b5ac04f361910152077758147815ccfd928ce78cfc1ae8f20d8453d7",
     "btc15_v2_product/directional_authority.py": "6bfbe80e72f8e1a2f90b0430527717ca6f225aba0e5e9b81f0cc10d5a71ab1fa",
     "btc15_v2_product/scalp_policy.py": "45c48a30b40be71ffa12ab505c6d4228797c75ec109515eec1498020b6590609",
     "btc15_v2_product/coverage_challenger_a.json": "c1667f4db62d619fe2a80584ae617ca0cf32af933b15405a67b486cb4db7b720",
@@ -70,7 +70,7 @@
   "deployment": "NOT_AUTHORIZED; existing deployment authorization checks unchanged",
   "visible_completion_status": "PHYSICAL_DEVICE_ACCEPTANCE_PENDING",
   "display_indicators": "DISPLAY ONLY: Coinbase completed 1m; RSI14 Wilder; SMA-seeded MACD12/26/9; latest completed Volume BTC. Candle close age <75s; no native inputs changed.",
-  "qualification_status": "OFFLINE_INTEGRATED_TARGETED_TESTS; SCALP_QUALIFICATION_SEAM_ROLLOVER_RETRY; NO_DEPLOY",
+  "qualification_status": "SCALP_QUALIFICATION_SEAM_LIVE_DIAGNOSTIC; NO_MODEL_OR_THRESHOLD_CHANGE",
   "integrated_base": "ebb204255264f8a35c4bdf84cd0fd6e54057b19a",
   "integrated_scope": "Protected EARLY/FINAL unchanged; generalized serial SCALP; native original lease; information-only revalidation"
 }
