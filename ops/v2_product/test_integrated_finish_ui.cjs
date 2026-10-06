@@ -45,7 +45,7 @@ const tape=JSON.parse(fs.readFileSync(path.join(out,'tape.json'))),html=fs.readF
  const earlyBefore=text('earlyState'),scalpBefore=text('scalpState'),finalSideBefore=text('finalSide');
  forceWait=true;at+=.1;await tick();check('native-failure');
  assert.equal(text('earlyState'),earlyBefore);assert.equal(text('finalSide'),finalSideBefore);assert.match(text('finalActionSub'),/UP 66.0%/);
- assert.match(text('finalReason'),/REFRESHING/);assert.match(text('earlyFlow'),/NO NEW ACTION AUTHORITY/);
+ assert.match(text('finalReason'),/refreshing/i);assert.match(text('earlyFlow'),/MAIN LIVE/);assert.match(text('earlyFlow'),/last-qualified/i);
  assert.match(text('earlyLadderEntry'),/≤50¢/);assert.doesNotMatch(text('earlyLadderEntry'),/current authority refresh pending/);
  forceWait=false;at+=.1;await tick();
  abort=true;infoHealthy=false;at=Math.max(row.main.expires_at,row.scalp.expires_at,row.quote.expires_at)+1;await tick();check('expiry');
