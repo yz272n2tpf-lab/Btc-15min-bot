@@ -98,9 +98,12 @@
     const shownIndicators=iv||lastIndicators;
     const values=shownIndicators?[finite(shownIndicators.rsi)?number(shownIndicators.rsi):null,finite(shownIndicators.macd)?`${number(shownIndicators.macd)} / ${number(shownIndicators.signal)} / ${number(shownIndicators.histogram)}`:null,number(shownIndicators.volume)+' BTC']:[];
     cells.forEach((n,index)=>{const value=values[index]?(values[index]+(!iv?' · LAST QUALIFIED / REFRESHING':'')):'WAIT — indicator history refresh pending';if(n.textContent!==value)n.textContent=value;});
-    text('currentContract',ident?'BTC 15-MINUTE · '+ident.contract+' · V2':'BTC 15-MINUTE · WAIT — official identity refresh pending');
-    text('liveStatus','MAIN '+(qualified?m.status:'WAIT / REFRESHING')+' · SCALP '+(aligned?s.status:'WAIT / REFRESHING'));
-    classes('liveStatus','live-status '+(qualified?'live-ok':'live-warn'));
+    const serverAge=(lane,data)=>{const clock=clocks[lane];return clock&&data?.published_ts?clock.server+(performance.now()-clock.received)/1000-data.published_ts:Infinity;};
+    const mainTracking=qualified||!!(m&&ident&&key(m.official_identity)===key(ident)&&serverAge('main',m)<=15);
+    const scalpTracking=aligned||!!(s&&ident&&key(s.official_identity)===key(ident)&&serverAge('scalp',s)<=15);
+    text('currentContract',ident?'BTC 15-MINUTE · '+ident.contract+' · V2':'BTC 15-MINUTE · official identity refreshing');
+    text('liveStatus','MAIN '+(mainTracking?'TRACKING':'REFRESHING')+' · SCALP '+(scalpTracking?'TRACKING':'REFRESHING'));
+    classes('liveStatus','live-status '+(mainTracking&&scalpTracking?'live-ok':'live-warn'));
     const f=m?.final||null;
     const descriptive=window.btc15CurrentModelInformation?.();
     if(descriptive&&ident&&descriptive.ticker===ident.contract)lastModel={...descriptive};
@@ -155,7 +158,7 @@
       text('earlyLadderExit','Directional EXIT authority not yet validated · PROTECT is manual risk guidance');
       text('earlyFlow',`${m.contract} · ${o?'If manually entered: '+e.guidance:(opp?.status||'WATCH')} · New action authority requires MAIN LIVE above; REFRESHING values are last-qualified · SIGNAL ONLY / NO ORDERS`);
       text('flipRisk',m.flip_risk_pct.toFixed(1)+'%');text('flipRiskSub','Model context only · no exit authority · freshness shown by MAIN status');
-      text('contextBanner',human(m.phase)+' · '+(ctx?ctx.reasons.map(human).join('; '):'No active protected EARLY origin')+(aligned&&s?.origin&&f&&s.origin.side!==f.side?' · MIXED HORIZONS: SCALP differs from FINAL':'')+' · '+human(m.presentation_information?.status||'REFRESHING'));
+      text('contextBanner',human(m.phase)+' · '+(ctx?ctx.reasons.map(human).join('; '):'No active protected EARLY origin')+(aligned&&s?.origin&&f&&s.origin.side!==f.side?' · MIXED HORIZONS: SCALP differs from FINAL':''));
     }
     text('oppositeArrow','—');text('oppositeTitle','SERIAL REVERSAL / RE-ENTRY');
     if(!s?.guidance){
