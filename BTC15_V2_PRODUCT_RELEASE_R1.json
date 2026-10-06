@@ -19,7 +19,7 @@
     "btc15_v2_product/bootstrap.py": "42d48f2543a8ffeffa34435821f906b69c4b585b07837d17b36f4e527e5d5aae",
     "btc15_v2_product/installer.py": "597be98144488e7c8f618676533674e0aaf00941e766007d353ed3b0003613cf",
     "btc15_v2_product/journal.py": "5f02183b44d529e131a0f95e34862da4ba001b7a9cd809e15728aa77b6a2ed80",
-    "btc15_v2_product/panel.js": "d92944e0a861b1f84e2df0d7710fd6ce07c84d07de89af5abf241020f4ec9562",
+    "btc15_v2_product/panel.js": "fe208dd3d59f8227ec333c6b24cbadd834e3338625e1776773590566a1f858ab",
     "btc15_v2_product/quote_transport.py": "48ff0785fb120c19ad2973f06ce18a4cb1922ec05067b34ae0e025eb075c8633",
     "btc15_v2_product/quote_view.py": "a2e3180dae69fe6d304e30a7259ba2f764ea4cb7e277aa2236cb98b715be62fe",
     "btc15_v2_product/release.py": "0d804e80104a8989e492e7219fd53e32d8e10c9baf963685a066b5af69daced5",
@@ -61,7 +61,7 @@
   "source_change": "Official metadata preparation and SAME timestamped WS provider, native consumption/qualification unchanged",
   "evidence_change": "Separate revision/deployment root; startup/restart slot excluded; additive admin only; strict classifier unchanged",
   "deployment": "NOT_AUTHORIZED; startup requires reviewed manifest/build authorization or reviewed receipt; scoring requires independent actual deployment receipt",
-  "visible_completion_status": "OFFLINE_TARGETED_GATES_PASS; STAGE_ONLY; PHYSICAL_DEVICE_ACCEPTANCE_PENDING",
+  "visible_completion_status": "TARGETED PASS-STABILITY QUALIFICATION PENDING; STAGE ONLY; PHYSICAL_DEVICE_ACCEPTANCE FAILED ON PRIOR BUILD",
   "display_indicators": "DISPLAY ONLY: Coinbase completed 1m; RSI14 Wilder; SMA-seeded MACD12/26/9; latest completed Volume BTC. Candle close age <75s; no native inputs changed.",
-  "qualification_status": "OFFLINE_TARGETED_GATES_PASS; STAGE_ONLY; PHYSICAL_DEVICE_ACCEPTANCE_PENDING"
+  "qualification_status": "TARGETED PASS-STABILITY QUALIFICATION PENDING; STAGE ONLY; NO DEPLOY"
 }
