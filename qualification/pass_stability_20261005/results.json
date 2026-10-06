@@ -1,0 +1,61 @@
+{
+  "schema": "BTC15_EARLY_PASS_STABILITY_20261005",
+  "status": "PASS",
+  "production_baseline": "dc8cb4a75943ca5b0a18b0288ab1b07bd2c75cfe",
+  "scope": "DISPLAY_ONLY_EARLY_PASS_STABILITY",
+  "physical_failure_window_utc": [
+    "2026-10-05T22:44:31Z",
+    "2026-10-05T22:44:35Z"
+  ],
+  "observed_failure": {
+    "first": {
+      "final_probabilities": "UP 32.1% / DOWN 67.9%",
+      "early_selected_side": "DOWN",
+      "selected_ask_cents": 98.5,
+      "selected_edge_cents": -30.7
+    },
+    "second": {
+      "final_probabilities": "UP 51.7% / DOWN 48.3%",
+      "early_selected_side": "UP",
+      "selected_ask_cents": 1.1,
+      "selected_edge_cents": 50.8
+    },
+    "market_quotes_remained_coherent": true,
+    "production_log_confirmation": "EARLY-CONF LIVE | UP | fair 51.7% | ask 1% | edge +50.8% | candidate False"
+  },
+  "candidate_behavior": {
+    "first": {
+      "early_state": "PASS",
+      "early_reason": "PASS — outside EARLY entry window (requires 2–10m remaining)",
+      "quotes": "UP ASK 1.6¢ · DOWN ASK 98.5¢",
+      "edge": "No actionable edge while PASS"
+    },
+    "second": {
+      "early_state": "PASS",
+      "early_reason": "PASS — outside EARLY entry window (requires 2–10m remaining)",
+      "quotes": "UP ASK 1.1¢ · DOWN ASK 99.0¢",
+      "edge": "No actionable edge while PASS"
+    },
+    "early_reason_stable_across_selected_side_change": true,
+    "early_single_direction_edge_suppressed_while_pass": true,
+    "both_executable_asks_remain_visible": true,
+    "final_live_probability_remains_dynamic": true
+  },
+  "safety": {
+    "signal_only": true,
+    "orders": false,
+    "strategy_thresholds_changed": false,
+    "models_changed": false,
+    "native_clock_changed": false,
+    "native_lifecycle_changed": false,
+    "action_accept_poll_deadline_invalidation_tail_byte_identical": true
+  },
+  "changed_from_baseline": [
+    "btc15_v2_product/panel.js",
+    "BTC15_V2_PRODUCT_RELEASE_R1.json",
+    "ops/v2_product/test_ui_continuity.cjs"
+  ],
+  "panel_sha256": "fe208dd3d59f8227ec333c6b24cbadd834e3338625e1776773590566a1f858ab",
+  "physical_device_acceptance": "PENDING_AFTER_DEPLOY",
+  "deployment": "NOT_AUTHORIZED_STAGE_ONLY"
+}
