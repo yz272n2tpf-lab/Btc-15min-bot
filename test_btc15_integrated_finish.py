@@ -52,6 +52,21 @@ class ProtectedBaselines(unittest.TestCase):
             self.assertEqual(raw['early']['ready'],expected,(ask,p,left,gap))
             if expected:self.assertGreaterEqual(f['fair']['edge'],.08)
 
+    def test_user_facing_early_opportunity_extends_to_50_without_changing_protected_gate(self):
+        for ask in (.450001,.46,.50):
+            f=frame(540,p=.80,ask=ask);f['btc_price']=f['target']+25;f['fair']['edge']=.80-ask
+            raw,_=d.protected_frame(f,f['captured_ts'])
+            self.assertFalse(raw['early']['ready'])
+            o=d.early_opportunity(raw)
+            self.assertEqual(o['status'],'OPPORTUNITY')
+            self.assertEqual(o['target_ask'],.50)
+            self.assertFalse(o['protected_tier1_origin_eligible'])
+            self.assertFalse(o['final_call_authority'])
+            self.assertFalse(o['origin_authority'])
+        f=frame(540,p=.80,ask=.500001);f['btc_price']=f['target']+25;f['fair']['edge']=.80-.500001
+        raw,_=d.protected_frame(f,f['captured_ts'])
+        self.assertEqual(d.early_opportunity(raw)['status'],'WAIT')
+
     def test_final_exact_boundaries(self):
         for p,left,gap,ratio,brti in itertools.product([.899999,.90],[360,360.01,480,480.01],[49.99,50,74.99,75],[.99999,1],[10,12,-80]):
             f=frame(900-left,p=p,ask=.8);f['btc_price']=f['target']+gap

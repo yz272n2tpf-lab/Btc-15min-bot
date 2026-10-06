@@ -31,21 +31,26 @@ const tape=JSON.parse(fs.readFileSync(path.join(out,'tape.json'))),html=fs.readF
  await tick();check('startup');
  for(let n=0;n<tape.length;n++){
   row=tape[n];at=row.at;await tick();check('native-'+n);
-  assert.equal(text('earlyState'),row.main.early.guidance,'early-'+n);
+  assert.equal(text('earlyState'),row.main.origin?row.main.early.guidance:row.main.early_opportunity.status,'early-'+n);
   assert.equal(text('scalpState'),row.scalp.guidance,'scalp-'+n);
-  assert.match(text('finalActionSub'),/UP 66.0% · DOWN 34.0% · information only/);
-  assert.match(text('earlyLadderExit'),/not yet validated/);
-  if(n<3){assert.match(text('earlyCurrentPrice'),/UP ASK .*DOWN ASK/);assert.equal(text('earlyEdge'),'No actionable edge while PASS');assert.equal(text('earlyTitle'),'EARLY · PASS');}
+  assert.match(text('finalActionSub'),/UP 66.0% · DOWN 34.0% · continuous probability/);
+  assert.match(text('earlyLadderEntry'),/≤50¢/);assert.match(text('earlyLadderEntry'),/25–35¢/);assert.match(text('earlyLadderExit'),/not yet validated/);
+  if(n<3){assert.match(text('earlyCurrentPrice'),/UP ASK .*DOWN ASK/);assert.match(text('earlyEdge'),/model edge/);assert.match(text('earlyTitle'),/EARLY (UP|DOWN) · WATCH/);}
   if(n===0){const action=text('scalpState');abort=true;at+=.2;await tick();check('transport-original-lease');assert.equal(text('scalpState'),action);abort=false;}
   if(row.scalp.guidance==='EXIT')assert.match(text('scalpLadderExit'),/EXIT · current BID/);
   if(n===4)assert.match(text('contextBanner'),/MIXED HORIZONS/);
   if(row.main.final.ready)assert.equal(text('finalAction'),'FINAL LOCK / QUALIFIED');
   if(row.scalp.lifecycle_state==='ENDED_UNARMED')assert.match(text('scalpLadderExit'),/ENDED_UNARMED · information only/);
  }
- forceWait=true;at+=.1;await tick();check('native-failure');assert.equal(text('earlyState'),'WAIT');assert.equal(text('finalAction'),'WAIT');assert.match(text('finalActionSub'),/UP 66.0%/);
+ const earlyBefore=text('earlyState'),scalpBefore=text('scalpState'),finalSideBefore=text('finalSide');
+ forceWait=true;at+=.1;await tick();check('native-failure');
+ assert.equal(text('earlyState'),earlyBefore);assert.equal(text('finalSide'),finalSideBefore);assert.match(text('finalActionSub'),/UP 66.0%/);
+ assert.match(text('finalReason'),/refreshing/i);assert.match(text('earlyFlow'),/MAIN LIVE/);assert.match(text('earlyFlow'),/last-qualified/i);
+ assert.match(text('earlyLadderEntry'),/≤50¢/);assert.doesNotMatch(text('earlyLadderEntry'),/current authority refresh pending/);
  forceWait=false;at+=.1;await tick();
  abort=true;infoHealthy=false;at=Math.max(row.main.expires_at,row.scalp.expires_at,row.quote.expires_at)+1;await tick();check('expiry');
- assert.equal(text('earlyState'),'WAIT');assert.equal(text('scalpState'),'WAIT');assert.match(text('finalConfidence'),/LAST QUALIFIED/);assert.match(text('upCondition'),/LAST QUALIFIED/);
+ assert.equal(text('earlyState'),earlyBefore);assert.equal(text('scalpState'),scalpBefore);assert.match(text('finalReason'),/refreshing/i);assert.match(text('upCondition'),/LAST QUALIFIED/);
+ assert.match(text('scalpFlow'),/NO NEW ACTION AUTHORITY/);assert.doesNotMatch(text('scalpLadderEntry'),/current authority refresh pending/);
  fs.writeFileSync(path.join(out,'ui-results.json'),JSON.stringify({status:'PASS',checks,mode:'FULL_ASSEMBLED_JSDOM',physical_device_acceptance:'PENDING',signal_only:true,orders:false},null,2));
  console.log(JSON.stringify({status:'PASS',checks:checks.length,physical_device_acceptance:'PENDING'}));dom.window.close();
 })().catch(e=>{console.error(e);process.exit(1)});

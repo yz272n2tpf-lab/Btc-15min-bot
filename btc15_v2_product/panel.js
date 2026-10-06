@@ -2,13 +2,19 @@
 (() => {
   'use strict';
   const REVISION='BTC15_INTEGRATED_OFFLINE_20261006',STRATEGY='BTC15_INTEGRATED_FINISH_20261006';
-  const caches={main:null,scalp:null,quote:null},requests={main:null,scalp:null,quote:null};
+  const caches={main:null,scalp:null,quote:null},requests={main:null,scalp:null,quote:null},lastQualified={main:null,scalp:null,quote:null};
   const clocks={main:null,scalp:null,quote:null}; // Monotonic floor survives hide/resume; cached replies cannot renew leases.
   let epoch=0,identity=null,quoteHistory=null;const receipts=[];
-  let indicators=null,indicatorRequest=null,indicatorClock=null,lastIndicators=null;
+  let indicators=null,indicatorRequest=null,indicatorClock=null,lastIndicators=null,lastModel=null;const lowerStable=new Map();
   // Strings only, display-only: never read by accept(), current(), or any action gate.
   const history={main:null,scalp:null,quote:null};
-  const infoIds={main:['finalConfidence','finalActionSub','earlyEntry','earlyYourEntry','earlyCurrentPrice','earlyEdge','flipRisk','signalStrength'],scalp:['scalpYourEntry','scalpCurrentPrice','scalpTargetStrip'],quote:['upOdds','downOdds']};
+  const infoIds={
+    main:['finalSide','finalConfidence','finalActionSub','finalReason','finalBuyZone','finalHoldZone','finalWatchZone','finalProtectZone','finalExitZone',
+      'earlyEntry','earlyYourEntry','earlyCurrentPrice','earlyEdge','earlyAfterEntry','earlyLadderEntry','earlyLadderHold','earlyLadderWatch','earlyLadderProtect','earlyLadderExit','earlyFlow',
+      'flipRisk','flipRiskSub','signalStrength','contextBanner'],
+    scalp:['scalpEntry','scalpYourEntry','scalpCurrentPrice','scalpTargetStrip','scalpLadderEntry','scalpLadderHold','scalpLadderWatch','scalpLadderProtect','scalpLadderExit','scalpFlow','oppositeEntry'],
+    quote:['upOdds','downOdds']
+  };
   const node=id=>document.getElementById(id);
   const text=(id,v)=>{const n=node(id);if(n&&n.textContent!==String(v))n.textContent=String(v);};
   const cents=v=>Number.isFinite(v)?(100*v).toFixed(1)+'¢':'REFRESHING';
@@ -23,7 +29,7 @@
   }
   function current(lane){const c=caches[lane];return c&&performance.now()<c.deadline&&document.visibilityState!=='hidden'?c.data:null;}
   function classes(id,value){const n=node(id);if(n&&n.className!==value)n.className=value;}
-  function pill(id,v){text(id,v);classes(id,'state-pill '+(['ENTER','HOLD','AVAILABLE','QUALIFIED'].includes(v)?'state-good':'state-watch'));}
+  function pill(id,v){text(id,v);classes(id,'state-pill '+(['ENTER','HOLD','AVAILABLE','QUALIFIED','OPPORTUNITY'].includes(v)?'state-good':'state-watch'));}
   const reasons={
     REVALIDATION_DISAGREES_WAIT_NATIVE:'native revalidation disagrees; awaiting next native observation',
     REVALIDATION_IDENTITY_OR_CLOCK:'identity / clock refresh pending',
@@ -49,16 +55,18 @@
   }
   function retained(lane,id,ident,label=true){
     const h=history[lane],value=h?.values[id];
-    return value&&(!ident||h.identity===key(ident))?value+(label?' · LAST QUALIFIED':'')+(!ident?' · '+h.contract:''):'REFRESHING';
+    return value&&(!ident||h.identity===key(ident))
+      ?value+(label?' · LAST QUALIFIED / REFRESHING':'')+(!ident?' · '+h.contract:'')
+      :'REFRESHING';
   }
   function waiting(prefix,reason,ident){
-    pill(prefix+'State','WAIT');text(prefix+'Title',prefix.toUpperCase()+' · REFRESHING');text(prefix+'Arrow','—');
-    text(prefix+'Entry','WAIT — '+reasonText(reason));
     const lane=prefix==='early'?'main':'scalp';
+    pill(prefix+'State','WAIT');text(prefix+'Title',prefix.toUpperCase()+' · REFRESHING');text(prefix+'Arrow','—');
+    text(prefix+'Entry',retained(lane,prefix+'Entry',ident));
     text(prefix+'CurrentPrice',retained(lane,prefix+'CurrentPrice',ident));
     text(prefix+'YourEntry',retained(lane,prefix+'YourEntry',ident));
-    for(const k of ['Entry','Hold','Watch','Protect','Exit'])text(prefix+'Ladder'+k,'WAIT · current authority refresh pending');
-    text(prefix+'Flow','WAIT — '+reasonText(reason)+' · SIGNAL ONLY / NO ORDERS');
+    for(const k of ['Entry','Hold','Watch','Protect','Exit'])text(prefix+'Ladder'+k,retained(lane,prefix+'Ladder'+k,ident));
+    text(prefix+'Flow','WAIT / REFRESHING — '+reasonText(reason)+' · LAST QUALIFIED VALUES RETAINED · NO NEW ACTION AUTHORITY · SIGNAL ONLY / NO ORDERS');
   }
   function scalpPass(s){
     const ds=Array.isArray(s.diagnostics)?s.diagnostics.filter(d=>d&&d.reason):[];
@@ -75,9 +83,14 @@
     return {reason:'PASS — '+why,quotes};
   }
   function render(){
-    const now=performance.now(),m=current('main'),s=current('scalp'),q=current('quote');
+    const now=performance.now(),liveM=current('main'),liveS=current('scalp'),liveQ=current('quote');
     if(identity&&now>=identity.deadline)identity=null;
     const ident=identity?.value;
+    const qualified=!!(liveM&&liveM.status!=='UNAVAILABLE'&&key(liveM.official_identity)===key(ident));
+    const aligned=!!(liveS&&liveS.status!=='UNAVAILABLE'&&ident&&key(liveS.official_identity)===key(ident));
+    const m=qualified?liveM:(lastQualified.main&&ident&&key(lastQualified.main.official_identity)===key(ident)?lastQualified.main:null);
+    const s=aligned?liveS:(lastQualified.scalp&&ident&&key(lastQualified.scalp.official_identity)===key(ident)?lastQualified.scalp:null);
+    const q=liveQ;
     const iv=indicators&&now<indicators.deadline&&document.visibilityState!=='hidden'?indicators.data:null;
     const cells=document.querySelectorAll('.indicator-row .indicator-unavailable');
     const number=v=>Math.abs(v)>=10000?v.toPrecision(5):v.toFixed(2);
@@ -85,66 +98,73 @@
     const shownIndicators=iv||lastIndicators;
     const values=shownIndicators?[finite(shownIndicators.rsi)?number(shownIndicators.rsi):null,finite(shownIndicators.macd)?`${number(shownIndicators.macd)} / ${number(shownIndicators.signal)} / ${number(shownIndicators.histogram)}`:null,number(shownIndicators.volume)+' BTC']:[];
     cells.forEach((n,index)=>{const value=values[index]?(values[index]+(!iv?' · LAST QUALIFIED / REFRESHING':'')):'WAIT — indicator history refresh pending';if(n.textContent!==value)n.textContent=value;});
-    const qualified=m&&m.status!=='UNAVAILABLE'&&key(m.official_identity)===key(ident);
-    const aligned=s&&s.status!=='UNAVAILABLE'&&ident&&key(s.official_identity)===key(ident);
-    text('currentContract',ident?'BTC 15-MINUTE · '+ident.contract+' · V2':'BTC 15-MINUTE · WAIT — official identity refresh pending');
-    text('liveStatus','MAIN '+(qualified?m.status:'WAIT / REFRESHING')+' · SCALP '+(aligned?s.status:'WAIT / REFRESHING'));
-    classes('liveStatus','live-status '+(qualified?'live-ok':'live-warn'));
-    const f=qualified?m.final:null;
+    const serverAge=(lane,data)=>{const clock=clocks[lane];return clock&&data?.published_ts?clock.server+(performance.now()-clock.received)/1000-data.published_ts:Infinity;};
+    const mainTracking=qualified||!!(m&&ident&&key(m.official_identity)===key(ident)&&serverAge('main',m)<=15);
+    const scalpTracking=aligned||!!(s&&ident&&key(s.official_identity)===key(ident)&&serverAge('scalp',s)<=15);
+    text('currentContract',ident?'BTC 15-MINUTE · '+ident.contract+' · V2':'BTC 15-MINUTE · official identity refreshing');
+    text('liveStatus','MAIN '+(mainTracking?'TRACKING':'REFRESHING')+' · SCALP '+(scalpTracking?'TRACKING':'REFRESHING'));
+    classes('liveStatus','live-status '+(mainTracking&&scalpTracking?'live-ok':'live-warn'));
+    const f=m?.final||null;
     const descriptive=window.btc15CurrentModelInformation?.();
-    const model=descriptive&&ident&&descriptive.ticker===ident.contract?descriptive:null;
-    classes('finalCard','card final-card '+(f?.ready?(f.side==='DOWN'?'down-mode':''):'wait-mode'));
-    // Original V13 display classification (8e25678); no strategy authority.
-    const probability=model?Math.max(model.probability_up,model.probability_down):f?.confidence;
-    text('signalStrength',finite(probability)?(probability>=.90?'STRONG':probability>=.75?'GOOD':probability>=.60?'MODERATE':'WEAK'):retained('main','signalStrength',ident));
-    if(f){
-      text('finalArrow',f.ready?(f.side==='DOWN'?'↓':'↑'):'—');
-      text('finalSide',f.ready?f.side+' FINAL':'PASS');
-      text('finalAction',f.ready?'FINAL LOCK / QUALIFIED':'UNLOCKED / PASS');
-      text('finalConfidence','Model only: '+pct(probability));
-      text('finalActionSub',`UP ${pct(model?.probability_up??f.probability_up)} · DOWN ${pct(model?.probability_down??f.probability_down)} · information only`);
-      text('finalReason',f.ready?'Independent FINAL call qualified':'FINAL entry not qualified');
-      text('finalBuyZone',m.origin&&f.early_origin_id===m.origin.origin_id?'Linked EARLY '+m.origin.side:'No linked EARLY origin');
-      text('finalHoldZone',f.helper?.confirmed?'EARLY confirmed · '+f.helper.state:human(f.state));
-      text('finalWatchZone',f.helper?human(f.helper.relation)+' · '+human(f.helper.probability_trend):'No position assumed');
-      text('finalProtectZone',f.helper?.protect_latched?'PROTECT · support lost or opposed':'No new protection instruction');
+    if(descriptive&&ident&&descriptive.ticker===ident.contract)lastModel={...descriptive};
+    const model=descriptive&&ident&&descriptive.ticker===ident.contract?descriptive:
+      lastModel&&ident&&lastModel.ticker===ident.contract?lastModel:null;
+    const up=finite(model?.probability_up)?model.probability_up:f?.probability_up;
+    const down=finite(model?.probability_down)?model.probability_down:f?.probability_down;
+    const modelSide=finite(up)&&finite(down)?(up>=down?'UP':'DOWN'):null;
+    const probability=modelSide==='UP'?up:modelSide==='DOWN'?down:null;
+    classes('finalCard','card final-card '+(modelSide==='DOWN'?'down-mode':''));
+    text('signalStrength',finite(probability)?(probability>=.90?'STRONG':probability>=.75?'GOOD':probability>=.60?'MODERATE':'WEAK'):retained('main','signalStrength',ident,false));
+    if(modelSide){
+      text('finalArrow',modelSide==='DOWN'?'↓':'↑');
+      text('finalSide',modelSide);
+      text('finalConfidence',pct(probability)+' '+modelSide);
+      text('finalAction',f?.ready?(qualified?'FINAL LOCK / QUALIFIED':'FINAL LOCK · LAST QUALIFIED / REFRESHING'):'NOT LOCKED');
+      text('finalActionSub',`UP ${pct(up)} · DOWN ${pct(down)} · continuous probability · information only`);
+      text('finalReason',f?.ready?(qualified?'FINAL call qualified':'FINAL lock was last qualified; MAIN refreshing — no new action authority'):'Probability live; FINAL lock not qualified');
+      text('finalBuyZone',m?.origin&&f?.early_origin_id===m.origin.origin_id?'Linked EARLY '+m.origin.side:'No linked EARLY origin');
+      text('finalHoldZone',f?.helper?.confirmed?'EARLY confirmed · '+f.helper.state:human(f?.state||'PASS'));
+      text('finalWatchZone',f?.helper?human(f.helper.relation)+' · '+human(f.helper.probability_trend):'No position assumed');
+      text('finalProtectZone',f?.helper?.protect_latched?'PROTECT · support lost or opposed':'No new protection instruction');
       text('finalExitZone','Directional EXIT authority not yet validated');
     }else{
-      text('finalArrow','—');text('finalSide','WAIT');text('finalConfidence',model?'Model only: '+pct(probability):retained('main','finalConfidence',ident));text('finalAction','WAIT');
-      text('finalActionSub',model?`UP ${pct(model.probability_up)} · DOWN ${pct(model.probability_down)} · information only`:retained('main','finalActionSub',ident)+' · REFRESHING');text('finalReason','No current actionable FINAL guidance');
-      for(const id of ['finalBuyZone','finalHoldZone','finalWatchZone','finalProtectZone','finalExitZone'])text(id,'WAIT · current authority refresh pending');
+      text('finalArrow','—');text('finalSide','REFRESHING');text('finalConfidence',retained('main','finalConfidence',ident,false));
+      text('finalAction','REFRESHING');text('finalActionSub',retained('main','finalActionSub',ident,false));
+      text('finalReason','No same-contract FINAL probability available yet');
+      for(const id of ['finalBuyZone','finalHoldZone','finalWatchZone','finalProtectZone','finalExitZone'])text(id,retained('main',id,ident,false));
     }
-    if(!qualified){
-      waiting('early',m?.reason,ident);
-      text('earlyAfterEntry','WAIT — '+reasonText(m?.reason));text('earlyEdge',retained('main','earlyEdge',ident));
-      text('flipRisk',retained('main','flipRisk',ident,false));text('flipRiskSub','LAST QUALIFIED / REFRESHING · no action authority');
-      text('contextBanner','WAIT — '+reasonText(m?.reason));
+    if(!m?.early){
+      waiting('early',liveM?.reason,ident);
+      text('earlyAfterEntry',retained('main','earlyAfterEntry',ident,false));text('earlyEdge',retained('main','earlyEdge',ident,false));
+      text('flipRisk',retained('main','flipRisk',ident,false));text('flipRiskSub','REFRESHING · NO NEW ACTION AUTHORITY');
+      text('contextBanner','REFRESHING · waiting for first same-contract qualified MAIN frame');
     }else{
-      const e=m.early,o=m.origin,h=f?.helper,ctx=m.context;
+      const e=m.early,o=m.origin,h=f?.helper,ctx=m.context,opp=m.early_opportunity;
       const prices=m.prices;
-      const quotePrices=q&&q.status==='AVAILABLE'&&ident&&key(q.official_identity)===key(ident)?q:null;
-      const ask=quotePrices?quotePrices[e.side.toLowerCase()+'_ask']:prices?prices[e.side.toLowerCase()+'_ask']:e.ask;
+      const quotePrices=liveQ&&liveQ.status==='AVAILABLE'&&ident&&key(liveQ.official_identity)===key(ident)?liveQ:null;
       const bid=prices&&o?prices[o.side.toLowerCase()+'_bid']:m.executable_current_bid;
-      const pass=!o&&e.guidance==='PASS',passView=pass?earlyPass(e,quotePrices||prices):null;
-      pill('earlyState',e.guidance);text('earlyTitle',o?'EARLY '+o.side:'EARLY · '+e.guidance);
-      text('earlyEntry',o?'Origin ASK '+cents(o.original_ask):pass?passView.reason:'Current ASK '+cents(ask));
-      text('earlyYourEntry',o?cents(o.original_ask)+' · signal ASK':'No accepted origin');
-      text('earlyCurrentPrice',o?'BID '+cents(bid):pass?passView.quotes:'ASK '+cents(ask));
-      text('earlyEdge',o?(finite(bid)?((bid-o.original_ask)*100).toFixed(1)+'¢ gross movement':'WAIT — later same-side BID'):pass?'No actionable edge while PASS':cents(e.edge)+' model edge');
-      text('earlyAfterEntry',o?e.guidance+' · '+human(h?.relation):pass?passView.reason:'PASS · '+e.pass_reasons.map(reasonText).join(' · '));
-      text('earlyLadderEntry','≤45¢ · fair ≥75% · 2–10m · |gap| ≥$25');
-      text('earlyLadderHold',h?.confirmed?'FINAL confirms · '+e.guidance:o?e.guidance:'No position assumed');
-      text('earlyLadderWatch',pass?passView.reason:ctx?human(ctx.phase)+' · '+ctx.reasons.map(human).join('; '):'Await qualified entry');
-      text('earlyLadderProtect',h?.protect_latched?'PROTECT · review exposure at current bid':o?'Monitor FINAL support and bid':'No origin to protect');
+      const displayState=o?e.guidance:(opp?.status||'WATCH');
+      pill('earlyState',displayState);
+      text('earlyTitle',o?'EARLY '+o.side:'EARLY '+(opp?.side||e.side)+' · '+displayState);
+      text('earlyEntry',o?'Origin ASK '+cents(o.original_ask):(opp?.status==='OPPORTUNITY'?'OPPORTUNITY '+opp.side+' · ASK '+cents(opp.ask)+' · '+opp.price_zone:' '+(opp?.reason||'Waiting for qualified opportunity')).trim());
+      text('earlyYourEntry',o?cents(o.original_ask)+' · protected signal ASK':'No protected origin · manual opportunity guidance only');
+      text('earlyCurrentPrice',o?'BID '+cents(bid):(quotePrices?`UP ASK ${cents(quotePrices.up_ask)} · DOWN ASK ${cents(quotePrices.down_ask)}`:`UP ASK ${cents(prices?.up_ask)} · DOWN ASK ${cents(prices?.down_ask)}`));
+      text('earlyEdge',o?(finite(bid)?((bid-o.original_ask)*100).toFixed(1)+'¢ gross movement':'later same-side BID refreshing'):finite(opp?.edge)?((opp.edge*100).toFixed(1)+'¢ model edge'):'Model edge refreshing');
+      text('earlyAfterEntry',o?e.guidance+' · '+human(h?.relation):(opp?.status==='OPPORTUNITY'?'NOT FINAL · signal only · manual execution · MAIN LIVE required':'No EARLY opportunity now · '+human(opp?.status)));
+      text('earlyLadderEntry','Opportunity target ≤50¢ · ideal 25–35¢ · validated same-contract + positive edge');
+      text('earlyLadderHold',h?.confirmed?'FINAL confirms · '+e.guidance:o?e.guidance:'No protected position assumed');
+      text('earlyLadderWatch',o?(ctx?human(ctx.phase)+' · '+ctx.reasons.map(human).join('; '):'Monitor qualified position'):(opp?.reason||'Await qualified opportunity'));
+      text('earlyLadderProtect',h?.protect_latched?'PROTECT · review exposure at current bid':o?'Monitor FINAL support and bid':'Protection begins only after a protected origin');
       text('earlyLadderExit','Directional EXIT authority not yet validated · PROTECT is manual risk guidance');
-      text('earlyFlow',`${m.contract} · ${o?'If manually entered: '+e.guidance:'PASS'} · SIGNAL ONLY / NO ORDERS`);
-      text('flipRisk',m.flip_risk_pct.toFixed(1)+'%');text('flipRiskSub','Model context only · no exit authority');
-      text('contextBanner',human(m.phase)+' · '+(ctx?ctx.reasons.map(human).join('; '):'No active EARLY origin')+(aligned&&s.origin&&s.origin.side!==f.side?' · MIXED HORIZONS: SCALP differs from FINAL':'')+' · '+human(m.presentation_information?.status||'REFRESHING'));
+      text('earlyFlow',`${m.contract} · ${o?'If manually entered: '+e.guidance:(opp?.status||'WATCH')} · New action authority requires MAIN LIVE above; REFRESHING values are last-qualified · SIGNAL ONLY / NO ORDERS`);
+      text('flipRisk',m.flip_risk_pct.toFixed(1)+'%');text('flipRiskSub','Model context only · no exit authority · freshness shown by MAIN status');
+      text('contextBanner',human(m.phase)+' · '+(ctx?ctx.reasons.map(human).join('; '):'No active protected EARLY origin')+(aligned&&s?.origin&&f&&s.origin.side!==f.side?' · MIXED HORIZONS: SCALP differs from FINAL':''));
     }
     text('oppositeArrow','—');text('oppositeTitle','SERIAL REVERSAL / RE-ENTRY');
-    if(!aligned){
-      waiting('scalp',s?.reason,ident);
-      text('scalpTargetStrip',retained('scalp','scalpTargetStrip',ident));text('oppositeEntry','Fresh same-contract setup required');text('oppositeState','WAIT');
+    if(!s?.guidance){
+      waiting('scalp',liveS?.reason,ident);
+      text('scalpTargetStrip',retained('scalp','scalpTargetStrip',ident,false));
+      text('oppositeEntry',retained('scalp','oppositeEntry',ident,false));text('oppositeState','REFRESHING');
     }else{
       const o=s.origin;
       pill('scalpState',s.guidance);text('scalpTitle','SCALP '+(o?.side||'PASS'));text('scalpArrow',o?(o.side==='DOWN'?'↓':'↑'):'—');
@@ -157,7 +177,7 @@
       text('scalpLadderWatch',s.context?human(s.context.phase)+' · '+s.context.reasons.map(human).join('; '):'Fresh qualifying observations required');
       text('scalpLadderProtect',s.presentation?.protection_armed?'PROTECT · trail trigger '+cents(s.trailing_trigger_bid):'Arms at +5¢ executable gain');
       text('scalpLadderExit',s.guidance==='EXIT'?'EXIT · current BID '+cents(s.executable_current_bid)+' · trigger BID '+cents(s.terminal.executable_exit_bid):s.lifecycle_state==='ENDED_UNARMED'?'ENDED_UNARMED · information only · scanning resumes':'+5¢ arm / 4¢ peak giveback EXIT · no horizon sell');
-      text('scalpFlow',`${o?'If manually entered: '+s.guidance+'. ':''}${s.terminal?human(s.terminal.reason)+'. ':''}No assumed fill; fees excluded. SIGNAL ONLY / NO ORDERS`);
+      text('scalpFlow',`${aligned?'':'LAST QUALIFIED / REFRESHING · NO NEW ACTION AUTHORITY · '}${o?'If manually entered: '+s.guidance+'. ':''}${s.terminal?human(s.terminal.reason)+'. ':''}No assumed fill; fees excluded. SIGNAL ONLY / NO ORDERS`);
       text('oppositeEntry',o?'Next origin: later qualified setup after EXIT or ENDED_UNARMED':'Both sides evaluated');text('oppositeState',s.guidance==='EXIT'||s.lifecycle_state==='ENDED_UNARMED'?'RESET / SCAN':'WAIT');
     }
     if(qualified)remember('main',ident,m.published_ts);
@@ -169,6 +189,12 @@
     text('v2QuoteClock',freshQuote?`Source ${new Date(q.exchange_ts*1000).toISOString()} · seq ${q.sequence} · presentation only`:'WAIT — '+reasonText(q?.reason||'TIMESTAMPED_QUOTES_UNAVAILABLE'));
     for(const id of ['upOdds','downOdds']){
       const n=node(id);if(n){const value=freshQuote?[q.epoch,q.sid,q.sequence,q.exchange_ts].join('|'):'';if(n.dataset.quoteIdentity!==value)n.dataset.quoteIdentity=value;if(!freshQuote)n.dataset.quoteEvidence='';}
+    }
+    for(const id of ['evidenceScore','momentumBadge','momentumSub','contextTrend','contextRange','contextBrti','contextLevels']){
+      const n=node(id);if(!n)continue;
+      const v=n.textContent||'',refreshing=/WAIT \/ REFRESHING|LAST QUALIFIED \/ REFRESHING/i.test(v);
+      if(!refreshing&&v&&v!=='—')lowerStable.set(id,v);
+      else if(lowerStable.has(id)&&n.textContent!==lowerStable.get(id))n.textContent=lowerStable.get(id);
     }
     if(freshQuote){
       remember('quote',ident,q.exchange_ts);
@@ -208,8 +234,9 @@
       if(data.origin&&(!['UP','DOWN'].includes(data.origin.side)||data.origin.contract!==i.contract||!finite(data.origin.original_ask)||(data.movement_cents!==null&&!finite(data.movement_cents))||(data.executable_current_bid!==null&&!finite(data.executable_current_bid))))throw Error('ACTION_ORIGIN');
       if(data.context&&(!Array.isArray(data.context.reasons)||typeof data.context.phase!=='string'))throw Error('CONTEXT');
       if(lane==='main'){
-        const f=data.final,e=data.early;
-        if(!f||!e||typeof f.ready!=='boolean'||!['UP','DOWN'].includes(f.side)||!['confidence','probability_up','probability_down'].every(k=>finite(f[k])&&f[k]>=0&&f[k]<=1)||typeof e.guidance!=='string'||!Array.isArray(e.pass_reasons)||!finite(data.flip_risk_pct)||typeof data.phase!=='string')throw Error('MAIN_PAYLOAD');
+        const f=data.final,e=data.early,o=data.early_opportunity;
+        if(!f||!e||!o||typeof f.ready!=='boolean'||!['UP','DOWN'].includes(f.side)||!['confidence','probability_up','probability_down'].every(k=>finite(f[k])&&f[k]>=0&&f[k]<=1)||typeof e.guidance!=='string'||!Array.isArray(e.pass_reasons)||!['OPPORTUNITY','WATCH','WAIT'].includes(o.status)||!['UP','DOWN'].includes(o.side)||!finite(o.ask)||!finite(o.fair)||!finite(o.edge)||o.target_ask!==.50||o.final_call_authority!==false||o.origin_authority!==false||!finite(data.flip_risk_pct)||typeof data.phase!=='string')throw Error('MAIN_PAYLOAD');
+        // early_opportunity is display guidance only; it cannot create an origin/event.
         // presentation_information is text only and cannot extend this lease.
       }else if(!['PASS','ENTER','HOLD','WATCH','CAUTION','PROTECT','EXIT'].includes(data.guidance)||(data.guidance==='EXIT'&&(!data.terminal||!finite(data.terminal.executable_exit_bid))))throw Error('SCALP_PAYLOAD');
     }
@@ -222,6 +249,7 @@
     }
     const old=caches[lane]?.data;
     if(old?.published_ts>data.published_ts)throw Error('PUBLICATION_ROLLBACK');
+    lastQualified[lane]=data;
     return {data,deadline:received+Math.max(0,(data.expires_at-serverNow)*1000)-rtt,received,rtt};
   }
   async function poll(lane,url){

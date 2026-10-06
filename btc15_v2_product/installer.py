@@ -28,12 +28,24 @@ def assemble(directory):
     # cannot flow back into the native owner, clock or action-card renderer.
     old_setter="  const setText = (id, value) => { const el=$(id); if(el && el.textContent!==value) el.textContent=value; };"
     new_setter=r"""  const lowerIds=new Set(['evidenceScore','momentumBadge','momentumSub','contextTrend','contextRange','contextBrti','contextLevels']);
+  const lowerFallback=new Map([
+    ['evidenceScore','Evidence score pending first qualified sample'],
+    ['momentumBadge','Momentum sample pending'],
+    ['momentumSub','BRTI momentum sample pending'],
+    ['contextTrend','Trend sample pending'],
+    ['contextRange','Range sample pending'],
+    ['contextBrti','BRTI context sample pending'],
+    ['contextLevels','Target / BTC levels pending']
+  ]);
   const lowerHistory=new Map(); let lowerQualified=false,lowerContract=null;
   const setText = (id, value) => {
     if(lowerIds.has(id)){
-      const valid=lowerQualified && !/unavailable|not connected|fresh brti required|^—(?: \/ 7)?$/i.test(String(value));
+      const valid=lowerQualified && !/unavailable|not connected|fresh brti required|refreshing|stale|^—(?: \/ 7)?$/i.test(String(value));
       if(valid)lowerHistory.set(id,{value,contract:lowerContract});
-      else {const prior=lowerHistory.get(id);value=prior?prior.value+' · LAST QUALIFIED / REFRESHING · '+prior.contract:'WAIT / REFRESHING';}
+      else {
+        const prior=lowerHistory.get(id);
+        value=prior&&(!lowerContract||prior.contract===lowerContract)?prior.value:lowerFallback.get(id);
+      }
     }
     const el=$(id); if(el && el.textContent!==value) el.textContent=value;
   };"""
