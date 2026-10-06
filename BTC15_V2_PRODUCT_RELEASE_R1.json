@@ -26,7 +26,7 @@
     "btc15_v2_product/revalidation.py": "6366533f9d9479e6aa3df5ba78b3eb0f5f63ce2a896ff65a4bce07491a5c4880",
     "btc15_v2_product/revalidation_transport.py": "828a42b22465a9fe34779e4d6fb0d38eb8393fbc2f0e43620bf62f4d91abd4cc",
     "btc15_v2_product/routes.py": "df02050e261932268e3a8f426086c464736389540b47ca30b89d5c62f8e5889e",
-    "btc15_v2_product/runtime.py": "81601051153312a602c8f3cb96f2ef22ebd0bbb19de15540e8dd2934126cf0db",
+    "btc15_v2_product/runtime.py": "3a649bbe3d0e64fb601922712c664ebac0538388255d6828f052172728dc69b0",
     "btc15_v2_product/worker.py": "27b6b7c5df0b35c99c106c004a0928013ab1712ad5272ef16c2535b90425edcb",
     "ops/btc15_v2_scoring/bridge.py": "d298c22c317d0f4bac415a1f24264a9bf0349926bc7f9cc6e4b5dfe37cb121b4",
     "ops/btc15_v2_scoring/completeness_diagnostics.py": "e46ae773d63e628e92d883ad81c91e028d65d5b39fea68c2a15cc06c602e73c1",
