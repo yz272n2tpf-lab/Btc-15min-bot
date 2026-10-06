@@ -278,6 +278,28 @@ class V81QualificationSeam(unittest.TestCase):
         pool=type('PoolFixture',(),{'official':identity(market,85490.48)})()
         self.assertEqual(_v81_selected_target(market,pool),85490.48)
 
+    def test_rollover_boundary_retries_once_and_selects_new_current_market(self):
+        from btc15_v2_product.runtime import _v81_select_current
+        old=dict(
+            ticker='KXBTC15M-26OCT061645-45',
+            open_time='2026-10-06T20:30:00+00:00',
+            close_time='2026-10-06T20:45:00+00:00',
+        )
+        new=dict(
+            ticker='KXBTC15M-26OCT061700-00',
+            open_time='2026-10-06T20:45:00+00:00',
+            close_time='2026-10-06T21:00:00+00:00',
+        )
+        class PreparationFixture:
+            def __init__(self): self.calls=0
+            def select(self,original):
+                self.calls+=1
+                return deepcopy(old if self.calls==1 else new)
+        p=PreparationFixture()
+        selected=_v81_select_current(p,lambda:None,lambda:1791319500.10)
+        self.assertEqual(selected['ticker'],new['ticker'])
+        self.assertEqual(p.calls,2)
+
     def test_missing_or_mismatched_prepared_identity_fails_closed(self):
         from btc15_v2_product.runtime import _v81_prepared_target,_v81_selected_target
         from btc15_v2_product.bootstrap import identity
