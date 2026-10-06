@@ -66,3 +66,5 @@ const IDS = [
   },null,2));
   await browser.close();
 })().catch(e=>{console.error(e);process.exit(1);});
+
+// rerun-after-early50-stability
