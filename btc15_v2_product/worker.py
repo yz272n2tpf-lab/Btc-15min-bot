@@ -42,18 +42,13 @@ def main():
         return server
     service.server_for=server_for
     def sample():
-        first_key=None;initialized=False
         from btc15_v2_product.revalidation import binding
         while True:
             started=time.monotonic();v=None
             try:
                 raw=(root/'main.json').read_bytes()
                 if len(raw)>524288:raise ValueError('OVERSIZE_NATIVE_VIEW')
-                v=json.loads(raw);key=binding(v)
-                if not initialized:first_key=key;initialized=True
-                # A restarted ephemeral worker cannot forget a previous denial
-                # and renew that decision. Wait for a new native commit.
-                if key==first_key:raise ValueError('REVALIDATION_START_WAIT_NATIVE')
+                v=json.loads(raw)
                 with urlopen('http://127.0.0.1:8766/revalidation-input',timeout=.4) as response:
                     data=response.read(524289)
                 if len(data)>524288:raise ValueError('OVERSIZE_REVALIDATION_INPUT')

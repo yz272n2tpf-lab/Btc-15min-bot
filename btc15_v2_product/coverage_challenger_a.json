@@ -1,0 +1,16 @@
+{
+  "name": "FINAL Coverage Challenger A",
+  "status": "REPORT_ONLY",
+  "promotion": "PROSPECTIVE_VALIDATION_REQUIRED",
+  "production_authority": false,
+  "fair_min": 0.90,
+  "max_time_left_minutes": 8,
+  "early_boundary_minutes": 7,
+  "early_gap_usd": 150,
+  "late_gap_usd": 50,
+  "min_support": 0,
+  "min_dist_range": 0,
+  "validation_only": {"calls": 70, "contracts": 99, "correct": 67},
+  "signal_only": true,
+  "orders": false
+}

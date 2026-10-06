@@ -202,16 +202,24 @@ def public_view(root,lane,now=None,confirmation=None):
             or v.get('candidate')!=STRATEGY or v.get('signal_only') is not True or v.get('orders') is not False):
             raise ValueError('PRODUCT_IDENTITY')
         if v.get('status')=='UNAVAILABLE':return unavailable(lane,v.get('reason','SOURCE_UNAVAILABLE'),now,v)
-        if lane=='main' and confirmation is not None:
+        # The ORIGINAL lease is the sole authority limit; fast information never
+        # renews it. A new native failure publication still revokes immediately.
+        i=v['official_identity']
+        if any(v[k]!=i[k] for k in ('contract','target','official_open','official_close')):
+            return unavailable(lane,'NATIVE_IDENTITY_INVALID',now,v)
+        if not v['published_ts']<=now<v['expires_at']<=i['official_close']:
+            return unavailable(lane,'SOURCE_EXPIRED',now,v)
+        if lane=='main':
+            h=v['health']
+            limits=[v['published_ts']-h[k]+age for k,age in (('brti_age',5),('quote_age',6),('btc_age',10))]
+            if h.get('causal') is not True or v['expires_at']>min(limits):
+                return unavailable(lane,'NATIVE_SOURCE_LEASE_INVALID',now,v)
             from .revalidation import apply
-            required=callable(confirmation)
-            if required:
-                confirmation=confirmation(v)
-                # Include bounded handoff wait/inference time in the lease check.
-                now=time.time()
-            renewed=apply(v,confirmation,now)
-            if renewed is not None:return renewed
-            if required:return unavailable(lane,'REVALIDATION_PENDING',now,v)
-        if not v['published_ts']<=now<v['expires_at']:return unavailable(lane,'SOURCE_EXPIRED',now,v)
+            try:p=confirmation(v) if callable(confirmation) else confirmation
+            except Exception:p=None
+            # Include transport time; never return a lease which expired while reading.
+            if callable(confirmation):now=time.time()
+            if now>=v['expires_at']:return unavailable(lane,'SOURCE_EXPIRED',now,v)
+            return apply(v,p,now)
         v['served_ts']=now;return v
     except (OSError,ValueError,KeyError,TypeError):return unavailable(lane,'JOURNAL_UNAVAILABLE',now)

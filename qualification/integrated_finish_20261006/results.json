@@ -1,0 +1,36 @@
+{
+  "status": "OFFLINE_TARGETED_PASS",
+  "python_tests": 94,
+  "python_breakdown": {
+    "integrated": 22,
+    "source_and_quote_regressions": 71,
+    "full_frozen_native_loop_equivalence": 1
+  },
+  "assembled_dom_checks": 14,
+  "original_freeze_verified_lanes": [
+    "main",
+    "v81"
+  ],
+  "candidate_manifest_verified_lanes": [
+    "main",
+    "v81"
+  ],
+  "gate_functions_ast_identical": [
+    "protected_frame",
+    "qualify",
+    "native_frame"
+  ],
+  "no_order_paths_in_reachable_runtime_scan": true,
+  "signal_only": true,
+  "orders": false,
+  "physical_device_acceptance": "PENDING",
+  "prospective_validation": "NOT_STARTED",
+  "deployment": "NOT_DEPLOYED",
+  "production_mutations": 0,
+  "staged_patch_mutations": 0,
+  "limitations": [
+    "Headless Chromium executable absent; full assembled JSDOM checks used; browser layout and physical devices unverified.",
+    "Frozen-model native-loop equivalence passed with local scikit-learn 1.8.0 loading 1.9.0 artifact warnings; pinned production dependencies and model artifact unchanged.",
+    "No historical accuracy was recomputed; historical anchors are not new live-performance claims."
+  ]
+}

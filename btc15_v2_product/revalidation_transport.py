@@ -18,15 +18,12 @@ class ConfirmationTransport:
         from .revalidation import binding
         key=binding(native)
         with self.condition:
-            if self.inflight:
-                if not self.cached or self.cached.get('binding')!=key:
-                    self.condition.wait_for(lambda:not self.inflight,timeout=.45)
-                return self.cached
-            self.inflight=True
-        try:
-            self.cached=self.read(key)
-        except (OSError,TimeoutError):pass  # apply() still enforces original source expiry.
-        except Exception:self.cached=None
-        finally:
-            with self.condition:self.inflight=False;self.condition.notify_all()
-        return self.cached
+            if not self.inflight:
+                self.inflight=True
+                def read():
+                    try:value=self.read(key)
+                    except Exception:value=None
+                    with self.condition:
+                        self.cached=value;self.inflight=False
+                threading.Thread(target=read,daemon=True,name='presentation-confirmation').start()
+            return self.cached

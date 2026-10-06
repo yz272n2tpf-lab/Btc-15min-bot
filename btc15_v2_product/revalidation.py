@@ -2,8 +2,8 @@
 
 Only frozen feature/model arithmetic, qualification and gate predicates run here.
 No reducer, offer, journal writer, lifecycle method or upstream request is called.
-The native view and its event IDs remain immutable. A disagreement is sticky for
-that exact view; a later agreeing sample cannot resurrect it.
+The native view and its original lease remain immutable. Newer information
+neither revokes nor renews authority and never latches strategy state.
 """
 from copy import deepcopy
 import hashlib
@@ -12,7 +12,7 @@ from pathlib import Path
 import time
 
 from btc15_information_v1 import FairAssessment, check_anchor, pack, unpack
-from btc15_ladder_product_v1 import qualify, protected_frame, iso
+from .directional import qualify, protected_frame, iso
 from btc15_position_context_v2 import context
 
 SCHEMA='BTC15_READ_ONLY_REVALIDATION_R1'
@@ -117,32 +117,30 @@ def agrees(v,f,now):
 class Revalidator:
     def __init__(self,evaluator=None,clock=time.time):
         self.evaluator=evaluator or FairAssessment();self.clock=clock
-        self.key=None;self.denied=False;self.latest=None;self.previous_source=None
+        self.key=None;self.latest=None;self.previous_source=None
 
     def step(self,v,source):
         key=binding(v)
-        if key!=self.key:self.key,self.denied,self.previous_source=key,False,None
-        result=dict(schema=SCHEMA,binding=key,status='PENDING',reason='REVALIDATION_PENDING',
+        if key!=self.key:self.key,self.previous_source=key,None
+        result=dict(schema=SCHEMA,binding=key,status='REFRESHING',reason='REVALIDATION_PENDING',
             signal_only=True,orders=False,authority='PRESENTATION_CONFIRMATION_ONLY')
         try:
             if v['status'] not in ('PASS','AVAILABLE'):raise ValueError('NATIVE_UNAVAILABLE')
-            if self.denied:raise ValueError('REVALIDATION_DISAGREES_WAIT_NATIVE')
             f=fresh_frame(v,source,self.evaluator,self.clock())
             now=self.clock();expires=qualify(f,now)
-            if not agrees(v,f,now):
-                self.denied=True;raise ValueError('REVALIDATION_DISAGREES_WAIT_NATIVE')
+            agreement=agrees(v,f,now)
             q=f['quote'];b=f['brti']
             progress=(b['delivery']['owner_epoch'],b['cf_ts'],b['value'],q['epoch'],q['sid'],q['seq'],q['exchange_ts_ms'],tuple(q['quotes']))
             old=self.previous_source
             if old and (old[0]!=progress[0] or old[3]!=progress[3] or old[4]!=progress[4]
                 or progress[1]<old[1] or (progress[1]==old[1] and progress[2]!=old[2])
                 or progress[5]<old[5] or progress[6]<old[6] or (progress[5]==old[5] and progress[6:]!=old[6:])):
-                self.denied=True;raise ValueError('REVALIDATION_OWNER_OR_SOURCE_CHANGED_WAIT_NATIVE')
+                raise ValueError('REVALIDATION_OWNER_OR_SOURCE_CHANGED_WAIT_NATIVE')
             self.previous_source=progress
             # Time-gate/phase boundaries cannot be crossed on an old confirmation.
             boundaries=[f['official_close']-x for x in (600,480,360,300,180,120) if f['official_close']-x>now]
             if boundaries:expires=min(expires,min(boundaries))
-            result.update(status='CONFIRMED',reason='FROZEN_GATES_AGREE',checked_ts=now,expires_at=expires,
+            result.update(status='AGREES' if agreement else 'CHANGED',reason='FROZEN_GATES_AGREE' if agreement else 'NEWER_INFORMATION_DIFFERS',checked_ts=now,expires_at=expires,
                 native_epoch=v['native_epoch'],native_sequence=v['native_sequence'],official_identity=v['official_identity'],
                 source=dict(brti=b['cf_ts'],brti_received=b['delivery']['observed_ts'],brti_epoch=b['delivery']['owner_epoch'],
                     btc=f['btc_source'],btc_received=f['btc_received'],quote=q['exchange_ts_ms']/1000,
@@ -150,32 +148,31 @@ class Revalidator:
                 prices={k:f[k] for k in ('up_bid','up_ask','down_bid','down_ask')})
         except (ValueError,KeyError,TypeError) as exc:
             result['reason']=str(exc)
-            if str(exc) in ('REVALIDATION_IDENTITY_OR_CLOCK','REVALIDATION_SOURCE_BEFORE_NATIVE'):
-                self.denied=True
         self.latest=pack(result)
         return result
 
     def unavailable(self,v,reason):
         # No invented confirmation after source/worker failure.
-        self.latest=pack(dict(schema=SCHEMA,binding=binding(v),status='PENDING',reason=reason,
+        self.latest=pack(dict(schema=SCHEMA,binding=binding(v),status='REFRESHING',reason=reason,
             authority='PRESENTATION_CONFIRMATION_ONLY',signal_only=True,orders=False))
 
 
 def apply(v,confirmation,now):
-    """Copy a view for presentation; never write back to the native journal."""
-    from .journal import unavailable
-    if not confirmation or confirmation.get('binding')!=binding(v):return None
-    p=confirmation
-    try:
-        if p['schema']!=SCHEMA or p['signal_only'] is not True or p['orders'] is not False:raise ValueError('REVALIDATION_SCHEMA')
-        if p['status']!='CONFIRMED':raise ValueError(p['reason'])
-        s=p['source'];i=v['official_identity']
-        if (p['native_epoch']!=v['native_epoch'] or p['native_sequence']!=v['native_sequence']
-            or p['official_identity']!=i or not v['published_ts']<=s['cut']<=p['checked_ts']<=now<p['expires_at']
-            or not p['expires_at']<=min(i['official_close'],s['brti']+5,s['btc']+10,s['quote']+6)
-            or not s['brti']<=s['brti_received']<=s['cut'] or not s['btc']<=s['btc_received']<=s['cut']
-            or not s['quote']<=s['quote_accepted']<=s['cut']):raise ValueError('REVALIDATION_EXPIRED_OR_NONCAUSAL')
-        out=deepcopy(v);out.update(expires_at=p['expires_at'],served_ts=now,
-            presentation_revalidation=dict(p,native_expires_at=v['expires_at']))
-        return out
-    except (KeyError,TypeError,ValueError) as exc:return unavailable('main',str(exc),now,v)
+    """Information only. Never renew or revoke a committed native action lease."""
+    out=deepcopy(v)
+    info=dict(status='REFRESHING',authority='INFORMATION_ONLY',signal_only=True,orders=False)
+    if (confirmation and confirmation.get('binding')==binding(v)
+            and confirmation.get('schema')==SCHEMA and confirmation.get('signal_only') is True
+            and confirmation.get('orders') is False):
+        try:
+            s=confirmation['source'];i=v['official_identity']
+            if (confirmation['status'] in ('AGREES','CHANGED')
+                    and confirmation['native_epoch']==v['native_epoch']
+                    and confirmation['native_sequence']==v['native_sequence']
+                    and confirmation['official_identity']==i
+                    and v['published_ts']<=s['cut']<=confirmation['checked_ts']<=now<confirmation['expires_at']
+                    and confirmation['expires_at']<=min(i['official_close'],s['brti']+5,s['btc']+10,s['quote']+6)):
+                info.update(status=confirmation['status'],reason=confirmation['reason'])
+        except (KeyError,TypeError,ValueError):pass
+    out.update(served_ts=now,presentation_information=info)
+    return out

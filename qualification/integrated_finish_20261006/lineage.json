@@ -1,0 +1,57 @@
+{
+  "candidate": "BTC15_INTEGRATED_FINISH_20261006",
+  "source_main": "dc8cb4a75943ca5b0a18b0288ab1b07bd2c75cfe",
+  "source_v81": "e7b7ffe6109fbdc064770fba34956f59d94be872",
+  "preserved_staged_main": "ebb204255264f8a35c4bdf84cd0fd6e54057b19a",
+  "preserved_staged_tree": "63fb3fe98e77956884a311335a5f0f2e4c28e3f8",
+  "railway_patch_untouched": "cc16be42-2c82-4629-b694-fa9c7a238b37",
+  "early": {
+    "rule": "0 < ask <= .45; fair >= .75; edge >= .08 (redundant); 120 <= seconds_left <= 600; abs(BTC-target) >= 25; no persistence/strengthening/target-side gate",
+    "holdout_correct": 20,
+    "holdout_calls": 22,
+    "average_ask_cents": 31.9,
+    "average_minutes_left": 6.09,
+    "verification": "protected_frame, qualify and native_frame AST-identical to pinned source; boundary grid; no rescoring"
+  },
+  "final": {
+    "rule": "fair >= .90; seconds_left <=480; gap >=75 if left>360 else >=50; distance/range5 >=1; preferred side agrees with BTC target side; existing BRTI abs gap >11 and side/freshness preserved",
+    "holdout_correct": 46,
+    "holdout_calls": 47,
+    "holdout_coverage_percent": 47,
+    "fresh_oos_calls": 133,
+    "fresh_oos_contracts": 250,
+    "fresh_oos_accuracy_percent": 99.2
+  },
+  "scalp": {
+    "rule": "Both sides; same-contract causal BTC30 >=15 aligned to side; >=120s at new entry; no price band, confirmation gate, cooldown or count cap; +.05 arm / .04 giveback from running executable BID peak; immutable original ASK; strictly later BID; serial after EXIT or informational ENDED_UNARMED; armed/no-exit blocks same-contract lane beyond horizon",
+    "historical_forward": {
+      "qualified_contracts": 40,
+      "observed_contracts": 43,
+      "actionable_coverage_percent": 93.0,
+      "hit_10c_percent": 62.5,
+      "managed_average_cents": 11.23,
+      "positive_managed_exit_percent": 77.5
+    },
+    "historical_serial": {
+      "completed_opportunities": 115,
+      "hit_10c_percent": 77.4,
+      "protected_exits": 70,
+      "first_4c_crossing_correctness_percent": 100
+    },
+    "metrics_are": "Movement/lifecycle metrics, not FINAL settlement accuracy",
+    "artifact_blobs": {
+      "BTC15_GENERALIZED_SCALP_FORWARD_DECISION_20260914.md": "0729ced9359692aa9bf15bdc08c847a583f2b5e0",
+      "BTC15_SCALP_RESEARCH_DECISION_LOG_20260915.md": "6708f40b75ce3992ee73953268a990a995853993",
+      "btc15_protected_module_adapter_v1.py": "1ef4194cc9342b5ff14a59481399cf7ff2bbb094",
+      "BTC15_SCALP_SERIAL_STATE_BRIDGE_SHADOW_V1.py": "06a4abed1a66ba61a1c9621dbc51259a34fcbee4",
+      "scalp_integration_state_bridge_v5.py": "fbbec35d0119ecd7dca4f0be3a0f0024a8ec9a75",
+      "btc15_scalp_management_presentation_v1.py": "45bd5b58a652957d0d415797264aac09bc4f45f8",
+      "scalp_move_shadow_v1.py": "02c144b4f0af14420b03ad301c49494ee0130c49"
+    }
+  },
+  "physical_device_acceptance": "PENDING",
+  "prospective_validation": "NOT_STARTED",
+  "signal_only": true,
+  "orders": false,
+  "manual_execution_only": true
+}

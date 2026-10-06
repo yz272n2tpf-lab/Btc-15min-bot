@@ -10,6 +10,12 @@
     const a = view.assessment || lastQualified;
     assessment.textContent = a ? `${a.ticker} · descriptive UP ${(a.probability_up*100).toFixed(1)}% · DOWN ${(a.probability_down*100).toFixed(1)}% · Flip risk ${Number(a.flip_risk_pct).toFixed(1)}% · ${a.protection_phase === '3M_GUARD' ? '3M GUARD' : a.protection_phase === '5M_CAUTION' ? '5M CAUTION' : 'NORMAL'} · Profit protection ${a.profit_protection_status === 'OBSERVE_ONLY_NO_POSITION_CONTEXT' ? 'OBSERVE' : 'REFRESHING'} · BRTI ${a.brti_agrees ? 'agrees' : 'differs'}` : 'WAIT — information refresh pending';
   }
+  // Fresh, validated descriptive probabilities only. Action owners cannot renew
+  // any lease or create strategy events from this projection.
+  window.btc15CurrentModelInformation = () => {
+    const a=informationView(token,performance.now()).assessment;
+    return a && Number.isFinite(a.probability_up) && Number.isFinite(a.probability_down) && a.probability_up>=0 && a.probability_down>=0 && Math.abs(a.probability_up+a.probability_down-1)<1e-9 ? {...a} : null;
+  };
   async function poll() {
     if (busy || document.hidden) return;
     busy = true;

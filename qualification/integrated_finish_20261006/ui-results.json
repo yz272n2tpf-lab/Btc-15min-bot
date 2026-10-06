@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "checks": [
+    "startup",
+    "native-0",
+    "transport-original-lease",
+    "native-1",
+    "native-2",
+    "native-3",
+    "native-4",
+    "native-5",
+    "native-6",
+    "native-7",
+    "native-8",
+    "native-9",
+    "native-failure",
+    "expiry"
+  ],
+  "mode": "FULL_ASSEMBLED_JSDOM",
+  "physical_device_acceptance": "PENDING",
+  "signal_only": true,
+  "orders": false
+}

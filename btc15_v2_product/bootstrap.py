@@ -49,6 +49,39 @@ def _accepted_session():
 
 class PreparedProvider(quotes.Provider):
     session=_accepted_session()
+    def __init__(self):
+        from btc15_quote_proof_offpath_v1 import OffPathProofWriter
+        self.proof_writer=OffPathProofWriter(quotes.proof_path().parent/'integrated_quote_proofs',
+            self._validate_proof,quotes.MAX_BYTES)
+        super().__init__()
+
+    @staticmethod
+    def _validate_proof(proof,witness):
+        import json
+        quotes.replay(proof,witness.source_time,witness.ticker,witness.close_ms,witness.consumed_ms)
+        # Legacy informational parity may read the asynchronously published proof.
+        # Its delay/failure can never hold up the native accepted quote witness.
+        path=quotes.proof_path();path.parent.mkdir(parents=True,exist_ok=True)
+        tmp=path.with_suffix('.integrated.tmp')
+        tmp.write_text(json.dumps(proof,separators=(',',':')));tmp.replace(path)
+        return proof['identity']
+
+    def consume(self,ticker,source_time,close_ms):
+        from dataclasses import asdict
+        from btc15_quote_proof_offpath_v1 import Witness
+        with self.lock:
+            self.last_product_quote=None
+            if ticker!=self.ticker or close_ms!=self.close_ms or self.book is None or not self.epoch:
+                return None
+            consumed=int(time.time()*1000)
+            try:values=self.book.quotes(consumed,close_ms)
+            except ValueError:return None
+            w=Witness(ticker,source_time,self.epoch,consumed,self.book.market_id,
+                self.book.sid,self.book.seq,self.book.ts_ms,close_ms)
+            self.last_product_quote=dict(asdict(w),quotes=values)
+            self.proof_writer.submit(w,self.events)
+            return values
+
     @property
     def book(self):return getattr(self,'_book',None)
     @book.setter

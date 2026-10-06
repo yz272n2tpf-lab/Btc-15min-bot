@@ -1,7 +1,7 @@
 {
   "schema": "BTC15_V2_PRODUCT_RELEASE_R1",
-  "revision": "BTC15_V2_PRODUCT_20261004_R1",
-  "strategy": "BTC15_LADDER_COMPLETION_20261003_V2",
+  "revision": "BTC15_INTEGRATED_OFFLINE_20261006",
+  "strategy": "BTC15_INTEGRATED_FINISH_20261006",
   "frozen_main": "de4f3e20b8657eb8cfee91bd4e525c103b5bf513",
   "frozen_v81": "60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1",
   "bridge_base": "1d942014af22ab4acb3048a29dbbc831d5ecc924",
@@ -14,20 +14,20 @@
     "btc15_cohort_evidence_v1.py": "9812c23a6200bf31c2c5eb4e8f317fe32cfcafefeaa37d2a9b9a041967447d1a",
     "btc15_v2_launch.py": "19c04f0f85d095ecce541b2d3b49e3749bb5ad2721c97dcfdfb5cac6e17be7a3",
     "btc15_v2_native.py": "a1cb9115a35da40ba93410cb72374d9068cf5501f5b2b9697bd500e5c49b9a7a",
-    "btc15_v2_product/__init__.py": "2a5053ccb3d4ce09441d4b004640958bbbb503e36eed7a287202a7dff2a430f6",
+    "btc15_v2_product/__init__.py": "9a7b49d9bd21863c017a87e4cddd6dc16c8d189a7c0e600f4dd9286c770f49c8",
     "btc15_v2_product/admin.py": "33912a9118ba5f5671cdf98848aed18f1601047b6de61892d7e939d410fb8f84",
-    "btc15_v2_product/bootstrap.py": "42d48f2543a8ffeffa34435821f906b69c4b585b07837d17b36f4e527e5d5aae",
+    "btc15_v2_product/bootstrap.py": "83a83bafcf6cb000378e409193219a2002d708a753c1fb9985493a0111f132ab",
     "btc15_v2_product/installer.py": "597be98144488e7c8f618676533674e0aaf00941e766007d353ed3b0003613cf",
-    "btc15_v2_product/journal.py": "5f02183b44d529e131a0f95e34862da4ba001b7a9cd809e15728aa77b6a2ed80",
-    "btc15_v2_product/panel.js": "fe208dd3d59f8227ec333c6b24cbadd834e3338625e1776773590566a1f858ab",
+    "btc15_v2_product/journal.py": "ca841f81c632d71475ff43e460c10be5c688f71384a345207e64d6b26f0bcb65",
+    "btc15_v2_product/panel.js": "fe816c4668dcfe99db45ec86397d2401aeea470437f4d550802d64fb24166589",
     "btc15_v2_product/quote_transport.py": "48ff0785fb120c19ad2973f06ce18a4cb1922ec05067b34ae0e025eb075c8633",
     "btc15_v2_product/quote_view.py": "a2e3180dae69fe6d304e30a7259ba2f764ea4cb7e277aa2236cb98b715be62fe",
     "btc15_v2_product/release.py": "0d804e80104a8989e492e7219fd53e32d8e10c9baf963685a066b5af69daced5",
-    "btc15_v2_product/revalidation.py": "e958a71f63c2e474973fef0995a4cc84b2df9d31ef3f92c9ccf0790d51ad0268",
-    "btc15_v2_product/revalidation_transport.py": "b68d05533c3bd007cdf2c279e1ce840b1385a1992b3be3c96883f67284637085",
+    "btc15_v2_product/revalidation.py": "6366533f9d9479e6aa3df5ba78b3eb0f5f63ce2a896ff65a4bce07491a5c4880",
+    "btc15_v2_product/revalidation_transport.py": "828a42b22465a9fe34779e4d6fb0d38eb8393fbc2f0e43620bf62f4d91abd4cc",
     "btc15_v2_product/routes.py": "df02050e261932268e3a8f426086c464736389540b47ca30b89d5c62f8e5889e",
-    "btc15_v2_product/runtime.py": "8e43597b8d4b28dcac70a5cde2e6bc11dad6b37eb25daed58ac132bc645988fe",
-    "btc15_v2_product/worker.py": "5c009d576ac016a8ce9237f4b9548e1c671cd3c78a12bf22728d813b7bc1b226",
+    "btc15_v2_product/runtime.py": "5466b751b8b0e02513bb600412386a2be74a56aaaa349906c96c6aa50ed2ad0c",
+    "btc15_v2_product/worker.py": "27b6b7c5df0b35c99c106c004a0928013ab1712ad5272ef16c2535b90425edcb",
     "ops/btc15_v2_scoring/bridge.py": "d298c22c317d0f4bac415a1f24264a9bf0349926bc7f9cc6e4b5dfe37cb121b4",
     "ops/btc15_v2_scoring/completeness_diagnostics.py": "e46ae773d63e628e92d883ad81c91e028d65d5b39fea68c2a15cc06c602e73c1",
     "ops/btc15_v2_scoring/product_cohort.py": "9a5f94d08fb07e01619f4f6011cde81f2049bc6a1395f4d97c50e1a37e589414",
@@ -36,7 +36,14 @@
     "btc15_v2_product/fair_readiness.py": "368a1c8ae8edc56f25e0d6b372baacbf8acbe30816fb9ca578e2b8f59ce4416c",
     "btc15_v2_product/durable_handoff.py": "cfe1a69a1611f0cd2ccde1db5574254d958745e6cdb3547f43291f93d6c5e3b8",
     "btc15_v2_product/indicators.py": "98052605bc935fe8fabc9a72fd93c7cbbb56a84f75bb3b665b1725bc51d98bb9",
-    "btc15_information_panel_v1.js": "50bf97ae22e5b45bc4fe185015a5d5a8df8f16df8f351bfe24f56b2af39a161d"
+    "btc15_information_panel_v1.js": "db3b1408435fe39c31f1df0c931e058a1bce1d8aefae3c82479ac59d66a14534",
+    "btc15_v2_product/directional.py": "ac03a5cdcdb4854357d1dd6dd4e2a7e8f7afb0db38aac8397b8a16bfa11d42bc",
+    "btc15_v2_product/scalp.py": "cbe257a76b93128fed10c8a83b0ac8739871d723df7196f6c91f80df3432d538",
+    "btc15_v2_product/scalp_feed.py": "c5fc216a979b3e1898e4f8e905f9a1346e9e8362a9bb9a6c8a365289c8a03db9",
+    "btc15_v2_product/directional_authority.py": "6bfbe80e72f8e1a2f90b0430527717ca6f225aba0e5e9b81f0cc10d5a71ab1fa",
+    "btc15_v2_product/scalp_policy.py": "45c48a30b40be71ffa12ab505c6d4228797c75ec109515eec1498020b6590609",
+    "btc15_v2_product/coverage_challenger_a.json": "c1667f4db62d619fe2a80584ae617ca0cf32af933b15405a67b486cb4db7b720",
+    "btc15_quote_proof_offpath_v1.py": "b2b1f2ced06503d8f5a635cb0794e8712b780fb68c60d899267a307929a3a7b0"
   },
   "lane_protected_files": {
     "main": {
@@ -51,17 +58,19 @@
       "kalshi_scalp_shadow_events_v1.csv": "92b9b168440f9b735e98b74aaeca13e26fcf680cb9acaeee5cf2b5984812419b"
     },
     "v81": {
-      "btc15_kalshi_quote_provenance_v1.py": "758e172fd5b6c31472a828676d7b00ab284438de95029a2d5f9c1c2efc06f247",
+      "btc15_kalshi_quote_provenance_v1.py": "a21396b88b3820c8f99bbd800b43a5c449f1fd10d632f2e2535ed792402dbe9a",
       "btc15_brti_shared_consumer_v1.py": "c49ef2191259a99e3914f704c90ab5e2ee36874e344a125ac8e2ffa288af4f49",
-      "requirements.txt": "64e574062380acfd02fe8c1b7437c37b2b0e0c2dfb6168526fa2d26dc3a83113"
+      "requirements.txt": "510246d681fc831ae8361577c90afcc8fc894968e15fb4688657a528cd785e8a"
     }
   },
-  "performance_optimization": "No strategy optimization. V81 bounded durable publication handoff; no permanent queue-full poison.",
+  "performance_optimization": "No thresholds tuned; no holdouts rescored; no models trained",
   "publication_repair": "V81 bounded durable inbox, atomic product cursor, non-latching capacity evidence, background settlement backpressure; frozen processor and processing clock unchanged.",
   "source_change": "Official metadata preparation and SAME timestamped WS provider, native consumption/qualification unchanged",
   "evidence_change": "Separate revision/deployment root; startup/restart slot excluded; additive admin only; strict classifier unchanged",
-  "deployment": "NOT_AUTHORIZED; startup requires reviewed manifest/build authorization or reviewed receipt; scoring requires independent actual deployment receipt",
-  "visible_completion_status": "OFFLINE_TARGETED_PASS_STABILITY_GATES_PASS; STAGE_ONLY; PHYSICAL_DEVICE_ACCEPTANCE_PENDING",
+  "deployment": "NOT_AUTHORIZED; existing deployment authorization checks unchanged",
+  "visible_completion_status": "PHYSICAL_DEVICE_ACCEPTANCE_PENDING",
   "display_indicators": "DISPLAY ONLY: Coinbase completed 1m; RSI14 Wilder; SMA-seeded MACD12/26/9; latest completed Volume BTC. Candle close age <75s; no native inputs changed.",
-  "qualification_status": "OFFLINE_TARGETED_PASS_STABILITY_GATES_PASS; STAGE_ONLY; NO_DEPLOY"
+  "qualification_status": "OFFLINE_INTEGRATED_TARGETED_TESTS; NO_DEPLOY",
+  "integrated_base": "ebb204255264f8a35c4bdf84cd0fd6e54057b19a",
+  "integrated_scope": "Protected EARLY/FINAL unchanged; generalized serial SCALP; native original lease; information-only revalidation"
 }

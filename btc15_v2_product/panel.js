@@ -1,7 +1,7 @@
 /* Sole owner of V2 action cards and executable price readouts. SIGNAL ONLY. */
 (() => {
   'use strict';
-  const REVISION='BTC15_V2_PRODUCT_20261004_R1',STRATEGY='BTC15_LADDER_COMPLETION_20261003_V2';
+  const REVISION='BTC15_INTEGRATED_OFFLINE_20261006',STRATEGY='BTC15_INTEGRATED_FINISH_20261006';
   const caches={main:null,scalp:null,quote:null},requests={main:null,scalp:null,quote:null};
   const clocks={main:null,scalp:null,quote:null}; // Monotonic floor survives hide/resume; cached replies cannot renew leases.
   let epoch=0,identity=null,quoteHistory=null;const receipts=[];
@@ -32,10 +32,10 @@
     TIMESTAMPED_QUOTES_UNAVAILABLE:'timestamped quote refresh pending',
     OFFICIAL_MARKET_UNQUALIFIED:'official market refresh pending',
     SOURCE_EXPIRED:'source refresh pending',
-    PRICE_OUTSIDE_30_45C:'price outside 30–45¢',
-    NO_SIDE_IN_30_45C:'price outside 30–45¢',
     BASE_NOT_READY:'base not ready',
-    EVIDENCE_BELOW_CORE_SURGE:'evidence below CORE/SURGE',
+    BTC30_BELOW_15:'side-aligned BTC30 below $15',
+    BTC30_HISTORY_REFRESHING:'30-second causal history refreshing',
+    NEW_ENTRY_REQUIRES_120S:'new SCALP entry needs at least 120 seconds',
     READY_CONFIRMING:'confirmation pending', FEATURES_NOT_READY:'feature history not ready',
     BRTI_NOT_FRESH:'BRTI refresh pending',
     ask_le45:'current ask is above 45¢',
@@ -91,25 +91,27 @@
     text('liveStatus','MAIN '+(qualified?m.status:'WAIT / REFRESHING')+' · SCALP '+(aligned?s.status:'WAIT / REFRESHING'));
     classes('liveStatus','live-status '+(qualified?'live-ok':'live-warn'));
     const f=qualified?m.final:null;
+    const descriptive=window.btc15CurrentModelInformation?.();
+    const model=descriptive&&ident&&descriptive.ticker===ident.contract?descriptive:null;
     classes('finalCard','card final-card '+(f?.ready?(f.side==='DOWN'?'down-mode':''):'wait-mode'));
     // Original V13 display classification (8e25678); no strategy authority.
-    const probability=f?.confidence;
+    const probability=model?Math.max(model.probability_up,model.probability_down):f?.confidence;
     text('signalStrength',finite(probability)?(probability>=.90?'STRONG':probability>=.75?'GOOD':probability>=.60?'MODERATE':'WEAK'):retained('main','signalStrength',ident));
     if(f){
       text('finalArrow',f.ready?(f.side==='DOWN'?'↓':'↑'):'—');
       text('finalSide',f.ready?f.side+' FINAL':'PASS');
-      text('finalAction',f.ready?'QUALIFIED':'UNLOCKED / PASS');
-      text('finalConfidence','Model only: '+pct(f.confidence));
-      text('finalActionSub',`UP ${pct(f.probability_up)} · DOWN ${pct(f.probability_down)} · independent model`);
+      text('finalAction',f.ready?'FINAL LOCK / QUALIFIED':'UNLOCKED / PASS');
+      text('finalConfidence','Model only: '+pct(probability));
+      text('finalActionSub',`UP ${pct(model?.probability_up??f.probability_up)} · DOWN ${pct(model?.probability_down??f.probability_down)} · information only`);
       text('finalReason',f.ready?'Independent FINAL call qualified':'FINAL entry not qualified');
       text('finalBuyZone',m.origin&&f.early_origin_id===m.origin.origin_id?'Linked EARLY '+m.origin.side:'No linked EARLY origin');
       text('finalHoldZone',f.helper?.confirmed?'EARLY confirmed · '+f.helper.state:human(f.state));
       text('finalWatchZone',f.helper?human(f.helper.relation)+' · '+human(f.helper.probability_trend):'No position assumed');
       text('finalProtectZone',f.helper?.protect_latched?'PROTECT · support lost or opposed':'No new protection instruction');
-      text('finalExitZone','No supported EARLY EXIT threshold · no automatic EXIT');
+      text('finalExitZone','Directional EXIT authority not yet validated');
     }else{
-      text('finalArrow','—');text('finalSide','WAIT');text('finalConfidence',retained('main','finalConfidence',ident));text('finalAction','WAIT');
-      text('finalActionSub','WAIT — '+reasonText(m?.reason));text('finalReason','No current actionable FINAL guidance');
+      text('finalArrow','—');text('finalSide','WAIT');text('finalConfidence',model?'Model only: '+pct(probability):retained('main','finalConfidence',ident));text('finalAction','WAIT');
+      text('finalActionSub',model?`UP ${pct(model.probability_up)} · DOWN ${pct(model.probability_down)} · information only`:retained('main','finalActionSub',ident)+' · REFRESHING');text('finalReason','No current actionable FINAL guidance');
       for(const id of ['finalBuyZone','finalHoldZone','finalWatchZone','finalProtectZone','finalExitZone'])text(id,'WAIT · current authority refresh pending');
     }
     if(!qualified){
@@ -119,25 +121,25 @@
       text('contextBanner','WAIT — '+reasonText(m?.reason));
     }else{
       const e=m.early,o=m.origin,h=f?.helper,ctx=m.context;
-      const prices=m.presentation_revalidation?.prices;
+      const prices=m.prices;
       const quotePrices=q&&q.status==='AVAILABLE'&&ident&&key(q.official_identity)===key(ident)?q:null;
-      const ask=prices?prices[e.side.toLowerCase()+'_ask']:e.ask;
+      const ask=quotePrices?quotePrices[e.side.toLowerCase()+'_ask']:prices?prices[e.side.toLowerCase()+'_ask']:e.ask;
       const bid=prices&&o?prices[o.side.toLowerCase()+'_bid']:m.executable_current_bid;
-      const pass=!o&&e.guidance==='PASS',passView=pass?earlyPass(e,prices||quotePrices):null;
+      const pass=!o&&e.guidance==='PASS',passView=pass?earlyPass(e,quotePrices||prices):null;
       pill('earlyState',e.guidance);text('earlyTitle',o?'EARLY '+o.side:'EARLY · '+e.guidance);
       text('earlyEntry',o?'Origin ASK '+cents(o.original_ask):pass?passView.reason:'Current ASK '+cents(ask));
       text('earlyYourEntry',o?cents(o.original_ask)+' · signal ASK':'No accepted origin');
       text('earlyCurrentPrice',o?'BID '+cents(bid):pass?passView.quotes:'ASK '+cents(ask));
-      text('earlyEdge',o?((bid-o.original_ask)*100).toFixed(1)+'¢ gross movement':pass?'No actionable edge while PASS':cents(e.edge)+' model edge');
+      text('earlyEdge',o?(finite(bid)?((bid-o.original_ask)*100).toFixed(1)+'¢ gross movement':'WAIT — later same-side BID'):pass?'No actionable edge while PASS':cents(e.edge)+' model edge');
       text('earlyAfterEntry',o?e.guidance+' · '+human(h?.relation):pass?passView.reason:'PASS · '+e.pass_reasons.map(reasonText).join(' · '));
       text('earlyLadderEntry','≤45¢ · fair ≥75% · 2–10m · |gap| ≥$25');
       text('earlyLadderHold',h?.confirmed?'FINAL confirms · '+e.guidance:o?e.guidance:'No position assumed');
       text('earlyLadderWatch',pass?passView.reason:ctx?human(ctx.phase)+' · '+ctx.reasons.map(human).join('; '):'Await qualified entry');
       text('earlyLadderProtect',h?.protect_latched?'PROTECT · review exposure at current bid':o?'Monitor FINAL support and bid':'No origin to protect');
-      text('earlyLadderExit','No supported EARLY EXIT rule · PROTECT is risk guidance');
+      text('earlyLadderExit','Directional EXIT authority not yet validated · PROTECT is manual risk guidance');
       text('earlyFlow',`${m.contract} · ${o?'If manually entered: '+e.guidance:'PASS'} · SIGNAL ONLY / NO ORDERS`);
       text('flipRisk',m.flip_risk_pct.toFixed(1)+'%');text('flipRiskSub','Model context only · no exit authority');
-      text('contextBanner',human(m.phase)+' · '+(ctx?ctx.reasons.map(human).join('; '):'No active EARLY origin'));
+      text('contextBanner',human(m.phase)+' · '+(ctx?ctx.reasons.map(human).join('; '):'No active EARLY origin')+(aligned&&s.origin&&s.origin.side!==f.side?' · MIXED HORIZONS: SCALP differs from FINAL':'')+' · '+human(m.presentation_information?.status||'REFRESHING'));
     }
     text('oppositeArrow','—');text('oppositeTitle','SERIAL REVERSAL / RE-ENTRY');
     if(!aligned){
@@ -149,14 +151,14 @@
       text('scalpEntry',o?'Origin ASK '+cents(o.original_ask):scalpPass(s));
       text('scalpYourEntry',o?cents(o.original_ask)+' · signal ASK':'No accepted origin');
       text('scalpCurrentPrice',o?'BID '+cents(s.executable_current_bid):'No active origin');
-      text('scalpTargetStrip',o?s.movement_cents.toFixed(1)+'¢ gross':scalpPass(s));
-      text('scalpLadderEntry',o?human(o.lane)+' · #'+o.serial_index:'30–45¢ · ideal overlap 30–35¢');
-      text('scalpLadderHold',o?s.guidance+' · maximum 180s signal horizon':'No position assumed');
+      text('scalpTargetStrip',o?(finite(s.movement_cents)?s.movement_cents.toFixed(1)+'¢ gross · peak '+cents(s.path?.mfe)+' · giveback '+cents(s.path?.giveback):'WAIT — later same-side BID'):scalpPass(s));
+      text('scalpLadderEntry',o?human(o.lane)+' · #'+o.serial_index:'Both sides · BTC30 ≥$15 · new entry ≥120s · price telemetry only');
+      text('scalpLadderHold',o?s.guidance+' · serial lifecycle · 180s completion is informational':'No position assumed');
       text('scalpLadderWatch',s.context?human(s.context.phase)+' · '+s.context.reasons.map(human).join('; '):'Fresh qualifying observations required');
       text('scalpLadderProtect',s.presentation?.protection_armed?'PROTECT · trail trigger '+cents(s.trailing_trigger_bid):'Arms at +5¢ executable gain');
-      text('scalpLadderExit',s.guidance==='EXIT'?'EXIT · current BID '+cents(s.executable_current_bid)+' · trigger BID '+cents(s.terminal.executable_exit_bid):'4¢ peak giveback after arm, or 180s horizon');
+      text('scalpLadderExit',s.guidance==='EXIT'?'EXIT · current BID '+cents(s.executable_current_bid)+' · trigger BID '+cents(s.terminal.executable_exit_bid):s.lifecycle_state==='ENDED_UNARMED'?'ENDED_UNARMED · information only · scanning resumes':'+5¢ arm / 4¢ peak giveback EXIT · no horizon sell');
       text('scalpFlow',`${o?'If manually entered: '+s.guidance+'. ':''}${s.terminal?human(s.terminal.reason)+'. ':''}No assumed fill; fees excluded. SIGNAL ONLY / NO ORDERS`);
-      text('oppositeEntry',o?'Next origin requires a later qualified setup after EXIT':'Both sides evaluated');text('oppositeState',s.guidance==='EXIT'?'RECONFIRM':'WAIT');
+      text('oppositeEntry',o?'Next origin: later qualified setup after EXIT or ENDED_UNARMED':'Both sides evaluated');text('oppositeState',s.guidance==='EXIT'||s.lifecycle_state==='ENDED_UNARMED'?'RESET / SCAN':'WAIT');
     }
     if(qualified)remember('main',ident,m.published_ts);
     if(aligned)remember('scalp',ident,s.published_ts);
@@ -203,17 +205,13 @@
     if(!['AVAILABLE','PASS'].includes(data.status)||!finite(data.published_ts)||!finite(data.expires_at)||data.published_ts>data.served_ts||!official(i,data.served_ts))throw Error('CLOCK_OR_IDENTITY');
     if(lane!=='quote'){
       if(data.contract!==i.contract||data.target!==i.target||data.official_open!==i.official_open||data.official_close!==i.official_close||data.expires_at>i.official_close)throw Error('ACTION_IDENTITY');
-      if(data.origin&&(!['UP','DOWN'].includes(data.origin.side)||data.origin.contract!==i.contract||!finite(data.origin.original_ask)||!finite(data.movement_cents)||!finite(data.executable_current_bid)))throw Error('ACTION_ORIGIN');
+      if(data.origin&&(!['UP','DOWN'].includes(data.origin.side)||data.origin.contract!==i.contract||!finite(data.origin.original_ask)||(data.movement_cents!==null&&!finite(data.movement_cents))||(data.executable_current_bid!==null&&!finite(data.executable_current_bid))))throw Error('ACTION_ORIGIN');
       if(data.context&&(!Array.isArray(data.context.reasons)||typeof data.context.phase!=='string'))throw Error('CONTEXT');
       if(lane==='main'){
         const f=data.final,e=data.early;
         if(!f||!e||typeof f.ready!=='boolean'||!['UP','DOWN'].includes(f.side)||!['confidence','probability_up','probability_down'].every(k=>finite(f[k])&&f[k]>=0&&f[k]<=1)||typeof e.guidance!=='string'||!Array.isArray(e.pass_reasons)||!finite(data.flip_risk_pct)||typeof data.phase!=='string')throw Error('MAIN_PAYLOAD');
-        const p=data.presentation_revalidation;
-        if(p){
-          const s=p.source;
-          if(p.schema!=='BTC15_READ_ONLY_REVALIDATION_R1'||p.status!=='CONFIRMED'||p.authority!=='PRESENTATION_CONFIRMATION_ONLY'||p.signal_only!==true||p.orders!==false||p.native_epoch!==data.native_epoch||p.native_sequence!==data.native_sequence||key(p.official_identity)!==key(i)||!s||!s.brti_epoch||!s.quote_epoch||!Number.isInteger(s.sid)||!Number.isInteger(s.sequence)||!['brti','brti_received','btc','btc_received','quote','quote_accepted','cut'].every(k=>finite(s[k]))||!(s.brti<=s.brti_received&&s.brti_received<=s.cut&&s.btc<=s.btc_received&&s.btc_received<=s.cut&&s.quote<=s.quote_accepted&&s.quote_accepted<=s.cut&&s.cut<=p.checked_ts&&p.checked_ts<=data.served_ts)||data.expires_at!==p.expires_at||data.expires_at>Math.min(i.official_close,s.brti+5,s.btc+10,s.quote+6)||!p.prices||!['up_bid','up_ask','down_bid','down_ask'].every(k=>finite(p.prices[k])&&p.prices[k]>=0&&p.prices[k]<=1)||p.prices.up_bid>p.prices.up_ask||p.prices.down_bid>p.prices.down_ask)throw Error('REVALIDATION_PROOF');
-        }
-      }else if(!['PASS','ENTER','HOLD','CAUTION','PROTECT','EXIT'].includes(data.guidance)||(data.guidance==='EXIT'&&(!data.terminal||!finite(data.terminal.executable_exit_bid))))throw Error('SCALP_PAYLOAD');
+        // presentation_information is text only and cannot extend this lease.
+      }else if(!['PASS','ENTER','HOLD','WATCH','CAUTION','PROTECT','EXIT'].includes(data.guidance)||(data.guidance==='EXIT'&&(!data.terminal||!finite(data.terminal.executable_exit_bid))))throw Error('SCALP_PAYLOAD');
     }
     if(lane==='quote'){
       if(!data.epoch||!Number.isInteger(data.sid)||!Number.isInteger(data.sequence)||!finite(data.exchange_ts)||!finite(data.accepted_ts)||!(i.official_open<=data.exchange_ts&&data.exchange_ts<=data.accepted_ts&&data.accepted_ts<=data.published_ts)||data.expires_at>Math.min(i.official_close,data.exchange_ts+6))throw Error('QUOTE_PROVENANCE');
@@ -237,9 +235,9 @@
       if(generation!==epoch||document.visibilityState==='hidden')return;
       caches[lane]=accept(lane,data,sent,received);
     }catch(error){if(generation===epoch){
-      // Keep only a transport-interrupted quote, on its ORIGINAL monotonic lease.
-      // Malformed/revoked observations, action failures and lifecycle changes clear.
-      if(lane!=='quote'||!['HTTP','QUOTE_TRANSPORT'].includes(error.message))caches[lane]=null;
+      // A transport interruption retains only the ORIGINAL unexpired lease.
+      // Explicit revocation, malformed data, expiry and identity failures clear.
+      if(!['HTTP','QUOTE_TRANSPORT'].includes(error.message))caches[lane]=null;
     }}
     finally{clearTimeout(timeout);if(requests[lane]===token)requests[lane]=null;}
     render();

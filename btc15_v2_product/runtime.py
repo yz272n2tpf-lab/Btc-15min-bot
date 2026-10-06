@@ -88,7 +88,7 @@ def native_main():
     from .quote_view import QuoteProjection
     root=Path(os.environ['BTC15_LADDER_DATA_ROOT'])
     admin=Admin(root,'main');install(admin)
-    from btc15_ladder_product_v1 import start,offer
+    from .directional import start,offer
     raw=native.BOT.read_bytes()
     if hashlib.sha1(f'blob {len(raw)}\0'.encode()+raw).hexdigest()!=native.PR36_BLOB:raise ValueError('FROZEN_NATIVE_BYTES')
     pool=Pool();export=native.NativeExport(provider_reader=lambda:pool.current)
@@ -131,6 +131,6 @@ def v81_main(root):
     import btc15_ladder_journal_v1 as journal
     journal.view=public_view
     pool=Pool()
-    path=Path(root)/'v81_30_45_live_feed.py'
+    path=Path(root)/'btc15_v2_product/scalp_feed.py'
     ns=dict(__name__='__main__',__file__=str(path),_v2_admin=admin,_v2_prepare=lambda ns:prepare_v81(ns,pool))
     exec(compile(instrument(ast.parse(path.read_bytes()),'v81'),str(path),'exec'),ns)
