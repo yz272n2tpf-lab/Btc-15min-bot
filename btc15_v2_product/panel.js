@@ -8,7 +8,13 @@
   let indicators=null,indicatorRequest=null,indicatorClock=null,lastIndicators=null;
   // Strings only, display-only: never read by accept(), current(), or any action gate.
   const history={main:null,scalp:null,quote:null};
-  const infoIds={main:['finalConfidence','finalActionSub','earlyEntry','earlyYourEntry','earlyCurrentPrice','earlyEdge','flipRisk','signalStrength'],scalp:['scalpYourEntry','scalpCurrentPrice','scalpTargetStrip'],quote:['upOdds','downOdds']};
+  const infoIds={
+    main:['finalSide','finalConfidence','finalActionSub','finalReason','finalBuyZone','finalHoldZone','finalWatchZone','finalProtectZone','finalExitZone',
+      'earlyEntry','earlyYourEntry','earlyCurrentPrice','earlyEdge','earlyAfterEntry','earlyLadderEntry','earlyLadderHold','earlyLadderWatch','earlyLadderProtect','earlyLadderExit','earlyFlow',
+      'flipRisk','flipRiskSub','signalStrength','contextBanner'],
+    scalp:['scalpEntry','scalpYourEntry','scalpCurrentPrice','scalpTargetStrip','scalpLadderEntry','scalpLadderHold','scalpLadderWatch','scalpLadderProtect','scalpLadderExit','scalpFlow','oppositeEntry'],
+    quote:['upOdds','downOdds']
+  };
   const node=id=>document.getElementById(id);
   const text=(id,v)=>{const n=node(id);if(n&&n.textContent!==String(v))n.textContent=String(v);};
   const cents=v=>Number.isFinite(v)?(100*v).toFixed(1)+'¢':'REFRESHING';
@@ -49,16 +55,18 @@
   }
   function retained(lane,id,ident,label=true){
     const h=history[lane],value=h?.values[id];
-    return value&&(!ident||h.identity===key(ident))?value+(label?' · LAST QUALIFIED':'')+(!ident?' · '+h.contract:''):'REFRESHING';
+    return value&&(!ident||h.identity===key(ident))
+      ?value+(label?' · LAST QUALIFIED / REFRESHING':'')+(!ident?' · '+h.contract:'')
+      :'REFRESHING';
   }
   function waiting(prefix,reason,ident){
-    pill(prefix+'State','WAIT');text(prefix+'Title',prefix.toUpperCase()+' · REFRESHING');text(prefix+'Arrow','—');
-    text(prefix+'Entry','WAIT — '+reasonText(reason));
     const lane=prefix==='early'?'main':'scalp';
+    pill(prefix+'State','WAIT');text(prefix+'Title',prefix.toUpperCase()+' · REFRESHING');text(prefix+'Arrow','—');
+    text(prefix+'Entry',retained(lane,prefix+'Entry',ident));
     text(prefix+'CurrentPrice',retained(lane,prefix+'CurrentPrice',ident));
     text(prefix+'YourEntry',retained(lane,prefix+'YourEntry',ident));
-    for(const k of ['Entry','Hold','Watch','Protect','Exit'])text(prefix+'Ladder'+k,'WAIT · current authority refresh pending');
-    text(prefix+'Flow','WAIT — '+reasonText(reason)+' · SIGNAL ONLY / NO ORDERS');
+    for(const k of ['Entry','Hold','Watch','Protect','Exit'])text(prefix+'Ladder'+k,retained(lane,prefix+'Ladder'+k,ident));
+    text(prefix+'Flow','WAIT / REFRESHING — '+reasonText(reason)+' · LAST QUALIFIED VALUES RETAINED · NO NEW ACTION AUTHORITY · SIGNAL ONLY / NO ORDERS');
   }
   function scalpPass(s){
     const ds=Array.isArray(s.diagnostics)?s.diagnostics.filter(d=>d&&d.reason):[];
@@ -110,15 +118,20 @@
       text('finalProtectZone',f.helper?.protect_latched?'PROTECT · support lost or opposed':'No new protection instruction');
       text('finalExitZone','Directional EXIT authority not yet validated');
     }else{
-      text('finalArrow','—');text('finalSide','WAIT');text('finalConfidence',model?'Model only: '+pct(probability):retained('main','finalConfidence',ident));text('finalAction','WAIT');
-      text('finalActionSub',model?`UP ${pct(model.probability_up)} · DOWN ${pct(model.probability_down)} · information only`:retained('main','finalActionSub',ident)+' · REFRESHING');text('finalReason','No current actionable FINAL guidance');
-      for(const id of ['finalBuyZone','finalHoldZone','finalWatchZone','finalProtectZone','finalExitZone'])text(id,'WAIT · current authority refresh pending');
+      const modelSide=model?(model.probability_up>=model.probability_down?'UP':'DOWN'):null;
+      text('finalArrow','—');
+      text('finalSide',model?modelSide+' MODEL · INFORMATION ONLY':retained('main','finalSide',ident));
+      text('finalConfidence',model?'Model only: '+pct(probability)+' · REFRESHING':retained('main','finalConfidence',ident));
+      text('finalAction','WAIT / REFRESHING');
+      text('finalActionSub',model?`UP ${pct(model.probability_up)} · DOWN ${pct(model.probability_down)} · information only · REFRESHING`:retained('main','finalActionSub',ident));
+      text('finalReason',model?'Continuous model probability shown; FINAL action authority refreshing':'LAST QUALIFIED FINAL context retained; action authority refreshing');
+      for(const id of ['finalBuyZone','finalHoldZone','finalWatchZone','finalProtectZone','finalExitZone'])text(id,retained('main',id,ident));
     }
     if(!qualified){
       waiting('early',m?.reason,ident);
-      text('earlyAfterEntry','WAIT — '+reasonText(m?.reason));text('earlyEdge',retained('main','earlyEdge',ident));
-      text('flipRisk',retained('main','flipRisk',ident,false));text('flipRiskSub','LAST QUALIFIED / REFRESHING · no action authority');
-      text('contextBanner','WAIT — '+reasonText(m?.reason));
+      text('earlyAfterEntry',retained('main','earlyAfterEntry',ident));text('earlyEdge',retained('main','earlyEdge',ident));
+      text('flipRisk',retained('main','flipRisk',ident));text('flipRiskSub',retained('main','flipRiskSub',ident));
+      text('contextBanner',retained('main','contextBanner',ident)+' · NO NEW ACTION AUTHORITY');
     }else{
       const e=m.early,o=m.origin,h=f?.helper,ctx=m.context;
       const prices=m.prices;
@@ -144,7 +157,8 @@
     text('oppositeArrow','—');text('oppositeTitle','SERIAL REVERSAL / RE-ENTRY');
     if(!aligned){
       waiting('scalp',s?.reason,ident);
-      text('scalpTargetStrip',retained('scalp','scalpTargetStrip',ident));text('oppositeEntry','Fresh same-contract setup required');text('oppositeState','WAIT');
+      text('scalpTargetStrip',retained('scalp','scalpTargetStrip',ident));
+      text('oppositeEntry',retained('scalp','oppositeEntry',ident));text('oppositeState','WAIT / REFRESHING');
     }else{
       const o=s.origin;
       pill('scalpState',s.guidance);text('scalpTitle','SCALP '+(o?.side||'PASS'));text('scalpArrow',o?(o.side==='DOWN'?'↓':'↑'):'—');
