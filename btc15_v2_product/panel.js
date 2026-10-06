@@ -37,7 +37,11 @@
     BASE_NOT_READY:'base not ready',
     EVIDENCE_BELOW_CORE_SURGE:'evidence below CORE/SURGE',
     READY_CONFIRMING:'confirmation pending', FEATURES_NOT_READY:'feature history not ready',
-    BRTI_NOT_FRESH:'BRTI refresh pending'
+    BRTI_NOT_FRESH:'BRTI refresh pending',
+    ask_le45:'current ask is above 45¢',
+    fair_ge75:'model fair below 75%',
+    remaining_2_to10:'outside EARLY entry window (requires 2–10m remaining)',
+    gap_ge25:'BTC gap below $25'
   };
   const reasonText=v=>reasons[v]||human(v||'source refresh pending').replace(/unavailable|not connected/g,'refresh pending');
   function remember(lane,ident,at){
@@ -61,6 +65,14 @@
     if(!ds.length)return 'PASS — '+reasonText(s.reason||'native gates not qualified');
     if(ds.every(d=>d.reason===ds[0].reason))return 'PASS — '+reasonText(ds[0].reason);
     return ds.map(d=>(['UP','DOWN'].includes(d.side)?d.side+' ':'')+'PASS — '+reasonText(d.reason)).join(' · ');
+  }
+  function earlyPass(e,prices){
+    const rs=Array.isArray(e?.pass_reasons)?e.pass_reasons:[];
+    const why=rs.length?rs.map(reasonText).join(' · '):'native EARLY gates not qualified';
+    const quotes=prices&&['up_ask','down_ask'].every(k=>finite(prices[k]))
+      ?`UP ASK ${cents(prices.up_ask)} · DOWN ASK ${cents(prices.down_ask)}`
+      :'WAIT — executable quotes refreshing';
+    return {reason:'PASS — '+why,quotes};
   }
   function render(){
     const now=performance.now(),m=current('main'),s=current('scalp'),q=current('quote');
@@ -108,17 +120,19 @@
     }else{
       const e=m.early,o=m.origin,h=f?.helper,ctx=m.context;
       const prices=m.presentation_revalidation?.prices;
+      const quotePrices=q&&q.status==='AVAILABLE'&&ident&&key(q.official_identity)===key(ident)?q:null;
       const ask=prices?prices[e.side.toLowerCase()+'_ask']:e.ask;
       const bid=prices&&o?prices[o.side.toLowerCase()+'_bid']:m.executable_current_bid;
+      const pass=!o&&e.guidance==='PASS',passView=pass?earlyPass(e,prices||quotePrices):null;
       pill('earlyState',e.guidance);text('earlyTitle',o?'EARLY '+o.side:'EARLY · '+e.guidance);
-      text('earlyEntry',o?'Origin ASK '+cents(o.original_ask):'Current ASK '+cents(ask));
+      text('earlyEntry',o?'Origin ASK '+cents(o.original_ask):pass?passView.reason:'Current ASK '+cents(ask));
       text('earlyYourEntry',o?cents(o.original_ask)+' · signal ASK':'No accepted origin');
-      text('earlyCurrentPrice',o?'BID '+cents(bid):'ASK '+cents(ask));
-      text('earlyEdge',o?((bid-o.original_ask)*100).toFixed(1)+'¢ gross movement':cents(e.edge)+' model edge');
-      text('earlyAfterEntry',o?e.guidance+' · '+human(h?.relation):'PASS · '+e.pass_reasons.map(human).join(', '));
+      text('earlyCurrentPrice',o?'BID '+cents(bid):pass?passView.quotes:'ASK '+cents(ask));
+      text('earlyEdge',o?((bid-o.original_ask)*100).toFixed(1)+'¢ gross movement':pass?'No actionable edge while PASS':cents(e.edge)+' model edge');
+      text('earlyAfterEntry',o?e.guidance+' · '+human(h?.relation):pass?passView.reason:'PASS · '+e.pass_reasons.map(reasonText).join(' · '));
       text('earlyLadderEntry','≤45¢ · fair ≥75% · 2–10m · |gap| ≥$25');
       text('earlyLadderHold',h?.confirmed?'FINAL confirms · '+e.guidance:o?e.guidance:'No position assumed');
-      text('earlyLadderWatch',ctx?human(ctx.phase)+' · '+ctx.reasons.map(human).join('; '):'Await qualified entry');
+      text('earlyLadderWatch',pass?passView.reason:ctx?human(ctx.phase)+' · '+ctx.reasons.map(human).join('; '):'Await qualified entry');
       text('earlyLadderProtect',h?.protect_latched?'PROTECT · review exposure at current bid':o?'Monitor FINAL support and bid':'No origin to protect');
       text('earlyLadderExit','No supported EARLY EXIT rule · PROTECT is risk guidance');
       text('earlyFlow',`${m.contract} · ${o?'If manually entered: '+e.guidance:'PASS'} · SIGNAL ONLY / NO ORDERS`);
