@@ -1,0 +1,4 @@
+BASELINE REGRESSION PROBE ONLY
+Base candidate: fec9436961c55951e639b893b01905d280015fc8
+No runtime or strategy code changed.
+SIGNAL ONLY / NO ORDERS.
