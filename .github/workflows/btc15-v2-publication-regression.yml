@@ -29,7 +29,7 @@ jobs:
       - name: Integrated decision-surface continuity check
         run: |
           tmp="$(mktemp -d)"
-          python ops/v2_product/integrated_fixture.py "$tmp"
+          PYTHONPATH=. python ops/v2_product/integrated_fixture.py "$tmp"
           node ops/v2_product/test_integrated_finish_ui.cjs "$tmp"
       - run: python -m ops.v2_product.qualify_offline --lane main
       - uses: actions/upload-artifact@v4
