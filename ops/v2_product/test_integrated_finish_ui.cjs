@@ -42,10 +42,15 @@ const tape=JSON.parse(fs.readFileSync(path.join(out,'tape.json'))),html=fs.readF
   if(row.main.final.ready)assert.equal(text('finalAction'),'FINAL LOCK / QUALIFIED');
   if(row.scalp.lifecycle_state==='ENDED_UNARMED')assert.match(text('scalpLadderExit'),/ENDED_UNARMED · information only/);
  }
- forceWait=true;at+=.1;await tick();check('native-failure');assert.equal(text('earlyState'),'WAIT');assert.equal(text('finalAction'),'WAIT');assert.match(text('finalActionSub'),/UP 66.0%/);
+ forceWait=true;at+=.1;await tick();check('native-failure');
+ assert.equal(text('earlyState'),'WAIT');assert.equal(text('finalAction'),'WAIT / REFRESHING');assert.match(text('finalActionSub'),/UP 66.0%/);
+ assert.doesNotMatch(text('finalSide'),/^WAIT$/);assert.match(text('finalSide'),/MODEL|LAST QUALIFIED/);
+ assert.match(text('earlyLadderEntry'),/LAST QUALIFIED \/ REFRESHING/);assert.doesNotMatch(text('earlyLadderEntry'),/current authority refresh pending/);
+ assert.match(text('earlyEdge'),/LAST QUALIFIED \/ REFRESHING/);assert.match(text('flipRisk'),/LAST QUALIFIED \/ REFRESHING/);
  forceWait=false;at+=.1;await tick();
  abort=true;infoHealthy=false;at=Math.max(row.main.expires_at,row.scalp.expires_at,row.quote.expires_at)+1;await tick();check('expiry');
  assert.equal(text('earlyState'),'WAIT');assert.equal(text('scalpState'),'WAIT');assert.match(text('finalConfidence'),/LAST QUALIFIED/);assert.match(text('upCondition'),/LAST QUALIFIED/);
+ assert.match(text('scalpLadderEntry'),/LAST QUALIFIED \/ REFRESHING/);assert.doesNotMatch(text('scalpLadderEntry'),/current authority refresh pending/);
  fs.writeFileSync(path.join(out,'ui-results.json'),JSON.stringify({status:'PASS',checks,mode:'FULL_ASSEMBLED_JSDOM',physical_device_acceptance:'PENDING',signal_only:true,orders:false},null,2));
  console.log(JSON.stringify({status:'PASS',checks:checks.length,physical_device_acceptance:'PENDING'}));dom.window.close();
 })().catch(e=>{console.error(e);process.exit(1)});
