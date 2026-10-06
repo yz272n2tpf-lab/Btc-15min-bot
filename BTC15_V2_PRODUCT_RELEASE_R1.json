@@ -61,7 +61,7 @@
   "source_change": "Official metadata preparation and SAME timestamped WS provider, native consumption/qualification unchanged",
   "evidence_change": "Separate revision/deployment root; startup/restart slot excluded; additive admin only; strict classifier unchanged",
   "deployment": "NOT_AUTHORIZED; startup requires reviewed manifest/build authorization or reviewed receipt; scoring requires independent actual deployment receipt",
-  "visible_completion_status": "TARGETED PASS-STABILITY QUALIFICATION PENDING; STAGE ONLY; PHYSICAL_DEVICE_ACCEPTANCE FAILED ON PRIOR BUILD",
+  "visible_completion_status": "OFFLINE_TARGETED_PASS_STABILITY_GATES_PASS; STAGE_ONLY; PHYSICAL_DEVICE_ACCEPTANCE_PENDING",
   "display_indicators": "DISPLAY ONLY: Coinbase completed 1m; RSI14 Wilder; SMA-seeded MACD12/26/9; latest completed Volume BTC. Candle close age <75s; no native inputs changed.",
-  "qualification_status": "TARGETED PASS-STABILITY QUALIFICATION PENDING; STAGE ONLY; NO DEPLOY"
+  "qualification_status": "OFFLINE_TARGETED_PASS_STABILITY_GATES_PASS; STAGE_ONLY; NO_DEPLOY"
 }
