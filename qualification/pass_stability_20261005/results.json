@@ -53,7 +53,8 @@
   "changed_from_baseline": [
     "btc15_v2_product/panel.js",
     "BTC15_V2_PRODUCT_RELEASE_R1.json",
-    "ops/v2_product/test_ui_continuity.cjs"
+    "ops/v2_product/test_ui_continuity.cjs",
+    "qualification/pass_stability_20261005/results.json"
   ],
   "panel_sha256": "fe208dd3d59f8227ec333c6b24cbadd834e3338625e1776773590566a1f858ab",
   "physical_device_acceptance": "PENDING_AFTER_DEPLOY",
