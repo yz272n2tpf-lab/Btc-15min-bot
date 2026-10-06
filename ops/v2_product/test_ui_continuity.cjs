@@ -76,6 +76,17 @@ try{for(const width of [390,820]){
  row=tape.at(-1);for(const [code,label] of [['PRICE_OUTSIDE_30_45C','price outside 30–45¢'],['BASE_NOT_READY','base not ready'],['EVIDENCE_BELOW_CORE_SURGE','evidence below CORE/SURGE']]){
   fault={scalp:{diagnostics:[{side:'UP',reason:code}]}};at+=.1;await tick();await check(code);assert.equal(await text('scalpState'),'PASS');assert.equal(await text('scalpEntry'),'PASS — '+label);
  }
+ // EARLY PASS never re-anchors its presentation to a changing model-selected side.
+ // Both executable asks remain visible; PASS reason and edge semantics stay non-actionable.
+ row=tape.at(-1);const baseEarly={...row.main.early,guidance:'PASS',pass_reasons:['remaining_2_to10']};
+ for(const [side,upAsk,downAsk,edge] of [['DOWN',.016,.985,-.307],['UP',.011,.990,.508]]){
+  fault={main:{early:{...baseEarly,side,ask:side==='UP'?upAsk:downAsk,edge}},quote:{up_ask:upAsk,up_bid:Math.max(0,upAsk-.001),down_ask:downAsk,down_bid:Math.max(0,downAsk-.001)}};
+  at+=.1;await tick();const d=await check('EARLY_PASS_SIDE_'+side);
+  assert.equal(d.values.earlyState,'PASS');
+  assert.match(d.values.earlyEntry,/PASS — outside EARLY entry window \(requires 2–10m remaining\)/);
+  assert.match(d.values.earlyCurrentPrice,/^UP ASK [0-9.]+¢ · DOWN ASK [0-9.]+¢$/);
+  assert.equal(d.values.earlyEdge,'No actionable edge while PASS');
+ }
  fault={};at+=90;await page.evaluate(at=>window.__tick(at),at);await page.waitForTimeout(80);await check('expired-replayed-payloads');assert.equal(await text('earlyState'),'WAIT');assert.equal(await text('finalAction'),'WAIT');assert.equal(await text('scalpState'),'WAIT');assert.equal(await page.locator('#upOdds').getAttribute('data-quote-identity'),'');
  assert.deepEqual(errors,[]);await page.screenshot({path:path.join(out,'refreshing-'+width+'.png'),fullPage:true});await page.close();
 }
