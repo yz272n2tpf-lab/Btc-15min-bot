@@ -72,8 +72,21 @@ def loop():
             history={'30':dict(observed_ts=old['ts'],btc=old['btc'],input_provenance=old['input_provenance'])} if old else {}
             proposals={side:proposal_for(row,side,history) for side in ('UP','DOWN')}
             diagnostics=[dict(side=side,reason=proposal['reason']) for side,proposal in proposals.items()]
-            journal_offer(dict(kind='SCALP_DECISION',contract=row['ticker'],row=row,
+            if getattr(loop,'last_wait',None) is not None:
+                print('V81 SOURCE RECOVERED | %s | target %.2f | %.1fs left | NO ORDERS'%(
+                    row['ticker'],row['target'],row['left']),flush=True)
+                loop.last_wait=None
+            accepted=journal_offer(dict(kind='SCALP_DECISION',contract=row['ticker'],row=row,
                 captured_ts=time.time(),proposals=proposals,diagnostics=diagnostics))
+            if row['ts']-getattr(loop,'last_pipeline_log',0)>=15:
+                import btc15_v2_product.scalp as _scalp_runtime
+                worker=_scalp_runtime._worker
+                diag=','.join('%s:%s'%(d['side'],d['reason']) for d in diagnostics)
+                print('V81 PIPELINE | source=QUALIFIED | %s | target %.2f | %.1fs left | offer=%s | worker accepted=%s written=%s failed=%s q=%s | %s | NO ORDERS'%(
+                    row['ticker'],row['target'],row['left'],accepted,
+                    getattr(worker,'accepted',None),getattr(worker,'written',None),
+                    getattr(worker,'failed',None),getattr(getattr(worker,'queue',None),'qsize',lambda:None)(),diag),flush=True)
+                loop.last_pipeline_log=row['ts']
         except Exception as e:
             reason=str(e) if isinstance(e,InputUnavailable) else 'SOURCE_READ_FAILED'
             journal_offer(dict(kind='UNAVAILABLE',contract=_qualified_inputs.last_ticker,reason=reason))

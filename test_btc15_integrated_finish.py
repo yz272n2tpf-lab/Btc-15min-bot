@@ -258,4 +258,61 @@ class NativeAuthority(unittest.TestCase):
                 if isinstance(n,ast.FunctionDef):self.assertNotIn(n.name,('do_POST','do_PUT','do_DELETE'))
                 if isinstance(n,ast.Call) and isinstance(n.func,ast.Attribute):self.assertNotIn(n.func.attr,('post','put','delete','place_order','create_order','submit_order'))
 
+
+class V81QualificationSeam(unittest.TestCase):
+    def test_prepared_target_matches_main_label_and_snapshot_reads_fixed_identity(self):
+        from btc15_v2_product.runtime import _v81_prepared_target,_v81_selected_target
+        from btc15_v2_product.bootstrap import identity
+        market=dict(
+            ticker='KXBTC15M-26OCT061600-00',
+            open_time='2026-10-06T19:45:00+00:00',
+            close_time='2026-10-06T20:00:00+00:00',
+            title='Bitcoin price — $85,490.48 target',
+        )
+        calls=[]
+        def get(path,params=None):
+            calls.append(path)
+            return {'market':deepcopy(market)}
+        self.assertEqual(_v81_prepared_target(market,get,lambda _:None),85490.48)
+        self.assertEqual(calls,[])
+        pool=type('PoolFixture',(),{'official':identity(market,85490.48)})()
+        self.assertEqual(_v81_selected_target(market,pool),85490.48)
+
+    def test_rollover_boundary_retries_once_and_selects_new_current_market(self):
+        from btc15_v2_product.runtime import _v81_select_current
+        old=dict(
+            ticker='KXBTC15M-26OCT061645-45',
+            open_time='2026-10-06T20:30:00+00:00',
+            close_time='2026-10-06T20:45:00+00:00',
+        )
+        new=dict(
+            ticker='KXBTC15M-26OCT061700-00',
+            open_time='2026-10-06T20:45:00+00:00',
+            close_time='2026-10-06T21:00:00+00:00',
+        )
+        class PreparationFixture:
+            def __init__(self): self.calls=0
+            def select(self,original):
+                self.calls+=1
+                return deepcopy(old if self.calls==1 else new)
+        p=PreparationFixture()
+        selected=_v81_select_current(p,lambda:None,lambda:1791319500.10)
+        self.assertEqual(selected['ticker'],new['ticker'])
+        self.assertEqual(p.calls,2)
+
+    def test_missing_or_mismatched_prepared_identity_fails_closed(self):
+        from btc15_v2_product.runtime import _v81_prepared_target,_v81_selected_target
+        from btc15_v2_product.bootstrap import identity
+        market=dict(
+            ticker='KXBTC15M-26OCT061600-00',
+            open_time='2026-10-06T19:45:00+00:00',
+            close_time='2026-10-06T20:00:00+00:00',
+            title='Bitcoin 15 minute market',
+        )
+        self.assertIsNone(_v81_prepared_target(market,lambda *a,**k:(_ for _ in ()).throw(OSError()),lambda _:None))
+        self.assertIsNone(_v81_selected_target(market,type('PoolFixture',(),{'official':None})()))
+        wrong=identity(market,85490.48);wrong['contract']='KXBTC15M-OTHER'
+        self.assertIsNone(_v81_selected_target(market,type('PoolFixture',(),{'official':wrong})()))
+
+
 if __name__=='__main__':unittest.main()
