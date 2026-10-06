@@ -122,6 +122,20 @@ def _v81_selected_target(m,pool):
         return None
 
 
+def _v81_select_current(preparation,original,clock=time.time):
+    """One bounded retry if a native market read crosses the 15m boundary."""
+    market=preparation.select(original)
+    try:
+        ident=identity(market);now=clock()
+        current=ident['official_open']<=now<ident['official_close']
+    except (ValueError,KeyError,TypeError):
+        return market
+    if current:return market
+    # A call that began just before rollover can return the just-expired market
+    # after network work completes. Re-evaluate once at the new native clock.
+    return preparation.select(original)
+
+
 def prepare_v81(ns,pool):
     owner=ns['_qualified_inputs'];original=owner.market;legacy_target=owner.target
     admin=ns['_v2_admin'];original_get=owner.get;original_brti=owner.brti_read
@@ -131,7 +145,7 @@ def prepare_v81(ns,pool):
         response=ns['requests'].get(ns['MARKET']+path,headers=ns['hdr']('GET',path),params=params,timeout=7)
         response.raise_for_status();return response.json()
     preparation=Preparation(get,lambda m:_v81_prepared_target(m,get,legacy_target),pool)
-    owner.market=lambda:admin.call('official_market_selection',preparation.select,original)
+    owner.market=lambda:admin.call('official_market_selection',_v81_select_current,preparation,original)
     owner.target=lambda m:_v81_selected_target(m,pool)
     owner.provider=pool
     preparation.start();return preparation
