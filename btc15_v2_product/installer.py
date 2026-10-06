@@ -32,8 +32,11 @@ def assemble(directory):
   const setText = (id, value) => {
     if(lowerIds.has(id)){
       const valid=lowerQualified && !/unavailable|not connected|fresh brti required|^—(?: \/ 7)?$/i.test(String(value));
-      if(valid)lowerHistory.set(id,{value,contract:lowerContract});
-      else {const prior=lowerHistory.get(id);value=prior?prior.value+' · LAST QUALIFIED / REFRESHING · '+prior.contract:'WAIT / REFRESHING';}
+      if(valid)lowerHistory.set(id,{value,contract:lowerContract,at:performance.now()});
+      else {
+        const prior=lowerHistory.get(id),age=prior?performance.now()-prior.at:Infinity;
+        value=prior?(age<=15000?prior.value:prior.value+' · STALE / CHECK FEED'):'REFRESHING';
+      }
     }
     const el=$(id); if(el && el.textContent!==value) el.textContent=value;
   };"""
