@@ -5,7 +5,7 @@
   const caches={main:null,scalp:null,quote:null},requests={main:null,scalp:null,quote:null},lastQualified={main:null,scalp:null,quote:null};
   const clocks={main:null,scalp:null,quote:null}; // Monotonic floor survives hide/resume; cached replies cannot renew leases.
   let epoch=0,identity=null,quoteHistory=null;const receipts=[];
-  let indicators=null,indicatorRequest=null,indicatorClock=null,lastIndicators=null;
+  let indicators=null,indicatorRequest=null,indicatorClock=null,lastIndicators=null,lastModel=null;const lowerStable=new Map();
   // Strings only, display-only: never read by accept(), current(), or any action gate.
   const history={main:null,scalp:null,quote:null};
   const infoIds={
@@ -103,7 +103,9 @@
     classes('liveStatus','live-status '+(qualified?'live-ok':'live-warn'));
     const f=m?.final||null;
     const descriptive=window.btc15CurrentModelInformation?.();
-    const model=descriptive&&ident&&descriptive.ticker===ident.contract?descriptive:null;
+    if(descriptive&&ident&&descriptive.ticker===ident.contract)lastModel={...descriptive};
+    const model=descriptive&&ident&&descriptive.ticker===ident.contract?descriptive:
+      lastModel&&ident&&lastModel.ticker===ident.contract?lastModel:null;
     const up=finite(model?.probability_up)?model.probability_up:f?.probability_up;
     const down=finite(model?.probability_down)?model.probability_down:f?.probability_down;
     const modelSide=finite(up)&&finite(down)?(up>=down?'UP':'DOWN'):null;
@@ -114,9 +116,9 @@
       text('finalArrow',modelSide==='DOWN'?'↓':'↑');
       text('finalSide',modelSide);
       text('finalConfidence',pct(probability)+' '+modelSide);
-      text('finalAction',qualified?(f?.ready?'FINAL LOCK / QUALIFIED':'NOT LOCKED'):(f?.ready?'FINAL LOCK · LAST QUALIFIED':'NOT LOCKED · LAST QUALIFIED'));
-      text('finalActionSub',`UP ${pct(up)} · DOWN ${pct(down)} · continuous probability`);
-      text('finalReason',qualified?(f?.ready?'FINAL call qualified':'Probability live; FINAL lock not qualified'):'REFRESHING · NO NEW FINAL ACTION AUTHORITY');
+      text('finalAction',f?.ready?(qualified?'FINAL LOCK / QUALIFIED':'FINAL LOCK · LAST QUALIFIED / REFRESHING'):'NOT LOCKED');
+      text('finalActionSub',`UP ${pct(up)} · DOWN ${pct(down)} · continuous probability · information only`);
+      text('finalReason',f?.ready?(qualified?'FINAL call qualified':'FINAL lock was last qualified; MAIN refreshing — no new action authority'):'Probability live; FINAL lock not qualified');
       text('finalBuyZone',m?.origin&&f?.early_origin_id===m.origin.origin_id?'Linked EARLY '+m.origin.side:'No linked EARLY origin');
       text('finalHoldZone',f?.helper?.confirmed?'EARLY confirmed · '+f.helper.state:human(f?.state||'PASS'));
       text('finalWatchZone',f?.helper?human(f.helper.relation)+' · '+human(f.helper.probability_trend):'No position assumed');
@@ -145,15 +147,15 @@
       text('earlyYourEntry',o?cents(o.original_ask)+' · protected signal ASK':'No protected origin · manual opportunity guidance only');
       text('earlyCurrentPrice',o?'BID '+cents(bid):(quotePrices?`UP ASK ${cents(quotePrices.up_ask)} · DOWN ASK ${cents(quotePrices.down_ask)}`:`UP ASK ${cents(prices?.up_ask)} · DOWN ASK ${cents(prices?.down_ask)}`));
       text('earlyEdge',o?(finite(bid)?((bid-o.original_ask)*100).toFixed(1)+'¢ gross movement':'later same-side BID refreshing'):finite(opp?.edge)?((opp.edge*100).toFixed(1)+'¢ model edge'):'Model edge refreshing');
-      text('earlyAfterEntry',o?e.guidance+' · '+human(h?.relation):(opp?.status==='OPPORTUNITY'?'NOT FINAL · signal only · manual execution':'No EARLY opportunity now · '+human(opp?.status)));
+      text('earlyAfterEntry',o?e.guidance+' · '+human(h?.relation):(opp?.status==='OPPORTUNITY'?'NOT FINAL · signal only · manual execution · MAIN LIVE required':'No EARLY opportunity now · '+human(opp?.status)));
       text('earlyLadderEntry','Opportunity target ≤50¢ · ideal 25–35¢ · validated same-contract + positive edge');
       text('earlyLadderHold',h?.confirmed?'FINAL confirms · '+e.guidance:o?e.guidance:'No protected position assumed');
       text('earlyLadderWatch',o?(ctx?human(ctx.phase)+' · '+ctx.reasons.map(human).join('; '):'Monitor qualified position'):(opp?.reason||'Await qualified opportunity'));
       text('earlyLadderProtect',h?.protect_latched?'PROTECT · review exposure at current bid':o?'Monitor FINAL support and bid':'Protection begins only after a protected origin');
       text('earlyLadderExit','Directional EXIT authority not yet validated · PROTECT is manual risk guidance');
-      text('earlyFlow',qualified?`${m.contract} · ${o?'If manually entered: '+e.guidance:(opp?.status||'WATCH')} · SIGNAL ONLY / NO ORDERS`:`${m.contract} · LAST QUALIFIED ${displayState} · REFRESHING · NO NEW ACTION AUTHORITY · SIGNAL ONLY / NO ORDERS`);
-      text('flipRisk',m.flip_risk_pct.toFixed(1)+'%');text('flipRiskSub',qualified?'Model context only · no exit authority':'LAST QUALIFIED / REFRESHING · no new action authority');
-      text('contextBanner',(qualified?'':'LAST QUALIFIED / REFRESHING · NO NEW ACTION AUTHORITY · ')+human(m.phase)+' · '+(ctx?ctx.reasons.map(human).join('; '):'No active protected EARLY origin')+(aligned&&s?.origin&&f&&s.origin.side!==f.side?' · MIXED HORIZONS: SCALP differs from FINAL':'')+' · '+human(m.presentation_information?.status||'REFRESHING'));
+      text('earlyFlow',`${m.contract} · ${o?'If manually entered: '+e.guidance:(opp?.status||'WATCH')} · New action authority requires MAIN LIVE above; REFRESHING values are last-qualified · SIGNAL ONLY / NO ORDERS`);
+      text('flipRisk',m.flip_risk_pct.toFixed(1)+'%');text('flipRiskSub','Model context only · no exit authority · freshness shown by MAIN status');
+      text('contextBanner',human(m.phase)+' · '+(ctx?ctx.reasons.map(human).join('; '):'No active protected EARLY origin')+(aligned&&s?.origin&&f&&s.origin.side!==f.side?' · MIXED HORIZONS: SCALP differs from FINAL':'')+' · '+human(m.presentation_information?.status||'REFRESHING'));
     }
     text('oppositeArrow','—');text('oppositeTitle','SERIAL REVERSAL / RE-ENTRY');
     if(!s?.guidance){
@@ -184,6 +186,12 @@
     text('v2QuoteClock',freshQuote?`Source ${new Date(q.exchange_ts*1000).toISOString()} · seq ${q.sequence} · presentation only`:'WAIT — '+reasonText(q?.reason||'TIMESTAMPED_QUOTES_UNAVAILABLE'));
     for(const id of ['upOdds','downOdds']){
       const n=node(id);if(n){const value=freshQuote?[q.epoch,q.sid,q.sequence,q.exchange_ts].join('|'):'';if(n.dataset.quoteIdentity!==value)n.dataset.quoteIdentity=value;if(!freshQuote)n.dataset.quoteEvidence='';}
+    }
+    for(const id of ['evidenceScore','momentumBadge','momentumSub','contextTrend','contextRange','contextBrti','contextLevels']){
+      const n=node(id);if(!n)continue;
+      const v=n.textContent||'',refreshing=/WAIT \/ REFRESHING|LAST QUALIFIED \/ REFRESHING/i.test(v);
+      if(!refreshing&&v&&v!=='—')lowerStable.set(id,v);
+      else if(lowerStable.has(id)&&n.textContent!==lowerStable.get(id))n.textContent=lowerStable.get(id);
     }
     if(freshQuote){
       remember('quote',ident,q.exchange_ts);
