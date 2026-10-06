@@ -19,7 +19,7 @@
     "btc15_v2_product/bootstrap.py": "83a83bafcf6cb000378e409193219a2002d708a753c1fb9985493a0111f132ab",
     "btc15_v2_product/installer.py": "597be98144488e7c8f618676533674e0aaf00941e766007d353ed3b0003613cf",
     "btc15_v2_product/journal.py": "ca841f81c632d71475ff43e460c10be5c688f71384a345207e64d6b26f0bcb65",
-    "btc15_v2_product/panel.js": "fe816c4668dcfe99db45ec86397d2401aeea470437f4d550802d64fb24166589",
+    "btc15_v2_product/panel.js": "96c50b53022aa6a7f648e4a8c5bff673f9506fe694b453ca8f1bef389bdc24f6",
     "btc15_v2_product/quote_transport.py": "48ff0785fb120c19ad2973f06ce18a4cb1922ec05067b34ae0e025eb075c8633",
     "btc15_v2_product/quote_view.py": "a2e3180dae69fe6d304e30a7259ba2f764ea4cb7e277aa2236cb98b715be62fe",
     "btc15_v2_product/release.py": "0d804e80104a8989e492e7219fd53e32d8e10c9baf963685a066b5af69daced5",
@@ -70,7 +70,7 @@
   "deployment": "NOT_AUTHORIZED; existing deployment authorization checks unchanged",
   "visible_completion_status": "PHYSICAL_DEVICE_ACCEPTANCE_PENDING",
   "display_indicators": "DISPLAY ONLY: Coinbase completed 1m; RSI14 Wilder; SMA-seeded MACD12/26/9; latest completed Volume BTC. Candle close age <75s; no native inputs changed.",
-  "qualification_status": "OFFLINE_INTEGRATED_TARGETED_TESTS; NO_DEPLOY",
+  "qualification_status": "MAIN_DECISION_SURFACE_CONTINUITY_TARGETED; NO_MODEL_OR_THRESHOLD_CHANGE; NO_DEPLOY",
   "integrated_base": "ebb204255264f8a35c4bdf84cd0fd6e54057b19a",
   "integrated_scope": "Protected EARLY/FINAL unchanged; generalized serial SCALP; native original lease; information-only revalidation"
 }
