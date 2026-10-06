@@ -1,0 +1,27 @@
+name: BTC15 early50 UI check
+on:
+  pull_request:
+    paths:
+      - .github/workflows/early50-ui-check-20261006.yml
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: pip install -r requirements.txt
+      - run: npm ci --prefix ops/v2_product --no-audit --no-fund
+      - run: |
+          tmp="$(mktemp -d)"
+          PYTHONPATH=. python ops/v2_product/integrated_fixture.py "$tmp"
+          node ops/v2_product/test_integrated_finish_ui.cjs "$tmp"
