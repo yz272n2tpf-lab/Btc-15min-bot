@@ -1,0 +1,27 @@
+name: BTC15 live DOM probe
+on:
+  pull_request:
+    paths:
+      - ops/live_dom_probe_20261006.cjs
+      - .github/workflows/live-dom-probe-20261006.yml
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save playwright@1.55.0
+      - run: npx playwright install --with-deps chromium
+      - run: node ops/live_dom_probe_20261006.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: live-dom-probe-20261006
+          path: live-dom-probe.json
