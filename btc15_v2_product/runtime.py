@@ -3,11 +3,12 @@ import ast
 from copy import deepcopy
 import json
 import os
+import re
 from pathlib import Path
 import threading
 import time
 from .admin import Admin
-from .bootstrap import Pool,Preparation
+from .bootstrap import Pool,Preparation,identity
 from .journal import install,public_view
 
 CALLS={'get_active_market','extract_target','get_btc_spot','consume_ws_quotes',
@@ -68,16 +69,122 @@ def prepare_main(ns,pool):
     preparation.start();return preparation
 
 
+def _positive_target(value):
+    try:
+        value=float(str(value).replace(',', '').replace('
+
+def native_main():
+    import hashlib
+    import btc15_information_native_offpath_candidate as native
+    from .quote_view import QuoteProjection
+    root=Path(os.environ['BTC15_LADDER_DATA_ROOT'])
+    admin=Admin(root,'main');install(admin)
+    from .directional import start,offer
+    raw=native.BOT.read_bytes()
+    if hashlib.sha1(f'blob {len(raw)}\0'.encode()+raw).hexdigest()!=native.PR36_BLOB:raise ValueError('FROZEN_NATIVE_BYTES')
+    pool=Pool();export=native.NativeExport(provider_reader=lambda:pool.current)
+    projection=QuoteProjection(pool)
+    from .revalidation import InputProjection
+    revalidation=InputProjection(export,projection)
+    server=native.server_for(export,8766)
+    original_get=server.RequestHandlerClass.do_GET
+    def do_GET(handler):
+        try:
+            if handler.path=='/revalidation-input':
+                try:
+                    value=revalidation.capture();code=200
+                except Exception:
+                    value=dict(status='UNAVAILABLE');code=503
+                raw=json.dumps(value,allow_nan=False,separators=(',',':')).encode()
+                handler.send_response(code);handler.send_header('Content-Type','application/json')
+                handler.send_header('Cache-Control','no-store');handler.send_header('Content-Length',str(len(raw)))
+                handler.end_headers();handler.wfile.write(raw);return
+            if handler.path=='/executable-quote':
+                raw=json.dumps(projection.capture(),allow_nan=False,separators=(',',':')).encode()
+                handler.send_response(200);handler.send_header('Content-Type','application/json')
+                handler.send_header('Cache-Control','no-store');handler.send_header('Content-Length',str(len(raw)))
+                handler.end_headers();handler.wfile.write(raw);return
+            return original_get(handler)
+        except (BrokenPipeError,ConnectionResetError,TimeoutError):return
+    server.RequestHandlerClass.do_GET=do_GET
+    ns=dict(__name__='__main__',__file__=str(native.BOT),_v2_admin=admin,
+        _v2_prepare=lambda ns:prepare_main(ns,pool),_btc15_information_offer=export.offer,
+        _btc15_cohort_offer=native.cohort_offer,_btc15_cohort_closeout_offer=native.cohort_closeout_offer,
+        _btc15_ladder_offer=offer)
+    start()
+    threading.Thread(target=server.serve_forever,daemon=True,name='native-small-projections').start()
+    try:exec(compile(instrument(native.instrument(ast.parse(raw)),'main'),str(native.BOT),'exec'),ns)
+    finally:server.shutdown();server.server_close()
+
+
+def v81_main(root):
+    admin=Admin(os.environ['BTC15_LADDER_DATA_ROOT'],'v81');install(admin)
+    import btc15_ladder_journal_v1 as journal
+    journal.view=public_view
+    pool=Pool()
+    path=Path(root)/'btc15_v2_product/scalp_feed.py'
+    ns=dict(__name__='__main__',__file__=str(path),_v2_admin=admin,_v2_prepare=lambda ns:prepare_v81(ns,pool))
+    exec(compile(instrument(ast.parse(path.read_bytes()),'v81'),str(path),'exec'),ns)
+, ''))
+        return value if math.isfinite(value) and value>0 else None
+    except (TypeError,ValueError):
+        return None
+
+
+def _v81_prepared_target(m,get,legacy):
+    """Mirror MAIN target recovery only for the prepared V81 source seam."""
+    value=_positive_target(legacy(m))
+    if value is not None:return value
+    patterns=(
+        r"Target\\s*Price\\s*:\\s*\\$?\\s*([0-9][0-9,]*(?:\\.[0-9]+)?)",
+        r"\\$([0-9][0-9,]*(?:\\.[0-9]+)?)\\s*target",
+    )
+    def parse(obj):
+        for key in ('floor_strike','functional_strike'):
+            value=_positive_target(obj.get(key))
+            if value is not None:return value
+        for raw in (obj.get('yes_sub_title'),obj.get('title'),obj.get('subtitle')):
+            text=str(raw or '')
+            for pattern in patterns:
+                match=re.search(pattern,text,flags=re.IGNORECASE)
+                if match:
+                    value=_positive_target(match.group(1))
+                    if value is not None:return value
+        return None
+    value=parse(m)
+    if value is not None:return value
+    ticker=str(m.get('ticker') or '')
+    if not ticker:return None
+    try:
+        exact=get('/trade-api/v2/markets/'+ticker)
+        exact=exact.get('market',exact)
+    except Exception:
+        return None
+    return parse(exact) if isinstance(exact,dict) else None
+
+
+def _v81_selected_target(m,pool):
+    """Snapshot consumes only the target fixed by the prepared official identity."""
+    try:
+        selected=identity(m);official=pool.official
+        if not official or any(selected[k]!=official[k] for k in ('contract','official_open','official_close')):
+            return None
+        return _positive_target(official.get('target'))
+    except (ValueError,KeyError,TypeError):
+        return None
+
+
 def prepare_v81(ns,pool):
-    owner=ns['_qualified_inputs'];original=owner.market
+    owner=ns['_qualified_inputs'];original=owner.market;legacy_target=owner.target
     admin=ns['_v2_admin'];original_get=owner.get;original_brti=owner.brti_read
     owner.get=lambda *a,**k:admin.call('coinbase_http',original_get,*a,**k)
     owner.brti_read=lambda:admin.call('shared_brti_read',original_brti)
     def get(path,params=None):
         response=ns['requests'].get(ns['MARKET']+path,headers=ns['hdr']('GET',path),params=params,timeout=7)
         response.raise_for_status();return response.json()
-    preparation=Preparation(get,owner.target,pool)
+    preparation=Preparation(get,lambda m:_v81_prepared_target(m,get,legacy_target),pool)
     owner.market=lambda:admin.call('official_market_selection',preparation.select,original)
+    owner.target=lambda m:_v81_selected_target(m,pool)
     owner.provider=pool
     preparation.start();return preparation
 
