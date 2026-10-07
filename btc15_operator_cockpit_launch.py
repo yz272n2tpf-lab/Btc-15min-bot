@@ -1,0 +1,164 @@
+"""BTC15 operator-cockpit presentation overlay.
+
+Display-only cleanup over the reviewed 1bd5b44d product assembly.
+No strategy/model/threshold/authority/source/scoring/order behavior changes.
+"""
+import argparse
+import fcntl
+import hashlib
+import json
+import os
+from pathlib import Path
+
+MARKER = "BTC15_OPERATOR_COCKPIT_V1"
+
+CSS = r'''<style id="btc15-operator-cockpit-v1">
+/* FINAL: one call surface, no management ladder. */
+#finalBuyZone,#finalHoldZone,#finalWatchZone,#finalProtectZone,#finalExitZone,#finalActionSub{display:none!important}
+/* EARLY: ladder is primary; remove duplicate authority/edge chatter. */
+#earlyYourEntry,#earlyEdge,#earlyAfterEntry,#earlyFlow{display:none!important}
+/* SCALP: one reusable ladder; separate reversal/re-entry panel and yellow chatter leave the cockpit. */
+#oppositeEntry,#oppositeState,#oppositeArrow,#scalpYourEntry,#scalpTargetStrip,#scalpFlow{display:none!important}
+/* Kalshi: main operator view shows only the UP/DOWN buy prices. */
+#upCondition,#downCondition,#v2QuoteClock{display:none!important}
+/* Redundant lower scoring/context chrome leaves the cockpit; values remain available in Details. */
+#flipRisk,#flipRiskSub,#evidenceScore,#momentumBadge,#momentumSub,
+#contextTrend,#contextRange,#contextBrti,#contextLevels,#contextBanner{display:none!important}
+#botHealthReason{margin-top:.35rem;color:var(--muted,#aab4c8);font-size:.82rem;line-height:1.35}
+#operatorMarketContext{margin-top:.75rem}
+#operatorMarketContextValue{font-weight:760;line-height:1.4;overflow-wrap:anywhere}
+#operatorDetails{margin-top:1rem;border:1px solid rgba(170,180,200,.22);border-radius:12px;padding:.7rem .85rem}
+#operatorDetails summary{cursor:pointer;font-weight:800;letter-spacing:.04em}
+#operatorDetailsBody{padding-top:.65rem;color:var(--muted,#aab4c8);font-size:.82rem;line-height:1.45}
+#operatorDetailsBody .detail-line{margin:.32rem 0;overflow-wrap:anywhere}
+</style>'''
+
+JS = r'''<script id="btc15-operator-cockpit-v1-script">
+(()=>{
+  'use strict';
+  const byId=id=>document.getElementById(id);
+  const value=n=>(n?.textContent||'').replace(/\s+/g,' ').trim();
+  const leaves=()=>Array.from(document.querySelectorAll('body *')).filter(n=>!n.children.length);
+  const exact=label=>leaves().find(n=>value(n).toUpperCase()===label);
+  const card=n=>{for(let p=n,i=0;p&&i<7;p=p.parentElement,i++)if(p.classList?.contains('card'))return p;return null;};
+  const row=n=>{for(let p=n,i=0;p&&i<4;p=p.parentElement,i++)if(p.classList?.contains('ladder-row')||p.classList?.contains('pos'))return p;return n;};
+  const hideRow=id=>{const n=byId(id);if(n)row(n).style.setProperty('display','none','important');};
+  const hideCard=label=>{const c=card(exact(label));if(c)c.style.setProperty('display','none','important');};
+  const esc=s=>String(s||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+
+  function ensureHealth(){
+    const label=exact('SIGNAL STRENGTH'); if(label)label.textContent='BOT HEALTH';
+    const n=byId('signalStrength'); if(!n)return;
+    let reason=byId('botHealthReason');
+    if(!reason){reason=document.createElement('div');reason.id='botHealthReason';n.insertAdjacentElement('afterend',reason);}
+  }
+  function updateHealth(){
+    const status=value(byId('liveStatus')).toUpperCase();
+    const main=status.includes('MAIN TRACKING'),scalp=status.includes('SCALP TRACKING');
+    const uq=value(byId('upCondition')).toUpperCase(),dq=value(byId('downCondition')).toUpperCase();
+    const quote=uq.startsWith('ASK')&&dq.startsWith('ASK');
+    const health=main&&scalp&&quote?'HEALTHY':(main||scalp||quote?'DEGRADED':'ISSUE');
+    const n=byId('signalStrength'),r=byId('botHealthReason');
+    if(n&&value(n)!==health)n.textContent=health;
+    const missing=[main?'':'MAIN',scalp?'':'SCALP',quote?'':'KALSHI'].filter(Boolean);
+    const why=health==='HEALTHY'?'MAIN, SCALP and Kalshi quote feeds tracking':'Refreshing: '+missing.join(' + ');
+    if(r&&value(r)!==why)r.textContent=why;
+  }
+  function ensureMarketContext(){
+    if(byId('operatorMarketContext'))return;
+    const anchor=card(byId('signalStrength'))||document.querySelector('.secondary-grid')||document.querySelector('main')||document.body;
+    const c=document.createElement('section');c.id='operatorMarketContext';c.className='card';
+    c.innerHTML='<div class="eyebrow">MARKET CONTEXT</div><div id="operatorMarketContextValue">REFRESHING</div>';
+    anchor.insertAdjacentElement('afterend',c);
+  }
+  function updateMarketContext(){
+    const out=byId('operatorMarketContextValue'),src=byId('contextBanner');if(!out)return;
+    const v=value(src),next=v&&v!=='—'?v:'Waiting for qualified market context';
+    if(value(out)!==next)out.textContent=next;
+  }
+  function ensureDetails(){
+    if(byId('operatorDetails'))return;
+    const host=document.querySelector('main')||document.body,d=document.createElement('details');
+    d.id='operatorDetails';d.innerHTML='<summary>DETAILS</summary><div id="operatorDetailsBody"></div>';host.appendChild(d);
+  }
+  function updateDetails(){
+    const body=byId('operatorDetailsBody');if(!body)return;
+    const rows=[];
+    const add=(label,id)=>{const v=value(byId(id));if(v)rows.push('<div class="detail-line"><strong>'+label+':</strong> '+esc(v)+'</div>');};
+    add('UP quote detail','upCondition');add('DOWN quote detail','downCondition');add('Quote provenance','v2QuoteClock');
+    add('Flip risk','flipRisk');add('Evidence score','evidenceScore');add('Momentum','momentumBadge');add('Momentum detail','momentumSub');
+    add('Trend','contextTrend');add('Range','contextRange');add('BRTI context','contextBrti');add('Levels','contextLevels');
+    add('EARLY diagnostics','earlyFlow');add('SCALP diagnostics','scalpFlow');
+    const info=byId('btc15-information-assessment');if(info&&value(info))rows.push('<div class="detail-line"><strong>Information diagnostics:</strong> '+esc(value(info))+'</div>');
+    const next=rows.join('')||'<div class="detail-line">Diagnostics refreshing.</div>';
+    if(body.innerHTML!==next)body.innerHTML=next;
+  }
+  function cleanStructure(){
+    ['finalBuyZone','finalHoldZone','finalWatchZone','finalProtectZone','finalExitZone',
+     'earlyYourEntry','earlyEdge','earlyAfterEntry','scalpYourEntry','scalpTargetStrip'].forEach(hideRow);
+    hideCard('FLIP RISK');hideCard('EVIDENCE SCORE');hideCard('MARKET MOMENTUM');
+    const oc=card(byId('oppositeEntry'));if(oc)oc.style.setProperty('display','none','important');
+  }
+  function apply(){ensureHealth();ensureMarketContext();ensureDetails();cleanStructure();updateHealth();updateMarketContext();updateDetails();}
+  document.addEventListener('DOMContentLoaded',apply,{once:true});if(document.readyState!=='loading')apply();
+  setInterval(apply,250);
+  console.info('BTC15_OPERATOR_COCKPIT_V1 active');
+})();
+</script>'''
+
+def patch_html(path: Path) -> bool:
+    text = path.read_text(encoding="utf-8")
+    if MARKER in text:
+        return False
+    if "</head>" not in text or "</body>" not in text:
+        raise ValueError("DASHBOARD_HTML_SEAM")
+    text = text.replace("</head>", CSS + "\n</head>", 1)
+    text = text.replace("</body>", JS + "\n<!-- " + MARKER + " -->\n</body>", 1)
+    path.write_text(text, encoding="utf-8")
+    return True
+
+def refresh_assembled_manifest(directory: Path) -> None:
+    manifest_path=directory/"manifest.json"
+    if not manifest_path.exists():
+        return
+    manifest=json.loads(manifest_path.read_text())
+    html=directory/"BTC_Kalshi_App_Live_v13.html"
+    if html.exists() and isinstance(manifest.get("files"),dict):
+        manifest["files"][html.name]=hashlib.sha256(html.read_bytes()).hexdigest()
+    manifest["operator_cockpit"]=MARKER
+    manifest_path.write_text(json.dumps(manifest,indent=2)+"\n")
+
+def assemble(directory: Path):
+    from btc15_v2_product.installer import assemble as reviewed_assemble
+    d=reviewed_assemble(directory)
+    html=d/"BTC_Kalshi_App_Live_v13.html"
+    if not html.exists():
+        raise ValueError("DASHBOARD_HTML_MISSING")
+    patch_html(html)
+    refresh_assembled_manifest(d)
+    return d
+
+def main():
+    p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument("--lane",choices=["main"],default="main")
+    p.add_argument("--run-reviewed-production",action="store_true")
+    p.add_argument("--directory",type=Path,default=Path("/tmp/btc15_operator_cockpit_v1"))
+    a=p.parse_args()
+    from btc15_v2_product.release import verify_files,verify_environment,ROOT
+    verify_files("main")
+    if not a.run_reviewed_production:
+        d=assemble(a.directory)
+        print(d/"manifest.json")
+        return 0
+    verify_environment("main")
+    if os.getenv("BTC15_ENABLE_INFORMATION_EXPORT")!="1":
+        raise ValueError("INFORMATION_EXPORT_OPT_IN_REQUIRED")
+    if Path.cwd().resolve()!=ROOT:
+        raise ValueError("REPOSITORY_WORKING_DIRECTORY_REQUIRED")
+    from btc15_information_install_v1 import supervise
+    with open("/tmp/btc15-two-clock.lock","a") as lock:
+        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+        return supervise(assemble(a.directory),worker_script=ROOT/"btc15_v2_product/worker.py")
+
+if __name__=="__main__":
+    raise SystemExit(main())
