@@ -1,0 +1,46 @@
+name: Operator Cockpit Qualification
+
+on:
+  pull_request:
+    branches:
+      - candidate/main-decision-surface-continuity-20261006
+    paths:
+      - btc15_operator_cockpit_launch.py
+      - .github/workflows/operator-cockpit-qualification.yml
+  workflow_dispatch:
+
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Verify reviewed source and assemble cockpit
+        run: python btc15_operator_cockpit_launch.py --lane main --directory /tmp/btc15_operator_cockpit
+      - name: Assert operator surface and safety boundary
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          d=Path('/tmp/btc15_operator_cockpit')
+          h=(d/'BTC_Kalshi_App_Live_v13.html').read_text()
+          m=json.loads((d/'manifest.json').read_text())
+          required=[
+            'BTC15_OPERATOR_COCKPIT_V1','BOT HEALTH','MARKET CONTEXT','DETAILS',
+            '#finalBuyZone,#finalHoldZone,#finalWatchZone,#finalProtectZone,#finalExitZone',
+            '#earlyYourEntry,#earlyEdge,#earlyAfterEntry,#earlyFlow',
+            '#oppositeEntry,#oppositeState,#oppositeArrow',
+            '#upCondition,#downCondition,#v2QuoteClock',
+            '#flipRisk,#flipRiskSub,#evidenceScore'
+          ]
+          for token in required:
+              assert token in h, token
+          assert m['signal_only'] is True and m['orders'] is False
+          assert m['operator_cockpit']=='BTC15_OPERATOR_COCKPIT_V1'
+          print('OPERATOR COCKPIT QUALIFICATION PASS | SIGNAL ONLY | NO ORDERS')
+          PY
