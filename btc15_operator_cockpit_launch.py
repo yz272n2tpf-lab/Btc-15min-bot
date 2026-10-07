@@ -93,6 +93,32 @@ JS = r'''<script id="btc15-operator-cockpit-v1-script">
       if(value(reason)!==r)reason.textContent=r;
     }
   }
+  function cleanEarlyLanguage(){
+    const title=byId('earlyTitle'),state=byId('earlyState'),entry=byId('earlyEntry'),price=byId('earlyCurrentPrice');
+    // Keep only direction/status + current action/reason + necessary price above ladder.
+    ['earlyYourEntry','earlyEdge','earlyAfterEntry','earlyFlow'].forEach(id=>{const n=byId(id);if(n)n.style.setProperty('display','none','important');});
+    const replacements=[
+      ['earlyLadderHold',/No protected position assumed/gi,'No active EARLY entry'],
+      ['earlyLadderProtect',/Protection begins only after a protected origin/gi,'Protection starts after an EARLY entry'],
+      ['earlyLadderExit',/Directional EXIT authority not yet validated[^·]*/gi,'EXIT when the live ladder reaches Exit Now'],
+      ['earlyLadderExit',/PROTECT is manual risk guidance/gi,'Protect profits when shown']
+    ];
+    replacements.forEach(([id,re,to])=>{const n=byId(id);if(n){const v=value(n).replace(re,to);if(value(n)!==v)n.textContent=v;}});
+    if(entry){
+      let v=value(entry).replace(/No protected origin/gi,'No EARLY entry').replace(/manual opportunity guidance only/gi,'waiting for an EARLY setup');
+      if(value(entry)!==v)entry.textContent=v;
+    }
+  }
+  function cleanBotHealth(){
+    const h=byId('signalStrength');if(!h)return;
+    const c=card(h);if(!c)return;
+    // Old signal-strength bars/agreement visuals are not Bot Health.
+    c.querySelectorAll('.strength-bar,.strength-bars,.signal-bars,.bar,.agreement,.agreement-row').forEach(n=>n.style.setProperty('display','none','important'));
+    Array.from(c.querySelectorAll('*')).forEach(n=>{
+      const t=value(n).toUpperCase();
+      if(t==='CURRENT AGREEMENT'||t.startsWith('CURRENT AGREEMENT '))n.style.setProperty('display','none','important');
+    });
+  }
   function stripLegacyLowerChrome(){
     // Exactly one operator Market Context: legacy context/momentum cards are diagnostics.
     const op=byId('operatorMarketContext');
@@ -137,7 +163,7 @@ JS = r'''<script id="btc15-operator-cockpit-v1-script">
       const n=byId(id);if(n){n.style.removeProperty('display');const r=row(n);if(r)r.style.removeProperty('display');}
     });
   }
-  function apply(){ensureHealth();ensureMarketContext();ensureDetails();cleanStructure();plainFinal();stripLegacyLowerChrome();updateHealth();updateMarketContext();updateDetails();}
+  function apply(){ensureHealth();ensureMarketContext();ensureDetails();cleanStructure();plainFinal();cleanEarlyLanguage();cleanBotHealth();stripLegacyLowerChrome();updateHealth();updateMarketContext();updateDetails();}
   document.addEventListener('DOMContentLoaded',apply,{once:true});if(document.readyState!=='loading')apply();
   setInterval(apply,250);
   console.info('BTC15_OPERATOR_COCKPIT_V1 active');
