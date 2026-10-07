@@ -33,6 +33,16 @@ class OperatorCockpitContract(unittest.TestCase):
         self.assertIn(">DETAILS<",self.html.replace(" ",""))
         self.assertIn("#flipRisk,#flipRiskSub,#evidenceScore",self.html)
 
+    def test_rejected_preview_regressions_are_guarded(self):
+        # Preview #1 failed physical acceptance on these exact points.
+        self.assertIn("Never hide a legacy parent card by inference",self.html)
+        self.assertIn("plainFinal()",self.html)
+        self.assertIn("cleanEarlyLanguage()",self.html)
+        self.assertIn("cleanBotHealth()",self.html)
+        self.assertIn("stripLegacyLowerChrome()",self.html)
+        self.assertIn("oppositeTitle",self.html)
+        self.assertIn("indicator-row",self.html)
+
     def test_signal_only_boundary(self):
         import json
         m=json.loads((self.d/"manifest.json").read_text())
