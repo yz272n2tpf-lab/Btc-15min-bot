@@ -76,6 +76,35 @@ JS = r'''<script id="btc15-operator-cockpit-v1-script">
     const v=value(src),next=v&&v!=='—'?v:'Waiting for qualified market context';
     if(value(out)!==next)out.textContent=next;
   }
+  function plainFinal(){
+    const action=byId('finalAction'),reason=byId('finalReason');if(!action)return;
+    const raw=value(action).toUpperCase(),side=value(byId('finalSide')).toUpperCase();
+    let next=raw;
+    if(raw.includes('NOT LOCKED')||raw.includes('REFRESHING'))next='WAIT';
+    else if(raw.includes('FINAL LOCK')||raw.includes('QUALIFIED'))next='HOLD '+(side==='UP'||side==='DOWN'?side:'');
+    next=next.trim();
+    if(value(action)!==next)action.textContent=next;
+    if(reason){
+      let r=value(reason);
+      r=r.replace(/FINAL lock not qualified/gi,'Final confirmation is not strong enough yet')
+         .replace(/Probability live;\s*/gi,'')
+         .replace(/no new action authority/gi,'waiting for fresh confirmation')
+         .replace(/qualified/gi,'confirmed');
+      if(value(reason)!==r)reason.textContent=r;
+    }
+  }
+  function stripLegacyLowerChrome(){
+    // Exactly one operator Market Context: legacy context/momentum cards are diagnostics.
+    const op=byId('operatorMarketContext');
+    Array.from(document.querySelectorAll('.card')).forEach(c=>{
+      if(c===op)return;
+      const t=value(c).toUpperCase();
+      if(t.startsWith('MARKET CONTEXT')||t.startsWith('MARKET MOMENTUM'))c.style.setProperty('display','none','important');
+    });
+    // Indicator/timeframe diagnostics are preserved in the legacy DOM for Details,
+    // but are not part of the normal cockpit.
+    document.querySelectorAll('.indicator-row').forEach(n=>n.style.setProperty('display','none','important'));
+  }
   function ensureDetails(){
     if(byId('operatorDetails'))return;
     const host=document.querySelector('main')||document.body,d=document.createElement('details');
@@ -108,7 +137,7 @@ JS = r'''<script id="btc15-operator-cockpit-v1-script">
       const n=byId(id);if(n){n.style.removeProperty('display');const r=row(n);if(r)r.style.removeProperty('display');}
     });
   }
-  function apply(){ensureHealth();ensureMarketContext();ensureDetails();cleanStructure();updateHealth();updateMarketContext();updateDetails();}
+  function apply(){ensureHealth();ensureMarketContext();ensureDetails();cleanStructure();plainFinal();stripLegacyLowerChrome();updateHealth();updateMarketContext();updateDetails();}
   document.addEventListener('DOMContentLoaded',apply,{once:true});if(document.readyState!=='loading')apply();
   setInterval(apply,250);
   console.info('BTC15_OPERATOR_COCKPIT_V1 active');
