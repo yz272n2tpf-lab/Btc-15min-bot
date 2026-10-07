@@ -222,7 +222,7 @@ def preview_main(directory: Path):
     # Mirror every read-only presentation route used by the reviewed dashboard.
     # /information is required for model context/chart/timer identity continuity;
     # /ladders/* carries MAIN, quotes, indicators and panel assets.
-    proxy_paths=("/ladders","/information","/health","/btc15-information")
+    proxy_paths=("/ladders","/information","/dashboard_state.json","/health","/btc15-information")
     class Handler(http.server.SimpleHTTPRequestHandler):
         def __init__(self,*args,**kwargs): super().__init__(*args,directory=str(d),**kwargs)
         def do_GET(self):
