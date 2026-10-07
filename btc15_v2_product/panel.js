@@ -114,7 +114,9 @@
     const modelSide=finite(up)&&finite(down)?(up>=down?'UP':'DOWN'):null;
     const probability=modelSide==='UP'?up:modelSide==='DOWN'?down:null;
     classes('finalCard','card final-card '+(modelSide==='DOWN'?'down-mode':''));
-    text('signalStrength',finite(probability)?(probability>=.90?'STRONG':probability>=.75?'GOOD':probability>=.60?'MODERATE':'WEAK'):retained('main','signalStrength',ident,false));
+    // Operator cockpit: this tile reports system health, never directional conviction.
+    const healthMain=mainTracking,healthScalp=scalpTracking;
+    text('signalStrength',healthMain&&healthScalp?'HEALTHY':healthMain||healthScalp?'DEGRADED':'ISSUE');
     if(modelSide){
       text('finalArrow',modelSide==='DOWN'?'↓':'↑');
       text('finalSide',modelSide);
@@ -183,6 +185,10 @@
     if(qualified)remember('main',ident,m.published_ts);
     if(aligned)remember('scalp',ident,s.published_ts);
     const freshQuote=q&&q.status==='AVAILABLE'&&ident&&key(q.official_identity)===key(ident);
+    // Include the executable quote lane in Bot Health without turning health into a trading signal.
+    text('signalStrength',mainTracking&&scalpTracking&&freshQuote?'HEALTHY':(mainTracking||scalpTracking||freshQuote)?'DEGRADED':'ISSUE');
+    text('botHealthReason',mainTracking&&scalpTracking&&freshQuote?'MAIN, SCALP and Kalshi quote feeds tracking':
+      'Refreshing: '+[mainTracking?'':'MAIN',scalpTracking?'':'SCALP',freshQuote?'':'KALSHI'].filter(Boolean).join(' + '));
     text('upOdds',freshQuote?cents(q.up_ask):retained('quote','upOdds',ident,false));text('downOdds',freshQuote?cents(q.down_ask):retained('quote','downOdds',ident,false));
     text('upCondition',freshQuote?'ASK · BID '+cents(q.up_bid):(history.quote&&(!ident||history.quote.identity===key(ident))?'LAST QUALIFIED / REFRESHING · ':'WAIT — ')+'timestamped quote refresh pending');
     text('downCondition',freshQuote?'ASK · BID '+cents(q.down_bid):(history.quote&&(!ident||history.quote.identity===key(ident))?'LAST QUALIFIED / REFRESHING · ':'WAIT — ')+'timestamped quote refresh pending');
