@@ -22,6 +22,8 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Verify reviewed source and assemble cockpit
         run: python btc15_operator_cockpit_launch.py --lane main --directory /tmp/btc15_operator_cockpit
+      - name: Locked operator cockpit contract tests
+        run: python -m unittest -v test_btc15_operator_cockpit_contract.py
       - name: Assert operator surface and safety boundary
         run: |
           python - <<'PY'
