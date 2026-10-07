@@ -99,6 +99,87 @@ def assemble(directory):
     html=html.replace('</head>',css+'\n</head>')
     html=html.replace('<script src="/ladders/panel.js"></script>',
         '<p id="v2QuoteClock" role="status">WAIT — timestamped quote refresh pending</p>\n<script src="/ladders/panel.js"></script>')
+    # Operator-cockpit presentation cleanup. Display-only: no strategy, thresholds,
+    # ownership, leases, scoring, or order behavior changes.
+    cockpit_css=r'''<style id="v2-operator-cockpit-layout">
+      /* FINAL is one decisive call: probability + action + reason. */
+      #finalBuyZone,#finalHoldZone,#finalWatchZone,#finalProtectZone,#finalExitZone{display:none!important}
+      /* EARLY ladder remains primary; duplicate authority/edge chatter leaves the cockpit. */
+      #earlyYourEntry,#earlyEdge,#earlyAfterEntry{display:none!important}
+      /* SCALP uses one live ladder; serial re-entry/reversal capability remains underneath. */
+      #oppositeEntry,#oppositeState,#oppositeArrow{display:none!important}
+      #scalpYourEntry,#scalpTargetStrip{display:none!important}
+      /* Main Kalshi view is buy prices only. Provenance remains available in Details. */
+      #upCondition,#downCondition,#v2QuoteClock{display:none!important}
+      /* Evidence/flip-risk and old lower context readouts are retained in data, not cockpit chrome. */
+      #flipRisk,#flipRiskSub,#evidenceScore,#momentumBadge,#momentumSub,
+      #contextTrend,#contextRange,#contextBrti,#contextLevels,#contextBanner{display:none!important}
+      #botHealthReason{margin-top:.35rem;color:var(--muted,#aab4c8);font-size:.82rem;line-height:1.35}
+      #operatorMarketContext{margin-top:.7rem}
+      #operatorMarketContext .operator-context-value{font-weight:750;line-height:1.4;overflow-wrap:anywhere}
+      #operatorDetails{margin-top:1rem;border:1px solid rgba(170,180,200,.22);border-radius:12px;padding:.7rem .85rem}
+      #operatorDetails summary{cursor:pointer;font-weight:800;letter-spacing:.04em}
+      #operatorDetailsBody{padding-top:.65rem;color:var(--muted,#aab4c8);font-size:.82rem;line-height:1.45}
+      #operatorDetailsBody .detail-line{margin:.3rem 0;overflow-wrap:anywhere}
+    </style>'''
+    cockpit_js=r'''<script id="v2-operator-cockpit-script">
+    (()=>{
+      const byId=id=>document.getElementById(id);
+      const txt=n=>(n?.textContent||'').replace(/\\s+/g,' ').trim();
+      const leafs=()=>Array.from(document.querySelectorAll('body *')).filter(n=>!n.children.length);
+      const exact=(label)=>leafs().find(n=>txt(n).toUpperCase()===label);
+      const card=n=>{for(let p=n,i=0;p&&i<7;p=p.parentElement,i++){if(p.classList?.contains('card'))return p;}return null;};
+      const row=n=>{for(let p=n,i=0;p&&i<4;p=p.parentElement,i++){if(p.classList?.contains('ladder-row')||p.classList?.contains('pos'))return p;}return n;};
+      const hideRow=id=>{const n=byId(id);if(n)row(n).style.setProperty('display','none','important');};
+      const hideCardLabel=label=>{const n=exact(label);const c=card(n);if(c)c.style.setProperty('display','none','important');};
+      function ensureHealth(){
+        const label=exact('SIGNAL STRENGTH');if(label)label.textContent='BOT HEALTH';
+        const value=byId('signalStrength');if(value&&!byId('botHealthReason')){
+          const r=document.createElement('div');r.id='botHealthReason';r.textContent='Checking MAIN, SCALP and Kalshi quote feeds';value.insertAdjacentElement('afterend',r);
+        }
+      }
+      function ensureMarketContext(){
+        if(byId('operatorMarketContext'))return;
+        const anchor=card(byId('signalStrength'))||document.querySelector('.secondary-grid')||document.querySelector('main')||document.body;
+        const c=document.createElement('section');c.id='operatorMarketContext';c.className='card';
+        c.innerHTML='<div class="eyebrow">MARKET CONTEXT</div><div class="operator-context-value" id="operatorMarketContextValue">REFRESHING</div>';
+        anchor.insertAdjacentElement('afterend',c);
+      }
+      function ensureDetails(){
+        if(byId('operatorDetails'))return;
+        const host=document.querySelector('main')||document.body;
+        const d=document.createElement('details');d.id='operatorDetails';
+        d.innerHTML='<summary>DETAILS</summary><div id="operatorDetailsBody"></div>';host.appendChild(d);
+      }
+      function updateContext(){
+        const out=byId('operatorMarketContextValue'),source=byId('contextBanner');if(!out)return;
+        const v=txt(source);out.textContent=v&&v!=='—'?v:'Waiting for qualified market context';
+      }
+      function updateDetails(){
+        const body=byId('operatorDetailsBody');if(!body)return;
+        const lines=[];
+        const add=(label,id)=>{const v=txt(byId(id));if(v)lines.push('<div class="detail-line"><strong>'+label+':</strong> '+v.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')+'</div>');};
+        add('Quote provenance','v2QuoteClock');add('Flip risk','flipRisk');add('Evidence score','evidenceScore');
+        add('Momentum','momentumBadge');add('Momentum detail','momentumSub');add('Trend','contextTrend');add('Range','contextRange');add('BRTI context','contextBrti');add('Levels','contextLevels');
+        const info=byId('btc15-information-assessment');if(info&&txt(info))lines.push('<div class="detail-line"><strong>Information diagnostics:</strong> '+txt(info).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')+'</div>');
+        body.innerHTML=lines.join('')||'<div class="detail-line">Diagnostics refreshing.</div>';
+      }
+      function apply(){
+        ensureHealth();ensureMarketContext();ensureDetails();updateContext();updateDetails();
+        ['finalBuyZone','finalHoldZone','finalWatchZone','finalProtectZone','finalExitZone','earlyYourEntry','earlyEdge','earlyAfterEntry','scalpYourEntry','scalpTargetStrip'].forEach(hideRow);
+        hideCardLabel('FLIP RISK');hideCardLabel('EVIDENCE SCORE');hideCardLabel('MARKET MOMENTUM');
+        const opposite=byId('oppositeEntry');const oc=card(opposite);if(oc)oc.style.setProperty('display','none','important');
+        // Remove yellow/manual technical chatter while retaining the live ladder state itself.
+        const ef=byId('earlyFlow');if(ef)ef.style.setProperty('display','none','important');
+        const sf=byId('scalpFlow');if(sf)sf.style.setProperty('display','none','important');
+      }
+      document.addEventListener('DOMContentLoaded',apply,{once:true});if(document.readyState!=='loading')apply();
+      new MutationObserver(()=>requestAnimationFrame(apply)).observe(document.documentElement,{subtree:true,childList:true,characterData:true});
+      setInterval(apply,1000);
+    })();
+    </script>'''
+    html=html.replace('</head>',cockpit_css+'\\n</head>',1)
+    html=html.replace('</body>',cockpit_js+'\\n</body>',1)
     path.write_text(html)
     server=d/'BTC15_DASHBOARD_LIVE_SERVER_V1.py'
     replace_once(server,'from btc15_ladder_routes_v1 import serve as serve_ladders','from btc15_v2_product.routes import serve as serve_ladders')
