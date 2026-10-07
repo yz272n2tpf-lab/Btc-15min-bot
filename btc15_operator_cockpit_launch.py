@@ -120,6 +120,9 @@ JS = r'''<script id="btc15-operator-cockpit-v1-script">
     });
   }
   function stripLegacyLowerChrome(){
+    // Quick Notes and the large Market information diagnostics are developer
+    // surfaces; preserve their values for Details but remove them from cockpit.
+    ['QUICK NOTES','MARKET INFORMATION'].forEach(hideCard);
     // Exactly one operator Market Context: legacy context/momentum cards are diagnostics.
     const op=byId('operatorMarketContext');
     Array.from(document.querySelectorAll('.card')).forEach(c=>{
