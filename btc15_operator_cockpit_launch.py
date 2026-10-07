@@ -97,7 +97,16 @@ JS = r'''<script id="btc15-operator-cockpit-v1-script">
     ['finalBuyZone','finalHoldZone','finalWatchZone','finalProtectZone','finalExitZone',
      'earlyYourEntry','earlyEdge','earlyAfterEntry','scalpYourEntry','scalpTargetStrip'].forEach(hideRow);
     hideCard('FLIP RISK');hideCard('EVIDENCE SCORE');hideCard('MARKET MOMENTUM');
-    const oc=card(byId('oppositeEntry'));if(oc)oc.style.setProperty('display','none','important');
+    // Never hide a legacy parent card by inference: on iPad the reversal node can
+    // share the SCALP card. Hide only the reversal/re-entry nodes themselves.
+    ['oppositeEntry','oppositeState','oppositeArrow','oppositeTitle'].forEach(id=>{
+      const n=byId(id);if(n)n.style.setProperty('display','none','important');
+    });
+    // SCALP is a required operator surface. Force its action fields and all five
+    // ladder rows visible even if legacy responsive CSS tried to collapse them.
+    ['scalpEntry','scalpLadderEntry','scalpLadderHold','scalpLadderWatch','scalpLadderProtect','scalpLadderExit'].forEach(id=>{
+      const n=byId(id);if(n){n.style.removeProperty('display');const r=row(n);if(r)r.style.removeProperty('display');}
+    });
   }
   function apply(){ensureHealth();ensureMarketContext();ensureDetails();cleanStructure();updateHealth();updateMarketContext();updateDetails();}
   document.addEventListener('DOMContentLoaded',apply,{once:true});if(document.readyState!=='loading')apply();
