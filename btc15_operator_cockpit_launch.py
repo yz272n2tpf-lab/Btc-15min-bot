@@ -216,18 +216,27 @@ def preview_main(directory: Path):
     if not upstream.startswith("https://"):
         raise ValueError("PREVIEW_UPSTREAM_REQUIRED")
     port=int(os.getenv("PORT","8080"))
-    proxy_paths=("/ladders","/health","/btc15-information")
+    # Mirror every read-only presentation route used by the reviewed dashboard.
+    # /information is required for model context/chart/timer identity continuity;
+    # /ladders/* carries MAIN, quotes, indicators and panel assets.
+    proxy_paths=("/ladders","/information","/health","/btc15-information")
     class Handler(http.server.SimpleHTTPRequestHandler):
         def __init__(self,*args,**kwargs): super().__init__(*args,directory=str(d),**kwargs)
         def do_GET(self):
             path=urlsplit(self.path).path
             if any(path==p or path.startswith(p+"/") for p in proxy_paths):
                 try:
-                    req=urllib.request.Request(upstream+self.path,headers={"Accept":"application/json","User-Agent":"BTC15-operator-preview/1"})
+                    headers={"Accept":self.headers.get("Accept","*/*"),"User-Agent":"BTC15-operator-preview/2"}
+                    nonce=self.headers.get("X-BTC15-Information-Nonce")
+                    if nonce: headers["X-BTC15-Information-Nonce"]=nonce
+                    req=urllib.request.Request(upstream+self.path,headers=headers)
                     with urllib.request.urlopen(req,timeout=4) as r:
                         body=r.read();self.send_response(r.status)
                         self.send_header("Content-Type",r.headers.get("Content-Type","application/json"))
-                        self.send_header("Cache-Control","no-store");self.end_headers();self.wfile.write(body)
+                        self.send_header("Cache-Control","no-store")
+                        nonce_reply=r.headers.get("X-BTC15-Information-Nonce")
+                        if nonce_reply:self.send_header("X-BTC15-Information-Nonce",nonce_reply)
+                        self.end_headers();self.wfile.write(body)
                 except Exception:
                     self.send_response(503);self.send_header("Content-Type","application/json");self.end_headers()
                     self.wfile.write(b'{"status":"UNAVAILABLE","reason":"PREVIEW_UPSTREAM"}')
