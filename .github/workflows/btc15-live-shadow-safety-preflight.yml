@@ -49,6 +49,8 @@ jobs:
           grep -q 'original evidence volume must be safely detached' /tmp/btc15-mounted-volume.log
           echo 'TEST_SERVICE_IDENTITY_AND_EVIDENCE_VOLUME_GUARDS_PASS'
       - name: Integrated transport and protected ladder regressions
+        env:
+          BTC15_DATA_DIR: ${{ runner.temp }}/btc15-delivery-test-data
         run: |
           python -m unittest -v test_btc15_live_delivery_repair test_btc15_integrated_finish.ProtectedBaselines test_btc15_integrated_finish.DirectionalLifecycle test_btc15_integrated_finish.GeneralizedScalp
           python ops/main_live_repair_20261008/test_producer.py
