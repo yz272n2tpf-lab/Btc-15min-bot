@@ -20,39 +20,54 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Verify exact uploaded repair and stage only in a detached worktree
+      - name: Verify immutable repair ZIP
         shell: bash
         run: |
           set -euo pipefail
-          test -f BTC15_STAGE_EXISTING_REPAIR_20261008.zip || { echo 'BLOCKED: upload the reviewed repair ZIP; no producer tests ran'; exit 2; }
           echo '471948024fb1edfcc9859199808321d9e6b09f6aa96aadf47e74bae0ed6801a8  BTC15_STAGE_EXISTING_REPAIR_20261008.zip' | sha256sum -c -
           mkdir -p "$RUNNER_TEMP/btc15-package"
           unzip -q BTC15_STAGE_EXISTING_REPAIR_20261008.zip -d "$RUNNER_TEMP/btc15-package"
           test -f "$RUNNER_TEMP/btc15-package/stage_btc15_repair.py"
           test -f "$RUNNER_TEMP/btc15-package/repair_payload.zip"
-      - name: Install exact protected Python dependencies
+      - name: Install exact pinned Python runtime
         run: python -m pip install -r requirements.txt
-      - name: Install browser test dependencies
+      - name: Install existing Playwright fixture browser
         shell: bash
         run: |
           npm ci --prefix ops/v2_product --no-audit --no-fund
           node ops/v2_product/node_modules/playwright/cli.js install --with-deps chromium
-      - name: Apply reviewed repair to detached checkout and run real producer code with fixture inputs
+      - name: Stage archived repair and verified unchanged cockpit assets in DETACHED worktree
         shell: bash
         run: |
           set -euo pipefail
-          python "$RUNNER_TEMP/btc15-package/stage_btc15_repair.py" --repo "$GITHUB_WORKSPACE" --run-tests | tee "$RUNNER_TEMP/btc15-stage.log"
+          python "$RUNNER_TEMP/btc15-package/stage_btc15_repair.py" --repo "$GITHUB_WORKSPACE" | tee "$RUNNER_TEMP/btc15-stage.log"
           checkout="$(grep '^CHECKOUT:' "$RUNNER_TEMP/btc15-stage.log" | tail -1 | cut -d' ' -f2-)"
           test -d "$checkout"
+          support=ops/main_live_repair_20261008/ci_support/cockpit_candidate
+          for file in adapter.js fixtures.js preview.js live.js owners/ladder_owner.js owners/information_owner.js owners/market_view_owner.js; do
+            sha="$(awk -v name="$file" '$2==name {print $1}' "$checkout/cockpit_candidate/hosting/runtime.sha256")"
+            test -n "$sha"
+            printf '%s  %s\n' "$sha" "$support/$file" | sha256sum -c -
+            mkdir -p "$checkout/cockpit_candidate/$(dirname "$file")"
+            cp "$support/$file" "$checkout/cockpit_candidate/$file"
+          done
           echo "BTC15_CANDIDATE_DIR=$checkout" >> "$GITHUB_ENV"
-      - name: Actual browser render at desktop tablet and phone widths (fixture only)
+          echo 'Archive candidate and all seven original cockpit asset hashes verified.'
+      - name: Run actual producer + 18 strategy regressions with production pins (synthetic inputs)
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$BTC15_CANDIDATE_DIR"
+          python ops/main_live_repair_20261008/test_producer.py 2>&1 | tee "$RUNNER_TEMP/btc15-producer-tests.log"
+          python -m unittest test_btc15_integrated_finish.ProtectedBaselines test_btc15_integrated_finish.DirectionalLifecycle test_btc15_integrated_finish.GeneralizedScalp 2>&1 | tee "$RUNNER_TEMP/btc15-strategy-tests.log"
+          echo 'ORIGINAL_VM_DOM_HARNESS: NOT RERUN; original surgical test file not included in repair archive.'
+      - name: Real Chromium screenshot and layout checks — fixture only, no trading or live claims
         shell: bash
         run: |
           mkdir -p "$RUNNER_TEMP/btc15-browser"
           node <<'NODE'
           const {chromium}=require('./ops/v2_product/node_modules/playwright');
           const {spawn}=require('node:child_process');
-          const fs=require('node:fs');
           const path=require('node:path');
           (async()=>{
             const root=process.env.BTC15_CANDIDATE_DIR;
@@ -64,23 +79,35 @@ jobs:
                 const page=await browser.newPage({viewport:{width,height}});
                 const problems=[];
                 page.on('pageerror',e=>problems.push(String(e)));
-                await page.goto('http://127.0.0.1:8765/cockpit_candidate/index.html?mode=fixture',{waitUntil:'load',timeout:15000});
-                await page.waitForTimeout(450);
-                const size=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth,notice:document.getElementById('runtime-notice')?.textContent}));
-                await page.screenshot({path:path.join(process.env.RUNNER_TEMP,'btc15-browser','width-'+width+'.png'),fullPage:true});
-                console.log('BTC15_BROWSER',width,JSON.stringify(size),'pageErrors',problems);
-                if(size.scroll>size.client+3 || problems.length)throw Error('BTC15 browser validation failed at '+width+'px');
+                await page.goto('http://127.0.0.1:8765/cockpit_candidate/index.html?mode=fixture',{waitUntil:'load',timeout:20000});
+                await page.evaluate(async()=>{await window.BTC15CockpitBoot;});
+                await page.waitForTimeout(250);
+                const state=await page.evaluate(()=>{
+                  const ids=['final-action','early-action','scalp-action','health-status','chart-surface','btc-price'];
+                  const missing=ids.filter(id=>!document.getElementById(id));
+                  const rungs=['early-ladder','scalp-up-ladder','scalp-down-ladder'].map(id=>({id,count:document.querySelectorAll('#'+id+' li').length}));
+                  return {scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth,
+                    notice:document.getElementById('runtime-notice')?.textContent||'',
+                    missing,rungs,final:document.getElementById('final-action')?.textContent||''};
+                });
+                await page.screenshot({path:path.join(process.env.RUNNER_TEMP,'btc15-browser','fixture-width-'+width+'.png'),fullPage:true});
+                console.log('BTC15_CHROMIUM_FIXTURE',width,JSON.stringify(state),'pageErrors',problems);
+                if(!state.notice || /DISPLAY UNAVAILABLE/i.test(state.notice) || state.missing.length || state.rungs.some(r=>r.count!==5) || state.scroll>state.client+3 || problems.length){
+                  throw Error('Fixture render/layout check failed at width '+width);
+                }
                 await page.close();
               }
             }finally{if(browser)await browser.close();server.kill();}
-          })().catch(e=>{console.error(e);process.exitCode=1});
+          })().catch(e=>{console.error(e);process.exitCode=1;});
           NODE
-      - name: Upload non-trading test and browser evidence
+      - name: Upload isolated evidence and fixture screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: btc15-main-continuity-isolated-evidence
+          name: btc15-main-continuity-pinned-fixture-evidence
           path: |
             ${{ runner.temp }}/btc15-stage.log
+            ${{ runner.temp }}/btc15-producer-tests.log
+            ${{ runner.temp }}/btc15-strategy-tests.log
             ${{ runner.temp }}/btc15-browser/
           if-no-files-found: ignore
