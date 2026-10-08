@@ -1,0 +1,46 @@
+name: BTC15 MAIN live-shadow hard safety preflight
+on:
+  push:
+    branches: [candidate/btc15-main-live-shadow-20261008]
+    paths:
+      - .github/workflows/btc15-live-shadow-safety-preflight.yml
+      - ops/btc15_main_real_source_shadow_20261008.py
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test-only-launcher:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact production model dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Verify unchanged ladders and new service-only launch guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from btc15_v2_product.release import verify_files
+          verify_files('main')
+          print('MAIN_FROZEN_RELEASE_VERIFIED')
+          PY
+          python -m py_compile ops/btc15_main_real_source_shadow_20261008.py
+          python ops/btc15_main_real_source_shadow_20261008.py --preflight
+          if python ops/btc15_main_real_source_shadow_20261008.py --run-shadow > /tmp/btc15-wrong-service.log 2>&1; then
+            echo 'CRITICAL: wrong-service guard accepted'; exit 1
+          fi
+          grep -q 'BTC15_SHADOW_GUARD_FAIL' /tmp/btc15-wrong-service.log
+          if RAILWAY_PROJECT_ID=baea4e22-d004-4434-b2c5-81a7fbc05086 \
+             RAILWAY_ENVIRONMENT_ID=61775c5d-c583-4dfc-af41-f25578856fd9 \
+             RAILWAY_SERVICE_ID=84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1 \
+             RAILWAY_DEPLOYMENT_ID=00000000-0000-0000-0000-000000000001 \
+             RAILWAY_VOLUME_ID=3ed8bbca-31aa-43c0-b672-60a7a75b062b \
+             python ops/btc15_main_real_source_shadow_20261008.py --run-shadow > /tmp/btc15-mounted-volume.log 2>&1; then
+            echo 'CRITICAL: mounted-volume guard accepted'; exit 1
+          fi
+          grep -q 'original evidence volume must be safely detached' /tmp/btc15-mounted-volume.log
+          echo 'TEST_SERVICE_IDENTITY_AND_EVIDENCE_VOLUME_GUARDS_PASS'
