@@ -1,0 +1,86 @@
+name: BTC15 MAIN continuity candidate — isolated validation
+on:
+  push:
+    branches:
+      - candidate/btc15-main-continuity-validation-20261008
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pinned-repair-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify exact uploaded repair and stage only in a detached worktree
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f BTC15_STAGE_EXISTING_REPAIR_20261008.zip || { echo 'BLOCKED: upload the reviewed repair ZIP; no producer tests ran'; exit 2; }
+          echo '471948024fb1edfcc9859199808321d9e6b09f6aa96aadf47e74bae0ed6801a8  BTC15_STAGE_EXISTING_REPAIR_20261008.zip' | sha256sum -c -
+          mkdir -p "$RUNNER_TEMP/btc15-package"
+          unzip -q BTC15_STAGE_EXISTING_REPAIR_20261008.zip -d "$RUNNER_TEMP/btc15-package"
+          test -f "$RUNNER_TEMP/btc15-package/stage_btc15_repair.py"
+          test -f "$RUNNER_TEMP/btc15-package/repair_payload.zip"
+      - name: Install exact protected Python dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Install browser test dependencies
+        shell: bash
+        run: |
+          npm ci --prefix ops/v2_product --no-audit --no-fund
+          node ops/v2_product/node_modules/playwright/cli.js install --with-deps chromium
+      - name: Apply reviewed repair to detached checkout and run real producer code with fixture inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          python "$RUNNER_TEMP/btc15-package/stage_btc15_repair.py" --repo "$GITHUB_WORKSPACE" --run-tests | tee "$RUNNER_TEMP/btc15-stage.log"
+          checkout="$(grep '^CHECKOUT:' "$RUNNER_TEMP/btc15-stage.log" | tail -1 | cut -d' ' -f2-)"
+          test -d "$checkout"
+          echo "BTC15_CANDIDATE_DIR=$checkout" >> "$GITHUB_ENV"
+      - name: Actual browser render at desktop tablet and phone widths (fixture only)
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/btc15-browser"
+          node <<'NODE'
+          const {chromium}=require('./ops/v2_product/node_modules/playwright');
+          const {spawn}=require('node:child_process');
+          const fs=require('node:fs');
+          const path=require('node:path');
+          (async()=>{
+            const root=process.env.BTC15_CANDIDATE_DIR;
+            const server=spawn('python',['-m','http.server','8765','--bind','127.0.0.1'],{cwd:root,stdio:'ignore'});
+            let browser;
+            try{
+              browser=await chromium.launch({headless:true});
+              for(const [width,height] of [[1280,900],[768,1024],[390,844]]){
+                const page=await browser.newPage({viewport:{width,height}});
+                const problems=[];
+                page.on('pageerror',e=>problems.push(String(e)));
+                await page.goto('http://127.0.0.1:8765/cockpit_candidate/index.html?mode=fixture',{waitUntil:'load',timeout:15000});
+                await page.waitForTimeout(450);
+                const size=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth,notice:document.getElementById('runtime-notice')?.textContent}));
+                await page.screenshot({path:path.join(process.env.RUNNER_TEMP,'btc15-browser','width-'+width+'.png'),fullPage:true});
+                console.log('BTC15_BROWSER',width,JSON.stringify(size),'pageErrors',problems);
+                if(size.scroll>size.client+3 || problems.length)throw Error('BTC15 browser validation failed at '+width+'px');
+                await page.close();
+              }
+            }finally{if(browser)await browser.close();server.kill();}
+          })().catch(e=>{console.error(e);process.exitCode=1});
+          NODE
+      - name: Upload non-trading test and browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: btc15-main-continuity-isolated-evidence
+          path: |
+            ${{ runner.temp }}/btc15-stage.log
+            ${{ runner.temp }}/btc15-browser/
+          if-no-files-found: ignore
