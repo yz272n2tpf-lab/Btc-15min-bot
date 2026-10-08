@@ -225,11 +225,12 @@
     return d.market?.brti_ready===true && Number.isFinite(N(d.market?.brti_value)) && Number.isFinite(age) && age>=0 && age<=5;
   }
   function usableFrame(d) {
-    const parityAge = (clock.now(performance.now()) - Date.parse(d.parity?.timestamp_utc || ''))/1000;
     return networkHealthy && clockTrusted && clock.fresh(performance.now()) && d.health?.paired_quotes === true
       && d.safety?.read_only===true && d.safety?.orders_enabled===false
-      && d.parity?.contract===d.contract && d.parity?.api_contract===d.contract
-      && d.parity?.status === 'PASS' && Number.isFinite(parityAge) && parityAge >= 0 && parityAge <= 45;
+      && d.health?.market_open===true && Number.isFinite(N(d.market?.target));
+    // This owner paints descriptive market data only. The cockpit additionally
+    // matches ticker, exact target and close to the current verified P2 identity.
+    // A retired diagnostic parity collector cannot revoke fresh native facts.
   }
   function markUnavailable(reason) {
     lowerQualified=false;
@@ -475,7 +476,7 @@
       if(document.visibilityState!=='hidden')markUnavailable(`● RESYNCING · ${error.name==='AbortError'?'request timeout':error.message}`);
     }finally{
       clearTimeout(deadline);pollActive=false;activeAbort=null;
-      if(document.visibilityState!=='hidden')timerHandle=setTimeout(refresh,epoch!==viewEpoch?0:Math.max(1000,5000-(performance.now()-sent)));
+      if(document.visibilityState!=='hidden')timerHandle=setTimeout(refresh,epoch!==viewEpoch?0:Math.max(250,1000-(performance.now()-sent)));
       /* P3_HOOK */publishMarket();/* P3_END_HOOK */
     }
   }

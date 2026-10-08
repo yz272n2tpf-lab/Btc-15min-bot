@@ -24,6 +24,13 @@ freshness limits changed. Native evaluation timing is unchanged. Removed
 collectors are observational processes, not signal owners. Restart may briefly
 make publications unavailable; no previous publication gains new authority.
 
+Live follow-up: descriptive market fields no longer require an obsolete parity
+collector's 45-second diagnostic receipt. Their original market/BRTI freshness
+checks remain, and cockpit rendering still requires exact current native ticker,
+target and official close. Snapshot refresh changes from five seconds to one
+second, with one request at a time; this changes display delivery, never native
+signal timing. Expired descriptive assessments may remain explicitly historical.
+
 ## Rollback references (control plane inspected before edits)
 
 Project `baea4e22-d004-4434-b2c5-81a7fbc05086`, production environment
