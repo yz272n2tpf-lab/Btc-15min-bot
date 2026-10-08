@@ -18,6 +18,11 @@ import sys
 import threading
 import time
 
+# Executable scripts run from ops/, so anchor imports to the reviewed repository.
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 PROJECT = "baea4e22-d004-4434-b2c5-81a7fbc05086"
 ENVIRONMENT = "61775c5d-c583-4dfc-af41-f25578856fd9"
 SHADOW_SERVICE = "84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1"
