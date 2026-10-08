@@ -26,16 +26,14 @@ if str(ROOT) not in sys.path:
 PROJECT = "baea4e22-d004-4434-b2c5-81a7fbc05086"
 ENVIRONMENT = "61775c5d-c583-4dfc-af41-f25578856fd9"
 SHADOW_SERVICE = "84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1"
-OPT_IN = "LIVE_READ_ONLY_NO_ORDERS"
 MAX_SECONDS = 48 * 60
 SAMPLE_SECONDS = 5
 
 def validate_runtime():
     if (os.getenv("RAILWAY_PROJECT_ID") != PROJECT or
         os.getenv("RAILWAY_ENVIRONMENT_ID") != ENVIRONMENT or
-        os.getenv("RAILWAY_SERVICE_ID") != SHADOW_SERVICE or
-        os.getenv("BTC15_TEST_SHADOW_OPT_IN") != OPT_IN):
-        raise SystemExit("BTC15_SHADOW_GUARD_FAIL: wrong service/environment or no explicit opt-in")
+        os.getenv("RAILWAY_SERVICE_ID") != SHADOW_SERVICE):
+        raise SystemExit("BTC15_SHADOW_GUARD_FAIL: wrong service/environment (test-only service required)")
     if os.getenv("RAILWAY_VOLUME_ID") or os.getenv("RAILWAY_VOLUME_MOUNT_PATH"):
         raise SystemExit("BTC15_SHADOW_GUARD_FAIL: original evidence volume must be safely detached")
     if not os.getenv("RAILWAY_DEPLOYMENT_ID"):
