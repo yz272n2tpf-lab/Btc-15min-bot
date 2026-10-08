@@ -108,6 +108,20 @@
     const mode=new URLSearchParams(location.search).get('mode')||'live';
     document.documentElement.dataset.btc15Mode=mode;
     function load(source,inline){return new Promise((resolve,reject)=>{const script=document.createElement('script');script.async=false;if(source){script.src=source;script.onload=resolve;script.onerror=()=>reject(Error('Candidate asset unavailable'));}else script.textContent=inline;document.body.append(script);if(!source)resolve();});}
+    // Visible live boot diagnostics, not trading input or a second price feed.
+    // The currently loaded page can report its own runtime failure without
+    // asking the operator to find a browser console.
+    function report(code){
+      const safe=String(code||'UNKNOWN').toUpperCase().replace(/[^A-Z0-9_]/g,'_').slice(0,64);
+      fetch('/client-diagnostic?code='+safe,{cache:'no-store',keepalive:true}).catch(()=>{});
+    }
+    window.addEventListener('error',event=>{
+      const filename=String(event.filename||event.target?.getAttribute?.('src')||'UNKNOWN').split('/').pop();
+      report('JS_'+filename+'_'+(event.lineno||0));
+    },true);
+    window.addEventListener('unhandledrejection',event=>{
+      report('PROMISE_'+String(event.reason?.name||'ERROR'));
+    });
     window.BTC15CockpitBoot=(async()=>{
       if(mode!=='live'){
         const csp=document.createElement('meta');csp.httpEquiv='Content-Security-Policy';csp.content="connect-src 'none'";document.head.append(csp);
@@ -122,7 +136,28 @@
       document.getElementById('mode-note').textContent='Source values retain their original identity and expiry. Retained information does not authorize a new action. SIGNAL-ONLY / NO ORDERS.';
       for(const source of ['owners/market_view_owner.js','owners/information_owner.js','owners/ladder_owner.js','live.js'])await load(source);
       window.BTC15Cockpit.connectResolved();
-    })().catch(error=>{window.BTC15Cockpit.render({});document.getElementById('runtime-notice').textContent='READ-ONLY DISPLAY UNAVAILABLE · '+error.message;});
+      const notice=document.getElementById('runtime-notice');
+      notice.textContent='LIVE BTC15 · SOURCE CONNECTION ESTABLISHED · AWAITING QUALIFIED DISPLAY';
+      report('BOOT_CONNECTED');
+      setInterval(()=>{
+        const resolved=window.BTC15LadderOwner?.getResolvedView();
+        const main=resolved?.lanes?.main, quote=resolved?.lanes?.quote;
+        const market=window.BTC15MarketViewOwner?.getResolvedView();
+        const label=String(document.getElementById('final-probability')?.textContent||'');
+        const price=String(document.getElementById('btc-price')?.textContent||'');
+        if(main?.eligible && !/\d/.test(label)) report('MAIN_READY_FINAL_RENDER_EMPTY');
+        if(market?.network_healthy && market?.brti?.record && !/\d/.test(price)) report('MARKET_READY_BTC_RENDER_EMPTY');
+        notice.textContent=(main?.eligible?'LIVE MAIN · qualified source':'MAIN · awaiting current qualified source')+
+          ' | '+(quote?.eligible?'KALSHI · current':'KALSHI · refreshing')+
+          ' | '+(market?.network_healthy?'BTC feed · connected':'BTC feed · resynchronizing')+
+          ' | SIGNAL ONLY';
+      },2000);
+    })().catch(error=>{
+      const notice=document.getElementById('runtime-notice');
+      if(notice)notice.textContent='LIVE DISPLAY BOOT ERROR · '+String(error?.message||error);
+      report('BOOT_'+String(error?.name||'ERROR'));
+      try{window.BTC15Cockpit?.render({});}catch(_){}
+    });
   })();
   </script>
 </body>
