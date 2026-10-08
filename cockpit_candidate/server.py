@@ -13,7 +13,10 @@ TLS termination, public hosting and physical-device acceptance belong to P6.
 
 import argparse
 import http.client
+import json
 import re
+import threading
+import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from types import MappingProxyType
@@ -26,6 +29,8 @@ MAIN_PATHS = frozenset({
     "/information", "/dashboard_state.json",
 })
 NONCE = "X-BTC15-Information-Nonce"
+_SOURCE_HEALTH_LOCK = threading.Lock()
+_SOURCE_HEALTH_LAST = {}
 # A blocking network-I/O bound, not a publication lease or browser deadline.
 # Original clients still abort at 700 ms (information), 3 s (ladders), 8 s
 # (market). This host does not renew or interpret any of those source clocks.
@@ -207,6 +212,50 @@ class CandidateHandler(BaseHTTPRequestHandler):
             return
         finally:
             connection.close()
+        # Inspect responses on the actual live product path. HTTP 200 alone is
+        # not proof of qualified data. This reports only public status/identity;
+        # it neither retains payloads nor changes timestamps or action authority.
+        if route in MAIN_PATHS:
+            try:
+                decoded = json.loads(body)
+                summary = {
+                    "route": route, "http": status, "bytes": len(body),
+                    "schema": decoded.get("schema"),
+                    "status": decoded.get("status"),
+                    "reason": decoded.get("reason"),
+                    "contract": (decoded.get("official_identity") or {}).get("contract")
+                        or decoded.get("contract"),
+                }
+                if route == "/ladders":
+                    summary["final"] = (decoded.get("final") or {}).get("state")
+                    summary["early"] = (decoded.get("early") or {}).get("guidance")
+                    summary["published_ts"] = decoded.get("published_ts")
+                    summary["expires_at"] = decoded.get("expires_at")
+                    summary["source_health"] = (decoded.get("delivery") or {}).get("quote")
+                elif route == "/ladders/quotes":
+                    summary["quote_source_ts"] = decoded.get("exchange_ts")
+                elif route == "/dashboard_state.json":
+                    summary["source_ts"] = decoded.get("source_timestamp_utc")
+                    summary["generated_utc"] = decoded.get("generated_utc")
+                    summary["paired_quotes"] = (decoded.get("health") or {}).get("paired_quotes")
+                    summary["brti_ready"] = (decoded.get("market") or {}).get("brti_ready")
+                elif route == "/information":
+                    summary["checked_ts"] = decoded.get("checked_ts")
+                now = time.monotonic()
+                with _SOURCE_HEALTH_LOCK:
+                    prior = _SOURCE_HEALTH_LAST.get(route, 0)
+                    if now - prior >= 12:
+                        _SOURCE_HEALTH_LAST[route] = now
+                        print("BTC15 LIVE COCKPIT SOURCE | " + json.dumps(summary, separators=(",", ":")), flush=True)
+            except (ValueError, TypeError, AttributeError):
+                with _SOURCE_HEALTH_LOCK:
+                    now = time.monotonic()
+                    if now - _SOURCE_HEALTH_LAST.get(route, 0) >= 12:
+                        _SOURCE_HEALTH_LAST[route] = now
+                        print("BTC15 LIVE COCKPIT SOURCE | " + json.dumps({
+                            "route": route, "http": status, "bytes": len(body),
+                            "status": "INVALID_OR_NONJSON_SOURCE"
+                        }), flush=True)
         self.reply(status, body, forwarded)
 
 
