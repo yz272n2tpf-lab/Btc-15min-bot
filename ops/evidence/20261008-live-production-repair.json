@@ -1,0 +1,619 @@
+{
+  "checked_at_utc": "2026-10-08T23:50:50Z",
+  "project": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+  "environment": "61775c5d-c583-4dfc-af41-f25578856fd9",
+  "services": {
+    "main": {
+      "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "fix/btc15-live-cockpit-source-visibility-20261008",
+        "commitSha": "57f468063f31ec005f413e5032d147603c2e70c8"
+      },
+      "deployment": {
+        "id": "39ecbc88-54bd-4122-94ee-303402d6bf11",
+        "status": "SUCCESS",
+        "createdAt": "2026-10-08T23:39:51.846Z",
+        "url": null
+      },
+      "volumes": [
+        {
+          "id": "6ced6b1a-3755-4518-a240-c895e936d443",
+          "name": "btc-15min-bot-volume",
+          "mountPath": "/data",
+          "sizeMB": 10000,
+          "region": "iad",
+          "state": "live"
+        }
+      ]
+    },
+    "cockpit": {
+      "id": "b584a1cf-a951-4b54-9127-4826cedc3ccb",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "fix/btc15-live-cockpit-source-visibility-20261008",
+        "commitSha": "24a746dbc7aa8a0e17c821d5952f5751bb64e764",
+        "rootDirectory": "/cockpit_candidate"
+      },
+      "deployment": {
+        "id": "2e3003a1-c9f1-4d10-a188-10689cf0bfb7",
+        "status": "SUCCESS",
+        "createdAt": "2026-10-08T23:45:53.306Z",
+        "url": null
+      },
+      "volumes": []
+    },
+    "qualification": {
+      "id": "e6101c69-18df-4522-99d8-94e363ad8b92",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "fix/btc15-live-cockpit-source-visibility-20261008",
+        "commitSha": "57f468063f31ec005f413e5032d147603c2e70c8"
+      },
+      "deployment": {
+        "id": "5e144106-3663-4a26-9715-90875fa4db93",
+        "status": "SUCCESS",
+        "createdAt": "2026-10-08T23:40:02.406Z",
+        "url": null
+      },
+      "volumes": [
+        {
+          "id": "b6304c46-7027-4bfd-932d-94bb9c67da8e",
+          "name": "btc15-v2-main-journal",
+          "mountPath": "/data",
+          "sizeMB": 2048,
+          "region": "iad",
+          "state": "live"
+        }
+      ]
+    },
+    "scalp": {
+      "id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "candidate/scalp-qualification-seam-20261006",
+        "commitSha": "a260810eb5ea76aa204225ac181e163dd4c80392"
+      },
+      "deployment": {
+        "id": "7456f73f-c4f6-49d2-a5b0-4c99e26de790",
+        "status": "SUCCESS",
+        "createdAt": "2026-10-06T21:05:17.739Z",
+        "url": null
+      },
+      "volumes": [
+        {
+          "id": "d5eeafca-e0fc-42f0-b7d1-4705907720c6",
+          "name": "btc15-v81-ladder-journal-v2",
+          "mountPath": "/data",
+          "sizeMB": 2048,
+          "region": "iad",
+          "state": "live"
+        }
+      ]
+    }
+  },
+  "source_health_before_close": [
+    {
+      "timestamp": "2026-10-08T23:43:36.642422050Z",
+      "value": {
+        "schema": "BTC15_DELIVERY_HEALTH_R1",
+        "observed_ts": 1791503016.6410508,
+        "authority": "DIAGNOSTIC_ONLY",
+        "signal_only": true,
+        "orders": false,
+        "official": "CURRENT",
+        "btc": "CURRENT",
+        "brti": "CURRENT",
+        "quote": "CURRENT",
+        "contract": "KXBTC15M-26OCT081945-45",
+        "brti_source_ts": 1791503014,
+        "brti_received_ts": 1791503014.4815187,
+        "brti_reason": "QUALIFIED",
+        "btc_source_ts": 1791503010.485995,
+        "btc_received_ts": 1791503011.209892,
+        "quote_connection_epoch": "be71ccfe-8e50-4bee-b38c-3944ac300a87",
+        "quote_ticker": "KXBTC15M-26OCT081945-45",
+        "quote_source_ts": 1791503016.622
+      }
+    },
+    {
+      "timestamp": "2026-10-08T23:43:53.831215786Z",
+      "value": {
+        "schema": "BTC15_DELIVERY_HEALTH_R1",
+        "observed_ts": 1791503033.6628199,
+        "authority": "DIAGNOSTIC_ONLY",
+        "signal_only": true,
+        "orders": false,
+        "official": "CURRENT",
+        "btc": "CURRENT",
+        "brti": "CURRENT",
+        "quote": "CURRENT",
+        "contract": "KXBTC15M-26OCT081945-45",
+        "brti_source_ts": 1791503032,
+        "brti_received_ts": 1791503033.2955453,
+        "brti_reason": "QUALIFIED",
+        "btc_source_ts": 1791503032.648758,
+        "btc_received_ts": 1791503033.434191,
+        "quote_connection_epoch": "be71ccfe-8e50-4bee-b38c-3944ac300a87",
+        "quote_ticker": "KXBTC15M-26OCT081945-45",
+        "quote_source_ts": 1791503033.646
+      }
+    },
+    {
+      "timestamp": "2026-10-08T23:44:08.714204823Z",
+      "value": {
+        "schema": "BTC15_DELIVERY_HEALTH_R1",
+        "observed_ts": 1791503048.6983943,
+        "authority": "DIAGNOSTIC_ONLY",
+        "signal_only": true,
+        "orders": false,
+        "official": "CURRENT",
+        "btc": "CURRENT",
+        "brti": "CURRENT",
+        "quote": "CURRENT",
+        "contract": "KXBTC15M-26OCT081945-45",
+        "brti_source_ts": 1791503047,
+        "brti_received_ts": 1791503048.4234955,
+        "brti_reason": "QUALIFIED",
+        "btc_source_ts": 1791503043.979976,
+        "btc_received_ts": 1791503046.009757,
+        "quote_connection_epoch": "be71ccfe-8e50-4bee-b38c-3944ac300a87",
+        "quote_ticker": "KXBTC15M-26OCT081945-45",
+        "quote_source_ts": 1791503048.678
+      }
+    },
+    {
+      "timestamp": "2026-10-08T23:44:25.851776428Z",
+      "value": {
+        "schema": "BTC15_DELIVERY_HEALTH_R1",
+        "observed_ts": 1791503065.831519,
+        "authority": "DIAGNOSTIC_ONLY",
+        "signal_only": true,
+        "orders": false,
+        "official": "CURRENT",
+        "btc": "CURRENT",
+        "brti": "CURRENT",
+        "quote": "CURRENT",
+        "contract": "KXBTC15M-26OCT081945-45",
+        "brti_source_ts": 1791503063,
+        "brti_received_ts": 1791503065.5649416,
+        "brti_reason": "QUALIFIED",
+        "btc_source_ts": 1791503065.017075,
+        "btc_received_ts": 1791503065.67713,
+        "quote_connection_epoch": "be71ccfe-8e50-4bee-b38c-3944ac300a87",
+        "quote_ticker": "KXBTC15M-26OCT081945-45",
+        "quote_source_ts": 1791503065.812
+      }
+    },
+    {
+      "timestamp": "2026-10-08T23:44:37.926697130Z",
+      "value": {
+        "schema": "BTC15_DELIVERY_HEALTH_R1",
+        "observed_ts": 1791503077.925907,
+        "authority": "DIAGNOSTIC_ONLY",
+        "signal_only": true,
+        "orders": false,
+        "official": "CURRENT",
+        "btc": "CURRENT",
+        "brti": "CURRENT",
+        "quote": "UNAVAILABLE",
+        "contract": "KXBTC15M-26OCT081945-45",
+        "brti_source_ts": 1791503077,
+        "brti_received_ts": 1791503077.8306675,
+        "brti_reason": "QUALIFIED",
+        "btc_source_ts": 1791503076.289462,
+        "btc_received_ts": 1791503077.923804,
+        "quote_connection_epoch": "be71ccfe-8e50-4bee-b38c-3944ac300a87",
+        "quote_ticker": "KXBTC15M-26OCT081945-45",
+        "quote_source_ts": 1791503077.886,
+        "quote_reason": "missing bid side"
+      }
+    },
+    {
+      "timestamp": "2026-10-08T23:44:54.410512313Z",
+      "value": {
+        "schema": "BTC15_DELIVERY_HEALTH_R1",
+        "observed_ts": 1791503094.4063866,
+        "authority": "DIAGNOSTIC_ONLY",
+        "signal_only": true,
+        "orders": false,
+        "official": "CURRENT",
+        "btc": "CURRENT",
+        "brti": "CURRENT",
+        "quote": "UNAVAILABLE",
+        "contract": "KXBTC15M-26OCT081945-45",
+        "brti_source_ts": 1791503093,
+        "brti_received_ts": 1791503094.3935168,
+        "brti_reason": "QUALIFIED",
+        "btc_source_ts": 1791503090.605276,
+        "btc_received_ts": 1791503092.238608,
+        "quote_connection_epoch": "be71ccfe-8e50-4bee-b38c-3944ac300a87",
+        "quote_ticker": "KXBTC15M-26OCT081945-45",
+        "quote_source_ts": 1791503093.512,
+        "quote_reason": "missing bid side"
+      }
+    }
+  ],
+  "source_health_after_close": [
+    {
+      "timestamp": "2026-10-08T23:44:54.410512313Z",
+      "value": {
+        "schema": "BTC15_DELIVERY_HEALTH_R1",
+        "observed_ts": 1791503094.4063866,
+        "authority": "DIAGNOSTIC_ONLY",
+        "signal_only": true,
+        "orders": false,
+        "official": "CURRENT",
+        "btc": "CURRENT",
+        "brti": "CURRENT",
+        "quote": "UNAVAILABLE",
+        "contract": "KXBTC15M-26OCT081945-45",
+        "brti_source_ts": 1791503093,
+        "brti_received_ts": 1791503094.3935168,
+        "brti_reason": "QUALIFIED",
+        "btc_source_ts": 1791503090.605276,
+        "btc_received_ts": 1791503092.238608,
+        "quote_connection_epoch": "be71ccfe-8e50-4bee-b38c-3944ac300a87",
+        "quote_ticker": "KXBTC15M-26OCT081945-45",
+        "quote_source_ts": 1791503093.512,
+        "quote_reason": "missing bid side"
+      }
+    },
+    {
+      "timestamp": "2026-10-08T23:45:01.181134889Z",
+      "value": {
+        "schema": "BTC15_DELIVERY_HEALTH_R1",
+        "observed_ts": 1791503101.180529,
+        "authority": "DIAGNOSTIC_ONLY",
+        "signal_only": true,
+        "orders": false,
+        "official": "CLOSED",
+        "btc": "CURRENT",
+        "brti": "CURRENT",
+        "quote": "UNAVAILABLE",
+        "contract": "KXBTC15M-26OCT081945-45",
+        "brti_source_ts": 1791503097,
+        "brti_received_ts": 1791503099.1702275,
+        "brti_reason": "QUALIFIED",
+        "btc_source_ts": 1791503098.207209,
+        "btc_received_ts": 1791503099.377831,
+        "quote_connection_epoch": "be71ccfe-8e50-4bee-b38c-3944ac300a87",
+        "quote_ticker": "KXBTC15M-26OCT081945-45",
+        "quote_source_ts": 1791503100,
+        "quote_reason": "quote outside exact contract window"
+      }
+    },
+    {
+      "timestamp": "2026-10-08T23:45:03.197805162Z",
+      "value": {
+        "schema": "BTC15_DELIVERY_HEALTH_R1",
+        "observed_ts": 1791503103.1912892,
+        "authority": "DIAGNOSTIC_ONLY",
+        "signal_only": true,
+        "orders": false,
+        "official": "CLOSED",
+        "btc": "CURRENT",
+        "brti": "CURRENT",
+        "quote": "UNAVAILABLE",
+        "contract": "KXBTC15M-26OCT081945-45",
+        "brti_source_ts": 1791503102,
+        "brti_received_ts": 1791503102.74167,
+        "brti_reason": "QUALIFIED",
+        "btc_source_ts": 1791503098.207209,
+        "btc_received_ts": 1791503099.377831,
+        "quote_connection_epoch": "be71ccfe-8e50-4bee-b38c-3944ac300a87",
+        "quote_ticker": "KXBTC15M-26OCT081945-45",
+        "quote_reason": "NO_QUALIFIED_BOOK"
+      }
+    },
+    {
+      "timestamp": "2026-10-08T23:45:06.885508588Z",
+      "value": {
+        "schema": "BTC15_DELIVERY_HEALTH_R1",
+        "observed_ts": 1791503106.8802757,
+        "authority": "DIAGNOSTIC_ONLY",
+        "signal_only": true,
+        "orders": false,
+        "official": "CURRENT",
+        "btc": "CURRENT",
+        "brti": "CURRENT",
+        "quote": "CURRENT",
+        "contract": "KXBTC15M-26OCT082000-00",
+        "brti_source_ts": 1791503104,
+        "brti_received_ts": 1791503106.5619376,
+        "brti_reason": "QUALIFIED",
+        "btc_source_ts": 1791503104.323393,
+        "btc_received_ts": 1791503106.695511,
+        "quote_connection_epoch": "dc32410d-a07e-4b80-b4ea-56aca60f99a4",
+        "quote_ticker": "KXBTC15M-26OCT082000-00",
+        "quote_source_ts": 1791503106.861
+      }
+    },
+    {
+      "timestamp": "2026-10-08T23:45:23.803441696Z",
+      "value": {
+        "schema": "BTC15_DELIVERY_HEALTH_R1",
+        "observed_ts": 1791503123.7744825,
+        "authority": "DIAGNOSTIC_ONLY",
+        "signal_only": true,
+        "orders": false,
+        "official": "CURRENT",
+        "btc": "CURRENT",
+        "brti": "CURRENT",
+        "quote": "CURRENT",
+        "contract": "KXBTC15M-26OCT082000-00",
+        "brti_source_ts": 1791503123,
+        "brti_received_ts": 1791503123.4753242,
+        "brti_reason": "QUALIFIED",
+        "btc_source_ts": 1791503122.065876,
+        "btc_received_ts": 1791503123.576493,
+        "quote_connection_epoch": "dc32410d-a07e-4b80-b4ea-56aca60f99a4",
+        "quote_ticker": "KXBTC15M-26OCT082000-00",
+        "quote_source_ts": 1791503123.747
+      }
+    },
+    {
+      "timestamp": "2026-10-08T23:45:40.742925739Z",
+      "value": {
+        "schema": "BTC15_DELIVERY_HEALTH_R1",
+        "observed_ts": 1791503140.7396193,
+        "authority": "DIAGNOSTIC_ONLY",
+        "signal_only": true,
+        "orders": false,
+        "official": "CURRENT",
+        "btc": "CURRENT",
+        "brti": "CURRENT",
+        "quote": "CURRENT",
+        "contract": "KXBTC15M-26OCT082000-00",
+        "brti_source_ts": 1791503138,
+        "brti_received_ts": 1791503140.373092,
+        "brti_reason": "QUALIFIED",
+        "btc_source_ts": 1791503136.83782,
+        "btc_received_ts": 1791503138.210919,
+        "quote_connection_epoch": "dc32410d-a07e-4b80-b4ea-56aca60f99a4",
+        "quote_ticker": "KXBTC15M-26OCT082000-00",
+        "quote_source_ts": 1791503140.722
+      }
+    },
+    {
+      "timestamp": "2026-10-08T23:45:57.512035908Z",
+      "value": {
+        "schema": "BTC15_DELIVERY_HEALTH_R1",
+        "observed_ts": 1791503157.4949133,
+        "authority": "DIAGNOSTIC_ONLY",
+        "signal_only": true,
+        "orders": false,
+        "official": "CURRENT",
+        "btc": "CURRENT",
+        "brti": "CURRENT",
+        "quote": "CURRENT",
+        "contract": "KXBTC15M-26OCT082000-00",
+        "brti_source_ts": 1791503156,
+        "brti_received_ts": 1791503157.2967715,
+        "brti_reason": "QUALIFIED",
+        "btc_source_ts": 1791503156.408678,
+        "btc_received_ts": 1791503157.371067,
+        "quote_connection_epoch": "dc32410d-a07e-4b80-b4ea-56aca60f99a4",
+        "quote_ticker": "KXBTC15M-26OCT082000-00",
+        "quote_source_ts": 1791503157.472
+      }
+    }
+  ],
+  "storage": [
+    {
+      "timestamp": "2026-10-08T23:40:39.153926625Z",
+      "schema": "BTC15_PRODUCTION_STORAGE_R1",
+      "at": 1791502839.1366415,
+      "used_bytes": 7824760832,
+      "free_bytes": 1552412672,
+      "total_bytes": 9393950720,
+      "file_bytes": 7749498444,
+      "file_count": 21313,
+      "largest": [
+        [
+          2609539556,
+          "btc15_information_frames_v1.jsonl"
+        ],
+        [
+          918448535,
+          "btc15_qualified_forward_v1.csv"
+        ],
+        [
+          777983253,
+          "kalshi_subminute_unified_v1_1.csv"
+        ],
+        [
+          536868936,
+          "btc15_ground_zero/ground-zero-main-47ad682f541345db9d7ff7f0c55845e8/packets.jsonl.gz"
+        ],
+        [
+          450938384,
+          "btc15_ground_zero/ground-zero-main-449ee10fa77445adb9e36c366b463607/packets.jsonl.gz"
+        ],
+        [
+          287326161,
+          "kalshi_fair_input_frames_v1.jsonl"
+        ],
+        [
+          250383063,
+          "kalshi_scalp_shadow_snapshots_v1.csv"
+        ],
+        [
+          181666807,
+          "btc15_cohort_native_v1.jsonl"
+        ],
+        [
+          140017480,
+          "btc15-evidence-pre-two-clock-pr37-20260925.zip"
+        ],
+        [
+          129323347,
+          "kalshi_early_conf_shadow_v1_2.csv"
+        ],
+        [
+          114212864,
+          "btc15_v2_product/BTC15_INTEGRATED_OFFLINE_20261006/5b68a2fc-786d-4cce-8b3d-c03c1d48f058/main.admin.sqlite3"
+        ],
+        [
+          113806328,
+          "btc15_ground_zero/ground-zero-main-7b4dd91126974c838b9ee1934a977239/packets.jsonl.gz"
+        ]
+      ],
+      "signal_only": true,
+      "orders": false
+    },
+    {
+      "timestamp": "2026-10-08T23:45:39.579796019Z",
+      "schema": "BTC15_PRODUCTION_STORAGE_R1",
+      "at": 1791503139.5661886,
+      "used_bytes": 7836315648,
+      "free_bytes": 1540857856,
+      "total_bytes": 9393950720,
+      "file_bytes": 7761047597,
+      "file_count": 21316,
+      "largest": [
+        [
+          2610184974,
+          "btc15_information_frames_v1.jsonl"
+        ],
+        [
+          918448535,
+          "btc15_qualified_forward_v1.csv"
+        ],
+        [
+          778141142,
+          "kalshi_subminute_unified_v1_1.csv"
+        ],
+        [
+          536868936,
+          "btc15_ground_zero/ground-zero-main-47ad682f541345db9d7ff7f0c55845e8/packets.jsonl.gz"
+        ],
+        [
+          450938384,
+          "btc15_ground_zero/ground-zero-main-449ee10fa77445adb9e36c366b463607/packets.jsonl.gz"
+        ],
+        [
+          287473333,
+          "kalshi_fair_input_frames_v1.jsonl"
+        ],
+        [
+          250430836,
+          "kalshi_scalp_shadow_snapshots_v1.csv"
+        ],
+        [
+          181666807,
+          "btc15_cohort_native_v1.jsonl"
+        ],
+        [
+          140017480,
+          "btc15-evidence-pre-two-clock-pr37-20260925.zip"
+        ],
+        [
+          129351378,
+          "kalshi_early_conf_shadow_v1_2.csv"
+        ],
+        [
+          114212864,
+          "btc15_v2_product/BTC15_INTEGRATED_OFFLINE_20261006/5b68a2fc-786d-4cce-8b3d-c03c1d48f058/main.admin.sqlite3"
+        ],
+        [
+          113806328,
+          "btc15_ground_zero/ground-zero-main-7b4dd91126974c838b9ee1934a977239/packets.jsonl.gz"
+        ]
+      ],
+      "signal_only": true,
+      "orders": false
+    },
+    {
+      "timestamp": "2026-10-08T23:50:40.023429641Z",
+      "schema": "BTC15_PRODUCTION_STORAGE_R1",
+      "at": 1791503440.0086913,
+      "used_bytes": 7835058176,
+      "free_bytes": 1542115328,
+      "total_bytes": 9393950720,
+      "file_bytes": 7759782749,
+      "file_count": 21316,
+      "largest": [
+        [
+          2610963109,
+          "btc15_information_frames_v1.jsonl"
+        ],
+        [
+          918448535,
+          "btc15_qualified_forward_v1.csv"
+        ],
+        [
+          778350010,
+          "kalshi_subminute_unified_v1_1.csv"
+        ],
+        [
+          536868936,
+          "btc15_ground_zero/ground-zero-main-47ad682f541345db9d7ff7f0c55845e8/packets.jsonl.gz"
+        ],
+        [
+          450938384,
+          "btc15_ground_zero/ground-zero-main-449ee10fa77445adb9e36c366b463607/packets.jsonl.gz"
+        ],
+        [
+          287654805,
+          "kalshi_fair_input_frames_v1.jsonl"
+        ],
+        [
+          250498500,
+          "kalshi_scalp_shadow_snapshots_v1.csv"
+        ],
+        [
+          181666807,
+          "btc15_cohort_native_v1.jsonl"
+        ],
+        [
+          140017480,
+          "btc15-evidence-pre-two-clock-pr37-20260925.zip"
+        ],
+        [
+          129387518,
+          "kalshi_early_conf_shadow_v1_2.csv"
+        ],
+        [
+          114212864,
+          "btc15_v2_product/BTC15_INTEGRATED_OFFLINE_20261006/5b68a2fc-786d-4cce-8b3d-c03c1d48f058/main.admin.sqlite3"
+        ],
+        [
+          113806328,
+          "btc15_ground_zero/ground-zero-main-7b4dd91126974c838b9ee1934a977239/packets.jsonl.gz"
+        ]
+      ],
+      "signal_only": true,
+      "orders": false
+    }
+  ],
+  "browser": {
+    "url": "https://btc15-operator-cockpit-readonly-production.up.railway.app/?mode=live",
+    "actual_live_data": true,
+    "desktop_screenshot": "btc15-live-desktop-20261008.jpg",
+    "mobile_screenshot": "btc15-live-mobile-20261008.jpg",
+    "mobile_frame_css": {
+      "width": 390,
+      "height": 844,
+      "body_client_width": 375,
+      "body_scroll_width": 375
+    },
+    "ladder_rows": {
+      "early": 5,
+      "scalp_up": 5,
+      "scalp_down": 5
+    },
+    "application_errors_on_final_fresh_mobile_load": 0,
+    "physical_ipad_checked": false
+  },
+  "regressions": {
+    "protected_python_tests": 28,
+    "source_owner_scenarios": 13,
+    "source_owner_checkpoints": 85,
+    "source_owner_render_comparisons": 572,
+    "fixed_transport_test": "PASS",
+    "actual_renderer_startup_expiry_rollover_test": "PASS"
+  },
+  "signal_only": true,
+  "orders": false
+}

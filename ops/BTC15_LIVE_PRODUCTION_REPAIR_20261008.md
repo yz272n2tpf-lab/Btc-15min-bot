@@ -66,3 +66,53 @@ historical full volume will still require an approved retention solution.
 
 SCALP and shared BRTI builds are not changed by this checkpoint. The existing
 uncommitted shadow patch is not part of this production deployment.
+
+## Production result, 23:50 UTC / 7:50 p.m. Eastern
+
+- MAIN: build `57f468063f31ec005f413e5032d147603c2e70c8`, deployment
+  `39ecbc88-54bd-4122-94ee-303402d6bf11`, SUCCESS.
+- Public cockpit: build `24a746dbc7aa8a0e17c821d5952f5751bb64e764`, deployment
+  `2e3003a1-c9f1-4d10-a188-10689cf0bfb7`, SUCCESS.
+- Qualification collector: same build as MAIN, deployment
+  `5e144106-3663-4a26-9715-90875fa4db93`, SUCCESS; public health reports PAUSED.
+- Native SCALP remains `a260810eb5ea76aa204225ac181e163dd4c80392`, deployment
+  `7456f73f-c4f6-49d2-a5b0-4c99e26de790`. Shared BRTI is unchanged.
+
+The real browser displayed the 7:45–8:00 official contract, exact target,
+countdown, independently labelled BTC/BRTI prices, BRTI chart, verified Kalshi
+prices, FINAL probability and PASS conditions, EARLY price/qualification,
+both SCALP directions and native WATCH/PROTECT states, model information,
+RSI/MACD/volume, evidence score and publication/journal health. Mobile-width
+inspection used that same production app in a 390-by-844 iframe: body width
+and scroll width both 375 pixels (vertical scrollbar included), all three
+ladders retained five rows. No application JavaScript errors were observed on
+the final fresh mobile load. Physical iPad/Safari remains unverified.
+
+Live follow-up corrected a newly introduced absent-retained-record dereference
+before final verification. The added actual-renderer regression covers empty
+startup, identity arriving independently, qualified data, expiry and rollover.
+
+Current-contract connection epoch stayed unchanged through the official close.
+At 23:44:37 the quote book reported a missing bid side while BRTI and BTC were
+CURRENT. MAIN published QUOTE_SOURCE_UNAVAILABLE, not a BRTI outage. The old
+contract expired at 23:45; new qualified identity and quotes were present at
+23:45:06. No pre-open next-contract quote gained current authority. These are
+production observations, not a promise of uninterrupted exchange liquidity.
+
+Protection checks: 28 focused Python tests passed; 13 source-owner scenarios,
+85 checkpoints and 572 protected-render comparisons passed; fixed-source relay
+and actual descriptive-renderer regressions passed. MAIN remained genuine PASS;
+native SCALP changed sides and lifecycle states with actual market conditions.
+No strategy performance percentage is inferred from these observations.
+
+Read-only storage inventory at 23:50:40: 7,835,058,176 used bytes and
+1,542,115,328 free bytes in the filesystem. The retired forward observer stayed
+exactly 918,448,535 bytes across all three inventory samples. Historical volumes
+and evidence remain; ordinary native/information evidence continues growing.
+This is not a permanent retention solution. No data was manually deleted and
+no storage or service was purchased. Existing bounded database maintenance was
+not changed.
+
+Raw control-plane, source-health and storage observations are in
+`ops/evidence/20261008-live-production-repair.json`. Production services remain
+pinned to the source commits above; this result-only checkpoint does not deploy.
