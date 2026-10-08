@@ -103,7 +103,7 @@ jobs:
           while IFS= read -r changed; do git add -- "$changed"; done < /tmp/btc15-preserved-file-list
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git diff --cached --check
+          git -c core.whitespace=-blank-at-eol diff --cached --check
           git commit -m "Materialize hash-pinned BTC15 MAIN repair in isolated live-shadow branch"
           git push origin HEAD:refs/heads/candidate/btc15-main-live-shadow-20261008
           echo 'ISOLATED_REPAIR_BRANCH_PUBLISHED_AND_CI_TESTED'
