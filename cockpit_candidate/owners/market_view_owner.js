@@ -11,8 +11,15 @@
   const ring=hostDocument.createElement('div'),fill=hostDocument.createElement('div');
   const bars=Array.from({length:6},()=>hostDocument.createElement('i'));
   const surface=()=>hostDocument.getElementById('chart-surface')||hostDocument.querySelector('.chart-card > svg');
-  Object.defineProperties(chart,{clientWidth:{get:()=>surface()?.clientWidth||0},clientHeight:{get:()=>surface()?.clientHeight||0}});
-  chart.getBoundingClientRect=()=>surface()?.getBoundingClientRect()||{left:0,top:0,width:900,height:150};
+  // SVG layout properties are browser-owned. Safari/WebKit can reject
+  // overriding them on a detached SVG. Preserve native drawing if so.
+  try {
+    Object.defineProperties(chart,{clientWidth:{get:()=>surface()?.clientWidth||0},clientHeight:{get:()=>surface()?.clientHeight||0}});
+    chart.getBoundingClientRect=()=>surface()?.getBoundingClientRect()||{left:0,top:0,width:900,height:150};
+  } catch (_) {
+    // The source owner remains operational; no trading authority depends on
+    // these geometry conveniences. Native SVG geometry is the fallback.
+  }
   function privateNode(id){if(!privateNodes.has(id)){const n=hostDocument.createElement('span');n.textContent=initialText[id]||'';privateNodes.set(id,n);}return privateNodes.get(id);}
   const document=Object.freeze({
     get visibilityState(){return hostDocument.visibilityState;},
