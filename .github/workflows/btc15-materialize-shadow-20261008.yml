@@ -115,3 +115,5 @@ jobs:
             /tmp/btc15-producer.log
             /tmp/btc15-guard.log
           if-no-files-found: ignore
+
+# Re-run after fixing executable's import path; original archived trading source remains unchanged.
