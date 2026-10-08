@@ -165,7 +165,7 @@
     const p=i?.delivery?.payload,a=i?.current?.assessment;
     const qualified=!!a&&p?.ticker===identity?.contract&&p?.target===identity?.target&&finite(a.probability_up)&&finite(a.probability_down);
     const retained=i?.retained_source?.payload;
-    const old=retained?.ticker===identity?.contract&&retained?.target===identity?.target&&finite(retained.probability_up)&&finite(retained.probability_down)?retained:null;
+    const old=retained&&identity&&retained.ticker===identity.contract&&retained.target===identity.target&&finite(retained.probability_up)&&finite(retained.probability_down)?retained:null;
     const model=qualified?a:old;
     text('model-information',model?(qualified?'':'LAST QUALIFIED · ')+'UP '+(model.probability_up*100).toFixed(1)+'% · DOWN '+(model.probability_down*100).toFixed(1)+'% · '+String(model.protection_phase||'Phase unavailable').replaceAll('_',' '):'Model information refreshing; native guidance above retains its own qualification');
     text('model-information-note',qualified?'CURRENT descriptive assessment · BRTI '+(a.brti_agrees?'agrees':'differs')+' · source '+stamp(a.brti_source_ts)+' · no additional action authority':old?'Historical assessment · published '+stamp(old.published_ts)+' · no current action authority':'No current descriptive assessment; no entry or exit inferred');

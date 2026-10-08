@@ -1,0 +1,23 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const nodes=new Map();
+function element(){return {children:[],dataset:{},textContent:'',open:false,append(...items){this.children.push(...items);},remove(){}};}
+const document={getElementById(id){if(!nodes.has(id))nodes.set(id,element());return nodes.get(id);},createElement:element};
+let identity,receive;
+const window={BTC15LadderOwner:{getResolvedView:()=>({identity})},BTC15MarketViewOwner:{getResolvedView:()=>null,subscribe:()=>()=>{}},BTC15InformationOwner:{subscribe:fn=>(receive=fn,()=>{})},BTC15CockpitLive:{connect:()=>()=>{}}};
+vm.runInNewContext(fs.readFileSync(__dirname+'/cockpit.js','utf8'),{window,document,performance:{now:()=>1000},console});
+window.BTC15Cockpit.connectResolved();
+const empty={labels:{status:'WAIT',assessment:'Unavailable'},current:{assessment:null}};
+assert.doesNotThrow(()=>receive(empty),'cold start without identity or retained data');
+identity={contract:'KXBTC15M-CURRENT',target:80000};
+assert.doesNotThrow(()=>receive(empty),'identity can arrive before information');
+const payload={ticker:identity.contract,target:identity.target,probability_up:.6,probability_down:.4,protection_phase:'NORMAL',checked_ts:100,published_ts:99,brti_source_ts:99,btc_source_ts:98,btc_price:80020,brti_value:80021};
+receive({...empty,current:{assessment:payload},delivery:{payload,requestStartedMs:1000}});
+assert.match(nodes.get('model-information').textContent,/UP 60.0%.*DOWN 40.0%/);
+assert.match(nodes.get('spot-price').textContent,/80,020/);
+receive({...empty,retained_source:{payload}});
+assert.match(nodes.get('model-information').textContent,/LAST QUALIFIED/);
+assert.match(nodes.get('model-information-note').textContent,/no current action authority/);
+identity={contract:'KXBTC15M-NEXT',target:80030};receive({...empty,retained_source:{payload}});
+assert.doesNotMatch(nodes.get('model-information').textContent,/60.0%/,'cross-contract assessment cannot populate current context');
+assert.equal(nodes.has('final-action'),false,'descriptive refresh never paints native actions');
+console.log('PASS: cold start, asynchronous identity, current information, expiry and rollover display');
