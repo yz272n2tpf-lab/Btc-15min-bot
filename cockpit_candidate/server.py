@@ -155,6 +155,19 @@ class CandidateHandler(BaseHTTPRequestHandler):
         self.fail(code, "INVALID_HTTP_REQUEST")
 
     def do_GET(self):
+        # Same-origin, bounded client display diagnostics. No user data,
+        # credential or actionable source enters this diagnostic.
+        report = re.fullmatch(r"/client-diagnostic\?code=([A-Z0-9_]{1,64})", self.path)
+        if report:
+            code = report.group(1)
+            now = time.monotonic()
+            with _SOURCE_HEALTH_LOCK:
+                tag = "client_" + code
+                if now - _SOURCE_HEALTH_LAST.get(tag, 0) >= 12:
+                    _SOURCE_HEALTH_LAST[tag] = now
+                    print("BTC15 LIVE COCKPIT CLIENT | " + code, flush=True)
+            self.reply(204, b"")
+            return
         route = self.path
         if route in ("/", "/?mode=fixture", "/?mode=live",
                      "/index.html?mode=fixture", "/index.html?mode=live"):
