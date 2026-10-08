@@ -1,4 +1,4 @@
-"""Frozen native action clocks; independent read-only source projections."""
+"""Native product runtime; MAIN fresh-receipt timing, independent projections."""
 import ast
 from copy import deepcopy
 import json
@@ -23,6 +23,9 @@ CALLS={'get_active_market','extract_target','get_btc_spot','consume_ws_quotes',
 
 def instrument(tree,lane):
     tree=deepcopy(tree)
+    if lane=='main':
+        from .main_timing import instrument as main_timing
+        tree=main_timing(tree)
     class Calls(ast.NodeTransformer):
         def visit_Call(self,n):
             self.generic_visit(n)
@@ -50,6 +53,7 @@ def instrument(tree,lane):
     for handler in block.handlers:
         if handler.name:handler.body.insert(0,ast.parse('_v2_admin.exception('+handler.name+')').body[0])
     loop.body.insert(loop.body.index(block),ast.parse('_v2_admin.begin()').body[0])
+    if lane=='main':block.finalbody.append(ast.parse('_v2_timing.annotate()').body[0])
     block.finalbody.append(ast.parse('_v2_admin.finish(globals())').body[0])
     return ast.fix_missing_locations(tree)
 
@@ -65,6 +69,9 @@ def prepare_main(ns,pool):
     ns['get_active_market']=lambda:preparation.select(original)
     import btc15_kalshi_quote_provenance_v1 as quotes
     quotes._provider=pool
+    from .main_timing import install as install_timing
+    from . import directional
+    install_timing(ns,pool,directional._worker,ns['_v2_admin'])
     preparation.start();return preparation
 
 

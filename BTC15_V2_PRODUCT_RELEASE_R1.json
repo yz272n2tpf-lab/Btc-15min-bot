@@ -26,7 +26,7 @@
     "btc15_v2_product/revalidation.py": "6366533f9d9479e6aa3df5ba78b3eb0f5f63ce2a896ff65a4bce07491a5c4880",
     "btc15_v2_product/revalidation_transport.py": "828a42b22465a9fe34779e4d6fb0d38eb8393fbc2f0e43620bf62f4d91abd4cc",
     "btc15_v2_product/routes.py": "df02050e261932268e3a8f426086c464736389540b47ca30b89d5c62f8e5889e",
-    "btc15_v2_product/runtime.py": "5466b751b8b0e02513bb600412386a2be74a56aaaa349906c96c6aa50ed2ad0c",
+    "btc15_v2_product/runtime.py": "c140a419f76150c5cf2cc4dc9215f08e5ec625e46e4e64d45a8df8d13028978b",
     "btc15_v2_product/worker.py": "27b6b7c5df0b35c99c106c004a0928013ab1712ad5272ef16c2535b90425edcb",
     "ops/btc15_v2_scoring/bridge.py": "d298c22c317d0f4bac415a1f24264a9bf0349926bc7f9cc6e4b5dfe37cb121b4",
     "ops/btc15_v2_scoring/completeness_diagnostics.py": "e46ae773d63e628e92d883ad81c91e028d65d5b39fea68c2a15cc06c602e73c1",
@@ -43,7 +43,8 @@
     "btc15_v2_product/directional_authority.py": "6bfbe80e72f8e1a2f90b0430527717ca6f225aba0e5e9b81f0cc10d5a71ab1fa",
     "btc15_v2_product/scalp_policy.py": "45c48a30b40be71ffa12ab505c6d4228797c75ec109515eec1498020b6590609",
     "btc15_v2_product/coverage_challenger_a.json": "c1667f4db62d619fe2a80584ae617ca0cf32af933b15405a67b486cb4db7b720",
-    "btc15_quote_proof_offpath_v1.py": "b2b1f2ced06503d8f5a635cb0794e8712b780fb68c60d899267a307929a3a7b0"
+    "btc15_quote_proof_offpath_v1.py": "b2b1f2ced06503d8f5a635cb0794e8712b780fb68c60d899267a307929a3a7b0",
+    "btc15_v2_product/main_timing.py": "606862d49af2643c4059bc2887567aceb660a923d30c5b0f3a052d4bed2f4ef9"
   },
   "lane_protected_files": {
     "main": {

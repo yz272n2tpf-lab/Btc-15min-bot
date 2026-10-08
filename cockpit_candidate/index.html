@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en" data-btc15-mode="fixture">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://v81-live-diagnostics-production.up.railway.app/ladders; form-action 'none'; base-uri 'none'">
+  <title>BTC15 Operator Cockpit — Offline Candidate</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Mount the original source SVG in the existing chart; preserve mobile sizing. */
+    html[data-btc15-mode="live"] #chart-surface{height:220px;min-width:0}#chart-surface>svg{width:100%;height:100%;display:block;min-width:0}
+    [data-display-state],#clock-status,#chart-note,#context-status,#health-status{overflow-wrap:anywhere}
+    @media(max-width:650px){html[data-btc15-mode="live"] #chart-surface{height:185px}}
+  </style>
+</head>
+<body>
+  <div class="atmosphere" aria-hidden="true">
+    <svg viewBox="0 0 1600 1100" preserveAspectRatio="xMidYMin slice">
+      <g class="geometry"><circle cx="1240" cy="240" r="160"/><circle cx="1240" cy="240" r="110"/><path d="M1240 80 1101 320 1379 320Z M1240 400 1101 160 1379 160Z"/><path d="M1055 240H1425M1240 55V425"/></g>
+      <path class="ridge-back" d="M0 800 205 525 340 670 615 320 765 575 925 445 1215 730 1405 490 1600 790V1100H0Z"/>
+      <path class="ridge-front" d="M0 990 260 795 425 865 680 645 860 810 1100 635 1400 920 1600 850V1100H0Z"/>
+      <path class="ridge-line" d="M340 670 615 320 765 575M925 445 1215 730M680 645 860 810 1100 635"/>
+    </svg>
+  </div>
+  <main class="cockpit" id="cockpit">
+    <header class="masthead" data-section="header">
+      <div class="brand-row"><div class="brand"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 3v18M12 3v3m0 12v3M5 6h9a3 3 0 0 1 0 6H8m0 0h7a3 3 0 0 1 0 6H5"/></svg></span><h1>BTC15 <span>Operator Cockpit</span></h1></div><span class="safety">SIGNAL-ONLY / NO ORDERS</span></div>
+      <p class="review-notice" id="runtime-notice">OFFLINE CANDIDATE · RECORDED TEST OUTPUT · NOT LIVE</p>
+      <div class="contract-bar"><div class="contract"><span class="eyebrow">CONTRACT WINDOW</span><strong id="contract-window">Unavailable</strong><span class="target">Fixed target <b id="target-price">—</b></span></div><div class="clock"><span class="eyebrow" id="clock-caption">REMAINING AT SNAPSHOT</span><strong id="remaining">—:—</strong><span id="guard" class="small"></span></div></div><p class="small" id="clock-status" hidden></p>
+    </header>
+
+    <section class="card final-card" aria-labelledby="final-heading" data-section="final">
+      <h2 id="final-heading"><span class="section-index">01</span> FINAL <span class="section-caption">Contract outcome</span></h2>
+      <div class="outcome"><strong id="final-direction" class="direction">—</strong><div><strong id="final-probability" class="probability">—</strong><span class="small">outcome probability</span></div></div>
+      <div class="support"><span id="confidence" hidden></span><span id="final-lock" class="lock">Lock unavailable</span></div>
+      <p id="final-freshness" class="small" hidden></p>
+      <p id="final-retained" class="small history-slot" hidden></p>
+      <div class="guidance"><span class="eyebrow">NATIVE CALL STATE</span><strong id="final-action" class="action">Action unavailable</strong><p id="final-reason" class="reason">Authoritative action is unavailable.</p></div>
+      <div class="quote-pair" aria-label="Kalshi buy quotes"><div><span><i class="up-dot" aria-hidden="true"></i> UP buy</span><strong id="up-buy">—</strong></div><div><span><i class="down-dot" aria-hidden="true"></i> DOWN buy</span><strong id="down-buy">—</strong></div></div>
+      <p class="small quote-status" id="quote-status"></p><p class="small" id="quote-retained" hidden></p>
+    </section>
+
+    <section class="card ladder-card" aria-labelledby="early-heading" data-section="early">
+      <h2 id="early-heading"><span class="section-index">02</span> EARLY <span id="early-direction" class="section-caption">Direction unavailable</span></h2>
+      <div class="ladder-guidance"><p id="early-freshness" class="small" hidden></p><strong id="early-action" class="action">Action unavailable</strong><p id="early-reason" class="reason">Authoritative guidance is unavailable.</p><p id="early-price" class="current-price"></p><p id="early-retained" class="small" hidden></p></div>
+      <ol class="ladder" id="early-ladder" aria-label="EARLY five-rung ladder">
+        <li data-rung="entry"><span class="rung-num">1</span><strong>Entry</strong><span class="rung-value" id="early-entry">—</span></li>
+        <li data-rung="hold"><span class="rung-num">2</span><strong>Hold</strong><span class="rung-value" id="early-hold">—</span></li>
+        <li data-rung="watch"><span class="rung-num">3</span><strong>Watch</strong><span class="rung-value" id="early-watch">—</span></li>
+        <li data-rung="protect"><span class="rung-num">4</span><strong>Protect Profits</strong><span class="rung-value" id="early-protect">—</span></li>
+        <li data-rung="exit"><span class="rung-num">5</span><strong>Exit Now</strong><span class="rung-value" id="early-exit">—</span></li>
+      </ol>
+      <p class="mapping-note">Rows follow the protected EARLY lifecycle. Prices describe signals, not fills. Directional EARLY exit is unsupported.</p>
+    </section>
+
+    <section class="card" aria-labelledby="scalp-heading" data-section="scalp">
+      <h2 id="scalp-heading"><span class="section-index">03</span> SCALP <span class="section-caption">Directional opportunities</span></h2>
+      <div id="scalp-guidance" class="ladder-guidance"><p id="scalp-freshness" class="small" hidden></p><strong id="scalp-action" class="action">Action unavailable</strong><p id="scalp-reason" class="reason">Authoritative guidance is unavailable.</p><p id="scalp-price" class="current-price"></p><p id="scalp-retained" class="small" hidden></p></div>
+      <div class="scalp-directions">
+        <div class="scalp-direction" data-side="UP"><h3><span class="direction up">↑ UP</span><span id="scalp-up-status" class="small">No directional state published</span></h3><ol class="ladder" id="scalp-up-ladder" aria-label="SCALP UP five-rung ladder">
+          <li data-rung="entry"><span class="rung-num">1</span><strong>Entry</strong><span class="rung-value" id="scalp-up-entry">—</span></li><li data-rung="hold"><span class="rung-num">2</span><strong>Hold</strong><span class="rung-value" id="scalp-up-hold">—</span></li><li data-rung="watch"><span class="rung-num">3</span><strong>Watch</strong><span class="rung-value" id="scalp-up-watch">—</span></li><li data-rung="protect"><span class="rung-num">4</span><strong>Protect</strong><span class="rung-value" id="scalp-up-protect">—</span></li><li data-rung="exit"><span class="rung-num">5</span><strong>Exit</strong><span class="rung-value" id="scalp-up-exit">—</span></li>
+        </ol></div>
+        <div class="scalp-direction" data-side="DOWN"><h3><span class="direction down">↓ DOWN</span><span id="scalp-down-status" class="small">No directional state published</span></h3><ol class="ladder" id="scalp-down-ladder" aria-label="SCALP DOWN five-rung ladder">
+          <li data-rung="entry"><span class="rung-num">1</span><strong>Entry</strong><span class="rung-value" id="scalp-down-entry">—</span></li><li data-rung="hold"><span class="rung-num">2</span><strong>Hold</strong><span class="rung-value" id="scalp-down-hold">—</span></li><li data-rung="watch"><span class="rung-num">3</span><strong>Watch</strong><span class="rung-value" id="scalp-down-watch">—</span></li><li data-rung="protect"><span class="rung-num">4</span><strong>Protect</strong><span class="rung-value" id="scalp-down-protect">—</span></li><li data-rung="exit"><span class="rung-num">5</span><strong>Exit</strong><span class="rung-value" id="scalp-down-exit">—</span></li>
+        </ol></div>
+      </div>
+      <p class="mapping-note">Rows follow the published SCALP lifecycle. Exit prices are observed trigger bids, not fills. A blank direction has no published opportunity.</p>
+    </section>
+
+    <section class="card chart-card" aria-labelledby="chart-heading" data-section="chart">
+      <h2 id="chart-heading"><span class="section-index">04</span> BTC <span class="section-caption">Price history</span></h2>
+      <div class="chart-top"><div><strong id="btc-price" class="btc-price">—</strong><span id="btc-timestamp" class="small">Price timestamp unavailable</span></div><div class="timeframes" role="group" aria-label="Chart timeframe"><button type="button" class="selected" aria-pressed="true" id="timeframe">15m</button></div></div>
+      <div class="chart-surface" id="chart-surface"><div class="chart-empty"><span class="chart-icon" aria-hidden="true">⌁</span><strong>Waiting for BTC history</strong><p>The protected chart history is not connected in this candidate.</p></div></div>
+      <p class="small" id="chart-note">BRTI reference history · 15-minute view · history unavailable</p>
+    </section>
+
+    <div class="context-grid">
+      <section class="card compact-card" aria-labelledby="health-heading" data-section="health"><h2 id="health-heading">BOT HEALTH</h2><strong id="health-status" class="status-line">Overall status unavailable</strong><dl><div><dt>Service uptime</dt><dd>Not independently monitored</dd></div><div><dt>MAIN publication</dt><dd id="health-main">Unavailable</dd></div><div><dt>SCALP publication</dt><dd id="health-scalp">Unavailable</dd></div><div><dt>Last reported worker / journal</dt><dd id="health-workers">Unavailable</dd></div><div><dt>Continuity</dt><dd id="health-continuity">Unavailable</dd></div><div><dt>Kalshi quotes</dt><dd id="health-quotes">Unavailable</dd></div><div><dt>BRTI true source age</dt><dd id="health-brti">Unverified</dd></div></dl><p id="health-at" class="small"></p></section>
+      <section class="card compact-card" aria-labelledby="context-heading" data-section="context"><h2 id="context-heading">MARKET CONTEXT</h2><dl><div><dt>Evidence Score</dt><dd id="evidence-score">Unavailable</dd></div><div><dt>Flip Risk</dt><dd id="flip-risk">Unavailable</dd></div><div><dt>Market Momentum</dt><dd id="market-momentum">Unavailable</dd></div></dl><p class="small" id="context-status">Source context only; no additional action authority.</p></section>
+    </div>
+
+    <details class="card details" id="details" data-section="details"><summary><span>Details</span><span class="small">Provenance & diagnostics <span class="chevron" aria-hidden="true">⌄</span></span></summary><div class="details-content">
+      <label class="scenario-label" for="scenario">Review scenario <select id="scenario"></select></label><p id="scenario-description" class="small"></p>
+      <h3>Contract & snapshot</h3><dl id="identity-details"></dl>
+      <h3>Action authority & lifecycle</h3><dl id="authority-details"></dl>
+      <h3>Full source explanations & historical information</h3><dl id="explanation-details"></dl>
+      <h3>Source timestamps & quote diagnostics</h3><dl id="source-details"></dl>
+      <h3>Current / retained native provenance</h3><dl id="retained-details"></dl>
+      <h3>BRTI / countdown / market provenance</h3><dl id="market-details"></dl>
+      <h3>Descriptive information — no action authority</h3><dl id="information-details"></dl>
+      <h3>Integration status</h3><ul id="gaps"></ul>
+      <p class="small" id="mode-note">Existing scoring and logging remain untouched. These synthetic test outputs do not establish current live accuracy or production acceptance.</p>
+    </div></details>
+  </main>
+  <script src="adapter.js"></script>
+  <script src="cockpit.js"></script>
+  <!-- Inert by default: these scripts are activated only in fixture mode. -->
+  <template id="fixture-boot">
+    <script src="fixtures.js"></script>
+    <script src="preview.js"></script>
+  </template>
+  <script>
+  (() => {
+    'use strict';
+    // P5 may provide these fixed MAIN paths on this origin. No relay is implemented here.
+    window.BTC15CockpitConnectionConfig=Object.freeze({mainPaths:Object.freeze(['/ladders','/ladders/quotes','/ladders/indicators','/information','/dashboard_state.json']),scalp:'https://v81-live-diagnostics-production.up.railway.app/ladders'});
+    const mode=new URLSearchParams(location.search).get('mode')||document.documentElement.dataset.btc15Mode;
+    document.documentElement.dataset.btc15Mode=mode;
+    function load(source,inline){return new Promise((resolve,reject)=>{const script=document.createElement('script');script.async=false;if(source){script.src=source;script.onload=resolve;script.onerror=()=>reject(Error('Candidate asset unavailable'));}else script.textContent=inline;document.body.append(script);if(!source)resolve();});}
+    window.BTC15CockpitBoot=(async()=>{
+      if(mode!=='live'){
+        const csp=document.createElement('meta');csp.httpEquiv='Content-Security-Policy';csp.content="connect-src 'none'";document.head.append(csp);
+        if(mode!=='fixture')throw Error('Select fixture or live mode explicitly');
+        for(const script of document.getElementById('fixture-boot').content.querySelectorAll('script'))await load(script.getAttribute('src'),script.textContent);
+        return;
+      }
+      document.title='BTC15 Operator Cockpit — Read-only Candidate';
+      document.getElementById('runtime-notice').textContent='READ-ONLY SOURCE BINDING · CANDIDATE UNDER REVIEW';
+      document.getElementById('clock-caption').textContent='REMAINING';
+      document.querySelector('.scenario-label').hidden=true;document.getElementById('scenario-description').hidden=true;
+      document.getElementById('mode-note').textContent='Source values retain their original identity and expiry. Retained information does not authorize a new action. SIGNAL-ONLY / NO ORDERS.';
+      for(const source of ['owners/market_view_owner.js','owners/information_owner.js','owners/ladder_owner.js','live.js'])await load(source);
+      window.BTC15Cockpit.connectResolved();
+    })().catch(error=>{window.BTC15Cockpit.render({});document.getElementById('runtime-notice').textContent='READ-ONLY DISPLAY UNAVAILABLE · '+error.message;});
+  })();
+  </script>
+</body>
+</html>
