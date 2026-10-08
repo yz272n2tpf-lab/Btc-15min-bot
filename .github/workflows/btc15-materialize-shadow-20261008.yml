@@ -1,0 +1,117 @@
+name: BTC15 materialize preserved MAIN live shadow candidate
+on:
+  push:
+    branches: [candidate/btc15-main-live-shadow-20261008]
+    paths:
+      - .github/workflows/btc15-materialize-shadow-20261008.yml
+permissions:
+  contents: read
+jobs:
+  assemble-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Match original uploaded repair archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo '471948024fb1edfcc9859199808321d9e6b09f6aa96aadf47e74bae0ed6801a8  BTC15_STAGE_EXISTING_REPAIR_20261008.zip' | sha256sum -c -
+      - name: Extract exact archived changes and hash-matched supporting cockpit assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          python <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+          import io,hashlib,shutil
+          with ZipFile('BTC15_STAGE_EXISTING_REPAIR_20261008.zip') as outer:
+              inner=outer.read('repair_payload.zip')
+          if hashlib.sha256(inner).hexdigest()!='7467a39f8b8fb05f3b669b22067331e77fd379d87e7b42058fd968a9d050166e':
+              raise SystemExit('REPAIR_PAYLOAD_HASH_MISMATCH')
+          changes=[]
+          with ZipFile(io.BytesIO(inner)) as z:
+              if len(z.namelist())!=14:raise SystemExit('NOT_14_EXACT_STAGING_FILES')
+              for info in z.infolist():
+                  name=Path(info.filename)
+                  if name.is_absolute() or '..' in name.parts or info.is_dir():
+                      raise SystemExit('UNSAFE_ARCHIVE_MEMBER:'+info.filename)
+                  name.parent.mkdir(parents=True,exist_ok=True)
+                  name.write_bytes(z.read(info.filename))
+                  changes.append(info.filename)
+          hashes={}
+          for line in Path('cockpit_candidate/hosting/runtime.sha256').read_text().splitlines():
+              if line.strip():
+                  sha,name=line.split(maxsplit=1)
+                  hashes[name]=sha
+          support=Path('ops/main_live_repair_20261008/ci_support/cockpit_candidate')
+          originals=['adapter.js','fixtures.js','preview.js','live.js',
+                     'owners/ladder_owner.js','owners/information_owner.js','owners/market_view_owner.js']
+          for name in originals:
+              source=support/name
+              if hashlib.sha256(source.read_bytes()).hexdigest()!=hashes[name]:
+                  raise SystemExit('COCKPIT_SUPPORT_HASH_MISMATCH:'+name)
+              target=Path('cockpit_candidate')/name
+              target.parent.mkdir(parents=True,exist_ok=True)
+              shutil.copy2(source,target)
+              changes.append(str(target))
+          Path('/tmp/btc15-preserved-file-list').write_text('\n'.join(changes)+'\n')
+          print('PRESERVED_MAIN_REPAIR_MATERIALIZED: 14 source/test files plus 7 exact originals')
+          PY
+      - name: Install production-pinned dependencies
+        shell: bash
+        run: |
+          python -m pip install -r requirements.txt
+      - name: Verify frozen ladders and live launcher, run real producer with synthetic source fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import importlib.metadata as md
+          for k,v in {'cryptography':'50.0.0','numpy':'2.5.2','pandas':'3.0.5',
+                      'requests':'2.32.5','scikit-learn':'1.9.0','scipy':'1.18.1',
+                      'joblib':'1.5.3','websockets':'15.0.1'}.items():
+              assert md.version(k)==v,(k,md.version(k))
+          from btc15_v2_product.release import verify_files
+          verify_files('main')
+          print('FULL_MAIN_RELEASE_AND_PIN_CHECK: PASS')
+          PY
+          python -m py_compile ops/btc15_main_real_source_shadow_20261008.py
+          python ops/btc15_main_real_source_shadow_20261008.py --preflight
+          python ops/main_live_repair_20261008/test_producer.py > /tmp/btc15-producer.log 2>&1 || { tail -90 /tmp/btc15-producer.log; exit 1; }
+          python -m unittest test_btc15_integrated_finish.ProtectedBaselines test_btc15_integrated_finish.DirectionalLifecycle test_btc15_integrated_finish.GeneralizedScalp
+          echo "PRESERVED_24_PYTHON_TESTS: PASS"
+          if python ops/btc15_main_real_source_shadow_20261008.py --run-shadow > /tmp/btc15-guard.log 2>&1; then
+            echo 'FAIL: live launcher ran without Railway test-only service identity'; exit 1
+          fi
+          grep -q 'BTC15_SHADOW_GUARD_FAIL' /tmp/btc15-guard.log
+          echo "PRODUCTION_GUARD_REFUSAL: PASS"
+      - name: Publish candidate ONLY to named isolated test branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF_NAME" = 'candidate/btc15-main-live-shadow-20261008'
+          test "$(git ls-remote origin refs/heads/candidate/btc15-main-live-shadow-20261008 | cut -f1)" = "$(git rev-parse HEAD)" || { echo "REVIEW_BRANCH_ADVANCED_STOP"; exit 1; }
+          while IFS= read -r changed; do git add -- "$changed"; done < /tmp/btc15-preserved-file-list
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git diff --cached --check
+          git commit -m "Materialize hash-pinned BTC15 MAIN repair in isolated live-shadow branch"
+          git push origin HEAD:refs/heads/candidate/btc15-main-live-shadow-20261008
+          echo 'ISOLATED_REPAIR_BRANCH_PUBLISHED_AND_CI_TESTED'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: btc15-live-shadow-candidate-preflight
+          path: |
+            /tmp/btc15-producer.log
+            /tmp/btc15-guard.log
+          if-no-files-found: ignore
