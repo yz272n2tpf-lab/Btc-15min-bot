@@ -105,7 +105,7 @@
     'use strict';
     // P5 may provide these fixed MAIN paths on this origin. No relay is implemented here.
     window.BTC15CockpitConnectionConfig=Object.freeze({mainPaths:Object.freeze(['/ladders','/ladders/quotes','/ladders/indicators','/information','/dashboard_state.json']),scalp:'https://v81-live-diagnostics-production.up.railway.app/ladders'});
-    const mode=new URLSearchParams(location.search).get('mode')||document.documentElement.dataset.btc15Mode;
+    const mode=new URLSearchParams(location.search).get('mode')||'live';
     document.documentElement.dataset.btc15Mode=mode;
     function load(source,inline){return new Promise((resolve,reject)=>{const script=document.createElement('script');script.async=false;if(source){script.src=source;script.onload=resolve;script.onerror=()=>reject(Error('Candidate asset unavailable'));}else script.textContent=inline;document.body.append(script);if(!source)resolve();});}
     window.BTC15CockpitBoot=(async()=>{

@@ -16,9 +16,9 @@
     "btc15_v2_native.py": "a1cb9115a35da40ba93410cb72374d9068cf5501f5b2b9697bd500e5c49b9a7a",
     "btc15_v2_product/__init__.py": "9a7b49d9bd21863c017a87e4cddd6dc16c8d189a7c0e600f4dd9286c770f49c8",
     "btc15_v2_product/admin.py": "33912a9118ba5f5671cdf98848aed18f1601047b6de61892d7e939d410fb8f84",
-    "btc15_v2_product/bootstrap.py": "83a83bafcf6cb000378e409193219a2002d708a753c1fb9985493a0111f132ab",
+    "btc15_v2_product/bootstrap.py": "281fd20174d95f3860859479f5fcbeaf447df859229658a1bd7eeac4150cb14e",
     "btc15_v2_product/installer.py": "66d3b780bee805d380b962ec6325acd839e4ea243b82c1dd635dea2e6088ba39",
-    "btc15_v2_product/journal.py": "ca841f81c632d71475ff43e460c10be5c688f71384a345207e64d6b26f0bcb65",
+    "btc15_v2_product/journal.py": "91c6b3dffc37d9fffdbf798fbb822acf556d5b9460bb5f3055044cfb86c33efe",
     "btc15_v2_product/panel.js": "6219b6a2489bbce109542715233887126c205ecfde7aa2c6f49b86bbd14e2dbc",
     "btc15_v2_product/quote_transport.py": "48ff0785fb120c19ad2973f06ce18a4cb1922ec05067b34ae0e025eb075c8633",
     "btc15_v2_product/quote_view.py": "a2e3180dae69fe6d304e30a7259ba2f764ea4cb7e277aa2236cb98b715be62fe",
@@ -26,7 +26,7 @@
     "btc15_v2_product/revalidation.py": "6366533f9d9479e6aa3df5ba78b3eb0f5f63ce2a896ff65a4bce07491a5c4880",
     "btc15_v2_product/revalidation_transport.py": "828a42b22465a9fe34779e4d6fb0d38eb8393fbc2f0e43620bf62f4d91abd4cc",
     "btc15_v2_product/routes.py": "df02050e261932268e3a8f426086c464736389540b47ca30b89d5c62f8e5889e",
-    "btc15_v2_product/runtime.py": "c140a419f76150c5cf2cc4dc9215f08e5ec625e46e4e64d45a8df8d13028978b",
+    "btc15_v2_product/runtime.py": "27eb3a043876400260172161b24d6ca26622cc5cd6819da76d698393ea9e8e89",
     "btc15_v2_product/worker.py": "27b6b7c5df0b35c99c106c004a0928013ab1712ad5272ef16c2535b90425edcb",
     "ops/btc15_v2_scoring/bridge.py": "d298c22c317d0f4bac415a1f24264a9bf0349926bc7f9cc6e4b5dfe37cb121b4",
     "ops/btc15_v2_scoring/completeness_diagnostics.py": "e46ae773d63e628e92d883ad81c91e028d65d5b39fea68c2a15cc06c602e73c1",
@@ -44,7 +44,8 @@
     "btc15_v2_product/scalp_policy.py": "45c48a30b40be71ffa12ab505c6d4228797c75ec109515eec1498020b6590609",
     "btc15_v2_product/coverage_challenger_a.json": "c1667f4db62d619fe2a80584ae617ca0cf32af933b15405a67b486cb4db7b720",
     "btc15_quote_proof_offpath_v1.py": "b2b1f2ced06503d8f5a635cb0794e8712b780fb68c60d899267a307929a3a7b0",
-    "btc15_v2_product/main_timing.py": "606862d49af2643c4059bc2887567aceb660a923d30c5b0f3a052d4bed2f4ef9"
+    "btc15_v2_product/main_timing.py": "606862d49af2643c4059bc2887567aceb660a923d30c5b0f3a052d4bed2f4ef9",
+    "btc15_v2_product/delivery.py": "37aed0c019e800cd8cc141c9eb5cc454d67ab76c19d3efb3a7ad9580ba3ec8fd"
   },
   "lane_protected_files": {
     "main": {

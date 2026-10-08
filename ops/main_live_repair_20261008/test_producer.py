@@ -98,6 +98,8 @@ class Replay:
         # Actual native CSV rows are retained for workload accounting. The
         # in-memory sink is the existing offline harness's external-effect seam.
         if candidate:
+            from btc15_v2_product.delivery import finish
+            self.r.ns['_v2_delivery_finish']=lambda ns:finish(ns,self.pool,self.worker)
             self.scheduler=timing.install(self.r.ns,self.pool,self.worker,self.admin,
                 clock=lambda:self.r.at,monotonic=lambda:self.r.at-OPEN,sleep=self.sleep)
         transform=product_runtime.instrument if candidate else baseline_instrument()
@@ -328,7 +330,9 @@ class ProducerTests(unittest.TestCase):
         self.assertEqual(ast.dump(ast.Module(body=old,type_ignores=[])),ast.dump(ast.Module(body=new,type_ignores=[])))
         for name in ['bot_two_output_build_v4_13_profit_protection_shadow.py','btc15_v2_product/directional.py',
                      'btc15_v2_product/directional_authority.py','btc15_v2_product/scalp.py',
-                     'btc15_brti_delivery_v1.py','btc15_v2_product/journal.py','completion_audit/fair_input_candidate.py',
+                     # Product envelope now carries diagnostic delivery metadata;
+                     # the durable writer and its trading records remain frozen.
+                     'btc15_brti_delivery_v1.py','btc15_ladder_journal_v1.py','completion_audit/fair_input_candidate.py',
                      'completion_audit/model_artifact/frozen_fair_candidate.joblib']:
             old=subprocess.check_output(['git','show',BASE+':'+name],cwd=ROOT)
             self.assertEqual((ROOT/name).read_bytes(),old,name)

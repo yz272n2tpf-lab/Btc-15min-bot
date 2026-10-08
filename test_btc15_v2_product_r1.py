@@ -117,6 +117,8 @@ class BootstrapTests(unittest.TestCase):
         self.at=OPEN+900;self.assertEqual(q.capture()['reason'],'OUTSIDE_OFFICIAL_WINDOW')
     def test_native_consume_exact_return_and_provenance_no_extra_processing(self):
         self.at=OPEN+300;self.pool.select(market(),80000);p=self.pool.current;book_for(p,self.at)
+        # Inert providers bypass __init__; supply its existing off-path seam.
+        p.proof_writer=SimpleNamespace(submit=lambda witness,events:True)
         p.events=[]
         with tempfile.TemporaryDirectory() as td,patch('btc15_kalshi_quote_provenance_v1.proof_path',return_value=Path(td)/'proof.json'),patch('btc15_kalshi_quote_provenance_v1.time.time',return_value=self.at):
             expected=Provider.consume(p,p.ticker,bridge.utc(self.at),p.close_ms)

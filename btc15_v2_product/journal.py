@@ -74,6 +74,8 @@ class ProcessorEnvelope:
         record['product']=dict(revision=REVISION,lane=self.lane,attempt_id=attempt_id,
             deployment=os.getenv('RAILWAY_DEPLOYMENT_ID','OFFLINE'),build=os.getenv('RAILWAY_GIT_COMMIT_SHA','OFFLINE'))
         view.update(schema=ENVELOPE,product_revision=REVISION,lane=self.lane)
+        if f.get('delivery'):
+            view['delivery']=deepcopy(f['delivery'])
         if all(view.get(k) is not None for k in ('contract','target','official_open','official_close')):
             self.identity={k:view[k] for k in ('contract','target','official_open','official_close')}
         if self.identity and self.identity['official_open']<=now<self.identity['official_close'] and view.get('contract')==self.identity['contract']:
@@ -174,7 +176,7 @@ def unavailable(lane,reason,now,value=None):
         out['official_identity']=identity;out['contract']=identity['contract']
         origin=value.get('origin')
         if origin and origin.get('contract')==identity['contract']:out['origin']=origin
-    for key in ('published_ts','journal','administrative_journal','handoff'):
+    for key in ('published_ts','journal','administrative_journal','handoff','delivery'):
         if key in value:out[key]=value[key]
     return out
 

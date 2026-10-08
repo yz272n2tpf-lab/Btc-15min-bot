@@ -5,6 +5,8 @@ on:
     paths:
       - .github/workflows/btc15-live-shadow-safety-preflight.yml
       - ops/btc15_main_real_source_shadow_20261008.py
+      - btc15_v2_product/**
+      - test_btc15_live_delivery_repair.py
   workflow_dispatch:
 permissions:
   contents: read
@@ -14,6 +16,8 @@ jobs:
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -44,3 +48,7 @@ jobs:
           fi
           grep -q 'original evidence volume must be safely detached' /tmp/btc15-mounted-volume.log
           echo 'TEST_SERVICE_IDENTITY_AND_EVIDENCE_VOLUME_GUARDS_PASS'
+      - name: Integrated transport and protected ladder regressions
+        run: |
+          python -m unittest -v test_btc15_live_delivery_repair test_btc15_integrated_finish.ProtectedBaselines test_btc15_integrated_finish.DirectionalLifecycle test_btc15_integrated_finish.GeneralizedScalp
+          python ops/main_live_repair_20261008/test_producer.py

@@ -55,6 +55,52 @@ class PreparedProvider(quotes.Provider):
             self._validate_proof,quotes.MAX_BYTES)
         super().__init__()
 
+    def run(self):
+        """Prepare metadata ahead of time; open a socket only in its own window.
+
+        The observed unopened market repeatedly supplied no verifiable identity.
+        It cannot produce an in-window quote anyway. Each owner keeps its own
+        connection, failure counter and retry deadline; preparation cannot reset
+        the active owner. The original decoder and freshness rules are unchanged.
+        """
+        from websockets.sync.client import connect
+        from btc15_kalshi_parity_shadow_v1 import auth_headers
+        failures = 0
+        previous = None
+        while True:
+            with self.lock:
+                key = (self.ticker, self.close_ms)
+            ticker, close_ms = key
+            now_ms = int(time.time() * 1000)
+            if key != previous:
+                failures, previous = 0, key
+            if not ticker or close_ms is None or not close_ms-900000 <= now_ms < close_ms:
+                time.sleep(.1)
+                continue
+            started = time.monotonic()
+            try:
+                with connect(quotes.WS_URL, additional_headers=auth_headers('GET', quotes.WS_PATH),
+                             open_timeout=10, close_timeout=2, max_size=quotes.MAX_BYTES) as ws:
+                    self.session(ws, ticker)
+            except Exception as exc:
+                failures = 1 if time.monotonic()-started >= 30 else failures+1
+                reason = str(exc) if type(exc) in (ValueError, quotes.MissingQuoteField) else type(exc).__name__
+                self.connection_error = reason
+                print('KALSHI QUOTE OWNER UNAVAILABLE | '+ticker+' | '+reason+' | NO ORDERS', flush=True)
+            finally:
+                with self.lock:
+                    # An expired owner's teardown cannot revoke a recycled slot.
+                    if (self.ticker, self.close_ms) == key:
+                        self.book = None
+                        self.last_product_quote = None
+            delay = min(8., 2.**min(max(failures-1, 0), 3))
+            deadline = time.monotonic()+delay
+            while time.monotonic() < deadline:
+                with self.lock:
+                    if (self.ticker, self.close_ms) != key:break
+                if time.time()*1000 >= close_ms:break
+                time.sleep(.1)
+
     @staticmethod
     def _validate_proof(proof,witness):
         import json
@@ -133,6 +179,8 @@ class Pool:
         ident=identity(m,target);now=self.clock()
         if not ident['official_open']<=now<ident['official_close']:raise ValueError('NO_PREOPEN_SELECTION')
         with self.lock:
+            if self.official and now < self.official['official_close'] and self.official['contract'] != ident['contract']:
+                raise ValueError('CURRENT_CONTRACT_STILL_OPEN')
             if self.official and self.official['contract']==ident['contract'] and self.official!=ident:
                 raise ValueError('FIXED_OFFICIAL_IDENTITY_CHANGED')
             p=self.prepare(m)
@@ -172,6 +220,17 @@ class Preparation:
         self.error=None
     def select(self,fallback):
         now=self.clock()
+        # Once selected, re-read this exact official contract until its close.
+        # A list response containing the next market never owns the active slot.
+        current = self.pool.official
+        if current and current['official_open'] <= now < current['official_close']:
+            data=self.get('/trade-api/v2/markets/'+current['contract'])
+            exact=data.get('market',data)
+            if exact.get('status') not in (None,'active','open'):
+                raise ValueError('OFFICIAL_MARKET_NOT_ACTIVE')
+            target=self.target(exact)
+            if identity(exact,target)!=current:raise ValueError('FIXED_OFFICIAL_IDENTITY_CHANGED')
+            return self.pool.select(exact,target)
         with self.lock:m=deepcopy(self.staged.get(int(now//900)*900))
         if m is not None:
             i=identity(m)
@@ -179,6 +238,8 @@ class Preparation:
                 # Exact official read at the native attempt; staged target is NEVER used.
                 data=self.get('/trade-api/v2/markets/'+i['contract'])
                 exact=data.get('market',data)
+                if exact.get('status') not in (None,'active','open'):
+                    raise ValueError('OFFICIAL_MARKET_NOT_ACTIVE')
                 e=identity(exact)
                 if e!=i:raise ValueError('STAGED_EXACT_IDENTITY_CONFLICT')
                 target=self.target(exact)

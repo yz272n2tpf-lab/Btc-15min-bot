@@ -53,7 +53,9 @@ def instrument(tree,lane):
     for handler in block.handlers:
         if handler.name:handler.body.insert(0,ast.parse('_v2_admin.exception('+handler.name+')').body[0])
     loop.body.insert(loop.body.index(block),ast.parse('_v2_admin.begin()').body[0])
-    if lane=='main':block.finalbody.append(ast.parse('_v2_timing.annotate()').body[0])
+    if lane=='main':
+        block.finalbody.append(ast.parse('_v2_delivery_finish(globals())').body[0])
+        block.finalbody.append(ast.parse('_v2_timing.annotate()').body[0])
     block.finalbody.append(ast.parse('_v2_admin.finish(globals())').body[0])
     return ast.fix_missing_locations(tree)
 
@@ -71,6 +73,8 @@ def prepare_main(ns,pool):
     quotes._provider=pool
     from .main_timing import install as install_timing
     from . import directional
+    from .delivery import finish
+    ns['_v2_delivery_finish']=lambda values:finish(values,pool,directional._worker)
     install_timing(ns,pool,directional._worker,ns['_v2_admin'])
     preparation.start();return preparation
 
@@ -106,6 +110,12 @@ def native_main():
     original_get=server.RequestHandlerClass.do_GET
     def do_GET(handler):
         try:
+            if handler.path=='/delivery-health':
+                raw=json.dumps(ns.get('_v2_delivery_health',dict(status='STARTING',authority='DIAGNOSTIC_ONLY')),
+                               allow_nan=False,separators=(',',':')).encode()
+                handler.send_response(200);handler.send_header('Content-Type','application/json')
+                handler.send_header('Cache-Control','no-store');handler.send_header('Content-Length',str(len(raw)))
+                handler.end_headers();handler.wfile.write(raw);return
             if handler.path=='/revalidation-input':
                 try:
                     value=revalidation.capture();code=200

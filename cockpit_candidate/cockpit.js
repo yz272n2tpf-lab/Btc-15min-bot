@@ -128,7 +128,15 @@
       text('btc-price',m.values.btcPrice,'P3 renderBrtiDisplay (BRTI only)');
       const priceLabel=(source&&!aligned?'HISTORICAL · '+source.contract+' · ':'')+m.brti.label;
       text('btc-timestamp',priceLabel,'P3 original BRTI label + explicit contract alignment');node('btc-price').title=m.brti.title;node('btc-price').dataset.displayState=priceCurrent?'current':source?'retained':'unavailable';
-      text('health-brti',priceLabel,'P3 BRTI source freshness label');
+      const lane=v?.lanes?.main,d=lane?.current_payload?.delivery,clock=lane?.clock;
+      const at=clock?clock.server+(performance.now()-clock.received)/1000:NaN;
+      const age=d&&finite(d.brti_source_ts)?at-d.brti_source_ts:NaN;
+      const brtiReceipt=d?.schema==='BTC15_DELIVERY_HEALTH_R1'&&d.authority==='DIAGNOSTIC_ONLY'&&
+        d.signal_only===true&&d.orders===false&&d.brti==='CURRENT'&&
+        finite(d.brti_received_ts)&&d.brti_source_ts<=d.brti_received_ts&&d.brti_received_ts<=d.observed_ts&&
+        d.observed_ts<=at&&finite(age)&&age>=0&&age<=5;
+      text('health-brti',brtiReceipt?'CURRENT BRTI receipt · '+age.toFixed(1)+'s · diagnostic only':priceLabel,
+        brtiReceipt?'Original BRTI receipt; independent of MAIN quote qualification':'P3 BRTI source freshness label');
       mountChart(m);text('chart-note','BRTI reference history · 15-minute view · '+(m.chart.contract||'No contract')+' · '+(m.chart.refreshing?'LAST QUALIFIED / REFRESHING':m.chart.stale==='true'?'STALE / HISTORICAL':'source display')+(aligned?'':' · awaiting matching official identity'),'P3 chart retention/identity/stale flags');
       text('evidence-score',m.values.evidenceScore,'P3 applyState / lowerHistory; original seven diagnostics');
       text('market-momentum',m.values.momentumBadge+' · '+m.values.momentumSub,'P3 applyState / lowerHistory');

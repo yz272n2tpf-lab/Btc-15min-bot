@@ -69,6 +69,16 @@ def child():
     print("BTC15_SHADOW_NATIVE_START | fresh MAIN candidate | SIGNAL_ONLY NO_ORDERS", flush=True)
     native_main()
 
+def dashboard_child():
+    validate_runtime()
+    block_http_writes()
+    import runpy
+    from btc15_v2_product.installer import assemble
+    directory=assemble(Path(os.environ['BTC15_LADDER_DATA_ROOT'])/'assembled-dashboard')
+    sys.path.insert(0,str(directory))
+    os.environ['PORT']='8765'
+    runpy.run_path(str(directory/'BTC15_DASHBOARD_LIVE_SERVER_V1.py'),run_name='__main__')
+
 def load_publication(root):
     path = root / "main.json"
     try:
@@ -80,9 +90,9 @@ def load_publication(root):
         return None
 
 def report_line(state, window):
-    result = dict(schema="BTC15_MAIN_REAL_SOURCE_SHADOW_R1",
+    result = dict(schema="BTC15_MAIN_REAL_SOURCE_SHADOW_R2",
                   at=datetime.now(timezone.utc).isoformat(), signal_only=True,
-                  orders=False, evidence="REAL_FEED_SHADOW_NOT_LIVE_ACCEPTANCE",
+                  orders=False, evidence="REAL_FEED_INTEGRATED_ACCEPTANCE_CANDIDATE",
                   **state)
     print("BTC15_SHADOW_SAMPLE | " + json.dumps(result, separators=(",",":"), allow_nan=False), flush=True)
 
@@ -96,6 +106,9 @@ def parent():
     env["BTC15_COHORT_EVIDENCE_PATH"] = str(root / "native-cohort.jsonl")
     env["BTC15_ENABLE_INFORMATION_EXPORT"] = "1"
     env.pop("BTC15_VOLUME_DIAG", None)
+    # Same public routes, proof/confirmation worker and cockpit assets as the
+    # product. Only the selected MAIN upstream is this isolated local child.
+    os.environ['BTC15_LADDER_DATA_ROOT']=str(root)
     start = time.time()
     first_full_window = (int(start // 900) + 1) * 900
     expected_end = first_full_window + 2 * 900 + 10
@@ -107,12 +120,18 @@ def parent():
     status = dict(state="STARTING", signal_only=True, orders=False, contracts=0, samples=0)
     proc = subprocess.Popen([sys.executable, "-u", str(Path(__file__).resolve()), "--native-child"],
                             env=env, stdin=subprocess.DEVNULL)
-    class Handler(BaseHTTPRequestHandler):
+    reader_env={k:v for k,v in env.items() if not k.startswith(('KALSHI_','BTC15_BRTI_'))}
+    worker=subprocess.Popen([sys.executable,'-u','-m','btc15_v2_product.worker'],env=reader_env,stdin=subprocess.DEVNULL)
+    dashboard=subprocess.Popen([sys.executable,'-u',str(Path(__file__).resolve()),'--dashboard-child'],env=env,stdin=subprocess.DEVNULL)
+    from cockpit_candidate.server import CandidateHandler,CandidateServer
+    class Handler(CandidateHandler):
         def do_GET(self):
             if self.path not in ("/health", "/status"):
-                self.send_error(404);return
-            good = proc.poll() is None
-            value = dict(schema="BTC15_SHADOW_HEALTH_R1", running=good, **status)
+                return super().do_GET()
+            good = all(p.poll() is None for p in (proc,worker,dashboard))
+            value = dict(schema="BTC15_SHADOW_HEALTH_R1", running=good,
+                         worker_running=worker.poll() is None,dashboard_running=dashboard.poll() is None,
+                         build=env.get('RAILWAY_GIT_COMMIT_SHA'),**status)
             raw = json.dumps(value, separators=(",",":")).encode()
             self.send_response(200 if good else 503)
             self.send_header("Content-Type","application/json")
@@ -122,7 +141,10 @@ def parent():
         def log_message(self,*args):
             pass
     port = int(os.getenv("PORT", "8080"))
-    server = ThreadingHTTPServer(("0.0.0.0", port), Handler)
+    server = CandidateServer(("0.0.0.0", port),
+        'btc15-main-shadow-1s-brti-20261005-production.up.railway.app')
+    server.RequestHandlerClass=Handler
+    server.shadow_loopback=True
     t = threading.Thread(target=server.serve_forever, daemon=True, name="shadow-health")
     t.start()
     print("BTC15_SHADOW_TRIAL_BEGIN | " + json.dumps(dict(
@@ -132,6 +154,8 @@ def parent():
         temporary_root=True, detached_old_evidence=True,
         signal_only=True, orders=False)), flush=True)
     last_contract = None
+    from urllib.request import urlopen
+    route_counts=Counter()
     try:
         while time.time() < deadline and proc.poll() is None:
             time.sleep(SAMPLE_SECONDS)
@@ -159,6 +183,22 @@ def parent():
             status.update(state=state, samples=summary["samples"],
                           contracts=len(summary["contracts"]))
             report_line(dict(state=state,reason=reason,contract=contract), None)
+            # Exercise the actual public ladder route, including its original
+            # independent confirmation and lease checks, not the file alone.
+            for route in ('/ladders','/ladders/quotes'):
+                try:
+                    with urlopen('http://127.0.0.1:8765'+route,timeout=2) as response:
+                        body=json.loads(response.read(524289))
+                    route_counts[route+':'+str(body.get('status'))+':'+str(body.get('reason') or 'OK')]+=1
+                    if route=='/ladders':
+                        print('BTC15_SHADOW_DELIVERY | '+json.dumps(dict(
+                            at=now,status=body.get('status'),reason=body.get('reason'),
+                            contract=body.get('contract'),build=body.get('build'),
+                            published_ts=body.get('published_ts'),expires_at=body.get('expires_at'),
+                            journal_sequence=body.get('journal',{}).get('sequence'),
+                            signal_only=True,orders=False),separators=(',',':')),flush=True)
+                except Exception as exc:
+                    route_counts[route+':TRANSPORT:'+type(exc).__name__]+=1
         print("BTC15_SHADOW_TRIAL_END | " + json.dumps(dict(
             status="TIME_LIMIT" if time.time()>=deadline else "NATIVE_EXIT",
             child_code=proc.poll(), samples=summary["samples"],
@@ -167,16 +207,20 @@ def parent():
             no_journal_samples=summary["no_view"],
             contracts_seen=dict(summary["contracts"]), reasons=dict(summary["reasons"]),
             fully_covered_contracts="NOT_PROVEN_BY_SAMPLE_COUNT",
+            route_results=dict(route_counts),
+            journal_bytes=sum(p.stat().st_size for p in root.rglob('*') if p.is_file()),
+            ephemeral_data_bytes=sum(p.stat().st_size for p in Path('/data').rglob('*') if p.is_file()),
             signal_only=True, orders=False),separators=(",",":")),flush=True)
     finally:
-        if proc.poll() is None:
-            proc.send_signal(signal.SIGINT)
-            try:proc.wait(timeout=12)
-            except subprocess.TimeoutExpired:
-                proc.terminate()
-                try:proc.wait(timeout=5)
+        for process in (proc,worker,dashboard):
+            if process.poll() is None:
+                process.send_signal(signal.SIGINT)
+                try:process.wait(timeout=12)
                 except subprocess.TimeoutExpired:
-                    proc.kill();proc.wait()
+                    process.terminate()
+                    try:process.wait(timeout=5)
+                    except subprocess.TimeoutExpired:
+                        process.kill();process.wait()
         server.shutdown();server.server_close()
     return 0 if summary["samples"] and summary["current"] else 2
 
@@ -186,13 +230,14 @@ def main():
     group.add_argument("--preflight",action="store_true")
     group.add_argument("--run-shadow",action="store_true")
     group.add_argument("--native-child",action="store_true")
+    group.add_argument("--dashboard-child",action="store_true")
     args=parser.parse_args()
     if args.preflight:
         from btc15_v2_product.release import verify_files
         verify_files("main")
         print("BTC15_SHADOW_STATIC_PREFLIGHT_PASS: protected ladders intact; no orders or live reads",flush=True)
         return 0
-    return child() if args.native_child else parent()
+    return dashboard_child() if args.dashboard_child else child() if args.native_child else parent()
 
 if __name__=="__main__":
     raise SystemExit(main())
