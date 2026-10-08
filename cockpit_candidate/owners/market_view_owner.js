@@ -207,7 +207,7 @@
       schema:'BTC15_COCKPIT_MARKET_DISPLAY_R1',authority:'DISPLAY_ONLY',signal_only:true,orders:false,
       resolved_monotonic:performance.now(),view_epoch:viewEpoch,visibility:document.visibilityState,
       contract:latestState?.contract??null,
-      source:latestState?{contract:latestState.contract,generated_utc:latestState.generated_utc,source_timestamp_utc:latestState.source_timestamp_utc,timer:latestState.timer,target:latestState.market?.target}:null,
+      source:latestState?{contract:latestState.contract,generated_utc:latestState.generated_utc,source_timestamp_utc:latestState.source_timestamp_utc,timer:latestState.timer,target:latestState.market?.target,btc_price:latestState.market?.btc_price}:null,
       clock:{...clock},network_healthy:networkHealthy,clock_trusted:clockTrusted,require_new_generation:requireNewGeneration,poll_active:pollActive,
       reason:$('liveStatus')?.textContent??null,
       values:Object.fromEntries(ids.map(id=>[id,$(id)?.textContent??null])),

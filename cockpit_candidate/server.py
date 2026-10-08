@@ -36,6 +36,7 @@ _SOURCE_HEALTH_LAST = {}
 # (market). This host does not renew or interpret any of those source clocks.
 UPSTREAM_IO_TIMEOUT = 8.0
 ASSETS = MappingProxyType({
+    "/responsive.html": "text/html; charset=utf-8",
     "/index.html": "text/html; charset=utf-8",
     "/styles.css": "text/css; charset=utf-8",
     "/adapter.js": "text/javascript; charset=utf-8",
@@ -177,7 +178,7 @@ class CandidateHandler(BaseHTTPRequestHandler):
                 route != "/information" or not re.fullmatch("[0-9a-f]{32}", nonces[0])))):
             self.fail(400, "INVALID_INFORMATION_NONCE")
             return
-        if route in MAIN_PATHS:
+        if route in MAIN_PATHS or route == "/scalp/ladders":
             self.relay(route, nonces[0] if nonces else None)
         elif route in ASSETS:
             asset = ROOT / route[1:]
@@ -201,11 +202,14 @@ class CandidateHandler(BaseHTTPRequestHandler):
             headers[NONCE] = nonce
         # Direct TLS with certificate verification; no environment proxy,
         # credentials, redirects, configurable upstream or retry mechanism.
-        connection = (http.client.HTTPConnection('127.0.0.1', 8765, timeout=UPSTREAM_IO_TIMEOUT)
+        scalp = route == '/scalp/ladders'
+        upstream_route = '/ladders' if scalp else route
+        connection = (http.client.HTTPSConnection('v81-live-diagnostics-production.up.railway.app', timeout=UPSTREAM_IO_TIMEOUT) if scalp else
+                      http.client.HTTPConnection('127.0.0.1', 8765, timeout=UPSTREAM_IO_TIMEOUT)
                       if self.server.shadow_loopback else
                       http.client.HTTPSConnection(MAIN_HOST, timeout=UPSTREAM_IO_TIMEOUT))
         try:
-            connection.request("GET", route, headers=headers)
+            connection.request("GET", upstream_route, headers=headers)
             response = connection.getresponse()
             status = response.status
             body = response.read()

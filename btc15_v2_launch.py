@@ -24,10 +24,10 @@ def main():
     if os.getenv('BTC15_ENABLE_INFORMATION_EXPORT')!='1':raise ValueError('INFORMATION_EXPORT_OPT_IN_REQUIRED')
     if Path.cwd().resolve()!=ROOT:raise ValueError('REPOSITORY_WORKING_DIRECTORY_REQUIRED')
     import fcntl
-    from btc15_information_install_v1 import supervise
+    from btc15_v2_product.production import supervise
     from btc15_v2_product.installer import assemble
     with open('/tmp/btc15-two-clock.lock','a') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
-        return supervise(assemble(a.directory),worker_script=ROOT/'btc15_v2_product/worker.py')
+        return supervise(assemble(a.directory))
 
 if __name__=='__main__':raise SystemExit(main())

@@ -12,12 +12,12 @@
   "frozen_files": "Original lane-specific freeze manifest and verifier remain byte-identical and mandatory",
   "files_sha256": {
     "btc15_cohort_evidence_v1.py": "9812c23a6200bf31c2c5eb4e8f317fe32cfcafefeaa37d2a9b9a041967447d1a",
-    "btc15_v2_launch.py": "19c04f0f85d095ecce541b2d3b49e3749bb5ad2721c97dcfdfb5cac6e17be7a3",
+    "btc15_v2_launch.py": "6d038196f83620df5172c5f1fcd3c260bb8d0a8425a364fa83ec78ee978a0a1a",
     "btc15_v2_native.py": "a1cb9115a35da40ba93410cb72374d9068cf5501f5b2b9697bd500e5c49b9a7a",
     "btc15_v2_product/__init__.py": "9a7b49d9bd21863c017a87e4cddd6dc16c8d189a7c0e600f4dd9286c770f49c8",
     "btc15_v2_product/admin.py": "33912a9118ba5f5671cdf98848aed18f1601047b6de61892d7e939d410fb8f84",
     "btc15_v2_product/bootstrap.py": "281fd20174d95f3860859479f5fcbeaf447df859229658a1bd7eeac4150cb14e",
-    "btc15_v2_product/installer.py": "66d3b780bee805d380b962ec6325acd839e4ea243b82c1dd635dea2e6088ba39",
+    "btc15_v2_product/installer.py": "8d9e52eae3d1abc928490f49d3ad1c78e49be3dd51255bc07ff84fcdea170c62",
     "btc15_v2_product/journal.py": "91c6b3dffc37d9fffdbf798fbb822acf556d5b9460bb5f3055044cfb86c33efe",
     "btc15_v2_product/panel.js": "6219b6a2489bbce109542715233887126c205ecfde7aa2c6f49b86bbd14e2dbc",
     "btc15_v2_product/quote_transport.py": "48ff0785fb120c19ad2973f06ce18a4cb1922ec05067b34ae0e025eb075c8633",
@@ -45,7 +45,8 @@
     "btc15_v2_product/coverage_challenger_a.json": "c1667f4db62d619fe2a80584ae617ca0cf32af933b15405a67b486cb4db7b720",
     "btc15_quote_proof_offpath_v1.py": "b2b1f2ced06503d8f5a635cb0794e8712b780fb68c60d899267a307929a3a7b0",
     "btc15_v2_product/main_timing.py": "606862d49af2643c4059bc2887567aceb660a923d30c5b0f3a052d4bed2f4ef9",
-    "btc15_v2_product/delivery.py": "37aed0c019e800cd8cc141c9eb5cc454d67ab76c19d3efb3a7ad9580ba3ec8fd"
+    "btc15_v2_product/delivery.py": "37aed0c019e800cd8cc141c9eb5cc454d67ab76c19d3efb3a7ad9580ba3ec8fd",
+    "btc15_v2_product/production.py": "fef132617dd4f36e93a71beebe8897675194507947fe76746cbdd057c650ba4a"
   },
   "lane_protected_files": {
     "main": {

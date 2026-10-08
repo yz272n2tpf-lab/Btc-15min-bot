@@ -60,18 +60,24 @@
         const action=view.fields[name+'-action'],unusable=/unavailable/i.test(action),phase=laneState(lane);
         label(name+'-freshness',(lane?.eligible&&unusable?'UNAVAILABLE':phase)+(lane?.eligible?' · current publication':' · no current action authority'),lane?.eligible&&!unusable?'current':'unavailable');
         sourceReasons.push([name.toUpperCase()+' source explanation',view.fields[name+'-reason']]);
-        const reason=!lane?.eligible?(phase==='REFRESHING'?'Waiting for a fresh qualified publication.':'No usable source publication. See Details.'):
-          unusable?'Publication cannot support this action. See Details.':action==='PASS'?
-          (name==='final'?'No qualified FINAL call at this evaluation.':name==='early'?'No active EARLY entry at this evaluation.':'No published SCALP opportunity at this evaluation.'):
-          'Current native guidance. Source conditions are in Details.';
-        text(name+'-reason',reason,'Presentation summary; full native explanation in Details');
+        const reason=view.fields[name+'-reason'];
+        text(name+'-reason',reason,'Native qualification and lifecycle explanation');
+      }
+      const native=m?.eligible?m.current_payload:null;
+      const early=native?.early,opportunity=native?.early_opportunity;
+      text('early-context',early?'Model fair '+(early.fair*100).toFixed(1)+'% · entry limit 45¢ · '+(opportunity?.price_zone||opportunity?.status||'No manual opportunity'):'Awaiting a qualified EARLY evaluation');
+      const scalp=s?.eligible?s.current_payload:null;
+      for(const side of ['UP','DOWN']){
+        const current=view.scalpSide===side,scan=scalp?.diagnostics?.find(d=>d.side===side);
+        const explain=scan?(window.BTC15SnapshotAdapter.reasonLabels[scan.reason]||String(scan.reason).replaceAll('_',' ')):null;
+        text('scalp-'+side.toLowerCase()+'-status',current?'Published '+scalp.guidance+' · '+side:scalp?(explain?'No new '+side+' entry · '+explain:'No new '+side+' opportunity published'):'SCALP source refreshing; no current '+side+' guidance');
       }
       // Expired FINAL values never occupy the current outcome / lock fields.
       label('final-retained',!m?.eligible&&oldMain?.final?'LAST QUALIFIED · '+old.fields['final-direction']+' · '+old.fields['final-probability']+' · historical only; no current call':'','retained');
       label('early-retained',!m?.eligible&&old.fields['early-price']?'LAST QUALIFIED · historical prices in Details; no current management authority':'','retained');
       label('scalp-retained',!s?.eligible&&old.fields['scalp-price']?'LAST QUALIFIED · historical prices in Details; no current management authority':'','retained');
       label('quote-retained',!q?.eligible&&oldQuote?'LAST QUOTED · historical ASK in Details; no current buy quote':'','retained');
-      text('quote-status',q?.eligible?'CURRENT Kalshi ASK · cents per contract':laneState(q)+' · no executable buy quote','P2 quote eligibility');
+      text('quote-status',q?.eligible?'CURRENT Kalshi ASK · source '+stamp(q.current_payload.exchange_ts):laneState(q)+' · no executable buy quote','P2 quote eligibility');
       table('explanation-details',sourceReasons.concat([
         ['Historical FINAL publication',stamp(oldMain?.published_ts)],['Historical EARLY',old.fields['early-price']||'None'],
         ['Historical SCALP',old.fields['scalp-price']||'None'],['Historical quote source',stamp(oldQuote?.exchange_ts)],
@@ -95,7 +101,7 @@
         retainedRows.push([name.toUpperCase()+' selection',lane.selection],[name.toUpperCase()+' action eligibility',String(lane.eligible)],[name.toUpperCase()+' refresh reason',lane.reason_code||lane.reason_text],[name.toUpperCase()+' retained contract',r?.official_identity?.contract||'None'],[name.toUpperCase()+' retained publication',stamp(r?.published_ts)],[name.toUpperCase()+' retained expiry',stamp(r?.expires_at)],[name.toUpperCase()+' original client deadline (monotonic ms)',lane.lease?.deadline??'None'],[name.toUpperCase()+' request RTT (ms)',lane.lease?.rtt??'None'],[name.toUpperCase()+' retained origin',r?.origin?.origin_id||'None'],[name.toUpperCase()+' retained source diagnostics',JSON.stringify({health:r?.health,input_provenance:r?.input_provenance,handoff:r?.handoff,journal:r?.journal})],[name.toUpperCase()+' current publication diagnostics',JSON.stringify({health:d?.health,input_provenance:d?.input_provenance,handoff:d?.handoff,journal:d?.journal})]);
       }
       table('retained-details',retainedRows);
-      notes(view.gaps.filter(x=>/binding conflict/.test(x)).concat('Publication expiry is enforced by the unchanged source owners. PASS is an evaluated opportunity state, not a service outage. Candidate live acceptance remains pending.'));
+      notes(view.gaps.filter(x=>/binding conflict/.test(x)).concat('Publication expiry is enforced by the unchanged source owners. PASS is an evaluated opportunity state, not a service outage. Live production; source clocks and contract boundaries remain authoritative.'));
       // These calls repaint descriptive outputs only; no ladder rendering on a
       // market/information notification and no second cache, clock or poller.
       renderMarket(window.BTC15MarketViewOwner?.getResolvedView(),v);
@@ -148,9 +154,29 @@
   }
   function renderInformation(i){
     if(!connected||!i)return;
-    preserveDetails(()=>table('information-details',[
+    preserveDetails(()=>{
+      renderSourceInformation(i);
+      table('information-details',[
       ['Information status',i.labels.status],['Information assessment',i.labels.assessment],['Information selection',i.selection],['Information ticker',i.display?.ticker||'Unavailable'],['Information target (USD)',(i.current.assessment?i.delivery:i.retained_source)?.payload.target??'Unavailable'],['Information source reason',(i.current.assessment?i.delivery:i.retained_source)?.payload.reason||'Unavailable'],['Information original publication',stamp((i.current.assessment?i.delivery:i.retained_source)?.payload.published_ts)],['Information original display deadline',stamp((i.current.assessment?i.delivery:i.retained_source)?.payload.display_until)],['Information original expiry',stamp((i.current.assessment?i.delivery:i.retained_source)?.payload.expires_at)],['Information authority','Descriptive only; never native FINAL / EARLY / SCALP']
-    ]));
+    ]);});
+  }
+  function renderSourceInformation(i){
+    const v=window.BTC15LadderOwner?.getResolvedView(),identity=v?.identity;
+    const p=i?.delivery?.payload,a=i?.current?.assessment;
+    const qualified=!!a&&p?.ticker===identity?.contract&&p?.target===identity?.target&&finite(a.probability_up)&&finite(a.probability_down);
+    text('model-information',qualified?'UP '+(a.probability_up*100).toFixed(1)+'% · DOWN '+(a.probability_down*100).toFixed(1)+'% · '+String(a.protection_phase||'Phase unavailable').replaceAll('_',' '):'Model information refreshing; native guidance above retains its own qualification');
+    text('model-information-note',qualified?'CURRENT descriptive assessment · BRTI '+(a.brti_agrees?'agrees':'differs')+' · source '+stamp(a.brti_source_ts)+' · no additional action authority':'No current descriptive assessment; no entry or exit inferred');
+    const m=window.BTC15MarketViewOwner?.getResolvedView();
+    const marketCurrent=marketMatches(m,v)&&m.network_healthy&&m.lower?.qualified;
+    const now=qualified?p.checked_ts+(performance.now()-i.delivery.requestStartedMs)/1000:NaN;
+    const btcAge=now-p?.btc_source_ts,brtiAge=now-p?.brti_source_ts;
+    const money=x=>finite(x)?'$'+x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}):'Unavailable';
+    text('spot-price',qualified&&finite(btcAge)&&btcAge>=0&&btcAge<=10?money(p.btc_price):marketCurrent?money(m.source?.btc_price):'BTC spot refreshing');
+    text('spot-age',qualified&&finite(btcAge)&&btcAge>=0&&btcAge<=10?'BTC spot · source '+stamp(p.btc_source_ts)+' · '+btcAge.toFixed(1)+'s':marketCurrent?'BTC spot at market snapshot '+m.source.source_timestamp_utc:'No current BTC spot receipt');
+    const freshBrti=qualified&&finite(brtiAge)&&brtiAge>=0&&brtiAge<=5;
+    text('brti-latest',freshBrti?money(p.brti_value):m?.values?.btcPrice||'BRTI refreshing');
+    text('brti-latest-age',freshBrti?'BRTI · source '+stamp(p.brti_source_ts)+' · '+brtiAge.toFixed(1)+'s':m?.brti?.label||'No current BRTI receipt');
+    if(freshBrti)text('health-brti','CURRENT original BRTI receipt · '+brtiAge.toFixed(1)+'s','Information owner qualified original BRTI source timestamp');
   }
   function connectResolved(){
     if(disconnect)return disconnect;

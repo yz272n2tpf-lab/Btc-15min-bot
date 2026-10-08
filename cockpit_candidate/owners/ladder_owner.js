@@ -7,7 +7,7 @@
   // Removing the two P2 blocks reproduces that complete file byte for byte.
   // The unchanged legacy writer uses its original IDs, never cockpit action IDs.
   if(window.BTC15LadderOwner||window.btc15RenderLadders)throw Error('BTC15_LADDER_OWNER_ALREADY_LOADED');
-  const __V81_LADDERS_URL__='https://v81-live-diagnostics-production.up.railway.app/ladders';
+  const __V81_LADDERS_URL__='/scalp/ladders';
   const subscribers=new Set();let resolvedView=null;
   function freezeView(value){
     if(value&&typeof value==='object'){Object.values(value).forEach(freezeView);Object.freeze(value);}

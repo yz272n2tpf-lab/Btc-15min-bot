@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="en" data-btc15-mode="fixture">
+<html lang="en" data-btc15-mode="live">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://v81-live-diagnostics-production.up.railway.app/ladders; form-action 'none'; base-uri 'none'">
-  <title>BTC15 Operator Cockpit — Offline Candidate</title>
+  <title>BTC15 Operator Cockpit — Live Signal Dashboard</title>
   <link rel="stylesheet" href="styles.css">
   <style>
     /* Mount the original source SVG in the existing chart; preserve mobile sizing. */
@@ -26,9 +26,9 @@
   <main class="cockpit" id="cockpit">
     <header class="masthead" data-section="header">
       <div class="brand-row"><div class="brand"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 3v18M12 3v3m0 12v3M5 6h9a3 3 0 0 1 0 6H8m0 0h7a3 3 0 0 1 0 6H5"/></svg></span><h1>BTC15 <span>Operator Cockpit</span></h1></div><span class="safety">SIGNAL-ONLY / NO ORDERS</span></div>
-      <p class="review-notice" id="runtime-notice">OFFLINE CANDIDATE · RECORDED TEST OUTPUT · NOT LIVE</p>
+      <p class="review-notice" id="runtime-notice">LIVE PRODUCTION · CONNECTING TO ORIGINAL SOURCES</p>
       <div class="contract-bar"><div class="contract"><span class="eyebrow">CONTRACT WINDOW</span><strong id="contract-window">Unavailable</strong><span class="target">Fixed target <b id="target-price">—</b></span></div><div class="clock"><span class="eyebrow" id="clock-caption">REMAINING AT SNAPSHOT</span><strong id="remaining">—:—</strong><span id="guard" class="small"></span></div></div><p class="small" id="clock-status" hidden></p>
-    </header>
+    <div class="source-strip"><div><span class="eyebrow">BTC SPOT</span><strong id="spot-price">Connecting</strong><span id="spot-age" class="small">Awaiting original source timestamp</span></div><div><span class="eyebrow">BRTI REFERENCE</span><strong id="brti-latest">Connecting</strong><span id="brti-latest-age" class="small">Awaiting original source timestamp</span></div></div></header>
 
     <section class="card final-card" aria-labelledby="final-heading" data-section="final">
       <h2 id="final-heading"><span class="section-index">01</span> FINAL <span class="section-caption">Contract outcome</span></h2>
@@ -41,9 +41,16 @@
       <p class="small quote-status" id="quote-status"></p><p class="small" id="quote-retained" hidden></p>
     </section>
 
+    <section class="card chart-card" aria-labelledby="chart-heading" data-section="chart">
+      <h2 id="chart-heading"><span class="section-index">04</span> BRTI <span class="section-caption">Price history</span></h2>
+      <div class="chart-top"><div><strong id="btc-price" class="btc-price">—</strong><span id="btc-timestamp" class="small">Price timestamp unavailable</span></div><div class="timeframes" role="group" aria-label="Chart timeframe"><button type="button" class="selected" aria-pressed="true" id="timeframe">15m</button></div></div>
+      <div class="chart-surface" id="chart-surface"><div class="chart-empty"><span class="chart-icon" aria-hidden="true">⌁</span><strong>Waiting for BTC history</strong><p>Waiting for the current contract’s genuine BRTI history.</p></div></div>
+      <p class="small" id="chart-note">BRTI reference history · 15-minute view · history unavailable</p>
+    </section>
+
     <section class="card ladder-card" aria-labelledby="early-heading" data-section="early">
       <h2 id="early-heading"><span class="section-index">02</span> EARLY <span id="early-direction" class="section-caption">Direction unavailable</span></h2>
-      <div class="ladder-guidance"><p id="early-freshness" class="small" hidden></p><strong id="early-action" class="action">Action unavailable</strong><p id="early-reason" class="reason">Authoritative guidance is unavailable.</p><p id="early-price" class="current-price"></p><p id="early-retained" class="small" hidden></p></div>
+      <div class="ladder-guidance"><p id="early-freshness" class="small" hidden></p><strong id="early-action" class="action">Action unavailable</strong><p id="early-reason" class="reason">Authoritative guidance is unavailable.</p><p id="early-price" class="current-price"></p><p id="early-context" class="small">Awaiting EARLY evaluation</p><p id="early-retained" class="small" hidden></p></div>
       <ol class="ladder" id="early-ladder" aria-label="EARLY five-rung ladder">
         <li data-rung="entry"><span class="rung-num">1</span><strong>Entry</strong><span class="rung-value" id="early-entry">—</span></li>
         <li data-rung="hold"><span class="rung-num">2</span><strong>Hold</strong><span class="rung-value" id="early-hold">—</span></li>
@@ -68,16 +75,9 @@
       <p class="mapping-note">Rows follow the published SCALP lifecycle. Exit prices are observed trigger bids, not fills. A blank direction has no published opportunity.</p>
     </section>
 
-    <section class="card chart-card" aria-labelledby="chart-heading" data-section="chart">
-      <h2 id="chart-heading"><span class="section-index">04</span> BTC <span class="section-caption">Price history</span></h2>
-      <div class="chart-top"><div><strong id="btc-price" class="btc-price">—</strong><span id="btc-timestamp" class="small">Price timestamp unavailable</span></div><div class="timeframes" role="group" aria-label="Chart timeframe"><button type="button" class="selected" aria-pressed="true" id="timeframe">15m</button></div></div>
-      <div class="chart-surface" id="chart-surface"><div class="chart-empty"><span class="chart-icon" aria-hidden="true">⌁</span><strong>Waiting for BTC history</strong><p>The protected chart history is not connected in this candidate.</p></div></div>
-      <p class="small" id="chart-note">BRTI reference history · 15-minute view · history unavailable</p>
-    </section>
-
     <div class="context-grid">
       <section class="card compact-card" aria-labelledby="health-heading" data-section="health"><h2 id="health-heading">BOT HEALTH</h2><strong id="health-status" class="status-line">Overall status unavailable</strong><dl><div><dt>Service uptime</dt><dd>Not independently monitored</dd></div><div><dt>MAIN publication</dt><dd id="health-main">Unavailable</dd></div><div><dt>SCALP publication</dt><dd id="health-scalp">Unavailable</dd></div><div><dt>Last reported worker / journal</dt><dd id="health-workers">Unavailable</dd></div><div><dt>Continuity</dt><dd id="health-continuity">Unavailable</dd></div><div><dt>Kalshi quotes</dt><dd id="health-quotes">Unavailable</dd></div><div><dt>BRTI true source age</dt><dd id="health-brti">Unverified</dd></div></dl><p id="health-at" class="small"></p></section>
-      <section class="card compact-card" aria-labelledby="context-heading" data-section="context"><h2 id="context-heading">MARKET CONTEXT</h2><dl><div><dt>Evidence Score</dt><dd id="evidence-score">Unavailable</dd></div><div><dt>Flip Risk</dt><dd id="flip-risk">Unavailable</dd></div><div><dt>Market Momentum</dt><dd id="market-momentum">Unavailable</dd></div></dl><p class="small" id="context-status">Source context only; no additional action authority.</p></section>
+      <section class="card compact-card" aria-labelledby="context-heading" data-section="context"><h2 id="context-heading">MARKET CONTEXT</h2><dl><div><dt>Evidence Score</dt><dd id="evidence-score">Unavailable</dd></div><div><dt>Flip Risk</dt><dd id="flip-risk">Unavailable</dd></div><div><dt>Market Momentum</dt><dd id="market-momentum">Unavailable</dd></div></dl><p id="model-information" class="model-information">Model information connecting</p><p id="model-information-note" class="small"></p><div class="indicator-row"><div><span>RSI · 1m</span><strong class="indicator-unavailable">Refreshing</strong></div><div><span>MACD / signal / histogram</span><strong class="indicator-unavailable">Refreshing</strong></div><div><span>Completed 1m volume</span><strong class="indicator-unavailable">Refreshing</strong></div></div><p class="small" id="context-status">Source context only; no additional action authority.</p></section>
     </div>
 
     <details class="card details" id="details" data-section="details"><summary><span>Details</span><span class="small">Provenance & diagnostics <span class="chevron" aria-hidden="true">⌄</span></span></summary><div class="details-content">
@@ -104,7 +104,7 @@
   (() => {
     'use strict';
     // P5 may provide these fixed MAIN paths on this origin. No relay is implemented here.
-    window.BTC15CockpitConnectionConfig=Object.freeze({mainPaths:Object.freeze(['/ladders','/ladders/quotes','/ladders/indicators','/information','/dashboard_state.json']),scalp:'https://v81-live-diagnostics-production.up.railway.app/ladders'});
+    window.BTC15CockpitConnectionConfig=Object.freeze({mainPaths:Object.freeze(['/ladders','/ladders/quotes','/ladders/indicators','/information','/dashboard_state.json']),scalp:'/scalp/ladders'});
     const mode=new URLSearchParams(location.search).get('mode')||'live';
     document.documentElement.dataset.btc15Mode=mode;
     function load(source,inline){return new Promise((resolve,reject)=>{const script=document.createElement('script');script.async=false;if(source){script.src=source;script.onload=resolve;script.onerror=()=>reject(Error('Candidate asset unavailable'));}else script.textContent=inline;document.body.append(script);if(!source)resolve();});}
@@ -129,8 +129,8 @@
         for(const script of document.getElementById('fixture-boot').content.querySelectorAll('script'))await load(script.getAttribute('src'),script.textContent);
         return;
       }
-      document.title='BTC15 Operator Cockpit — Read-only Candidate';
-      document.getElementById('runtime-notice').textContent='READ-ONLY SOURCE BINDING · CANDIDATE UNDER REVIEW';
+      document.title='BTC15 Operator Cockpit — Live Signal Dashboard';
+      document.getElementById('runtime-notice').textContent='LIVE PRODUCTION · CONNECTING TO ORIGINAL SOURCES';
       document.getElementById('clock-caption').textContent='REMAINING';
       document.querySelector('.scenario-label').hidden=true;document.getElementById('scenario-description').hidden=true;
       document.getElementById('mode-note').textContent='Source values retain their original identity and expiry. Retained information does not authorize a new action. SIGNAL-ONLY / NO ORDERS.';

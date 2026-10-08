@@ -101,6 +101,8 @@ def assemble(directory):
         '<p id="v2QuoteClock" role="status">WAIT — timestamped quote refresh pending</p>\n<script src="/ladders/panel.js"></script>')
     path.write_text(html)
     server=d/'BTC15_DASHBOARD_LIVE_SERVER_V1.py'
+    replace_once(server,"        print('DASHBOARD HTTP | ' + (fmt % args), flush=True)",
+        "        if len(args)>1 and str(args[1])=='200':return\n        print('DASHBOARD HTTP | ' + (fmt % args), flush=True)")
     replace_once(server,'from btc15_ladder_routes_v1 import serve as serve_ladders','from btc15_v2_product.routes import serve as serve_ladders')
     wrapper=d/'btc15_run_with_rescue_v2_shadow_v1.py'
     replace_once(wrapper,str(ROOT/'btc15_information_native_offpath_candidate.py'),str(ROOT/'btc15_v2_native.py'))
