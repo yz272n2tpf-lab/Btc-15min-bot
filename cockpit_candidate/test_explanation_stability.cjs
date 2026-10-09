@@ -53,7 +53,7 @@ render();
 for(const name of ['final','early','scalp']){
   assert.equal(node(name+'-reason').textContent,original[name+'-reason']);
   assert.equal(node(name+'-reason').dataset.displayState,'retained');
-  assert.match(node(name+'-freshness').textContent,/no current action authority.*LAST QUALIFIED.*SOURCE_EXPIRED/);
+  assert.match(node(name+'-freshness').textContent,/no current action authority\nLAST QUALIFIED.*historical/);
   assert.equal(node(name+'-action').textContent,'Action unavailable');
 }
 for(const p of ['early','scalp-up','scalp-down'])assert.ok(node(p+'-ladder').children.every(e=>!e.attributes['aria-current']));

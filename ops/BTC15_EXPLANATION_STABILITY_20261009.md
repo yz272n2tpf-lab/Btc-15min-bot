@@ -67,4 +67,18 @@ Re-pin the cockpit to `24a746dbc7aa8a0e17c821d5952f5751bb64e764` on
 `2e3003a1-c9f1-4d10-a188-10689cf0bfb7`. Do not apply unrelated staged changes.
 No MAIN, SCALP, BRTI or storage rollback is needed for this presentation repair.
 
-Production deployment and real-browser result will be appended after release.
+## Live follow-up
+
+First release `1e0dd2ceeb0d71da062cd81e776d9d605bf6fb7a`, deployment
+`33389911-1532-4b58-b866-74ab92a44cf8`, confirmed stable trading reasons
+through an actual QUOTE_SOURCE_UNAVAILABLE interval and recovery. Real FINAL
+and EARLY conditions changed immediately with new publications. The mobile
+browser then exposed a remaining vertical jump: multi-line refresh labels and
+inserted historical-price paragraphs moved unchanged explanations.
+
+The follow-up keeps classification in a reserved two-line status area, normalizes
+the equivalent pending/expired delivery wording, and keeps historical prices in
+Details. It reserves space for the existing source header and EARLY context.
+This small `styles.css` adjustment accompanies the data-ownership correction;
+no warning, reason, or authority deadline is delayed. Final production and
+real-browser results will be appended after release.

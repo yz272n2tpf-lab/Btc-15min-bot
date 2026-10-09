@@ -71,7 +71,8 @@
         const retained=!lane?.eligible&&!!history(lane,identity)&&!/unavailable/i.test(old.fields[name+'-action']);
         const reason=(retained?old:view).fields[name+'-reason'];
         const deliveryReason=lane?.reason_code||lane?.reason_text;
-        label(name+'-freshness',(lane?.eligible&&unusable?'UNAVAILABLE':phase)+(lane?.eligible?' · current publication':' · no current action authority')+(retained?' · explanation below is LAST QUALIFIED (historical)':'')+(!lane?.eligible&&deliveryReason?' · '+deliveryReason:''),lane?.eligible&&!unusable?'current':'unavailable');
+        const failure=lane?.reason_code&&lane.reason_code!=='SOURCE_EXPIRED'?String(deliveryReason).replaceAll('_',' '):null;
+        label(name+'-freshness',(lane?.eligible&&unusable?'UNAVAILABLE':phase)+(lane?.eligible?' · current publication':failure?' · '+failure:' · no current action authority')+(retained?'\nLAST QUALIFIED explanation · historical':''),lane?.eligible&&!unusable?'current':'unavailable');
         sourceReasons.push([name.toUpperCase()+' explanation provenance',retained?'Last qualified; historical only':'Current native projection'],[name.toUpperCase()+' source explanation',view.fields[name+'-reason']]);
         text(name+'-reason',reason,retained?'Last qualified native explanation; historical only':'Native qualification and lifecycle explanation');
         node(name+'-reason').dataset.displayState=retained?'retained':lane?.eligible&&!unusable?'current':'unavailable';
@@ -86,14 +87,12 @@
         const explain=scan?(window.BTC15SnapshotAdapter.reasonLabels[scan.reason]||String(scan.reason).replaceAll('_',' ')):null;
         text('scalp-'+side.toLowerCase()+'-status',(scalpHistorical?'LAST QUALIFIED · historical only · ':'')+(current?'Published '+scalp.guidance+' · '+side:scalp?(explain?'No new '+side+' entry · '+explain:'No new '+side+' opportunity published'):'SCALP source refreshing; no current '+side+' guidance'));
       }
-      // Expired FINAL values never occupy the current outcome / lock fields.
-      label('final-retained',!m?.eligible&&oldMain?.final?'LAST QUALIFIED · '+old.fields['final-direction']+' · '+old.fields['final-probability']+' · historical only; no current call':'','retained');
-      label('early-retained',!m?.eligible&&old.fields['early-price']?'LAST QUALIFIED · historical prices in Details; no current management authority':'','retained');
-      label('scalp-retained',!s?.eligible&&old.fields['scalp-price']?'LAST QUALIFIED · historical prices in Details; no current management authority':'','retained');
-      label('quote-retained',!q?.eligible&&oldQuote?'LAST QUOTED · historical ASK in Details; no current buy quote':'','retained');
+      // History is in Details; inserting/removing duplicate history paragraphs
+      // above the guidance moved otherwise unchanged reasons during every gap.
+      for(const name of ['final','early','scalp','quote'])label(name+'-retained','','retained');
       text('quote-status',q?.eligible?'CURRENT Kalshi ASK · source '+stamp(q.current_payload.exchange_ts):laneState(q)+' · no executable buy quote','P2 quote eligibility');
       table('explanation-details',sourceReasons.concat([
-        ['Historical FINAL publication',stamp(oldMain?.published_ts)],['Historical EARLY',old.fields['early-price']||'None'],
+        ['Historical FINAL publication',stamp(oldMain?.published_ts)],['Historical FINAL outcome',oldMain?.final?old.fields['final-direction']+' · '+old.fields['final-probability']+' · no current call':'None'],['Historical EARLY',old.fields['early-price']||'None'],
         ['Historical SCALP',old.fields['scalp-price']||'None'],['Historical quote source',stamp(oldQuote?.exchange_ts)],
         ['Historical UP / DOWN ASK',oldQuote?old.fields['up-buy']+' / '+old.fields['down-buy']:'None']
       ]));

@@ -15,9 +15,13 @@
 .masthead,.context-grid,.details{grid-column:1/-1}.card{margin:0}.masthead{padding-bottom:2px}
 .source-strip{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
 .source-strip strong{font-size:1.45rem;font-variant-numeric:tabular-nums}.source-strip .small{font-size:.68rem}
-#final-freshness,#early-freshness,#scalp-freshness{min-height:1.5em}
+#final-freshness,#early-freshness,#scalp-freshness{min-height:3em;white-space:pre-line}
 #final-reason,#early-reason,#scalp-reason{min-height:3em}.history-slot:not([hidden]){margin:6px 0}
 #early-price,#scalp-price{min-height:1.5em}.ladder-guidance{min-height:0}
+/* Source classification may change immediately without moving its explanation. */
+#early-context{min-height:4.5em}
+#runtime-notice{min-height:3em}
+#spot-age,#brti-latest-age{min-height:3em}
 .scalp-directions{gap:12px}.scalp-directions{grid-template-columns:1fr}
 .scalp-direction h3{min-height:0}.scalp-direction h3{flex-direction:row;justify-content:space-between;min-height:0}
 .ladder li,.scalp-direction .ladder li{padding:9px 12px;min-height:44px}
