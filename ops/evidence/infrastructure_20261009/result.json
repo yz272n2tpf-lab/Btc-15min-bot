@@ -1,0 +1,237 @@
+{
+  "verified_at": "2026-10-09T02:57:45.867Z",
+  "outcome": "MAIN repair deployed; archive approval required to reclaim existing protected evidence",
+  "project": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+  "environment": "61775c5d-c583-4dfc-af41-f25578856fd9",
+  "deployments": {
+    "MAIN": {
+      "id": "2d1ca61c-51b5-415d-8cca-02ed86a7cb69",
+      "commit": "b8bd240b4e27a949e7db0388b8fc9bae24d83ef5",
+      "status": "SUCCESS"
+    },
+    "COCKPIT": {
+      "id": "b7fea289-e95c-4c04-b4a7-fb23ea1cfdd8",
+      "commit": "7a0b661291743222c1f6ac30df8b42e274fd6c73",
+      "status": "SUCCESS",
+      "changed": false
+    },
+    "SCALP": {
+      "id": "d216ebb3-c9e3-444f-bc1c-b88dff3afd2b",
+      "commit": "f9ef31a03662af74b0aa1bb0640f8eb49523fdb8",
+      "status": "SUCCESS",
+      "changed": false
+    }
+  },
+  "main_manifest_sha256": "5b774e3c393d7ed785da19a8d52ced3548eda1275fb9c4115c7c16387d43b813",
+  "production_http_sample": {
+    "first": "2026-10-09T02:54:56.402732616Z",
+    "last": "2026-10-09T02:55:47.123060741Z",
+    "requests": 501,
+    "status_counts": {
+      "200": 501
+    },
+    "max_duration_ms": 1023,
+    "limited_sample_not_uptime_guarantee": true
+  },
+  "railway_disk_used_gb": 8.710774784,
+  "volume_capacity_gb": 10,
+  "filesystem_snapshot": {
+    "schema": "BTC15_PRODUCTION_STORAGE_R1",
+    "at": 1791514460.3569622,
+    "used_bytes": 7962288128,
+    "free_bytes": 1414885376,
+    "total_bytes": 9393950720,
+    "file_bytes": 7886879606,
+    "file_count": 21359,
+    "largest": [
+      [
+        2636133318,
+        "btc15_information_frames_v1.jsonl"
+      ],
+      [
+        918448535,
+        "btc15_qualified_forward_v1.csv"
+      ],
+      [
+        785122323,
+        "kalshi_subminute_unified_v1_1.csv"
+      ],
+      [
+        536868936,
+        "btc15_ground_zero/ground-zero-main-47ad682f541345db9d7ff7f0c55845e8/packets.jsonl.gz"
+      ],
+      [
+        450938384,
+        "btc15_ground_zero/ground-zero-main-449ee10fa77445adb9e36c366b463607/packets.jsonl.gz"
+      ],
+      [
+        293523880,
+        "kalshi_fair_input_frames_v1.jsonl"
+      ],
+      [
+        252724544,
+        "kalshi_scalp_shadow_snapshots_v1.csv"
+      ],
+      [
+        181666807,
+        "btc15_cohort_native_v1.jsonl"
+      ],
+      [
+        140017480,
+        "btc15-evidence-pre-two-clock-pr37-20260925.zip"
+      ],
+      [
+        130554173,
+        "kalshi_early_conf_shadow_v1_2.csv"
+      ],
+      [
+        114212864,
+        "btc15_v2_product/BTC15_INTEGRATED_OFFLINE_20261006/5b68a2fc-786d-4cce-8b3d-c03c1d48f058/main.admin.sqlite3"
+      ],
+      [
+        113806328,
+        "btc15_ground_zero/ground-zero-main-7b4dd91126974c838b9ee1934a977239/packets.jsonl.gz"
+      ],
+      [
+        110023470,
+        "btc15-evidence-pre-source-v2-20260923.zip"
+      ],
+      [
+        91418151,
+        "kalshi_direct_brti_parity_v1.csv"
+      ],
+      [
+        90439680,
+        "btc15_v2_product/BTC15_V2_PRODUCT_20261004_R1/960c870a-f7f6-41bb-91c4-c261b038a0b9/main.admin.sqlite3"
+      ],
+      [
+        82518016,
+        "btc15_v2_product/BTC15_V2_PRODUCT_20261004_R1/f7cc0a94-e9ab-4e43-9eea-90aba30a7027/main.admin.sqlite3"
+      ],
+      [
+        80898891,
+        "kalshi_app_parity_shadow_v1.csv"
+      ],
+      [
+        68908250,
+        "btc15_ground_zero/ground-zero-main-f4425e159d3f4dd39422c8dfdf44f3f6/packets.jsonl.gz"
+      ],
+      [
+        62763008,
+        "btc15_v2_product/BTC15_INTEGRATED_OFFLINE_20261006/5b68a2fc-786d-4cce-8b3d-c03c1d48f058/main.sqlite3"
+      ],
+      [
+        57336402,
+        "kalshi_scalp_shadow_events_v1.csv"
+      ],
+      [
+        45240725,
+        "btc15_v2_product/BTC15_INTEGRATED_OFFLINE_20261006/5b68a2fc-786d-4cce-8b3d-c03c1d48f058/native-cohort.jsonl"
+      ],
+      [
+        43117376,
+        "btc15_ground_zero/ground-zero-main-58677b3997184968832e5378dae30756/packets.jsonl.gz"
+      ],
+      [
+        37416960,
+        "btc15_v2_product/BTC15_INTEGRATED_OFFLINE_20261006/8072b7bf-289e-40c1-9014-9631a0f1979a/main.admin.sqlite3"
+      ],
+      [
+        34474127,
+        "btc15_ground_zero/ground-zero-main-4563c7eab70d4082af262e2667b325cf/packets.jsonl.gz"
+      ]
+    ],
+    "directories": [
+      [
+        5720114571,
+        "(root files)"
+      ],
+      [
+        1296508739,
+        "btc15_ground_zero"
+      ],
+      [
+        836613793,
+        "btc15_v2_product"
+      ],
+      [
+        25136878,
+        "btc15_ladders_v2"
+      ],
+      [
+        8505625,
+        "integrated_quote_proofs"
+      ]
+    ],
+    "capacity_status": "ARCHIVE_APPROVAL_NEEDED",
+    "retention": "PRESERVE_ALL_EXISTING_EVIDENCE; COMPRESS_NEW_INFORMATION_ONLY",
+    "signal_only": true,
+    "orders": false,
+    "processes": [
+      {
+        "owner": "native",
+        "pid": 49,
+        "alive": true,
+        "open_volume_writes": [
+          "/data/btc15_v2_product/BTC15_INTEGRATED_OFFLINE_20261006/2d1ca61c-51b5-415d-8cca-02ed86a7cb69/main.admin.sqlite3",
+          "/data/btc15_v2_product/BTC15_INTEGRATED_OFFLINE_20261006/2d1ca61c-51b5-415d-8cca-02ed86a7cb69/main.admin.sqlite3-shm",
+          "/data/btc15_v2_product/BTC15_INTEGRATED_OFFLINE_20261006/2d1ca61c-51b5-415d-8cca-02ed86a7cb69/main.admin.sqlite3-wal",
+          "/data/btc15_v2_product/BTC15_INTEGRATED_OFFLINE_20261006/2d1ca61c-51b5-415d-8cca-02ed86a7cb69/main.sqlite3",
+          "/data/btc15_v2_product/BTC15_INTEGRATED_OFFLINE_20261006/2d1ca61c-51b5-415d-8cca-02ed86a7cb69/main.sqlite3-shm",
+          "/data/btc15_v2_product/BTC15_INTEGRATED_OFFLINE_20261006/2d1ca61c-51b5-415d-8cca-02ed86a7cb69/main.sqlite3-wal"
+        ]
+      },
+      {
+        "owner": "dashboard",
+        "pid": 50,
+        "alive": true,
+        "open_volume_writes": []
+      },
+      {
+        "owner": "information",
+        "pid": 51,
+        "alive": true,
+        "open_volume_writes": []
+      }
+    ]
+  },
+  "new_information_first_write": {
+    "path": "/data/btc15_information_frames_v1.jsonl.segments/20261009-15893a2c187f45e3b988e9a25f796fbc-7a99bcc2.jsonl.gz",
+    "records": 1,
+    "raw_bytes": 1798,
+    "stored_bytes": 917,
+    "historical_files_untouched": true,
+    "signal_only": true,
+    "orders": false
+  },
+  "observed_source_expiry": {
+    "at": "2026-10-09T02:56:18.278888193Z",
+    "reason": "SOURCE_EXPIRED_IN_TRANSIT",
+    "http": 200,
+    "redacted": true
+  },
+  "dashboard": {
+    "url": "https://btc15-operator-cockpit-readonly-production.up.railway.app/?mode=live",
+    "observed_contract": "KXBTC15M-26OCT082300-00",
+    "final": "Current UP 90.3%, PASS: distance/range gate not met",
+    "early": "Native WATCH value evaluation; no new origin manufactured",
+    "scalp": "Native UP WATCH/CAUTION with existing 96.8-cent origin and independent DOWN diagnostic",
+    "application_javascript_errors_observed": 0,
+    "journal_queue": 0,
+    "journal_drops": 0,
+    "stable_explanation_regression": "PASS",
+    "source_expiry_still_fail_closed": true
+  },
+  "tests": {
+    "focused_checks": "Passed after restoring the unchanged frozen test file; original freeze verification passed for both lanes",
+    "deployed_tree": "55475cf189aafde9beda7cd4f5fa8ac86fb9ef80"
+  },
+  "protected_strategy_files_changed": false,
+  "historical_data_deleted": false,
+  "historical_data_archived": false,
+  "paid_capacity_changed": false,
+  "new_services_created": false,
+  "signal_only": true,
+  "orders": false,
+  "remaining": "Protected historical files occupy most of the volume. No material existing space was reclaimed. Lossless archive approval required; new compression reduces growth but does not provide unlimited retention."
+}
