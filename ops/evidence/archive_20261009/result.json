@@ -1,0 +1,228 @@
+{
+  "schema": "BTC15_ARCHIVE_PRODUCTION_RESULT_20261009",
+  "archive": {
+    "schema": "BTC15_LEGACY_ARCHIVE_20261009",
+    "status": "COMPLETED",
+    "source": "/data/btc15_information_frames_v1.jsonl",
+    "archive": "/data/btc15_information_frames_v1.jsonl.gz",
+    "reserve_bytes": 1073741824,
+    "deployment": "a73609f5-4d62-4f97-8513-17b0566d6811",
+    "build": "6cc77cf1c0f8a30db52e3538614bc9c95662516c",
+    "source_identity": [
+      28370624,
+      34,
+      2636133318,
+      1791514454644027000,
+      1791514454644027000
+    ],
+    "original_allocated_bytes": 2636148736,
+    "free_before_bytes": 1387278336,
+    "bytes": 2636133318,
+    "records": 1460029,
+    "sha256": "da4050b69b35f479aa7264bf145f5de6e350f303498556de959e9f1abfbcb1a8",
+    "compressed_bytes": 208849896,
+    "compressed_sha256": "946506518c1c9d71f2bfc5e44199b6ed7afd36ce7bb089812516488a3910d203",
+    "free_after_measurement_bytes": 1383890944,
+    "required_free_bytes": 1349700584,
+    "decompression": {
+      "bytes": 2636133318,
+      "records": 1460029,
+      "sha256": "da4050b69b35f479aa7264bf145f5de6e350f303498556de959e9f1abfbcb1a8"
+    },
+    "reader": {
+      "bytes": 2636133318,
+      "records": 1460029,
+      "sha256": "da4050b69b35f479aa7264bf145f5de6e350f303498556de959e9f1abfbcb1a8"
+    },
+    "archive_allocated_bytes": 208855040,
+    "fallback_reader": {
+      "bytes": 2636133318,
+      "records": 1460029,
+      "sha256": "da4050b69b35f479aa7264bf145f5de6e350f303498556de959e9f1abfbcb1a8"
+    },
+    "free_after_bytes": 3806130176,
+    "file_bytes_reclaimed": 2427283422,
+    "allocated_bytes_reclaimed": 2427293696,
+    "completed_at": 1791517103.7155693
+  },
+  "health": {
+    "checked_at": 1791517148.503007,
+    "endpoints": [
+      {
+        "name": "main_health",
+        "url": "https://btc-15min-bot-production.up.railway.app/health",
+        "http": 200,
+        "ok": true,
+        "status": null,
+        "reason": null,
+        "build": null,
+        "contract": null,
+        "final": null,
+        "early": null,
+        "origin_id": null,
+        "journal": null,
+        "published_ts": null,
+        "orders": null,
+        "signal_only": null
+      },
+      {
+        "name": "main_ladders",
+        "url": "https://btc-15min-bot-production.up.railway.app/ladders",
+        "http": 200,
+        "ok": null,
+        "status": "AVAILABLE",
+        "reason": null,
+        "build": "6cc77cf1c0f8a30db52e3538614bc9c95662516c",
+        "contract": "KXBTC15M-26OCT082345-45",
+        "final": "PASS",
+        "early": "PROTECT",
+        "origin_id": "f49b0010bac27ed87c93bbe0db6bdce14a5d97e488ecf0112ea74277fecea8a2",
+        "journal": {
+          "denominator": "contracts",
+          "drops": 0,
+          "max_records": 300000,
+          "queue_depth": 0,
+          "quiet_means": "OBSERVED_WITHOUT_SIGNAL; inspect missing flag",
+          "retained_from_sequence": 1,
+          "retention_days": 30,
+          "schema": "BTC15_LADDER_JOURNAL_V1",
+          "sequence": 77,
+          "settlement": "OFFICIAL_KALSHI_FINALIZED_ONLY",
+          "written": 77
+        },
+        "published_ts": 1791517151.6211188,
+        "orders": false,
+        "signal_only": true
+      },
+      {
+        "name": "main_information",
+        "url": "https://btc-15min-bot-production.up.railway.app/information",
+        "http": 200,
+        "ok": null,
+        "status": "AVAILABLE",
+        "reason": "QUALIFIED_INFORMATION_ONLY",
+        "build": null,
+        "contract": "KXBTC15M-26OCT082345-45",
+        "final": null,
+        "early": null,
+        "origin_id": null,
+        "journal": null,
+        "published_ts": 1791517151.728377,
+        "orders": false,
+        "signal_only": true
+      },
+      {
+        "name": "cockpit_information",
+        "url": "https://btc15-operator-cockpit-readonly-production.up.railway.app/information",
+        "http": 200,
+        "ok": null,
+        "status": "AVAILABLE",
+        "reason": "QUALIFIED_INFORMATION_ONLY",
+        "build": null,
+        "contract": "KXBTC15M-26OCT082345-45",
+        "final": null,
+        "early": null,
+        "origin_id": null,
+        "journal": null,
+        "published_ts": 1791517152.0241237,
+        "orders": false,
+        "signal_only": true
+      },
+      {
+        "name": "cockpit_main",
+        "url": "https://btc15-operator-cockpit-readonly-production.up.railway.app/ladders",
+        "http": 200,
+        "ok": null,
+        "status": "AVAILABLE",
+        "reason": null,
+        "build": "6cc77cf1c0f8a30db52e3538614bc9c95662516c",
+        "contract": "KXBTC15M-26OCT082345-45",
+        "final": "PASS",
+        "early": "PROTECT",
+        "origin_id": "f49b0010bac27ed87c93bbe0db6bdce14a5d97e488ecf0112ea74277fecea8a2",
+        "journal": {
+          "denominator": "contracts",
+          "drops": 0,
+          "max_records": 300000,
+          "queue_depth": 0,
+          "quiet_means": "OBSERVED_WITHOUT_SIGNAL; inspect missing flag",
+          "retained_from_sequence": 1,
+          "retention_days": 30,
+          "schema": "BTC15_LADDER_JOURNAL_V1",
+          "sequence": 77,
+          "settlement": "OFFICIAL_KALSHI_FINALIZED_ONLY",
+          "written": 77
+        },
+        "published_ts": 1791517151.6211188,
+        "orders": false,
+        "signal_only": true
+      },
+      {
+        "name": "cockpit_scalp",
+        "url": "https://btc15-operator-cockpit-readonly-production.up.railway.app/scalp/ladders",
+        "http": 200,
+        "ok": null,
+        "status": "AVAILABLE",
+        "reason": null,
+        "build": "f9ef31a03662af74b0aa1bb0640f8eb49523fdb8",
+        "contract": "KXBTC15M-26OCT082345-45",
+        "final": null,
+        "early": null,
+        "origin_id": "3667d8fde393d7d570acc15d8140c962575d309b62ac26cc103aa287172c4595",
+        "journal": {
+          "denominator": "contracts",
+          "drops": 0,
+          "max_records": 300000,
+          "queue_depth": 0,
+          "quiet_means": "OBSERVED_WITHOUT_SIGNAL; inspect missing flag",
+          "retained_from_sequence": 1,
+          "retention_days": 30,
+          "schema": "BTC15_LADDER_JOURNAL_V1",
+          "sequence": 10111,
+          "settlement": "OFFICIAL_KALSHI_FINALIZED_ONLY",
+          "written": 10111
+        },
+        "published_ts": 1791517151.8129706,
+        "orders": false,
+        "signal_only": true
+      }
+    ]
+  },
+  "main": {
+    "commit": "6cc77cf1c0f8a30db52e3538614bc9c95662516c",
+    "deployment": "a73609f5-4d62-4f97-8513-17b0566d6811",
+    "status": "SUCCESS",
+    "manifest_sha256": "e1c268d3eefa70fca3a333ff240b9c999f396b4eaec586f6273406f8196d1439",
+    "final_start_command": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && unset BTC15_LADDER_DATA_ROOT && export BTC15_V2_APPROVED_BUILD=6cc77cf1c0f8a30db52e3538614bc9c95662516c BTC15_V2_APPROVED_MANIFEST_SHA256=e1c268d3eefa70fca3a333ff240b9c999f396b4eaec586f6273406f8196d1439 && exec python -u btc15_v2_launch.py --lane main --run-reviewed-production'"
+  },
+  "cockpit": [
+    {
+      "commit": "7a0b661291743222c1f6ac30df8b42e274fd6c73",
+      "deployment": "b7fea289-e95c-4c04-b4a7-fb23ea1cfdd8",
+      "status": "SUCCESS"
+    }
+  ],
+  "scalp": [
+    {
+      "commit": "f9ef31a03662af74b0aa1bb0640f8eb49523fdb8",
+      "deployment": "d216ebb3-c9e3-444f-bc1c-b88dff3afd2b",
+      "status": "SUCCESS"
+    }
+  ],
+  "rollback": {
+    "commit": "b8bd240b4e27a949e7db0388b8fc9bae24d83ef5",
+    "deployment": "2d1ca61c-51b5-415d-8cca-02ed86a7cb69",
+    "manifest_sha256": "5b774e3c393d7ed785da19a8d52ced3548eda1275fb9c4115c7c16387d43b813"
+  },
+  "unrelated_staged_patch": {
+    "patchId": "ead9997e-b5b7-4668-a612-e8417e197838",
+    "status": "STAGED",
+    "changeCount": 4,
+    "message": null,
+    "createdAt": "2026-10-08T22:15:42.934Z",
+    "updatedAt": "2026-10-08T22:32:38.147Z"
+  },
+  "maintenance_opt_in_removed_from_next_start": true,
+  "historical_data_lost": false,
+  "railway_disk_usage_gb": 6.317719552
+}

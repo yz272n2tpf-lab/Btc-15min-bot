@@ -133,3 +133,49 @@ unreadable process descriptors and one-attempt behavior. The existing EARLY
 handoff regression verifies preservation of a live origin without old publication.
 Both frozen lane identities, release manifest and MAIN assembly are checked.
 These are file-safety gates, not a live trading test campaign.
+
+## Completed production result
+
+MAIN deployment `a73609f5-4d62-4f97-8513-17b0566d6811` reached SUCCESS on
+commit `6cc77cf1c0f8a30db52e3538614bc9c95662516c`.
+The archive completed at 2026-10-09 03:38:23 UTC (October 8, 11:38:23 p.m. EDT).
+
+| Measurement | Bytes |
+|---|---:|
+| Original | 2,636,133,318 |
+| Durable gzip archive | 208,849,896 |
+| Net logical file storage recovered | 2,427,283,422 |
+| Allocated filesystem blocks recovered | 2,427,293,696 |
+| Filesystem free after completion | 3,806,130,176 |
+
+All 1,460,029 newline-delimited records and their original byte order match.
+Raw, fully decompressed, explicit archive reader, and normal fallback reader
+SHA-256: `da4050b69b35f479aa7264bf145f5de6e350f303498556de959e9f1abfbcb1a8`.
+Compressed SHA-256: `946506518c1c9d71f2bfc5e44199b6ed7afd36ce7bb089812516488a3910d203`.
+The exact dry-run size matched the actual compressed file. Before writing,
+1,383,890,944 bytes were free versus 1,349,700,584 required including reserves.
+Only the verified redundant plain representation was removed.
+
+Railway's later disk metric is 6.317719552 GB used of the existing 10 GB limit
+(approximately 3.682 GB nominal headroom). Platform and mounted-filesystem
+measurements differ; the filesystem figure above is the actual available-space
+measurement used by the archive. No capacity purchase was made.
+
+All six bounded post-completion endpoint checks returned HTTP 200: MAIN health,
+MAIN ladders/information, and COCKPIT information/MAIN/SCALP ladders. Information
+was AVAILABLE, with current contract identity, on both MAIN and COCKPIT.
+The genuine active EARLY origin `f49b0010bac27ed87c93bbe0db6bdce14a5d97e488ecf0112ea74277fecea8a2`
+was carried from the previous deployment and progressed from WATCH to PROTECT.
+MAIN journal sequence advanced to 77 with zero drops and queue depth zero;
+SCALP remained AVAILABLE on its unchanged build with zero drops and queue depth
+zero. FINAL remained its genuine PASS decision. No trading decision was forced.
+
+The one-time opt-in was removed from MAIN's saved next-start command after success,
+without another restart. The durable attempt marker also prevents repeats.
+COCKPIT remains `7a0b661291743222c1f6ac30df8b42e274fd6c73`; SCALP remains
+`f9ef31a03662af74b0aa1bb0640f8eb49523fdb8`. The unrelated four-change staged
+patch `ead9997e-b5b7-4668-a612-e8417e197838` remains unapplied and unchanged.
+
+The complete production receipt and endpoint evidence are in
+`evidence/archive_20261009/result.json`, as well as the archive receipt on `/data`.
+This result-only documentation update does not alter the pinned live build.
