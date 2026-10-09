@@ -1,4 +1,4 @@
-"""Native value entry using existing strong directional safeguards; no orders.
+"""Native value entry using causal model features and market corroboration; no orders.
 
 This is an explicit conservative risk policy, not a promoted research result or
 an assertion of calibrated live accuracy. It does not alter FINAL or Tier-1.
@@ -7,13 +7,10 @@ from copy import deepcopy
 import math
 import time
 
-POLICY = 'EARLY_SUPPORTED_VALUE_V1'
-SOURCE = 'NATIVE_EARLY_VALUE_V1'
+POLICY = 'EARLY_CAUSAL_VALUE_V2'
+SOURCE = 'NATIVE_EARLY_VALUE_V2'
 ARTIFACT = '1bf10e755fc81584bab3c3682b16103353f84582c27bb003664de883e7e7c816'
 WEIGHTS = '95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6'
-# The existing EARLY 8-point edge requirement is now applied AFTER costs and
-# spread stress. It is a risk reserve, not an estimated calibration error.
-EDGE_RESERVE = .08
 FEE_MAX_AGE = 120
 
 
@@ -58,70 +55,70 @@ def fee_valid(f):
 
 
 def assess(raw, f, previous=None):
-    """Pure native decision. Prior is a complete accepted native frame only."""
-    from .opportunities import economics
-    e, final, fair = raw['early'], raw['final'], f['fair']
+    """First complete supported frame can qualify; no observation-count gate.
+
+    Probability is a calibrated-model estimate, not established live accuracy.
+    Existing model identity, causal features and independent current market
+    corroboration are required in addition to cost-adjusted model value.
+    """
+    from .opportunities import economics, fee_scenario
+    from .early_management import features
+    e, final = raw['early'], raw['final']
     side, p = e['side'], e['fair']
     sign = 1 if side == 'UP' else -1
     left = raw['timer']['seconds_left']
     schedule = f.get('fee_schedule') or {}
-    econ = economics(p,raw['market'][side.lower()+'_bid'],e['ask'],
-                     schedule['multiplier'] if fee_valid(f) else 1.)
+    multiplier = schedule['multiplier'] if fee_valid(f) else 1.
+    econ = economics(p,raw['market'][side.lower()+'_bid'],e['ask'],multiplier)
+    x = features(f)
+    # A sale at model fair is only an economic scenario, never a price forecast.
+    sale_fee = fee_scenario(p,multiplier)
+    margin = econ.get('stress_net_model_ev_scenario',-1)-sale_fee
+    econ.update(exit_fee_at_model_fair_scenario=sale_fee,
+        round_trip_stress_value_margin=margin,
+        round_trip_basis='Stress entry cost plus sale fee at model fair; fair is not a predicted future BID',
+        series_fee_verified=fee_valid(f))
+    # Only the observed source/delivery delay is known. No assumed manual fill
+    # latency, fabricated depth, or fixed entry-time window is introduced.
+    delay=max(f['captured_ts']-f['btc_source'],f['captured_ts']-f['brti']['cf_ts'],
+              f['captured_ts']-f['quote']['exchange_ts_ms']/1000)
     gates = dict(
         verified_model=f.get('artifact')==ARTIFACT and f.get('weights')==WEIGHTS,
-        fair_ge90=p>=.90,
-        remaining_2_to8=120<=left<=480,
-        target_gap_support=sign*(f['btc_price']-f['target']) >= (75 if left>360 else 50),
-        brti_support=sign*(f['brti']['value']-f['target'])>11,
-        volatility_cushion=fair['dist_over_range5']>=1,
-        final_not_opposed=not final['ready'] or final['side']==side,
+        causal_model_features=x is not None,
+        btc_target_support=sign*(f['btc_price']-f['target'])>0,
+        brti_target_support=sign*(f['brti']['value']-f['target'])>0,
+        momentum_and_trend_support=bool(x and sign*x['move1']>0 and sign*x['move5']>0),
+        final_not_opposed=final['side']==side,
         current_series_fees=fee_valid(f),
+        two_sided_execution=econ.get('valid_book',False) and raw['market'][side.lower()+'_bid']>0,
+        observed_execution_runway=left>delay,
         positive_settlement_upside=econ.get('win_profit_scenario',-1)>0,
-        stress_edge_reserve=econ.get('stress_net_model_ev_scenario',-1)>=EDGE_RESERVE-1e-12)
-    static = dict(gates)
-    prior = previous or {}
-    pf, pr = prior.get('frame') or {}, prior.get('assessment') or {}
-    q, pq = f['quote'], pf.get('quote') or {}
-    pb = pf.get('brti') or {}
-    continuous = (pf.get('contract')==f['contract'] and pf.get('target')==f['target'] and
-        pf.get('native_epoch')==f['native_epoch'] and
-        0 < f['captured_ts']-pf.get('captured_ts',0) <= 15 and
-        pf.get('native_sequence',-1)<f['native_sequence'])
-    progressed = bool(continuous and q['epoch']==pq.get('epoch') and q['sid']==pq.get('sid') and
-        q['market_id']==pq.get('market_id') and q['seq']>pq.get('seq',-1) and
-        q['exchange_ts_ms']>pq.get('exchange_ts_ms',0) and
-        f['btc_source']>pf.get('btc_source',0) and
-        f['brti']['delivery']['owner_epoch']==(pb.get('delivery') or {}).get('owner_epoch') and
-        f['brti']['cf_ts']>pb.get('cf_ts',0))
-    prior_p=(pf.get('fair') or {}).get(side.lower()+'_fair')
-    gates.update(
-        two_fresh_supported_observations=bool(progressed and pr.get('side')==side and pr.get('static_ready')),
-        btc_momentum_support=bool(continuous and sign*(f['btc_price']-pf['btc_price'])>0),
-        brti_not_reversing=bool(continuous and sign*(f['brti']['value']-pb['value'])>=0),
-        probability_not_weakening=bool(continuous and finite(prior_p) and p>=prior_p-1e-12))
-    labels=dict(verified_model='The verified frozen model and calibration weights are required',
-        fair_ge90='Model probability must reach the existing 90% strong-direction floor',
-        remaining_2_to8='Supported value-entry runway is 2–8 minutes remaining',
-        target_gap_support='BTC must support this side by $75 above 6 minutes, otherwise $50',
-        brti_support='BRTI must support this side by more than $11',
-        volatility_cushion='Target distance must cover at least the existing five-minute range measure',
-        final_not_opposed='A qualified opposing FINAL blocks this value entry',
+        positive_round_trip_value=margin>0)
+    labels=dict(verified_model='Verified frozen model and calibration weights are unavailable',
+        causal_model_features='The exact causal momentum/volatility feature snapshot used by this model decision is unavailable',
+        btc_target_support='BTC must support the proposed side of the exact target',
+        brti_target_support='BRTI must support the proposed side of the exact target',
+        momentum_and_trend_support='Existing one-minute momentum and five-minute trend must both support this side; conflicting movement remains WATCH',
+        final_not_opposed='Continuously available FINAL model direction opposes this setup',
         current_series_fees='A current supported Kalshi series fee schedule is required',
+        two_sided_execution='A positive same-side BID and valid ASK are needed to assess a price-movement entry',
+        observed_execution_runway='Remaining time must exceed the already observed source/delivery delay; manual execution still requires checking time and depth',
         positive_settlement_upside='Entry plus fees leaves no positive settlement reward',
-        stress_edge_reserve='At least 8 points of model edge must remain after fees and one-spread execution stress',
-        two_fresh_supported_observations='Two supported native observations within 15s need advancing BTC, BRTI and same-session books',
-        btc_momentum_support='Observed BTC movement must support the proposed direction',
-        brti_not_reversing='BRTI must not be reversing against the proposed direction',
-        probability_not_weakening='Directional probability must not weaken between confirming observations')
+        positive_round_trip_value='Model value must exceed entry fees, one observed spread of entry stress and a sale-fee scenario')
     missing=[labels[k] for k,v in gates.items() if not v]
-    return dict(policy=POLICY,side=side,ready=all(gates.values()),static_ready=all(static.values()),
-        conditions=gates,static_conditions=static,missing=missing,economics=econ,
-        reason=('Strong directional evidence, advancing source confirmation and cost-adjusted value qualify'
+    risk=dict(range5=x.get('range5') if x else None,vol5=x.get('vol5') if x else None,
+        move1=x.get('move1') if x else None,move5=x.get('move5') if x else None,
+        target_distance_over_range=f['fair']['dist_over_range5'],
+        model_flip_probability=1-p,seconds_left=left,observed_source_delay=delay,
+        target_inside_recent_range=bool(x and abs(f['btc_price']-f['target'])<x['range5']))
+    return dict(policy=POLICY,side=side,ready=all(gates.values()),conditions=gates,
+        missing=missing,economics=econ,risk=risk,
+        reason=('Causal model, BTC/BRTI target support, aligned momentum/trend and cost-adjusted value qualify; probability is an estimate'
                 if not missing else '; '.join(missing)),
-        fee_schedule=deepcopy(schedule),edge_reserve=EDGE_RESERVE,
-        reliability='VERIFIED_MODEL_PLUS_STRONG_DIRECTIONAL_GUARDS; EXPANDED_POLICY_WIN_RATE_NOT_ESTABLISHED',
-        prior_native_key=[pf.get('native_epoch'),pf.get('native_sequence')] if continuous else None,
-        price_ceiling=None,signal_only=True,orders=False)
+        fee_schedule=deepcopy(schedule),
+        reliability='VERIFIED_EXISTING_CALIBRATED_MODEL_AND_MARKET_CORROBORATION; CURRENT_POLICY_ACCURACY_UNESTABLISHED',
+        price_ceiling=None,confidence_floor=None,entry_window=None,confirmation_count=None,
+        signal_only=True,orders=False)
 
 
 def route(raw, qualified, assessment):

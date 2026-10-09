@@ -63,6 +63,8 @@ def instrument(tree,lane):
 def prepare_main(ns,pool):
     from .fair_readiness import install as install_fair_readiness
     install_fair_readiness(ns)
+    from .early_management import install_features
+    install_features(ns)
     original=ns['get_active_market']
     preparation=Preparation(ns['kalshi_get'],ns['extract_target'],pool)
     from .early_entry import FeeCache

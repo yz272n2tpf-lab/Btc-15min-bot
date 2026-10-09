@@ -74,6 +74,9 @@
         ['Entry qualification',c.qualification_basis],
         ['Native safeguards',c.value_qualification?Object.entries(c.value_qualification.conditions).map(([k,v])=>(v?'PASS ':'WAIT ')+k.replaceAll('_',' ')).join('; '):'This side has no supported value-entry assessment'],
         ['FINAL support',c.final_relation],
+        ['Native momentum / trend',c.value_qualification?dollarsValue(c.value_qualification.risk?.move1)+' / '+dollarsValue(c.value_qualification.risk?.move5)+' (existing 1m / 5m features)':'Unavailable'],
+        ['Round-trip stress value margin',centsValue(c.value_qualification?.economics?.round_trip_stress_value_margin)],
+        ['Model flip risk',percentValue(c.value_qualification?.risk?.model_flip_probability)],
         ['BTC / BRTI target gap',dollarsValue(c.target_gap)+' / '+dollarsValue(c.brti_gap)],
         ['Recent native BTC move',c.btc_move_since_previous_native===null?'Causal prior sample unavailable':c.btc_move_since_previous_native.toFixed(2)+' USD / '+c.native_interval_seconds.toFixed(1)+'s'],
         ['Secondary / pullback',c.secondary_state+' · '+c.secondary_reason],
@@ -114,10 +117,18 @@
       const native=m?.eligible?m.current_payload:!/unavailable/i.test(old.fields['early-action'])?oldMain:null;
       const early=native?.early,opportunity=native?.early_opportunity;
       text('early-context',early?(!m?.eligible?'LAST QUALIFIED · ':'')+'Model fair '+(early.fair*100).toFixed(1)+'% · all prices evaluated for value · historical Tier-1 is separate · '+(opportunity?.status||'Awaiting native analysis'):'Awaiting a qualified EARLY evaluation');
-      if(native?.origin?.entry_policy==='EARLY_SUPPORTED_VALUE_V1'){
+      if(['EARLY_SUPPORTED_VALUE_V1','EARLY_CAUSAL_VALUE_V2'].includes(native?.origin?.entry_policy)){
         const o=native.origin,eq=o.qualification,ec=eq.economics;
         text('early-context',(!m?.eligible?'LAST QUALIFIED · ':'')+'Supported-value origin · entry model '+percentValue(o.entry_provenance.fair[o.side.toLowerCase()+'_fair'])+' · current model '+percentValue(native.final[o.side==='UP'?'probability_up':'probability_down'])+' · entry fee/stress model EV '+centsValue(ec.net_model_ev_scenario)+' / '+centsValue(ec.stress_net_model_ev_scenario)+' · settlement reward/risk '+centsValue(ec.win_profit_scenario)+' / '+centsValue(ec.loss_scenario)+' · '+Math.max(0,Math.round(native.official_close-native.published_ts))+'s at native observation · win rate unestablished');
       }
+      if(native?.origin&&native.management){
+        const e=native.management.economics,ev=native.management.evidence;
+        text('early-management',(!m?.eligible?'HISTORICAL · ':'')+'If manually entered: observed gross ASK→BID movement '+centsValue(e.gross_movement_cents/100)+
+          ' · estimated entry / exit fees '+centsValue(e.entry_fee_scenario)+' / '+centsValue(e.exit_fee_scenario)+
+          ' · net liquidation scenario '+centsValue(e.net_liquidation_scenario)+' · not realized profit. '+
+          'FINAL held-side model '+percentValue(ev.held_model_probability)+' · momentum '+(ev.causal_momentum_available?(ev.recent_momentum_adverse?'adverse':'supporting or flat'):'unavailable')+
+          ' · closure unconfirmed; depth, size and actual fills unverified.');
+      }else text('early-management','No genuine managed EARLY origin; no entry, fill or exit assumed.');
       renderValueAnalysis(native,!!m?.eligible);
       const scalpHistorical=!s?.eligible&&oldScalp&&!/unavailable/i.test(old.fields['scalp-action']);
       const scalp=s?.eligible?s.current_payload:scalpHistorical?oldScalp:null;

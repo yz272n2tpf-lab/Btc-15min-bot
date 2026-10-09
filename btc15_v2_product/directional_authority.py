@@ -152,7 +152,7 @@ def reduce_signal(state, raw, qualified, now):
     opposing = frame.final['ready'] and frame.final['side'] != p.side
     material = p.saw_strong_final and not strong
     event = None
-    if p.action != manager.Action.PROTECT and (opposing or material):
+    if p.action not in (manager.Action.PROTECT,manager.Action.EXIT) and (opposing or material):
         p = replace(p, action=manager.Action.PROTECT,
                     reason='QUALIFIED_OPPOSITION_OR_ESTABLISHED_CONFIRMATION_LOST')
         event = 'PROTECT'

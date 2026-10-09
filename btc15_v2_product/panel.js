@@ -155,7 +155,7 @@
       text('earlyLadderHold',h?.confirmed?'FINAL confirms · '+e.guidance:o?e.guidance:'No protected position assumed');
       text('earlyLadderWatch',o?(ctx?human(ctx.phase)+' · '+ctx.reasons.map(human).join('; '):'Monitor qualified position'):(opp?.reason||'Await qualified opportunity'));
       text('earlyLadderProtect',h?.protect_latched?'PROTECT · review exposure at current bid':o?'Monitor FINAL support and bid':'Protection begins only after a protected origin');
-      text('earlyLadderExit','Directional EXIT authority not yet validated · PROTECT is manual risk guidance');
+      text('earlyLadderExit',m.terminal?.state==='EXIT'?'Native EXIT · trigger BID '+cents(m.terminal.executable_exit_bid)+' · if manually entered; closure unconfirmed':'No native EXIT trigger · missing sources or time alone do not authorize closure');
       text('earlyFlow',`${m.contract} · ${o?'If manually entered: '+e.guidance:(opp?.status||'WATCH')} · New action authority requires MAIN LIVE above; REFRESHING values are last-qualified · SIGNAL ONLY / NO ORDERS`);
       text('flipRisk',m.flip_risk_pct.toFixed(1)+'%');text('flipRiskSub','Model context only · no exit authority · freshness shown by MAIN status');
       text('contextBanner',human(m.phase)+' · '+(ctx?ctx.reasons.map(human).join('; '):'No active protected EARLY origin')+(aligned&&s?.origin&&f&&s.origin.side!==f.side?' · MIXED HORIZONS: SCALP differs from FINAL':''));

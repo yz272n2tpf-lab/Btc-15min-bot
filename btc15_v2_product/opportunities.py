@@ -75,17 +75,13 @@ def evaluate(raw, frame=None, previous=None, origin=None):
         supported=tier or value
         sign=1 if side=='UP' else -1
         conditions=dict(valid_book=econ['valid_book'],market_open=left>0,
-            directional_model_floor=p>=.75,
             positive_cost_scenario=econ.get('net_model_ev_scenario',-1)>0,
             positive_spread_stress=econ.get('stress_net_model_ev_scenario',-1)>0)
         missing=[]
         if not conditions['valid_book']:missing.append('Valid same-contract executable quotes must become available')
         if not conditions['market_open']:missing.append('Contract must still be open')
-        if not conditions['directional_model_floor']:missing.append('Directional model probability must reach the existing 75% EARLY floor')
         if not conditions['positive_cost_scenario']:missing.append('Model probability must exceed entry cost including fees')
         if not conditions['positive_spread_stress']:missing.append('Price or spread must improve enough to retain model edge under the execution stress scenario')
-        if left<120:missing.append('Less than 120 seconds remain: supported new-entry runway is absent')
-        elif left>600:missing.append('Outside historical EARLY timing evidence; full-window analysis is observational')
         if finite(gap) and sign*gap<=0:missing.append('BTC must move to the proposed side of the exact target')
         if finite(brti) and sign*brti<=0:missing.append('BRTI must support the proposed side of the exact target')
         if btc_move is not None and sign*btc_move<0:missing.append('Recent observed BTC movement opposes this side; momentum support must improve')
@@ -108,7 +104,7 @@ def evaluate(raw, frame=None, previous=None, origin=None):
             value_qualification=qualification if qualification and qualification['side']==side else None,
             reliability='CURRENT_PRICE_CONDITIONED_CALIBRATION_NOT_ESTABLISHED',
             qualified_signal=supported,origin_authority=supported and not (origin and origin.get('contract')==raw['contract']),price_ceiling=None,
-            final_relation='SUPPORTS' if final['ready'] and final['side']==side else 'CONTRADICTS' if opposed else 'UNCONFIRMED',
+            final_relation='SUPPORTS' if final['side']==side else 'CONTRADICTS',
             target_gap=gap if finite(gap) else None,brti_gap=brti if finite(brti) else None,
             btc_move_since_previous_native=btc_move,native_interval_seconds=elapsed if continuous else None,
             probability_change=(p-(previous['probability_up'] if side=='UP' else 1-previous['probability_up'])) if previous else None,

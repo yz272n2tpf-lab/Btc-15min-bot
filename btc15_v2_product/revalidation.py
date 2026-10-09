@@ -89,13 +89,10 @@ def agrees(v,f,now):
         native=v.get('historical_early',v[lane]) if lane=='early' else v[lane]
         for field in ('ready','side','conditions'):
             if raw[lane][field]!=native[field]:return False
-    if v['early'].get('policy')=='EARLY_SUPPORTED_VALUE_V1':
-        from .early_entry import assess
-        evidence=v['early']['qualification']
-        f=deepcopy(f);f['fee_schedule']=evidence.get('fee_schedule')
-        # Confirmation still belongs to the committed native pair. Revalidation
-        # checks only current static support and cannot authorize a new entry.
-        if assess(raw,f)['static_conditions']!=evidence['static_conditions']:return False
+    if v['early'].get('policy') in ('EARLY_SUPPORTED_VALUE_V1','EARLY_CAUSAL_VALUE_V2') or v.get('management'):
+        # This independent display evaluator does not reproduce the exact causal
+        # momentum features. It must not claim renewed entry/exit agreement.
+        raise ValueError('NATIVE_MOMENTUM_MANAGEMENT_NOT_REVALIDATED; WAIT_FOR_NATIVE_PUBLICATION')
     o=v.get('origin')
     left=f['official_close']-now
     phase='3M_GUARD' if left<=180 else '5M_CAUTION' if left<=300 else 'NORMAL'

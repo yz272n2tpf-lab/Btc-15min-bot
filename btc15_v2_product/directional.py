@@ -5,7 +5,7 @@ supported-value entry policy. The recovered reduce_signal supplies immutable
 EARLY origins and monotone protection. No model refit, simulated fill or order.
 """
 from copy import deepcopy
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from datetime import datetime, timezone
 import math
 import os
@@ -127,7 +127,7 @@ def early_opportunity(raw):
 
 class Directional:
     def restore(self, saved):
-        self.entry_previous = None  # Unconfirmed evidence never survives restart.
+        self.terminal = saved.get('terminal') if saved else None
         if saved and saved.get('candidate') != CANDIDATE:
             raise ValueError('DIRECTIONAL_CHECKPOINT_CANDIDATE_MISMATCH')
         self.state = decode_state(saved['manager']) if saved else manager.State()
@@ -145,10 +145,23 @@ class Directional:
                 or o['entry_provenance'].get('candidate')!=CANDIDATE
                 or o['origin_id']!=digest([CANDIDATE,o['contract'],[o['native_epoch'],o['native_sequence']],o['side']])):
                 raise ValueError('DIRECTIONAL_CHECKPOINT_ORIGIN_CONFLICT')
+            if self.terminal:
+                t=self.terminal;q=t.get('quote') or {}
+                if (position.action!=manager.Action.EXIT or t.get('origin_id')!=o['origin_id'] or
+                    t.get('contract')!=o['contract'] or t.get('side')!=o['side'] or
+                    t.get('original_ask')!=o['original_ask'] or t.get('state')!='EXIT' or
+                    t.get('actionable_exit') is not True or q.get('ticker')!=o['contract'] or
+                    q.get('exchange_ts_ms',0)/1000<=position.entry_timestamp.timestamp() or
+                    t.get('executable_exit_bid')!=(q.get('quotes') or [None]*4)[0 if o['side']=='UP' else 2]):
+                    raise ValueError('DIRECTIONAL_CHECKPOINT_TERMINAL_CONFLICT')
+            elif position.action==manager.Action.EXIT:
+                raise ValueError('DIRECTIONAL_CHECKPOINT_TERMINAL_MISSING')
             self.position_path['missing'] = True
+        elif self.terminal:
+            raise ValueError('DIRECTIONAL_CHECKPOINT_TERMINAL_WITHOUT_ORIGIN')
 
     def checkpoint(self):
-        return deepcopy(dict(candidate=CANDIDATE,manager=encode_state(self.state),origin=self.origin,last=self.last,prior_final=self.prior_final,position_path=self.position_path))
+        return deepcopy(dict(candidate=CANDIDATE,manager=encode_state(self.state),origin=self.origin,last=self.last,prior_final=self.prior_final,position_path=self.position_path,terminal=self.terminal))
 
     def process(self, f, now):
         record = dict(schema=SCHEMA, candidate=CANDIDATE, build=os.getenv('RAILWAY_GIT_COMMIT_SHA'),
@@ -173,7 +186,7 @@ class Directional:
                 continuity = 'START_OR_MISSING_INTERVAL'
             raw, qualified = protected_frame(f,now)
             from .early_entry import assess, route
-            value_entry = assess(raw,f,self.entry_previous)
+            value_entry = assess(raw,f)
             raw, qualified = route(raw,qualified,value_entry)
             from .opportunities import evaluate
             opportunity, analysis = evaluate(raw, f, self.prior_final, self.origin)
@@ -197,15 +210,17 @@ class Directional:
                     entry_policy=raw['early'].get('policy','HISTORICAL_TIER1'),
                     qualification=deepcopy(value_entry) if raw['early'].get('policy') else
                         dict(policy='HISTORICAL_TIER1',conditions=raw['early']['conditions'],ready=True))
+                self.terminal = None
                 self.position_path = dict(mfe=None,mae=None,last_quote=None,current=None,missing=False)
             elif origin is None:
                 self.position_path = {}
+                self.terminal = None
             final = dict(standalone, early_origin_id=origin['origin_id'] if origin else None)
             same_prior = self.prior_final and self.prior_final['contract']==f['contract']
             final['confidence_change'] = final['probability_up']-self.prior_final['probability_up'] if same_prior else None
             guidance = next_state.position.action.value if next_state.position else 'PASS'
             warning = None; linked = bool(origin); ctx = None; bid = None; movement = None
-            helper = None
+            helper = None; management = None
             if linked:
                 side=origin['side']; held_p=final['probability_up'] if side=='UP' else final['probability_down']
                 entry_p=origin['entry_provenance']['fair'][side.lower()+'_fair']
@@ -226,8 +241,10 @@ class Directional:
                 bid=f[side.lower()+'_bid']; movement=bid-origin['original_ask']
                 q=f['quote']; previous=self.position_path.get('last_quote') or origin['entry_provenance']['quote']
                 signal_ts=datetime.fromisoformat(origin['signal_timestamp_utc']).timestamp()
+                later_bid=False
                 if (q['exchange_ts_ms']/1000>signal_ts and q['exchange_ts_ms']>previous['exchange_ts_ms'] and
                     (q['epoch']!=previous['epoch'] or (q['sid']==previous['sid'] and q['seq']>previous['seq']))):
+                    later_bid=True
                     path=self.position_path
                     path['mfe']=movement if path.get('mfe') is None else max(path['mfe'],movement)
                     path['mae']=movement if path.get('mae') is None else min(path['mae'],movement)
@@ -239,15 +256,25 @@ class Directional:
                 ctx=context(side,f['official_close']-now,btc=f['btc_price'],brti=f['brti']['value'],target=f['target'],
                     weakening=held_p<prior_p-1e-12 or final['context_state']=='MIXED',
                     giveback=self.position_path.get('mfe') is not None and movement<self.position_path['mfe']-1e-12)
-                guidance=('PROTECT' if guidance=='PROTECT' else 'ENTER' if event=='BUY' else
-                    'CAUTION' if final['context_state']=='MIXED' else ctx['state'])
-                warning='PROTECT' if guidance=='PROTECT' else 'CONFIRMED' if strong else guidance
+                from .early_management import decide
+                management=decide(f,origin,prior_p,self.position_path,
+                    next_state.position.action.value,later_bid,self.terminal)
+                guidance=management['state']
+                self.terminal=management['terminal']
+                if guidance in ('PROTECT','EXIT'):
+                    action=manager.Action(guidance)
+                    if next_state.position.action!=action or management['new_exit']:
+                        event=guidance
+                    next_state=replace(next_state,position=replace(next_state.position,
+                        action=action,reason=management['reason']))
+                warning=guidance if guidance in ('PROTECT','EXIT') else 'CONFIRMED' if strong else guidance
                 helper=dict(origin_id=origin['origin_id'],relation=relation,confirmed=strong,
                     probability_trend='STRENGTHENS' if held_p>prior_p+1e-12 else 'WEAKENS' if held_p<prior_p-1e-12 else 'UNCHANGED',
-                    material_deterioration=material,clearance=strong,
-                    protect_latched=guidance=='PROTECT',state=guidance,
-                    reason='FINAL_OPPOSES_OR_CONFIRMATION_LOST' if guidance=='PROTECT' else relation,
-                    executable_bid=bid,exit_authority=False)
+                    material_deterioration=material or guidance in ('PROTECT','EXIT'),clearance=strong,
+                    protect_latched=guidance in ('PROTECT','EXIT'),state=guidance,
+                    reason=management['reason'],policy=management['policy'],
+                    executable_bid=bid,exit_authority=guidance=='EXIT',
+                    evidence=management['evidence'])
                 final.update(origin_side_probability=held_p,origin_probability_change=held_p-entry_p,helper=helper)
             if not linked:
                 # Display context only, after the protected EARLY evaluation.
@@ -269,7 +296,9 @@ class Directional:
                     pass_reasons=[k for k,v in raw['early']['conditions'].items() if not v],tier_scope='INDEPENDENT_HISTORICAL_AND_SUPPORTED_VALUE'),
                 historical_early=raw['historical_early'],
                 final=final,warning=warning,final_link_basis='EXPLICIT_IMMUTABLE_ORIGIN' if linked else None,
-                exit_guidance=None,exit_reason='EARLY_EXIT_THRESHOLD_NOT_SUPPORTED; PROTECT_GUIDANCE_AVAILABLE',
+                exit_guidance='EXIT' if guidance=='EXIT' else None,
+                exit_reason=management['reason'] if management else 'NO_GENUINE_EARLY_ORIGIN',
+                terminal=deepcopy(self.terminal),management=management,
                 executable_current_bid=bid,movement_cents=None if movement is None else movement*100,
                 position_path=deepcopy(self.position_path),context=ctx,
                 flip_risk_pct=100*f['fair']['down_fair' if f['btc_price']>=f['target'] else 'up_fair'],
@@ -280,14 +309,12 @@ class Directional:
                 performance_status='CURRENT_LONG_RUN_ACCURACY_NOT_ESTABLISHED')
             record.update(event=event,origin_id=origin['origin_id'] if origin else None,final=final,
                           early=view['early'],early_opportunity=opportunity,opportunity_analysis=analysis,warning=warning,continuity=continuity,origin=deepcopy(origin) if event=='BUY' else None,
-                          guidance=guidance,context=ctx,position_path=deepcopy(self.position_path))
+                          guidance=guidance,context=ctx,management=management,terminal=deepcopy(self.terminal),position_path=deepcopy(self.position_path))
             self.state,self.origin=next_state,origin
-            self.entry_previous=dict(frame=deepcopy(f),assessment=value_entry)
             self.last=dict(key=key,at=f['captured_ts'])
             self.prior_final=dict(contract=f['contract'],captured_ts=f['captured_ts'],btc_price=f['btc_price'],prices={k:f[k] for k in ('up_bid','up_ask','down_bid','down_ask')},probability_up=final['probability_up'],side=final['side'],ready=final['ready'],
                 last_call_side=final['side'] if final['ready'] else self.prior_final.get('last_call_side') if same_prior else None)
         except (ValueError,KeyError,TypeError) as exc:
-            self.entry_previous=None
             view['reason']=str(exc);record['unavailable_reason']=str(exc)
             if self.origin:self.position_path['missing']=True
             if view.get('final_status')=='AVAILABLE':
@@ -319,6 +346,7 @@ def offer(ns):
         provider=getattr(quotes,'_provider',None)
         quote=getattr(provider,'last_product_quote',None)
         value=native_frame(ns,quote,_epoch,_sequence,time.time())
+        value['model_features']=deepcopy(ns.get('_early_model_features'))
         value['fee_schedule']=deepcopy(getattr(ns.get('_early_fee_cache'),'value',None))
     except Exception as exc:
         value=dict(kind='UNAVAILABLE',reason='NATIVE_FRAME:'+type(exc).__name__,contract=ns.get('ticker'))

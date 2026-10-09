@@ -40,6 +40,9 @@ class RevisionJournal(ORIGINAL_JOURNAL):
         self.db.execute('INSERT OR REPLACE INTO meta VALUES (?,?)',('startup_slots',json.dumps(starts)))
         self.db.execute('INSERT OR REPLACE INTO meta VALUES (?,?)',('runtime_epoch',self.boot))
         self.db.commit()
+        if lane=='main' and deployment!='OFFLINE':
+            from .early_origin_transfer import transfer
+            transfer(self,path)
 
     def coverage(self,record):
         super().coverage(record)

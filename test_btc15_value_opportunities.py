@@ -26,7 +26,7 @@ class ValueAnalysis(unittest.TestCase):
         self.assertFalse(o['origin_authority']);self.assertIsNone(v['origin'])
         self.assertIsNone(r.get('event'))
         self.assertIn('unvalidated',o['reason'])
-        self.assertTrue(any('verified frozen model' in x for x in o['improvements']))
+        self.assertTrue(any('Verified frozen model' in x for x in o['improvements']))
 
     def test_no_45_50_or_replacement_ceiling(self):
         for ask in (.450001,.5,.53,.55,.6,.7,.8,.9,.95):
@@ -35,10 +35,12 @@ class ValueAnalysis(unittest.TestCase):
             self.assertEqual(len(v['opportunity_analysis']['candidates']),2)
 
     def test_cheap_weak_and_expensive_negative_economics_are_not_qualified(self):
-        for ask,p in ((.3,.55),(.99,.995),(.8,.8)):
+        for ask,p in ((.99,.995),(.8,.8)):
             _,v=self.view(ask=ask,p=p)
             self.assertEqual(v['early_opportunity']['status'],'PASS')
             self.assertIsNone(v['origin'])
+        _,weak=self.view(ask=.3,p=.55)
+        self.assertIsNone(weak['origin']);self.assertFalse(weak['early_opportunity']['origin_authority'])
         self.assertLess(economics(.995,.98,.99)['net_model_ev_scenario'],0)
 
     def test_entire_window_evaluated_independently_of_final_and_tier(self):

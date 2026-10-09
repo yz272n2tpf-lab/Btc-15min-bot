@@ -18,6 +18,14 @@
     fair_ge90:'FINAL probability is below 90%',remaining_le8:'More than eight minutes remain',
     gap_ok:'The required BTC-to-target distance is not met',distance_range_ge1:'The required distance-to-range ratio is not met',
     target_side:'BTC is not on the selected side of the target',brti_side:'BRTI does not meet the required side and distance condition',
+    ENTRY_EVIDENCE_ACCEPTED:'Native entry evidence accepted; manual execution requires checking the current book',
+    DIRECTION_AND_MARKET_SUPPORT_CONTINUE:'Current model direction, target position and market evidence support holding',
+    SUPPORT_WEAKENED_OR_MOMENTUM_UNAVAILABLE:'Directional support weakened or causal momentum is unavailable; monitor closely',
+    ESTABLISHED_PROTECTION_REMAINS_LATCHED:'Established protection remains latched; no automatic closure is assumed',
+    DIRECTIONAL_DETERIORATION_CORROBORATED_BY_MARKET:'Directional deterioration is corroborated by target conflict or adverse momentum and BID giveback',
+    POSITIVE_LIQUIDATION_SCENARIO_WITH_DETERIORATION:'Estimated liquidation remains positive while market support deteriorates',
+    DIRECTIONAL_THESIS_INVALIDATED:'Model direction reversed, BTC and BRTI crossed against the origin, and causal recent momentum is adverse; close at an available same-side BID if manually entered',
+    NET_BID_EXCEEDS_WEAKENING_MODEL_VALUE:'Net sale BID reaches or exceeds weakening model value while momentum is adverse; close at an available same-side BID if manually entered',
     FINAL_OPPOSES_OR_CONFIRMATION_LOST:'FINAL opposes the entry or its confirmation has been lost',
     STRENGTHENING:'FINAL support is strengthening',WEAKENING:'FINAL support is weakening',
     CONFIRMING:'FINAL support is unchanged',OPPOSING:'FINAL opposes the entry direction',
@@ -46,7 +54,7 @@
     }
     function literal(id,value,path){fields[id]=value;trace[id]=path||'blueprint presentation / missing source';}
     for(const prefix of Object.keys(activeRungs))for(const rung of ['entry','hold','watch','protect','exit'])literal(`${prefix}-${rung}`,'—','No matching published lifecycle value');
-    literal('early-exit','Unsupported','main.exit_reason + main.final.helper.exit_authority=false; no directional EARLY exit');
+    literal('early-exit','No native exit trigger','main.terminal; no EXIT inferred');
     const m=input.main,s=input.scalp,q=input.quote;
     const i=m?.official_identity;
     const identity=a=>!!a&&presentId(a.contract)&&['target','official_open','official_close'].every(k=>finite(a[k]));
@@ -83,16 +91,23 @@
     if(mainOK&&m.early){
       const o=m.origin,e=m.early,h=m.final?.helper,opp=m.early_opportunity;
       const originOK=same(o,i)&&presentId(o.origin_id)&&['UP','DOWN'].includes(o.side);
-      const valueOriginOK=o?.entry_policy!=='EARLY_SUPPORTED_VALUE_V1'||(o.qualification?.policy==='EARLY_SUPPORTED_VALUE_V1'&&o.qualification.ready===true&&typeof o.qualification.reason==='string');
+      const valuePolicies=['EARLY_SUPPORTED_VALUE_V1','EARLY_CAUSAL_VALUE_V2'];
+      const valueOriginOK=!valuePolicies.includes(o?.entry_policy)||(o.qualification?.policy===o.entry_policy&&o.qualification.ready===true&&typeof o.qualification.reason==='string');
+      const t=m.terminal,tq=t?.quote;
+      const exitOK=originOK&&t?.state==='EXIT'&&t.actionable_exit===true&&t.origin_id===o.origin_id&&
+        t.contract===o.contract&&t.side===o.side&&t.original_ask===o.original_ask&&price(t.executable_exit_bid)&&t.executable_exit_bid>0&&
+        tq?.ticker===o.contract&&tq.close_ms===o.official_close*1000&&
+        tq.exchange_ts_ms>Date.parse(o.signal_timestamp_utc)&&tq.exchange_ts_ms<=t.decision_ts*1000&&
+        t.executable_exit_bid===tq.quotes?.[o.side==='UP'?0:2]&&m.exit_guidance==='EXIT';
       const lifecycleOK=originOK&&valueOriginOK&&presentId(h?.origin_id)&&h.origin_id===o.origin_id&&
         presentId(m.final?.early_origin_id)&&m.final.early_origin_id===o.origin_id&&
-        h.state===e.guidance&&h.exit_authority===false&&e.guidance!=='EXIT';
+        h.state===e.guidance&&(e.guidance==='EXIT'?h.exit_authority===true&&exitOK:h.exit_authority===false&&!t);
       set('early-direction',originOK?'main.origin.side':'main.early.side',v=>human(v)||'Direction unavailable');
       set('early-action','main.early.guidance',v=>human(v)||'Action unavailable');
       if(lifecycleOK){
         const detail=h?.reason?reason(h.reason):'Reason unavailable from source';
         literal('early-reason',`If manually entered ${o.side}: ${detail}.`,'main.origin.side + main.final.helper.reason; manual_fill=null');
-        if(o.entry_policy==='EARLY_SUPPORTED_VALUE_V1'){
+        if(valuePolicies.includes(o.entry_policy)){
           literal('early-action',`EARLY CALL · ${human(e.guidance)}`,'main.origin.entry_policy + main.early.guidance');
           literal('early-reason',`${o.qualification.reason}. If manually entered ${o.side}: ${detail}.`,'main.origin.qualification.reason + main.final.helper.reason');
         }
@@ -101,6 +116,7 @@
         literal('early-entry',`Signal ASK ${cents(o.original_ask)}`,'main.origin.original_ask (immutable)');
         if(e.guidance==='HOLD')literal('early-hold','HOLD','main.early.guidance + main.final.helper.state');
         if(['WATCH','CAUTION'].includes(e.guidance))literal('early-watch',e.guidance,'main.early.guidance + main.final.helper.state; CAUTION severity retained');
+        if(e.guidance==='EXIT')literal('early-exit',`Trigger BID ${cents(t.executable_exit_bid)} · closure unconfirmed`,'main.terminal.executable_exit_bid; immutable recommendation, not fill');
         if(e.guidance==='PROTECT')literal('early-protect',h.protect_latched===true?'Protection latched':'Latch unavailable','main.final.helper.protect_latched');
       }else if(!o&&!stateRows[e.guidance]){
         if(opp&&['QUALIFIED','WATCH','PASS'].includes(opp.status)&&m.opportunity_analysis?.schema==='BTC15_NATIVE_VALUE_ANALYSIS_V1'){
@@ -176,7 +192,7 @@
     gaps.push('BTC history, current BTC, timeframe inventory, Evidence Score, Market Momentum and aggregate Bot Health are not in the selected public envelopes. Their other existing owners are not connected.');
     gaps.push('Snapshot timer comes from the existing protected_frame output. There is no new browser clock. A live timer owner has not been connected.');
     const identityDetails=[['Ticker',i?.contract||'Unavailable'],['Official open',stamp(i?.official_open)],['Official close',stamp(i?.official_close)],['Target source','main.official_identity.target'],['Snapshot time',stamp(input.at)],['Mode','Offline synthetic test output; never live authority']];
-    const authorityDetails=[['FINAL publication state',m?.final?.state||'Unavailable'],['FINAL source status',m?.status||'Unavailable'],['EARLY native guidance',m?.early?.guidance||'Unavailable'],['EARLY opportunity status',m?.early_opportunity?.status||'Unavailable'],['EARLY origin',m?.origin?.origin_id||'None published'],['EARLY manual fill',m?.origin?.manual_fill??'Not supplied; execution not assumed'],['EARLY protection latch',String(m?.final?.helper?.protect_latched??'Unavailable')],['EARLY exit limitation',m?.exit_reason||'Unavailable'],['SCALP lifecycle',s?.lifecycle_state||'Unavailable'],['SCALP origin',s?.origin?.origin_id||'None published'],['SCALP serial opportunity',s?.origin?.serial_index??'Unavailable'],['SCALP lane',s?.origin?.lane||'Unavailable'],['SCALP predecessor',s?.origin?.predecessor_id||'None published'],['SCALP protection armed',String(s?.presentation?.protection_armed??'Unavailable')],['SCALP protective bid',cents(s?.trailing_trigger_bid)],['SCALP manual fill',s?.origin?.manual_fill??'Not supplied; execution not assumed'],['SCALP actionable exit',String(s?.terminal?.actionable_exit??'No terminal output')],['SCALP contract',s?.official_identity?.contract||'Unavailable']];
+    const authorityDetails=[['FINAL publication state',m?.final?.state||'Unavailable'],['FINAL source status',m?.status||'Unavailable'],['EARLY native guidance',m?.early?.guidance||'Unavailable'],['EARLY opportunity status',m?.early_opportunity?.status||'Unavailable'],['EARLY origin',m?.origin?.origin_id||'None published'],['EARLY manual fill',m?.origin?.manual_fill??'Not supplied; execution not assumed'],['EARLY protection latch',String(m?.final?.helper?.protect_latched??'Unavailable')],['EARLY native management reason',m?.exit_reason||'Unavailable'],['SCALP lifecycle',s?.lifecycle_state||'Unavailable'],['SCALP origin',s?.origin?.origin_id||'None published'],['SCALP serial opportunity',s?.origin?.serial_index??'Unavailable'],['SCALP lane',s?.origin?.lane||'Unavailable'],['SCALP predecessor',s?.origin?.predecessor_id||'None published'],['SCALP protection armed',String(s?.presentation?.protection_armed??'Unavailable')],['SCALP protective bid',cents(s?.trailing_trigger_bid)],['SCALP manual fill',s?.origin?.manual_fill??'Not supplied; execution not assumed'],['SCALP actionable exit',String(s?.terminal?.actionable_exit??'No terminal output')],['SCALP contract',s?.official_identity?.contract||'Unavailable']];
     const sourceDetails=[['Quote contract',q?.official_identity?.contract||'Unavailable'],['Quote exchange source time',stamp(q?.exchange_ts)],['Quote accepted/receipt time',stamp(q?.accepted_ts)],['Quote publication time',stamp(q?.published_ts)],['Quote sequence',q?.sequence??'Unavailable'],['UP bid',cents(q?.up_bid)],['UP ask',cents(q?.up_ask)],['DOWN bid',cents(q?.down_bid)],['DOWN ask',cents(q?.down_ask)],['BRTI true source age',seconds(m?.health?.brti_age)],['BRTI receipt age','Not exported in MAIN health; not substituted for true source age'],['BRTI true source-age acceptance','At or below 5 s remains a protected requirement; no live acceptance claim'],['MAIN expiry',stamp(m?.expires_at)],['SCALP expiry',stamp(s?.expires_at)],['Historical accuracy','No current live qualification claimed']];
     authorityDetails.push(['EARLY origin policy',m?.origin?.entry_policy||'No origin policy supplied'],['EARLY native entry authority',String(m?.early_opportunity?.origin_authority??'Unavailable')],['EARLY opportunity reason',m?.early_opportunity?.reason||'Not exported'],['EARLY target-aware fair',pct(m?.early?.fair)],['EARLY source edge',finite(m?.early?.edge)?`${(m.early.edge*100).toFixed(1)} pt`:'Unavailable'],['SCALP protection arm',cents(s?.policy?.arm)],['SCALP peak giveback rule',cents(s?.policy?.giveback)],['SCALP observed peak gain',cents(s?.path?.mfe)],['SCALP observed giveback',cents(s?.path?.giveback)],['SCALP terminal time',stamp(s?.terminal?.ts)],['SCALP realized profit',s?.terminal?.realized_profit??'Not supplied; execution not assumed']);
     return {fields,trace,gaps,activeRungs,scalpSide,finalSide:mainOK?m.final?.side:null,identityDetails,authorityDetails,sourceDetails};

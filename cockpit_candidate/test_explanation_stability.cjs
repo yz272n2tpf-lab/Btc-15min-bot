@@ -129,29 +129,38 @@ resolved.identity={...resolved.identity,contract:'OTHER'};render();
 assert.equal(node('value-best').textContent,'No current native value selection');
 console.log('PASS: native 53-cent WATCH, costs, no new rung authority, stable value rendering, expiry and rollover');
 
-// Authentic native above-50 entry -> live adapter and real management rungs.
+// Authentic native above-50 origin and all native management states, below FINAL lock.
 const callNative=JSON.parse(child.execFileSync('python',['-c',`
 import json
 from test_btc15_supported_early import SupportedEarly,value_frame,step
-e,_,(_,_,v)=SupportedEarly().pair()
-out=[v]
-out.append(step(e,value_frame(3,ask=.7))[2])
-out.append(step(e,value_frame(4,ask=.7,p=.8))[2])
+e=SupportedEarly().engine()
+out=[step(e,value_frame())[2]]
+out.append(step(e,value_frame(2,ask=.7))[2])
+out.append(step(e,value_frame(3,ask=.7,p=.8))[2])
+out.append(step(e,value_frame(4,ask=.68,p=.78,momentum=-10))[2])
+out.append(step(e,value_frame(5,ask=.55,p=.6,side='DOWN'))[2])
 for v in out:v['official_identity']={k:v[k] for k in ('contract','target','official_open','official_close')}
 print(json.dumps(out))
 `],{cwd:__dirname+'/..',encoding:'utf8'}));
-for(const [index,rung] of ['entry','hold','protect'].entries()){
+for(const [index,rung] of ['entry','hold','watch','protect','exit'].entries()){
   setSample({main:callNative[index],scalp:null,quote:null});render();
   assert.match(node('early-action').textContent,/EARLY CALL/);
   assert.match(node('early-price').textContent,/53/);
   assert.match(node('early-context').textContent,/entry model.*win rate unestablished/);
   assert.deepEqual(node('early-ladder').children.filter(e=>e.attributes['aria-current']).map(e=>e.dataset.rung),[rung]);
-  assert.match(node('early-reason').textContent,/Strong directional evidence/);
+  assert.match(node('early-reason').textContent,/Causal model/);
+  assert.match(node('early-management').textContent,/If manually entered.*not realized profit/);
   clearWrites();for(let n=0;n<20;n++)render();
   assert.equal(node('early-reason').writes.length,0);
 }
+assert.match(node('early-exit').textContent,/Trigger BID 44.*closure unconfirmed/);
+resolved.lanes.main.current_payload=structuredClone(resolved.lanes.main.current_payload);
+resolved.lanes.main.current_payload.terminal.origin_id='FOREIGN';render();
+assert.equal(node('early-action').textContent,'Action unavailable');
+assert.ok(node('early-ladder').children.every(e=>!e.attributes['aria-current']));
+setSample({main:callNative[4],scalp:null,quote:null});render();
 resolved.lanes.main.eligible=false;resolved.lanes.main.current_payload=null;resolved.lanes.main.selection='retained';render();
 assert.equal(node('early-action').textContent,'Action unavailable');
 assert.ok(node('early-ladder').children.every(e=>!e.attributes['aria-current']));
-assert.match(node('early-reason').textContent,/Strong directional evidence/);
-console.log('PASS: real native 53-cent CALL -> ENTRY/HOLD/PROTECT, immutable price, stable explanation and expiry');
+assert.match(node('early-reason').textContent,/Causal model/);
+console.log('PASS: native 53-cent/83% CALL -> ENTRY/HOLD/WATCH/PROTECT/EXIT, immutable trigger, invalid terminal, stable explanation and expiry');

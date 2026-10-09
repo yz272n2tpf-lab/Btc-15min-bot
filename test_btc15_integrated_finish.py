@@ -89,17 +89,18 @@ class DirectionalLifecycle(unittest.TestCase):
             self.assertEqual(r.get('event')=='BUY',ask<=.45 and p>=.75)
             if r.get('event')!='BUY':self.assertEqual(v['final']['helper']['state'],'CONTEXT_ONLY')
 
-    def test_weak_opposition_watch_caution_not_protect(self):
+    def test_target_and_model_opposition_protect_without_unverified_exit(self):
         e=directional();step(e,frame())
         r,_,v=step(e,frame(offset=310,sequence=2,p=.55,ask=.7,side='DOWN'))
-        self.assertNotEqual(v['early']['guidance'],'PROTECT');self.assertIn(v['early']['guidance'],('WATCH','CAUTION'))
+        self.assertEqual(v['early']['guidance'],'PROTECT');self.assertIsNone(v['terminal'])
         self.assertFalse(e.processor.state.position.saw_strong_final)
 
     def test_healthy_improving_and_deteriorating_same_side(self):
-        e=directional();step(e,frame())
-        _,_,v=step(e,frame(offset=310,sequence=2,p=.85,ask=.7))
+        from test_btc15_supported_early import value_frame
+        e=directional();step(e,value_frame(offset=300,ask=.35,p=.8))
+        _,_,v=step(e,value_frame(offset=310,sequence=2,p=.85,ask=.7))
         self.assertEqual(v['early']['guidance'],'HOLD');self.assertEqual(v['final']['helper']['relation'],'STRENGTHENING')
-        _,_,v=step(e,frame(offset=315,sequence=3,p=.8,ask=.7))
+        _,_,v=step(e,value_frame(offset=315,sequence=3,p=.8,ask=.7))
         self.assertEqual(v['early']['guidance'],'WATCH');self.assertEqual(v['final']['helper']['relation'],'WEAKENING')
 
     def test_confirmation_loss_latches_even_after_recovery(self):
@@ -198,7 +199,8 @@ class NativeAuthority(unittest.TestCase):
         before=deepcopy(e.processor.checkpoint());p=r.step(v,source(f,now,age=1))
         self.assertEqual(p['status'],'CHANGED');out=apply(v,p,now)
         self.assertEqual(out['early'],v['early']);self.assertEqual(out['expires_at'],v['expires_at'])
-        ev.p=.6;p=r.step(v,source(f,now,age=1));self.assertEqual(p['status'],'AGREES')
+        ev.p=.6;p=r.step(v,source(f,now,age=1));self.assertEqual(p['status'],'REFRESHING')
+        self.assertIn('NATIVE_MOMENTUM_MANAGEMENT_NOT_REVALIDATED',p['reason'])
         self.assertEqual(before,e.processor.checkpoint())
         with tempfile.TemporaryDirectory() as tmp:
             Path(tmp,'main.json').write_text(json.dumps(v))
