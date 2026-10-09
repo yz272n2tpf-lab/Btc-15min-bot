@@ -194,6 +194,25 @@ class Scalp:
                     arm_gain=POLICY.arm, exit_giveback=POLICY.giveback))
                 guidance = (('EXIT' if self.terminal['actionable_exit'] else 'PASS') if self.terminal else 'ENTER' if record.get('event') == 'SCALP_SIGNAL'
                     else 'PROTECT' if presentation['protection_armed'] else ctx['state'])
+            # Independent native scan stays visible while the serial lane is owned.
+            coverage=[]
+            for scan_side in ('UP','DOWN'):
+                proposal=proposal_for(row,scan_side,f['proposals'][scan_side].get('history',{}))
+                active=bool(self.origin and not self.terminal and self.origin['side']==scan_side)
+                scan_state='QUALIFIED' if active else 'WATCH' if proposal['ok'] else 'PASS'
+                coverage.append(dict(side=scan_side,status=scan_state,
+                    reason=('Existing qualified origin; follow its management state' if active else
+                        'Momentum qualifies, but the serial lane must release before a new origin' if proposal['ok'] else proposal['reason']),
+                    btc30=(proposal.get('features') or {}).get('btc30'),
+                    bid=q[scan_side.lower()+'_bid'],ask=q[scan_side.lower()+'_ask'],
+                    remaining_seconds=p['close_ts']-now,
+                    route=lane(self.origin['side'] if self.origin else None,scan_side,self.index+1),
+                    entry_eligible=record.get('event')=='SCALP_SIGNAL' and active,
+                    settlement_probability=None,expected_profit=None,
+                    next_condition=('Use existing origin management; no assumed fill' if active else
+                        'Wait for existing serial lifecycle to end and a strictly later qualified quote' if proposal['ok'] else
+                        'At least 120 seconds must remain for a new entry' if p['close_ts']-now<120 else
+                        'Fresh causal 30-second history and side-aligned BTC30 of at least $15 are required')))
             self.last = dict(cut=cut, quote=deepcopy(q))
             record.update(provenance=p, proposals=f['proposals'] if not self.origin else None,
                 origin_id=(self.origin or {}).get('origin_id'), guidance=guidance,
@@ -210,7 +229,7 @@ class Scalp:
                 exit_guidance=(dict(current_executable_bid=current_bid, trigger=deepcopy(self.terminal),
                     guaranteed_fill=False) if self.terminal and self.terminal['actionable_exit'] else None),
                 lifecycle_state=self.terminal['state'] if self.terminal else ('ACTIVE' if self.origin else 'SCAN'),
-                diagnostics=f.get('diagnostics', []), confirmation_counts={k:len(v) for k,v in self.confirm.items()},
+                opportunity_coverage=coverage,diagnostics=f.get('diagnostics', []), confirmation_counts={k:len(v) for k,v in self.confirm.items()},
                 observed_target_cents=list(TARGETS), comparison_stop_cents=10,
                 target_stop_authority='OBSERVATIONAL_ONLY', policy_evidence='SEPT14_GENERALIZED_SEPT15_SERIAL_MOVEMENT_NOT_SETTLEMENT_ACCURACY',
                 continuity=continuity, input_provenance=p)

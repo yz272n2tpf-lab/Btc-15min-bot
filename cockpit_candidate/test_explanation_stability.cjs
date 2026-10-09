@@ -101,3 +101,30 @@ info={...info,current:{assessment:null}};receiveInfo(info);
 assert.equal(node('model-information').writes.length,0,'assessment text is separate from delivery classification');
 assert.match(node('model-information-note').textContent,/LAST QUALIFIED.*no current action authority/);
 console.log('PASS: one writer, stable repeated rendering, historical explanation-only expiry, immediate recovery/reasons, invalid binding, rollover, '+samples.length+' protected scenarios, asynchronous descriptive owners');
+
+// Exercise the real Python native value output through the live renderer.
+const child=require('node:child_process');
+const valueNative=JSON.parse(child.execFileSync('python',['-c',`
+import json
+from test_btc15_value_opportunities import ValueAnalysis
+_,v=ValueAnalysis().view(ask=.53,p=.8,offset=540)
+v['official_identity']={k:v[k] for k in ('contract','target','official_open','official_close')}
+print(json.dumps(v))
+`],{cwd:__dirname+'/..',encoding:'utf8'}));
+setSample({main:valueNative,scalp:null,quote:null});render();
+assert.equal(node('early-action').textContent,'WATCH / POTENTIAL');
+assert.match(node('early-reason').textContent,/unvalidated/);
+assert.match(node('early-context').textContent,/all prices evaluated/);
+assert.doesNotMatch(node('early-context').textContent,/entry limit/);
+assert.match(node('value-best').textContent,/WATCH.*UP/);
+assert.match(node('value-costs').textContent,/unverified.*No fill assumed/);
+assert.ok(node('early-ladder').children.every(e=>!e.attributes['aria-current']));
+clearWrites();for(let n=0;n<30;n++)render();
+for(const id of ['early-reason','value-best','value-risk','value-costs'])assert.equal(node(id).writes.length,0,id+' stable');
+resolved.lanes.main.eligible=false;resolved.lanes.main.current_payload=null;resolved.lanes.main.selection='retained';render();
+assert.equal(node('early-action').textContent,'Action unavailable');
+assert.match(node('value-best').textContent,/HISTORICAL/);
+assert.match(node('value-freshness').textContent,/no current action authority/);
+resolved.identity={...resolved.identity,contract:'OTHER'};render();
+assert.equal(node('value-best').textContent,'No current native value selection');
+console.log('PASS: native 53-cent WATCH, costs, no new rung authority, stable value rendering, expiry and rollover');

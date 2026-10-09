@@ -31,3 +31,5 @@
 .ladder li,.scalp-direction .ladder li{padding:9px 12px;min-height:44px}
 .model-information{font-size:.85rem;color:var(--mint);margin-top:12px}.indicator-row{display:grid;gap:8px;padding-top:12px}.indicator-row>div{display:flex;justify-content:space-between;gap:12px;font-size:.72rem}.indicator-row strong{font-weight:500;text-align:right}
 @media(max-width:850px){.cockpit{display:block;max-width:700px}.card{margin-bottom:14px}.source-strip{gap:12px}.source-strip strong{font-size:1.2rem}.source-strip .small{font-size:.64rem}}
+
+.value-card{grid-column:1/-1}.value-sides{display:grid;grid-template-columns:1fr 1fr;gap:26px}.value-sides h3{font-size:.9rem}.value-card .reason{min-height:3em}.value-card .small{margin-top:12px}#value-freshness{min-height:3em}#value-best{min-height:3em}#value-selection{min-height:3em}.value-sides dd{line-height:1.5}@media(max-width:650px){.value-sides{grid-template-columns:1fr}.value-sides dl>div{grid-template-columns:1fr 1.4fr}}

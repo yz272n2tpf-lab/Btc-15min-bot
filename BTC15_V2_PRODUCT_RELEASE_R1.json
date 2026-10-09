@@ -19,7 +19,7 @@
     "btc15_v2_product/bootstrap.py": "281fd20174d95f3860859479f5fcbeaf447df859229658a1bd7eeac4150cb14e",
     "btc15_v2_product/installer.py": "8d9e52eae3d1abc928490f49d3ad1c78e49be3dd51255bc07ff84fcdea170c62",
     "btc15_v2_product/journal.py": "91c6b3dffc37d9fffdbf798fbb822acf556d5b9460bb5f3055044cfb86c33efe",
-    "btc15_v2_product/panel.js": "6219b6a2489bbce109542715233887126c205ecfde7aa2c6f49b86bbd14e2dbc",
+    "btc15_v2_product/panel.js": "571878f20542ab2db4c5de1f8f9bdfea4f714139db71d706200f9e20431196eb",
     "btc15_v2_product/quote_transport.py": "48ff0785fb120c19ad2973f06ce18a4cb1922ec05067b34ae0e025eb075c8633",
     "btc15_v2_product/quote_view.py": "a2e3180dae69fe6d304e30a7259ba2f764ea4cb7e277aa2236cb98b715be62fe",
     "btc15_v2_product/release.py": "0d804e80104a8989e492e7219fd53e32d8e10c9baf963685a066b5af69daced5",
@@ -37,16 +37,17 @@
     "btc15_v2_product/durable_handoff.py": "cfe1a69a1611f0cd2ccde1db5574254d958745e6cdb3547f43291f93d6c5e3b8",
     "btc15_v2_product/indicators.py": "98052605bc935fe8fabc9a72fd93c7cbbb56a84f75bb3b665b1725bc51d98bb9",
     "btc15_information_panel_v1.js": "db3b1408435fe39c31f1df0c931e058a1bce1d8aefae3c82479ac59d66a14534",
-    "btc15_v2_product/directional.py": "eaf799a7d39e926fdde98d274fa5e63fe8ea1a18be3dd4c5c8a00298fa175b20",
-    "btc15_v2_product/scalp.py": "cbe257a76b93128fed10c8a83b0ac8739871d723df7196f6c91f80df3432d538",
-    "btc15_v2_product/scalp_feed.py": "c5fc216a979b3e1898e4f8e905f9a1346e9e8362a9bb9a6c8a365289c8a03db9",
+    "btc15_v2_product/directional.py": "ea80adcb8900893f605a99bcd3ff4f6e38497f8a6f110213c9561a39ffec765e",
+    "btc15_v2_product/scalp.py": "d5a0728fd8c40d2e327940028d7687948c9954762c930aa154344ad52c4db9a6",
+    "btc15_v2_product/scalp_feed.py": "c6dbcfc8b5ac04f361910152077758147815ccfd928ce78cfc1ae8f20d8453d7",
     "btc15_v2_product/directional_authority.py": "6bfbe80e72f8e1a2f90b0430527717ca6f225aba0e5e9b81f0cc10d5a71ab1fa",
     "btc15_v2_product/scalp_policy.py": "45c48a30b40be71ffa12ab505c6d4228797c75ec109515eec1498020b6590609",
     "btc15_v2_product/coverage_challenger_a.json": "c1667f4db62d619fe2a80584ae617ca0cf32af933b15405a67b486cb4db7b720",
     "btc15_quote_proof_offpath_v1.py": "b2b1f2ced06503d8f5a635cb0794e8712b780fb68c60d899267a307929a3a7b0",
     "btc15_v2_product/main_timing.py": "606862d49af2643c4059bc2887567aceb660a923d30c5b0f3a052d4bed2f4ef9",
     "btc15_v2_product/delivery.py": "37aed0c019e800cd8cc141c9eb5cc454d67ab76c19d3efb3a7ad9580ba3ec8fd",
-    "btc15_v2_product/production.py": "fef132617dd4f36e93a71beebe8897675194507947fe76746cbdd057c650ba4a"
+    "btc15_v2_product/production.py": "fef132617dd4f36e93a71beebe8897675194507947fe76746cbdd057c650ba4a",
+    "btc15_v2_product/opportunities.py": "38d791b262cec99eddcd2ef28a1e7c30b7e42c73d3db6496cd453dd36cecd3e2"
   },
   "lane_protected_files": {
     "main": {
@@ -73,7 +74,7 @@
   "deployment": "NOT_AUTHORIZED; existing deployment authorization checks unchanged",
   "visible_completion_status": "PHYSICAL_DEVICE_ACCEPTANCE_PENDING",
   "display_indicators": "DISPLAY ONLY: Coinbase completed 1m; RSI14 Wilder; SMA-seeded MACD12/26/9; latest completed Volume BTC. Candle close age <75s; no native inputs changed.",
-  "qualification_status": "EARLY_50_GUIDANCE_STABLE_SURFACE_NO_LOWER_REFRESH_PLACEHOLDERS; PROTECTED_TIER1_UNCHANGED; NO_DEPLOY",
+  "qualification_status": "NATIVE_ALL_PRICE_VALUE_ANALYSIS; HISTORICAL_TIER1_AUTHORITY_SEPARATE; EXPANDED_ENTRIES_OBSERVATIONAL",
   "integrated_base": "ebb204255264f8a35c4bdf84cd0fd6e54057b19a",
-  "integrated_scope": "Protected EARLY/FINAL unchanged; generalized serial SCALP; native original lease; information-only revalidation"
+  "integrated_scope": "Existing EARLY Tier-1 and FINAL qualification preserved; broader full-window both-side economics and WATCH/PASS native publication; deployed SCALP serial policy and diagnostic repair preserved; no orders"
 }

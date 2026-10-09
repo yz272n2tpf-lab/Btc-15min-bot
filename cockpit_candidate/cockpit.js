@@ -50,6 +50,36 @@
     return lane?.selection==='retained'||lane?.reason_code==='SOURCE_EXPIRED'?'REFRESHING':'UNAVAILABLE';
   }
   function nativeSnapshot(v){const lanes=v?.lanes||{};return {main:lanes.main?.eligible?lanes.main.current_payload:{status:'UNAVAILABLE',official_identity:v?.identity,reason:lanes.main?.reason_code},scalp:lanes.scalp?.eligible?lanes.scalp.current_payload:null,quote:lanes.quote?.eligible?lanes.quote.current_payload:null};}
+  const centsValue=v=>finite(v)?(v*100).toFixed(2)+'¢':'Unavailable';
+  const percentValue=v=>finite(v)?(v*100).toFixed(1)+'%':'Unavailable';
+  function renderValueAnalysis(native,current){
+    const a=native?.opportunity_analysis;
+    const valid=a?.schema==='BTC15_NATIVE_VALUE_ANALYSIS_V1'&&a.contract===native.contract;
+    const prefix=current?'CURRENT native analysis':'HISTORICAL same-contract analysis · no current action authority';
+    text('value-freshness',valid?prefix+' · '+stamp(native.published_ts):'Awaiting native value analysis');
+    text('value-best',valid?(current?'':'HISTORICAL · ')+(a.best_directional?a.best_directional.status+' · '+a.best_directional.side+' · '+a.best_directional.reason:'PASS · No directional candidate qualifies or meets the observational value conditions'):'No current native value selection');
+    text('value-selection',valid?a.selection_reason:'Native strategy states appear independently as their sources arrive');
+    for(const side of ['UP','DOWN']){
+      const c=valid?a.candidates.find(c=>c.side===side):null,e=c?.economics;
+      text('value-'+side.toLowerCase()+'-status',c?c.status+' · '+c.reason:'Awaiting native '+side+' evaluation');
+      table('value-'+side.toLowerCase(),c?[
+        ['BID / ASK',centsValue(c.bid)+' / '+centsValue(c.ask)],
+        ['Model fair / gross edge',percentValue(c.fair)+' / '+centsValue(c.edge)],
+        ['Fee / spread stress',centsValue(e.entry_fee_scenario)+' / '+centsValue(e.spread)],
+        ['Model EV after fee / stress',centsValue(e.net_model_ev_scenario)+' / '+centsValue(e.stress_net_model_ev_scenario)],
+        ['Settlement win / loss scenario',centsValue(e.win_profit_scenario)+' / '+centsValue(e.loss_scenario)],
+        ['Reward / risk ratio',finite(e.reward_risk_scenario)?e.reward_risk_scenario.toFixed(2):'Unavailable'],
+        ['Break-even probability',percentValue(e.break_even_probability)],
+        ['FINAL support',c.final_relation],
+        ['BTC / BRTI target gap',String(c.target_gap??'Unavailable')+' / '+String(c.brti_gap??'Unavailable')],
+        ['Recent native BTC move',c.btc_move_since_previous_native===null?'Causal prior sample unavailable':c.btc_move_since_previous_native.toFixed(2)+' USD / '+c.native_interval_seconds.toFixed(1)+'s'],
+        ['Secondary / pullback',c.secondary_state+' · '+c.secondary_reason],
+        ['What must improve',c.improvements.length?c.improvements.join('; '):'Existing historical policy qualifies; confirm executable price and fees manually']
+      ]:[]);
+    }
+    text('value-risk',valid?'Model probabilities: UP '+percentValue(a.model.probability_up)+' / DOWN '+percentValue(a.model.probability_down)+' · '+a.model.reliability+' · 5m BTC range '+String(a.volatility.range5??'unavailable')+' · Reversal '+a.reversal.status+': '+a.reversal.reason:'Probability, volatility and reversal context require a valid native publication');
+    text('value-costs',valid?'Cost scenario: general M=1 taker fee for one contract, conservatively cent-rounded; stress adds one observed spread. Actual series fees, size, depth and slippage unverified. No fill assumed. EV is model-implied, not established expected profit.':'Cost scenarios are unavailable until native analysis arrives');
+  }
   function renderResolved(v){
     return preserveDetails(()=>{
       const view=window.BTC15SnapshotAdapter.project(nativeSnapshot(v));
@@ -79,13 +109,15 @@
       }
       const native=m?.eligible?m.current_payload:!/unavailable/i.test(old.fields['early-action'])?oldMain:null;
       const early=native?.early,opportunity=native?.early_opportunity;
-      text('early-context',early?(!m?.eligible?'LAST QUALIFIED · ':'')+'Model fair '+(early.fair*100).toFixed(1)+'% · entry limit 45¢ · '+(opportunity?.price_zone||opportunity?.status||'No manual opportunity'):'Awaiting a qualified EARLY evaluation');
+      text('early-context',early?(!m?.eligible?'LAST QUALIFIED · ':'')+'Model fair '+(early.fair*100).toFixed(1)+'% · all prices evaluated for value · historical Tier-1 is separate · '+(opportunity?.status||'Awaiting native analysis'):'Awaiting a qualified EARLY evaluation');
+      renderValueAnalysis(native,!!m?.eligible);
       const scalpHistorical=!s?.eligible&&oldScalp&&!/unavailable/i.test(old.fields['scalp-action']);
       const scalp=s?.eligible?s.current_payload:scalpHistorical?oldScalp:null;
       for(const side of ['UP','DOWN']){
         const current=(scalpHistorical?old:view).scalpSide===side,scan=scalp?.diagnostics?.find(d=>d.side===side);
         const explain=scan?(window.BTC15SnapshotAdapter.reasonLabels[scan.reason]||String(scan.reason).replaceAll('_',' ')):null;
-        text('scalp-'+side.toLowerCase()+'-status',current?'Published '+scalp.guidance+' · '+side:scalp?(explain?'No new '+side+' entry · '+explain:'No new '+side+' opportunity published'):'No qualified '+side+' explanation');
+        const coverage=scalp?.opportunity_coverage?.find(c=>c.side===side);
+        text('scalp-'+side.toLowerCase()+'-status',coverage?coverage.status+' · '+coverage.reason+' · '+coverage.next_condition:current?'Published '+scalp.guidance+' · '+side:scalp?(explain?'No new '+side+' entry · '+explain:'No new '+side+' opportunity published'):'No qualified '+side+' explanation');
         label('scalp-'+side.toLowerCase()+'-freshness',scalpHistorical?'LAST QUALIFIED · historical; no current authority':s?.eligible?'CURRENT · source diagnostic':'UNAVAILABLE · no current source',scalpHistorical?'retained':s?.eligible?'current':'unavailable');
       }
       // History is in Details; inserting/removing duplicate history paragraphs

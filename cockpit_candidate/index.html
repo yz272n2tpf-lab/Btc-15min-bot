@@ -32,7 +32,7 @@
 
     <section class="card final-card" aria-labelledby="final-heading" data-section="final">
       <h2 id="final-heading"><span class="section-index">01</span> FINAL <span class="section-caption">Contract outcome</span></h2>
-      <div class="outcome"><strong id="final-direction" class="direction">—</strong><div><strong id="final-probability" class="probability">—</strong><span class="small">outcome probability</span></div></div>
+      <div class="outcome"><strong id="final-direction" class="direction">—</strong><div><strong id="final-probability" class="probability">—</strong><span class="small">model probability · not measured accuracy</span></div></div>
       <div class="support"><span id="confidence" hidden></span><span id="final-lock" class="lock">Lock unavailable</span></div>
       <p id="final-freshness" class="small" hidden></p>
       <p id="final-retained" class="small history-slot" hidden></p>
@@ -73,6 +73,19 @@
         </ol></div>
       </div>
       <p class="mapping-note">Rows follow the published SCALP lifecycle. Exit prices are observed trigger bids, not fills. A blank direction has no published opportunity.</p>
+    </section>
+
+    <section class="card value-card" aria-labelledby="value-heading">
+      <h2 id="value-heading">VALUE &amp; OPPORTUNITY COVERAGE</h2>
+      <p id="value-freshness" class="small">Awaiting native value analysis</p>
+      <strong id="value-best" class="status-line">No current native selection</strong>
+      <p id="value-selection" class="small"></p>
+      <div class="value-sides">
+        <div><h3>UP</h3><p id="value-up-status" class="reason"></p><dl id="value-up"></dl></div>
+        <div><h3>DOWN</h3><p id="value-down-status" class="reason"></p><dl id="value-down"></dl></div>
+      </div>
+      <p id="value-risk" class="small"></p><p id="value-costs" class="small"></p>
+      <p class="mapping-note">QUALIFIED: implemented strategy rules support the signal. WATCH / POTENTIAL: evidence is incomplete. PASS: no qualifying setup. EARLY and SCALP are independent of FINAL PASS. Settlement value and SCALP movement have different horizons; neither is claimed to be the most profitable trade. Lower prices are preferred when quality is comparable.</p>
     </section>
 
     <div class="context-grid">

@@ -44,7 +44,7 @@
     NEW_ENTRY_REQUIRES_120S:'new SCALP entry needs at least 120 seconds',
     READY_CONFIRMING:'confirmation pending', FEATURES_NOT_READY:'feature history not ready',
     BRTI_NOT_FRESH:'BRTI refresh pending',
-    ask_le45:'current ask is above 45¢',
+    ask_le45:'outside historical Tier-1 price range; broader value evaluation is separate',
     fair_ge75:'model fair below 75%',
     remaining_2_to10:'outside EARLY entry window (requires 2–10m remaining)',
     gap_ge25:'BTC gap below $25'
@@ -146,12 +146,12 @@
       const displayState=o?e.guidance:(opp?.status||'WATCH');
       pill('earlyState',displayState);
       text('earlyTitle',o?'EARLY '+o.side:'EARLY '+(opp?.side||e.side)+' · '+displayState);
-      text('earlyEntry',o?'Origin ASK '+cents(o.original_ask):(opp?.status==='OPPORTUNITY'?'OPPORTUNITY '+opp.side+' · ASK '+cents(opp.ask)+' · '+opp.price_zone:' '+(opp?.reason||'Waiting for qualified opportunity')).trim());
+      text('earlyEntry',o?'Origin ASK '+cents(o.original_ask):(['QUALIFIED','WATCH'].includes(opp?.status)?opp.status+' '+opp.side+' · ASK '+cents(opp.ask)+' · '+opp.price_zone:' '+(opp?.reason||'Waiting for qualified opportunity')).trim());
       text('earlyYourEntry',o?cents(o.original_ask)+' · protected signal ASK':'No protected origin · manual opportunity guidance only');
       text('earlyCurrentPrice',o?'BID '+cents(bid):(quotePrices?`UP ASK ${cents(quotePrices.up_ask)} · DOWN ASK ${cents(quotePrices.down_ask)}`:`UP ASK ${cents(prices?.up_ask)} · DOWN ASK ${cents(prices?.down_ask)}`));
       text('earlyEdge',o?(finite(bid)?((bid-o.original_ask)*100).toFixed(1)+'¢ gross movement':'later same-side BID refreshing'):finite(opp?.edge)?((opp.edge*100).toFixed(1)+'¢ model edge'):'Model edge refreshing');
-      text('earlyAfterEntry',o?e.guidance+' · '+human(h?.relation):(opp?.status==='OPPORTUNITY'?'NOT FINAL · signal only · manual execution · MAIN LIVE required':'No EARLY opportunity now · '+human(opp?.status)));
-      text('earlyLadderEntry','Opportunity target ≤50¢ · ideal 25–35¢ · validated same-contract + positive edge');
+      text('earlyAfterEntry',o?e.guidance+' · '+human(h?.relation):(['QUALIFIED','WATCH'].includes(opp?.status)?opp.status+' · model estimate, not proven profit · manual execution only':'No EARLY opportunity now · '+human(opp?.status)));
+      text('earlyLadderEntry','All valid prices evaluated · costs and evidence decide value · historical Tier-1 separately identified');
       text('earlyLadderHold',h?.confirmed?'FINAL confirms · '+e.guidance:o?e.guidance:'No protected position assumed');
       text('earlyLadderWatch',o?(ctx?human(ctx.phase)+' · '+ctx.reasons.map(human).join('; '):'Monitor qualified position'):(opp?.reason||'Await qualified opportunity'));
       text('earlyLadderProtect',h?.protect_latched?'PROTECT · review exposure at current bid':o?'Monitor FINAL support and bid':'Protection begins only after a protected origin');
@@ -235,7 +235,7 @@
       if(data.context&&(!Array.isArray(data.context.reasons)||typeof data.context.phase!=='string'))throw Error('CONTEXT');
       if(lane==='main'){
         const f=data.final,e=data.early,o=data.early_opportunity;
-        if(!f||!e||!o||typeof f.ready!=='boolean'||!['UP','DOWN'].includes(f.side)||!['confidence','probability_up','probability_down'].every(k=>finite(f[k])&&f[k]>=0&&f[k]<=1)||typeof e.guidance!=='string'||!Array.isArray(e.pass_reasons)||!['OPPORTUNITY','WATCH','WAIT'].includes(o.status)||!['UP','DOWN'].includes(o.side)||!finite(o.ask)||!finite(o.fair)||!finite(o.edge)||o.target_ask!==.50||o.final_call_authority!==false||o.origin_authority!==false||!finite(data.flip_risk_pct)||typeof data.phase!=='string')throw Error('MAIN_PAYLOAD');
+        if(!f||!e||!o||typeof f.ready!=='boolean'||!['UP','DOWN'].includes(f.side)||!['confidence','probability_up','probability_down'].every(k=>finite(f[k])&&f[k]>=0&&f[k]<=1)||typeof e.guidance!=='string'||!Array.isArray(e.pass_reasons)||!['QUALIFIED','PASS','OPPORTUNITY','WATCH','WAIT'].includes(o.status)||!['UP','DOWN'].includes(o.side)||!finite(o.ask)||!finite(o.fair)||!finite(o.edge)||!(o.target_ask===null||o.target_ask===.50)||o.final_call_authority!==false||o.origin_authority!==false||!finite(data.flip_risk_pct)||typeof data.phase!=='string')throw Error('MAIN_PAYLOAD');
         // early_opportunity is display guidance only; it cannot create an origin/event.
         // presentation_information is text only and cannot extend this lease.
       }else if(!['PASS','ENTER','HOLD','WATCH','CAUTION','PROTECT','EXIT'].includes(data.guidance)||(data.guidance==='EXIT'&&(!data.terminal||!finite(data.terminal.executable_exit_bid))))throw Error('SCALP_PAYLOAD');

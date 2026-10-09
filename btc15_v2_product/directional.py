@@ -119,38 +119,9 @@ def protected_frame(f, now):
 
 
 def early_opportunity(raw):
-    """User-facing EARLY opportunity guidance; never changes protected Tier-1 authority."""
-    e=raw['early']
-    ask,fair,edge=e['ask'],e['fair'],e['edge']
-    qualified_conditions={
-        'fair_ge75':bool(e['conditions']['fair_ge75']),
-        'remaining_2_to10':bool(e['conditions']['remaining_2_to10']),
-        'gap_ge25':bool(e['conditions']['gap_ge25']),
-    }
-    qualified=all(qualified_conditions.values())
-    if ask is None or not finite(ask) or ask<=0:
-        zone='NO LIVE ASK';status='WATCH';reason='Waiting for live Kalshi ask'
-    elif ask<=.30:zone='DEEP VALUE PRICE'
-    elif ask<=.40:zone='ATTRACTIVE PRICE'
-    elif ask<=.50:zone='ACCEPTABLE PRICE'
-    else:zone='EXPENSIVE / WAIT'
-    if ask is not None and finite(ask) and ask>0:
-        if not qualified:
-            status='WATCH'
-            missing=[k for k,v in qualified_conditions.items() if not v]
-            reason='Wait for validated same-contract qualification: '+','.join(missing)
-        elif ask>.50:
-            status='WAIT';reason='Qualified side, but Kalshi ask is above 50 cents'
-        elif not finite(edge) or edge<=0:
-            status='WAIT';reason='Qualified side, but no positive model edge versus live ask'
-        else:
-            status='OPPORTUNITY'
-            reason='Validated same-contract qualification + positive edge at <=50 cents; NOT a final call'
-    return dict(status=status,side=e['side'],ask=ask,fair=fair,edge=edge,price_zone=zone,
-        conditions=qualified_conditions,target_ask=.50,ideal_band=[.25,.35],
-        protected_tier1_origin_eligible=bool(e['ready']),
-        final_call_authority=False,origin_authority=False,
-        authority='SIGNAL_ONLY_MANUAL_OPPORTUNITY_GUIDANCE')
+    """Compatibility entry point; broad native analysis has no purchase ceiling."""
+    from .opportunities import evaluate
+    return evaluate(raw)[0]
 
 
 
@@ -200,7 +171,8 @@ class Directional:
             if not self.last or self.last['key'][0]!=key[0] or f['captured_ts']-self.last['at']>15:
                 continuity = 'START_OR_MISSING_INTERVAL'
             raw, qualified = protected_frame(f,now)
-            opportunity = early_opportunity(raw)
+            from .opportunities import evaluate
+            opportunity, analysis = evaluate(raw, f, self.prior_final, self.origin)
             if self.origin and self.origin['contract']==f['contract'] and self.origin['target']!=f['target']:
                 raise ValueError('IMMUTABLE_TARGET_CONFLICT')
             # FINAL publication is independent of EARLY manager success.
@@ -285,9 +257,9 @@ class Directional:
             left=f['official_close']-now
             view.update(status=status,expires_at=expires,official_open=f['official_open'],official_close=f['official_close'],
                 prices={k:f[k] for k in ('up_bid','up_ask','down_bid','down_ask')},
-                target=f['target'],native_epoch=key[0],native_sequence=key[1],feature_cutoff=f['feature_cutoff'],early_opportunity=opportunity,
+                target=f['target'],native_epoch=key[0],native_sequence=key[1],feature_cutoff=f['feature_cutoff'],early_opportunity=opportunity,opportunity_analysis=analysis,
                 source_timestamp_utc=raw['source_timestamp_utc'],origin=origin,early=dict(raw['early'],guidance=guidance,
-                    pass_reasons=[k for k,v in raw['early']['conditions'].items() if not v],target_ask=.50,ideal_band=[.25,.35]),
+                    pass_reasons=[k for k,v in raw['early']['conditions'].items() if not v],tier_scope='HISTORICAL_TIER1_ONLY'),
                 final=final,warning=warning,final_link_basis='EXPLICIT_IMMUTABLE_ORIGIN' if linked else None,
                 exit_guidance=None,exit_reason='EARLY_EXIT_THRESHOLD_NOT_SUPPORTED; PROTECT_GUIDANCE_AVAILABLE',
                 executable_current_bid=bid,movement_cents=None if movement is None else movement*100,
@@ -299,11 +271,11 @@ class Directional:
                             btc_age=now-f['btc_source'],causal=True),continuity=continuity,
                 performance_status='CURRENT_LONG_RUN_ACCURACY_NOT_ESTABLISHED')
             record.update(event=event,origin_id=origin['origin_id'] if origin else None,final=final,
-                          early=view['early'],early_opportunity=opportunity,warning=warning,continuity=continuity,origin=deepcopy(origin) if event=='BUY' else None,
+                          early=view['early'],early_opportunity=opportunity,opportunity_analysis=analysis,warning=warning,continuity=continuity,origin=deepcopy(origin) if event=='BUY' else None,
                           guidance=guidance,context=ctx,position_path=deepcopy(self.position_path))
             self.state,self.origin=next_state,origin
             self.last=dict(key=key,at=f['captured_ts'])
-            self.prior_final=dict(contract=f['contract'],probability_up=final['probability_up'],side=final['side'],ready=final['ready'],
+            self.prior_final=dict(contract=f['contract'],captured_ts=f['captured_ts'],btc_price=f['btc_price'],prices={k:f[k] for k in ('up_bid','up_ask','down_bid','down_ask')},probability_up=final['probability_up'],side=final['side'],ready=final['ready'],
                 last_call_side=final['side'] if final['ready'] else self.prior_final.get('last_call_side') if same_prior else None)
         except (ValueError,KeyError,TypeError) as exc:
             view['reason']=str(exc);record['unavailable_reason']=str(exc)

@@ -11,7 +11,7 @@
   const stamp=v=>finite(v)?new Date(v*1000).toISOString():'Unavailable';
   const seconds=v=>finite(v)?`${v.toFixed(3)} s`:'Unverified';
   const reasonLabels=Object.freeze({
-    ask_le45:'The signal ask exceeds the protected 45¢ entry limit',
+    ask_le45:'Outside the historical Tier-1 ≤45¢ price range; broader value analysis is separate',
     fair_ge75:'Target-aware fair probability is below 75%',
     remaining_2_to10:'Remaining time is outside the protected 2–10 minute window',
     gap_ge25:'The absolute BTC-to-exact-target distance is below $25',
@@ -81,7 +81,7 @@
     if(quoteOK){set('up-buy','quote.up_ask',cents);set('down-buy','quote.down_ask',cents);literal('quote-status','Kalshi buy quotes · cents per contract · recorded sample','quote.status');}
     else{literal('up-buy','—');literal('down-buy','—');literal('quote-status',same(q?.official_identity,i)?reason(q?.reason):'Same-contract Kalshi buy quotes are unavailable.','quote.reason / official_identity');}
     if(mainOK&&m.early){
-      const o=m.origin,e=m.early,h=m.final?.helper;
+      const o=m.origin,e=m.early,h=m.final?.helper,opp=m.early_opportunity;
       const originOK=same(o,i)&&presentId(o.origin_id)&&['UP','DOWN'].includes(o.side);
       const lifecycleOK=originOK&&presentId(h?.origin_id)&&h.origin_id===o.origin_id&&
         presentId(m.final?.early_origin_id)&&m.final.early_origin_id===o.origin_id&&
@@ -98,8 +98,13 @@
         if(['WATCH','CAUTION'].includes(e.guidance))literal('early-watch',e.guidance,'main.early.guidance + main.final.helper.state; CAUTION severity retained');
         if(e.guidance==='PROTECT')literal('early-protect',h.protect_latched===true?'Protection latched':'Latch unavailable','main.final.helper.protect_latched');
       }else if(!o&&!stateRows[e.guidance]){
-        literal('early-reason',e.pass_reasons?.length?e.pass_reasons.map(reason).join('; ')+'.':'Reason unavailable from source.','main.early.pass_reasons (already failed protected gates)');
-        literal('early-price',`${e.side} current buy ${cents(e.ask)}`,'main.early.ask + side; no origin inferred');
+        if(opp&&['QUALIFIED','WATCH','PASS'].includes(opp.status)&&m.opportunity_analysis?.schema==='BTC15_NATIVE_VALUE_ANALYSIS_V1'){
+          literal('early-action',opp.status==='WATCH'?'WATCH / POTENTIAL':opp.status,'main.early_opportunity.status');
+          literal('early-reason',opp.reason,'main.early_opportunity.reason');
+          literal('early-direction',opp.side,'main.early_opportunity.side');
+          literal('early-price',`${opp.side} current buy ${cents(opp.ask)} · no fill assumed`,'main.early_opportunity.ask');
+        }else{literal('early-reason',e.pass_reasons?.length?e.pass_reasons.map(reason).join('; ')+'.':'Reason unavailable from source.','main.early.pass_reasons (already failed protected gates)');
+        literal('early-price',`${e.side} current buy ${cents(e.ask)}`,'main.early.ask + side; no origin inferred');}
       }
       if((o&&!lifecycleOK)||(!o&&stateRows[e.guidance])){
         literal('early-action','Action unavailable','Conflicting or missing EARLY origin/helper binding');
