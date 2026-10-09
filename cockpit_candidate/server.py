@@ -39,6 +39,7 @@ ASSETS = MappingProxyType({
     "/responsive.html": "text/html; charset=utf-8",
     "/index.html": "text/html; charset=utf-8",
     "/styles.css": "text/css; charset=utf-8",
+    "/trade_records.js": "text/javascript; charset=utf-8",
     "/adapter.js": "text/javascript; charset=utf-8",
     "/cockpit.js": "text/javascript; charset=utf-8",
     "/live.js": "text/javascript; charset=utf-8",
@@ -300,3 +301,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

@@ -77,7 +77,8 @@ def loop():
                     row['ticker'],row['target'],row['left']),flush=True)
                 loop.last_wait=None
             accepted=journal_offer(dict(kind='SCALP_DECISION',contract=row['ticker'],row=row,
-                captured_ts=time.time(),proposals=proposals,diagnostics=diagnostics))
+                captured_ts=time.time(),proposals=proposals,diagnostics=diagnostics,
+                fee_schedule=deepcopy(getattr(globals().get('_scalp_fee_cache'),'value',None))))
             if row['ts']-getattr(loop,'last_pipeline_log',0)>=15:
                 import btc15_v2_product.scalp as _scalp_runtime
                 worker=_scalp_runtime._worker
@@ -109,3 +110,4 @@ def main():
     srv.serve_forever()
 
 if __name__=='__main__': raise SystemExit(main())
+

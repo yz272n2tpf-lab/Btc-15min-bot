@@ -127,6 +127,7 @@ def early_opportunity(raw):
 
 class Directional:
     def restore(self, saved):
+        self.signal_history = saved.get('signal_history', []) if saved else []
         self.terminal = saved.get('terminal') if saved else None
         if saved and saved.get('candidate') != CANDIDATE:
             raise ValueError('DIRECTIONAL_CHECKPOINT_CANDIDATE_MISMATCH')
@@ -160,8 +161,11 @@ class Directional:
         elif self.terminal:
             raise ValueError('DIRECTIONAL_CHECKPOINT_TERMINAL_WITHOUT_ORIGIN')
 
+        from .trade_clarity import remember
+        self.signal_history=remember(self.signal_history,self.origin,'main',terminal=self.terminal)
+
     def checkpoint(self):
-        return deepcopy(dict(candidate=CANDIDATE,manager=encode_state(self.state),origin=self.origin,last=self.last,prior_final=self.prior_final,position_path=self.position_path,terminal=self.terminal))
+        return deepcopy(dict(candidate=CANDIDATE,manager=encode_state(self.state),origin=self.origin,last=self.last,prior_final=self.prior_final,position_path=self.position_path,terminal=self.terminal,signal_history=self.signal_history))
 
     def process(self, f, now):
         record = dict(schema=SCHEMA, candidate=CANDIDATE, build=os.getenv('RAILWAY_GIT_COMMIT_SHA'),
@@ -310,6 +314,8 @@ class Directional:
             record.update(event=event,origin_id=origin['origin_id'] if origin else None,final=final,
                           early=view['early'],early_opportunity=opportunity,opportunity_analysis=analysis,warning=warning,continuity=continuity,origin=deepcopy(origin) if event=='BUY' else None,
                           guidance=guidance,context=ctx,management=management,terminal=deepcopy(self.terminal),position_path=deepcopy(self.position_path))
+            from .trade_clarity import remember
+            self.signal_history=remember(self.signal_history,origin,'main',guidance,self.terminal,management['reason'] if management else None)
             self.state,self.origin=next_state,origin
             self.last=dict(key=key,at=f['captured_ts'])
             self.prior_final=dict(contract=f['contract'],captured_ts=f['captured_ts'],btc_price=f['btc_price'],prices={k:f[k] for k in ('up_bid','up_ask','down_bid','down_ask')},probability_up=final['probability_up'],side=final['side'],ready=final['ready'],
@@ -321,6 +327,9 @@ class Directional:
                 view['final']['early_origin_id']=None
                 view['final']['helper_unavailable']=str(exc)
                 record['final']=view['final']
+        from .trade_clarity import remember,project
+        self.signal_history=remember(self.signal_history,self.origin,'main')
+        view['trade_clarity']=project(self.signal_history,self.origin,'main',view,record.get('event'))
         return record,self.checkpoint(),view
 
 
@@ -356,3 +365,4 @@ def offer(ns):
 def settlement(ticker, value):
     if _worker is not None:
         _worker.offer(dict(kind='BRTI_CLOSEOUT',contract=ticker,settlement=value))
+

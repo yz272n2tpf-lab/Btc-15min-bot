@@ -9,6 +9,12 @@
   if(window.BTC15LadderOwner||window.btc15RenderLadders)throw Error('BTC15_LADDER_OWNER_ALREADY_LOADED');
   const __V81_LADDERS_URL__='/scalp/ladders';
   const subscribers=new Set();let resolvedView=null;
+  const issuedRecords={main:null,scalp:null},issuedRecordClocks={main:-Infinity,scalp:-Infinity};
+  function retainIssued(lane,data){
+    if(lane!=='quote'&&Number.isFinite(data.published_ts)&&data.published_ts>=issuedRecordClocks[lane]&&data.trade_clarity?.schema==='BTC15_ISSUED_SIGNALS_V1'&&Array.isArray(data.trade_clarity.records)){
+      issuedRecords[lane]=structuredClone(data.trade_clarity);issuedRecordClocks[lane]=data.published_ts;
+    }
+  }
   function freezeView(value){
     if(value&&typeof value==='object'){Object.values(value).forEach(freezeView);Object.freeze(value);}
     return value;
@@ -31,6 +37,7 @@
     const lane=(name,current,payload,eligible,tracking)=>({
       current_payload:current,
       retained_payload:lastQualified[name],
+      issued_records:issuedRecords[name]||null,
       payload,
       selection:eligible?'current':payload?'retained':'none',
       eligible:!!eligible,tracking:!!tracking,
@@ -284,7 +291,7 @@
       if(identity&&identity.value.contract===i.contract&&key(identity.value)!==key(i))throw Error('FIXED_IDENTITY_CONFLICT');
       identity={value:i,deadline:received+(i.official_close-serverNow)*1000-rtt};
     }
-    if(data.status==='UNAVAILABLE')return {data,deadline:received+2000,received,rtt}; // Reason only; never an action lease.
+    if(data.status==='UNAVAILABLE'){retainIssued(lane,data);return {data,deadline:received+2000,received,rtt};} // Reason only; never an action lease.
     if(!['AVAILABLE','PASS'].includes(data.status)||!finite(data.published_ts)||!finite(data.expires_at)||data.published_ts>data.served_ts||!official(i,data.served_ts))throw Error('CLOCK_OR_IDENTITY');
     if(lane!=='quote'){
       if(data.contract!==i.contract||data.target!==i.target||data.official_open!==i.official_open||data.official_close!==i.official_close||data.expires_at>i.official_close)throw Error('ACTION_IDENTITY');
@@ -306,6 +313,7 @@
     }
     const old=caches[lane]?.data;
     if(old?.published_ts>data.published_ts)throw Error('PUBLICATION_ROLLBACK');
+    retainIssued(lane,data);
     lastQualified[lane]=data;
     return {data,deadline:received+Math.max(0,(data.expires_at-serverNow)*1000)-rtt,received,rtt};
   }
@@ -361,3 +369,4 @@
   setInterval(refreshIndicators,1000);
   render();refresh();refreshQuotes();refreshIndicators();
 })();
+

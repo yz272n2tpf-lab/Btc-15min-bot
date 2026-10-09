@@ -160,6 +160,7 @@ class SupportedEarly(unittest.TestCase):
             prior=Path(tmp)/PREDECESSOR/'main.sqlite3';prior.parent.mkdir()
             with sqlite3.connect(prior) as db:
                 db.execute('CREATE TABLE meta(k TEXT PRIMARY KEY,v TEXT)')
+                db.execute('CREATE TABLE events(seq INTEGER PRIMARY KEY,sha256 TEXT,body BLOB)')
                 db.executemany('INSERT INTO meta VALUES (?,?)',dict(product_revision=REVISION,
                     deployment=PREDECESSOR,build=BUILD,lane='main',state=json.dumps(saved)).items())
             before=prior.read_bytes()
@@ -174,7 +175,9 @@ class SupportedEarly(unittest.TestCase):
                     restored=self.engine();restored.restore(j.get('state'))
                     _,_,view=step(restored,value_frame(2,ask=.7))
                     self.assertEqual(view['early']['guidance'],'HOLD')
-                else:self.assertIsNone(j.get('state'))
+                else:
+                    self.assertIsNone(j.get('state')['origin'])
+                    self.assertEqual(j.get('state')['signal_history'][-1]['origin_id'],v['origin']['origin_id'])
                 j.close()
             self.assertEqual(prior.read_bytes(),before)
 
@@ -186,3 +189,4 @@ class SupportedEarly(unittest.TestCase):
         at[0]=70;c.get=lambda _: {'series':{}};c.refresh();self.assertIsNone(c.value)
 
 if __name__=='__main__':unittest.main()
+

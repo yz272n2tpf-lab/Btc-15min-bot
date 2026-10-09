@@ -51,12 +51,13 @@
     <section class="card ladder-card" aria-labelledby="early-heading" data-section="early">
       <h2 id="early-heading"><span class="section-index">02</span> EARLY <span id="early-direction" class="section-caption">Direction unavailable</span></h2>
       <div class="ladder-guidance"><p id="early-freshness" class="small" hidden></p><strong id="early-action" class="action">Action unavailable</strong><p id="early-reason" class="reason">Authoritative guidance is unavailable.</p><p id="early-price" class="current-price"></p><p id="early-context" class="small">Awaiting EARLY evaluation</p><p id="early-retained" class="small" hidden></p></div>
+      <dl id="early-issued" class="issued-record"></dl><p id="early-exit-record" class="reason"></p><details><summary>Recent issued EARLY signals — historical</summary><dl id="early-signal-history"></dl></details>
       <ol class="ladder" id="early-ladder" aria-label="EARLY five-rung ladder">
         <li data-rung="entry"><span class="rung-num">1</span><strong>Entry</strong><span class="rung-value" id="early-entry">—</span></li>
         <li data-rung="hold"><span class="rung-num">2</span><strong>Hold</strong><span class="rung-value" id="early-hold">—</span></li>
         <li data-rung="watch"><span class="rung-num">3</span><strong>Watch</strong><span class="rung-value" id="early-watch">—</span></li>
-        <li data-rung="protect"><span class="rung-num">4</span><strong>Protect Profits</strong><span class="rung-value" id="early-protect">—</span></li>
-        <li data-rung="exit"><span class="rung-num">5</span><strong>Exit Now</strong><span class="rung-value" id="early-exit">—</span></li>
+        <li data-rung="protect"><span class="rung-num">4</span><strong>Protect / Risk</strong><span class="rung-value" id="early-protect">—</span></li>
+        <li data-rung="exit"><span class="rung-num">5</span><strong>Exit record</strong><span class="rung-value" id="early-exit">—</span></li>
       </ol>
       <p id="early-management" class="small">No genuine managed EARLY origin; no fill assumed.</p><p class="mapping-note">Rows follow native EARLY management. EXIT requires an origin-bound, later same-side BID and supported deterioration. All guidance is conditional on manual entry; prices are observations, not fills.</p>
     </section>
@@ -64,7 +65,8 @@
     <section class="card" aria-labelledby="scalp-heading" data-section="scalp">
       <h2 id="scalp-heading"><span class="section-index">03</span> SCALP <span class="section-caption">Directional opportunities</span></h2>
       <div id="scalp-guidance" class="ladder-guidance"><p id="scalp-freshness" class="small" hidden></p><strong id="scalp-action" class="action">Action unavailable</strong><p id="scalp-reason" class="reason">Authoritative guidance is unavailable.</p><p id="scalp-price" class="current-price"></p><p id="scalp-retained" class="small" hidden></p></div>
-      <div class="scalp-directions">
+      <dl id="scalp-issued" class="issued-record"></dl><p id="scalp-exit-record" class="reason"></p><p id="scalp-economics" class="small"></p><details><summary>Recent serial SCALP signals — historical</summary><dl id="scalp-signal-history"></dl></details>
+      <h3>Independent UP / DOWN scans — NOT ISSUED BUY signals</h3><div class="scalp-directions">
         <div class="scalp-direction" data-side="UP"><h3><span class="direction up">↑ UP</span><span id="scalp-up-status" class="small">No directional state published</span></h3><p id="scalp-up-freshness" class="small" hidden></p><ol class="ladder" id="scalp-up-ladder" aria-label="SCALP UP five-rung ladder">
           <li data-rung="entry"><span class="rung-num">1</span><strong>Entry</strong><span class="rung-value" id="scalp-up-entry">—</span></li><li data-rung="hold"><span class="rung-num">2</span><strong>Hold</strong><span class="rung-value" id="scalp-up-hold">—</span></li><li data-rung="watch"><span class="rung-num">3</span><strong>Watch</strong><span class="rung-value" id="scalp-up-watch">—</span></li><li data-rung="protect"><span class="rung-num">4</span><strong>Protect</strong><span class="rung-value" id="scalp-up-protect">—</span></li><li data-rung="exit"><span class="rung-num">5</span><strong>Exit</strong><span class="rung-value" id="scalp-up-exit">—</span></li>
         </ol></div>
@@ -107,6 +109,7 @@
     </div></details>
   </main>
   <script src="adapter.js"></script>
+  <script src="trade_records.js"></script>
   <script src="cockpit.js"></script>
   <!-- Inert by default: these scripts are activated only in fixture mode. -->
   <template id="fixture-boot">
@@ -175,3 +178,4 @@
   </script>
 </body>
 </html>
+

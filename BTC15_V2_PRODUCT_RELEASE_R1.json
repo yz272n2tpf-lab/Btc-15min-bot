@@ -18,7 +18,7 @@
     "btc15_v2_product/admin.py": "33912a9118ba5f5671cdf98848aed18f1601047b6de61892d7e939d410fb8f84",
     "btc15_v2_product/bootstrap.py": "dd760e3ba66cc97a4f4cb7324998467b8bf33cb8282de67eaa32cf7290d5c0e1",
     "btc15_v2_product/installer.py": "8d9e52eae3d1abc928490f49d3ad1c78e49be3dd51255bc07ff84fcdea170c62",
-    "btc15_v2_product/journal.py": "52f73699169d533f5c7ee904fc4657b40a348241490e2b7a901d96ea2d3e7925",
+    "btc15_v2_product/journal.py": "4a39ec2052b5dcdd2fa145e64a65528b06e947fb3cc049417308af648fe3f2e5",
     "btc15_v2_product/panel.js": "7cfed861b328b06ae2e89fb788e11c5603f00cd0417f1bb518ade44f4c9baf09",
     "btc15_v2_product/quote_transport.py": "48ff0785fb120c19ad2973f06ce18a4cb1922ec05067b34ae0e025eb075c8633",
     "btc15_v2_product/quote_view.py": "a2e3180dae69fe6d304e30a7259ba2f764ea4cb7e277aa2236cb98b715be62fe",
@@ -26,7 +26,7 @@
     "btc15_v2_product/revalidation.py": "8dc2e747c70d552e18df00d2c7e572dc63e915d132bc00dcdcd98395ed9320c3",
     "btc15_v2_product/revalidation_transport.py": "828a42b22465a9fe34779e4d6fb0d38eb8393fbc2f0e43620bf62f4d91abd4cc",
     "btc15_v2_product/routes.py": "df02050e261932268e3a8f426086c464736389540b47ca30b89d5c62f8e5889e",
-    "btc15_v2_product/runtime.py": "9aef895014cbcf0736e4967a65ab53a773a4de5ccb78749276e7e2fa89754916",
+    "btc15_v2_product/runtime.py": "8b0a83793f25b86db1b3246fe83618e4d00cd20c0280d70dbce884369bf84aef",
     "btc15_v2_product/worker.py": "8201c9fdce9b912a0c0f8351203c36f0649b2987fe92573841b9aeee9835377e",
     "ops/btc15_v2_scoring/bridge.py": "d298c22c317d0f4bac415a1f24264a9bf0349926bc7f9cc6e4b5dfe37cb121b4",
     "ops/btc15_v2_scoring/completeness_diagnostics.py": "e46ae773d63e628e92d883ad81c91e028d65d5b39fea68c2a15cc06c602e73c1",
@@ -37,9 +37,9 @@
     "btc15_v2_product/durable_handoff.py": "cfe1a69a1611f0cd2ccde1db5574254d958745e6cdb3547f43291f93d6c5e3b8",
     "btc15_v2_product/indicators.py": "98052605bc935fe8fabc9a72fd93c7cbbb56a84f75bb3b665b1725bc51d98bb9",
     "btc15_information_panel_v1.js": "db3b1408435fe39c31f1df0c931e058a1bce1d8aefae3c82479ac59d66a14534",
-    "btc15_v2_product/directional.py": "b6901a755e2bb6d292a7a96c9c13dd59613bec8348713034e9bf213e4a1f3019",
-    "btc15_v2_product/scalp.py": "d5a0728fd8c40d2e327940028d7687948c9954762c930aa154344ad52c4db9a6",
-    "btc15_v2_product/scalp_feed.py": "c6dbcfc8b5ac04f361910152077758147815ccfd928ce78cfc1ae8f20d8453d7",
+    "btc15_v2_product/directional.py": "f4affb2598d0b1cac3c3d57b9f8449c14321e948f4dcbbfe8f30835fb0670f42",
+    "btc15_v2_product/scalp.py": "a8c8632ee78c92caf32a673f8dfd466119419f8c68fe5d4e0d70946c7985ff79",
+    "btc15_v2_product/scalp_feed.py": "3d98e6656f717df5e6261727a2ac8812e12b86762e3a352320f49919c1ca7553",
     "btc15_v2_product/directional_authority.py": "50937b4ece862878bff9064db163de12f211dc2cef33dd277f3fac0dbdbce100",
     "btc15_v2_product/scalp_policy.py": "45c48a30b40be71ffa12ab505c6d4228797c75ec109515eec1498020b6590609",
     "btc15_v2_product/coverage_challenger_a.json": "c1667f4db62d619fe2a80584ae617ca0cf32af933b15405a67b486cb4db7b720",
@@ -49,12 +49,14 @@
     "btc15_v2_product/production.py": "0242e4ad15907f01e6156177b1686d266c0c8673a07737cbe4016841b325a4f6",
     "btc15_v2_product/opportunities.py": "e96d7d80d3e8c7b15d0ed3db27dd39d2884de05e820659c002e90a7e11829391",
     "btc15_v2_product/early_entry.py": "83312af50889d7ff2b7e8f8a9f8701291a49b8f5bd87840da066f68a0b53b05a",
-    "btc15_v2_product/early_management.py": "da3522676f7dbdf2685930a6a4eb2b616d2b39e61ac393480d6a7772576aa63b",
-    "btc15_v2_product/early_origin_transfer.py": "7a4b426fecd8de18660b77a9e457346eb96635a7394635de5477df7a3745967e",
+    "btc15_v2_product/early_management.py": "4a9bd53255bd1af4bf150da979241d09987ba20e2a09c34ecd623ab85208c0b0",
+    "btc15_v2_product/early_origin_transfer.py": "00ad8ef295aa6e95701c731936acd470cc6e7ef43f948cb73668161bb57b6f7a",
     "btc15_information_service_v1.py": "7405dd37f4b00eae4620cd290334692b8ffeaa428bfde62f639a79a73875a2b0",
     "btc15_information_proxy_v1.py": "bd15632a24576b1ad13b995d7f1bad9fc71eac5121d3b737d5093af8afd3034c",
     "btc15_information_journal_v1.py": "b66ecfb3cc1e3ae4d2f3a103ae84bd711f94fe1323ee0ffaf661b9674224436e",
-    "btc15_information_archive_once.py": "76c248c907b0d17b207a6c59828fee55fc760a9acfe0a58f678575f389e87cd4"
+    "btc15_information_archive_once.py": "76c248c907b0d17b207a6c59828fee55fc760a9acfe0a58f678575f389e87cd4",
+    "btc15_v2_product/scalp_economics.py": "f75077e66d1b7dce3c8a3741c4f1da7d1d8ee473c1cce16a8ec45ca88ff1ffd1",
+    "btc15_v2_product/trade_clarity.py": "593abaaa3cc1d9f1e76698145903d0f0cc402d5901ee2ff39a2193ea6f675261"
   },
   "lane_protected_files": {
     "main": {
@@ -83,5 +85,6 @@
   "display_indicators": "DISPLAY ONLY: Coinbase completed 1m; RSI14 Wilder; SMA-seeded MACD12/26/9; latest completed Volume BTC. Candle close age <75s; no native inputs changed.",
   "qualification_status": "NATIVE_HISTORICAL_TIER1_OR_SUPPORTED_VALUE_V1; NO_UNIVERSAL_ASK_CEILING",
   "integrated_base": "ebb204255264f8a35c4bdf84cd0fd6e54057b19a",
-  "integrated_scope": "Separate native supported-value EARLY origin route, unchanged historical Tier-1/FINAL predicates and SCALP; immutable ladder integration, explicit evidence/cost guards; signal only"
+  "integrated_scope": "Separate native supported-value EARLY origin route, unchanged historical Tier-1/FINAL predicates and SCALP; immutable ladder integration, explicit evidence/cost guards; signal only",
+  "trade_clarity_repair": "Durable issued-record display tail, original authority expiry, completed exit records, predecessor continuity; SCALP momentum alone cannot establish >2c net profit after fees/execution reserve."
 }

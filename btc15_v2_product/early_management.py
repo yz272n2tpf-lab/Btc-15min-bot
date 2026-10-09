@@ -53,7 +53,9 @@ def decide(f, origin, prior_p, path, current_action, later_bid, terminal=None):
     giveback=path.get('mfe') is not None and gross<path['mfe']-1e-12
     economics=dict(original_signal_ask=origin['original_ask'],current_bid=bid,
         gross_movement_cents=gross*100,entry_fee_scenario=entry_fee,exit_fee_scenario=exit_fee,
-        net_liquidation_scenario=net,realized_profit=None,fill_guaranteed=False,
+        net_liquidation_scenario=net,execution_reserve=f[side.lower()+'_ask']-bid,
+        net_after_execution_reserve=None if net is None else net-(f[side.lower()+'_ask']-bid),
+        meaningful_positive_net=net is not None and net-(f[side.lower()+'_ask']-bid)>.02+1e-12,realized_profit=None,fill_guaranteed=False,
         basis='If manually entered at signal ASK and closed at displayed BID; one contract; fees estimated, overrides/depth/slippage unverified')
     evidence=dict(held_model_probability=p,prior_model_probability=prior_p,
         probability_weakening=weak,model_opposes=opposing,btc_held_side_gap=btc,
@@ -81,7 +83,7 @@ def decide(f, origin, prior_p, path, current_action, later_bid, terminal=None):
         state='PROTECT';reason='ESTABLISHED_PROTECTION_REMAINS_LATCHED'
     elif (weak or opposing) and (btc<=0 or brti<=0 or adverse and giveback):
         state='PROTECT';reason='DIRECTIONAL_DETERIORATION_CORROBORATED_BY_MARKET'
-    elif net is not None and net>0 and adverse and (weak or giveback):
+    elif net is not None and net-(f[side.lower()+'_ask']-bid)>.02+1e-12 and adverse and (weak or giveback):
         state='PROTECT';reason='POSITIVE_LIQUIDATION_SCENARIO_WITH_DETERIORATION'
     elif weak or opposing or btc<=0 or brti<=0 or adverse or trend_adverse or giveback or x is None:
         state='WATCH';reason='SUPPORT_WEAKENED_OR_MOMENTUM_UNAVAILABLE'
@@ -91,3 +93,4 @@ def decide(f, origin, prior_p, path, current_action, later_bid, terminal=None):
         reason+='; EXIT_WAITING_FOR_LATER_POSITIVE_SAME_SIDE_BID'
     return dict(state=state,reason=reason,terminal=terminal,economics=economics,
         evidence=evidence,new_exit=state=='EXIT',policy=POLICY)
+

@@ -11,6 +11,8 @@ from pathlib import Path
 from btc15_ladder_journal_v1 import Worker, digest, SCHEMA
 from btc15_recovered_exit_engine_v1 import Policy
 from btc15_v2_product.scalp_policy import Lifecycle, proposal_for
+from .scalp_economics import liquidation, entry_assessment
+from .trade_clarity import remember, project
 from btc15_scalp_management_presentation_v1 import management_presentation
 from btc15_position_context_v2 import context
 from btc15_v81_qualified_inputs_v1 import require_qualified, epoch
@@ -39,6 +41,8 @@ class Scalp:
     def restore(self, saved):
         if saved and saved.get('candidate') != CANDIDATE:
             raise ValueError('SCALP_CHECKPOINT_CANDIDATE_MISMATCH')
+        saved = saved or {}
+        self.signal_history = saved.get('signal_history', [])
         self.origin = saved.get('origin')
         self.path = saved.get('path', {})
         self.terminal = saved.get('terminal')
@@ -53,6 +57,13 @@ class Scalp:
             self.path['missing'] = True
             self.engine = self._engine()
             self.engine.__dict__.update(saved.get('engine', {}))
+            o=self.origin;q=o['entry_provenance']['quote']
+            if (o['origin_id']!=digest([CANDIDATE,o['contract'],o['side'],o['signal_ts'],q['epoch'],q['sequence']])
+                or o['original_ask']!=q[o['side'].lower()+'_ask'] or o['contract']!=o['entry_provenance']['ticker']
+                or any(getattr(self.engine,k)!=v for k,v in dict(ticker=o['contract'],side=o['side'],entry=o['original_ask'],started=o['signal_ts'],close=o['close_ts']).items())
+                or self.terminal and self.terminal.get('origin')!=o):
+                raise ValueError('SCALP_CHECKPOINT_ORIGIN_CONFLICT')
+        self.signal_history=remember(self.signal_history,self.origin,'v81',terminal=self.terminal)
         self.restarted = bool(saved)
 
     def _engine(self):
@@ -64,16 +75,18 @@ class Scalp:
         engine = {k:v for k,v in self.engine.__dict__.items() if k != 'policy'} if self.engine else None
         return deepcopy(dict(candidate=CANDIDATE, origin=self.origin, path=self.path,
             terminal=self.terminal, contract=self.contract, closed=self.closed,
-            last=self.last, index=self.index, last_signal=self.last_signal, engine=engine))
+            last=self.last, index=self.index, last_signal=self.last_signal, engine=engine,signal_history=self.signal_history))
 
-    def finish(self, reason, now, bid, q=None):
+    def finish(self, reason, now, bid, q=None, economics=None):
         o = self.origin
         self.terminal = dict(origin=deepcopy(o), path=deepcopy(self.path), reason=reason,
             state='EXIT' if reason=='ARM5_GIVEBACK4' else 'ENDED_UNARMED' if reason=='ENDED_UNARMED' else 'UNAVAILABLE',
             actionable_exit=reason=='ARM5_GIVEBACK4', signal_only=True, orders=False, ts=now,
             executable_exit_bid=bid, quote=deepcopy(q), observed_only=True,
             horizon_delay_seconds=max(0., now-o['deadline']),
-            complete_path=not self.path['missing'], manual_fill=None, realized_profit=None)
+            complete_path=not self.path['missing'], economics=deepcopy(economics),
+            exit_class='PROFIT_PROTECTION' if economics and economics['meaningful_positive_net'] else 'DEFENSIVE_RISK_EXIT', manual_fill=None, realized_profit=None)
+        self.signal_history=remember(self.signal_history,o,'v81',self.terminal['state'],self.terminal)
         self.confirm.clear()
         return deepcopy(self.terminal)
 
@@ -146,7 +159,9 @@ class Scalp:
                         brti_source_ts=p['brti']['source_ts_ms']/1000,
                         quote_validated_at_observation=True, **{side.lower()+'_bid':bid}))
                     if result['status'] == 'EXIT':
-                        record['terminal'] = self.finish('ARM5_GIVEBACK4', now, bid, q)
+                        record['terminal'] = self.finish('ARM5_GIVEBACK4', now, bid, q,
+                            liquidation(self.origin['original_ask'],bid,q[side.lower()+'_ask'],
+                                f.get('fee_schedule'),cut,self.origin.get('fee_schedule'),self.origin['signal_ts']))
                         record['event'] = 'SCALP_EXIT'
                     elif result['status'] == 'ENDED_UNARMED':
                         record['terminal'] = self.finish('ENDED_UNARMED', now, None, q)
@@ -162,13 +177,15 @@ class Scalp:
             if can_enter and p['close_ts']-now>=120 and cut > after and q['source_ts_ms']/1000 > after:
                 for side in ('UP', 'DOWN'):
                     proposal = proposal_for(row, side, f['proposals'][side].get('history', {}))
-                    if not proposal['ok']:
+                    assessment=entry_assessment(row,side,f.get('fee_schedule'))
+                    if not proposal['ok'] or not assessment['ready']:
                         continue
                     predecessor = self.terminal
                     self.index += 1
                     self.origin = dict(origin_id=digest([CANDIDATE,self.contract,side,now,q['epoch'],q['sequence']]),
                         contract=self.contract, side=side, signal_ts=now, decision_ts=cut,
                         original_ask=q[side.lower()+'_ask'], entry_provenance=deepcopy(p),
+                        fee_schedule=deepcopy(f.get('fee_schedule')),qualification=deepcopy(assessment),
                         entry_features=deepcopy(proposal['features']), feature_provenance=deepcopy(proposal['history']), route='GENERALIZED',
                         target=p['target'], open_ts=p['open_ts'], close_ts=p['close_ts'],
                         deadline=min(now+POLICY.horizon,p['close_ts']), serial_index=self.index,
@@ -194,23 +211,36 @@ class Scalp:
                     arm_gain=POLICY.arm, exit_giveback=POLICY.giveback))
                 guidance = (('EXIT' if self.terminal['actionable_exit'] else 'PASS') if self.terminal else 'ENTER' if record.get('event') == 'SCALP_SIGNAL'
                     else 'PROTECT' if presentation['protection_armed'] else ctx['state'])
+            economics=None
+            if self.origin and current_bid is not None and not self.terminal:
+                economics=liquidation(self.origin['original_ask'],current_bid,q[self.origin['side'].lower()+'_ask'],
+                    f.get('fee_schedule'),cut,self.origin.get('fee_schedule'),self.origin['signal_ts'])
+            if presentation:
+                profitable=bool(economics and economics['meaningful_positive_net'])
+                presentation.update(profit_protection_qualified=profitable,
+                    message=('COMPLETED EXIT RECOMMENDATION — no execution assumed' if self.terminal and self.terminal['state']=='EXIT' else
+                        'SIGNAL EXPIRED — no executable exit recommendation' if self.terminal else
+                        'PROTECT — meaningful net liquidation scenario' if profitable and self.engine.armed else
+                        'PROTECT — defensive risk warning; profit not established' if self.engine.armed else 'Existing signal under management'),
+                    protection_basis='NET_AFTER_FEES_AND_EXECUTION_STRESS' if profitable else 'DEFENSIVE_GROSS_GIVEBACK_ONLY')
             # Independent native scan stays visible while the serial lane is owned.
             coverage=[]
             for scan_side in ('UP','DOWN'):
                 proposal=proposal_for(row,scan_side,f['proposals'][scan_side].get('history',{}))
+                assessment=entry_assessment(row,scan_side,f.get('fee_schedule'))
                 active=bool(self.origin and not self.terminal and self.origin['side']==scan_side)
-                scan_state='QUALIFIED' if active else 'WATCH' if proposal['ok'] else 'PASS'
+                scan_state='WATCH' if proposal['ok'] else 'PASS'
                 coverage.append(dict(side=scan_side,status=scan_state,
                     reason=('Existing qualified origin; follow its management state' if active else
-                        'Momentum qualifies, but the serial lane must release before a new origin' if proposal['ok'] else proposal['reason']),
+                        assessment['explanation'] if proposal['ok'] else proposal['reason']),
                     btc30=(proposal.get('features') or {}).get('btc30'),
                     bid=q[scan_side.lower()+'_bid'],ask=q[scan_side.lower()+'_ask'],
                     remaining_seconds=p['close_ts']-now,
                     route=lane(self.origin['side'] if self.origin else None,scan_side,self.index+1),
                     entry_eligible=record.get('event')=='SCALP_SIGNAL' and active,
-                    settlement_probability=None,expected_profit=None,
+                    settlement_probability=None,expected_profit=None,economic_qualification=assessment,issued_buy=False,
                     next_condition=('Use existing origin management; no assumed fill' if active else
-                        'Wait for existing serial lifecycle to end and a strictly later qualified quote' if proposal['ok'] else
+                        'Supported later Kalshi BID economics above costs and the >2¢ net floor are missing' if proposal['ok'] else
                         'At least 120 seconds must remain for a new entry' if p['close_ts']-now<120 else
                         'Fresh causal 30-second history and side-aligned BTC30 of at least $15 are required')))
             self.last = dict(cut=cut, quote=deepcopy(q))
@@ -223,7 +253,8 @@ class Scalp:
                 expires_at=min(p['close_ts'],q['source_ts_ms']/1000+6,p['brti']['source_ts_ms']/1000+5,
                     epoch(p['btc_source_utc'])+10, now+3.5),
                 executable_current_bid=current_bid, movement_cents=None if movement is None else movement*100,
-                context=ctx, presentation=presentation, policy=asdict(POLICY),
+                context=ctx, presentation=presentation, economics=economics, policy=asdict(POLICY),
+                economic_policy='SCALP_NET_EVIDENCE_V1',
                 trailing_trigger_bid=(self.origin['original_ask']+self.path['mfe']-POLICY.giveback
                     if presentation and presentation['protection_armed'] else None),
                 exit_guidance=(dict(current_executable_bid=current_bid, trigger=deepcopy(self.terminal),
@@ -239,6 +270,8 @@ class Scalp:
                 self.path['missing'] = True
             record['unavailable_reason'] = str(exc); view['reason'] = str(exc)
             view['terminal'] = deepcopy(self.terminal)
+        self.signal_history=remember(self.signal_history,self.origin,'v81',view.get('guidance') if view.get('status')!='UNAVAILABLE' else None,self.terminal)
+        view['trade_clarity']=project(self.signal_history,self.origin,'v81',view,record.get('event'))
         return record, self.checkpoint(), view
 
 
@@ -253,3 +286,4 @@ def start():
 def offer(frame):
     if _worker is not None:
         return _worker.offer(deepcopy(frame))
+

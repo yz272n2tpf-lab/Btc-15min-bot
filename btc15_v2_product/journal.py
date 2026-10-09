@@ -40,7 +40,7 @@ class RevisionJournal(ORIGINAL_JOURNAL):
         self.db.execute('INSERT OR REPLACE INTO meta VALUES (?,?)',('startup_slots',json.dumps(starts)))
         self.db.execute('INSERT OR REPLACE INTO meta VALUES (?,?)',('runtime_epoch',self.boot))
         self.db.commit()
-        if lane=='main' and deployment!='OFFLINE':
+        if lane in ('main','v81') and deployment!='OFFLINE':
             from .early_origin_transfer import transfer
             transfer(self,path)
 
@@ -179,6 +179,8 @@ def unavailable(lane,reason,now,value=None):
         out['official_identity']=identity;out['contract']=identity['contract']
         origin=value.get('origin')
         if origin and origin.get('contract')==identity['contract']:out['origin']=origin
+    from .trade_clarity import historical
+    if value.get('trade_clarity'):out['trade_clarity']=historical(value['trade_clarity'])
     for key in ('published_ts','journal','administrative_journal','handoff','delivery'):
         if key in value:out[key]=value[key]
     return out
@@ -190,7 +192,9 @@ def public_view(root,lane,now=None,confirmation=None):
         from .durable_handoff import ACTIVE
         worker=ACTIVE.get(str(Path(root).resolve()))
         if worker and (worker.failed or worker.pressure or not worker.thread.is_alive()):
-            value=unavailable(lane,worker.failed or 'HANDOFF_BACKPRESSURE',now)
+            try:retained=json.loads((Path(root)/(lane+'.json')).read_bytes())
+            except (OSError,ValueError):retained={}
+            value=unavailable(lane,worker.failed or 'HANDOFF_BACKPRESSURE',now,retained)
             value['handoff']=worker.health()
             return value
     try:
@@ -228,3 +232,4 @@ def public_view(root,lane,now=None,confirmation=None):
             return apply(v,p,now)
         v['served_ts']=now;return v
     except (OSError,ValueError,KeyError,TypeError):return unavailable(lane,'JOURNAL_UNAVAILABLE',now)
+

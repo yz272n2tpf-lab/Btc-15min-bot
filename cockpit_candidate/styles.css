@@ -33,3 +33,10 @@
 @media(max-width:850px){.cockpit{display:block;max-width:700px}.card{margin-bottom:14px}.source-strip{gap:12px}.source-strip strong{font-size:1.2rem}.source-strip .small{font-size:.64rem}}
 
 .value-card{grid-column:1/-1}.value-sides{display:grid;grid-template-columns:1fr 1fr;gap:26px}.value-sides h3{font-size:.9rem}.value-card .reason{min-height:3em}.value-card .small{margin-top:12px}#value-freshness{min-height:3em}#value-best{min-height:3em}#value-selection{min-height:3em}.value-sides dd{line-height:1.5}@media(max-width:650px){.value-sides{grid-template-columns:1fr}.value-sides dl>div{grid-template-columns:1fr 1.4fr}}
+
+
+.issued-record { margin: 12px 0; padding: 12px; border: 1px solid #38485c; border-radius: 8px; }
+.issued-record > div { display: grid; grid-template-columns: minmax(105px, .35fr) minmax(0, 1fr); gap: 12px; padding: 4px 0; }
+.issued-record dt { color: #9fb0c5; }
+.issued-record dd { margin: 0; overflow-wrap: anywhere; }
+#early-signal-history, #scalp-signal-history { overflow-wrap: anywhere; font-size: 12px; }

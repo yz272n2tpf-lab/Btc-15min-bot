@@ -93,6 +93,9 @@ def prepare_v81(ns,pool):
         response=ns['requests'].get(ns['MARKET']+path,headers=ns['hdr']('GET',path),params=params,timeout=7)
         response.raise_for_status();return response.json()
     preparation=Preparation(get,owner.target,pool)
+    from .early_entry import FeeCache
+    ns['_scalp_fee_cache']=FeeCache(get)
+    preparation.maintenance=ns['_scalp_fee_cache'].refresh
     owner.market=lambda:admin.call('official_market_selection',preparation.select,original)
     owner.provider=pool
     preparation.start();return preparation
@@ -156,3 +159,4 @@ def v81_main(root):
     path=Path(root)/'btc15_v2_product/scalp_feed.py'
     ns=dict(__name__='__main__',__file__=str(path),_v2_admin=admin,_v2_prepare=lambda ns:prepare_v81(ns,pool))
     exec(compile(instrument(ast.parse(path.read_bytes()),'v81'),str(path),'exec'),ns)
+
