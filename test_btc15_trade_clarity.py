@@ -67,7 +67,7 @@ class Clarity(unittest.TestCase):
 
     def test_missing_native_momentum_does_not_buy_even_with_cost_room(self):
         f=state(ENTRY,.4);f['fee_schedule']=schedule(ENTRY)
-        a=entry_assessment(f['row'],'UP',f['fee_schedule'],f['proposals']['UP']['history'])
+        a=entry_assessment(f['row'],'UP',f['fee_schedule'],f['proposals']['UP']['history'],management_arm=.05)
         self.assertIsNone(a['price_ceiling']);self.assertFalse(a['ready'])
         e=Scalp();e.restore({});r,_,v=e.process(f,ENTRY+.001)
         self.assertNotIn('event',r);self.assertIsNone(v['origin'])

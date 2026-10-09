@@ -12,7 +12,7 @@ import zlib
 
 PREDECESSORS = {
     'main': ('a73609f5-4d62-4f97-8513-17b0566d6811','6cc77cf1c0f8a30db52e3538614bc9c95662516c'),
-    'v81': ('33cb83b1-7813-42ef-85b7-db4a70a34029','6d5897c26fc83e62a5425148a773d648dfcbacde'),
+    'v81': ('5171df0d-1134-4e1c-a338-f8a033b8a8f0','322ed2bdc5d0859a6f3f7824a9c3641f257d2a2e'),
 }
 # Retained aliases for existing offline callers.
 PREDECESSOR, BUILD = PREDECESSORS['main']

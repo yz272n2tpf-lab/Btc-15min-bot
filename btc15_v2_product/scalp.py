@@ -177,7 +177,7 @@ class Scalp:
             if can_enter and p['close_ts']-now>=120 and cut > after and q['source_ts_ms']/1000 > after:
                 for side in ('UP', 'DOWN'):
                     proposal = proposal_for(row, side, f['proposals'][side].get('history', {}))
-                    assessment=entry_assessment(row,side,f.get('fee_schedule'),proposal['history'])
+                    assessment=entry_assessment(row,side,f.get('fee_schedule'),proposal['history'],management_arm=POLICY.arm)
                     if not proposal['ok'] or not assessment['ready']:
                         continue
                     predecessor = self.terminal
@@ -227,7 +227,7 @@ class Scalp:
             coverage=[]
             for scan_side in ('UP','DOWN'):
                 proposal=proposal_for(row,scan_side,f['proposals'][scan_side].get('history',{}))
-                assessment=entry_assessment(row,scan_side,f.get('fee_schedule'),proposal['history'])
+                assessment=entry_assessment(row,scan_side,f.get('fee_schedule'),proposal['history'],management_arm=POLICY.arm)
                 active=bool(self.origin and not self.terminal and self.origin['side']==scan_side)
                 scan_state='WATCH' if proposal['ok'] else 'PASS'
                 coverage.append(dict(side=scan_side,status=scan_state,

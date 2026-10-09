@@ -9,7 +9,8 @@
     'scalp-up-status','scalp-down-status','remaining','quote-status',
     'btc-price','btc-timestamp','health-status','health-continuity','health-quotes',
     'health-brti','health-at','evidence-score','flip-risk','market-momentum',
-    'early-action','early-direction','early-price','scalp-action','scalp-price']);
+    'early-action','early-direction','early-price','scalp-action','scalp-price',
+    'early-entry','early-hold','early-watch','early-protect','early-exit']);
   const same=(a,b)=>!!a&&!!b&&['contract','target','official_open','official_close'].every(k=>a[k]===b[k]);
   const stamp=v=>finite(v)?new Date(v*1000).toISOString():'Unavailable';
   const text=(id,value,source)=>{const n=node(id);if(!n)return;if(n.textContent!==String(value))n.textContent=String(value);if(source)n.dataset.source=source;};
@@ -28,6 +29,7 @@
     for(const [id,value] of Object.entries(view.fields))if(!connected||!resolvedFields.has(id))text(id,value,view.trace[id]);
     node('final-direction').className='direction '+(view.finalSide==='UP'?'up':view.finalSide==='DOWN'?'down':'');
     for(const [prefix,active] of Object.entries(view.activeRungs))for(const row of node(prefix+'-ladder')?.children||[]){
+      if(connected)continue; // Issued record is the single live ladder owner.
       if(row.dataset.rung===active)row.setAttribute('aria-current','step');else row.removeAttribute('aria-current');
       if(prefix==='early'&&row.dataset.rung==='exit')row.setAttribute('aria-disabled','true');
     }
@@ -53,6 +55,56 @@
   const centsValue=v=>finite(v)?(v*100).toFixed(2)+'¢':'Unavailable';
   const dollarsValue=v=>finite(v)?v.toFixed(2)+' USD':'Unavailable';
   const percentValue=v=>finite(v)?(v*100).toFixed(1)+'%':'Unavailable';
+  const shortCents=v=>finite(v)?Number((v*100).toFixed(2))+'¢':'unavailable';
+  const clockTime=v=>finite(v)?new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date(v*1000))+' ET':'time unavailable';
+  const shortReasons={
+    DIRECTIONAL_THESIS_INVALIDATED:'Direction reversed',NET_BID_EXCEEDS_WEAKENING_MODEL_VALUE:'Model value weakened',
+    ARM5_GIVEBACK4:'4¢ giveback',BTC_NOT_ON_HELD_SIDE_OF_TARGET:'BTC crossed against signal',
+    BRTI_NOT_ON_HELD_SIDE_OF_TARGET:'BRTI crossed against signal',DIRECTIONAL_SUPPORT_WEAKENING:'Support weakening',
+    EXECUTABLE_PRICE_PULLBACK:'BID pulled back',FINAL_THREE_MINUTES_LIMITED_EXIT_RUNWAY:'Limited exit time',
+    FINAL_FIVE_MINUTES_MONITOR_SUPPORT_AND_EXECUTABLE_BID:'Final five minutes',
+    SUPPORT_WEAKENED_OR_MOMENTUM_UNAVAILABLE:'Support weakening or uncertain',
+    DIRECTIONAL_DETERIORATION_CORROBORATED_BY_MARKET:'Market support deteriorating',
+    ESTABLISHED_PROTECTION_REMAINS_LATCHED:'Protection remains warranted',
+    POSITIVE_LIQUIDATION_SCENARIO_WITH_DETERIORATION:'Positive net; support weakening'};
+  function renderFinal(lane){
+    const p=lane?.eligible?lane.current_payload:null,f=p?.final,a=p?.opportunity_analysis;
+    const c=a?.contract===p?.contract?a?.candidates?.find(c=>c.side===f?.side):null,e=c?.economics;
+    const gap=v=>finite(v)?Math.abs(v).toFixed(2)+' USD '+(v>0?'above':v<0?'below':'at')+' target':'unavailable';
+    text('final-targets',c?'BTC '+gap(c.target_gap)+' · BRTI '+gap(c.brti_gap):'Target relationship unavailable');
+    text('final-market',c?'Kalshi '+c.side+' market BID / ASK '+shortCents(c.bid)+' / '+shortCents(c.ask)+' · price-implied odds':'Market odds unavailable');
+    text('final-summary',!f?'Current qualification unavailable':f.ready&&f.lock_state==='QUALIFIED'&&f.state==='FINAL_CALL'?'Qualified settlement call · not a BUY':finite(f.confidence)&&f.confidence<.90?'PASS · model below 90% lock requirement':'PASS · other lock conditions not met');
+    const verified=e?.valid_book===true&&e.series_fee_verified===true;
+    const supported=verified&&finite(e.stress_net_model_ev_scenario)&&e.stress_net_model_ev_scenario>0;
+    text('final-value',!verified?'Uncertain · current book or applicable fees unavailable':supported?'Positive model value at '+shortCents(c.ask)+' ASK · not an entry signal':'PASS · '+c.side+' ASK '+shortCents(c.ask)+' lacks supported value after costs');
+    table('final-value-details',c?[
+      ['Native model / ASK',percentValue(c.fair)+' / '+centsValue(c.ask)],
+      ['Entry fee / spread',centsValue(e?.entry_fee_scenario)+' / '+centsValue(e?.spread)],
+      ['Model value after fee / spread stress',centsValue(e?.net_model_ev_scenario)+' / '+centsValue(e?.stress_net_model_ev_scenario)],
+      ['Qualification',f?.state+' · '+f?.lock_state+' · existing 90% and all other native gates'],
+      ['Meaning','Model-implied settlement scenario, not calibrated expected profit, a scalp forecast, a BUY or a fill. Market prices do not guarantee settlement.']
+    ]:[]);
+  }
+  function renderCompactTrade(t,lane,name){
+    const r=t.record,x=r?.terminal,p=t.current?lane.current_payload:null,e=t.economics||x?.economics;
+    const state=t.entry?'BUY ISSUED':t.current?(t.management==='CAUTION'?'WATCH · CAUTION':t.management):t.completed?'COMPLETED EXIT':t.historical?'HISTORICAL SIGNAL':r?'SOURCE REFRESHING':'NO ISSUED BUY';
+    text(name+'-action',state);
+    text(name+'-reason',t.entry?'Current entry signal · manual execution':t.current?'Existing signal under management · no new entry':t.completed?'Completed recommendation · no new entry':t.historical?'Entry expired · history only':r?'Current action unavailable':'WATCH / PASS scans are separate');
+    text(name+'-price',r?r.side+' · original ASK '+shortCents(r.original_ask)+' · '+(r.serial_index==null?'':'#'+r.serial_index+' · ')+clockTime(r.signal_ts):'No recorded BUY');
+    label(name+'-freshness',t.current?'Current source · '+(finite(t.bid)?'same-side BID '+shortCents(t.bid):'awaiting later BID'):r&&!t.completed&&!t.historical?'Current source unavailable · no executable price':'',t.current?'current':'unavailable');
+    const evidence=p?.management?.evidence,context=p?.context;
+    const warning=evidence?.model_opposes?'Model opposes original direction':evidence&&(evidence.btc_held_side_gap<=0||evidence.brti_held_side_gap<=0)?'BTC / BRTI against signal':evidence?.recent_momentum_adverse?'Momentum turned against signal':context?.reasons?.length?(shortReasons[context.reasons[0]]||'Market support needs attention'):(shortReasons[t.reason]||'Support weakening or uncertain');
+    const passive=t.completed?'Completed':t.historical?'Historical':r?'Source unavailable':'No issued signal';
+    const rows={entry:r?'BUY '+r.side+' · '+shortCents(r.original_ask)+(t.entry?' · current':' · recorded'):'No BUY issued',
+      hold:t.current?(t.management==='HOLD'?'Original thesis supported':t.entry?'Awaiting next evaluation':'Needs attention'):passive,
+      watch:t.current?(['WATCH','CAUTION','PROTECT'].includes(t.management)?warning:'No new warning'):passive,
+      protect:t.current?(t.management==='PROTECT'?(e?.meaningful_positive_net?'Positive net scenario · protect':'Defensive risk · profit unproven'):'Not triggered'):passive,
+      exit:t.completed?'Recorded · '+(shortReasons[x.reason]||'Native exit')+' · BID '+shortCents(x.observed_bid)+' · '+clockTime(x.trigger_ts):t.historical?'No current exit':t.current?'No exit recommendation':'Unavailable'};
+    const active=t.current?({ENTER:'entry',HOLD:'hold',WATCH:'watch',CAUTION:'watch',PROTECT:'protect',EXIT:'exit'}[t.management]):null;
+    for(const [key,value] of Object.entries(rows))text(name+'-'+key,value);
+    for(const item of node(name+'-ladder')?.children||[]){item.removeAttribute('aria-disabled');if(item.dataset.rung===active)item.setAttribute('aria-current','step');else item.removeAttribute('aria-current');}
+    text(name+'-value-note',name==='scalp'&&r?'Momentum call · profit potential unproven. '+(t.current&&e?.meaningful_positive_net?'Observed net scenario '+shortCents(e.net_after_execution_reserve)+' after costs.':''):r?'Signal only · execution unconfirmed.':'');
+  }
   function renderValueAnalysis(native,current){
     const a=native?.opportunity_analysis;
     const valid=a?.schema==='BTC15_NATIVE_VALUE_ANALYSIS_V1'&&a.contract===native.contract;
@@ -92,11 +144,8 @@
     const completedReasons={DIRECTIONAL_THESIS_INVALIDATED:'The original directional thesis failed: the model, BTC/BRTI target support and causal momentum turned against that signal.',NET_BID_EXCEEDS_WEAKENING_MODEL_VALUE:'The observed net BID exceeded the weakening held-side model value.',ARM5_GIVEBACK4:'A defensive giveback exit was recommended after the gross-movement risk trigger fired. This does not establish a profitable scalp.'};
     const reasonLabel=reason=>(t.completed&&completedReasons[reason])||window.BTC15SnapshotAdapter.reasonLabels[reason]||String(reason||'').replaceAll('_',' ');
     const why=reasonLabel(t.reason);
-    text(name+'-action',t.state+(t.current?' · '+(t.entry?'BUY ISSUED':t.management):''));
-    label(name+'-freshness',t.sourceAvailable?'Source current · entry authority '+(t.entry?'CURRENT':'NOT CURRENT'):'SOURCE REFRESHING / UNAVAILABLE · no current action authority',t.current?'current':'unavailable');
     if(name==='early')text('early-direction',r?r.side+(t.historical?' · historical':''):'No issued direction');
-    text(name+'-price',r?'BUY ISSUED · '+r.side+' · original ASK '+centsValue(r.original_ask)+(t.current?' · current same-side BID '+centsValue(t.bid):' · current executable BID unavailable'): 'No recorded BUY');
-    text(name+'-reason',why);
+    text(name+'-management-detail',why);
     table(name+'-issued',r?[
       ['Original BUY',r.side+' · '+r.contract],['Issued at',stamp(r.signal_ts)],
       ['Original Kalshi ASK',centsValue(r.original_ask)],['Immutable signal ID',r.origin_id],
@@ -118,11 +167,14 @@
         ['AT ISSUE · same-side BID change / BTC30',centsValue(risk.observed_bid_change_30s)+' / '+dollarsValue(risk.btc30)],
         ['Cost hurdle for >2¢ net · NOT a forecast','Later BID must exceed '+centsValue(risk.bid_hurdle_exclusive)],
         ['Theoretical net price room / possible full loss',centsValue(risk.net_price_room)+' / '+centsValue(risk.maximum_entry_loss)+' · $1 payout bound; no probability assigned'],
+        ['Configured protection trigger',centsValue(risk.management_arm_bid)+' BID · movement trigger, not profitable exit'],
+        ['Observed movement versus cost hurdle',risk.observed_move_covers_cost_hurdle===true?'Recent BID move exceeded the cost hurdle; continuation unproven':risk.observed_move_covers_cost_hurdle===false?'Recent BID move did not cover the cost hurdle; trade value unproven':'Not recorded for this historical signal'],
         ['Expected profit','UNESTABLISHED · momentum call with cost room; no guaranteed exit or fill']
       ]:[]);
       const e=t.economics||x?.economics;
       text('scalp-economics',e?(t.completed?'HISTORICAL EXIT SCENARIO · ':'')+'Observed gross movement '+centsValue(e.gross_movement_cents/100)+' · entry / exit fee estimate '+centsValue(e.entry_fee_scenario)+' / '+centsValue(e.exit_fee_scenario)+' · net liquidation '+centsValue(e.net_liquidation_scenario)+' · after execution reserve '+centsValue(e.net_after_execution_reserve)+' · '+(e.meaningful_positive_net?'Meaningful positive net scenario':'Profitable scalp NOT established')+' · no fill or realized profit assumed':'No current verified net liquidation scenario. Entries require native momentum and cost room; expected profit remains unestablished. Profit-oriented protection requires an observed scenario above 2¢ net after fees and execution reserve. Defensive exits remain available.');
     }
+    renderCompactTrade(t,lane,name);
     // Completed or historical recommendations never light an active action rung.
     const prefixes=name==='early'?['early']:['scalp-up','scalp-down'];
     for(const prefix of prefixes){
@@ -173,6 +225,7 @@
           ' · closure unconfirmed; depth, size and actual fills unverified.');
       }else text('early-management','Current EARLY management unavailable; see the retained issued record. No entry or exit fill assumed.');
       renderValueAnalysis(native,!!m?.eligible);
+      renderFinal(m);
       const scalpHistorical=!s?.eligible&&oldScalp&&!/unavailable/i.test(old.fields['scalp-action']);
       const scalp=s?.eligible?s.current_payload:scalpHistorical?oldScalp:null;
       for(const side of ['UP','DOWN']){

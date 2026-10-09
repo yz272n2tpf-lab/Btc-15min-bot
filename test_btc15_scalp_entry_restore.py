@@ -36,6 +36,26 @@ class RestoredEntry(unittest.TestCase):
                     self.assertEqual(v['trade_clarity']['records'][-1]['entry_risk'],a['entry_room'])
                     self.assertLess(len(packed(v)),65536)
 
+    def test_live_951_entry_cannot_reach_configured_risk_trigger(self):
+        # Actual journal case: DOWN ASK .951, BID .950, 30s BID rise .022,
+        # BTC30 +17.11 in direction; fee 1c/leg. Old cost-room checks all pass.
+        f=frame(ask=.951,side='DOWN',spread=.001)
+        h=f['proposals']['DOWN']['history']['30']
+        h['btc']=f['row']['btc']+17.11
+        h['input_provenance']['quote'].update(down_bid=.928,down_ask=.929,up_bid=.071,up_ask=.072)
+        e=Scalp();e.restore({});r,_,v=e.process(f,ENTRY+.001)
+        self.assertNotIn('event',r);self.assertIsNone(v['origin'])
+        a=next(c for c in v['opportunity_coverage'] if c['side']=='DOWN')['economic_qualification']
+        self.assertEqual(a['reason'],'MANAGEMENT_TRIGGER_UNREACHABLE')
+        self.assertAlmostEqual(a['entry_room']['management_arm_bid'],1.001)
+        self.assertFalse(a['entry_room']['observed_move_covers_cost_hurdle'])
+        # The boundary follows the configured lifecycle, not a fixed price cap.
+        b=entry_assessment(f['row'],'DOWN',f['fee_schedule'],f['proposals']['DOWN']['history'],management_arm=.04)
+        self.assertTrue(b['ready']);self.assertIsNone(b['expected_profit'])
+        for side in ('UP','DOWN'):
+            e=Scalp();e.restore({});r,_,v=e.process(frame(ask=.94,side=side,spread=.001),ENTRY+.001)
+            self.assertEqual(r['event'],'SCALP_SIGNAL');self.assertIsNone(v['origin']['qualification']['expected_profit'])
+
     def test_cost_room_and_fee_blocks_are_conditional(self):
         cases=[('high_price',lambda f:f.update(frame(ask=.98))),
                ('wide_spread',lambda f:f.update(frame(ask=.8,spread=.25))),
@@ -51,11 +71,11 @@ class RestoredEntry(unittest.TestCase):
         for side in ('UP','DOWN'):
             f=frame(side=side);h=f['proposals'][side]['history'];q=h['30']['input_provenance']['quote'];k=side.lower()
             q[k+'_bid']+=.10;q[k+'_ask']+=.10
-            a=entry_assessment(f['row'],side,f['fee_schedule'],h)
+            a=entry_assessment(f['row'],side,f['fee_schedule'],h,management_arm=.05)
             self.assertFalse(a['ready']);self.assertEqual(a['reason'],'KALSHI_BID_OPPOSES_MOMENTUM')
             self.assertLess(a['entry_room']['observed_bid_change_30s'],0)
             q[k+'_bid']-=.20;q[k+'_ask']-=.20
-            a=entry_assessment(f['row'],side,f['fee_schedule'],h)
+            a=entry_assessment(f['row'],side,f['fee_schedule'],h,management_arm=.05)
             self.assertTrue(a['ready']);self.assertIsNone(a['projected_net'])
 
     def test_genuine_native_source_and_time_checks_still_apply(self):

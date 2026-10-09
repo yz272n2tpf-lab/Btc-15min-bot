@@ -4,7 +4,7 @@ from .opportunities import fee_scenario
 from .scalp_policy import proposal_for
 
 NET_FLOOR = .02  # User-required exclusion: <=2 cents is not worthwhile.
-ENTRY_POLICY = 'SCALP_MOMENTUM_COST_ROOM_V2'
+ENTRY_POLICY = 'SCALP_MOMENTUM_COST_ROOM_V3'
 
 
 def liquidation(entry, bid, ask, schedule, at, entry_schedule=None, entry_at=None):
@@ -26,7 +26,7 @@ def liquidation(entry, bid, ask, schedule, at, entry_schedule=None, entry_at=Non
         realized_profit=None,fill_guaranteed=False)
 
 
-def entry_assessment(row, side, schedule, history=None):
+def entry_assessment(row, side, schedule, history=None, *, management_arm):
     """Qualify cost-feasible native momentum, never promise a future sale price.
 
     The $1 payout bounds possible price room; it is not a projected exit.
@@ -34,6 +34,8 @@ def entry_assessment(row, side, schedule, history=None):
     checks whether Kalshi's BID is contradicting that move beyond one spread.
     Fees + crossing + one extra spread measure execution drag. Remaining room
     must cover that drag and allow >2c net, without a fixed entry-price band.
+    The configured risk trigger must also be reachable within the contract's
+    payout bound. This is lifecycle feasibility, not a profit target/forecast.
     """
     proposal=proposal_for(row,side,history or {})
     q=row['input_provenance']['quote'];ask=q[side.lower()+'_ask'];bid=q[side.lower()+'_bid']
@@ -46,6 +48,7 @@ def entry_assessment(row, side, schedule, history=None):
     room=1-ask-ef-xf-spread if known else None
     loss=ask+ef if ef is not None else None
     hurdle=ask+ef+xf+spread+NET_FLOOR if known else None
+    arm_bid=ask+management_arm if finite(management_arm) and management_arm>0 else None
     observed_move=None
     if proposal['features'] is not None:
         observed_move=bid-proposal['history']['30']['input_provenance']['quote'][side.lower()+'_bid']
@@ -53,12 +56,14 @@ def entry_assessment(row, side, schedule, history=None):
         two_sided_execution=finite(bid) and finite(ask) and 0<bid<=ask<1,
         net_price_room=room is not None and room>NET_FLOOR+1e-12,
         room_covers_execution_drag=room is not None and room>drag+1e-12,
+        management_trigger_reachable=arm_bid is not None and arm_bid<=1+1e-12,
         kalshi_not_opposing=observed_move is not None and spread is not None and observed_move>=-spread-1e-12)
     reason=('NATIVE_MOMENTUM_UNQUALIFIED' if not conditions['native_momentum'] else
         'CURRENT_SERIES_FEES_UNAVAILABLE' if not conditions['current_series_fees'] else
         'TWO_SIDED_EXECUTION_UNAVAILABLE' if not conditions['two_sided_execution'] else
         'INSUFFICIENT_NET_PRICE_ROOM' if not conditions['net_price_room'] else
         'EXECUTION_COSTS_DOMINATE_REMAINING_ROOM' if not conditions['room_covers_execution_drag'] else
+        'MANAGEMENT_TRIGGER_UNREACHABLE' if not conditions['management_trigger_reachable'] else
         'KALSHI_BID_OPPOSES_MOMENTUM' if not conditions['kalshi_not_opposing'] else
         'QUALIFIED_MOMENTUM_WITH_COST_ROOM')
     explanations={
@@ -67,8 +72,9 @@ def entry_assessment(row, side, schedule, history=None):
         'TWO_SIDED_EXECUTION_UNAVAILABLE':'A positive same-side BID and usable ASK are required.',
         'INSUFFICIENT_NET_PRICE_ROOM':'Remaining price room cannot support more than 2¢ net after fees and execution reserve.',
         'EXECUTION_COSTS_DOMINATE_REMAINING_ROOM':'Remaining cost-adjusted price room does not exceed the round-trip execution-cost budget.',
+        'MANAGEMENT_TRIGGER_UNREACHABLE':'WATCH: the configured protection trigger requires a BID above the contract payout. No new entry.',
         'KALSHI_BID_OPPOSES_MOMENTUM':'Same-side Kalshi BID fell by more than the current spread despite the BTC momentum setup.',
-        'QUALIFIED_MOMENTUM_WITH_COST_ROOM':'Native BTC30 momentum and execution-cost room qualify; positive expected profit is not established.'}
+        'QUALIFIED_MOMENTUM_WITH_COST_ROOM':'Native momentum and executable risk-trigger room qualify. Trade value remains unproven; maximum payout and past movement are not expected profit.'}
     return dict(ready=all(conditions.values()),policy=ENTRY_POLICY,economics=econ,conditions=conditions,
         native_reason=proposal['reason'],projected_exit_bid=None,projected_net=None,expected_profit=None,
         profit_expectation='UNESTABLISHED',price_ceiling=None,reason=reason,explanation=explanations[reason],
@@ -77,6 +83,8 @@ def entry_assessment(row, side, schedule, history=None):
             round_trip_execution_cost=drag,net_price_room=room,maximum_entry_loss=loss,
             capacity_to_full_loss=room/loss if room is not None and loss else None,
             bid_hurdle_exclusive=hurdle,required_bid_rise=None if hurdle is None else hurdle-bid,
+            management_arm_bid=arm_bid,
+            observed_move_covers_cost_hurdle=observed_move>hurdle-bid+1e-12 if observed_move is not None and hurdle is not None else None,
             observed_bid_change_30s=observed_move,btc30=(proposal['features'] or {}).get('btc30'),
             expected_profit=None,
             basis='Price room is bounded by $1 payout, not an executable exit or forecast. The BID hurdle is a cost threshold, not a target. Full entry outlay can be lost; depth, fills and account/event fee overrides remain unverified.'))

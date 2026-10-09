@@ -40,3 +40,7 @@
 .issued-record dt { color: #9fb0c5; }
 .issued-record dd { margin: 0; overflow-wrap: anywhere; }
 #early-signal-history, #scalp-signal-history { overflow-wrap: anywhere; font-size: 12px; }
+
+/* Compact decisions first; native detail stays available below each ladder. */
+.ladder-guidance{min-height:0;margin-bottom:14px}.ladder-guidance .action{font-size:1.2rem}.ladder-guidance .small{margin-top:4px}.ladder li{grid-template-columns:22px 70px minmax(0,1fr);padding:12px 14px;gap:9px;min-height:52px}.rung-value{font-size:.79rem;line-height:1.35}.trade-note{margin:10px 0}.trade-details{margin-top:12px;border-top:1px solid var(--line);padding-top:3px}.trade-details>summary{cursor:pointer;min-height:44px;padding:12px 0;font-size:.8rem;color:#c8dadf}.trade-details>p{margin:12px 0}.trade-details h3{font-size:.8rem;margin:18px 0 8px}.trade-details dl{overflow-wrap:anywhere}.final-value{margin-top:15px;padding-top:14px;border-top:1px solid var(--line)}.value-card.trade-details{padding-top:12px}.value-card.trade-details>summary{font-weight:600}.trade-details:not([open]){margin-bottom:0}
+@media(max-width:650px){.ladder li{grid-template-columns:20px 58px minmax(0,1fr);padding:11px 10px;gap:6px}.ladder li>strong{font-size:.69rem}.rung-value{font-size:.75rem}.issued-record{padding:8px}.issued-record>div{grid-template-columns:minmax(80px,.6fr) minmax(0,1fr)}.ladder-guidance .action{font-size:1.1rem}.scalp-directions{grid-template-columns:1fr}.trade-details{max-width:100%}}
