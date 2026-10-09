@@ -10,7 +10,7 @@
     'btc-price','btc-timestamp','health-status','health-continuity','health-quotes',
     'health-brti','health-at','evidence-score','flip-risk','market-momentum',
     'early-action','early-direction','early-price','scalp-action','scalp-price',
-    'early-entry','early-hold','early-watch','early-protect','early-exit']);
+    'early-entry','early-hold','early-watch','early-protect','early-exit','final-action']);
   const same=(a,b)=>!!a&&!!b&&['contract','target','official_open','official_close'].every(k=>a[k]===b[k]);
   const stamp=v=>finite(v)?new Date(v*1000).toISOString():'Unavailable';
   const text=(id,value,source)=>{const n=node(id);if(!n)return;if(n.textContent!==String(value))n.textContent=String(value);if(source)n.dataset.source=source;};
@@ -70,9 +70,10 @@
   function renderFinal(lane){
     const p=lane?.eligible?lane.current_payload:null,f=p?.final,a=p?.opportunity_analysis;
     const c=a?.contract===p?.contract?a?.candidates?.find(c=>c.side===f?.side):null,e=c?.economics;
+    text('final-action',f?.state==='FINAL_CALL'?'QUALIFIED CALL':f?.state==='PASS'?'PASS':'Unavailable');
     const gap=v=>finite(v)?Math.abs(v).toFixed(2)+' USD '+(v>0?'above':v<0?'below':'at')+' target':'unavailable';
     text('final-targets',c?'BTC '+gap(c.target_gap)+' · BRTI '+gap(c.brti_gap):'Target relationship unavailable');
-    text('final-market',c?'Kalshi '+c.side+' market BID / ASK '+shortCents(c.bid)+' / '+shortCents(c.ask)+' · price-implied odds':'Market odds unavailable');
+    text('final-market',c?'Kalshi '+c.side+' BID / ASK '+shortCents(c.bid)+' / '+shortCents(c.ask)+' · at model snapshot':'Market odds unavailable');
     text('final-summary',!f?'Current qualification unavailable':f.ready&&f.lock_state==='QUALIFIED'&&f.state==='FINAL_CALL'?'Qualified settlement call · not a BUY':finite(f.confidence)&&f.confidence<.90?'PASS · model below 90% lock requirement':'PASS · other lock conditions not met');
     const verified=e?.valid_book===true&&e.series_fee_verified===true;
     const supported=verified&&finite(e.stress_net_model_ev_scenario)&&e.stress_net_model_ev_scenario>0;
@@ -93,7 +94,7 @@
     text(name+'-price',r?r.side+' · original ASK '+shortCents(r.original_ask)+' · '+(r.serial_index==null?'':'#'+r.serial_index+' · ')+clockTime(r.signal_ts):'No recorded BUY');
     label(name+'-freshness',t.current?'Current source · '+(finite(t.bid)?'same-side BID '+shortCents(t.bid):'awaiting later BID'):r&&!t.completed&&!t.historical?'Current source unavailable · no executable price':'',t.current?'current':'unavailable');
     const evidence=p?.management?.evidence,context=p?.context;
-    const warning=evidence?.model_opposes?'Model opposes original direction':evidence&&(evidence.btc_held_side_gap<=0||evidence.brti_held_side_gap<=0)?'BTC / BRTI against signal':evidence?.recent_momentum_adverse?'Momentum turned against signal':context?.reasons?.length?(shortReasons[context.reasons[0]]||'Market support needs attention'):(shortReasons[t.reason]||'Support weakening or uncertain');
+    const warning=evidence?.model_opposes?'Model opposes original direction':evidence&&(evidence.btc_held_side_gap<=0||evidence.brti_held_side_gap<=0)?'BTC / BRTI against signal':evidence?.recent_momentum_adverse?'Momentum turned against signal':context?.reasons?.length?(shortReasons[context.reasons[0]]||'Market support needs attention'):name==='scalp'&&t.management==='PROTECT'?'Risk trigger armed':(shortReasons[t.reason]||'Support weakening or uncertain');
     const passive=t.completed?'Completed':t.historical?'Historical':r?'Source unavailable':'No issued signal';
     const rows={entry:r?'BUY '+r.side+' · '+shortCents(r.original_ask)+(t.entry?' · current':' · recorded'):'No BUY issued',
       hold:t.current?(t.management==='HOLD'?'Original thesis supported':t.entry?'Awaiting next evaluation':'Needs attention'):passive,
