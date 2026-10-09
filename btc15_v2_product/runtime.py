@@ -65,6 +65,9 @@ def prepare_main(ns,pool):
     install_fair_readiness(ns)
     original=ns['get_active_market']
     preparation=Preparation(ns['kalshi_get'],ns['extract_target'],pool)
+    from .early_entry import FeeCache
+    ns['_early_fee_cache']=FeeCache(ns['kalshi_get'])
+    preparation.maintenance=ns['_early_fee_cache'].refresh
     # Move the original optional unopened-list observation off the action path.
     # It never selected an active ticker; the exact staged handoff is above.
     ns['rollover_canary'].observe=lambda *a,**k:None

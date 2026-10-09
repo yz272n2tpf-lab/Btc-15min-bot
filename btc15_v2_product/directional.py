@@ -1,8 +1,8 @@
 """Native-clock product integration of recovered EARLY/FINAL lifecycle.
 
-The entry and FINAL gates are the existing V4.7/V4.6 gates. The recovered
-reduce_signal supplies EARLY-only origin creation and monotone protection.
-No model refit, new threshold, simulated fill, order or market poll.
+Historical V4.7 entry and V4.6 FINAL gates remain separate from the native
+supported-value entry policy. The recovered reduce_signal supplies immutable
+EARLY origins and monotone protection. No model refit, simulated fill or order.
 """
 from copy import deepcopy
 from dataclasses import asdict
@@ -127,6 +127,7 @@ def early_opportunity(raw):
 
 class Directional:
     def restore(self, saved):
+        self.entry_previous = None  # Unconfirmed evidence never survives restart.
         if saved and saved.get('candidate') != CANDIDATE:
             raise ValueError('DIRECTIONAL_CHECKPOINT_CANDIDATE_MISMATCH')
         self.state = decode_state(saved['manager']) if saved else manager.State()
@@ -171,6 +172,9 @@ class Directional:
             if not self.last or self.last['key'][0]!=key[0] or f['captured_ts']-self.last['at']>15:
                 continuity = 'START_OR_MISSING_INTERVAL'
             raw, qualified = protected_frame(f,now)
+            from .early_entry import assess, route
+            value_entry = assess(raw,f,self.entry_previous)
+            raw, qualified = route(raw,qualified,value_entry)
             from .opportunities import evaluate
             opportunity, analysis = evaluate(raw, f, self.prior_final, self.origin)
             if self.origin and self.origin['contract']==f['contract'] and self.origin['target']!=f['target']:
@@ -189,7 +193,10 @@ class Directional:
                     signal_timestamp_utc=iso(now), source_timestamp_utc=raw['source_timestamp_utc'],
                     native_epoch=key[0],native_sequence=key[1],target=f['target'],
                     official_open=f['official_open'],official_close=f['official_close'],
-                    entry_provenance=deepcopy(f), manual_fill=None)
+                    entry_provenance=deepcopy(f), manual_fill=None,
+                    entry_policy=raw['early'].get('policy','HISTORICAL_TIER1'),
+                    qualification=deepcopy(value_entry) if raw['early'].get('policy') else
+                        dict(policy='HISTORICAL_TIER1',conditions=raw['early']['conditions'],ready=True))
                 self.position_path = dict(mfe=None,mae=None,last_quote=None,current=None,missing=False)
             elif origin is None:
                 self.position_path = {}
@@ -259,7 +266,8 @@ class Directional:
                 prices={k:f[k] for k in ('up_bid','up_ask','down_bid','down_ask')},
                 target=f['target'],native_epoch=key[0],native_sequence=key[1],feature_cutoff=f['feature_cutoff'],early_opportunity=opportunity,opportunity_analysis=analysis,
                 source_timestamp_utc=raw['source_timestamp_utc'],origin=origin,early=dict(raw['early'],guidance=guidance,
-                    pass_reasons=[k for k,v in raw['early']['conditions'].items() if not v],tier_scope='HISTORICAL_TIER1_ONLY'),
+                    pass_reasons=[k for k,v in raw['early']['conditions'].items() if not v],tier_scope='INDEPENDENT_HISTORICAL_AND_SUPPORTED_VALUE'),
+                historical_early=raw['historical_early'],
                 final=final,warning=warning,final_link_basis='EXPLICIT_IMMUTABLE_ORIGIN' if linked else None,
                 exit_guidance=None,exit_reason='EARLY_EXIT_THRESHOLD_NOT_SUPPORTED; PROTECT_GUIDANCE_AVAILABLE',
                 executable_current_bid=bid,movement_cents=None if movement is None else movement*100,
@@ -274,10 +282,12 @@ class Directional:
                           early=view['early'],early_opportunity=opportunity,opportunity_analysis=analysis,warning=warning,continuity=continuity,origin=deepcopy(origin) if event=='BUY' else None,
                           guidance=guidance,context=ctx,position_path=deepcopy(self.position_path))
             self.state,self.origin=next_state,origin
+            self.entry_previous=dict(frame=deepcopy(f),assessment=value_entry)
             self.last=dict(key=key,at=f['captured_ts'])
             self.prior_final=dict(contract=f['contract'],captured_ts=f['captured_ts'],btc_price=f['btc_price'],prices={k:f[k] for k in ('up_bid','up_ask','down_bid','down_ask')},probability_up=final['probability_up'],side=final['side'],ready=final['ready'],
                 last_call_side=final['side'] if final['ready'] else self.prior_final.get('last_call_side') if same_prior else None)
         except (ValueError,KeyError,TypeError) as exc:
+            self.entry_previous=None
             view['reason']=str(exc);record['unavailable_reason']=str(exc)
             if self.origin:self.position_path['missing']=True
             if view.get('final_status')=='AVAILABLE':
@@ -309,6 +319,7 @@ def offer(ns):
         provider=getattr(quotes,'_provider',None)
         quote=getattr(provider,'last_product_quote',None)
         value=native_frame(ns,quote,_epoch,_sequence,time.time())
+        value['fee_schedule']=deepcopy(getattr(ns.get('_early_fee_cache'),'value',None))
     except Exception as exc:
         value=dict(kind='UNAVAILABLE',reason='NATIVE_FRAME:'+type(exc).__name__,contract=ns.get('ticker'))
     _worker.offer(value)

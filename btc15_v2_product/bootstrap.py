@@ -203,6 +203,7 @@ class Preparation:
     def __init__(self,get,target,pool,clock=time.time):
         self.get,self.target,self.pool,self.clock=get,target,pool,clock
         self.staged={};self.error=None;self.lock=threading.Lock();self.stop=threading.Event()
+        self.maintenance=None
     def scan(self):
         now=self.clock()
         data=self.get('/trade-api/v2/markets',params={'status':'unopened','series_ticker':'KXBTC15M','limit':1000})
@@ -253,6 +254,7 @@ class Preparation:
         return m
     def run(self):
         while not self.stop.is_set():
+            if self.maintenance:self.maintenance()
             try:self.scan()
             except Exception as exc:self.error=type(exc).__name__
             self.stop.wait(5.)

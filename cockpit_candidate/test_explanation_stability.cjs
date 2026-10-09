@@ -128,3 +128,30 @@ assert.match(node('value-freshness').textContent,/no current action authority/);
 resolved.identity={...resolved.identity,contract:'OTHER'};render();
 assert.equal(node('value-best').textContent,'No current native value selection');
 console.log('PASS: native 53-cent WATCH, costs, no new rung authority, stable value rendering, expiry and rollover');
+
+// Authentic native above-50 entry -> live adapter and real management rungs.
+const callNative=JSON.parse(child.execFileSync('python',['-c',`
+import json
+from test_btc15_supported_early import SupportedEarly,value_frame,step
+e,_,(_,_,v)=SupportedEarly().pair()
+out=[v]
+out.append(step(e,value_frame(3,ask=.7))[2])
+out.append(step(e,value_frame(4,ask=.7,p=.8))[2])
+for v in out:v['official_identity']={k:v[k] for k in ('contract','target','official_open','official_close')}
+print(json.dumps(out))
+`],{cwd:__dirname+'/..',encoding:'utf8'}));
+for(const [index,rung] of ['entry','hold','protect'].entries()){
+  setSample({main:callNative[index],scalp:null,quote:null});render();
+  assert.match(node('early-action').textContent,/EARLY CALL/);
+  assert.match(node('early-price').textContent,/53/);
+  assert.match(node('early-context').textContent,/entry model.*win rate unestablished/);
+  assert.deepEqual(node('early-ladder').children.filter(e=>e.attributes['aria-current']).map(e=>e.dataset.rung),[rung]);
+  assert.match(node('early-reason').textContent,/Strong directional evidence/);
+  clearWrites();for(let n=0;n<20;n++)render();
+  assert.equal(node('early-reason').writes.length,0);
+}
+resolved.lanes.main.eligible=false;resolved.lanes.main.current_payload=null;resolved.lanes.main.selection='retained';render();
+assert.equal(node('early-action').textContent,'Action unavailable');
+assert.ok(node('early-ladder').children.every(e=>!e.attributes['aria-current']));
+assert.match(node('early-reason').textContent,/Strong directional evidence/);
+console.log('PASS: real native 53-cent CALL -> ENTRY/HOLD/PROTECT, immutable price, stable explanation and expiry');

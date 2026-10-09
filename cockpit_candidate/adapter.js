@@ -83,7 +83,8 @@
     if(mainOK&&m.early){
       const o=m.origin,e=m.early,h=m.final?.helper,opp=m.early_opportunity;
       const originOK=same(o,i)&&presentId(o.origin_id)&&['UP','DOWN'].includes(o.side);
-      const lifecycleOK=originOK&&presentId(h?.origin_id)&&h.origin_id===o.origin_id&&
+      const valueOriginOK=o?.entry_policy!=='EARLY_SUPPORTED_VALUE_V1'||(o.qualification?.policy==='EARLY_SUPPORTED_VALUE_V1'&&o.qualification.ready===true&&typeof o.qualification.reason==='string');
+      const lifecycleOK=originOK&&valueOriginOK&&presentId(h?.origin_id)&&h.origin_id===o.origin_id&&
         presentId(m.final?.early_origin_id)&&m.final.early_origin_id===o.origin_id&&
         h.state===e.guidance&&h.exit_authority===false&&e.guidance!=='EXIT';
       set('early-direction',originOK?'main.origin.side':'main.early.side',v=>human(v)||'Direction unavailable');
@@ -91,6 +92,10 @@
       if(lifecycleOK){
         const detail=h?.reason?reason(h.reason):'Reason unavailable from source';
         literal('early-reason',`If manually entered ${o.side}: ${detail}.`,'main.origin.side + main.final.helper.reason; manual_fill=null');
+        if(o.entry_policy==='EARLY_SUPPORTED_VALUE_V1'){
+          literal('early-action',`EARLY CALL · ${human(e.guidance)}`,'main.origin.entry_policy + main.early.guidance');
+          literal('early-reason',`${o.qualification.reason}. If manually entered ${o.side}: ${detail}.`,'main.origin.qualification.reason + main.final.helper.reason');
+        }
         literal('early-price',`${o.side} signal entry ${cents(o.original_ask)} · ${o.side} executable bid ${cents(m.executable_current_bid)}`,'main.origin.original_ask + main.executable_current_bid');
         activeRungs.early=stateRows[e.guidance]||null;
         literal('early-entry',`Signal ASK ${cents(o.original_ask)}`,'main.origin.original_ask (immutable)');
@@ -173,7 +178,7 @@
     const identityDetails=[['Ticker',i?.contract||'Unavailable'],['Official open',stamp(i?.official_open)],['Official close',stamp(i?.official_close)],['Target source','main.official_identity.target'],['Snapshot time',stamp(input.at)],['Mode','Offline synthetic test output; never live authority']];
     const authorityDetails=[['FINAL publication state',m?.final?.state||'Unavailable'],['FINAL source status',m?.status||'Unavailable'],['EARLY native guidance',m?.early?.guidance||'Unavailable'],['EARLY opportunity status',m?.early_opportunity?.status||'Unavailable'],['EARLY origin',m?.origin?.origin_id||'None published'],['EARLY manual fill',m?.origin?.manual_fill??'Not supplied; execution not assumed'],['EARLY protection latch',String(m?.final?.helper?.protect_latched??'Unavailable')],['EARLY exit limitation',m?.exit_reason||'Unavailable'],['SCALP lifecycle',s?.lifecycle_state||'Unavailable'],['SCALP origin',s?.origin?.origin_id||'None published'],['SCALP serial opportunity',s?.origin?.serial_index??'Unavailable'],['SCALP lane',s?.origin?.lane||'Unavailable'],['SCALP predecessor',s?.origin?.predecessor_id||'None published'],['SCALP protection armed',String(s?.presentation?.protection_armed??'Unavailable')],['SCALP protective bid',cents(s?.trailing_trigger_bid)],['SCALP manual fill',s?.origin?.manual_fill??'Not supplied; execution not assumed'],['SCALP actionable exit',String(s?.terminal?.actionable_exit??'No terminal output')],['SCALP contract',s?.official_identity?.contract||'Unavailable']];
     const sourceDetails=[['Quote contract',q?.official_identity?.contract||'Unavailable'],['Quote exchange source time',stamp(q?.exchange_ts)],['Quote accepted/receipt time',stamp(q?.accepted_ts)],['Quote publication time',stamp(q?.published_ts)],['Quote sequence',q?.sequence??'Unavailable'],['UP bid',cents(q?.up_bid)],['UP ask',cents(q?.up_ask)],['DOWN bid',cents(q?.down_bid)],['DOWN ask',cents(q?.down_ask)],['BRTI true source age',seconds(m?.health?.brti_age)],['BRTI receipt age','Not exported in MAIN health; not substituted for true source age'],['BRTI true source-age acceptance','At or below 5 s remains a protected requirement; no live acceptance claim'],['MAIN expiry',stamp(m?.expires_at)],['SCALP expiry',stamp(s?.expires_at)],['Historical accuracy','No current live qualification claimed']];
-    authorityDetails.push(['EARLY manual-opportunity origin authority',String(m?.early_opportunity?.origin_authority??'Unavailable')],['EARLY manual-opportunity reason',m?.early_opportunity?.reason||'Not exported; does not control the Tier-1 rows'],['EARLY target-aware fair',pct(m?.early?.fair)],['EARLY source edge',finite(m?.early?.edge)?`${(m.early.edge*100).toFixed(1)} pt`:'Unavailable'],['SCALP protection arm',cents(s?.policy?.arm)],['SCALP peak giveback rule',cents(s?.policy?.giveback)],['SCALP observed peak gain',cents(s?.path?.mfe)],['SCALP observed giveback',cents(s?.path?.giveback)],['SCALP terminal time',stamp(s?.terminal?.ts)],['SCALP realized profit',s?.terminal?.realized_profit??'Not supplied; execution not assumed']);
+    authorityDetails.push(['EARLY origin policy',m?.origin?.entry_policy||'No origin policy supplied'],['EARLY native entry authority',String(m?.early_opportunity?.origin_authority??'Unavailable')],['EARLY opportunity reason',m?.early_opportunity?.reason||'Not exported'],['EARLY target-aware fair',pct(m?.early?.fair)],['EARLY source edge',finite(m?.early?.edge)?`${(m.early.edge*100).toFixed(1)} pt`:'Unavailable'],['SCALP protection arm',cents(s?.policy?.arm)],['SCALP peak giveback rule',cents(s?.policy?.giveback)],['SCALP observed peak gain',cents(s?.path?.mfe)],['SCALP observed giveback',cents(s?.path?.giveback)],['SCALP terminal time',stamp(s?.terminal?.ts)],['SCALP realized profit',s?.terminal?.realized_profit??'Not supplied; execution not assumed']);
     return {fields,trace,gaps,activeRungs,scalpSide,finalSide:mainOK?m.final?.side:null,identityDetails,authorityDetails,sourceDetails};
   }
   const api=Object.freeze({project,reasonLabels});

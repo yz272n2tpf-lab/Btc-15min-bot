@@ -93,6 +93,21 @@ def unavailable(reason, *, origin=None):
                 manual_fill=None, exit_rule=EXIT_LIMITATION)
 
 
+def early_evidence_valid(frame):
+    if manager._early_valid(frame):
+        return True
+    from .early_entry import POLICY, SOURCE
+    e=frame.early
+    return (e.get('source')==SOURCE and e.get('policy')==POLICY and
+        type(e.get('ready')) is bool and manager._side(e.get('side')) is not None and
+        manager._prob(e.get('fair')) is not None and manager._number(e.get('edge')) is not None and
+        e.get('qualification',{}).get('policy')==POLICY and
+        e['qualification'].get('ready')==e['ready'] and
+        e['qualification'].get('conditions')==e.get('conditions') and
+        bool(e.get('conditions')) and all(type(v) is bool for v in e['conditions'].values()) and
+        e['ready']==all(e['conditions'].values()))
+
+
 def reduce_signal(state, raw, qualified, now):
     """Pure transition using protected results; no numerical strategy gates here."""
     frame = manager.read_protected_snapshot(raw, now)
@@ -107,7 +122,7 @@ def reduce_signal(state, raw, qualified, now):
     if state.last_source_utc and frame.source <= state.last_source_utc:
         raise ValueError("DUPLICATE_OR_OUT_OF_ORDER_SOURCE")
     if state.position is None:
-        if not manager._early_valid(frame):
+        if not early_evidence_valid(frame):
             raise ValueError("EARLY_EVIDENCE_UNAVAILABLE")
         state = replace(state, contract_id=frame.contract_id, close_utc=frame.close,
                         last_source_utc=frame.source)
@@ -127,7 +142,7 @@ def reduce_signal(state, raw, qualified, now):
         return replace(state, position=p, buy_emitted=True), "BUY", "AVAILABLE", frame
     # Source/quote/final outages are operational UNAVAILABLE, never loss/HOLD/EXIT.
     # The legacy reducer's stale-BRTI deterioration path is not invoked on WAIT.
-    if (not manager._early_valid(frame) or not manager._final_valid(frame)
+    if (not early_evidence_valid(frame) or not manager._final_valid(frame)
             or qualified.get("brti_fresh") is not True
             or frame.health.get("brti_fresh") is not True
             or manager._quote(frame, state.position.side) is None):

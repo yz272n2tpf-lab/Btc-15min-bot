@@ -26,7 +26,7 @@ class ValueAnalysis(unittest.TestCase):
         self.assertFalse(o['origin_authority']);self.assertIsNone(v['origin'])
         self.assertIsNone(r.get('event'))
         self.assertIn('unvalidated',o['reason'])
-        self.assertTrue(any('reliability' in x for x in o['improvements']))
+        self.assertTrue(any('verified frozen model' in x for x in o['improvements']))
 
     def test_no_45_50_or_replacement_ceiling(self):
         for ask in (.450001,.5,.53,.55,.6,.7,.8,.9,.95):

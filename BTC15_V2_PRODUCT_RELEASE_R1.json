@@ -16,17 +16,17 @@
     "btc15_v2_native.py": "a1cb9115a35da40ba93410cb72374d9068cf5501f5b2b9697bd500e5c49b9a7a",
     "btc15_v2_product/__init__.py": "9a7b49d9bd21863c017a87e4cddd6dc16c8d189a7c0e600f4dd9286c770f49c8",
     "btc15_v2_product/admin.py": "33912a9118ba5f5671cdf98848aed18f1601047b6de61892d7e939d410fb8f84",
-    "btc15_v2_product/bootstrap.py": "281fd20174d95f3860859479f5fcbeaf447df859229658a1bd7eeac4150cb14e",
+    "btc15_v2_product/bootstrap.py": "dd760e3ba66cc97a4f4cb7324998467b8bf33cb8282de67eaa32cf7290d5c0e1",
     "btc15_v2_product/installer.py": "8d9e52eae3d1abc928490f49d3ad1c78e49be3dd51255bc07ff84fcdea170c62",
     "btc15_v2_product/journal.py": "91c6b3dffc37d9fffdbf798fbb822acf556d5b9460bb5f3055044cfb86c33efe",
     "btc15_v2_product/panel.js": "571878f20542ab2db4c5de1f8f9bdfea4f714139db71d706200f9e20431196eb",
     "btc15_v2_product/quote_transport.py": "48ff0785fb120c19ad2973f06ce18a4cb1922ec05067b34ae0e025eb075c8633",
     "btc15_v2_product/quote_view.py": "a2e3180dae69fe6d304e30a7259ba2f764ea4cb7e277aa2236cb98b715be62fe",
     "btc15_v2_product/release.py": "0d804e80104a8989e492e7219fd53e32d8e10c9baf963685a066b5af69daced5",
-    "btc15_v2_product/revalidation.py": "6366533f9d9479e6aa3df5ba78b3eb0f5f63ce2a896ff65a4bce07491a5c4880",
+    "btc15_v2_product/revalidation.py": "33de93c15bd4b725004501cee489cbce48ee8b89f0410b04a4de135c2b5211ee",
     "btc15_v2_product/revalidation_transport.py": "828a42b22465a9fe34779e4d6fb0d38eb8393fbc2f0e43620bf62f4d91abd4cc",
     "btc15_v2_product/routes.py": "df02050e261932268e3a8f426086c464736389540b47ca30b89d5c62f8e5889e",
-    "btc15_v2_product/runtime.py": "27eb3a043876400260172161b24d6ca26622cc5cd6819da76d698393ea9e8e89",
+    "btc15_v2_product/runtime.py": "43e14d69edc11053684b712987dcc7493ab0f7921270b343fd758a97c1175cf4",
     "btc15_v2_product/worker.py": "27b6b7c5df0b35c99c106c004a0928013ab1712ad5272ef16c2535b90425edcb",
     "ops/btc15_v2_scoring/bridge.py": "d298c22c317d0f4bac415a1f24264a9bf0349926bc7f9cc6e4b5dfe37cb121b4",
     "ops/btc15_v2_scoring/completeness_diagnostics.py": "e46ae773d63e628e92d883ad81c91e028d65d5b39fea68c2a15cc06c602e73c1",
@@ -37,17 +37,18 @@
     "btc15_v2_product/durable_handoff.py": "cfe1a69a1611f0cd2ccde1db5574254d958745e6cdb3547f43291f93d6c5e3b8",
     "btc15_v2_product/indicators.py": "98052605bc935fe8fabc9a72fd93c7cbbb56a84f75bb3b665b1725bc51d98bb9",
     "btc15_information_panel_v1.js": "db3b1408435fe39c31f1df0c931e058a1bce1d8aefae3c82479ac59d66a14534",
-    "btc15_v2_product/directional.py": "ea80adcb8900893f605a99bcd3ff4f6e38497f8a6f110213c9561a39ffec765e",
+    "btc15_v2_product/directional.py": "b62fb82c9a95520fbaf9b16eeebf42a0ef21e567333354b41f8595e565c420b7",
     "btc15_v2_product/scalp.py": "d5a0728fd8c40d2e327940028d7687948c9954762c930aa154344ad52c4db9a6",
     "btc15_v2_product/scalp_feed.py": "c6dbcfc8b5ac04f361910152077758147815ccfd928ce78cfc1ae8f20d8453d7",
-    "btc15_v2_product/directional_authority.py": "6bfbe80e72f8e1a2f90b0430527717ca6f225aba0e5e9b81f0cc10d5a71ab1fa",
+    "btc15_v2_product/directional_authority.py": "fca0efe6fbb490d626bab96849e25f7c01d4941ae8e2d1fae79b4266d6c0ae42",
     "btc15_v2_product/scalp_policy.py": "45c48a30b40be71ffa12ab505c6d4228797c75ec109515eec1498020b6590609",
     "btc15_v2_product/coverage_challenger_a.json": "c1667f4db62d619fe2a80584ae617ca0cf32af933b15405a67b486cb4db7b720",
     "btc15_quote_proof_offpath_v1.py": "b2b1f2ced06503d8f5a635cb0794e8712b780fb68c60d899267a307929a3a7b0",
     "btc15_v2_product/main_timing.py": "606862d49af2643c4059bc2887567aceb660a923d30c5b0f3a052d4bed2f4ef9",
     "btc15_v2_product/delivery.py": "37aed0c019e800cd8cc141c9eb5cc454d67ab76c19d3efb3a7ad9580ba3ec8fd",
     "btc15_v2_product/production.py": "fef132617dd4f36e93a71beebe8897675194507947fe76746cbdd057c650ba4a",
-    "btc15_v2_product/opportunities.py": "00abb24e3a679fcb50096288e4b89d9c0e00bbdc5beb9b9c1154b5a3b1bc8e1d"
+    "btc15_v2_product/opportunities.py": "ffee6283cfe90712b0b7de2e8247969b0669112072127abc1d9d1d10b90d279a",
+    "btc15_v2_product/early_entry.py": "99b0189b706527eaff389f7e581c7bb26915c1a3aac5485b549b87d8ec9174b0"
   },
   "lane_protected_files": {
     "main": {
@@ -67,14 +68,14 @@
       "requirements.txt": "510246d681fc831ae8361577c90afcc8fc894968e15fb4688657a528cd785e8a"
     }
   },
-  "performance_optimization": "No thresholds tuned; no holdouts rescored; no models trained",
+  "performance_optimization": "No thresholds optimized, holdouts rescored or models trained; existing 8-point margin explicitly reused after costs for supported-value policy",
   "publication_repair": "V81 bounded durable inbox, atomic product cursor, non-latching capacity evidence, background settlement backpressure; frozen processor and processing clock unchanged.",
   "source_change": "Official metadata preparation and SAME timestamped WS provider, native consumption/qualification unchanged",
   "evidence_change": "Separate revision/deployment root; startup/restart slot excluded; additive admin only; strict classifier unchanged",
   "deployment": "NOT_AUTHORIZED; existing deployment authorization checks unchanged",
   "visible_completion_status": "PHYSICAL_DEVICE_ACCEPTANCE_PENDING",
   "display_indicators": "DISPLAY ONLY: Coinbase completed 1m; RSI14 Wilder; SMA-seeded MACD12/26/9; latest completed Volume BTC. Candle close age <75s; no native inputs changed.",
-  "qualification_status": "NATIVE_ALL_PRICE_VALUE_ANALYSIS; HISTORICAL_TIER1_AUTHORITY_SEPARATE; EXPANDED_ENTRIES_OBSERVATIONAL",
+  "qualification_status": "NATIVE_HISTORICAL_TIER1_OR_SUPPORTED_VALUE_V1; NO_UNIVERSAL_ASK_CEILING",
   "integrated_base": "ebb204255264f8a35c4bdf84cd0fd6e54057b19a",
-  "integrated_scope": "Existing EARLY Tier-1 and FINAL qualification preserved; broader full-window both-side economics and WATCH/PASS native publication; deployed SCALP serial policy and diagnostic repair preserved; no orders"
+  "integrated_scope": "Separate native supported-value EARLY origin route, unchanged historical Tier-1/FINAL predicates and SCALP; immutable ladder integration, explicit evidence/cost guards; signal only"
 }

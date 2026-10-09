@@ -1,9 +1,9 @@
 """Native, price-unbounded opportunity analysis; no orders or inferred fills.
 
-Historical Tier-1 remains an independent origin policy. Expanded prices/windows
-are evaluated on every qualified native frame, but are observational until an
-accepted calibration/strategy evidence record exists. No rejected study is
-promoted by this module. Costs are explicit scenarios, never an execution claim.
+Historical Tier-1 and the supported-value native origin policy are independent.
+All prices/windows are evaluated on every qualified native frame. Missing
+supported-entry evidence stays observational. No rejected study is promoted.
+Costs are explicit scenarios, never an execution claim.
 """
 import math
 from decimal import Decimal, ROUND_CEILING
@@ -16,21 +16,21 @@ def finite(value):
     return type(value) in (int, float) and math.isfinite(value)
 
 
-def fee_scenario(price):
+def fee_scenario(price, multiplier=1.):
     # Conservative one-contract cent-rounded bound, covering the general
     # schedule's centicent rounding. M=1 is a scenario, not verified series data.
     p = Decimal(str(price))
-    return float((Decimal('.07') * p * (1-p)).quantize(Decimal('.01'), rounding=ROUND_CEILING))
+    return float((Decimal(str(multiplier)) * Decimal('.07') * p * (1-p)).quantize(Decimal('.01'), rounding=ROUND_CEILING))
 
 
-def economics(probability, bid, ask):
+def economics(probability, bid, ask, multiplier=1.):
     valid = all(finite(v) for v in (probability,bid,ask)) and 0<=probability<=1 and 0<=bid<=ask<=1 and ask>0
     if not valid:
         return dict(valid_book=False, reason='A valid same-contract bid/ask is required')
-    fee = fee_scenario(ask)
+    fee = fee_scenario(ask, multiplier)
     spread = ask-bid
     stress_price = min(1.,ask+spread)
-    stress_cost = stress_price+fee_scenario(stress_price)
+    stress_cost = stress_price+fee_scenario(stress_price, multiplier)
     cost = ask+fee
     return dict(valid_book=True,bid=bid,ask=ask,model_probability=probability,
         gross_model_edge=probability-ask,entry_fee_scenario=fee,
@@ -43,12 +43,15 @@ def economics(probability, bid, ask):
         max_additional_cost_before_model_edge_zero=probability-cost,
         expected_profit=None,fill_guaranteed=False,
         execution_cost_basis='ASK plus fee; stress adds one observed spread, capped at $1; not a slippage forecast',
-        fee_basis='General M=1 taker scenario, one contract, rounded up to a cent; actual series multiplier/order size not verified',
+        fee_multiplier=multiplier,
+        fee_basis='Quadratic taker scenario, one contract, rounded up to a cent; verify event/account overrides and execution size manually',
         settlement_fee_scenario=0,exit_fee_included=False)
 
 
 def evaluate(raw, frame=None, previous=None, origin=None):
     early, final = raw['early'],raw['final']
+    historical=raw.get('historical_early',early)
+    qualification=raw.get('early_value_qualification')
     left=raw['timer']['seconds_left']
     frame=frame or {}
     fair=frame.get('fair') or {}
@@ -64,8 +67,12 @@ def evaluate(raw, frame=None, previous=None, origin=None):
     candidates=[]
     for side,p in probabilities.items():
         bid,ask=(raw['market'][side.lower()+'_'+kind] for kind in ('bid','ask'))
-        econ=economics(p,bid,ask)
-        tier=side==early['side'] and early['ready']
+        from .early_entry import fee_valid
+        econ=economics(p,bid,ask,(frame.get('fee_schedule') or {}).get('multiplier',1.) if fee_valid(frame) else 1.)
+        econ['series_fee_verified']=fee_valid(frame)
+        tier=side==historical['side'] and historical['ready']
+        value=bool(qualification and qualification['ready'] and qualification['side']==side)
+        supported=tier or value
         sign=1 if side=='UP' else -1
         conditions=dict(valid_book=econ['valid_book'],market_open=left>0,
             directional_model_floor=p>=.75,
@@ -84,18 +91,23 @@ def evaluate(raw, frame=None, previous=None, origin=None):
         if btc_move is not None and sign*btc_move<0:missing.append('Recent observed BTC movement opposes this side; momentum support must improve')
         opposed=final['ready'] and final['side']!=side
         if opposed:missing.append('Qualified FINAL currently contradicts this setup')
-        if not tier:missing.append('Accepted reliability and management evidence for this expanded setup is missing')
-        status='QUALIFIED' if tier else 'WATCH' if all(conditions.values()) else 'PASS'
+        if not supported:
+            missing.extend(qualification['missing'] if qualification and qualification['side']==side else
+                           ['Strong native value-entry evidence is missing; this setup remains unvalidated'])
+        if value:missing=[]
+        status='QUALIFIED' if supported else 'WATCH' if all(conditions.values()) else 'PASS'
         reason=('Historical Tier-1 rules qualify; model probability is not an established win rate'
-                if tier else 'Positive model value under stated cost scenarios; expanded entry evidence remains unvalidated'
+                if tier else qualification['reason'] if value else
+                'Positive model value; entry evidence remains unvalidated: '+('; '.join(qualification['missing'][:2]) if qualification and qualification['side']==side else 'strong native qualification is missing')
                 if status=='WATCH' else (missing[0] if missing else 'No qualified directional value setup'))
         prior_ask=(previous.get('prices') or {}).get(side.lower()+'_ask') if continuous else None
         pullback=finite(prior_ask) and ask<prior_ask
         candidates.append(dict(side=side,status=status,ask=ask,bid=bid,fair=p,
             edge=p-ask if finite(ask) else None,economics=econ,reason=reason,conditions=conditions,
-            improvements=missing,qualification_basis='HISTORICAL_TIER1' if tier else 'OBSERVATIONAL_ONLY',
+            improvements=missing,qualification_basis='HISTORICAL_TIER1' if tier else qualification['policy'] if value else 'OBSERVATIONAL_ONLY',
+            value_qualification=qualification if qualification and qualification['side']==side else None,
             reliability='CURRENT_PRICE_CONDITIONED_CALIBRATION_NOT_ESTABLISHED',
-            qualified_signal=tier,origin_authority=False,price_ceiling=None,
+            qualified_signal=supported,origin_authority=supported and not (origin and origin.get('contract')==raw['contract']),price_ceiling=None,
             final_relation='SUPPORTS' if final['ready'] and final['side']==side else 'CONTRADICTS' if opposed else 'UNCONFIRMED',
             target_gap=gap if finite(gap) else None,brti_gap=brti if finite(brti) else None,
             btc_move_since_previous_native=btc_move,native_interval_seconds=elapsed if continuous else None,
@@ -111,10 +123,12 @@ def evaluate(raw, frame=None, previous=None, origin=None):
     opportunity=dict(status=selected['status'],side=selected['side'],ask=selected['ask'],fair=selected['fair'],edge=selected['edge'],
         reason=selected['reason'],conditions=selected['conditions'],improvements=selected['improvements'],
         economics=selected['economics'],price_zone='MODEL VALUE / COST SCENARIO' if selected['status']!='PASS' else 'NO SUPPORTED VALUE SETUP',
-        target_ask=None,price_ceiling=None,protected_tier1_origin_eligible=bool(early['ready']),
-        final_call_authority=False,origin_authority=False,authority='NATIVE_VALUE_ANALYSIS_NOT_FILL_OR_NEW_ORIGIN')
+        target_ask=None,price_ceiling=None,protected_tier1_origin_eligible=bool(historical['ready']),
+        qualification_basis=selected['qualification_basis'],
+        final_call_authority=False,origin_authority=selected['origin_authority'],authority='NATIVE_EARLY_DECISION_NO_FILL_ASSUMED')
     analysis=dict(schema=SCHEMA,contract=raw['contract'],seconds_left=left,candidates=candidates,
-        best_directional=best,selection_reason='Historical qualified policy first, then observational cost-adjusted model value; cheaper price breaks equal-value ties',
+        best_directional=best,selection_reason='Native qualified entry policy first, then observational cost-adjusted model value; cheaper price breaks equal-value ties',
+        value_entry_policy=qualification,
         current_origin_id=origin.get('origin_id') if origin and origin.get('contract')==raw['contract'] else None,
         model=dict(artifact=frame.get('artifact'),weights=frame.get('weights'),probability_up=up,probability_down=probabilities['DOWN'],
             reliability='Model estimate; current calibration and expanded-price accuracy not established'),
@@ -123,7 +137,8 @@ def evaluate(raw, frame=None, previous=None, origin=None):
             reason=('Model direction changed; directional reversal is observational. Independent SCALP REVERSAL_RECROSS requires its own native origin.' if previous and previous['side']!=early['side'] else 'No model direction change observed; SCALP reversal continues to use its independent native rules.')),
         signal_only=True,orders=False,fee_source=FEE_SOURCE,fee_checked_date='2026-10-09',
         limitations=['Scenario EV uses model probability, not calibrated expected profit',
-            'Book depth, fill size, series fee multiplier and actual slippage are unverified',
+            'Book depth, fill size, event/account fee overrides and actual slippage are unverified',
             'Settlement reward/risk is not a SCALP price-target forecast',
-            'Historical Tier-1 results do not validate expanded prices or windows'])
+            'Historical Tier-1 results do not validate expanded prices or windows',
+            'Supported-value entry is a conservative implemented policy; its live win rate and profitability are not established'])
     return opportunity,analysis

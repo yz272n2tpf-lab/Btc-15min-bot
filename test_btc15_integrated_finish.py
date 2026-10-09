@@ -190,7 +190,10 @@ class GeneralizedScalp(unittest.TestCase):
 
 class NativeAuthority(unittest.TestCase):
     def test_disagreement_informational_no_latch_no_renewal(self):
-        f=frame(offset=425,p=.6,ask=.6);e=directional();_,_,v=step(e,f)
+        f=frame(offset=425,p=.6,ask=.6)
+        from btc15_v2_product.early_entry import ARTIFACT,WEIGHTS
+        f.update(artifact=ARTIFACT,weights=WEIGHTS)
+        e=directional();_,_,v=step(e,f)
         now=f['captured_ts']+1;ev=Evaluator(.9);r=Revalidator(ev,lambda:now)
         before=deepcopy(e.processor.checkpoint());p=r.step(v,source(f,now,age=1))
         self.assertEqual(p['status'],'CHANGED');out=apply(v,p,now)

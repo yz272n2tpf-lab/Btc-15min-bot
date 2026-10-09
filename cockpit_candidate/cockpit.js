@@ -71,15 +71,18 @@
         ['Settlement win / loss scenario',centsValue(e.win_profit_scenario)+' / '+centsValue(e.loss_scenario)],
         ['Reward / risk ratio',finite(e.reward_risk_scenario)?e.reward_risk_scenario.toFixed(2):'Unavailable'],
         ['Break-even probability',percentValue(e.break_even_probability)],
+        ['Entry qualification',c.qualification_basis],
+        ['Native safeguards',c.value_qualification?Object.entries(c.value_qualification.conditions).map(([k,v])=>(v?'PASS ':'WAIT ')+k.replaceAll('_',' ')).join('; '):'This side has no supported value-entry assessment'],
         ['FINAL support',c.final_relation],
         ['BTC / BRTI target gap',dollarsValue(c.target_gap)+' / '+dollarsValue(c.brti_gap)],
         ['Recent native BTC move',c.btc_move_since_previous_native===null?'Causal prior sample unavailable':c.btc_move_since_previous_native.toFixed(2)+' USD / '+c.native_interval_seconds.toFixed(1)+'s'],
         ['Secondary / pullback',c.secondary_state+' · '+c.secondary_reason],
-        ['What must improve',c.improvements.length?c.improvements.join('; '):'Existing historical policy qualifies; confirm executable price and fees manually']
+        ['What must improve',c.improvements.length?c.improvements.join('; '):'Native entry policy qualifies; confirm executable price and fees manually']
       ]:[]);
     }
     text('value-risk',valid?'Model probabilities: UP '+percentValue(a.model.probability_up)+' / DOWN '+percentValue(a.model.probability_down)+' · '+a.model.reliability+' · 5m BTC range '+dollarsValue(a.volatility.range5)+' · Reversal '+a.reversal.status+': '+a.reversal.reason:'Probability, volatility and reversal context require a valid native publication');
-    text('value-costs',valid?'Cost scenario: general M=1 taker fee for one contract, conservatively cent-rounded; stress adds one observed spread. Actual series fees, size, depth and slippage unverified. No fill assumed. EV is model-implied, not established expected profit.':'Cost scenarios are unavailable until native analysis arrives');
+    const fees=a?.value_entry_policy?.fee_schedule;
+    text('value-costs',valid?'Cost scenario: '+(fees?.observed_ts?'published series multiplier '+fees.multiplier+' · checked '+stamp(fees.observed_ts):'unverified general M=1 fallback; cannot authorize the supported-value route')+'; one contract, conservatively cent-rounded; stress adds one observed spread. Event/account overrides, size, depth and slippage unverified. No fill assumed. EV is model-implied, not established expected profit.':'Cost scenarios are unavailable until native analysis arrives');
   }
   function renderResolved(v){
     return preserveDetails(()=>{
@@ -111,6 +114,10 @@
       const native=m?.eligible?m.current_payload:!/unavailable/i.test(old.fields['early-action'])?oldMain:null;
       const early=native?.early,opportunity=native?.early_opportunity;
       text('early-context',early?(!m?.eligible?'LAST QUALIFIED · ':'')+'Model fair '+(early.fair*100).toFixed(1)+'% · all prices evaluated for value · historical Tier-1 is separate · '+(opportunity?.status||'Awaiting native analysis'):'Awaiting a qualified EARLY evaluation');
+      if(native?.origin?.entry_policy==='EARLY_SUPPORTED_VALUE_V1'){
+        const o=native.origin,eq=o.qualification,ec=eq.economics;
+        text('early-context',(!m?.eligible?'LAST QUALIFIED · ':'')+'Supported-value origin · entry model '+percentValue(o.entry_provenance.fair[o.side.toLowerCase()+'_fair'])+' · current model '+percentValue(native.final[o.side==='UP'?'probability_up':'probability_down'])+' · entry fee/stress model EV '+centsValue(ec.net_model_ev_scenario)+' / '+centsValue(ec.stress_net_model_ev_scenario)+' · settlement reward/risk '+centsValue(ec.win_profit_scenario)+' / '+centsValue(ec.loss_scenario)+' · '+Math.max(0,Math.round(native.official_close-native.published_ts))+'s at native observation · win rate unestablished');
+      }
       renderValueAnalysis(native,!!m?.eligible);
       const scalpHistorical=!s?.eligible&&oldScalp&&!/unavailable/i.test(old.fields['scalp-action']);
       const scalp=s?.eligible?s.current_payload:scalpHistorical?oldScalp:null;
