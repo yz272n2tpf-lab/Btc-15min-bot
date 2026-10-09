@@ -23,11 +23,14 @@ from btc15_v2_product.directional import Directional
 from test_btc15_supported_early import value_frame,step
 from test_btc15_trade_clarity import scalp_origin
 from test_btc15_scalp_journal_v1 import state,ENTRY
+from test_btc15_scalp_entry_restore import frame
+from btc15_v2_product.scalp import Scalp
 from btc15_v2_product import ENVELOPE,REVISION
 out={};e=Directional();e.restore({})
 for name,f in [('entry',value_frame()),('hold',value_frame(2)),('exit',value_frame(3,side='DOWN',p=.6))]:
  _,_,v=step(e,f);v.update(signal_only=True,orders=False,official_identity={k:v[k]for k in ('contract','target','official_open','official_close')});out[name]=v
 s,o=scalp_origin();_,_,v=s.process(state(ENTRY+1,.7,2),ENTRY+1.001);v['official_identity']={k:v[k] for k in ('contract','target','official_open','official_close')};out['scalp']=v
+s=Scalp();s.restore({});_,_,v=s.process(frame(),ENTRY+.001);v['official_identity']={k:v[k] for k in ('contract','target','official_open','official_close')};out['scalpentry']=v
 print(json.dumps(out))
 `],{cwd:__dirname+'/..',encoding:'utf8'}));
 function show(m,s=null){resolved={identity:m.official_identity,lanes:{main:{eligible:true,current_payload:m,retained_payload:m,issued_records:m.trade_clarity},scalp:{eligible:!!s,current_payload:s,retained_payload:s,issued_records:s?.trade_clarity},quote:{eligible:false}}};return window.BTC15Cockpit.renderResolved(resolved);}
@@ -47,6 +50,11 @@ assert.ok(node('early-ladder').children.every(x=>!x.attributes['aria-current']))
 const rolled={...data.hold,official_identity:{...data.hold.official_identity,contract:'NEXT',official_open:data.hold.official_close,official_close:data.hold.official_close+900},origin:null};
 show(rolled);assert.match(node('early-action').textContent,/HISTORICAL/);assert.match(node('early-direction').textContent,/historical/);
 show(data.hold,data.scalp);assert.match(node('scalp-action').textContent,/EXISTING SIGNAL UNDER MANAGEMENT/);assert.match(node('scalp-economics').textContent,/net liquidation/);
+show({...data.hold,official_identity:data.scalpentry.official_identity},data.scalpentry);
+assert.match(node('scalp-action').textContent,/CURRENT ACTIONABLE SIGNAL.*BUY ISSUED/);
+assert.match(node('scalp-price').textContent,/original ASK 60.00/);
+assert.match(node('scalp-entry-risk').children.map(r=>r.children[1].textContent).join(' '),/UNESTABLISHED/);
+assert.doesNotMatch(node('scalp-economics').textContent,/supported exit-value evidence/);
 const broken=structuredClone(data.hold);broken.final.helper.origin_id='wrong';show(broken);assert.doesNotMatch(node('early-action').textContent,/CURRENT ACTIONABLE|EXISTING SIGNAL UNDER MANAGEMENT/);
 const legacy=structuredClone(data.hold);delete legacy.trade_clarity;show(legacy);assert.match(node('early-price').textContent,/original ASK 53.00/);
 console.log('PASS: native BUY/HOLD/gap/EXIT/rollover, legacy compatibility, origin binding, net scenario, and 100 stable repeated DOM renders');

@@ -38,7 +38,7 @@
     "btc15_v2_product/indicators.py": "98052605bc935fe8fabc9a72fd93c7cbbb56a84f75bb3b665b1725bc51d98bb9",
     "btc15_information_panel_v1.js": "db3b1408435fe39c31f1df0c931e058a1bce1d8aefae3c82479ac59d66a14534",
     "btc15_v2_product/directional.py": "f4affb2598d0b1cac3c3d57b9f8449c14321e948f4dcbbfe8f30835fb0670f42",
-    "btc15_v2_product/scalp.py": "a8c8632ee78c92caf32a673f8dfd466119419f8c68fe5d4e0d70946c7985ff79",
+    "btc15_v2_product/scalp.py": "47ab715fc91435ce1aa71019a14a80b236911cbb24319571bb654bed6ba96aad",
     "btc15_v2_product/scalp_feed.py": "3d98e6656f717df5e6261727a2ac8812e12b86762e3a352320f49919c1ca7553",
     "btc15_v2_product/directional_authority.py": "50937b4ece862878bff9064db163de12f211dc2cef33dd277f3fac0dbdbce100",
     "btc15_v2_product/scalp_policy.py": "45c48a30b40be71ffa12ab505c6d4228797c75ec109515eec1498020b6590609",
@@ -50,13 +50,13 @@
     "btc15_v2_product/opportunities.py": "e96d7d80d3e8c7b15d0ed3db27dd39d2884de05e820659c002e90a7e11829391",
     "btc15_v2_product/early_entry.py": "83312af50889d7ff2b7e8f8a9f8701291a49b8f5bd87840da066f68a0b53b05a",
     "btc15_v2_product/early_management.py": "4a9bd53255bd1af4bf150da979241d09987ba20e2a09c34ecd623ab85208c0b0",
-    "btc15_v2_product/early_origin_transfer.py": "00ad8ef295aa6e95701c731936acd470cc6e7ef43f948cb73668161bb57b6f7a",
+    "btc15_v2_product/early_origin_transfer.py": "de7c703b20c0e6dd055bedcabe536f412dab660b716e7d2498e9f264ec38107b",
     "btc15_information_service_v1.py": "7405dd37f4b00eae4620cd290334692b8ffeaa428bfde62f639a79a73875a2b0",
     "btc15_information_proxy_v1.py": "bd15632a24576b1ad13b995d7f1bad9fc71eac5121d3b737d5093af8afd3034c",
     "btc15_information_journal_v1.py": "b66ecfb3cc1e3ae4d2f3a103ae84bd711f94fe1323ee0ffaf661b9674224436e",
     "btc15_information_archive_once.py": "76c248c907b0d17b207a6c59828fee55fc760a9acfe0a58f678575f389e87cd4",
-    "btc15_v2_product/scalp_economics.py": "f75077e66d1b7dce3c8a3741c4f1da7d1d8ee473c1cce16a8ec45ca88ff1ffd1",
-    "btc15_v2_product/trade_clarity.py": "593abaaa3cc1d9f1e76698145903d0f0cc402d5901ee2ff39a2193ea6f675261"
+    "btc15_v2_product/scalp_economics.py": "c01aecc8ea4f530b27ddf7b2565d72c6f1f6554313ca46d77af079e5f35fb306",
+    "btc15_v2_product/trade_clarity.py": "f782f67ca2e7e975fedcf16de7b9499eee168305cc4f50a60945b387ada8e407"
   },
   "lane_protected_files": {
     "main": {
@@ -86,5 +86,6 @@
   "qualification_status": "NATIVE_HISTORICAL_TIER1_OR_SUPPORTED_VALUE_V1; NO_UNIVERSAL_ASK_CEILING",
   "integrated_base": "ebb204255264f8a35c4bdf84cd0fd6e54057b19a",
   "integrated_scope": "Separate native supported-value EARLY origin route, unchanged historical Tier-1/FINAL predicates and SCALP; immutable ladder integration, explicit evidence/cost guards; signal only",
-  "trade_clarity_repair": "Durable issued-record display tail, original authority expiry, completed exit records, predecessor continuity; SCALP momentum alone cannot establish >2c net profit after fees/execution reserve."
+  "trade_clarity_repair": "Durable issued-record display tail, original authority expiry, completed exit records, predecessor continuity; SCALP momentum alone cannot establish >2c net profit after fees/execution reserve.",
+  "scalp_entry_restore": "SCALP_MOMENTUM_COST_ROOM_V2: native causal BTC30 qualification plus fresh fees, two-sided execution, cost-adjusted remaining price room and non-opposing Kalshi BID movement; expected profit and future exit BID remain unknown. Defensive exits and >2c observed net-profit floor unchanged. MAIN is not redeployed."
 }

@@ -12,7 +12,7 @@ import zlib
 
 PREDECESSORS = {
     'main': ('a73609f5-4d62-4f97-8513-17b0566d6811','6cc77cf1c0f8a30db52e3538614bc9c95662516c'),
-    'v81': ('d216ebb3-c9e3-444f-bc1c-b88dff3afd2b','f9ef31a03662af74b0aa1bb0640f8eb49523fdb8'),
+    'v81': ('33cb83b1-7813-42ef-85b7-db4a70a34029','6d5897c26fc83e62a5425148a773d648dfcbacde'),
 }
 # Retained aliases for existing offline callers.
 PREDECESSOR, BUILD = PREDECESSORS['main']
@@ -51,6 +51,16 @@ def transfer(journal, path, now=None):
                     reason=(r.get('management') or t or {}).get('reason'),
                     evidence=(r.get('management') or t or {}).get('evidence')))
     saved=json.loads(meta.get('state','{}'));probe=Directional() if lane=='main' else Scalp();probe.restore(saved)
+    if lane=='v81':
+        # A quiet deployment may have no BUY in the bounded event window.
+        # Preserve its durable display tail as well as more recent events.
+        retained={r['origin_id']:r for r in probe.signal_history}
+        for r in history:
+            old=retained.get(r['origin_id'])
+            if old and any(old[k]!=r[k] for k in ('contract','side','original_ask','signal_ts','target','open_ts','close_ts')):
+                raise ValueError('PREDECESSOR_SIGNAL_HISTORY_CONFLICT')
+            retained[r['origin_id']]=r
+        history=sorted(retained.values(),key=lambda r:r['signal_ts'])[-8:]
     origin=probe.origin;active=bool(origin and (origin['official_open']<=now<origin['official_close'] if lane=='main' else origin['open_ts']<=now<origin['close_ts']))
     history=remember(history,origin,lane,terminal=probe.terminal)
     if not active:probe.restore({})

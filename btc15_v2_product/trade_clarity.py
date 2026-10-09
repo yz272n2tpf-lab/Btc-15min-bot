@@ -26,7 +26,8 @@ def summary(origin, lane, state=None, terminal=None):
         close_ts=origin['official_close'] if early else origin['close_ts'],target=origin['target'],
         serial_index=origin.get('serial_index'),predecessor_id=origin.get('predecessor_id'),
         issued_buy=True,entry_policy=origin.get('entry_policy',origin.get('route')),
-        entry_reason=qualification.get('reason') or ('Historical Tier-1 qualification' if early else 'Historical native BTC30 momentum qualification; profit forecast was not established'),
+        entry_reason=(qualification.get('explanation') if not early else None) or qualification.get('reason') or ('Historical Tier-1 qualification' if early else 'Historical native BTC30 momentum qualification; profit forecast was not established'),
+        **({'entry_risk':deepcopy(qualification.get('entry_room'))} if not early else {}),
         entry_qualification=deepcopy(qualification.get('conditions',origin.get('entry_features'))),
         management_state=state,terminal=exit_record,manual_fill=None,realized_profit=None)
 

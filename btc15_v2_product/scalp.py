@@ -11,7 +11,7 @@ from pathlib import Path
 from btc15_ladder_journal_v1 import Worker, digest, SCHEMA
 from btc15_recovered_exit_engine_v1 import Policy
 from btc15_v2_product.scalp_policy import Lifecycle, proposal_for
-from .scalp_economics import liquidation, entry_assessment
+from .scalp_economics import liquidation, entry_assessment, ENTRY_POLICY
 from .trade_clarity import remember, project
 from btc15_scalp_management_presentation_v1 import management_presentation
 from btc15_position_context_v2 import context
@@ -177,7 +177,7 @@ class Scalp:
             if can_enter and p['close_ts']-now>=120 and cut > after and q['source_ts_ms']/1000 > after:
                 for side in ('UP', 'DOWN'):
                     proposal = proposal_for(row, side, f['proposals'][side].get('history', {}))
-                    assessment=entry_assessment(row,side,f.get('fee_schedule'))
+                    assessment=entry_assessment(row,side,f.get('fee_schedule'),proposal['history'])
                     if not proposal['ok'] or not assessment['ready']:
                         continue
                     predecessor = self.terminal
@@ -227,7 +227,7 @@ class Scalp:
             coverage=[]
             for scan_side in ('UP','DOWN'):
                 proposal=proposal_for(row,scan_side,f['proposals'][scan_side].get('history',{}))
-                assessment=entry_assessment(row,scan_side,f.get('fee_schedule'))
+                assessment=entry_assessment(row,scan_side,f.get('fee_schedule'),proposal['history'])
                 active=bool(self.origin and not self.terminal and self.origin['side']==scan_side)
                 scan_state='WATCH' if proposal['ok'] else 'PASS'
                 coverage.append(dict(side=scan_side,status=scan_state,
@@ -240,7 +240,8 @@ class Scalp:
                     entry_eligible=record.get('event')=='SCALP_SIGNAL' and active,
                     settlement_probability=None,expected_profit=None,economic_qualification=assessment,issued_buy=False,
                     next_condition=('Use existing origin management; no assumed fill' if active else
-                        'Supported later Kalshi BID economics above costs and the >2¢ net floor are missing' if proposal['ok'] else
+                        'Qualified scan; a new origin also requires the serial lane to be free and a strictly later quote' if assessment['ready'] else
+                        assessment['explanation'] if proposal['ok'] else
                         'At least 120 seconds must remain for a new entry' if p['close_ts']-now<120 else
                         'Fresh causal 30-second history and side-aligned BTC30 of at least $15 are required')))
             self.last = dict(cut=cut, quote=deepcopy(q))
@@ -254,7 +255,7 @@ class Scalp:
                     epoch(p['btc_source_utc'])+10, now+3.5),
                 executable_current_bid=current_bid, movement_cents=None if movement is None else movement*100,
                 context=ctx, presentation=presentation, economics=economics, policy=asdict(POLICY),
-                economic_policy='SCALP_NET_EVIDENCE_V1',
+                economic_policy=ENTRY_POLICY,
                 trailing_trigger_bid=(self.origin['original_ask']+self.path['mfe']-POLICY.giveback
                     if presentation and presentation['protection_armed'] else None),
                 exit_guidance=(dict(current_executable_bid=current_bid, trigger=deepcopy(self.terminal),

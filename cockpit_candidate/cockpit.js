@@ -111,8 +111,17 @@
       stamp(a.signal_ts)+' · original ASK '+centsValue(a.original_ask)+' · '+(a.terminal?.state==='EXIT'?'COMPLETED EXIT':a.terminal?'EXPIRED':a.origin_id===r?.origin_id&&!t.historical?'ISSUED RECORD':'HISTORICAL')+' · ID '+a.origin_id]));
     if(name==='early'&&!t.current)text('early-management',t.completed?'The EXIT recommendation is completed and recorded above. '+(x.economics?'Recorded trigger scenario: gross movement '+centsValue(x.economics.gross_movement_cents/100)+' · estimated net liquidation '+centsValue(x.economics.net_liquidation_scenario)+' · historical observed prices. ':'')+'No actual exit or realized profit is assumed.':'No current executable liquidation scenario; original BUY identity remains visible above.');
     if(name==='scalp'){
+      const risk=r?.entry_risk;
+      table('scalp-entry-risk',risk?[
+        ['AT ISSUE · entry / sale fee budget',centsValue(risk.entry_fee_estimate)+' / '+centsValue(risk.exit_fee_budget)],
+        ['AT ISSUE · spread / extra execution reserve',centsValue(risk.observed_spread)+' / '+centsValue(risk.execution_reserve)],
+        ['AT ISSUE · same-side BID change / BTC30',centsValue(risk.observed_bid_change_30s)+' / '+dollarsValue(risk.btc30)],
+        ['Cost hurdle for >2¢ net · NOT a forecast','Later BID must exceed '+centsValue(risk.bid_hurdle_exclusive)],
+        ['Theoretical net price room / possible full loss',centsValue(risk.net_price_room)+' / '+centsValue(risk.maximum_entry_loss)+' · $1 payout bound; no probability assigned'],
+        ['Expected profit','UNESTABLISHED · momentum call with cost room; no guaranteed exit or fill']
+      ]:[]);
       const e=t.economics||x?.economics;
-      text('scalp-economics',e?(t.completed?'HISTORICAL EXIT SCENARIO · ':'')+'Observed gross movement '+centsValue(e.gross_movement_cents/100)+' · entry / exit fee estimate '+centsValue(e.entry_fee_scenario)+' / '+centsValue(e.exit_fee_scenario)+' · net liquidation '+centsValue(e.net_liquidation_scenario)+' · after execution reserve '+centsValue(e.net_after_execution_reserve)+' · '+(e.meaningful_positive_net?'Meaningful positive net scenario':'Profitable scalp NOT established')+' · no fill or realized profit assumed':'No current verified net liquidation scenario. Scans need supported exit-value evidence greater than 2¢ net after fees and execution stress. Defensive exits remain available for existing signals.');
+      text('scalp-economics',e?(t.completed?'HISTORICAL EXIT SCENARIO · ':'')+'Observed gross movement '+centsValue(e.gross_movement_cents/100)+' · entry / exit fee estimate '+centsValue(e.entry_fee_scenario)+' / '+centsValue(e.exit_fee_scenario)+' · net liquidation '+centsValue(e.net_liquidation_scenario)+' · after execution reserve '+centsValue(e.net_after_execution_reserve)+' · '+(e.meaningful_positive_net?'Meaningful positive net scenario':'Profitable scalp NOT established')+' · no fill or realized profit assumed':'No current verified net liquidation scenario. Entries require native momentum and cost room; expected profit remains unestablished. Profit-oriented protection requires an observed scenario above 2¢ net after fees and execution reserve. Defensive exits remain available.');
     }
     // Completed or historical recommendations never light an active action rung.
     const prefixes=name==='early'?['early']:['scalp-up','scalp-down'];
