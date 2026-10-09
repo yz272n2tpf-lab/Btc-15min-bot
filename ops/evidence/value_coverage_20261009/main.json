@@ -1,0 +1,52 @@
+{
+  "schema": "BTC15_V2_PRODUCT_ENVELOPE_R1",
+  "product_revision": "BTC15_INTEGRATED_OFFLINE_20261006",
+  "candidate": "BTC15_INTEGRATED_FINISH_20261006",
+  "lane": "main",
+  "status": "UNAVAILABLE",
+  "reason": "SOURCE_EXPIRED",
+  "served_ts": 1791507246.8018544,
+  "historical_only": true,
+  "signal_only": true,
+  "manual_execution_only": true,
+  "orders": false,
+  "official_identity": {
+    "authority": "IDENTITY_ONLY_NOT_ACTION_FRESHNESS",
+    "contract": "KXBTC15M-26OCT082100-00",
+    "official_close": 1791507600.0,
+    "official_open": 1791506700.0,
+    "target": 81767.13
+  },
+  "contract": "KXBTC15M-26OCT082100-00",
+  "published_ts": 1791507235.9209335,
+  "journal": {
+    "denominator": "contracts",
+    "drops": 0,
+    "max_records": 300000,
+    "queue_depth": 0,
+    "quiet_means": "OBSERVED_WITHOUT_SIGNAL; inspect missing flag",
+    "retained_from_sequence": 1,
+    "retention_days": 30,
+    "schema": "BTC15_LADDER_JOURNAL_V1",
+    "sequence": 10,
+    "settlement": "OFFICIAL_KALSHI_FINALIZED_ONLY",
+    "written": 10
+  },
+  "administrative_journal": {
+    "accepted": 25,
+    "authority": "ADMINISTRATIVE_ONLY_NOT_STRICT_COVERAGE",
+    "checked_ts": 1791507232.2789743,
+    "days": 7,
+    "drops": 0,
+    "effective_retention": "EARLIEST_OF_7_DAYS_100000_RECORDS_64_MIB; ADMIN_ONLY",
+    "last_sequence": 25,
+    "max_payload_bytes": 67108864,
+    "max_records": 100000,
+    "queue_depth": 0,
+    "reason": null,
+    "retained_from_sequence": 1,
+    "retained_payload_bytes": 41183,
+    "status": "AVAILABLE",
+    "written": 25
+  }
+}

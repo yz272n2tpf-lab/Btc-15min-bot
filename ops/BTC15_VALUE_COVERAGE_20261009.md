@@ -41,3 +41,21 @@ The actual cockpit shows independent native EARLY status and reason, a two-side 
 - Legacy `test_btc15_read_only_revalidation` has nine pre-existing failures due to obsolete status/lease expectations. The untouched deployed cd46cfa baseline reproduces the same nine failures. This repair does not change revalidation code, source clocks, expiry or model bytes. Local environment also warns about the unchanged model artifact's sklearn version; production dependencies are unchanged.
 
 No shadow service, performance campaign, broad backtest, new paid infrastructure, fill, order, improved coverage rate, improved accuracy or profitability claim. Deployed identities and bounded live observations are recorded separately after Railway SUCCESS and browser verification.
+
+## Production receipt and browser verification
+
+All three existing production services report SUCCESS in Railway:
+
+| Service | Exact deployed commit | Deployment |
+| --- | --- | --- |
+| MAIN | `36bc1f296df450943201cb7152934d6283df4f6e` | `d15711cd-16da-49e4-9eab-15f099b0e9f1` |
+| SCALP | `f9ef31a03662af74b0aa1bb0640f8eb49523fdb8` | `d216ebb3-c9e3-444f-bc1c-b88dff3afd2b` |
+| COCKPIT | `36bc1f296df450943201cb7152934d6283df4f6e` | `5dbe4fd3-daeb-4ef3-bc6c-aaad2fbfdaf6` |
+
+Verified the actual production browser at `https://btc15-operator-cockpit-readonly-production.up.railway.app/?mode=live`, including the independent ladders, native value section, source status and retained-analysis behavior. A full-page screenshot was captured at approximately 2026-10-09 00:55 UTC. The browser observed a 72-cent UP WATCH with an 84.6% model estimate, a weak 29-cent DOWN PASS, and subsequently an 87-cent UP PASS with an 86.3% estimate whose costs erased apparent value. These observations establish publication behavior, not calibration, fills or profitability.
+
+SCALP native output and browser showed a genuine REVERSAL_RECROSS origin and existing protection exit lifecycle, and later a DOWN origin with CAUTION. Native receipts are in `ops/evidence/value_coverage_20261009/`. They are bounded observations, not a performance sample.
+
+Source freshness gaps continue. The captured MAIN endpoint receipt is an UNAVAILABLE / SOURCE_EXPIRED observation; subsequent bounded endpoint reads also included BTC_SOURCE_UNAVAILABLE. The browser separately observed current native MAIN values after those gaps. The dashboard revokes current authority and labels retained values historical during expiry. This repair does not widen freshness thresholds or claim continuous feed availability.
+
+The unrelated pre-existing staged Railway patch for service `84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1` was not accepted or modified. No other service was deployed. The documentation-only receipt commit is not a runtime deployment; runtime identities remain those above.

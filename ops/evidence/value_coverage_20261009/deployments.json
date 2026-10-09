@@ -1,0 +1,37 @@
+{
+  "project_id": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+  "environment_id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+  "deployments": [
+    {
+      "service": "MAIN",
+      "service_id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+      "deployment_id": "d15711cd-16da-49e4-9eab-15f099b0e9f1",
+      "status": "SUCCESS",
+      "commit": "36bc1f296df450943201cb7152934d6283df4f6e",
+      "created_at": "2026-10-09T00:51:59.753Z",
+      "updated_at": "2026-10-09T00:53:08.491Z"
+    },
+    {
+      "service": "SCALP",
+      "service_id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+      "deployment_id": "d216ebb3-c9e3-444f-bc1c-b88dff3afd2b",
+      "status": "SUCCESS",
+      "commit": "f9ef31a03662af74b0aa1bb0640f8eb49523fdb8",
+      "created_at": "2026-10-09T00:48:51.670Z",
+      "updated_at": "2026-10-09T00:50:55.605Z"
+    },
+    {
+      "service": "COCKPIT",
+      "service_id": "b584a1cf-a951-4b54-9127-4826cedc3ccb",
+      "deployment_id": "5dbe4fd3-daeb-4ef3-bc6c-aaad2fbfdaf6",
+      "status": "SUCCESS",
+      "commit": "36bc1f296df450943201cb7152934d6283df4f6e",
+      "created_at": "2026-10-09T00:52:01.896Z",
+      "updated_at": "2026-10-09T00:52:37.773Z"
+    }
+  ],
+  "dashboard": "https://btc15-operator-cockpit-readonly-production.up.railway.app/?mode=live",
+  "signal_only": true,
+  "orders": false,
+  "recorded_at": "2026-10-09T00:59:05.079632+00:00"
+}
