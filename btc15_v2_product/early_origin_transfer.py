@@ -8,8 +8,8 @@ from pathlib import Path
 import sqlite3
 import time
 
-PREDECESSOR = '29d99668-bdcb-47bc-85c7-bb470eb68ea8'
-BUILD = 'f2f5045b740fd5bbbb14b48be50d0d92abecfa1e'
+PREDECESSOR = '2d1ca61c-51b5-415d-8cca-02ed86a7cb69'
+BUILD = 'b8bd240b4e27a949e7db0388b8fc9bae24d83ef5'
 
 
 def transfer(journal, path, now=None):

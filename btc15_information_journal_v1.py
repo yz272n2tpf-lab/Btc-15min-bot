@@ -2,7 +2,8 @@
 
 Each append is a complete gzip member followed by fsync. A process restart or
 UTC day change starts another segment, so it never appends after a torn member.
-There is no pruning, migration, sampling or historical archive operation.
+The separate, explicitly authorized maintenance job can archive the legacy file.
+This writer never prunes or migrates evidence.
 """
 from datetime import datetime, timezone
 import gzip
@@ -73,12 +74,27 @@ def information_lines(legacy_path):
     skipped or presented as complete coverage.
     """
     path = Path(legacy_path)
-    segments = sorted(Path(str(path)+'.segments').glob('*.jsonl.gz'))
-    if path.exists():
-        with path.open('rb') as stream:
+    # One volume / one writer: last-write times preserve process/day segment
+    # order, whereas the random session suffix does not order same-day restarts.
+    segments = sorted(Path(str(path)+'.segments').glob('*.jsonl.gz'),
+                      key=lambda p: (p.stat().st_mtime_ns, p.name))
+    if path.suffix == '.gz':
+        stream = gzip.open(path, 'rb')
+    else:
+        try:
+            stream = path.open('rb')
+        except FileNotFoundError:
+            archive = Path(str(path)+'.gz')
+            try:
+                stream = gzip.open(archive, 'rb')
+            except FileNotFoundError:
+                if not segments: raise FileNotFoundError(path) from None
+                stream = None
+    # Prefer the plain representation while both exist during verification.
+    # Opening it directly also makes the atomic unlink/fallback transition safe.
+    if stream is not None:
+        with stream:
             yield from stream
-    elif not segments:
-        raise FileNotFoundError(path)
     for segment in segments:
         with gzip.open(segment, 'rb') as stream:
             yield from stream

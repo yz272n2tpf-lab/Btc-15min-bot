@@ -73,6 +73,7 @@ def supervise(directory):
         'information':([sys.executable,'-u','-m','btc15_v2_product.worker'],reader),
     }
     processes={}
+    maintenance=None
     stopping=threading.Event()
     previous={s:signal.signal(s,lambda *_:stopping.set()) for s in (signal.SIGINT,signal.SIGTERM)}
     def inventory():
@@ -88,6 +89,15 @@ def supervise(directory):
             processes[name]=subprocess.Popen(argv,cwd=ROOT,env=child_env,start_new_session=True)
         threading.Thread(target=inventory,daemon=True,name='storage-inventory').start()
         print('BTC15 PRODUCTION OWNERS | native,dashboard,information | legacy collectors disabled | NO ORDERS',flush=True)
+        # One nonessential, low-priority process; its failure cannot restart MAIN.
+        # A durable attempt marker prevents repeats, including after an abort.
+        if env.get('BTC15_ARCHIVE_LEGACY_ONCE')=='20261009':
+            try:
+                reader['BTC15_ARCHIVE_OWNED_PIDS']=','.join(str(p.pid) for p in processes.values())
+                maintenance=subprocess.Popen([sys.executable,'-u','-m','btc15_information_archive_once'],
+                    cwd=ROOT,env=reader,start_new_session=True)
+            except OSError as exc:
+                print('BTC15 ARCHIVE | START_ABORTED | '+type(exc).__name__,flush=True)
         while not stopping.wait(.5):
             for name,process in processes.items():
                 code=process.poll()
@@ -99,8 +109,12 @@ def supervise(directory):
         return 0
     finally:
         stopping.set()
+        if maintenance is not None:
+            try: os.killpg(maintenance.pid,signal.SIGTERM)
+            except ProcessLookupError: pass
         for process in processes.values():
             try: os.killpg(process.pid,signal.SIGTERM)
             except ProcessLookupError: pass
         for process in processes.values(): terminate_group(process)
+        if maintenance is not None: terminate_group(maintenance)
         for sig,handler in previous.items(): signal.signal(sig,handler)

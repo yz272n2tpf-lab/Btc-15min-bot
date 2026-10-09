@@ -46,14 +46,15 @@
     "btc15_quote_proof_offpath_v1.py": "b2b1f2ced06503d8f5a635cb0794e8712b780fb68c60d899267a307929a3a7b0",
     "btc15_v2_product/main_timing.py": "606862d49af2643c4059bc2887567aceb660a923d30c5b0f3a052d4bed2f4ef9",
     "btc15_v2_product/delivery.py": "37aed0c019e800cd8cc141c9eb5cc454d67ab76c19d3efb3a7ad9580ba3ec8fd",
-    "btc15_v2_product/production.py": "eef0b7f36f2d4d02197916409e52bd9e031041a3cb4f32766f01f91a827cf91d",
+    "btc15_v2_product/production.py": "0242e4ad15907f01e6156177b1686d266c0c8673a07737cbe4016841b325a4f6",
     "btc15_v2_product/opportunities.py": "e96d7d80d3e8c7b15d0ed3db27dd39d2884de05e820659c002e90a7e11829391",
     "btc15_v2_product/early_entry.py": "83312af50889d7ff2b7e8f8a9f8701291a49b8f5bd87840da066f68a0b53b05a",
     "btc15_v2_product/early_management.py": "da3522676f7dbdf2685930a6a4eb2b616d2b39e61ac393480d6a7772576aa63b",
-    "btc15_v2_product/early_origin_transfer.py": "29b8c1682670521f6f0e4848f6afb71b17490cdd8a35c51f8abcec115835a705",
+    "btc15_v2_product/early_origin_transfer.py": "7a4b426fecd8de18660b77a9e457346eb96635a7394635de5477df7a3745967e",
     "btc15_information_service_v1.py": "7405dd37f4b00eae4620cd290334692b8ffeaa428bfde62f639a79a73875a2b0",
     "btc15_information_proxy_v1.py": "bd15632a24576b1ad13b995d7f1bad9fc71eac5121d3b737d5093af8afd3034c",
-    "btc15_information_journal_v1.py": "1d0a93fe8144bc9db22c3e6317aac261f46d7ba6ddb7547410b53ee791c3ebe7"
+    "btc15_information_journal_v1.py": "b66ecfb3cc1e3ae4d2f3a103ae84bd711f94fe1323ee0ffaf661b9674224436e",
+    "btc15_information_archive_once.py": "76c248c907b0d17b207a6c59828fee55fc760a9acfe0a58f678575f389e87cd4"
   },
   "lane_protected_files": {
     "main": {
