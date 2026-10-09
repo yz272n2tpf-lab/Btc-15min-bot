@@ -82,3 +82,10 @@ Details. It reserves space for the existing source header and EARLY context.
 This small `styles.css` adjustment accompanies the data-ownership correction;
 no warning, reason, or authority deadline is delayed. Final production and
 real-browser results will be appended after release.
+
+Live geometry measurements also identified the empty phase guard collapsing
+the header, source/quote labels changing line counts, and historical prefixes
+wrapping the SCALP side headings. The final adjustment reserves those status
+rows and gives each SCALP side its own adjacent freshness label in `index.html`.
+The UP/DOWN explanation itself remains unchanged through expiry. All historical
+labels remain visible immediately; no text is clipped and no update is delayed.

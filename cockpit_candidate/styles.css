@@ -20,8 +20,12 @@
 #early-price,#scalp-price{min-height:1.5em}.ladder-guidance{min-height:0}
 /* Source classification may change immediately without moving its explanation. */
 #early-context{min-height:4.5em}
-#runtime-notice{min-height:3em}
+#runtime-notice{min-height:4.5em}
 #spot-age,#brti-latest-age{min-height:3em}
+#guard,#guard:empty{display:block;min-height:1.5em}
+#quote-status,#clock-status,#btc-timestamp{min-height:3em}
+#chart-note{min-height:6em}
+#scalp-up-freshness,#scalp-down-freshness{min-height:3em}
 .scalp-directions{gap:12px}.scalp-directions{grid-template-columns:1fr}
 .scalp-direction h3{min-height:0}.scalp-direction h3{flex-direction:row;justify-content:space-between;min-height:0}
 .ladder li,.scalp-direction .ladder li{padding:9px 12px;min-height:44px}

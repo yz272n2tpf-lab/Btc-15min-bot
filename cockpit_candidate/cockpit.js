@@ -85,7 +85,8 @@
       for(const side of ['UP','DOWN']){
         const current=(scalpHistorical?old:view).scalpSide===side,scan=scalp?.diagnostics?.find(d=>d.side===side);
         const explain=scan?(window.BTC15SnapshotAdapter.reasonLabels[scan.reason]||String(scan.reason).replaceAll('_',' ')):null;
-        text('scalp-'+side.toLowerCase()+'-status',(scalpHistorical?'LAST QUALIFIED · historical only · ':'')+(current?'Published '+scalp.guidance+' · '+side:scalp?(explain?'No new '+side+' entry · '+explain:'No new '+side+' opportunity published'):'SCALP source refreshing; no current '+side+' guidance'));
+        text('scalp-'+side.toLowerCase()+'-status',current?'Published '+scalp.guidance+' · '+side:scalp?(explain?'No new '+side+' entry · '+explain:'No new '+side+' opportunity published'):'No qualified '+side+' explanation');
+        label('scalp-'+side.toLowerCase()+'-freshness',scalpHistorical?'LAST QUALIFIED · historical; no current authority':s?.eligible?'CURRENT · source diagnostic':'UNAVAILABLE · no current source',scalpHistorical?'retained':s?.eligible?'current':'unavailable');
       }
       // History is in Details; inserting/removing duplicate history paragraphs
       // above the guidance moved otherwise unchanged reasons during every gap.
@@ -180,7 +181,7 @@
     const now=qualified?p.checked_ts+(performance.now()-i.delivery.requestStartedMs)/1000:NaN;
     const btcAge=now-p?.btc_source_ts,brtiAge=now-p?.brti_source_ts;
     const money=x=>finite(x)?'$'+x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}):'Unavailable';
-    text('spot-price',qualified&&finite(btcAge)&&btcAge>=0&&btcAge<=10?money(p.btc_price):marketCurrent?money(m.source?.btc_price):'BTC spot refreshing');
+    text('spot-price',qualified&&finite(btcAge)&&btcAge>=0&&btcAge<=10?money(p.btc_price):marketCurrent?money(m.source?.btc_price):'Refreshing');
     text('spot-age',qualified&&finite(btcAge)&&btcAge>=0&&btcAge<=10?'BTC spot · source '+stamp(p.btc_source_ts)+' · '+btcAge.toFixed(1)+'s':marketCurrent?'BTC spot at market snapshot '+m.source.source_timestamp_utc:'No current BTC spot receipt');
     const freshBrti=qualified&&finite(brtiAge)&&brtiAge>=0&&brtiAge<=5;
     text('brti-latest',freshBrti?money(p.brti_value):m?.values?.btcPrice||'BRTI refreshing');

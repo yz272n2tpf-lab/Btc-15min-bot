@@ -57,6 +57,10 @@ for(const name of ['final','early','scalp']){
   assert.equal(node(name+'-action').textContent,'Action unavailable');
 }
 for(const p of ['early','scalp-up','scalp-down'])assert.ok(node(p+'-ladder').children.every(e=>!e.attributes['aria-current']));
+for(const side of ['up','down']){
+  assert.equal(node('scalp-'+side+'-status').textContent,original['scalp-'+side+'-status'],'side explanation remains stable through expiry');
+  assert.match(node('scalp-'+side+'-freshness').textContent,/LAST QUALIFIED.*historical.*no current authority/);
+}
 assert.equal(node('early-price').textContent,'');assert.equal(node('scalp-price').textContent,'');
 assert.equal(node('up-buy').textContent,'—');
 clearWrites();resolved=qualified;render();
