@@ -102,7 +102,7 @@ def evaluate(raw, frame=None, previous=None, origin=None):
             probability_change=(p-(previous['probability_up'] if side=='UP' else 1-previous['probability_up'])) if previous else None,
             pullback_observed=pullback,pullback_ask_change=ask-prior_ask if pullback else None,
             secondary_state='WATCH' if pullback and status!='PASS' else 'PASS',
-            secondary_reason='Observed ask pullback only; directional re-entry has no accepted independent origin rule'))
+            secondary_reason=('Observed ask pullback; directional re-entry remains observational' if pullback else 'No causal ask pullback in this native interval; no directional re-entry signal')))
     rank={'QUALIFIED':2,'WATCH':1,'PASS':0}
     ranked=sorted(candidates,key=lambda c:(rank[c['status']],c['economics'].get('stress_net_model_ev_scenario',-math.inf),-c['ask']),reverse=True)
     best=ranked[0] if ranked[0]['status']!='PASS' else None
@@ -120,7 +120,7 @@ def evaluate(raw, frame=None, previous=None, origin=None):
             reliability='Model estimate; current calibration and expanded-price accuracy not established'),
         volatility=dict(range5=fair.get('range5'),vol5=fair.get('vol5'),distance_range5=fair.get('dist_over_range5')),
         reversal=dict(status='WATCH' if (previous and previous['side']!=early['side']) else 'PASS',
-            reason='Model direction changed; directional reversal is observational. Independent SCALP REVERSAL_RECROSS requires its own native origin.'),
+            reason=('Model direction changed; directional reversal is observational. Independent SCALP REVERSAL_RECROSS requires its own native origin.' if previous and previous['side']!=early['side'] else 'No model direction change observed; SCALP reversal continues to use its independent native rules.')),
         signal_only=True,orders=False,fee_source=FEE_SOURCE,fee_checked_date='2026-10-09',
         limitations=['Scenario EV uses model probability, not calibrated expected profit',
             'Book depth, fill size, series fee multiplier and actual slippage are unverified',

@@ -51,6 +51,7 @@
   }
   function nativeSnapshot(v){const lanes=v?.lanes||{};return {main:lanes.main?.eligible?lanes.main.current_payload:{status:'UNAVAILABLE',official_identity:v?.identity,reason:lanes.main?.reason_code},scalp:lanes.scalp?.eligible?lanes.scalp.current_payload:null,quote:lanes.quote?.eligible?lanes.quote.current_payload:null};}
   const centsValue=v=>finite(v)?(v*100).toFixed(2)+'¢':'Unavailable';
+  const dollarsValue=v=>finite(v)?v.toFixed(2)+' USD':'Unavailable';
   const percentValue=v=>finite(v)?(v*100).toFixed(1)+'%':'Unavailable';
   function renderValueAnalysis(native,current){
     const a=native?.opportunity_analysis;
@@ -71,13 +72,13 @@
         ['Reward / risk ratio',finite(e.reward_risk_scenario)?e.reward_risk_scenario.toFixed(2):'Unavailable'],
         ['Break-even probability',percentValue(e.break_even_probability)],
         ['FINAL support',c.final_relation],
-        ['BTC / BRTI target gap',String(c.target_gap??'Unavailable')+' / '+String(c.brti_gap??'Unavailable')],
+        ['BTC / BRTI target gap',dollarsValue(c.target_gap)+' / '+dollarsValue(c.brti_gap)],
         ['Recent native BTC move',c.btc_move_since_previous_native===null?'Causal prior sample unavailable':c.btc_move_since_previous_native.toFixed(2)+' USD / '+c.native_interval_seconds.toFixed(1)+'s'],
         ['Secondary / pullback',c.secondary_state+' · '+c.secondary_reason],
         ['What must improve',c.improvements.length?c.improvements.join('; '):'Existing historical policy qualifies; confirm executable price and fees manually']
       ]:[]);
     }
-    text('value-risk',valid?'Model probabilities: UP '+percentValue(a.model.probability_up)+' / DOWN '+percentValue(a.model.probability_down)+' · '+a.model.reliability+' · 5m BTC range '+String(a.volatility.range5??'unavailable')+' · Reversal '+a.reversal.status+': '+a.reversal.reason:'Probability, volatility and reversal context require a valid native publication');
+    text('value-risk',valid?'Model probabilities: UP '+percentValue(a.model.probability_up)+' / DOWN '+percentValue(a.model.probability_down)+' · '+a.model.reliability+' · 5m BTC range '+dollarsValue(a.volatility.range5)+' · Reversal '+a.reversal.status+': '+a.reversal.reason:'Probability, volatility and reversal context require a valid native publication');
     text('value-costs',valid?'Cost scenario: general M=1 taker fee for one contract, conservatively cent-rounded; stress adds one observed spread. Actual series fees, size, depth and slippage unverified. No fill assumed. EV is model-implied, not established expected profit.':'Cost scenarios are unavailable until native analysis arrives');
   }
   function renderResolved(v){

@@ -47,7 +47,7 @@
     "btc15_v2_product/main_timing.py": "606862d49af2643c4059bc2887567aceb660a923d30c5b0f3a052d4bed2f4ef9",
     "btc15_v2_product/delivery.py": "37aed0c019e800cd8cc141c9eb5cc454d67ab76c19d3efb3a7ad9580ba3ec8fd",
     "btc15_v2_product/production.py": "fef132617dd4f36e93a71beebe8897675194507947fe76746cbdd057c650ba4a",
-    "btc15_v2_product/opportunities.py": "38d791b262cec99eddcd2ef28a1e7c30b7e42c73d3db6496cd453dd36cecd3e2"
+    "btc15_v2_product/opportunities.py": "00abb24e3a679fcb50096288e4b89d9c0e00bbdc5beb9b9c1154b5a3b1bc8e1d"
   },
   "lane_protected_files": {
     "main": {
