@@ -1,0 +1,61 @@
+{
+  "schema": "BTC15_EARLY_FINAL_MANAGEMENT_DEPLOYMENT_RECEIPT",
+  "project": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+  "environment": "61775c5d-c583-4dfc-af41-f25578856fd9",
+  "lanes": {
+    "main": {
+      "service": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+      "build": "7a0b661291743222c1f6ac30df8b42e274fd6c73",
+      "deployment": "83dc7169-2807-46a2-b011-e189e4cde60f",
+      "status": "SUCCESS",
+      "canRollback": true
+    },
+    "cockpit": {
+      "service": "b584a1cf-a951-4b54-9127-4826cedc3ccb",
+      "build": "7a0b661291743222c1f6ac30df8b42e274fd6c73",
+      "deployment": "b7fea289-e95c-4c04-b4a7-fb23ea1cfdd8",
+      "status": "SUCCESS",
+      "canRollback": true
+    },
+    "scalp": {
+      "service": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+      "build": "f9ef31a03662af74b0aa1bb0640f8eb49523fdb8",
+      "deployment": "d216ebb3-c9e3-444f-bc1c-b88dff3afd2b",
+      "status": "SUCCESS",
+      "canRollback": true
+    }
+  },
+  "manifest_sha256": "f763ec3aaf32ad8123e942ef809e0ba7ca164cd85c72bd0d79b57461067fc2ca",
+  "signal_only": true,
+  "orders": false,
+  "source": "Authenticated Railway deployment records plus direct native /ladders and actual live browser",
+  "origin_transfer": {
+    "active_origin_imported": false,
+    "imported_at": 1791510618.9214432,
+    "origin_id": null,
+    "original_checkpoint_digest": "511772cb284e09973216477283205f85d0bd14c4fc4f7bf9044292a65027c613",
+    "predecessor_build": "f2f5045b740fd5bbbb14b48be50d0d92abecfa1e",
+    "predecessor_deployment": "29d99668-bdcb-47bc-85c7-bb470eb68ea8",
+    "publication_imported": false
+  },
+  "rollback": {
+    "main": "29d99668-bdcb-47bc-85c7-bb470eb68ea8",
+    "cockpit": "6c16078b-c36a-4c41-be16-c27295ebc5aa",
+    "build": "f2f5045b740fd5bbbb14b48be50d0d92abecfa1e"
+  },
+  "observations": {
+    "contract": "KXBTC15M-26OCT082200-00",
+    "new_entry_policy": "EARLY_CAUSAL_VALUE_V2",
+    "native_causal_features_available": true,
+    "fee_schedule_current": true,
+    "live_early_states_observed": [
+      "WATCH",
+      "PASS"
+    ],
+    "live_final": "PASS",
+    "live_scalp": "existing UP origin WATCH",
+    "new_early_call_observed": false,
+    "new_early_exit_observed": false,
+    "performance_claims": false
+  }
+}
