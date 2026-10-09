@@ -89,7 +89,10 @@ class DiagnosticBoundaryTests(unittest.TestCase):
 
     def test_public_read_failure_is_read_boundary(self):
         pub = SimpleNamespace(read=lambda *a: (_ for _ in ()).throw(RuntimeError('private detail')))
-        self.assert_wait(pub, SimpleNamespace(health=lambda: {}), 'READ_UNAVAILABLE')
+        code, body = response(pub, SimpleNamespace(health=lambda: {}), '/information', lambda: 100.)
+        self.assertEqual(code, 500)
+        self.assertEqual(unpack(body), {'error':'READ_INTERNAL_ERROR'})
+        self.assertNotIn(b'private detail', body)
 
 
 class PostStartupRecoveryTests(unittest.TestCase):

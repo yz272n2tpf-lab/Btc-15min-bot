@@ -1,0 +1,59 @@
+{
+  "captured_at": "2026-10-09T02:51:24.699Z",
+  "project": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+  "environment": "61775c5d-c583-4dfc-af41-f25578856fd9",
+  "services": {
+    "MAIN": {
+      "service": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+      "commit": "7a0b661291743222c1f6ac30df8b42e274fd6c73",
+      "branch": "fix/btc15-economic-opportunity-coverage-20261009",
+      "deployment": "83dc7169-2807-46a2-b011-e189e4cde60f",
+      "startCommand": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && unset BTC15_LADDER_DATA_ROOT && export BTC15_V2_APPROVED_BUILD=7a0b661291743222c1f6ac30df8b42e274fd6c73 BTC15_V2_APPROVED_MANIFEST_SHA256=f763ec3aaf32ad8123e942ef809e0ba7ca164cd85c72bd0d79b57461067fc2ca && exec python -u btc15_v2_launch.py --lane main --run-reviewed-production'",
+      "volumes": [
+        {
+          "id": "6ced6b1a-3755-4518-a240-c895e936d443",
+          "name": "btc-15min-bot-volume",
+          "mountPath": "/data",
+          "sizeMB": 10000,
+          "region": "iad",
+          "state": "live"
+        }
+      ]
+    },
+    "COCKPIT": {
+      "service": "b584a1cf-a951-4b54-9127-4826cedc3ccb",
+      "commit": "7a0b661291743222c1f6ac30df8b42e274fd6c73",
+      "branch": "fix/btc15-economic-opportunity-coverage-20261009",
+      "deployment": "b7fea289-e95c-4c04-b4a7-fb23ea1cfdd8",
+      "startCommand": "/bin/sh -c ': \"${PORT:?PORT required}\"; : \"${COCKPIT_PUBLIC_HOST:?dedicated HTTPS hostname required}\"; test \"$COCKPIT_PUBLIC_HOST\" != PENDING || exit 64; exec python3 -B server.py --bind 0.0.0.0 --port \"$PORT\" --public-host \"$COCKPIT_PUBLIC_HOST\"'",
+      "volumes": []
+    },
+    "SCALP": {
+      "service": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+      "commit": "f9ef31a03662af74b0aa1bb0640f8eb49523fdb8",
+      "branch": "fix/btc15-economic-opportunity-coverage-20261009",
+      "deployment": "d216ebb3-c9e3-444f-bc1c-b88dff3afd2b",
+      "startCommand": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && unset BTC15_LADDER_DATA_ROOT && export BTC15_V2_APPROVED_BUILD=f9ef31a03662af74b0aa1bb0640f8eb49523fdb8 BTC15_V2_APPROVED_MANIFEST_SHA256=b411012fd86ae09946e05ed5b170e80ad24f0d4f0d16a7c310f37248321e36ab && exec python -u btc15_v2_launch.py --lane v81 --run-reviewed-production'",
+      "volumes": [
+        {
+          "id": "d5eeafca-e0fc-42f0-b7d1-4705907720c6",
+          "name": "btc15-v81-ladder-journal-v2",
+          "mountPath": "/data",
+          "sizeMB": 2048,
+          "region": "iad",
+          "state": "live"
+        }
+      ]
+    }
+  },
+  "main_disk_metric": [
+    {
+      "measurement": "DISK_USAGE_GB",
+      "current": 8.705294336,
+      "average": 8.407046836141562,
+      "min": 0,
+      "max": 8.705294336,
+      "sampleCount": 1441
+    }
+  ]
+}

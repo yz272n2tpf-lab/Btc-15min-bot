@@ -1,5 +1,32 @@
 """Original isolated information service plus ephemeral read-only revalidation."""
 
+def install_revalidation_route(server, revalidator, changed):
+    """Attach the unchanged read-only binding wait to the bounded HTTP service."""
+    import json
+    from btc15_information_v1 import pack
+    original_get=server.RequestHandlerClass.do_GET
+    def do_GET(handler):
+        from urllib.parse import urlparse,parse_qs
+        requested=urlparse(handler.path)
+        if requested.path!='/revalidation':return original_get(handler)
+        desired=parse_qs(requested.query).get('binding',[None])[0]
+        if desired:
+            # A new native commit with only milliseconds on its old source
+            # lease must not race the independent sampler. Wait for its
+            # already-running read-only work; HTTP cannot trigger inference.
+            def matching():
+                return revalidator.latest and json.loads(revalidator.latest).get('binding')==desired
+            with changed:changed.wait_for(matching,timeout=.2)
+        raw=revalidator.latest or pack(dict(status='PENDING',reason='REVALIDATION_STARTING'))
+        handler.send_response(200);handler.send_header('Content-Type','application/json')
+        handler.send_header('Cache-Control','no-store');handler.send_header('Content-Length',str(len(raw)))
+        handler.end_headers()
+        try:handler.wfile.write(raw)
+        except (BrokenPipeError,ConnectionResetError):pass
+    server.RequestHandlerClass.do_GET=do_GET
+    return server
+
+
 def main():
     # The original CPU/memory/credential isolation remains in force.
     from btc15_information_worker_v1 import configure
@@ -18,28 +45,7 @@ def main():
     root=Path(os.environ['BTC15_LADDER_DATA_ROOT'])
     original_server=service.server_for
     def server_for(*args,**kwargs):
-        server=original_server(*args,**kwargs)
-        original_get=server.RequestHandlerClass.do_GET
-        def do_GET(handler):
-            from urllib.parse import urlparse,parse_qs
-            requested=urlparse(handler.path)
-            if requested.path!='/revalidation':return original_get(handler)
-            desired=parse_qs(requested.query).get('binding',[None])[0]
-            if desired:
-                # A new native commit with only milliseconds on its old source
-                # lease must not race the independent sampler. Wait for its
-                # already-running read-only work; HTTP cannot trigger inference.
-                def matching():
-                    return revalidator.latest and json.loads(revalidator.latest).get('binding')==desired
-                with changed:changed.wait_for(matching,timeout=.2)
-            raw=revalidator.latest or pack(dict(status='PENDING',reason='REVALIDATION_STARTING'))
-            handler.send_response(200);handler.send_header('Content-Type','application/json')
-            handler.send_header('Cache-Control','no-store');handler.send_header('Content-Length',str(len(raw)))
-            handler.end_headers()
-            try:handler.wfile.write(raw)
-            except (BrokenPipeError,ConnectionResetError):pass
-        server.RequestHandlerClass.do_GET=do_GET
-        return server
+        return install_revalidation_route(original_server(*args,**kwargs), revalidator, changed)
     service.server_for=server_for
     def sample():
         from btc15_v2_product.revalidation import binding

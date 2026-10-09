@@ -12,7 +12,8 @@ REQUIRED_INFORMATION = {
 
 def read_information(path):
     records=[]
-    for line in Path(path).read_text().splitlines():
+    from btc15_information_journal_v1 import information_lines
+    for line in information_lines(path):
         if not line.strip(): continue
         record=json.loads(line)
         if record.get('schema')!='BTC15_INFORMATION_JOURNAL_V1':

@@ -11,7 +11,7 @@
   "orders": false,
   "frozen_files": "Original lane-specific freeze manifest and verifier remain byte-identical and mandatory",
   "files_sha256": {
-    "btc15_cohort_evidence_v1.py": "9812c23a6200bf31c2c5eb4e8f317fe32cfcafefeaa37d2a9b9a041967447d1a",
+    "btc15_cohort_evidence_v1.py": "3e971b6465d26a20e3863e5dd2cf2a03308d81936c2171be603494c70964e13c",
     "btc15_v2_launch.py": "6d038196f83620df5172c5f1fcd3c260bb8d0a8425a364fa83ec78ee978a0a1a",
     "btc15_v2_native.py": "a1cb9115a35da40ba93410cb72374d9068cf5501f5b2b9697bd500e5c49b9a7a",
     "btc15_v2_product/__init__.py": "9a7b49d9bd21863c017a87e4cddd6dc16c8d189a7c0e600f4dd9286c770f49c8",
@@ -27,7 +27,7 @@
     "btc15_v2_product/revalidation_transport.py": "828a42b22465a9fe34779e4d6fb0d38eb8393fbc2f0e43620bf62f4d91abd4cc",
     "btc15_v2_product/routes.py": "df02050e261932268e3a8f426086c464736389540b47ca30b89d5c62f8e5889e",
     "btc15_v2_product/runtime.py": "9aef895014cbcf0736e4967a65ab53a773a4de5ccb78749276e7e2fa89754916",
-    "btc15_v2_product/worker.py": "27b6b7c5df0b35c99c106c004a0928013ab1712ad5272ef16c2535b90425edcb",
+    "btc15_v2_product/worker.py": "8201c9fdce9b912a0c0f8351203c36f0649b2987fe92573841b9aeee9835377e",
     "ops/btc15_v2_scoring/bridge.py": "d298c22c317d0f4bac415a1f24264a9bf0349926bc7f9cc6e4b5dfe37cb121b4",
     "ops/btc15_v2_scoring/completeness_diagnostics.py": "e46ae773d63e628e92d883ad81c91e028d65d5b39fea68c2a15cc06c602e73c1",
     "ops/btc15_v2_scoring/product_cohort.py": "9a5f94d08fb07e01619f4f6011cde81f2049bc6a1395f4d97c50e1a37e589414",
@@ -46,11 +46,14 @@
     "btc15_quote_proof_offpath_v1.py": "b2b1f2ced06503d8f5a635cb0794e8712b780fb68c60d899267a307929a3a7b0",
     "btc15_v2_product/main_timing.py": "606862d49af2643c4059bc2887567aceb660a923d30c5b0f3a052d4bed2f4ef9",
     "btc15_v2_product/delivery.py": "37aed0c019e800cd8cc141c9eb5cc454d67ab76c19d3efb3a7ad9580ba3ec8fd",
-    "btc15_v2_product/production.py": "fef132617dd4f36e93a71beebe8897675194507947fe76746cbdd057c650ba4a",
+    "btc15_v2_product/production.py": "eef0b7f36f2d4d02197916409e52bd9e031041a3cb4f32766f01f91a827cf91d",
     "btc15_v2_product/opportunities.py": "e96d7d80d3e8c7b15d0ed3db27dd39d2884de05e820659c002e90a7e11829391",
     "btc15_v2_product/early_entry.py": "83312af50889d7ff2b7e8f8a9f8701291a49b8f5bd87840da066f68a0b53b05a",
     "btc15_v2_product/early_management.py": "da3522676f7dbdf2685930a6a4eb2b616d2b39e61ac393480d6a7772576aa63b",
-    "btc15_v2_product/early_origin_transfer.py": "29b8c1682670521f6f0e4848f6afb71b17490cdd8a35c51f8abcec115835a705"
+    "btc15_v2_product/early_origin_transfer.py": "29b8c1682670521f6f0e4848f6afb71b17490cdd8a35c51f8abcec115835a705",
+    "btc15_information_service_v1.py": "7405dd37f4b00eae4620cd290334692b8ffeaa428bfde62f639a79a73875a2b0",
+    "btc15_information_proxy_v1.py": "bd15632a24576b1ad13b995d7f1bad9fc71eac5121d3b737d5093af8afd3034c",
+    "btc15_information_journal_v1.py": "1d0a93fe8144bc9db22c3e6317aac261f46d7ba6ddb7547410b53ee791c3ebe7"
   },
   "lane_protected_files": {
     "main": {

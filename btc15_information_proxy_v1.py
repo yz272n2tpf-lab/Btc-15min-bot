@@ -6,6 +6,7 @@ import re
 import threading
 import time
 from urllib.request import urlopen
+from urllib.error import HTTPError, URLError
 
 ROOT = Path(__file__).resolve().parent
 FIELDS = json.loads((ROOT/'btc15_information_fields_v1.json').read_text())
@@ -17,6 +18,31 @@ MAX_BYTES = 16384
 IDENTITY_SCHEMA = 'BTC15_INFORMATION_IDENTITY_V1'
 ASSETS = {'/information/view.js':'btc15_information_view_v1.js',
           '/information/panel.js':'btc15_information_panel_v1.js'}
+DIAGNOSTIC_LOCK = threading.Lock()
+DIAGNOSTIC_LAST = {}
+
+
+class SourceExpired(ValueError):
+    """Valid source representation whose original lease ended in transport."""
+
+
+def diagnostic(reason, status, exc=None):
+    # Bounded, code-owned classifications only; no payloads or exception text.
+    with DIAGNOSTIC_LOCK:
+        now = time.monotonic()
+        if now-DIAGNOSTIC_LAST.get(reason, -float('inf')) < 30:
+            return
+        DIAGNOSTIC_LAST[reason] = now
+    print('BTC15 INFORMATION DELIVERY | '+json.dumps(dict(
+        reason=reason, http=status, exception_type=type(exc).__name__ if exc else None,
+        signal_only=True, orders=False), separators=(',', ':')), flush=True)
+
+
+def source_wait(now, reason):
+    value = dict.fromkeys(FIELDS)
+    value.update(schema='BTC15_INFORMATION_V1', authority='INFORMATIONAL_READ_ONLY',
+                 status='WAIT', reason=reason, signal_only=True, orders=False, checked_ts=now)
+    return json.dumps(value, allow_nan=False, separators=(',', ':')).encode()
 
 
 def closed(raw, now):
@@ -35,9 +61,10 @@ def closed(raw, now):
         for key in ('checked_ts','expires_at','display_until','brti_source_ts'):
             if type(value[key]) not in (int,float) or not math.isfinite(value[key]):
                 raise ValueError('Invalid clock')
-        if not value['brti_source_ts'] <= value['checked_ts'] <= now < min(value['expires_at'],value['display_until']):
-            raise ValueError('Transport expiry')
-        if now-value['brti_source_ts'] > 5: raise ValueError('BRTI expired')
+        if not value['brti_source_ts'] <= value['checked_ts'] <= now:
+            raise ValueError('Noncausal clock')
+        if now >= min(value['expires_at'],value['display_until']) or now-value['brti_source_ts'] > 5:
+            raise SourceExpired('SOURCE_EXPIRED_IN_TRANSIT')
         # Account for worker->dashboard transport without renewing either deadline.
         value['checked_ts'] = now
         value['brti_age_seconds'] = now-value['brti_source_ts']
@@ -102,10 +129,33 @@ def serve(handler):
         if len(raw)>MAX_BYTES: raise ValueError('Oversize output')
         now=time.time()
         body=closed(raw,now)
-        if identity_request:
+        if identity_request and json.loads(body)['status'] == 'WAIT':
+            status,body=503,b'{"status":"WAIT","error":"IDENTITY_SOURCE_UNAVAILABLE"}'
+        elif identity_request:
             body=json.dumps(identity_projection(json.loads(body),now),allow_nan=False,separators=(',',':')).encode()
-        status=200
-    except Exception:
-        status,body=503,b'{"status":"WAIT","error":"INFORMATION_UNAVAILABLE"}'
+            status=200
+        else:
+            status=200
+    except SourceExpired as exc:
+        status=503 if identity_request else 200
+        body=(b'{"status":"WAIT","error":"IDENTITY_SOURCE_EXPIRED"}' if identity_request
+              else source_wait(time.time(), 'SOURCE_EXPIRED_IN_TRANSIT'))
+        diagnostic('SOURCE_EXPIRED_IN_TRANSIT', status, exc)
+    except HTTPError as exc:
+        status=503 if exc.code == 503 else 502
+        reason='INFORMATION_WORKER_BUSY' if exc.code == 503 else 'INFORMATION_WORKER_FAILURE'
+        body=json.dumps(dict(status='WAIT',error=reason)).encode()
+        diagnostic(reason,status,exc)
+    except (TimeoutError, URLError, ConnectionError, OSError) as exc:
+        reason=('INFORMATION_WORKER_TIMEOUT' if isinstance(exc, TimeoutError) or
+                isinstance(getattr(exc,'reason',None),TimeoutError) else 'INFORMATION_WORKER_UNAVAILABLE')
+        status,body=503,json.dumps(dict(status='WAIT',error=reason)).encode()
+        diagnostic(reason,status,exc)
+    except (ValueError, KeyError, TypeError) as exc:
+        status,body=502,b'{"status":"WAIT","error":"INFORMATION_INVALID_RESPONSE"}'
+        diagnostic('INFORMATION_INVALID_RESPONSE',status,exc)
+    except Exception as exc:
+        status,body=500,b'{"status":"WAIT","error":"INFORMATION_INTERNAL_ERROR"}'
+        diagnostic('INFORMATION_INTERNAL_ERROR',status,exc)
     finally: SLOTS.release()
     reply(handler,status,'application/json',body); return True

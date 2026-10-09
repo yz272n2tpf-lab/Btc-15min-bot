@@ -79,7 +79,8 @@ def full_frame(now=1000.0,status='AVAILABLE'):
              signal_only=True,orders=False,checked_ts=now,native_epoch='epoch-a',anchor_id='a'*64,
              ticker='KXBTC15M-TEST',expires_at=now+2,display_until=now+2,brti_source_ts=now-.2)
     if status=='WAIT':
-        return x
+        from btc15_information_v1 import wait_view
+        return wait_view(now, 'INPUT_UNAVAILABLE')
     # closed() only imposes clock/authority constraints on AVAILABLE; remaining
     # informational fields may be inert test values while preserving exact schema.
     return x
@@ -103,7 +104,7 @@ class IdentityRouteTests(unittest.TestCase):
         h=self.call(x);self.assertEqual(h.code,503)
     def test_route_closed_contract_cannot_be_bypassed(self):
         x=full_frame();x['orders']=True
-        h=self.call(x);self.assertEqual(h.code,503)
+        h=self.call(x);self.assertEqual(h.code,502)
     def test_route_uses_internal_information_path(self):
         seen=[]
         def fake(url,timeout): seen.append(url);return Response(json.dumps(full_frame()).encode())
