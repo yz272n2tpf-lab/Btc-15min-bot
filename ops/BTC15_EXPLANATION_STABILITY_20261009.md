@@ -53,7 +53,7 @@ and information callbacks cannot alternate competing wording.
 
 Existing checks: descriptive-renderer startup/expiry/rollover; eight focused
 adapter checks; source-owner parity: 13 scenarios, 85 checkpoints, 572 rendered
-comparisons. Runtime manifest updated only for cockpit.js.
+comparisons. Runtime manifest updated for cockpit.js, styles.css and index.html.
 
 ## Rollback
 
@@ -89,3 +89,37 @@ wrapping the SCALP side headings. The final adjustment reserves those status
 rows and gives each SCALP side its own adjacent freshness label in `index.html`.
 The UP/DOWN explanation itself remains unchanged through expiry. All historical
 labels remain visible immediately; no text is clipped and no update is delayed.
+
+## Final production result
+
+- Deployed cockpit build: `cd46cfa57e7a403bf27bdfe211a687fb29e6a7fe`.
+- Deployment: `0bdbd0fb-4668-4dcf-bf8f-c63952defa7c`, SUCCESS at
+  2026-10-09 00:29:39.514 UTC.
+- MAIN remained on `57f468063f31ec005f413e5032d147603c2e70c8`, deployment
+  `39ecbc88-54bd-4122-94ee-303402d6bf11`; no supporting service was changed.
+
+The final production browser observation at 00:30:40–00:31:02 UTC displayed
+the official 8:30–8:45 Eastern contract. Desktop and mobile both retained the
+exact FINAL/EARLY reasons during repeated real expiration/recovery cycles,
+with immediate historical labels and unavailable action states. The mobile
+FINAL, EARLY and SCALP explanation positions remained exactly 631.75,
+1489.484375 and 2124.640625 CSS pixels while those reasons were unchanged.
+New native MAIN reasons arrived at publication 00:30:57.751. SCALP then changed
+PASS to ENTER, HOLD and WATCH, immediately updating its explanations and
+active rungs. No generic delivery wording replaced a qualified explanation.
+
+The same actual production app at 390-by-844 iframe viewport had 375-pixel body
+and scroll widths, no horizontal overflow, and five rows in each ladder. No
+application-origin JavaScript errors appeared after the final deployment.
+Physical iPad/Safari is not checked by this Chromium viewport observation.
+
+Earlier live checks in this same repair recorded a real quote-source outage
+and recovery, and a SCALP lease expiry that immediately cleared its active
+rung while retaining historical explanation text. Temporary source-expiry
+warnings still occur and must remain visible. This repair neither extends
+authority through these gaps nor suppresses genuine native risk changes.
+
+Raw browser records (including original publication timestamps, eligibility,
+reasons, rungs and mobile geometry):
+`ops/evidence/20261009-explanation-stability.browser.json`.
+The result-only documentation checkpoint does not redeploy the pinned service.

@@ -1,0 +1,1312 @@
+{
+  "production_url": "https://btc15-operator-cockpit-readonly-production.up.railway.app/?mode=live",
+  "before_build": "24a746dbc7aa8a0e17c821d5952f5751bb64e764",
+  "deployed_build": "cd46cfa57e7a403bf27bdfe211a687fb29e6a7fe",
+  "deployment_id": "0bdbd0fb-4668-4dcf-bf8f-c63952defa7c",
+  "before_live_rows": [
+    {
+      "at": 1791504740725,
+      "fields": {
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "FINAL probability is below 90%.",
+        "scalp-action": "CAUTION",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "If manually entered UP: The executable price has pulled back; Final three minutes: limited exit time.",
+        "scalp-up-status": "Published CAUTION · UP"
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:12:18.368Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:12:19.661Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:12:18.966Z"
+      ]
+    },
+    {
+      "at": 1791504743045,
+      "fields": {
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "FINAL probability is below 90%.",
+        "scalp-action": "CAUTION",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "If manually entered UP: Final three minutes: limited exit time.",
+        "scalp-up-status": "Published CAUTION · UP"
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:12:20.741Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:12:22.699Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:12:21.461Z"
+      ]
+    },
+    {
+      "at": 1791504745953,
+      "fields": {
+        "early-action": "Action unavailable",
+        "early-freshness": "REFRESHING · no current action authority",
+        "early-reason": "Reason unavailable from source",
+        "final-action": "Action unavailable",
+        "final-freshness": "REFRESHING · no current action authority",
+        "final-reason": "Authoritative FINAL output is unavailable.",
+        "scalp-action": "CAUTION",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "If manually entered UP: Final three minutes: limited exit time.",
+        "scalp-up-status": "Published CAUTION · UP"
+      },
+      "publication": [
+        "MAIN action eligibilityfalse",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:12:23.256Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:12:24.687Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:12:25.517Z"
+      ]
+    },
+    {
+      "at": 1791504746145,
+      "fields": {
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "FINAL probability is below 90%.",
+        "scalp-action": "CAUTION",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "If manually entered UP: Final three minutes: limited exit time.",
+        "scalp-up-status": "Published CAUTION · UP"
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:12:25.660Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:12:24.687Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:12:25.906Z"
+      ]
+    },
+    {
+      "at": 1791504749079,
+      "fields": {
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "FINAL probability is below 90%.",
+        "scalp-action": "PROTECT",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "If manually entered UP: Final three minutes: limited exit time.",
+        "scalp-up-status": "Published PROTECT · UP"
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:12:28.345Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:12:28.673Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:12:28.930Z"
+      ]
+    },
+    {
+      "at": 1791504752176,
+      "fields": {
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "FINAL probability is below 90%.",
+        "scalp-action": "PROTECT",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "If manually entered UP: The executable price has pulled back; Final three minutes: limited exit time.",
+        "scalp-up-status": "Published PROTECT · UP"
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:12:31.340Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:12:31.684Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:12:31.421Z"
+      ]
+    }
+  ],
+  "first_fix_quote_outage_rows": [
+    {
+      "at": 1791505270814,
+      "fields": {
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "The required distance-to-range ratio is not met; FINAL probability is below 90%; More than eight minutes remain.",
+        "scalp-action": "WATCH",
+        "scalp-down-status": "Published WATCH · DOWN",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "If manually entered DOWN: The executable price has pulled back.",
+        "scalp-up-status": "No new UP entry · Side-aligned BTC30 is below $15"
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:21:08.883Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:21:10.264Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:21:09.518Z"
+      ],
+      "reasonState": {
+        "early": "current",
+        "final": "current",
+        "scalp": "current"
+      },
+      "rungs": [
+        {
+          "ladder": "scalp-down-ladder",
+          "rung": "watch"
+        }
+      ]
+    },
+    {
+      "at": 1791505274089,
+      "fields": {
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "FINAL probability is below 90%; More than eight minutes remain.",
+        "scalp-action": "WATCH",
+        "scalp-down-status": "Published WATCH · DOWN",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "If manually entered DOWN: The executable price has pulled back.",
+        "scalp-up-status": "No new UP entry · Side-aligned BTC30 is below $15"
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:21:13.784Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:21:12.253Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:21:12.260Z"
+      ],
+      "reasonState": {
+        "early": "current",
+        "final": "current",
+        "scalp": "current"
+      },
+      "rungs": [
+        {
+          "ladder": "scalp-down-ladder",
+          "rung": "watch"
+        }
+      ]
+    },
+    {
+      "at": 1791505281411,
+      "fields": {
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "The required distance-to-range ratio is not met; FINAL probability is below 90%; More than eight minutes remain.",
+        "scalp-action": "WATCH",
+        "scalp-down-status": "Published WATCH · DOWN",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "If manually entered DOWN: The executable price has pulled back.",
+        "scalp-up-status": "No new UP entry · Side-aligned BTC30 is below $15"
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:21:21.108Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:21:20.256Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:21:21.066Z"
+      ],
+      "reasonState": {
+        "early": "current",
+        "final": "current",
+        "scalp": "current"
+      },
+      "rungs": [
+        {
+          "ladder": "scalp-down-ladder",
+          "rung": "watch"
+        }
+      ]
+    },
+    {
+      "at": 1791505281602,
+      "fields": {
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "The required distance-to-range ratio is not met; FINAL probability is below 90%; More than eight minutes remain.",
+        "scalp-action": "WATCH",
+        "scalp-down-status": "Published WATCH · DOWN",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "If manually entered DOWN: The executable price has pulled back.",
+        "scalp-up-status": "No new UP entry · QUALIFIED"
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:21:21.108Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:21:21.255Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:21:21.066Z"
+      ],
+      "reasonState": {
+        "early": "current",
+        "final": "current",
+        "scalp": "current"
+      },
+      "rungs": [
+        {
+          "ladder": "scalp-down-ladder",
+          "rung": "watch"
+        }
+      ]
+    },
+    {
+      "at": 1791505286021,
+      "fields": {
+        "early-action": "Action unavailable",
+        "early-freshness": "REFRESHING · no current action authority · explanation below is LAST QUALIFIED (historical) · source refresh pending",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit.",
+        "final-action": "Action unavailable",
+        "final-freshness": "REFRESHING · no current action authority · explanation below is LAST QUALIFIED (historical) · source refresh pending",
+        "final-reason": "The required distance-to-range ratio is not met; FINAL probability is below 90%; More than eight minutes remain.",
+        "scalp-action": "WATCH",
+        "scalp-down-status": "Published WATCH · DOWN",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "If manually entered DOWN: The executable price has pulled back.",
+        "scalp-up-status": "No new UP entry · QUALIFIED"
+      },
+      "publication": [
+        "MAIN action eligibilityfalse",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:21:23.563Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:21:24.584Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:21:24.274Z"
+      ],
+      "reasonState": {
+        "early": "retained",
+        "final": "retained",
+        "scalp": "current"
+      },
+      "rungs": [
+        {
+          "ladder": "scalp-down-ladder",
+          "rung": "watch"
+        }
+      ]
+    },
+    {
+      "at": 1791505286221,
+      "fields": {
+        "early-action": "Action unavailable",
+        "early-freshness": "UNAVAILABLE · no current action authority · explanation below is LAST QUALIFIED (historical) · QUOTE_SOURCE_UNAVAILABLE",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit.",
+        "final-action": "Action unavailable",
+        "final-freshness": "UNAVAILABLE · no current action authority · explanation below is LAST QUALIFIED (historical) · QUOTE_SOURCE_UNAVAILABLE",
+        "final-reason": "The required distance-to-range ratio is not met; FINAL probability is below 90%; More than eight minutes remain.",
+        "scalp-action": "WATCH",
+        "scalp-down-status": "Published WATCH · DOWN",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "If manually entered DOWN: The executable price has pulled back.",
+        "scalp-up-status": "No new UP entry · QUALIFIED"
+      },
+      "publication": [
+        "MAIN action eligibilityfalse",
+        "MAIN refresh reasonQUOTE_SOURCE_UNAVAILABLE",
+        "MAIN retained publication2026-10-09T00:21:23.563Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:21:24.584Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:21:26.032Z"
+      ],
+      "reasonState": {
+        "early": "retained",
+        "final": "retained",
+        "scalp": "current"
+      },
+      "rungs": [
+        {
+          "ladder": "scalp-down-ladder",
+          "rung": "watch"
+        }
+      ]
+    },
+    {
+      "at": 1791505288730,
+      "fields": {
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit; Target-aware fair probability is below 75%.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "The required distance-to-range ratio is not met; FINAL probability is below 90%; More than eight minutes remain.",
+        "scalp-action": "WATCH",
+        "scalp-down-status": "Published WATCH · DOWN",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "If manually entered DOWN: The executable price has pulled back.",
+        "scalp-up-status": "No new UP entry · QUALIFIED"
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:21:28.450Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:21:28.465Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:21:28.549Z"
+      ],
+      "reasonState": {
+        "early": "current",
+        "final": "current",
+        "scalp": "current"
+      },
+      "rungs": [
+        {
+          "ladder": "scalp-down-ladder",
+          "rung": "watch"
+        }
+      ]
+    }
+  ],
+  "scalp_expiry_rows": [
+    {
+      "at": 1791505550826,
+      "fields": {
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "FINAL probability is below 90%.",
+        "scalp-action": "CAUTION",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "If manually entered UP: BTC is not on the entry side of the target; BRTI is not on the entry side of the target; The executable price has pulled back; Final five minutes: monitor support and the executable bid.",
+        "scalp-up-status": "Published CAUTION · UP"
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:25:50.520Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:25:49.390Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:25:50.600Z"
+      ],
+      "rungs": [
+        {
+          "ladder": "scalp-up-ladder",
+          "rung": "watch"
+        }
+      ]
+    },
+    {
+      "at": 1791505552024,
+      "fields": {
+        "early-action": "Action unavailable",
+        "early-freshness": "REFRESHING · no current action authority\nLAST QUALIFIED explanation · historical",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit.",
+        "final-action": "Action unavailable",
+        "final-freshness": "REFRESHING · no current action authority\nLAST QUALIFIED explanation · historical",
+        "final-reason": "FINAL probability is below 90%.",
+        "scalp-action": "Action unavailable",
+        "scalp-down-status": "LAST QUALIFIED · historical only · No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "REFRESHING · no current action authority\nLAST QUALIFIED explanation · historical",
+        "scalp-reason": "If manually entered UP: BTC is not on the entry side of the target; BRTI is not on the entry side of the target; The executable price has pulled back; Final five minutes: monitor support and the executable bid.",
+        "scalp-up-status": "LAST QUALIFIED · historical only · Published CAUTION · UP"
+      },
+      "publication": [
+        "MAIN action eligibilityfalse",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:25:50.520Z",
+        "SCALP action eligibilityfalse",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:25:50.380Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:25:51.088Z"
+      ],
+      "rungs": []
+    },
+    {
+      "at": 1791505552225,
+      "fields": {
+        "early-action": "Action unavailable",
+        "early-freshness": "REFRESHING · no current action authority\nLAST QUALIFIED explanation · historical",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit.",
+        "final-action": "Action unavailable",
+        "final-freshness": "REFRESHING · no current action authority\nLAST QUALIFIED explanation · historical",
+        "final-reason": "FINAL probability is below 90%.",
+        "scalp-action": "CAUTION",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "If manually entered UP: BTC is not on the entry side of the target; BRTI is not on the entry side of the target; The executable price has pulled back; Final five minutes: monitor support and the executable bid.",
+        "scalp-up-status": "Published CAUTION · UP"
+      },
+      "publication": [
+        "MAIN action eligibilityfalse",
+        "MAIN refresh reasonSOURCE_EXPIRED",
+        "MAIN retained publication2026-10-09T00:25:50.520Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:25:51.378Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:25:51.088Z"
+      ],
+      "rungs": [
+        {
+          "ladder": "scalp-up-ladder",
+          "rung": "watch"
+        }
+      ]
+    },
+    {
+      "at": 1791505553631,
+      "fields": {
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "FINAL probability is below 90%.",
+        "scalp-action": "CAUTION",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "If manually entered UP: BTC is not on the entry side of the target; BRTI is not on the entry side of the target; The executable price has pulled back; Final five minutes: monitor support and the executable bid.",
+        "scalp-up-status": "Published CAUTION · UP"
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:25:53.284Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:25:52.386Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:25:53.100Z"
+      ],
+      "rungs": [
+        {
+          "ladder": "scalp-up-ladder",
+          "rung": "watch"
+        }
+      ]
+    }
+  ],
+  "final_desktop": [
+    {
+      "at": 1791505840839,
+      "fields": {
+        "contract-window": "Oct 8, 8:30 PM – 8:45 PM EDT",
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit; Target-aware fair probability is below 75%; Remaining time is outside the protected 2–10 minute window; The absolute BTC-to-exact-target distance is below $25.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "BRTI does not meet the required side and distance condition; The required distance-to-range ratio is not met; FINAL probability is below 90%; The required BTC-to-target distance is not met; More than eight minutes remain.",
+        "scalp-action": "PASS",
+        "scalp-down-freshness": "CURRENT · source diagnostic",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "UP PASS — Side-aligned BTC30 is below $15; DOWN PASS — Side-aligned BTC30 is below $15.",
+        "scalp-up-freshness": "CURRENT · source diagnostic",
+        "scalp-up-status": "No new UP entry · Side-aligned BTC30 is below $15"
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:30:40.215Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:30:39.809Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:30:40.102Z"
+      ],
+      "rungs": []
+    },
+    {
+      "at": 1791505842835,
+      "fields": {
+        "contract-window": "Oct 8, 8:30 PM – 8:45 PM EDT",
+        "early-action": "Action unavailable",
+        "early-freshness": "REFRESHING · no current action authority\nLAST QUALIFIED explanation · historical",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit; Target-aware fair probability is below 75%; Remaining time is outside the protected 2–10 minute window; The absolute BTC-to-exact-target distance is below $25.",
+        "final-action": "Action unavailable",
+        "final-freshness": "REFRESHING · no current action authority\nLAST QUALIFIED explanation · historical",
+        "final-reason": "BRTI does not meet the required side and distance condition; The required distance-to-range ratio is not met; FINAL probability is below 90%; The required BTC-to-target distance is not met; More than eight minutes remain.",
+        "scalp-action": "PASS",
+        "scalp-down-freshness": "CURRENT · source diagnostic",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "UP PASS — Side-aligned BTC30 is below $15; DOWN PASS — Side-aligned BTC30 is below $15.",
+        "scalp-up-freshness": "CURRENT · source diagnostic",
+        "scalp-up-status": "No new UP entry · Side-aligned BTC30 is below $15"
+      },
+      "publication": [
+        "MAIN action eligibilityfalse",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:30:40.215Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:30:41.850Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:30:40.999Z"
+      ],
+      "rungs": []
+    },
+    {
+      "at": 1791505843030,
+      "fields": {
+        "contract-window": "Oct 8, 8:30 PM – 8:45 PM EDT",
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit; Target-aware fair probability is below 75%; Remaining time is outside the protected 2–10 minute window; The absolute BTC-to-exact-target distance is below $25.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "BRTI does not meet the required side and distance condition; The required distance-to-range ratio is not met; FINAL probability is below 90%; The required BTC-to-target distance is not met; More than eight minutes remain.",
+        "scalp-action": "PASS",
+        "scalp-down-freshness": "CURRENT · source diagnostic",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "UP PASS — Side-aligned BTC30 is below $15; DOWN PASS — Side-aligned BTC30 is below $15.",
+        "scalp-up-freshness": "CURRENT · source diagnostic",
+        "scalp-up-status": "No new UP entry · Side-aligned BTC30 is below $15"
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:30:42.675Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:30:41.850Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:30:40.999Z"
+      ],
+      "rungs": []
+    },
+    {
+      "at": 1791505850077,
+      "fields": {
+        "contract-window": "Oct 8, 8:30 PM – 8:45 PM EDT",
+        "early-action": "Action unavailable",
+        "early-freshness": "REFRESHING · no current action authority\nLAST QUALIFIED explanation · historical",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit; Target-aware fair probability is below 75%; Remaining time is outside the protected 2–10 minute window; The absolute BTC-to-exact-target distance is below $25.",
+        "final-action": "Action unavailable",
+        "final-freshness": "REFRESHING · no current action authority\nLAST QUALIFIED explanation · historical",
+        "final-reason": "BRTI does not meet the required side and distance condition; The required distance-to-range ratio is not met; FINAL probability is below 90%; The required BTC-to-target distance is not met; More than eight minutes remain.",
+        "scalp-action": "PASS",
+        "scalp-down-freshness": "CURRENT · source diagnostic",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "UP PASS — Side-aligned BTC30 is below $15; DOWN PASS — Side-aligned BTC30 is below $15.",
+        "scalp-up-freshness": "CURRENT · source diagnostic",
+        "scalp-up-status": "No new UP entry · Side-aligned BTC30 is below $15"
+      },
+      "publication": [
+        "MAIN action eligibilityfalse",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:30:47.728Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:30:48.825Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:30:49.191Z"
+      ],
+      "rungs": []
+    },
+    {
+      "at": 1791505850469,
+      "fields": {
+        "contract-window": "Oct 8, 8:30 PM – 8:45 PM EDT",
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit; Target-aware fair probability is below 75%; Remaining time is outside the protected 2–10 minute window; The absolute BTC-to-exact-target distance is below $25.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "BRTI does not meet the required side and distance condition; The required distance-to-range ratio is not met; FINAL probability is below 90%; The required BTC-to-target distance is not met; More than eight minutes remain.",
+        "scalp-action": "PASS",
+        "scalp-down-freshness": "CURRENT · source diagnostic",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "UP PASS — Side-aligned BTC30 is below $15; DOWN PASS — Side-aligned BTC30 is below $15.",
+        "scalp-up-freshness": "CURRENT · source diagnostic",
+        "scalp-up-status": "No new UP entry · Side-aligned BTC30 is below $15"
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:30:50.233Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:30:49.820Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:30:50.308Z"
+      ],
+      "rungs": []
+    },
+    {
+      "at": 1791505857002,
+      "fields": {
+        "contract-window": "Oct 8, 8:30 PM – 8:45 PM EDT",
+        "early-action": "Action unavailable",
+        "early-freshness": "REFRESHING · no current action authority\nLAST QUALIFIED explanation · historical",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit; Target-aware fair probability is below 75%; Remaining time is outside the protected 2–10 minute window; The absolute BTC-to-exact-target distance is below $25.",
+        "final-action": "Action unavailable",
+        "final-freshness": "REFRESHING · no current action authority\nLAST QUALIFIED explanation · historical",
+        "final-reason": "BRTI does not meet the required side and distance condition; The required distance-to-range ratio is not met; FINAL probability is below 90%; The required BTC-to-target distance is not met; More than eight minutes remain.",
+        "scalp-action": "PASS",
+        "scalp-down-freshness": "CURRENT · source diagnostic",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "UP PASS — Side-aligned BTC30 is below $15; DOWN PASS — Side-aligned BTC30 is below $15.",
+        "scalp-up-freshness": "CURRENT · source diagnostic",
+        "scalp-up-status": "No new UP entry · Side-aligned BTC30 is below $15"
+      },
+      "publication": [
+        "MAIN action eligibilityfalse",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:30:52.878Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:30:55.803Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:30:55.938Z"
+      ],
+      "rungs": []
+    },
+    {
+      "at": 1791505857998,
+      "fields": {
+        "contract-window": "Oct 8, 8:30 PM – 8:45 PM EDT",
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit; Target-aware fair probability is below 75%; Remaining time is outside the protected 2–10 minute window.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "The required distance-to-range ratio is not met; FINAL probability is below 90%; The required BTC-to-target distance is not met; More than eight minutes remain.",
+        "scalp-action": "PASS",
+        "scalp-down-freshness": "CURRENT · source diagnostic",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "UP PASS — Side-aligned BTC30 is below $15; DOWN PASS — Side-aligned BTC30 is below $15.",
+        "scalp-up-freshness": "CURRENT · source diagnostic",
+        "scalp-up-status": "No new UP entry · Side-aligned BTC30 is below $15"
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:30:57.751Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:30:56.850Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:30:57.839Z"
+      ],
+      "rungs": []
+    },
+    {
+      "at": 1791505860622,
+      "fields": {
+        "contract-window": "Oct 8, 8:30 PM – 8:45 PM EDT",
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit; Target-aware fair probability is below 75%; Remaining time is outside the protected 2–10 minute window.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "The required distance-to-range ratio is not met; FINAL probability is below 90%; The required BTC-to-target distance is not met; More than eight minutes remain.",
+        "scalp-action": "ENTER",
+        "scalp-down-freshness": "CURRENT · source diagnostic",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "If manually entered UP: SCALP ACTIVE · BUILDING.",
+        "scalp-up-freshness": "CURRENT · source diagnostic",
+        "scalp-up-status": "Published ENTER · UP"
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:30:57.751Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:30:59.818Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:31:00.357Z"
+      ],
+      "rungs": [
+        {
+          "ladder": "scalp-up-ladder",
+          "rung": "entry"
+        }
+      ]
+    },
+    {
+      "at": 1791505861595,
+      "fields": {
+        "contract-window": "Oct 8, 8:30 PM – 8:45 PM EDT",
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit; Target-aware fair probability is below 75%; Remaining time is outside the protected 2–10 minute window.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "The required distance-to-range ratio is not met; FINAL probability is below 90%; The required BTC-to-target distance is not met; More than eight minutes remain.",
+        "scalp-action": "HOLD",
+        "scalp-down-freshness": "CURRENT · source diagnostic",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "If manually entered UP: SCALP ACTIVE · BUILDING.",
+        "scalp-up-freshness": "CURRENT · source diagnostic",
+        "scalp-up-status": "Published HOLD · UP"
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:31:00.373Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:31:00.819Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:31:00.794Z"
+      ],
+      "rungs": [
+        {
+          "ladder": "scalp-up-ladder",
+          "rung": "hold"
+        }
+      ]
+    },
+    {
+      "at": 1791505862602,
+      "fields": {
+        "contract-window": "Oct 8, 8:30 PM – 8:45 PM EDT",
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit; Target-aware fair probability is below 75%; Remaining time is outside the protected 2–10 minute window.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "The required distance-to-range ratio is not met; FINAL probability is below 90%; The required BTC-to-target distance is not met; More than eight minutes remain.",
+        "scalp-action": "WATCH",
+        "scalp-down-freshness": "CURRENT · source diagnostic",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "If manually entered UP: The executable price has pulled back.",
+        "scalp-up-freshness": "CURRENT · source diagnostic",
+        "scalp-up-status": "Published WATCH · UP"
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN refresh reasonsource refresh pending",
+        "MAIN retained publication2026-10-09T00:31:00.373Z",
+        "SCALP action eligibilitytrue",
+        "SCALP refresh reasonsource refresh pending",
+        "SCALP retained publication2026-10-09T00:31:01.803Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE refresh reasonsource refresh pending",
+        "QUOTE retained publication2026-10-09T00:31:00.794Z"
+      ],
+      "rungs": [
+        {
+          "ladder": "scalp-up-ladder",
+          "rung": "watch"
+        }
+      ]
+    }
+  ],
+  "final_mobile": [
+    {
+      "at": 1791505840876,
+      "fields": {
+        "contract-window": "Oct 8, 8:30 PM – 8:45 PM EDT",
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit; Target-aware fair probability is below 75%; Remaining time is outside the protected 2–10 minute window; The absolute BTC-to-exact-target distance is below $25.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "BRTI does not meet the required side and distance condition; The required distance-to-range ratio is not met; FINAL probability is below 90%; The required BTC-to-target distance is not met; More than eight minutes remain.",
+        "scalp-action": "PASS",
+        "scalp-down-freshness": "CURRENT · source diagnostic",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "UP PASS — Side-aligned BTC30 is below $15; DOWN PASS — Side-aligned BTC30 is below $15.",
+        "scalp-up-freshness": "CURRENT · source diagnostic",
+        "scalp-up-status": "No new UP entry · Side-aligned BTC30 is below $15"
+      },
+      "positions": {
+        "early": 1489.484375,
+        "final": 631.75,
+        "scalp": 2124.640625
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN retained publication2026-10-09T00:30:40.215Z",
+        "SCALP action eligibilitytrue",
+        "SCALP retained publication2026-10-09T00:30:39.809Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE retained publication2026-10-09T00:30:40.565Z"
+      ],
+      "rows": [
+        5,
+        5,
+        5
+      ],
+      "rungs": [],
+      "scrollWidth": 375,
+      "width": 375
+    },
+    {
+      "at": 1791505847905,
+      "fields": {
+        "contract-window": "Oct 8, 8:30 PM – 8:45 PM EDT",
+        "early-action": "Action unavailable",
+        "early-freshness": "REFRESHING · no current action authority\nLAST QUALIFIED explanation · historical",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit; Target-aware fair probability is below 75%; Remaining time is outside the protected 2–10 minute window; The absolute BTC-to-exact-target distance is below $25.",
+        "final-action": "Action unavailable",
+        "final-freshness": "REFRESHING · no current action authority\nLAST QUALIFIED explanation · historical",
+        "final-reason": "BRTI does not meet the required side and distance condition; The required distance-to-range ratio is not met; FINAL probability is below 90%; The required BTC-to-target distance is not met; More than eight minutes remain.",
+        "scalp-action": "PASS",
+        "scalp-down-freshness": "CURRENT · source diagnostic",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "UP PASS — Side-aligned BTC30 is below $15; DOWN PASS — Side-aligned BTC30 is below $15.",
+        "scalp-up-freshness": "CURRENT · source diagnostic",
+        "scalp-up-status": "No new UP entry · Side-aligned BTC30 is below $15"
+      },
+      "positions": {
+        "early": 1489.484375,
+        "final": 631.75,
+        "scalp": 2124.640625
+      },
+      "publication": [
+        "MAIN action eligibilityfalse",
+        "MAIN retained publication2026-10-09T00:30:45.219Z",
+        "SCALP action eligibilitytrue",
+        "SCALP retained publication2026-10-09T00:30:47.035Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE retained publication2026-10-09T00:30:47.592Z"
+      ],
+      "rows": [
+        5,
+        5,
+        5
+      ],
+      "rungs": [],
+      "scrollWidth": 375,
+      "width": 375
+    },
+    {
+      "at": 1791505848108,
+      "fields": {
+        "contract-window": "Oct 8, 8:30 PM – 8:45 PM EDT",
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit; Target-aware fair probability is below 75%; Remaining time is outside the protected 2–10 minute window; The absolute BTC-to-exact-target distance is below $25.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "BRTI does not meet the required side and distance condition; The required distance-to-range ratio is not met; FINAL probability is below 90%; The required BTC-to-target distance is not met; More than eight minutes remain.",
+        "scalp-action": "PASS",
+        "scalp-down-freshness": "CURRENT · source diagnostic",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "UP PASS — Side-aligned BTC30 is below $15; DOWN PASS — Side-aligned BTC30 is below $15.",
+        "scalp-up-freshness": "CURRENT · source diagnostic",
+        "scalp-up-status": "No new UP entry · Side-aligned BTC30 is below $15"
+      },
+      "positions": {
+        "early": 1489.484375,
+        "final": 631.75,
+        "scalp": 2124.640625
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN retained publication2026-10-09T00:30:47.728Z",
+        "SCALP action eligibilitytrue",
+        "SCALP retained publication2026-10-09T00:30:47.035Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE retained publication2026-10-09T00:30:47.592Z"
+      ],
+      "rows": [
+        5,
+        5,
+        5
+      ],
+      "rungs": [],
+      "scrollWidth": 375,
+      "width": 375
+    },
+    {
+      "at": 1791505849900,
+      "fields": {
+        "contract-window": "Oct 8, 8:30 PM – 8:45 PM EDT",
+        "early-action": "Action unavailable",
+        "early-freshness": "REFRESHING · no current action authority\nLAST QUALIFIED explanation · historical",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit; Target-aware fair probability is below 75%; Remaining time is outside the protected 2–10 minute window; The absolute BTC-to-exact-target distance is below $25.",
+        "final-action": "Action unavailable",
+        "final-freshness": "REFRESHING · no current action authority\nLAST QUALIFIED explanation · historical",
+        "final-reason": "BRTI does not meet the required side and distance condition; The required distance-to-range ratio is not met; FINAL probability is below 90%; The required BTC-to-target distance is not met; More than eight minutes remain.",
+        "scalp-action": "PASS",
+        "scalp-down-freshness": "CURRENT · source diagnostic",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "UP PASS — Side-aligned BTC30 is below $15; DOWN PASS — Side-aligned BTC30 is below $15.",
+        "scalp-up-freshness": "CURRENT · source diagnostic",
+        "scalp-up-status": "No new UP entry · Side-aligned BTC30 is below $15"
+      },
+      "positions": {
+        "early": 1489.484375,
+        "final": 631.75,
+        "scalp": 2124.640625
+      },
+      "publication": [
+        "MAIN action eligibilityfalse",
+        "MAIN retained publication2026-10-09T00:30:47.728Z",
+        "SCALP action eligibilitytrue",
+        "SCALP retained publication2026-10-09T00:30:48.825Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE retained publication2026-10-09T00:30:49.191Z"
+      ],
+      "rows": [
+        5,
+        5,
+        5
+      ],
+      "rungs": [],
+      "scrollWidth": 375,
+      "width": 375
+    },
+    {
+      "at": 1791505850496,
+      "fields": {
+        "contract-window": "Oct 8, 8:30 PM – 8:45 PM EDT",
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit; Target-aware fair probability is below 75%; Remaining time is outside the protected 2–10 minute window; The absolute BTC-to-exact-target distance is below $25.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "BRTI does not meet the required side and distance condition; The required distance-to-range ratio is not met; FINAL probability is below 90%; The required BTC-to-target distance is not met; More than eight minutes remain.",
+        "scalp-action": "PASS",
+        "scalp-down-freshness": "CURRENT · source diagnostic",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "UP PASS — Side-aligned BTC30 is below $15; DOWN PASS — Side-aligned BTC30 is below $15.",
+        "scalp-up-freshness": "CURRENT · source diagnostic",
+        "scalp-up-status": "No new UP entry · Side-aligned BTC30 is below $15"
+      },
+      "positions": {
+        "early": 1489.484375,
+        "final": 631.75,
+        "scalp": 2124.640625
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN retained publication2026-10-09T00:30:50.233Z",
+        "SCALP action eligibilitytrue",
+        "SCALP retained publication2026-10-09T00:30:49.820Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE retained publication2026-10-09T00:30:50.065Z"
+      ],
+      "rows": [
+        5,
+        5,
+        5
+      ],
+      "rungs": [],
+      "scrollWidth": 375,
+      "width": 375
+    },
+    {
+      "at": 1791505857021,
+      "fields": {
+        "contract-window": "Oct 8, 8:30 PM – 8:45 PM EDT",
+        "early-action": "Action unavailable",
+        "early-freshness": "REFRESHING · no current action authority\nLAST QUALIFIED explanation · historical",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit; Target-aware fair probability is below 75%; Remaining time is outside the protected 2–10 minute window; The absolute BTC-to-exact-target distance is below $25.",
+        "final-action": "Action unavailable",
+        "final-freshness": "REFRESHING · no current action authority\nLAST QUALIFIED explanation · historical",
+        "final-reason": "BRTI does not meet the required side and distance condition; The required distance-to-range ratio is not met; FINAL probability is below 90%; The required BTC-to-target distance is not met; More than eight minutes remain.",
+        "scalp-action": "PASS",
+        "scalp-down-freshness": "CURRENT · source diagnostic",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "UP PASS — Side-aligned BTC30 is below $15; DOWN PASS — Side-aligned BTC30 is below $15.",
+        "scalp-up-freshness": "CURRENT · source diagnostic",
+        "scalp-up-status": "No new UP entry · Side-aligned BTC30 is below $15"
+      },
+      "positions": {
+        "early": 1489.484375,
+        "final": 631.75,
+        "scalp": 2124.640625
+      },
+      "publication": [
+        "MAIN action eligibilityfalse",
+        "MAIN retained publication2026-10-09T00:30:52.878Z",
+        "SCALP action eligibilitytrue",
+        "SCALP retained publication2026-10-09T00:30:55.803Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE retained publication2026-10-09T00:30:55.938Z"
+      ],
+      "rows": [
+        5,
+        5,
+        5
+      ],
+      "rungs": [],
+      "scrollWidth": 375,
+      "width": 375
+    },
+    {
+      "at": 1791505858021,
+      "fields": {
+        "contract-window": "Oct 8, 8:30 PM – 8:45 PM EDT",
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit; Target-aware fair probability is below 75%; Remaining time is outside the protected 2–10 minute window.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "The required distance-to-range ratio is not met; FINAL probability is below 90%; The required BTC-to-target distance is not met; More than eight minutes remain.",
+        "scalp-action": "PASS",
+        "scalp-down-freshness": "CURRENT · source diagnostic",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "UP PASS — Side-aligned BTC30 is below $15; DOWN PASS — Side-aligned BTC30 is below $15.",
+        "scalp-up-freshness": "CURRENT · source diagnostic",
+        "scalp-up-status": "No new UP entry · Side-aligned BTC30 is below $15"
+      },
+      "positions": {
+        "early": 1467.875,
+        "final": 631.75,
+        "scalp": 2081.421875
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN retained publication2026-10-09T00:30:57.751Z",
+        "SCALP action eligibilitytrue",
+        "SCALP retained publication2026-10-09T00:30:56.850Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE retained publication2026-10-09T00:30:57.563Z"
+      ],
+      "rows": [
+        5,
+        5,
+        5
+      ],
+      "rungs": [],
+      "scrollWidth": 375,
+      "width": 375
+    },
+    {
+      "at": 1791505860439,
+      "fields": {
+        "contract-window": "Oct 8, 8:30 PM – 8:45 PM EDT",
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit; Target-aware fair probability is below 75%; Remaining time is outside the protected 2–10 minute window.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "The required distance-to-range ratio is not met; FINAL probability is below 90%; The required BTC-to-target distance is not met; More than eight minutes remain.",
+        "scalp-action": "ENTER",
+        "scalp-down-freshness": "CURRENT · source diagnostic",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "If manually entered UP: SCALP ACTIVE · BUILDING.",
+        "scalp-up-freshness": "CURRENT · source diagnostic",
+        "scalp-up-status": "Published ENTER · UP"
+      },
+      "positions": {
+        "early": 1467.875,
+        "final": 631.75,
+        "scalp": 2147.40625
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN retained publication2026-10-09T00:30:57.751Z",
+        "SCALP action eligibilitytrue",
+        "SCALP retained publication2026-10-09T00:30:59.818Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE retained publication2026-10-09T00:30:58.525Z"
+      ],
+      "rows": [
+        5,
+        5,
+        5
+      ],
+      "rungs": [
+        {
+          "ladder": "scalp-up-ladder",
+          "rung": "entry"
+        }
+      ],
+      "scrollWidth": 375,
+      "width": 375
+    },
+    {
+      "at": 1791505861219,
+      "fields": {
+        "contract-window": "Oct 8, 8:30 PM – 8:45 PM EDT",
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit; Target-aware fair probability is below 75%; Remaining time is outside the protected 2–10 minute window.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "The required distance-to-range ratio is not met; FINAL probability is below 90%; The required BTC-to-target distance is not met; More than eight minutes remain.",
+        "scalp-action": "HOLD",
+        "scalp-down-freshness": "CURRENT · source diagnostic",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "If manually entered UP: SCALP ACTIVE · BUILDING.",
+        "scalp-up-freshness": "CURRENT · source diagnostic",
+        "scalp-up-status": "Published HOLD · UP"
+      },
+      "positions": {
+        "early": 1467.875,
+        "final": 631.75,
+        "scalp": 2147.40625
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN retained publication2026-10-09T00:31:00.373Z",
+        "SCALP action eligibilitytrue",
+        "SCALP retained publication2026-10-09T00:31:00.819Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE retained publication2026-10-09T00:31:00.794Z"
+      ],
+      "rows": [
+        5,
+        5,
+        5
+      ],
+      "rungs": [
+        {
+          "ladder": "scalp-up-ladder",
+          "rung": "hold"
+        }
+      ],
+      "scrollWidth": 375,
+      "width": 375
+    },
+    {
+      "at": 1791505862225,
+      "fields": {
+        "contract-window": "Oct 8, 8:30 PM – 8:45 PM EDT",
+        "early-action": "PASS",
+        "early-freshness": "CURRENT · current publication",
+        "early-reason": "The signal ask exceeds the protected 45¢ entry limit; Target-aware fair probability is below 75%; Remaining time is outside the protected 2–10 minute window.",
+        "final-action": "PASS",
+        "final-freshness": "CURRENT · current publication",
+        "final-reason": "The required distance-to-range ratio is not met; FINAL probability is below 90%; The required BTC-to-target distance is not met; More than eight minutes remain.",
+        "scalp-action": "WATCH",
+        "scalp-down-freshness": "CURRENT · source diagnostic",
+        "scalp-down-status": "No new DOWN entry · Side-aligned BTC30 is below $15",
+        "scalp-freshness": "CURRENT · current publication",
+        "scalp-reason": "If manually entered UP: The executable price has pulled back.",
+        "scalp-up-freshness": "CURRENT · source diagnostic",
+        "scalp-up-status": "Published WATCH · UP"
+      },
+      "positions": {
+        "early": 1467.875,
+        "final": 631.75,
+        "scalp": 2147.40625
+      },
+      "publication": [
+        "MAIN action eligibilitytrue",
+        "MAIN retained publication2026-10-09T00:31:00.373Z",
+        "SCALP action eligibilitytrue",
+        "SCALP retained publication2026-10-09T00:31:01.803Z",
+        "QUOTE action eligibilitytrue",
+        "QUOTE retained publication2026-10-09T00:31:00.794Z"
+      ],
+      "rows": [
+        5,
+        5,
+        5
+      ],
+      "rungs": [
+        {
+          "ladder": "scalp-up-ladder",
+          "rung": "watch"
+        }
+      ],
+      "scrollWidth": 375,
+      "width": 375
+    }
+  ],
+  "application_errors": []
+}
