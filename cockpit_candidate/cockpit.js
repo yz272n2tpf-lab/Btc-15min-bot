@@ -3,6 +3,12 @@
   'use strict';
   const node=id=>document.getElementById(id),finite=Number.isFinite;
   let connected=false,disconnect=null;
+  // In live mode each descriptive field has one presentation owner below.
+  // Never paint an adapter placeholder and then overwrite it on every 100ms tick.
+  const resolvedFields=new Set(['final-reason','early-reason','scalp-reason',
+    'scalp-up-status','scalp-down-status','remaining','quote-status',
+    'btc-price','btc-timestamp','health-status','health-continuity','health-quotes',
+    'health-brti','health-at','evidence-score','flip-risk','market-momentum']);
   const same=(a,b)=>!!a&&!!b&&['contract','target','official_open','official_close'].every(k=>a[k]===b[k]);
   const stamp=v=>finite(v)?new Date(v*1000).toISOString():'Unavailable';
   const text=(id,value,source)=>{const n=node(id);if(!n)return;if(n.textContent!==String(value))n.textContent=String(value);if(source)n.dataset.source=source;};
@@ -18,7 +24,7 @@
     const result=fn();if(anchor){const delta=anchor.getBoundingClientRect().top-top;if(delta)window.scrollBy(0,delta);}return result;
   }
   function paint(view,scalpDisplaySide=view.scalpSide){
-    for(const [id,value] of Object.entries(view.fields))text(id,value,view.trace[id]);
+    for(const [id,value] of Object.entries(view.fields))if(!connected||!resolvedFields.has(id))text(id,value,view.trace[id]);
     node('final-direction').className='direction '+(view.finalSide==='UP'?'up':view.finalSide==='DOWN'?'down':'');
     for(const [prefix,active] of Object.entries(view.activeRungs))for(const row of node(prefix+'-ladder').children){
       if(row.dataset.rung===active)row.setAttribute('aria-current','step');else row.removeAttribute('aria-current');
@@ -27,7 +33,8 @@
     const guidance=node('scalp-guidance'),slot=scalpDisplaySide?document.querySelector(`.scalp-direction[data-side="${scalpDisplaySide}"]`):null;
     if(slot){if(guidance.parentElement!==slot)slot.insertBefore(guidance,slot.querySelector('ol'));}
     else if(guidance.previousElementSibling!==node('scalp-heading'))node('scalp-heading').after(guidance);
-    table('identity-details',view.identityDetails);table('authority-details',view.authorityDetails);table('source-details',view.sourceDetails);
+    if(!connected)table('identity-details',view.identityDetails);
+    table('authority-details',view.authorityDetails);table('source-details',view.sourceDetails);
   }
   function notes(values){const parent=node('gaps');values.forEach((value,index)=>{let li=parent.children[index];if(!li){li=document.createElement('li');parent.append(li);}if(li.textContent!==value)li.textContent=value;});while(parent.children.length>values.length)parent.lastElementChild.remove();}
   function render(snapshot){
@@ -58,19 +65,26 @@
       const sourceReasons=[];
       for(const [name,lane] of [['final',m],['early',m],['scalp',s]]){
         const action=view.fields[name+'-action'],unusable=/unavailable/i.test(action),phase=laneState(lane);
-        label(name+'-freshness',(lane?.eligible&&unusable?'UNAVAILABLE':phase)+(lane?.eligible?' · current publication':' · no current action authority'),lane?.eligible&&!unusable?'current':'unavailable');
-        sourceReasons.push([name.toUpperCase()+' source explanation',view.fields[name+'-reason']]);
-        const reason=view.fields[name+'-reason'];
-        text(name+'-reason',reason,'Native qualification and lifecycle explanation');
+        // Reuse only the owner's same-contract retained publication, with the
+        // adapter's immutable origin/terminal validation. This is explanatory
+        // history, never a lease, current action, price, or active ladder rung.
+        const retained=!lane?.eligible&&!!history(lane,identity)&&!/unavailable/i.test(old.fields[name+'-action']);
+        const reason=(retained?old:view).fields[name+'-reason'];
+        const deliveryReason=lane?.reason_code||lane?.reason_text;
+        label(name+'-freshness',(lane?.eligible&&unusable?'UNAVAILABLE':phase)+(lane?.eligible?' · current publication':' · no current action authority')+(retained?' · explanation below is LAST QUALIFIED (historical)':'')+(!lane?.eligible&&deliveryReason?' · '+deliveryReason:''),lane?.eligible&&!unusable?'current':'unavailable');
+        sourceReasons.push([name.toUpperCase()+' explanation provenance',retained?'Last qualified; historical only':'Current native projection'],[name.toUpperCase()+' source explanation',view.fields[name+'-reason']]);
+        text(name+'-reason',reason,retained?'Last qualified native explanation; historical only':'Native qualification and lifecycle explanation');
+        node(name+'-reason').dataset.displayState=retained?'retained':lane?.eligible&&!unusable?'current':'unavailable';
       }
-      const native=m?.eligible?m.current_payload:null;
+      const native=m?.eligible?m.current_payload:!/unavailable/i.test(old.fields['early-action'])?oldMain:null;
       const early=native?.early,opportunity=native?.early_opportunity;
-      text('early-context',early?'Model fair '+(early.fair*100).toFixed(1)+'% · entry limit 45¢ · '+(opportunity?.price_zone||opportunity?.status||'No manual opportunity'):'Awaiting a qualified EARLY evaluation');
-      const scalp=s?.eligible?s.current_payload:null;
+      text('early-context',early?(!m?.eligible?'LAST QUALIFIED · ':'')+'Model fair '+(early.fair*100).toFixed(1)+'% · entry limit 45¢ · '+(opportunity?.price_zone||opportunity?.status||'No manual opportunity'):'Awaiting a qualified EARLY evaluation');
+      const scalpHistorical=!s?.eligible&&oldScalp&&!/unavailable/i.test(old.fields['scalp-action']);
+      const scalp=s?.eligible?s.current_payload:scalpHistorical?oldScalp:null;
       for(const side of ['UP','DOWN']){
-        const current=view.scalpSide===side,scan=scalp?.diagnostics?.find(d=>d.side===side);
+        const current=(scalpHistorical?old:view).scalpSide===side,scan=scalp?.diagnostics?.find(d=>d.side===side);
         const explain=scan?(window.BTC15SnapshotAdapter.reasonLabels[scan.reason]||String(scan.reason).replaceAll('_',' ')):null;
-        text('scalp-'+side.toLowerCase()+'-status',current?'Published '+scalp.guidance+' · '+side:scalp?(explain?'No new '+side+' entry · '+explain:'No new '+side+' opportunity published'):'SCALP source refreshing; no current '+side+' guidance');
+        text('scalp-'+side.toLowerCase()+'-status',(scalpHistorical?'LAST QUALIFIED · historical only · ':'')+(current?'Published '+scalp.guidance+' · '+side:scalp?(explain?'No new '+side+' entry · '+explain:'No new '+side+' opportunity published'):'SCALP source refreshing; no current '+side+' guidance'));
       }
       // Expired FINAL values never occupy the current outcome / lock fields.
       label('final-retained',!m?.eligible&&oldMain?.final?'LAST QUALIFIED · '+old.fields['final-direction']+' · '+old.fields['final-probability']+' · historical only; no current call':'','retained');
@@ -92,6 +106,7 @@
       text('health-workers',[['MAIN',m],['SCALP',s]].map(([name,lane])=>{const d=diagnostic(lane),h=d?.handoff,j=d?.journal;return name+' '+(h?'worker '+(h.worker_alive===true?'alive':h.worker_alive===false?'not alive':'unavailable')+' · queue '+h.queue_depth+' · drops '+h.dropped:j?'journal queue '+j.queue_depth+' · drops '+j.drops:'worker state unavailable')+(d&&!lane?.current_payload?' (last qualified)':'');}).join(' / '),'Native handoff.worker_alive/queue_depth/dropped; journal diagnostics');
       if(!m?.eligible&&oldMain){text('flip-risk',old.fields['flip-risk']+' · LAST QUALIFIED MAIN','P2 retained main.flip_risk_pct');}
       else if(m?.eligible)text('flip-risk',view.fields['flip-risk']+' · CURRENT MAIN','P2 eligible main.flip_risk_pct');
+      else text('flip-risk','Unavailable');
       table('identity-details',[
         ['Ticker',identity?.contract||'Official identity refreshing'],['Official open',stamp(identity?.official_open)],['Official close',stamp(identity?.official_close)],['Exact target',identity?.target??'Unavailable'],['Identity owner','Protected P2 MAIN / quote acceptance'],['Mode','Read-only source binding; no orders']
       ]);
@@ -134,15 +149,6 @@
       text('btc-price',m.values.btcPrice,'P3 renderBrtiDisplay (BRTI only)');
       const priceLabel=(source&&!aligned?'HISTORICAL · '+source.contract+' · ':'')+m.brti.label;
       text('btc-timestamp',priceLabel,'P3 original BRTI label + explicit contract alignment');node('btc-price').title=m.brti.title;node('btc-price').dataset.displayState=priceCurrent?'current':source?'retained':'unavailable';
-      const lane=v?.lanes?.main,d=lane?.current_payload?.delivery,clock=lane?.clock;
-      const at=clock?clock.server+(performance.now()-clock.received)/1000:NaN;
-      const age=d&&finite(d.brti_source_ts)?at-d.brti_source_ts:NaN;
-      const brtiReceipt=d?.schema==='BTC15_DELIVERY_HEALTH_R1'&&d.authority==='DIAGNOSTIC_ONLY'&&
-        d.signal_only===true&&d.orders===false&&d.brti==='CURRENT'&&
-        finite(d.brti_received_ts)&&d.brti_source_ts<=d.brti_received_ts&&d.brti_received_ts<=d.observed_ts&&
-        d.observed_ts<=at&&finite(age)&&age>=0&&age<=5;
-      text('health-brti',brtiReceipt?'CURRENT BRTI receipt · '+age.toFixed(1)+'s · diagnostic only':priceLabel,
-        brtiReceipt?'Original BRTI receipt; independent of MAIN quote qualification':'P3 BRTI source freshness label');
       mountChart(m);text('chart-note','BRTI reference history · 15-minute view · '+(m.chart.contract||'No contract')+' · '+(m.chart.refreshing?'LAST QUALIFIED / REFRESHING':m.chart.stale==='true'?'STALE / HISTORICAL':'source display')+(aligned?'':' · awaiting matching official identity'),'P3 chart retention/identity/stale flags');
       text('evidence-score',m.values.evidenceScore,'P3 applyState / lowerHistory; original seven diagnostics');
       text('market-momentum',m.values.momentumBadge+' · '+m.values.momentumSub,'P3 applyState / lowerHistory');
@@ -150,6 +156,7 @@
       table('market-details',[
         ['Market source contract',m.contract||'Unavailable'],['Market source generated UTC',m.source?.generated_utc||'Unavailable'],['Market source timestamp UTC',m.source?.source_timestamp_utc||'Unavailable'],['Market target (USD)',m.source?.target??'Unavailable'],['BRTI retained contract',source?.contract||'None'],['BRTI original observed time (epoch ms)',source?.observed??'Unavailable'],['BRTI price state',m.brti.price_state||'unavailable'],['BRTI gap at retained/source sample',m.values.btcGap],['Market original reason',m.reason],['Clock trusted / network healthy',m.clock_trusted+' / '+m.network_healthy],['Countdown source',m.values.timerRemaining+' · '+m.values.nextContract],['Chart retained / refreshing',String(m.chart.refreshing)],['Chart points / geometry signature',m.chart.signature||'None'],['Lower context qualified',String(m.lower.qualified)],['Trend',m.values.contextTrend],['Range',m.values.contextRange],['BRTI context',m.values.contextBrti],['Original diagnostic levels',m.values.contextLevels],['Parity',m.values.parityFooter]
       ]);
+      renderSourceInformation(window.BTC15InformationOwner?.getResolvedView());
     });
   }
   function renderInformation(i){
@@ -167,8 +174,8 @@
     const retained=i?.retained_source?.payload;
     const old=retained&&identity&&retained.ticker===identity.contract&&retained.target===identity.target&&finite(retained.probability_up)&&finite(retained.probability_down)?retained:null;
     const model=qualified?a:old;
-    text('model-information',model?(qualified?'':'LAST QUALIFIED · ')+'UP '+(model.probability_up*100).toFixed(1)+'% · DOWN '+(model.probability_down*100).toFixed(1)+'% · '+String(model.protection_phase||'Phase unavailable').replaceAll('_',' '):'Model information refreshing; native guidance above retains its own qualification');
-    text('model-information-note',qualified?'CURRENT descriptive assessment · BRTI '+(a.brti_agrees?'agrees':'differs')+' · source '+stamp(a.brti_source_ts)+' · no additional action authority':old?'Historical assessment · published '+stamp(old.published_ts)+' · no current action authority':'No current descriptive assessment; no entry or exit inferred');
+    text('model-information',model?'UP '+(model.probability_up*100).toFixed(1)+'% · DOWN '+(model.probability_down*100).toFixed(1)+'% · '+String(model.protection_phase||'Phase unavailable').replaceAll('_',' '):'Model information refreshing; native guidance above retains its own qualification');
+    text('model-information-note',qualified?'CURRENT descriptive assessment · BRTI '+(a.brti_agrees?'agrees':'differs')+' · no additional action authority':old?'LAST QUALIFIED · historical assessment · no current action authority':'No current descriptive assessment; no entry or exit inferred');
     const m=window.BTC15MarketViewOwner?.getResolvedView();
     const marketCurrent=marketMatches(m,v)&&m.network_healthy&&m.lower?.qualified;
     const now=qualified?p.checked_ts+(performance.now()-i.delivery.requestStartedMs)/1000:NaN;
@@ -179,7 +186,18 @@
     const freshBrti=qualified&&finite(brtiAge)&&brtiAge>=0&&brtiAge<=5;
     text('brti-latest',freshBrti?money(p.brti_value):m?.values?.btcPrice||'BRTI refreshing');
     text('brti-latest-age',freshBrti?'BRTI · source '+stamp(p.brti_source_ts)+' · '+brtiAge.toFixed(1)+'s':m?.brti?.label||'No current BRTI receipt');
-    if(freshBrti)text('health-brti','CURRENT original BRTI receipt · '+brtiAge.toFixed(1)+'s','Information owner qualified original BRTI source timestamp');
+    // One formatter resolves all diagnostic BRTI inputs, independent of which
+    // owner notified us. Delivery refreshes never compete with market wording.
+    const lane=v?.lanes?.main,d=lane?.current_payload?.delivery,clock=lane?.clock;
+    const at=clock?clock.server+(performance.now()-clock.received)/1000:NaN;
+    const age=d&&finite(d.brti_source_ts)?at-d.brti_source_ts:NaN;
+    const brtiReceipt=d?.schema==='BTC15_DELIVERY_HEALTH_R1'&&d.authority==='DIAGNOSTIC_ONLY'&&
+      d.signal_only===true&&d.orders===false&&d.brti==='CURRENT'&&
+      finite(d.brti_received_ts)&&d.brti_source_ts<=d.brti_received_ts&&d.brti_received_ts<=d.observed_ts&&
+      d.observed_ts<=at&&finite(age)&&age>=0&&age<=5;
+    const receiptAge=freshBrti?brtiAge:brtiReceipt?age:null;
+    const priceLabel=(m?.brti?.record&&!marketMatches(m,v)?'HISTORICAL · '+m.brti.record.contract+' · ':'')+(m?.brti?.label||'No current BRTI receipt');
+    text('health-brti',receiptAge!==null?'CURRENT BRTI receipt · '+receiptAge.toFixed(1)+'s · diagnostic only':priceLabel,'Original qualified BRTI timestamps / market source label; no action authority');
   }
   function connectResolved(){
     if(disconnect)return disconnect;

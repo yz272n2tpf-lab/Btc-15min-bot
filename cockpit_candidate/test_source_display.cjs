@@ -15,7 +15,8 @@ receive({...empty,current:{assessment:payload},delivery:{payload,requestStartedM
 assert.match(nodes.get('model-information').textContent,/UP 60.0%.*DOWN 40.0%/);
 assert.match(nodes.get('spot-price').textContent,/80,020/);
 receive({...empty,retained_source:{payload}});
-assert.match(nodes.get('model-information').textContent,/LAST QUALIFIED/);
+assert.match(nodes.get('model-information').textContent,/UP 60.0%.*DOWN 40.0%/);
+assert.match(nodes.get('model-information-note').textContent,/LAST QUALIFIED/);
 assert.match(nodes.get('model-information-note').textContent,/no current action authority/);
 identity={contract:'KXBTC15M-NEXT',target:80030};receive({...empty,retained_source:{payload}});
 assert.doesNotMatch(nodes.get('model-information').textContent,/60.0%/,'cross-contract assessment cannot populate current context');
