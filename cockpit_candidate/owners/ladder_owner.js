@@ -10,6 +10,25 @@
   const __V81_LADDERS_URL__='/scalp/ladders';
   const subscribers=new Set();let resolvedView=null;
   const issuedRecords={main:null,scalp:null},issuedRecordClocks={main:-Infinity,scalp:-Infinity};
+  // Display history only. These values never enter accept(), current() or a lease.
+  let verifiedFinalCall=null,verifiedFinalDecision=null;
+  function retainFinal(data,ident){
+    if(verifiedFinalDecision&&key(verifiedFinalDecision.official_identity)!==key(ident)){
+      verifiedFinalCall=null;verifiedFinalDecision=null;
+    }
+    if(!data||key(data.official_identity)!==key(ident)||!finite(data.published_ts)||
+       data.published_ts<=(verifiedFinalDecision?.published_ts??-Infinity))return;
+    const f=data.final;
+    if(!f||!['FINAL_CALL','PASS'].includes(f.state))return;
+    const call=f.state==='FINAL_CALL'&&f.ready===true&&f.lock_state==='QUALIFIED'&&
+      f.source==='FROZEN_V4_6_FINAL'&&f.confidence>=.90&&
+      /^[0-9a-f]{64}$/.test(f.publication_id)&&
+      f.conditions&&Object.keys(f.conditions).length>0&&Object.values(f.conditions).every(v=>v===true);
+    verifiedFinalDecision={official_identity:structuredClone(ident),published_ts:data.published_ts,
+      state:call?'FINAL_CALL':'PASS',action_authority:false};
+    if(call)verifiedFinalCall={...verifiedFinalDecision,side:f.side,confidence:f.confidence,
+      publication_id:f.publication_id,conditions:structuredClone(f.conditions),action_authority:false};
+  }
   function retainIssued(lane,data){
     if(lane!=='quote'&&Number.isFinite(data.published_ts)&&data.published_ts>=issuedRecordClocks[lane]&&data.trade_clarity?.schema==='BTC15_ISSUED_SIGNALS_V1'&&Array.isArray(data.trade_clarity.records)){
       issuedRecords[lane]=structuredClone(data.trade_clarity);issuedRecordClocks[lane]=data.published_ts;
@@ -34,10 +53,15 @@
     }
   })});
   function publishResolved(now,ident,liveM,liveS,liveQ,m,s,qualified,aligned,freshQuote,mainTracking,scalpTracking){
+    // Only a currently accepted native decision can update this historical record.
+    // PASS supersedes the headline; an outage cannot erase the last verified call.
+    if(ident)retainFinal(qualified?liveM:null,ident);
     const lane=(name,current,payload,eligible,tracking)=>({
       current_payload:current,
       retained_payload:lastQualified[name],
       issued_records:issuedRecords[name]||null,
+      verified_final_call:name==='main'&&key(verifiedFinalCall?.official_identity)===key(ident)?verifiedFinalCall:null,
+      verified_final_decision:name==='main'&&key(verifiedFinalDecision?.official_identity)===key(ident)?verifiedFinalDecision:null,
       payload,
       selection:eligible?'current':payload?'retained':'none',
       eligible:!!eligible,tracking:!!tracking,

@@ -67,14 +67,24 @@
     DIRECTIONAL_DETERIORATION_CORROBORATED_BY_MARKET:'Market support deteriorating',
     ESTABLISHED_PROTECTION_REMAINS_LATCHED:'Protection remains warranted',
     POSITIVE_LIQUIDATION_SCENARIO_WITH_DETERIORATION:'Positive net; support weakening'};
-  function renderFinal(lane){
+  function renderFinal(lane,identity){
     const p=lane?.eligible?lane.current_payload:null,f=p?.final,a=p?.opportunity_analysis;
+    const h=same(lane?.verified_final_call?.official_identity,identity)?lane.verified_final_call:null;
+    const last=same(lane?.verified_final_decision?.official_identity,identity)?lane.verified_final_decision:null;
+    const historicCall=!f&&h&&last?.state==='FINAL_CALL';
     const c=a?.contract===p?.contract?a?.candidates?.find(c=>c.side===f?.side):null,e=c?.economics;
-    text('final-action',f?.state==='FINAL_CALL'?'QUALIFIED CALL':f?.state==='PASS'?'PASS':'Unavailable');
+    text('final-action',f?.state==='FINAL_CALL'?'QUALIFIED CALL':f?.state==='PASS'?'PASS':historicCall?'LAST VERIFIED FINAL CALL — HISTORICAL':last?.state==='PASS'?'LAST VERIFIED FINAL DECISION — PASS':'Unavailable');
     const gap=v=>finite(v)?Math.abs(v).toFixed(2)+' USD '+(v>0?'above':v<0?'below':'at')+' target':'unavailable';
     text('final-targets',c?'BTC '+gap(c.target_gap)+' · BRTI '+gap(c.brti_gap):'Target relationship unavailable');
     text('final-market',c?'Kalshi '+c.side+' BID / ASK '+shortCents(c.bid)+' / '+shortCents(c.ask)+' · at model snapshot':'Market odds unavailable');
-    text('final-summary',!f?'Current qualification unavailable':f.ready&&f.lock_state==='QUALIFIED'&&f.state==='FINAL_CALL'?'Qualified settlement call · not a BUY':finite(f.confidence)&&f.confidence<.90?'PASS · model below 90% lock requirement':'PASS · other lock conditions not met');
+    text('final-summary',historicCall?h.side+' · '+percentValue(h.confidence)+' · '+clockTime(h.published_ts)+' · no current lock':!f?'Current qualification unavailable':f.ready&&f.lock_state==='QUALIFIED'&&f.state==='FINAL_CALL'?'Qualified settlement call · not a BUY':finite(f.confidence)&&f.confidence<.90?'PASS · model below 90% lock requirement':'PASS · other lock conditions not met');
+    label('final-freshness',f?'CURRENT native publication':last?'LIVE SOURCE REFRESHING — NO CURRENT CALL AUTHORITY':'Current source unavailable · no current call authority',f?'current':'unavailable');
+    table('final-call-history',h?[
+      ['Last verified qualified call',h.side+' · '+percentValue(h.confidence)+' · HISTORICAL'],
+      ['Original publication',stamp(h.published_ts)],['Contract',h.official_identity.contract],
+      ['Immutable publication ID',h.publication_id],
+      ['Authority','Historical record only; no current lock, executable quote or entry authority']
+    ]:[]);
     const verified=e?.valid_book===true&&e.series_fee_verified===true;
     const supported=verified&&finite(e.stress_net_model_ev_scenario)&&e.stress_net_model_ev_scenario>0;
     text('final-value',!verified?'Uncertain · current book or applicable fees unavailable':supported?'Positive model value at '+shortCents(c.ask)+' ASK · not an entry signal':'PASS · '+c.side+' ASK '+shortCents(c.ask)+' lacks supported value after costs');
@@ -88,11 +98,26 @@
   }
   function renderCompactTrade(t,lane,name){
     const r=t.record,x=r?.terminal,p=t.current?lane.current_payload:null,e=t.economics||x?.economics;
-    const state=t.entry?'BUY ISSUED':t.current?(t.management==='CAUTION'?'WATCH · CAUTION':t.management):t.completed?'COMPLETED EXIT':t.historical?'HISTORICAL SIGNAL':r?'SOURCE REFRESHING':'NO ISSUED BUY';
+    const closedEarly=name==='early'&&t.completed&&!t.newExit;
+    if(name==='early'){
+      const c=lane?.eligible?lane.current_payload?.early_opportunity:null;
+      const potential=c&&(!t.current&&!t.newExit);
+      label('early-potential',potential?'POTENTIAL '+c.side+' · ASK '+shortCents(c.ask)+' · '+(c.status==='PASS'?'PASS':'WATCH')+' · NOT AN ISSUED BUY':'',potential?'current':'unavailable');
+    }
+    if(closedEarly){
+      text('early-action','NO ACTIVE EARLY TRADE — PREVIOUS SIGNAL EXITED');
+      text('early-price','');text('early-reason','Previous entry and EXIT are in Trade Details / History.');
+      label('early-freshness',lane?.eligible?'':'Source refreshing · no current action or executable price',lane?.eligible?'current':'unavailable');
+      for(const rung of ['entry','hold','watch','protect','exit'])text('early-'+rung,rung==='entry'?'No active BUY':rung==='exit'?'Previous EXIT recorded':'—');
+      for(const item of node('early-ladder')?.children||[]){item.removeAttribute('aria-current');item.removeAttribute('aria-disabled');}
+      text('early-value-note','One BUY per contract · manual execution unknown.');
+      return;
+    }
+    const state=t.newExit?'EXIT — '+r.side:closedEarly?'NO ACTIVE EARLY TRADE — PREVIOUS SIGNAL EXITED':t.entry?'BUY ISSUED':t.current?(t.management==='CAUTION'?'WATCH · CAUTION':t.management):t.completed?'COMPLETED EXIT':t.historical?'HISTORICAL SIGNAL':r?'SOURCE REFRESHING':'NO ISSUED BUY';
     text(name+'-action',state);
-    text(name+'-reason',t.entry?'Current entry signal · manual execution':t.current?'Existing signal under management · no new entry':t.completed?'Completed recommendation · no new entry':t.historical?'Entry expired · history only':r?'Current action unavailable':'WATCH / PASS scans are separate');
+    text(name+'-reason',t.newExit?(shortReasons[x.reason]||'Native exit')+' · observed trigger BID '+shortCents(x.observed_bid):t.entry?'Current entry signal · manual execution':t.current?'Existing signal under management · no new entry':t.completed?'Completed recommendation · no new entry':t.historical?'Entry expired · history only':r?'Current action unavailable':'WATCH / PASS scans are separate');
     text(name+'-price',r?r.side+' · original ASK '+shortCents(r.original_ask)+' · '+(r.serial_index==null?'':'#'+r.serial_index+' · ')+clockTime(r.signal_ts):'No recorded BUY');
-    label(name+'-freshness',t.current?'Current source · '+(finite(t.bid)?'same-side BID '+shortCents(t.bid):'awaiting later BID'):r&&!t.completed&&!t.historical?'Current source unavailable · no executable price':'',t.current?'current':'unavailable');
+    label(name+'-freshness',t.newExit?'New native EXIT recommendation · manual execution unknown':t.current?'Current source · '+(finite(t.bid)?'same-side BID '+shortCents(t.bid):'awaiting later BID'):r&&!t.completed&&!t.historical?'Current source unavailable · no executable price':'',t.current||t.newExit?'current':'unavailable');
     const evidence=p?.management?.evidence,context=p?.context;
     const warning=evidence?.model_opposes?'Model opposes original direction':evidence&&(evidence.btc_held_side_gap<=0||evidence.brti_held_side_gap<=0)?'BTC / BRTI against signal':evidence?.recent_momentum_adverse?'Momentum turned against signal':context?.reasons?.length?(shortReasons[context.reasons[0]]||'Market support needs attention'):name==='scalp'&&t.management==='PROTECT'?'Risk trigger armed':(shortReasons[t.reason]||'Support weakening or uncertain');
     const passive=t.completed?'Completed':t.historical?'Historical':r?'Source unavailable':'No issued signal';
@@ -100,8 +125,8 @@
       hold:t.current?(t.management==='HOLD'?'Original thesis supported':t.entry?'Awaiting next evaluation':'Needs attention'):passive,
       watch:t.current?(['WATCH','CAUTION','PROTECT'].includes(t.management)?warning:'No new warning'):passive,
       protect:t.current?(t.management==='PROTECT'?(e?.meaningful_positive_net?'Positive net scenario · protect':'Defensive risk · profit unproven'):'Not triggered'):passive,
-      exit:t.completed?'Recorded · '+(shortReasons[x.reason]||'Native exit')+' · BID '+shortCents(x.observed_bid)+' · '+clockTime(x.trigger_ts):t.historical?'No current exit':t.current?'No exit recommendation':'Unavailable'};
-    const active=t.current?({ENTER:'entry',HOLD:'hold',WATCH:'watch',CAUTION:'watch',PROTECT:'protect',EXIT:'exit'}[t.management]):null;
+      exit:t.newExit?'EXIT '+r.side+' · BID '+shortCents(x.observed_bid)+' · '+clockTime(x.trigger_ts):t.completed?'Recorded · '+(shortReasons[x.reason]||'Native exit')+' · BID '+shortCents(x.observed_bid)+' · '+clockTime(x.trigger_ts):t.historical?'No current exit':t.current?'No exit recommendation':'Unavailable'};
+    const active=t.newExit?'exit':t.current?({ENTER:'entry',HOLD:'hold',WATCH:'watch',CAUTION:'watch',PROTECT:'protect',EXIT:'exit'}[t.management]):null;
     for(const [key,value] of Object.entries(rows))text(name+'-'+key,value);
     for(const item of node(name+'-ladder')?.children||[]){item.removeAttribute('aria-disabled');if(item.dataset.rung===active)item.setAttribute('aria-current','step');else item.removeAttribute('aria-current');}
     text(name+'-value-note',name==='scalp'&&r?'Momentum call · profit potential unproven. '+(t.current&&e?.meaningful_positive_net?'Observed net scenario '+shortCents(e.net_after_execution_reserve)+' after costs.':''):r?'Signal only · execution unconfirmed.':'');
@@ -145,7 +170,7 @@
     const completedReasons={DIRECTIONAL_THESIS_INVALIDATED:'The original directional thesis failed: the model, BTC/BRTI target support and causal momentum turned against that signal.',NET_BID_EXCEEDS_WEAKENING_MODEL_VALUE:'The observed net BID exceeded the weakening held-side model value.',ARM5_GIVEBACK4:'A defensive giveback exit was recommended after the gross-movement risk trigger fired. This does not establish a profitable scalp.'};
     const reasonLabel=reason=>(t.completed&&completedReasons[reason])||window.BTC15SnapshotAdapter.reasonLabels[reason]||String(reason||'').replaceAll('_',' ');
     const why=reasonLabel(t.reason);
-    if(name==='early')text('early-direction',r?r.side+(t.historical?' · historical':''):'No issued direction');
+    if(name==='early')text('early-direction',t.completed&&!t.newExit?'No active signal':r?r.side+(t.historical?' · historical':''):'No issued direction');
     text(name+'-management-detail',why);
     table(name+'-issued',r?[
       ['Original BUY',r.side+' · '+r.contract],['Issued at',stamp(r.signal_ts)],
@@ -176,11 +201,11 @@
       text('scalp-economics',e?(t.completed?'HISTORICAL EXIT SCENARIO · ':'')+'Observed gross movement '+centsValue(e.gross_movement_cents/100)+' · entry / exit fee estimate '+centsValue(e.entry_fee_scenario)+' / '+centsValue(e.exit_fee_scenario)+' · net liquidation '+centsValue(e.net_liquidation_scenario)+' · after execution reserve '+centsValue(e.net_after_execution_reserve)+' · '+(e.meaningful_positive_net?'Meaningful positive net scenario':'Profitable scalp NOT established')+' · no fill or realized profit assumed':'No current verified net liquidation scenario. Entries require native momentum and cost room; expected profit remains unestablished. Profit-oriented protection requires an observed scenario above 2¢ net after fees and execution reserve. Defensive exits remain available.');
     }
     renderCompactTrade(t,lane,name);
-    // Completed or historical recommendations never light an active action rung.
+    // Only a genuinely new native EXIT may light the row; retained exits cannot.
     const prefixes=name==='early'?['early']:['scalp-up','scalp-down'];
     for(const prefix of prefixes){
       const list=node(prefix+'-ladder');if(!list)continue;
-      if(!t.current)for(const item of list.children){item.removeAttribute('aria-current');}
+      if(!t.current&&!t.newExit)for(const item of list.children){item.removeAttribute('aria-current');}
     }
   }
   function renderResolved(v){
@@ -205,7 +230,7 @@
         const reason=(retained?old:view).fields[name+'-reason'];
         const deliveryReason=lane?.reason_code||lane?.reason_text;
         const failure=lane?.reason_code&&lane.reason_code!=='SOURCE_EXPIRED'?String(deliveryReason).replaceAll('_',' '):null;
-        label(name+'-freshness',(lane?.eligible&&unusable?'UNAVAILABLE':phase)+(lane?.eligible?' · current publication':failure?' · '+failure:' · no current action authority')+(retained?'\nLAST QUALIFIED explanation · historical':''),lane?.eligible&&!unusable?'current':'unavailable');
+        if(name!=='final')label(name+'-freshness',(lane?.eligible&&unusable?'UNAVAILABLE':phase)+(lane?.eligible?' · current publication':failure?' · '+failure:' · no current action authority')+(retained?'\nLAST QUALIFIED explanation · historical':''),lane?.eligible&&!unusable?'current':'unavailable');
         sourceReasons.push([name.toUpperCase()+' explanation provenance',retained?'Last qualified; historical only':'Current native projection'],[name.toUpperCase()+' source explanation',view.fields[name+'-reason']]);
         text(name+'-reason',reason,retained?'Last qualified native explanation; historical only':'Native qualification and lifecycle explanation');
         node(name+'-reason').dataset.displayState=retained?'retained':lane?.eligible&&!unusable?'current':'unavailable';
@@ -226,7 +251,7 @@
           ' · closure unconfirmed; depth, size and actual fills unverified.');
       }else text('early-management','Current EARLY management unavailable; see the retained issued record. No entry or exit fill assumed.');
       renderValueAnalysis(native,!!m?.eligible);
-      renderFinal(m);
+      renderFinal(m,identity);
       const scalpHistorical=!s?.eligible&&oldScalp&&!/unavailable/i.test(old.fields['scalp-action']);
       const scalp=s?.eligible?s.current_payload:scalpHistorical?oldScalp:null;
       for(const side of ['UP','DOWN']){

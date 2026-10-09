@@ -29,12 +29,17 @@
     const terminal=r?.terminal;
     const historical=!!r&&(!same||['ENDED_UNARMED','UNAVAILABLE'].includes(terminal?.state));
     const completed=terminal?.state==='EXIT';
+    // Only the genuine new native EXIT publication can light an active EXIT row.
+    // Subsequent publications retain its completed record without renewing it.
+    const newExit=name==='early'&&fresh&&completed&&p.management?.new_exit===true&&
+      p.early?.guidance==='EXIT'&&p.terminal?.origin_id===r.origin_id&&
+      p.terminal?.decision_ts===terminal.trigger_ts&&p.terminal?.executable_exit_bid===terminal.observed_bid;
     const management=fresh&&!terminal?(name==='early'?p.early?.guidance:p.guidance):null;
     // Native ENTER is one event publication. An old record can never renew it.
     const entry=fresh&&!terminal&&management==='ENTER'&&(c?c.entry_authority_current===true:true);
     const current=fresh&&binding&&!terminal&&!historical;
     const state=completed?'COMPLETED EXIT — NO NEW ENTRY':historical?'LAST ISSUED SIGNAL — HISTORICAL':!fresh&&r?'SOURCE REFRESHING / UNAVAILABLE':entry?'CURRENT ACTIONABLE SIGNAL':current?'EXISTING SIGNAL UNDER MANAGEMENT':'NO ISSUED BUY';
-    return {record:r,records,state,entry,current,completed,historical,management,
+    return {record:r,records,state,entry,current,completed,newExit,historical,management,
       bid:current?p.executable_current_bid:null,
       economics:current?(name==='early'?p.management?.economics:p.economics):null,
       reason:completed?terminal.reason:fresh&&!binding?'Conflicting origin binding; current action unavailable':r?(r.management_reason||(name==='early'?(p?.origin?.origin_id===r.origin_id?p:retained)?.management?.reason:(p?.origin?.origin_id===r.origin_id?p:retained)?.presentation?.message)||r.entry_reason):'Potential setups are separate; no BUY has been issued',

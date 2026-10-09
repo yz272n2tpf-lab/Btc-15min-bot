@@ -42,7 +42,7 @@
       <div class="final-value"><span class="eyebrow">TRADE VALUE</span><p id="final-value" class="reason">Current value unavailable.</p></div>
       <div class="quote-pair" aria-label="Kalshi buy quotes"><div><span><i class="up-dot" aria-hidden="true"></i> UP buy</span><strong id="up-buy">—</strong></div><div><span><i class="down-dot" aria-hidden="true"></i> DOWN buy</span><strong id="down-buy">—</strong></div></div>
       <p class="small quote-status" id="quote-status"></p><p class="small" id="quote-retained" hidden></p>
-      <details class="trade-details"><summary>FINAL Details</summary><p id="final-reason" class="small"></p><dl id="final-value-details"></dl></details>
+      <details class="trade-details"><summary>FINAL Details / History</summary><p id="final-reason" class="small"></p><dl id="final-call-history"></dl><dl id="final-value-details"></dl></details>
     </section>
 
     <section class="card chart-card" aria-labelledby="chart-heading" data-section="chart">
@@ -62,7 +62,7 @@
         <li data-rung="protect"><span class="rung-num">4</span><strong>PROTECT</strong><span class="rung-value" id="early-protect">—</span></li>
         <li data-rung="exit"><span class="rung-num">5</span><strong>EXIT</strong><span class="rung-value" id="early-exit">—</span></li>
       </ol>
-      <p id="early-value-note" class="small trade-note"></p>
+      <p id="early-value-note" class="small trade-note"></p><p id="early-potential" class="small" hidden></p>
       <details class="trade-details" id="early-trade-details"><summary>Trade Details / History</summary>
         <dl id="early-issued" class="issued-record"></dl><p id="early-management-detail" class="small"></p><p id="early-exit-record" class="small"></p><p id="early-context" class="small"></p><p id="early-management" class="small"></p>
         <h3>Issued signals — historical</h3><dl id="early-signal-history"></dl>
