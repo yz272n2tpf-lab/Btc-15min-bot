@@ -217,6 +217,24 @@ class SupportedEarly(unittest.TestCase):
         self.assertNotEqual(duplicate['event'],'BUY')
         self.assertEqual(dup_view['origin']['origin_id'],new_view['origin']['origin_id'])
 
+    def test_legacy_entry_veto_does_not_suppress_final_publication(self):
+        f=frame(ask=.35,p=.8);f['candidate']=CANDIDATE
+        r,_,v=step(self.engine(),f)
+        self.assertNotEqual(r.get('event'),'BUY')
+        self.assertIsNone(v['origin'])
+        self.assertEqual(v['final_status'],'AVAILABLE')
+        self.assertIn('probability_up',v['final'])
+        self.assertFalse(v['orders'])
+        self.assertFalse(v['early']['directional_corroboration']['qualified'])
+
+    def test_supported_value_entry_remains_eligible_across_contract(self):
+        for offset in (10,60,300,540,790,895):
+            with self.subTest(offset=offset):
+                r,_,v=step(self.engine(),value_frame(offset=offset))
+                self.assertEqual(r['event'],'BUY')
+                self.assertEqual(v['origin']['entry_policy'],POLICY)
+                self.assertEqual(v['final_status'],'AVAILABLE')
+
     def test_fee_cache_is_bounded_and_missing_fees_fail_closed(self):
         at=[10];calls=[]
         def get(path):
