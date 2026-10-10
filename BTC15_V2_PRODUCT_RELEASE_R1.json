@@ -50,7 +50,7 @@
     "btc15_v2_product/opportunities.py": "e96d7d80d3e8c7b15d0ed3db27dd39d2884de05e820659c002e90a7e11829391",
     "btc15_v2_product/early_entry.py": "54946af3d3d243e71117c817ebeb1acfa02b7681e719abc18b30b8744646eccd",
     "btc15_v2_product/early_management.py": "f64536ab8e4ce019ecde61543f028cd3fe5d99b06e51ac99625518a7e3aaf924",
-    "btc15_v2_product/early_origin_transfer.py": "00ad8ef295aa6e95701c731936acd470cc6e7ef43f948cb73668161bb57b6f7a",
+    "btc15_v2_product/early_origin_transfer.py": "2b17bfa51e003cff88e3fe112b6006c3457f4d0b621370696341c508369593e4",
     "btc15_information_service_v1.py": "7405dd37f4b00eae4620cd290334692b8ffeaa428bfde62f639a79a73875a2b0",
     "btc15_information_proxy_v1.py": "bd15632a24576b1ad13b995d7f1bad9fc71eac5121d3b737d5093af8afd3034c",
     "btc15_information_journal_v1.py": "b66ecfb3cc1e3ae4d2f3a103ae84bd711f94fe1323ee0ffaf661b9674224436e",
