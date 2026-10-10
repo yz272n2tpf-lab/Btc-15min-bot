@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
-# BTC15 SSH key registration diagnostic only; no changes.
-set -euo pipefail
-echo 'BTC15 Railway SSH registered keys (names/fingerprints only):'
-railway ssh keys list
-echo 'BTC15 local SSH public key fingerprints (if any):'
-find "$HOME/.ssh" -maxdepth 1 -type f -name '*.pub' -exec ssh-keygen -lf '{}' \; 2>/dev/null || true
-echo 'BTC15 SSH KEY CHECK FINISHED — NO PRODUCTION ACCESS ATTEMPTED'
+# BTC15 SSH connection diagnostic; no deployment, DB access, or writes.
+set -u
+echo 'BTC15 SSH TRANSPORT DIAGNOSTIC'
+echo 'Target: existing production MAIN service; command: pwd'
+railway ssh --project baea4e22-d004-4434-b2c5-81a7fbc05086 --environment 61775c5d-c583-4dfc-af41-f25578856fd9 --service ab28dca6-7bea-4956-bdb9-dbb7b4c74635 -- pwd
+rc=$?
+echo "BTC15 SSH RESULT CODE: $rc"
+if [ "$rc" -ne 0 ]; then
+  echo 'SSH probe failed; no checkpoint access attempted.'
+fi
+exit 0
