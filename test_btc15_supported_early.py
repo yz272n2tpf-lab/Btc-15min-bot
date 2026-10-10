@@ -139,12 +139,18 @@ class SupportedEarly(unittest.TestCase):
         f['quote'].update(ticker=f['contract'],close_ms=int(f['official_close']*1000))
         r,_,v=step(e,f);self.assertIsNone(v['origin']);self.assertIsNone(v['terminal']);self.assertIsNone(r['event'])
 
-    def test_historical_origins_remain_independent_and_compatible(self):
+    def test_historical_tier1_needs_directional_corroboration(self):
         f=frame(ask=.35,p=.8);f['candidate']=CANDIDATE
-        r,s,v=step(self.engine(),f);self.assertEqual(r['event'],'BUY');self.assertFalse(v['final']['ready'])
-        self.assertEqual(v['origin']['entry_policy'],'HISTORICAL_TIER1')
-        s.pop('terminal');e=self.engine();e.restore(s)
-        _,_,v=step(e,value_frame(2));self.assertEqual(v['origin']['original_ask'],.35)
+        r,s,v=step(self.engine(),f)
+        self.assertNotEqual(r['event'],'BUY')
+        self.assertIsNone(v['origin'])
+        self.assertFalse(v['early']['ready'])
+        self.assertFalse(v['early']['directional_corroboration']['qualified'])
+        # Existing supported-value route remains eligible with full evidence.
+        e=self.engine()
+        r,_,v=step(e,value_frame())
+        self.assertEqual(r['event'],'BUY')
+        self.assertEqual(v['origin']['entry_policy'],POLICY)
 
     def test_feature_capture_returns_unchanged_original_and_exact_causal_binding(self):
         returned={'move1':1};start=datetime(2026,10,3,20,tzinfo=timezone.utc)
