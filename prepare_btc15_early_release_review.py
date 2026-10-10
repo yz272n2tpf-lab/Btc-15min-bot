@@ -39,4 +39,5 @@ summary={'changed_manifest_files':changes,
          'candidate_manifest_sha256':hashlib.sha256(payload.encode()).hexdigest(),
          'approval_status':'MANIFEST_COMMITTED_PRODUCTION_DEPLOYMENT_NOT_AUTHORIZED'}
 (out/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
+print('HANDOFF_SHA256:',candidate['files_sha256']['btc15_v2_product/early_origin_transfer.py'])
 print(json.dumps(summary,indent=2))
