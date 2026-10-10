@@ -39,7 +39,7 @@ assert.match(node('early-action').textContent,/SOURCE REFRESHING/);assert.match(
 for(const e of nodes.values())e.writes=[];
 for(let i=0;i<100;i++)window.BTC15Cockpit.renderResolved(resolved);
 for(const id of ['early-action','early-price','early-reason','early-direction','scalp-action','scalp-price'])assert.equal(node(id).writes.length,0,id+' flickers');
-show(data.exit);assert.match(node('early-action').textContent,/COMPLETED EXIT — NO NEW ENTRY/);assert.equal(node('early-direction').textContent,'UP');assert.match(node('early-exit-record').textContent,/observed trigger BID/);
+show(data.exit);assert.match(node('early-action').textContent,/EXIT RECOMMENDED — AWAIT FRESH QUALIFIED BUY/);assert.equal(node('early-direction').textContent,'UP');assert.match(node('early-exit-record').textContent,/observed trigger BID/);
 assert.ok(node('early-ladder').children.every(x=>!x.attributes['aria-current']));
 const rolled={...data.hold,official_identity:{...data.hold.official_identity,contract:'NEXT',official_open:data.hold.official_close,official_close:data.hold.official_close+900},origin:null};
 show(rolled);assert.match(node('early-action').textContent,/HISTORICAL/);assert.match(node('early-direction').textContent,/historical/);
