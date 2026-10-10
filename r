@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
-# BTC15 SSH connection diagnostic; no deployment, DB access, or writes.
+# BTC15 read-only volume listing. Never upload, edit, delete, or deploy.
 set -u
-echo 'BTC15 SSH TRANSPORT DIAGNOSTIC'
-echo 'Target: existing production MAIN service; command: pwd'
-railway ssh --project baea4e22-d004-4434-b2c5-81a7fbc05086 --environment 61775c5d-c583-4dfc-af41-f25578856fd9 --service ab28dca6-7bea-4956-bdb9-dbb7b4c74635 -- pwd
+echo 'BTC15 MAIN VOLUME READ-ONLY LIST PROBE'
+echo 'Target volume: 6ced6b1a-3755-4518-a240-c895e936d443'
+railway volume files --volume 6ced6b1a-3755-4518-a240-c895e936d443 list / --json
 rc=$?
-echo "BTC15 SSH RESULT CODE: $rc"
-if [ "$rc" -ne 0 ]; then
-  echo 'SSH probe failed; no checkpoint access attempted.'
-fi
+echo "BTC15 VOLUME LIST RESULT CODE: $rc"
+echo 'No files downloaded or changed.'
 exit 0
