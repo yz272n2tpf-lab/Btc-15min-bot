@@ -67,9 +67,10 @@ def decide(f, origin, prior_p, path, current_action, later_bid, terminal=None):
             economics=economics,evidence=evidence,new_exit=False,policy=POLICY)
     thesis_failed=opposing and btc<0 and brti<0 and adverse
     sell_dominates=bool(exit_fee is not None and bid-exit_fee>=p and weak and adverse)
-    # EARLY is a directional-contract strategy, not a short-window scalp.
-    # Attractive liquidation economics alone may inform WATCH, never EXIT.
-    exit_reason='DIRECTIONAL_THESIS_INVALIDATED' if thesis_failed else None
+    # Retain the existing directional-risk and model-value EXIT safeguards.
+    # Neither is a standalone short-window profit target or trailing stop.
+    exit_reason=('DIRECTIONAL_THESIS_INVALIDATED' if thesis_failed else
+                 'NET_BID_EXCEEDS_WEAKENING_MODEL_VALUE' if sell_dominates else None)
     if exit_reason and later_bid and bid>0:
         q=f['quote']
         terminal=dict(state='EXIT',actionable_exit=True,origin_id=origin['origin_id'],
@@ -78,8 +79,6 @@ def decide(f, origin, prior_p, path, current_action, later_bid, terminal=None):
             reason=exit_reason,policy=POLICY,evidence=evidence,economics=economics,
             manual_fill=None,realized_profit=None,closure_confirmed=False)
         state='EXIT';reason=exit_reason
-    elif sell_dominates:
-        state='WATCH';reason='FAVORABLE_LIQUIDATION_ECONOMICS_DIRECTIONAL_THESIS_NOT_INVALIDATED'
     elif current_action=='BUY':
         state='ENTER';reason='ENTRY_EVIDENCE_ACCEPTED'
     elif current_action=='PROTECT':
