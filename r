@@ -39,7 +39,7 @@ print('KNOWN_CUTOVER_BLOCKER:',report['error'])
 print('SNAPSHOT_EVENTS:',event_count,'LAST_SEQ:',last_seq)
 PY_RECEIPT
 echo '[2/4] Download entire quiet MAIN volume: this may take several minutes'
-railway volume --project "$PROJECT" --environment "$ENV" --service "$SERVICE" files --volume "$VOL" download / "$ROOT/data" --concurrency 4 --json
+railway service files --project "$PROJECT" --environment "$ENV" --service "$SERVICE" download /data "$ROOT/data" --concurrency 4 --json
 echo '[3/4] Hash every local file and verify both SQLite copies'
 python3 - <<'PY_ARCHIVE'
 import hashlib, json, os, sqlite3
