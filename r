@@ -19,7 +19,7 @@ else
   echo 'BLOCKED: MAIN_VOLUME_FILES_ACCESS'
 fi
 echo '[4/4] Existing MAIN service file access to /tmp'
-if railway service files list /tmp --project "$PROJECT" --environment "$ENV" --service "$SERVICE" --json; then
+if railway service files --project "$PROJECT" --environment "$ENV" --service "$SERVICE" list /tmp --json; then
   echo 'PASS: MAIN_SERVICE_FILES_ACCESS'
 else
   echo 'BLOCKED: MAIN_SERVICE_FILES_ACCESS'
