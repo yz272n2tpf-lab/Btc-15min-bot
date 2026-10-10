@@ -108,15 +108,21 @@ class SupportedEarly(unittest.TestCase):
         damaged=deepcopy(s);damaged['terminal']['origin_id']='WRONG'
         with self.assertRaisesRegex(ValueError,'TERMINAL_CONFLICT'):self.engine().restore(damaged)
 
-    def test_favorable_sale_economics_do_not_force_directional_exit(self):
+    def test_model_value_risk_exit_requires_weakening_and_adverse_momentum(self):
         e=self.engine();step(e,value_frame())
         _,_,v=step(e,value_frame(2,ask=.80,p=.75,momentum=-10))
-        self.assertEqual(v['early']['guidance'],'WATCH')
-        self.assertFalse(v['final']['ready'])
+        self.assertEqual(v['early']['guidance'],'EXIT')
+        self.assertEqual(v['terminal']['reason'],'NET_BID_EXCEEDS_WEAKENING_MODEL_VALUE')
+        self.assertTrue(v['management']['evidence']['probability_weakening'])
+        self.assertTrue(v['management']['evidence']['recent_momentum_adverse'])
+        self.assertGreater(v['terminal']['economics']['net_liquidation_scenario'],0)
+        self.assertIsNone(v['terminal']['realized_profit'])
+
+    def test_favorable_price_without_weakening_does_not_force_exit(self):
+        e=self.engine();step(e,value_frame())
+        _,_,v=step(e,value_frame(2,ask=.80,p=.83,momentum=10))
+        self.assertNotEqual(v['early']['guidance'],'EXIT')
         self.assertIsNone(v['terminal'])
-        self.assertGreater(v['management']['economics']['net_liquidation_scenario'],0)
-        self.assertEqual(v['management']['reason'],
-            'FAVORABLE_LIQUIDATION_ECONOMICS_DIRECTIONAL_THESIS_NOT_INVALIDATED')
 
     def test_no_exit_from_clock_outage_missing_features_or_repeated_quote(self):
         for mode in ('clock','brti','book','features','repeated','zero_bid'):
