@@ -206,17 +206,24 @@ class Directional:
             # Re-entry requires a genuine new qualifying edge after the prior
             # EXIT: observe a NOT-ready frame first, then a fresh ready frame.
             # Do not assume that the user manually filled or closed anything.
+            reentry_candidate = False
             if self.terminal and self.origin and self.origin['contract']==f['contract']:
                 if not raw['early']['ready']:
                     self.reentry_disarmed = False
                 elif not self.reentry_disarmed and continuity=='OBSERVED':
+                    # Speculative transition only. Preserve the original state,
+                    # origin, EXIT and checkpoint until a fresh BUY is accepted.
                     from dataclasses import replace
-                    self.state = replace(self.state, position=None, buy_emitted=False)
-                    self.origin = None
-                    self.terminal = None
-                    self.position_path = {}
-                    self.reentry_disarmed = True
-            next_state,event,status,frame = reduce_signal(self.state,raw,qualified,datetime.fromtimestamp(now,timezone.utc))
+                    proposed = replace(self.state, position=None, buy_emitted=False)
+                    trial_state,trial_event,trial_status,trial_frame = reduce_signal(
+                        proposed,raw,qualified,datetime.fromtimestamp(now,timezone.utc))
+                    if trial_event == 'BUY':
+                        next_state,event,status,frame = (
+                            trial_state,trial_event,trial_status,trial_frame)
+                        reentry_candidate = True
+            if not reentry_candidate:
+                next_state,event,status,frame = reduce_signal(
+                    self.state,raw,qualified,datetime.fromtimestamp(now,timezone.utc))
             origin = self.origin if self.origin and self.origin['contract']==f['contract'] else None
             if event == 'BUY':
                 origin = dict(origin_id=digest([CANDIDATE,f['contract'],key,frame.early['side']]),
