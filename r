@@ -1,36 +1,29 @@
 #!/usr/bin/env bash
-# BTC15 read-only MAIN journal discovery; no downloads or writes.
+# BTC15 read-only journal metadata listing. No file downloads or writes.
 set -u
 python3 - <<'PY'
 import json,subprocess
 vol='6ced6b1a-3755-4518-a240-c895e936d443'
 base='/btc15_v2_product/BTC15_V2_PRODUCT_20261004_R1'
-def listing(path):
+def ls(path):
  p=subprocess.run(['railway','volume','files','--volume',vol,'list',path,'--json'],capture_output=True,text=True)
  if p.returncode:
-  print('LIST FAILED',path,'code',p.returncode, p.stderr[-300:]);return None
+  print('FAILED',path,'exit',p.returncode,p.stderr[-150:]);return None
  try:
-  # Railway may include informational output before the JSON object.
-  t=p.stdout
-  j=json.loads(t[t.index('{'):])
-  return j.get('files',[])
+  data=p.stdout[p.stdout.index('{'):]
+  return json.loads(data)['files']
  except Exception as e:
-  print('PARSE FAILED',path,str(e),p.stdout[-200:]);return None
-print('BTC15 READ-ONLY JOURNAL DISCOVERY')
-folders=listing(base)
+  print('PARSE FAILED',str(e));return None
+print('BTC15 JOURNAL METADATA ONLY — READ ONLY')
+folders=ls(base)
 if folders is None:raise SystemExit(1)
-print('REVISION FOLDERS:',len(folders))
-for item in folders:
- if item.get('type')!='directory':continue
- p=item.get('path')
- print('FOLDER:',item.get('name'))
- children=listing(p)
+for d in folders:
+ if d.get('type')!='directory':continue
+ print('\nFOLDER',d.get('name'),'modified',d.get('modifiedAt'))
+ children=ls(d['path'])
  if children is None:continue
  for c in children:
-  n=c.get('name','')
-  if n.endswith('.sqlite3') or n.endswith('.sqlite3-wal') or n.endswith('.sqlite3-shm') or n.endswith('.json') or n.endswith('.gz'):
-   print('  FILE:',n,'SIZE:',c.get('size'))
-  elif c.get('type')=='directory':
-   print('  SUBDIR:',n)
-print('DISCOVERY COMPLETE: no files downloaded, changed or deployed')
+  if c.get('name') in ('main.sqlite3','main.sqlite3-wal','main.sqlite3-shm','main.json','main.admin-health.json'):
+   print(c['name'],'modified',c.get('modifiedAt'),'bytes',c.get('size'))
+print('\nLISTING ONLY. No active checkpoint authenticated; no downloads or writes.')
 PY
