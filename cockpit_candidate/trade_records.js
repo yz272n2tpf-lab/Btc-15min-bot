@@ -33,7 +33,7 @@
     // Native ENTER is one event publication. An old record can never renew it.
     const entry=fresh&&!terminal&&management==='ENTER'&&(c?c.entry_authority_current===true:true);
     const current=fresh&&binding&&!terminal&&!historical;
-    const state=completed?'COMPLETED EXIT — NO NEW ENTRY':historical?'LAST ISSUED SIGNAL — HISTORICAL':!fresh&&r?'SOURCE REFRESHING / UNAVAILABLE':entry?'CURRENT ACTIONABLE SIGNAL':current?'EXISTING SIGNAL UNDER MANAGEMENT':'NO ISSUED BUY';
+    const state=completed?(name==='early'?'EXIT RECOMMENDED — AWAIT FRESH QUALIFIED BUY':'COMPLETED EXIT — NO NEW ENTRY'):historical?'LAST ISSUED SIGNAL — HISTORICAL':!fresh&&r?'SOURCE REFRESHING / UNAVAILABLE':entry?'CURRENT ACTIONABLE SIGNAL':current?'EXISTING SIGNAL UNDER MANAGEMENT':'NO ISSUED BUY';
     return {record:r,records,state,entry,current,completed,historical,management,
       bid:current?p.executable_current_bid:null,
       economics:current?(name==='early'?p.management?.economics:p.economics):null,
