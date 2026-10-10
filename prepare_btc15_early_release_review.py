@@ -25,6 +25,7 @@ allowed={
     'btc15_v2_product/early_entry.py',
     'btc15_v2_product/early_management.py',
     'btc15_v2_product/trade_clarity.py',
+    'btc15_v2_product/early_origin_transfer.py',
     'btc15_v2_product/panel.js',
 }
 if set(changes)-allowed:
