@@ -14,5 +14,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check btc15_v2_product/panel.js
       - run: pip install -r requirements.txt
       - run: python -m unittest -v test_btc15_supported_early test_early_three_signal_display_v1 test_directional_position_manager_v1 test_btc15_trade_clarity
