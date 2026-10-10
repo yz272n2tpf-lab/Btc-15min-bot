@@ -19,6 +19,7 @@ jobs:
           node-version: '22'
       - run: node --check btc15_v2_product/panel.js
       - run: python prepare_btc15_early_release_review.py
+      - run: python verify_btc15_early_release_candidate.py
       - uses: actions/upload-artifact@v4
         with:
           name: early-main-release-review
