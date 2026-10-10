@@ -130,4 +130,18 @@ def route(raw, qualified, assessment):
         raw['early'].update(source=SOURCE,policy=POLICY,ready=assessment['ready'],
             conditions=assessment['conditions'],qualification=assessment,reason=assessment['reason'])
         qualified['lanes']['early']['publication_eligible']=assessment['ready']
+    else:
+        # A legacy Tier-1 price/timer signal is not, by itself, proof of a
+        # directional thesis. Preserve its qualification but require the
+        # existing independently calculated directional corroboration.
+        directional_keys=('verified_model','causal_model_features',
+            'btc_target_support','brti_target_support',
+            'momentum_and_trend_support','final_not_opposed')
+        corroborated=all(assessment['conditions'].get(k) is True for k in directional_keys)
+        raw['early']['directional_corroboration']=dict(
+            required=list(directional_keys),qualified=corroborated)
+        if not corroborated:
+            raw['early'].update(ready=False,
+                reason='TIER1_DIRECTIONAL_CORROBORATION_MISSING')
+            qualified['lanes']['early']['publication_eligible']=False
     return raw, qualified
