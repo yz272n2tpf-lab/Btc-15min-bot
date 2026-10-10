@@ -47,7 +47,8 @@
   function project(snapshot){
     const input=snapshot||{},trace={},fields={},gaps=[];
     const activeRungs={early:null,'scalp-up':null,'scalp-down':null};
-    const stateRows={ENTER:'entry',HOLD:'hold',WATCH:'watch',CAUTION:'watch',PROTECT:'protect',EXIT:'exit'};
+    const stateRows={ENTER:'entry',BUY:'entry',HOLD:'watch',WATCH:'watch',CAUTION:'watch',PROTECT:'watch',EXIT:'exit'};
+    const earlyVisible=v=>v==='ENTER'||v==='BUY'?'BUY':['HOLD','WATCH','CAUTION','PROTECT'].includes(v)?'WATCH':v;
     function read(path){return path.split('.').reduce((o,k)=>o?.[k],input);}
     function set(id,path,format=v=>v??'Unavailable'){
       trace[id]=path;fields[id]=format(read(path));return read(path);
@@ -103,21 +104,21 @@
         presentId(m.final?.early_origin_id)&&m.final.early_origin_id===o.origin_id&&
         h.state===e.guidance&&(e.guidance==='EXIT'?h.exit_authority===true&&exitOK:h.exit_authority===false&&!t);
       set('early-direction',originOK?'main.origin.side':'main.early.side',v=>human(v)||'Direction unavailable');
-      set('early-action','main.early.guidance',v=>human(v)||'Action unavailable');
+      set('early-action','main.early.guidance',v=>human(earlyVisible(v))||'Action unavailable');
       if(lifecycleOK){
         const detail=h?.reason?reason(h.reason):'Reason unavailable from source';
         literal('early-reason',`If manually entered ${o.side}: ${detail}.`,'main.origin.side + main.final.helper.reason; manual_fill=null');
         if(valuePolicies.includes(o.entry_policy)){
-          literal('early-action',`EARLY CALL · ${human(e.guidance)}`,'main.origin.entry_policy + main.early.guidance');
+          literal('early-action',`EARLY CALL · ${human(earlyVisible(e.guidance))}`,'main.origin.entry_policy + main.early.guidance');
           literal('early-reason',`${o.qualification.reason}. If manually entered ${o.side}: ${detail}.`,'main.origin.qualification.reason + main.final.helper.reason');
         }
         literal('early-price',`${o.side} signal entry ${cents(o.original_ask)} · ${o.side} executable bid ${cents(m.executable_current_bid)}`,'main.origin.original_ask + main.executable_current_bid');
         activeRungs.early=stateRows[e.guidance]||null;
         literal('early-entry',`Signal ASK ${cents(o.original_ask)}`,'main.origin.original_ask (immutable)');
-        if(e.guidance==='HOLD')literal('early-hold','HOLD','main.early.guidance + main.final.helper.state');
-        if(['WATCH','CAUTION'].includes(e.guidance))literal('early-watch',e.guidance,'main.early.guidance + main.final.helper.state; CAUTION severity retained');
+        if(e.guidance==='HOLD')literal('early-watch','WATCH · STABLE','main.early.guidance + main.final.helper.state');
+        if(['WATCH','CAUTION'].includes(e.guidance))literal('early-watch','WATCH','main.early.guidance + main.final.helper.state; CAUTION severity retained');
         if(e.guidance==='EXIT')literal('early-exit',`Trigger BID ${cents(t.executable_exit_bid)} · closure unconfirmed`,'main.terminal.executable_exit_bid; immutable recommendation, not fill');
-        if(e.guidance==='PROTECT')literal('early-protect',h.protect_latched===true?'Protection latched':'Latch unavailable','main.final.helper.protect_latched');
+        if(e.guidance==='PROTECT')literal('early-watch',h.protect_latched===true?'WATCH · COULD FLIP':'WATCH · SUPPORT WEAKENING','main.final.helper.protect_latched');
       }else if(!o&&!stateRows[e.guidance]){
         if(opp&&['QUALIFIED','WATCH','PASS'].includes(opp.status)&&m.opportunity_analysis?.schema==='BTC15_NATIVE_VALUE_ANALYSIS_V1'){
           literal('early-action',opp.status==='WATCH'?'WATCH / POTENTIAL':opp.status,'main.early_opportunity.status');
