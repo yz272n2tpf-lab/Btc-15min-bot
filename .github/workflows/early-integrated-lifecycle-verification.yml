@@ -22,6 +22,7 @@ jobs:
       - run: node --check cockpit_candidate/trade_records.js
       - run: node cockpit_candidate/test_trade_records.cjs
       - run: node cockpit_candidate/test_source_display.cjs
+      - run: python -m py_compile verify_btc15_main_live_checkpoint_readonly.py
       - run: python prepare_btc15_early_release_review.py
       - run: python verify_btc15_early_release_candidate.py
       - uses: actions/upload-artifact@v4
