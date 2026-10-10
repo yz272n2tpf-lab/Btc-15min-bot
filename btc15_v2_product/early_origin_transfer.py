@@ -11,7 +11,7 @@ import time
 import zlib
 
 PREDECESSORS = {
-    'main': ('a73609f5-4d62-4f97-8513-17b0566d6811','6cc77cf1c0f8a30db52e3538614bc9c95662516c'),
+    'main': ('4b33134d-d832-409e-bf35-f80689beb66b','6d5897c26fc83e62a5425148a773d648dfcbacde'),
     'v81': ('d216ebb3-c9e3-444f-bc1c-b88dff3afd2b','f9ef31a03662af74b0aa1bb0640f8eb49523fdb8'),
 }
 # Retained aliases for existing offline callers.
