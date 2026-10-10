@@ -36,6 +36,6 @@ payload=json.dumps(candidate,indent=2,ensure_ascii=False)+'\n'
 summary={'changed_manifest_files':changes,
          'protected_main_unchanged':True,
          'candidate_manifest_sha256':hashlib.sha256(payload.encode()).hexdigest(),
-         'approval_status':'REVIEW_REQUIRED_NOT_DEPLOYABLE'}
+         'approval_status':'MANIFEST_COMMITTED_PRODUCTION_DEPLOYMENT_NOT_AUTHORIZED'}
 (out/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
 print(json.dumps(summary,indent=2))
