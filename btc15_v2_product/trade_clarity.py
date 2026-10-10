@@ -86,7 +86,7 @@ def project(history, origin, lane, view, event=None):
         if same:current=r
     last=current or (records[-1] if records else None)
     terminal=last.get('terminal') if last else None
-    label=('COMPLETED EXIT — NO NEW ENTRY' if terminal and terminal['state']=='EXIT' else
+    label=('EXIT RECOMMENDED — AWAIT FRESH QUALIFIED BUY' if terminal and terminal['state']=='EXIT' else
         'LAST ISSUED SIGNAL — HISTORICAL' if last and last['status']!='ACTIVE' else
         'SOURCE REFRESHING / UNAVAILABLE' if not fresh else
         'CURRENT ACTIONABLE SIGNAL' if last and last['entry_authority_current'] else
@@ -110,6 +110,6 @@ def historical(view):
     out.update(source_available=False,entry_authority_current=False,current_bid=None,economics=None,current_management=None,current_watch_detail=None)
     for r in out.get('records',[]):
         r['entry_authority_current']=False;r['current_action_authority']=False
-    if out.get('display_state') not in ('COMPLETED EXIT — NO NEW ENTRY','LAST ISSUED SIGNAL — HISTORICAL'):
+    if out.get('display_state') not in ('EXIT RECOMMENDED — AWAIT FRESH QUALIFIED BUY','LAST ISSUED SIGNAL — HISTORICAL'):
         out['display_state']='SOURCE REFRESHING / UNAVAILABLE'
     return out
