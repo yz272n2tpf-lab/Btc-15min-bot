@@ -6,6 +6,17 @@ SCHEMA = 'BTC15_ISSUED_SIGNALS_V1'
 LIMIT = 8  # Display tail only; the complete immutable journals are unchanged.
 
 
+def early_display_state(state):
+    """Presentation only: preserve native management authority and evidence."""
+    if state in ('ENTER', 'BUY'):
+        return 'BUY'
+    if state in ('HOLD', 'WATCH', 'PROTECT'):
+        return 'WATCH'
+    if state == 'EXIT':
+        return 'EXIT'
+    return state
+
+
 def summary(origin, lane, state=None, terminal=None):
     if not origin:
         return None
@@ -28,7 +39,7 @@ def summary(origin, lane, state=None, terminal=None):
         issued_buy=True,entry_policy=origin.get('entry_policy',origin.get('route')),
         entry_reason=qualification.get('reason') or ('Historical Tier-1 qualification' if early else 'Historical native BTC30 momentum qualification; profit forecast was not established'),
         entry_qualification=deepcopy(qualification.get('conditions',origin.get('entry_features'))),
-        management_state=state,terminal=exit_record,manual_fill=None,realized_profit=None)
+        management_state=state,display_management_state=early_display_state(state) if early else state,terminal=exit_record,manual_fill=None,realized_profit=None)
 
 
 def remember(history, origin, lane, state=None, terminal=None, reason=None):
@@ -40,7 +51,9 @@ def remember(history, origin, lane, state=None, terminal=None, reason=None):
     if prior:
         for k in ('contract','side','original_ask','signal_ts','target','open_ts','close_ts'):
             if prior[k]!=item[k]:raise ValueError('ISSUED_SIGNAL_IDENTITY_CONFLICT')
-        if state is None:item['management_state']=prior.get('management_state')
+        if state is None:
+            item['management_state']=prior.get('management_state')
+            item['display_management_state']=prior.get('display_management_state')
         if reason is None:item['management_reason']=prior.get('management_reason')
         if not terminal:item['terminal']=prior.get('terminal')
         history[history.index(prior)]=item
@@ -72,7 +85,7 @@ def project(history, origin, lane, view, event=None):
         display_state=label,source_available=fresh,source_reason=view.get('reason'),
         current_bid=view.get('executable_current_bid') if active else None,
         economics=deepcopy(economics) if active else None,
-        current_management=(view.get('early') or {}).get('guidance') if lane=='main' and active else view.get('guidance') if active else None,
+        current_management=early_display_state((view.get('early') or {}).get('guidance')) if lane=='main' and active else view.get('guidance') if active else None,
         entry_authority_current=bool(last and last['entry_authority_current']),
         manual_execution_only=True,orders=False)
 
