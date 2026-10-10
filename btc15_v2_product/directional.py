@@ -213,7 +213,6 @@ class Directional:
                 elif not self.reentry_disarmed and continuity=='OBSERVED':
                     # Speculative transition only. Preserve the original state,
                     # origin, EXIT and checkpoint until a fresh BUY is accepted.
-                    from dataclasses import replace
                     proposed = replace(self.state, position=None, buy_emitted=False)
                     trial_state,trial_event,trial_status,trial_frame = reduce_signal(
                         proposed,raw,qualified,datetime.fromtimestamp(now,timezone.utc))
