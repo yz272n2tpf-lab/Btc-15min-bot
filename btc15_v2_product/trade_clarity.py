@@ -17,6 +17,17 @@ def early_display_state(state):
     return state
 
 
+def early_watch_detail(state):
+    """Keep a stable WATCH display distinct from directional flip risk."""
+    if state == 'PROTECT':
+        return 'COULD_FLIP'
+    if state == 'WATCH':
+        return 'MONITOR'
+    if state == 'HOLD':
+        return 'STABLE'
+    return None
+
+
 def summary(origin, lane, state=None, terminal=None):
     if not origin:
         return None
@@ -39,7 +50,7 @@ def summary(origin, lane, state=None, terminal=None):
         issued_buy=True,entry_policy=origin.get('entry_policy',origin.get('route')),
         entry_reason=qualification.get('reason') or ('Historical Tier-1 qualification' if early else 'Historical native BTC30 momentum qualification; profit forecast was not established'),
         entry_qualification=deepcopy(qualification.get('conditions',origin.get('entry_features'))),
-        management_state=state,display_management_state=early_display_state(state) if early else state,terminal=exit_record,manual_fill=None,realized_profit=None)
+        management_state=state,display_management_state=early_display_state(state) if early else state,watch_detail=early_watch_detail(state) if early else None,terminal=exit_record,manual_fill=None,realized_profit=None)
 
 
 def remember(history, origin, lane, state=None, terminal=None, reason=None):
@@ -54,6 +65,7 @@ def remember(history, origin, lane, state=None, terminal=None, reason=None):
         if state is None:
             item['management_state']=prior.get('management_state')
             item['display_management_state']=prior.get('display_management_state')
+            item['watch_detail']=prior.get('watch_detail')
         if reason is None:item['management_reason']=prior.get('management_reason')
         if not terminal:item['terminal']=prior.get('terminal')
         history[history.index(prior)]=item
@@ -86,6 +98,7 @@ def project(history, origin, lane, view, event=None):
         current_bid=view.get('executable_current_bid') if active else None,
         economics=deepcopy(economics) if active else None,
         current_management=early_display_state((view.get('early') or {}).get('guidance')) if lane=='main' and active else view.get('guidance') if active else None,
+        current_watch_detail=early_watch_detail((view.get('early') or {}).get('guidance')) if lane=='main' and active else None,
         entry_authority_current=bool(last and last['entry_authority_current']),
         manual_execution_only=True,orders=False)
 
@@ -94,7 +107,7 @@ def historical(view):
     """Strip authority and executable values on transport/lease/source failure."""
     out=deepcopy(view)
     if not out:return None
-    out.update(source_available=False,entry_authority_current=False,current_bid=None,economics=None,current_management=None)
+    out.update(source_available=False,entry_authority_current=False,current_bid=None,economics=None,current_management=None,current_watch_detail=None)
     for r in out.get('records',[]):
         r['entry_authority_current']=False;r['current_action_authority']=False
     if out.get('display_state') not in ('COMPLETED EXIT — NO NEW ENTRY','LAST ISSUED SIGNAL — HISTORICAL'):
