@@ -181,6 +181,34 @@ class SupportedEarly(unittest.TestCase):
                 j.close()
             self.assertEqual(prior.read_bytes(),before)
 
+    def test_second_buy_after_exit_with_restart_and_distinct_origin(self):
+        e=self.engine()
+        first,_,entry=step(e,value_frame())
+        self.assertEqual(first['event'],'BUY')
+        exited,_,exit_view=step(e,value_frame(2,side='DOWN',p=.6))
+        self.assertEqual(exited['event'],'EXIT')
+        first_origin=entry['origin']['origin_id']
+        first_terminal=deepcopy(exit_view['terminal'])
+        # A post-EXIT frame that is not entry-qualified must not erase history.
+        unready=value_frame(3,ask=.99,p=.995)
+        rejected,saved,view=step(e,unready)
+        self.assertNotEqual(rejected['event'],'BUY')
+        self.assertEqual(view['terminal'],first_terminal)
+        self.assertEqual(view['origin']['origin_id'],first_origin)
+        restored=self.engine();restored.restore(saved)
+        # Only fresh qualified evidence can create another origin.
+        second,checkpoint,new_view=step(restored,value_frame(4))
+        self.assertEqual(second['event'],'BUY')
+        self.assertNotEqual(new_view['origin']['origin_id'],first_origin)
+        self.assertIsNone(new_view['terminal'])
+        self.assertIn(first_origin,[x['origin_id'] for x in checkpoint['signal_history']])
+        previous=next(x for x in checkpoint['signal_history'] if x['origin_id']==first_origin)
+        self.assertEqual(previous['terminal']['state'],'EXIT')
+        self.assertFalse(previous['terminal']['manual_exit_confirmed'])
+        duplicate,_,dup_view=step(restored,value_frame(5))
+        self.assertNotEqual(duplicate['event'],'BUY')
+        self.assertEqual(dup_view['origin']['origin_id'],new_view['origin']['origin_id'])
+
     def test_fee_cache_is_bounded_and_missing_fees_fail_closed(self):
         at=[10];calls=[]
         def get(path):
