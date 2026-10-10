@@ -29,9 +29,10 @@
     const terminal=r?.terminal;
     const historical=!!r&&(!same||['ENDED_UNARMED','UNAVAILABLE'].includes(terminal?.state));
     const completed=terminal?.state==='EXIT';
-    const management=fresh&&!terminal?(name==='early'?p.early?.guidance:p.guidance):null;
+    const nativeManagement=fresh&&!terminal?(name==='early'?p.early?.guidance:p.guidance):null;
+    const management=name==='early'?(nativeManagement==='ENTER'?'BUY':['HOLD','WATCH','CAUTION','PROTECT'].includes(nativeManagement)?'WATCH':nativeManagement):nativeManagement;
     // Native ENTER is one event publication. An old record can never renew it.
-    const entry=fresh&&!terminal&&management==='ENTER'&&(c?c.entry_authority_current===true:true);
+    const entry=fresh&&!terminal&&nativeManagement==='ENTER'&&(c?c.entry_authority_current===true:true);
     const current=fresh&&binding&&!terminal&&!historical;
     const state=completed?(name==='early'?'EXIT RECOMMENDED — AWAIT FRESH QUALIFIED BUY':'COMPLETED EXIT — NO NEW ENTRY'):historical?'LAST ISSUED SIGNAL — HISTORICAL':!fresh&&r?'SOURCE REFRESHING / UNAVAILABLE':entry?'CURRENT ACTIONABLE SIGNAL':current?'EXISTING SIGNAL UNDER MANAGEMENT':'NO ISSUED BUY';
     return {record:r,records,state,entry,current,completed,historical,management,
