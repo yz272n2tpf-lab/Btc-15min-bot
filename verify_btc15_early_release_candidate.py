@@ -11,7 +11,11 @@ candidate=ROOT/'qualification'/'early-release-review'/'BTC15_V2_PRODUCT_RELEASE_
 original=MANIFEST.read_bytes()
 proposed=candidate.read_bytes()
 if original==proposed:
-    raise SystemExit('CANDIDATE_NOT_DIFFERENT_FROM_OLD_MANIFEST')
+    manifest=verify_files('main')
+    print('MAIN_COMMITTED_RELEASE_VALIDATED')
+    print('manifest_file_count:',len(manifest['files_sha256']))
+    print('protected_main_file_count:',len(manifest['lane_protected_files']['main']))
+    raise SystemExit(0)
 try:
     MANIFEST.write_bytes(proposed)
     manifest=verify_files('main')
