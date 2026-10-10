@@ -125,8 +125,8 @@
       text('finalBuyZone',m?.origin&&f?.early_origin_id===m.origin.origin_id?'Linked EARLY '+m.origin.side:'No linked EARLY origin');
       text('finalHoldZone',f?.helper?.confirmed?'EARLY confirmed · '+f.helper.state:human(f?.state||'PASS'));
       text('finalWatchZone',f?.helper?human(f.helper.relation)+' · '+human(f.helper.probability_trend):'No position assumed');
-      text('finalProtectZone',f?.helper?.protect_latched?'PROTECT · support lost or opposed':'No new protection instruction');
-      text('finalExitZone','Directional EXIT authority not yet validated');
+      text('finalProtectZone',f?.helper?.protect_latched?'WATCH — Could Flip · support lost or opposed':'WATCH — monitor directional support');
+      text('finalExitZone',m?.terminal?.state==='EXIT'?'EXIT recommended · manual closure unconfirmed':'No qualified directional EXIT');
     }else{
       text('finalArrow','—');text('finalSide','REFRESHING');text('finalConfidence',retained('main','finalConfidence',ident,false));
       text('finalAction','REFRESHING');text('finalActionSub',retained('main','finalActionSub',ident,false));
@@ -143,20 +143,21 @@
       const prices=m.prices;
       const quotePrices=liveQ&&liveQ.status==='AVAILABLE'&&ident&&key(liveQ.official_identity)===key(ident)?liveQ:null;
       const bid=prices&&o?prices[o.side.toLowerCase()+'_bid']:m.executable_current_bid;
-      const displayState=o?e.guidance:(opp?.status||'WATCH');
+      const visibleEarly=x=>x==='ENTER'||x==='BUY'?'BUY':x==='HOLD'||x==='WATCH'||x==='PROTECT'?'WATCH':x==='EXIT'?'EXIT':x;
+      const displayState=o?visibleEarly(e.guidance):(opp?.status||'WATCH');
       pill('earlyState',displayState);
       text('earlyTitle',o?'EARLY '+o.side:'EARLY '+(opp?.side||e.side)+' · '+displayState);
       text('earlyEntry',o?'Origin ASK '+cents(o.original_ask):(['QUALIFIED','WATCH'].includes(opp?.status)?opp.status+' '+opp.side+' · ASK '+cents(opp.ask)+' · '+opp.price_zone:' '+(opp?.reason||'Waiting for qualified opportunity')).trim());
       text('earlyYourEntry',o?cents(o.original_ask)+' · protected signal ASK':'No protected origin · manual opportunity guidance only');
       text('earlyCurrentPrice',o?'BID '+cents(bid):(quotePrices?`UP ASK ${cents(quotePrices.up_ask)} · DOWN ASK ${cents(quotePrices.down_ask)}`:`UP ASK ${cents(prices?.up_ask)} · DOWN ASK ${cents(prices?.down_ask)}`));
       text('earlyEdge',o?(finite(bid)?((bid-o.original_ask)*100).toFixed(1)+'¢ gross movement':'later same-side BID refreshing'):finite(opp?.edge)?((opp.edge*100).toFixed(1)+'¢ model edge'):'Model edge refreshing');
-      text('earlyAfterEntry',o?e.guidance+' · '+human(h?.relation):(['QUALIFIED','WATCH'].includes(opp?.status)?opp.status+' · model estimate, not proven profit · manual execution only':'No EARLY opportunity now · '+human(opp?.status)));
+      text('earlyAfterEntry',o?displayState+' · '+human(h?.relation):(['QUALIFIED','WATCH'].includes(opp?.status)?opp.status+' · model estimate, not proven profit · manual execution only':'No EARLY opportunity now · '+human(opp?.status)));
       text('earlyLadderEntry','All valid prices evaluated · costs and evidence decide value · historical Tier-1 separately identified');
-      text('earlyLadderHold',h?.confirmed?'FINAL confirms · '+e.guidance:o?e.guidance:'No protected position assumed');
+      text('earlyLadderHold',h?.confirmed?'FINAL confirms · '+displayState:o?displayState:'No protected position assumed');
       text('earlyLadderWatch',o?(ctx?human(ctx.phase)+' · '+ctx.reasons.map(human).join('; '):'Monitor qualified position'):(opp?.reason||'Await qualified opportunity'));
-      text('earlyLadderProtect',h?.protect_latched?'PROTECT · review exposure at current bid':o?'Monitor FINAL support and bid':'Protection begins only after a protected origin');
+      text('earlyLadderProtect',h?.protect_latched?'WATCH — Could Flip · review directional evidence':o?'WATCH — monitor FINAL support':'WATCH — no active EARLY origin');
       text('earlyLadderExit',m.terminal?.state==='EXIT'?'Native EXIT · trigger BID '+cents(m.terminal.executable_exit_bid)+' · if manually entered; closure unconfirmed':'No native EXIT trigger · missing sources or time alone do not authorize closure');
-      text('earlyFlow',`${m.contract} · ${o?'If manually entered: '+e.guidance:(opp?.status||'WATCH')} · New action authority requires MAIN LIVE above; REFRESHING values are last-qualified · SIGNAL ONLY / NO ORDERS`);
+      text('earlyFlow',`${m.contract} · ${o?'If manually entered: '+displayState:(opp?.status||'WATCH')} · New action authority requires MAIN LIVE above; REFRESHING values are last-qualified · SIGNAL ONLY / NO ORDERS`);
       text('flipRisk',m.flip_risk_pct.toFixed(1)+'%');text('flipRiskSub','Model context only · no exit authority · freshness shown by MAIN status');
       text('contextBanner',human(m.phase)+' · '+(ctx?ctx.reasons.map(human).join('; '):'No active protected EARLY origin')+(aligned&&s?.origin&&f&&s.origin.side!==f.side?' · MIXED HORIZONS: SCALP differs from FINAL':''));
     }
