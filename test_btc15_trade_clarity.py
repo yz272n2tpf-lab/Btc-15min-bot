@@ -39,7 +39,7 @@ class Clarity(unittest.TestCase):
     def test_exit_is_completed_not_new_entry_and_direction_does_not_flip(self):
         e=Directional();e.restore({});_,_,v=step(e,value_frame());oid=v['origin']['origin_id']
         _,saved,v=step(e,value_frame(2,side='DOWN',p=.6))
-        self.assertEqual(v['trade_clarity']['display_state'],'COMPLETED EXIT — NO NEW ENTRY')
+        self.assertEqual(v['trade_clarity']['display_state'],'EXIT RECOMMENDED — AWAIT FRESH QUALIFIED BUY')
         r=v['trade_clarity']['records'][-1];self.assertEqual(r['side'],'UP');self.assertEqual(r['origin_id'],oid)
         self.assertEqual(r['terminal']['observed_bid'],v['terminal']['executable_exit_bid'])
         self.assertIsNone(v['trade_clarity']['current_bid']);self.assertFalse(v['trade_clarity']['entry_authority_current'])
