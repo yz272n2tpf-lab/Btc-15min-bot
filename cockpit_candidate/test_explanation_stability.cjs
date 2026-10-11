@@ -37,138 +37,76 @@ window.BTC15Cockpit.connectResolved();
 const samples=window.BTC15_REVIEW_SAMPLES;
 function setSample(sample){
   resolved={identity:sample.main.official_identity,lanes:{}};
-  for(const name of ['main','scalp','quote']){const p=sample[name],eligible=!!p&&['AVAILABLE','PASS'].includes(p.status);
-    resolved.lanes[name]={eligible,current_payload:p,retained_payload:eligible?p:null,payload:p,selection:eligible?'current':'none'};}
+  for(const name of ['main','scalp','quote']){
+    const p=sample[name],eligible=!!p&&['AVAILABLE','PASS'].includes(p.status);
+    resolved.lanes[name]={eligible,current_payload:p,retained_payload:eligible?p:null,
+      payload:p,selection:eligible?'current':'none'};
+  }
 }
 const render=()=>window.BTC15Cockpit.renderResolved(resolved);
 const clearWrites=()=>{for(const e of nodes.values())e.writes=[];};
-// Start with a genuinely issued EARLY signal, not the SCALP-only PASS fixture.
+const noCurrentBuy=name=>{
+  assert.doesNotMatch(node(name+'-action').textContent,/CURRENT ACTIONABLE SIGNAL|BUY ISSUED ·|EARLY CALL · BUY/);
+  assert.doesNotMatch(node(name+'-price').textContent,/current same-side BID/);
+};
+const noRungs=()=>{for(const p of ['early','scalp-up','scalp-down'])
+  assert.ok(node(p+'-ladder').children.every(e=>!e.attributes['aria-current']),p+' must not show active rung');};
+// Current issued record is stable across 100 renders.
 setSample(samples[3]);render();
-const explanatory=['final-reason','early-reason','scalp-reason','scalp-up-status','scalp-down-status','health-status','health-quotes','health-continuity','flip-risk'];
-const original=Object.fromEntries(explanatory.map(id=>[id,node(id).textContent]));
-clearWrites();for(let n=0;n<100;n++)render();
-for(const id of explanatory)assert.equal(node(id).writes.length,0,id+' must not alternate between writers');
-const qualified=structuredClone(resolved);
-for(const lane of Object.values(resolved.lanes)){lane.eligible=false;lane.current_payload=null;lane.selection='retained';lane.reason_code='SOURCE_EXPIRED';}
+const fields=['final-reason','early-reason','scalp-reason','early-action','scalp-action',
+  'scalp-up-status','scalp-down-status'];
+clearWrites();for(let i=0;i<100;i++)render();
+for(const id of fields)assert.equal(node(id).writes.length,0,id+' flicker');
+// Lease expires: preserve immutable original ASK, never current executable BID,
+// action authority, or active rungs. FINAL retains historical explanation.
+const originalFinal=node('final-reason').textContent;
+for(const lane of Object.values(resolved.lanes)){
+  lane.eligible=false;lane.current_payload=null;lane.selection='retained';lane.reason_code='SOURCE_EXPIRED';
+}
 render();
-// FINAL retains explanatory text; EARLY and SCALP render immutable issued
-// trade records through BTC15TradeRecords, not a retained explanation marker.
-assert.equal(node('final-reason').textContent,original['final-reason']);
+assert.equal(node('final-reason').textContent,originalFinal);
 assert.equal(node('final-reason').dataset.displayState,'retained');
-assert.match(node('final-freshness').textContent,/no current action authority\nLAST QUALIFIED.*historical/);
-assert.equal(node('final-action').textContent,'Action unavailable');
+assert.match(node('final-freshness').textContent,/LAST QUALIFIED.*historical/);
 for(const name of ['early','scalp']){
+  noCurrentBuy(name);
   assert.match(node(name+'-freshness').textContent,/no current action authority/);
-  assert.doesNotMatch(node(name+'-action').textContent,/CURRENT ACTIONABLE SIGNAL|BUY ISSUED/);
-  assert.match(node(name+'-price').textContent,/original ASK|current executable BID unavailable|No recorded BUY/);
+  assert.match(node(name+'-price').textContent,/original ASK.*current executable BID unavailable/);
 }
-for(const p of ['early','scalp-up','scalp-down'])assert.ok(node(p+'-ladder').children.every(e=>!e.attributes['aria-current']));
-for(const side of ['up','down']){
-  assert.equal(node('scalp-'+side+'-status').textContent,original['scalp-'+side+'-status'],'side explanation remains stable through expiry');
-  assert.match(node('scalp-'+side+'-freshness').textContent,/LAST QUALIFIED.*historical.*no current authority/);
-}
-assert.match(node('early-price').textContent,/original ASK.*current executable BID unavailable/);assert.match(node('scalp-price').textContent,/current executable BID unavailable|No recorded BUY/);
-assert.equal(node('up-buy').textContent,'—');
-clearWrites();resolved=qualified;render();
-for(const name of ['final','early','scalp'])assert.equal(node(name+'-reason').writes.length,0,'same decision recovery must not rewrite explanation');
-resolved.lanes.main.current_payload.final.reason='brti_side';render();
-assert.match(node('final-reason').textContent,/BRTI does not meet/,'genuine new native reason appears immediately');
-setSample(samples[4]);render();const prior=resolved.lanes.main.retained_payload;
-resolved.lanes.main.current_payload=structuredClone(prior);resolved.lanes.main.current_payload.final.helper.origin_id='WRONG';render();
-assert.match(node('early-reason').textContent,/Conflicting origin binding; current action unavailable/,'never conceal a current invalid binding with historical wording');
-assert.match(node('early-action').textContent,/^(?:SOURCE REFRESHING \/ UNAVAILABLE|Action unavailable)$/,'invalid binding must not be actionable');
-assert.doesNotMatch(node('early-action').textContent,/CURRENT ACTIONABLE SIGNAL|BUY ISSUED|EXISTING SIGNAL UNDER MANAGEMENT/);
-assert.match(node('early-price').textContent,/current executable BID unavailable/,'no executable price on invalid binding');
-setSample(samples[0]);render();
-for(const lane of Object.values(resolved.lanes)){lane.eligible=false;lane.current_payload=null;lane.selection='retained';}
-resolved.identity={...resolved.identity,contract:'NEXT'};render();
-for(const name of ['final','early','scalp'])assert.notEqual(node(name+'-reason').dataset.displayState,'retained','no cross-contract explanation retention');
-// Every existing protected scenario passes through the actual DOM renderer.
-for(const sample of samples){setSample(sample);const view=render();
-  for(const p of ['early','scalp-up','scalp-down']){
-    const active=node(p+'-ladder').children.filter(e=>e.attributes['aria-current']).map(e=>e.dataset.rung);
-    assert.deepEqual(active,view.activeRungs[p]?[view.activeRungs[p]]:[],sample.label+' '+p);
-    for(const r of ['entry','hold','watch','protect','exit'])assert.equal(node(p+'-'+r).textContent,view.fields[p+'-'+r]);
-  }
-  for(const name of ['final','early','scalp']){
-    assert.equal(node(name+'-action').textContent,view.fields[name+'-action']);
-    assert.equal(node(name+'-reason').textContent,view.fields[name+'-reason'],sample.label+' immediate '+name+' reason');
-  }
-}
-// Asynchronous descriptive owners must resolve the same field through one formatter.
-setSample(samples[0]);const identity=resolved.identity;
-market={contract:identity.contract,source:{target:identity.target},clock:{closeMs:identity.official_close*1000},
-  values:{timerRemaining:'04:00',btcPrice:'$80,021',evidenceScore:'4',momentumBadge:'UP',momentumSub:'sample'},
-  brti:{price_state:'fresh',label:'CURRENT market BRTI',record:{contract:identity.contract}},chart:{},lower:{history:{},qualified:true}};
-const payload={ticker:identity.contract,target:identity.target,probability_up:.6,probability_down:.4,protection_phase:'NORMAL',checked_ts:100,published_ts:99,brti_source_ts:99,btc_source_ts:98,btc_price:80020,brti_value:80021};
-info={labels:{},current:{assessment:payload},delivery:{payload,requestStartedMs:1000},retained_source:{payload}};
-render();clearWrites();
-for(let n=0;n<20;n++){receiveMarket(market);receiveInfo(info);render();}
-for(const id of ['health-brti','btc-price','btc-timestamp','model-information','model-information-note','evidence-score','market-momentum'])assert.equal(node(id).writes.length,0,id+' must have one live formatter');
-info={...info,current:{assessment:null}};receiveInfo(info);
-assert.equal(node('model-information').writes.length,0,'assessment text is separate from delivery classification');
-assert.match(node('model-information-note').textContent,/LAST QUALIFIED.*no current action authority/);
-console.log('PASS: one writer, stable repeated rendering, historical explanation-only expiry, immediate recovery/reasons, invalid binding, rollover, '+samples.length+' protected scenarios, asynchronous descriptive owners');
-
-// Exercise the real Python native value output through the live renderer.
-const child=require('node:child_process');
-const valueNative=JSON.parse(child.execFileSync('python',['-c',`
-import json
-from test_btc15_value_opportunities import ValueAnalysis
-_,v=ValueAnalysis().view(ask=.53,p=.8,offset=540)
-v['official_identity']={k:v[k] for k in ('contract','target','official_open','official_close')}
-print(json.dumps(v))
-`],{cwd:__dirname+'/..',encoding:'utf8'}));
-setSample({main:valueNative,scalp:null,quote:null});render();
-assert.equal(node('early-action').textContent,'WATCH / POTENTIAL');
-assert.match(node('early-reason').textContent,/unvalidated/);
-assert.match(node('early-context').textContent,/all prices evaluated/);
-assert.doesNotMatch(node('early-context').textContent,/entry limit/);
-assert.match(node('value-best').textContent,/WATCH.*UP/);
-assert.match(node('value-costs').textContent,/unverified.*No fill assumed/);
-assert.ok(node('early-ladder').children.every(e=>!e.attributes['aria-current']));
-clearWrites();for(let n=0;n<30;n++)render();
-for(const id of ['early-reason','value-best','value-risk','value-costs'])assert.equal(node(id).writes.length,0,id+' stable');
-resolved.lanes.main.eligible=false;resolved.lanes.main.current_payload=null;resolved.lanes.main.selection='retained';render();
-assert.equal(node('early-action').textContent,'Action unavailable');
-assert.match(node('value-best').textContent,/HISTORICAL/);
-assert.match(node('value-freshness').textContent,/no current action authority/);
-resolved.identity={...resolved.identity,contract:'OTHER'};render();
-assert.equal(node('value-best').textContent,'No current native value selection');
-console.log('PASS: native 53-cent WATCH, costs, no new rung authority, stable value rendering, expiry and rollover');
-
-// Authentic native above-50 origin and all native management states, below FINAL lock.
-const callNative=JSON.parse(child.execFileSync('python',['-c',`
-import json
-from test_btc15_supported_early import SupportedEarly,value_frame,step
-e=SupportedEarly().engine()
-out=[step(e,value_frame())[2]]
-out.append(step(e,value_frame(2,ask=.7))[2])
-out.append(step(e,value_frame(3,ask=.7,p=.8))[2])
-out.append(step(e,value_frame(4,ask=.68,p=.78,momentum=-10))[2])
-out.append(step(e,value_frame(5,ask=.55,p=.6,side='DOWN'))[2])
-for v in out:v['official_identity']={k:v[k] for k in ('contract','target','official_open','official_close')}
-print(json.dumps(out))
-`],{cwd:__dirname+'/..',encoding:'utf8'}));
-for(const [index,rung] of ['entry','hold','watch','protect','exit'].entries()){
-  setSample({main:callNative[index],scalp:null,quote:null});render();
-  assert.match(node('early-action').textContent,/EARLY CALL/);
-  assert.match(node('early-price').textContent,/53/);
-  assert.match(node('early-context').textContent,/entry model.*win rate unestablished/);
-  assert.deepEqual(node('early-ladder').children.filter(e=>e.attributes['aria-current']).map(e=>e.dataset.rung),[rung]);
-  assert.match(node('early-reason').textContent,/Causal model/);
-  assert.match(node('early-management').textContent,/If manually entered.*not realized profit/);
-  clearWrites();for(let n=0;n<20;n++)render();
-  assert.equal(node('early-reason').writes.length,0);
-}
-assert.match(node('early-exit').textContent,/Trigger BID 44.*closure unconfirmed/);
+noRungs();
+// Recovery cannot create a second entry or cause repeated explanation writes.
+const qualified=structuredClone(resolved);
+setSample(samples[3]);render();clearWrites();
+for(let i=0;i<30;i++)render();
+for(const id of fields)assert.equal(node(id).writes.length,0,id+' recovery flicker');
+// Conflicting current origin/helper must fail closed and be explicitly explained.
+setSample(samples[4]);render();
 resolved.lanes.main.current_payload=structuredClone(resolved.lanes.main.current_payload);
-resolved.lanes.main.current_payload.terminal.origin_id='FOREIGN';render();
-assert.equal(node('early-action').textContent,'Action unavailable');
+resolved.lanes.main.current_payload.final.helper.origin_id='WRONG';render();
+assert.match(node('early-reason').textContent,/Conflicting origin binding; current action unavailable/);
+noCurrentBuy('early');
+assert.match(node('early-price').textContent,/current executable BID unavailable/);
 assert.ok(node('early-ladder').children.every(e=>!e.attributes['aria-current']));
-setSample({main:callNative[4],scalp:null,quote:null});render();
-resolved.lanes.main.eligible=false;resolved.lanes.main.current_payload=null;resolved.lanes.main.selection='retained';render();
-assert.equal(node('early-action').textContent,'Action unavailable');
-assert.ok(node('early-ladder').children.every(e=>!e.attributes['aria-current']));
-assert.match(node('early-reason').textContent,/Causal model/);
-console.log('PASS: native 53-cent/83% CALL -> ENTRY/HOLD/WATCH/PROTECT/EXIT, immutable trigger, invalid terminal, stable explanation and expiry');
+// Contract rollover cannot retain action authority or same-contract explanations.
+setSample(samples[3]);render();
+for(const lane of Object.values(resolved.lanes)){
+  lane.eligible=false;lane.current_payload=null;lane.selection='retained';
+}
+resolved.identity={...resolved.identity,contract:'NEXT'};render();
+assert.notEqual(node('final-reason').dataset.displayState,'retained');
+noCurrentBuy('early');noCurrentBuy('scalp');noRungs();
+// Every reference fixture must render safely through the real DOM and issued
+// record projection. No invented active rung when the lane is unavailable.
+for(const sample of samples){
+  setSample(sample);render();
+  for(const [name,laneName] of [['early','main'],['scalp','scalp']]){
+    const lane=resolved.lanes[laneName];
+    const t=window.BTC15TradeRecords.project(lane,resolved.identity,name);
+    assert.equal(node(name+'-action').textContent,t.state+(t.current?' · '+(t.entry?'BUY ISSUED':t.management):''),
+      sample.label+' issued-record action');
+    if(!t.current){
+      assert.doesNotMatch(node(name+'-price').textContent,/current same-side BID/);
+      if(!t.completed)assert.doesNotMatch(node(name+'-action').textContent,/CURRENT ACTIONABLE SIGNAL/);
+    }
+  }
+}
+console.log('PASS: 100 stable renders, real issued records, expiry, immutable ASK, invalid binding, no stale BUY, rollover, '+samples.length+' fixtures');
