@@ -51,11 +51,16 @@ for(const id of explanatory)assert.equal(node(id).writes.length,0,id+' must not 
 const qualified=structuredClone(resolved);
 for(const lane of Object.values(resolved.lanes)){lane.eligible=false;lane.current_payload=null;lane.selection='retained';lane.reason_code='SOURCE_EXPIRED';}
 render();
-for(const name of ['final','early','scalp']){
-  assert.equal(node(name+'-reason').textContent,original[name+'-reason']);
-  assert.equal(node(name+'-reason').dataset.displayState,'retained');
-  assert.match(node(name+'-freshness').textContent,/no current action authority\nLAST QUALIFIED.*historical/);
-  assert.equal(node(name+'-action').textContent,'Action unavailable');
+// FINAL retains explanatory text; EARLY and SCALP render immutable issued
+// trade records through BTC15TradeRecords, not a retained explanation marker.
+assert.equal(node('final-reason').textContent,original['final-reason']);
+assert.equal(node('final-reason').dataset.displayState,'retained');
+assert.match(node('final-freshness').textContent,/no current action authority\nLAST QUALIFIED.*historical/);
+assert.equal(node('final-action').textContent,'Action unavailable');
+for(const name of ['early','scalp']){
+  assert.match(node(name+'-freshness').textContent,/no current action authority/);
+  assert.doesNotMatch(node(name+'-action').textContent,/CURRENT ACTIONABLE SIGNAL|BUY ISSUED/);
+  assert.match(node(name+'-price').textContent,/original ASK|current executable BID unavailable|No recorded BUY/);
 }
 for(const p of ['early','scalp-up','scalp-down'])assert.ok(node(p+'-ladder').children.every(e=>!e.attributes['aria-current']));
 for(const side of ['up','down']){
