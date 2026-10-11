@@ -55,7 +55,10 @@ def economics(r, side, profile, rules):
     cell = (profile or {}).get('support',{}).get(side,{})
     if exceptional:
         cell = cell.get('exception',{})
-    lower = cell.get('gross_gain_lower')
+    development_lower = cell.get('gross_gain_lower')
+    calibration_lower = cell.get('calibration_gross_lower')
+    lower = (min(development_lower,calibration_lower)
+             if development_lower is not None and calibration_lower is not None else None)
     reasons = []
     if not cell.get('supported'):
         reasons.append('NO_INDEPENDENT_AFTER_COST_SUPPORT')

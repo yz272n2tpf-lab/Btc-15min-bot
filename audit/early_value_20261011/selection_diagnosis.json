@@ -1,0 +1,473 @@
+{
+  "development": {
+    "independent_candidate_contract_counts": {
+      "any_cheap_healthy": 102,
+      "cheap_confident": 10
+    },
+    "cheap_confident_observations": 26,
+    "old_gate_rejections_on_those_observations": {
+      "CAUSAL_120S_HISTORY_UNAVAILABLE": 8,
+      "MULTISCALE_MOMENTUM": 13,
+      "DIRECTIONAL_PERSISTENCE": 16,
+      "QUOTE_CONFIRMATION": 13,
+      "BTC_BRTI_ALIGNMENT": 9
+    },
+    "qualified_value_examples": [
+      {
+        "contract": "KXBTC15M-26SEP261645-45",
+        "value_ask": 0.54,
+        "value_time": 1790454736.646703,
+        "prior_ask": null,
+        "prior_time": null,
+        "delay_revalidation": {
+          "available": true,
+          "valid": false,
+          "failures": [
+            "MODEL_DIRECTION",
+            "CURRENT_BTC_BRTI_SUPPORT"
+          ],
+          "refreshed_ask": 0.56,
+          "available_at": 1790454746.653566
+        },
+        "canceled_quote_scenario": {
+          "entry_ask": 0.56,
+          "entry_at": 1790454746.653566,
+          "exit_bid": 0.53,
+          "exit_at": 1790454951.642258,
+          "gross_gain": -0.030000000000000027,
+          "entry_fee": 0.02,
+          "exit_fee": 0.02,
+          "reserve": 0.02,
+          "net": -0.09000000000000004,
+          "complete_path": true,
+          "at_signal_ask_net": -0.07,
+          "underlying_direction_correct": false,
+          "duration": 200.02679705619812,
+          "realized_profit": null,
+          "confirmed_fill": false
+        }
+      },
+      {
+        "contract": "KXBTC15M-26SEP271200-00",
+        "value_ask": 0.53,
+        "value_time": 1790524407.520393,
+        "prior_ask": null,
+        "prior_time": null,
+        "delay_revalidation": {
+          "available": true,
+          "valid": false,
+          "failures": [
+            "MODEL_DIRECTION",
+            "CURRENT_BTC_BRTI_SUPPORT",
+            "FRESH_DIRECTIONAL_IMPULSE",
+            "SHORT_PATH_EFFICIENCY",
+            "NO_MATERIAL_QUOTE_REVERSAL"
+          ],
+          "refreshed_ask": 0.45,
+          "available_at": 1790524418.069857
+        },
+        "canceled_quote_scenario": {
+          "entry_ask": 0.45,
+          "entry_at": 1790524418.069857,
+          "exit_bid": 0.31,
+          "exit_at": 1790524443.220741,
+          "gross_gain": -0.14,
+          "entry_fee": 0.02,
+          "exit_fee": 0.02,
+          "reserve": 0.02,
+          "net": -0.19999999999999998,
+          "complete_path": true,
+          "at_signal_ask_net": -0.28,
+          "underlying_direction_correct": false,
+          "duration": 20.22861909866333,
+          "realized_profit": null,
+          "confirmed_fill": false
+        }
+      }
+    ],
+    "cheap_confident_inputs": [
+      {
+        "contract": "KXBTC15M-26SEP261645-45",
+        "time": 1790454661.662313,
+        "ask": 0.48,
+        "p": 0.7796733253157337,
+        "left": 838.337687,
+        "prior_rejections": [
+          "CAUSAL_120S_HISTORY_UNAVAILABLE"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP261645-45",
+        "time": 1790454716.657153,
+        "ask": 0.55,
+        "p": 0.7809765604898473,
+        "left": 783.342847,
+        "prior_rejections": [
+          "CAUSAL_120S_HISTORY_UNAVAILABLE"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP261645-45",
+        "time": 1790454721.646166,
+        "ask": 0.55,
+        "p": 0.7694865923124695,
+        "left": 778.353834,
+        "prior_rejections": [
+          "CAUSAL_120S_HISTORY_UNAVAILABLE"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP261645-45",
+        "time": 1790454726.650168,
+        "ask": 0.54,
+        "p": 0.7694865923124695,
+        "left": 773.349832,
+        "prior_rejections": [
+          "CAUSAL_120S_HISTORY_UNAVAILABLE"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP261645-45",
+        "time": 1790454731.636306,
+        "ask": 0.54,
+        "p": 0.769590850389292,
+        "left": 768.363694,
+        "prior_rejections": [
+          "CAUSAL_120S_HISTORY_UNAVAILABLE"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP261645-45",
+        "time": 1790454736.646703,
+        "ask": 0.54,
+        "p": 0.7694865923124695,
+        "left": 763.353297,
+        "prior_rejections": [
+          "CAUSAL_120S_HISTORY_UNAVAILABLE"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP261900-00",
+        "time": 1790463302.690041,
+        "ask": 0.38,
+        "p": 0.8116898731759445,
+        "left": 297.309959,
+        "prior_rejections": [
+          "MULTISCALE_MOMENTUM",
+          "DIRECTIONAL_PERSISTENCE",
+          "QUOTE_CONFIRMATION"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP270145-45",
+        "time": 1790487109.83558,
+        "ask": 0.55,
+        "p": 0.751801767854231,
+        "left": 790.16442,
+        "prior_rejections": [
+          "CAUSAL_120S_HISTORY_UNAVAILABLE"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP271030-30",
+        "time": 1790518634.877042,
+        "ask": 0.53,
+        "p": 0.789731021657562,
+        "left": 765.122958,
+        "prior_rejections": [
+          "CAUSAL_120S_HISTORY_UNAVAILABLE"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP271115-15",
+        "time": 1790521396.60829,
+        "ask": 0.54,
+        "p": 0.7501029578722502,
+        "left": 703.39171,
+        "prior_rejections": [
+          "BTC_BRTI_ALIGNMENT",
+          "MULTISCALE_MOMENTUM",
+          "DIRECTIONAL_PERSISTENCE"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP271200-00",
+        "time": 1790524397.479163,
+        "ask": 0.55,
+        "p": 0.8310066272305523,
+        "left": 402.520837,
+        "prior_rejections": [
+          "MULTISCALE_MOMENTUM",
+          "DIRECTIONAL_PERSISTENCE",
+          "QUOTE_CONFIRMATION"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP271200-00",
+        "time": 1790524403.022373,
+        "ask": 0.53,
+        "p": 0.8311574360592279,
+        "left": 396.977627,
+        "prior_rejections": [
+          "MULTISCALE_MOMENTUM",
+          "DIRECTIONAL_PERSISTENCE",
+          "QUOTE_CONFIRMATION"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP271200-00",
+        "time": 1790524407.520393,
+        "ask": 0.53,
+        "p": 0.8250303888512492,
+        "left": 392.479607,
+        "prior_rejections": [
+          "MULTISCALE_MOMENTUM",
+          "DIRECTIONAL_PERSISTENCE",
+          "QUOTE_CONFIRMATION"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP271200-00",
+        "time": 1790524503.588681,
+        "ask": 0.52,
+        "p": 0.8311257524645332,
+        "left": 296.411319,
+        "prior_rejections": [
+          "BTC_BRTI_ALIGNMENT",
+          "DIRECTIONAL_PERSISTENCE",
+          "QUOTE_CONFIRMATION"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP271315-15",
+        "time": 1790528545.952877,
+        "ask": 0.54,
+        "p": 0.7874450827179916,
+        "left": 754.047123,
+        "prior_rejections": [
+          "DIRECTIONAL_PERSISTENCE"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP271315-15",
+        "time": 1790528550.531369,
+        "ask": 0.52,
+        "p": 0.7932452779910222,
+        "left": 749.468631,
+        "prior_rejections": [
+          "DIRECTIONAL_PERSISTENCE"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP271315-15",
+        "time": 1790528555.580177,
+        "ask": 0.55,
+        "p": 0.7700923110386366,
+        "left": 744.419823,
+        "prior_rejections": [
+          "DIRECTIONAL_PERSISTENCE"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP271415-15",
+        "time": 1790532182.806181,
+        "ask": 0.55,
+        "p": 0.7552342426881752,
+        "left": 717.193819,
+        "prior_rejections": [
+          "BTC_BRTI_ALIGNMENT",
+          "MULTISCALE_MOMENTUM",
+          "DIRECTIONAL_PERSISTENCE",
+          "QUOTE_CONFIRMATION"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP271415-15",
+        "time": 1790532207.853993,
+        "ask": 0.52,
+        "p": 0.7599774369486747,
+        "left": 692.146007,
+        "prior_rejections": [
+          "BTC_BRTI_ALIGNMENT",
+          "MULTISCALE_MOMENTUM",
+          "DIRECTIONAL_PERSISTENCE",
+          "QUOTE_CONFIRMATION"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP271415-15",
+        "time": 1790532213.306664,
+        "ask": 0.52,
+        "p": 0.7610283375163371,
+        "left": 686.693336,
+        "prior_rejections": [
+          "BTC_BRTI_ALIGNMENT",
+          "MULTISCALE_MOMENTUM",
+          "DIRECTIONAL_PERSISTENCE",
+          "QUOTE_CONFIRMATION"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP271415-15",
+        "time": 1790532217.919107,
+        "ask": 0.47,
+        "p": 0.7610261154243313,
+        "left": 682.080893,
+        "prior_rejections": [
+          "BTC_BRTI_ALIGNMENT",
+          "MULTISCALE_MOMENTUM",
+          "DIRECTIONAL_PERSISTENCE",
+          "QUOTE_CONFIRMATION"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP271415-15",
+        "time": 1790532514.594583,
+        "ask": 0.55,
+        "p": 0.7518487939471413,
+        "left": 385.405417,
+        "prior_rejections": [
+          "BTC_BRTI_ALIGNMENT",
+          "MULTISCALE_MOMENTUM",
+          "DIRECTIONAL_PERSISTENCE",
+          "QUOTE_CONFIRMATION"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP271415-15",
+        "time": 1790532534.722405,
+        "ask": 0.55,
+        "p": 0.7512522677497062,
+        "left": 365.277595,
+        "prior_rejections": [
+          "BTC_BRTI_ALIGNMENT",
+          "MULTISCALE_MOMENTUM",
+          "DIRECTIONAL_PERSISTENCE",
+          "QUOTE_CONFIRMATION"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP271530-30",
+        "time": 1790536677.789442,
+        "ask": 0.55,
+        "p": 0.7870751528089408,
+        "left": 722.210558,
+        "prior_rejections": [
+          "MULTISCALE_MOMENTUM",
+          "QUOTE_CONFIRMATION"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP271530-30",
+        "time": 1790536683.527803,
+        "ask": 0.55,
+        "p": 0.7967076129098916,
+        "left": 716.472197,
+        "prior_rejections": [
+          "MULTISCALE_MOMENTUM",
+          "QUOTE_CONFIRMATION"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP272215-15",
+        "time": 1790561506.679409,
+        "ask": 0.52,
+        "p": 0.7728616063583029,
+        "left": 193.320591,
+        "prior_rejections": [
+          "BTC_BRTI_ALIGNMENT",
+          "DIRECTIONAL_PERSISTENCE"
+        ]
+      }
+    ]
+  },
+  "calibration": {
+    "independent_candidate_contract_counts": {
+      "any_cheap_healthy": 70,
+      "cheap_confident": 6
+    },
+    "cheap_confident_observations": 6,
+    "old_gate_rejections_on_those_observations": {
+      "PRICE_AND_SPREAD": 1,
+      "BTC_BRTI_ALIGNMENT": 4,
+      "MULTISCALE_MOMENTUM": 3,
+      "DIRECTIONAL_PERSISTENCE": 4,
+      "QUOTE_CONFIRMATION": 3,
+      "CAUSAL_120S_HISTORY_UNAVAILABLE": 2
+    },
+    "qualified_value_examples": [],
+    "cheap_confident_inputs": [
+      {
+        "contract": "KXBTC15M-26SEP280945-45",
+        "time": 1790602678.120362,
+        "ask": 0.55,
+        "p": 0.7769943850766194,
+        "left": 421.879638,
+        "prior_rejections": [
+          "PRICE_AND_SPREAD",
+          "BTC_BRTI_ALIGNMENT",
+          "MULTISCALE_MOMENTUM",
+          "DIRECTIONAL_PERSISTENCE",
+          "QUOTE_CONFIRMATION"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP281100-00",
+        "time": 1790607266.5019,
+        "ask": 0.52,
+        "p": 0.7953195940212119,
+        "left": 333.4981,
+        "prior_rejections": [
+          "BTC_BRTI_ALIGNMENT",
+          "DIRECTIONAL_PERSISTENCE"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP281115-15",
+        "time": 1790608089.249546,
+        "ask": 0.55,
+        "p": 0.7855991274721938,
+        "left": 410.750454,
+        "prior_rejections": [
+          "BTC_BRTI_ALIGNMENT",
+          "MULTISCALE_MOMENTUM",
+          "DIRECTIONAL_PERSISTENCE",
+          "QUOTE_CONFIRMATION"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP281245-45",
+        "time": 1790613054.047547,
+        "ask": 0.54,
+        "p": 0.8226277456708607,
+        "left": 845.952453,
+        "prior_rejections": [
+          "CAUSAL_120S_HISTORY_UNAVAILABLE"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP281330-30",
+        "time": 1790615766.800421,
+        "ask": 0.53,
+        "p": 0.798326787205606,
+        "left": 833.199579,
+        "prior_rejections": [
+          "CAUSAL_120S_HISTORY_UNAVAILABLE"
+        ]
+      },
+      {
+        "contract": "KXBTC15M-26SEP281345-45",
+        "time": 1790617195.501787,
+        "ask": 0.55,
+        "p": 0.7894505528808654,
+        "left": 304.498213,
+        "prior_rejections": [
+          "BTC_BRTI_ALIGNMENT",
+          "MULTISCALE_MOMENTUM",
+          "DIRECTIONAL_PERSISTENCE",
+          "QUOTE_CONFIRMATION"
+        ]
+      }
+    ]
+  }
+}

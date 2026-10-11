@@ -1,0 +1,6 @@
+development 122 contracts; proposal/events/invalidation replay EXACT; economically admitted=0
+calibration 82 contracts; proposal/events/invalidation replay EXACT; economically admitted=0
+opened_oct4 16 contracts; proposal/events/invalidation replay EXACT; economically admitted=0
+opened_oct6 24 contracts; proposal/events/invalidation replay EXACT; economically admitted=0
+acceptance_oct7 24 contracts; proposal/events/invalidation replay EXACT; economically admitted=0
+No strategy thresholds or historical decisions changed after acceptance; defensive cost gate only

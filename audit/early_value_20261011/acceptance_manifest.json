@@ -1,0 +1,45 @@
+{
+  "reserved_window": [
+    "2026-10-07T00:00:00Z",
+    "2026-10-07T06:00:00Z"
+  ],
+  "contracts": [
+    "KXBTC15M-26OCT062015-15",
+    "KXBTC15M-26OCT062030-30",
+    "KXBTC15M-26OCT062045-45",
+    "KXBTC15M-26OCT062100-00",
+    "KXBTC15M-26OCT062115-15",
+    "KXBTC15M-26OCT062130-30",
+    "KXBTC15M-26OCT062145-45",
+    "KXBTC15M-26OCT062200-00",
+    "KXBTC15M-26OCT062215-15",
+    "KXBTC15M-26OCT062230-30",
+    "KXBTC15M-26OCT062245-45",
+    "KXBTC15M-26OCT062300-00",
+    "KXBTC15M-26OCT062315-15",
+    "KXBTC15M-26OCT062330-30",
+    "KXBTC15M-26OCT062345-45",
+    "KXBTC15M-26OCT070000-00",
+    "KXBTC15M-26OCT070015-15",
+    "KXBTC15M-26OCT070030-30",
+    "KXBTC15M-26OCT070045-45",
+    "KXBTC15M-26OCT070100-00",
+    "KXBTC15M-26OCT070115-15",
+    "KXBTC15M-26OCT070130-30",
+    "KXBTC15M-26OCT070145-45",
+    "KXBTC15M-26OCT070200-00"
+  ],
+  "contract_count": 24,
+  "observations": 3902,
+  "quality": {
+    "duplicate_publications": 17684
+  },
+  "raw_sha256": "2cb920af2c86e07b8741131f2fa366be458cab1b97ebbbe6206e56256a779f02",
+  "projection_sha256": "846aeb3aee5a44457821688d303b8d38cdea59a860f44c31cbd440eac2475faf",
+  "prior_contract_overlap": [],
+  "native_receipt_depth_available": false,
+  "confirmed_fills": 0,
+  "frozen_files_verified": true,
+  "signal_only": true,
+  "orders": false
+}

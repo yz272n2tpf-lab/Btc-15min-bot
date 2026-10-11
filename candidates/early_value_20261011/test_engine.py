@@ -28,7 +28,7 @@ def reverse(e,side='UP'):
 
 
 def supported():
-    cell=dict(supported=True,gross_gain_lower=.20,min_left=190,max_left=900,min_ask=.01,max_ask=.58)
+    cell=dict(supported=True,gross_gain_lower=.20,calibration_gross_lower=.20,min_left=190,max_left=900,min_ask=.01,max_ask=.58)
     return {'support':{s:dict(cell,exception=deepcopy(cell)) for s in ('UP','DOWN')}}
 
 
@@ -172,6 +172,12 @@ class ValueLifecycle(unittest.TestCase):
         e=Engine()
         for t in range(0,151,5):e.process(row(t))
         self.assertIsNone(e.origin)
+
+    def test_current_cost_must_pass_both_independent_bounds(self):
+        r=row(150);p=supported();p['support']['UP']['calibration_gross_lower']=.05
+        self.assertFalse(economics(r,'UP',p,Rules())['ready'])
+        p['support']['UP'].pop('calibration_gross_lower')
+        self.assertFalse(economics(r,'UP',p,Rules())['ready'])
 
     def test_later_better_prices_do_not_change_prefix(self):
         rows=[row(t) for t in range(0,301,5)];a=Engine(proposal_mode=True);b=Engine(proposal_mode=True)

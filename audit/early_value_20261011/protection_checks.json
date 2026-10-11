@@ -1,0 +1,14 @@
+{
+  "base": "2f00d06ad6dd707934844d0c438c7fd39de8e70e",
+  "modified_preexisting_files": [],
+  "main_release_files": 46,
+  "protected_main_files": 9,
+  "main_release_manifest_sha256": "e8d8a1b54ff9ea3850296567ee8921149e5ea07697144b7bbeb41ea382045949",
+  "independent_scalp_revision": "6e04aced0f718b29f8ed805abcc0f76b01ed5096",
+  "final_gates": "Unchanged $75/$50,90% and supporting qualification",
+  "dashboard_order": "Unchanged FINAL -> EARLY -> SCALP -> chart",
+  "baseline_early_unchanged": true,
+  "production_mutations": 0,
+  "signal_only": true,
+  "orders": false
+}
