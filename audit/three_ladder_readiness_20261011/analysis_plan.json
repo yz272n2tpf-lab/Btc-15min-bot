@@ -1,0 +1,21 @@
+{
+  "purpose": "Frozen bounded candidate feasibility study; no production authority",
+  "base_remote_commit": "e2b8a6ca21a24eb5dbe33680f792c64ad6311dc2",
+  "early_candidate": "702a8906a5fce0b18d0ff0efd8a5fcfed772b757",
+  "scalp_authoritative_revision": "6e04aced0f718b29f8ed805abcc0f76b01ed5096",
+  "training": "Existing Sep26-29 research cohort, first chronological 60 percent of contracts",
+  "calibration": "Remaining chronological 40 percent, disjoint contracts, never coefficient fitting",
+  "untouched_quote_path_holdout": ["2026-10-04T00:00:00Z", "2026-10-04T04:00:00Z"],
+  "holdout_scope": "Not previously recovered or scored by this investigation; dates selected before reading paths. Older broad observer summaries are not claimed unseen.",
+  "forecast_family": "One predeclared linear ridge regression per 240/300/360/420 second horizon; alpha=1; standardized decision-time features; contract-balanced training weights. No hyperparameter search or choosing the best holdout horizon.",
+  "uncertainty": "Calibration contract mean residual lower 5 percent quantile, reported as empirical diagnostic only; no conditional coverage guarantee",
+  "entry_screen": "Positive conservative forecast after ASK, quadratic one-contract entry fee, maximum exit fee, and an additional current spread reserve; BTC and BRTI support same model side; observed causal 60-second momentum supports it; horizon fits before close.",
+  "evaluation": "First observation at scheduled horizon, no more than 10 seconds late; gaps over 10 seconds or known unhealthy source censor path. No maximum excursion used for exits. Select first qualifying observation before examining future path. No simulated fills.",
+  "validation_limits": "Observed-market profile component only; no native receipt identities, actual fee schedule or execution latency is invented. No resulting profile is trusted by EvidenceRegistry without independent review.",
+  "final": "Extend exact fixed-model predicate replay using existing Sep24 feature prefix through byte5983765 and recovered matching MAIN observations; retain 90 percent, range, BTC/BRTI gates; compare scheduled75/50 and fixed50/40/30/20/10/none. Contract-level first decisions, no optimization.",
+  "dashboard_order": ["header", "final", "early", "scalp", "chart", "health", "context", "details"],
+  "dashboard_order_authority": "User October7 12:13:08 UTC; newer EARLY three-state visible lifecycle remains in force",
+  "signal_only": true,
+  "orders": false,
+  "production_changes": false
+}

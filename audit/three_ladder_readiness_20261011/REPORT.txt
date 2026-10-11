@@ -1,0 +1,204 @@
+BTC15 — three independent ladders: readiness candidate, 2026-10-11
+
+Overall: RESTRICT. This is a reviewable isolated readiness candidate, NOT a
+production-ready three-engine promotion. The cockpit correction is tested;
+SCALP remains its independent unchanged engine; FINAL gates remain unchanged.
+EARLY's frozen research forecast failed opportunity-profile acceptance and
+remains disabled. No production changes, merges, orders or database writes.
+
+Source revisions and configuration
+
+Evidence base: e2b8a6ca21a24eb5dbe33680f792c64ad6311dc2. Local work continues
+from its byte-identical preserved tree d6a0cd65a72acaffbbf362cc4123998b88c11a57.
+EARLY framework: 702a8906a5fce0b18d0ff0efd8a5fcfed772b757,
+OFFLINE_EARLY_OPPORTUNITY_INTEGRITY_V1. Zero trusted production profiles.
+This change adds EARLY_BID_HORIZON_RESEARCH_V1, explicitly enabled=false,
+validated=false; it is NOT installed into EvidenceRegistry or a live worker.
+Independent SCALP: 6e04aced0f718b29f8ed805abcc0f76b01ed5096,
+SCALP_MOMENTUM_COST_ROOM_V3, ARM5/GIVEBACK4, 180-second horizon, existing fee,
+freshness, momentum and serial-entry requirements unchanged.
+FINAL: unchanged protected_frame at702a8906, FROZEN_V4_6_FINAL: confidence>=90%,
+remaining<=8m, distance>=$75 when more than6m remain and >=$50 otherwise,
+distance/range5>=1, spot direction agrees, same-side BRTI gap>$11.
+Cockpit: repaired lineage c5e2c807343b27aacf04824eca1edb5821ae69d0 with
+index.html section relocation and matching isolated runtime checksum only.
+Exact per-component file hashes: candidates/three_ladder_20261011/component_lock.json.
+Signal-only=true; orders=false. All new code is isolated/offline.
+
+SCALP isolation — PASS for preserved engine and ownership
+
+The702 branch contains SCALP_NET_EVIDENCE_V1; it is not the independent live
+SCALP entry policy. No SCALP source was copied into EARLY or overwritten.
+The new read-only preflight rejects using this checkout as the SCALP component
+and accepts the separate checkout at6e04aced. It has no deployment function.
+Separate-interpreter integration runs the actual independent SCALP processor
+against synthetic native fixtures. EARLY BUY, FINAL qualified call and SCALP
+BUY coexist at the same contract/time with different origin IDs. SCALP then
+enters PROTECT and EXIT; its terminal embeds its own original identity, while
+EARLY's origin and terminal remain unchanged. No automatic cross-ladder conversion.
+The eight prior independent-SCALP regression results are reused because their
+source bytes are unchanged; they cover both directions, costs, stale/wrong books,
+serial re-entry/reversal, protective behavior and preserved history.
+The separate SCALP release verifier passed46 release files plus3 protected
+lane files. MAIN separately passed46 release plus9 protected lane files.
+No new SCALP strategy defect was established by this work. These checks are not
+a claim of independently measured prospective profitability.
+
+EARLY opportunity profile — research prototype FAIL; engine promotion RESTRICT
+
+Root cause remains the prior value gate's use of model fair value and observed
+source delay in place of an evidence-supported future resale BID and opportunity
+horizon. A29-second opportunity cannot substantiate a multi-minute holding plan.
+The702 gate correctly requires a reviewed forecast/profile, actual native input
+binding, fees, settlement context when relevant, and horizon plus execution time.
+
+A pre-analysis plan was saved before opening the new holdout quote paths. No
+hyperparameter search or holdout-based retuning occurred. The existing Sep26-29
+cohort was split chronologically into122 development and82 calibration contracts.
+One first directionally supported origin per contract avoids counting overlapping
+rows as independent training examples. Features use current BID/spread, model
+probability, spot/BRTI gaps, past60-second momentum and remaining time. Four
+separate ridge models (fixed alpha1) predict BID at240/300/360/420 seconds.
+No future maximum is used. An empirical lower calibration residual supplies an
+uncertainty diagnostic, NOT a reviewed conditional confidence bound.
+
+Horizon | usable training | usable calibration | holdout forecast labels | MAE
+4m      |97              |56                 |4                       |18.88c
+5m      |95              |51                 |4                       |24.82c
+6m      |92              |48                 |2                       |41.60c
+7m      |87              |45                 |2                       |43.24c
+
+Held-out window: Oct4 00:00-04:00 UTC (Oct3 8pm-midnight Eastern), selected before
+retrieval.16 in-window contracts,2668 unique source observations. The quote paths
+were not previously recovered/scored by this investigation; older aggregate
+observer summaries are not falsely claimed unseen. The original bounded export
+contains22081 mixed records. No training/calibration contract overlaps holdout.
+
+Eligible observation counts at4/5/6/7m were505/469/433/376; the frozen conservative
+cost screen selected ZERO entries at every horizon. Hypothetical net uses entry
+ASK, quadratic one-contract fees on both legs and one additional observed spread.
+Actual depth, account overrides, execution delay and fills remain unverified.
+The first independently supported observations include3/2/1/1 later positive
+net quote scenarios respectively that this prototype missed. These counts
+overlap across horizons; do not add them. Endpoints are scheduled horizons with
+at most10s sampling tolerance; unhealthy observations or gaps>10s censor paths.
+No maximum-excursion price is treated as an achievable exit.
+
+This prototype neither establishes attractive entry quality nor useful coverage.
+Its large errors and sparse continuous holdout labels do not justify trusting
+its uncertainty estimate. The model was left disabled, with no arbitrary more
+permissive profile substituted. Full native replay is additionally blocked by
+missing original native quote/receipt bindings and verified fee/execution-budget
+evidence in this observation cohort. The study does not invent those fields.
+The precision needed is a validated conditional resale-BID forecast and usable
+native chronology, not another generic wait for live data.
+
+Lifecycle status
+
+Existing702 mechanics remain unchanged. The earlier17 focused tests establish
+synthetic BUY/HOLD/WATCH/recovery/EXIT, independent re-entry in both directions,
+restart identity, duplicate suppression, settlement-hurdle warnings and rejection
+of unsupported29.1/15/5/1.1-second multi-minute entries. Noise-only model weakening
+does not automatically exit. A missing forecast or data outage cannot manufacture
+a new setup. FINAL supplies independent settlement evidence; EARLY owns warnings
+and exits. New integration tests confirm ownership and simultaneous qualification.
+Historical candidate WATCH/EXIT timing, alert churn and re-entry performance
+remain UNVALIDATED: the new profile produces no valid real BUY cohort to manage.
+Old issued signals and synthetic forecasts are not substituted for that evidence.
+
+FINAL expanded comparison — preserve gates; retuning RESTRICT
+
+Recovered4324 original fixed-model feature frames across30 contracts, including
+the previously preserved ranges. Added one bounded Sep24 13:00-19:00 UTC common
+journal slice and reused the original20:15-21:15 slice. No model refit occurred.
+Actual frozen forest/calibrator predictions are recomputed and checked against
+the same-timestamp MAIN confidence/side. Target and BTC values must match exactly.
+The actual current FINAL predicate executes at both ends of the source-to-receipt
+capture interval;18 ambiguous publications are excluded. Full native receipt
+authority is not fabricated. Final usable sample:3300 observations /22 contracts.
+
+Rule                  | first locks | correct | incorrect | added | earlier
+Current75/50          |8            |8        |0          |0      |0s
+Fixed50/40/30/20/10    |8 each       |8 each   |0 each     |0 each |0s each
+No fixed distance     |8            |8        |0          |0      |0s
+
+All selected locks are UP; DOWN selected N=0, so DOWN accuracy is unestimated.
+Eight of eight correct gives a95% Wilson interval of67.56%-100%, not proof of
+perfect accuracy. Mean confidence90.359%; Brier0.009297; mean lead354.887s.
+There are394 high-confidence in-window observations across11 contracts, and
+none lie below the existing distance gate. Other gates, not fixed distance,
+explain the exclusions in this sample. Volatility range0.000038417-0.001789415;
+descriptive quartile tables are retained but stratum contract counts overlap.
+There is no supported incremental benefit from any tested distance relaxation.
+Keep75/50 and90% unchanged. Settlement-aware replacement remains unscored because
+no reviewed uncertainty model for the remaining averaging seconds exists.
+Known accumulated-average arithmetic is not such a probability model.
+The older621/648 observer result remains a version-mixed baseline, not new accuracy.
+
+Dashboard — PASS within tested Chromium scope
+
+Recovered user-approved Oct7 order: Header -> FINAL -> EARLY -> SCALP -> chart ->
+one Bot Health and one Market Context -> collapsed Details. index.html had the
+chart between FINAL and EARLY. It now places that existing node after SCALP.
+DOM reading order and rendered desktop row order agree; mobile is stacked.
+The more recent EARLY visible BUY -> WATCH(could flip) -> EXIT remains intact;
+HOLD is current management support, without adding an older five-rung EARLY UI.
+No chart code, polling, freshness logic or signal authority changed.
+Real Chromium138 acceptance:11 groups, widths1440/820/390,390 refresh frames,
+zero numeric blanks, zero SVG root/path reconstruction, no horizontal overflow.
+Partial/stale/outage replies, older and delayed requests, historical records and
+confirmed rollover pass. Synthetic HTTP was fully intercepted; no production
+endpoint was contacted by browser tests.16 candidate runtime checksums pass.
+WebKit launch blocked by missing GTK/GStreamer and other host libraries; exact
+error retained in webkit-test.txt. Safari and physical iPad were NOT tested.
+
+Tests and protection
+
+14 new focused tests PASS (profile causality/censoring/dedup, component revision
+guards, signal-only/no-deploy flags, independent FINAL and simultaneous engines).
+Reuse existing17 EARLY and8 SCALP mechanism tests and prior incident replay;
+no broad historical audit or unrelated suite was restarted.
+The14:28-14:33 incident findings are unchanged:60c ASK/59c BID,70c later BID and
+79c protective EXIT provenance verified;5c EARLY near-issue quote corroborated,
+exact consumed native frame missing; two SCALP outages retained. No fills inferred.
+Protected MAIN and SCALP files/manifests unchanged. Only cockpit index.html and
+its isolated hosting/runtime.sha256 are modified runtime assets. All other
+changes are new candidate/evaluation/report files, listed in SHA256SUMS.
+MAIN d6f84479-d722-4139-a96d-6aa155a17dc6, SCALP49b01605-2a56-4ff5-b55e-332adf4b5b11,
+cockpit5b326cf3-8998-4fba-854f-8aaad7c60c61 and original MAIN volume remain intact.
+The same four staged shadow changes remain STAGED, untouched.
+
+Minimal reversible plan — requires separate approval, no deployment executed
+
+1. Review this exact commit and component lock. Do not promote this branch to
+   SCALP or run a generic all-services deployment. Keep SCALP at6e04aced.
+2. Cockpit may receive a separately approved dedicated-service-only release of
+   the tested order change and repaired lineage. Confirm the deployment method
+   targets only that service and does not apply the unrelated staged patch.
+   Before approval, the tested commit and full16-file candidate checksum list
+   must be pinned. Observe normal updates, outages and rollover after deployment.
+   If presentation regresses, restore cockpit deployment5b326cf3 only.
+3. MAIN/EARLY promotion stays blocked. Use existing source evidence to improve
+   and independently validate the conditional resale-BID provider, uncertainty,
+   regime support and execution budget, then replay bound native decision frames
+   through the unchanged gate and lifecycle. Do not re-optimize against this now
+   opened holdout. No additional live collection period is recommended here.
+4. FINAL thresholds remain unchanged. A later distance change needs independent
+   contracts where the distance gate actually binds, including DOWN, and a
+   reviewed settlement-path model if proposing replacement.
+5. Only after component blockers are resolved should a new concrete MAIN release
+   and rollback receipt be reviewed for separate production approval. No journal
+   migration, volume write or configuration change is part of this candidate.
+
+Offline reproduction
+
+Use a fresh WORKSPACE with this checkout at WORKSPACE/repo and a separate SCALP
+checkout at WORKSPACE/scalp-source pinned to6e04aced. Run the existing evidence
+audit hydrator for the parent bounded inputs, then this directory's hydrate.py.
+Run candidates.three_ladder_20261011.final_study WORKSPACE and
+candidates.three_ladder_20261011.profile_study WORKSPACE holdout. The frozen
+research profile is included; fitting again is unnecessary. Re-fitting requires
+the original SHA-pinned cohort listed in the profile and parent source manifest.
+The new ZIP contains exact original MAIN source projections plus feature ranges;
+input_projection_manifest.json retains full-export and projection hashes.
+No SQL file is opened. No remote worker or source poll is initiated by replay.
