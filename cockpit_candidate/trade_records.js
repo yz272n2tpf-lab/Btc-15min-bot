@@ -38,7 +38,7 @@
     return {record:r,records,state,entry,current,completed,historical,management,
       bid:current?p.executable_current_bid:null,
       economics:current?(name==='early'?p.management?.economics:p.economics):null,
-      reason:completed?terminal.reason:fresh&&!binding?'Conflicting origin binding; current action unavailable':r?(r.management_reason||(name==='early'?(p?.origin?.origin_id===r.origin_id?p:retained)?.management?.reason:(p?.origin?.origin_id===r.origin_id?p:retained)?.presentation?.message)||r.entry_reason):'Potential setups are separate; no BUY has been issued',
+      reason:completed?terminal.reason:lane?.eligible&&p&&r&&same&&p.origin?.origin_id===r.origin_id&&!binding?'Conflicting origin binding; current action unavailable':r?(r.management_reason||(name==='early'?(p?.origin?.origin_id===r.origin_id?p:retained)?.management?.reason:(p?.origin?.origin_id===r.origin_id?p:retained)?.presentation?.message)||r.entry_reason):'Potential setups are separate; no BUY has been issued',
       sourceAvailable:!!lane?.eligible};
   }
   const api={project};if(typeof module!=='undefined')module.exports=api;root.BTC15TradeRecords=api;
