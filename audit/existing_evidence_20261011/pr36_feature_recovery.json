@@ -1,0 +1,58 @@
+[
+  {
+    "offset": 4446952,
+    "end": 5495430,
+    "sha256": "bda10ae9495aff5a2ea17a765ff6a4f4242a3c2e3aae7afad24ad1228b911262",
+    "recovered_sha256": "bda10ae9495aff5a2ea17a765ff6a4f4242a3c2e3aae7afad24ad1228b911262",
+    "records": 758,
+    "headers": {
+      "Cache-Control": "no-store, max-age=0",
+      "Content-Type": "application/x-ndjson",
+      "Date": "Sun, 11 Oct 2026 17:12:56 GMT",
+      "Server": "railway-hikari",
+      "x-btc15-identity": "7b9f685f1a3bedfb3afed0dfdb7163806e42dc9ace3ac035ce08870713da0996",
+      "x-content-type-options": "nosniff",
+      "x-journal-snapshot-bytes": "381177774",
+      "x-railway-request-id": "GZZ70AtrTEaXVzZbezItjw",
+      "x-range-next-offset": "5495430",
+      "x-range-offset": "4446952",
+      "x-range-records": "758",
+      "x-range-sha256": "bda10ae9495aff5a2ea17a765ff6a4f4242a3c2e3aae7afad24ad1228b911262",
+      "Content-Length": "1048478",
+      "x-hikari-trace": "lax1.e74w",
+      "x-railway-edge": "lax1",
+      "Connection": "close"
+    }
+  },
+  {
+    "offset": 5495430,
+    "end": 5983765,
+    "sha256": "25dbc5d3f21fcf2e70cc9db49a9845e9d512a4409be5d666b1045b8f64514821",
+    "recovered_sha256": "25dbc5d3f21fcf2e70cc9db49a9845e9d512a4409be5d666b1045b8f64514821",
+    "records": 354,
+    "headers": {
+      "Cache-Control": "no-store, max-age=0",
+      "Content-Type": "application/x-ndjson",
+      "Date": "Sun, 11 Oct 2026 17:12:59 GMT",
+      "Server": "railway-hikari",
+      "x-btc15-identity": "7b9f685f1a3bedfb3afed0dfdb7163806e42dc9ace3ac035ce08870713da0996",
+      "x-content-type-options": "nosniff",
+      "x-journal-snapshot-bytes": "381180539",
+      "x-railway-request-id": "UTzQ-wm3TVylBAlaaP71AA",
+      "x-range-next-offset": "5983765",
+      "x-range-offset": "5495430",
+      "x-range-records": "354",
+      "x-range-sha256": "25dbc5d3f21fcf2e70cc9db49a9845e9d512a4409be5d666b1045b8f64514821",
+      "Content-Length": "488335",
+      "x-hikari-trace": "lax1.v9kt",
+      "x-railway-edge": "lax1",
+      "Connection": "close"
+    }
+  },
+  {
+    "window_frames": 668,
+    "contracts": 4,
+    "first": "2026-09-24T20:15:36.684407+00:00",
+    "last": "2026-09-24T21:14:39.998296+00:00"
+  }
+]

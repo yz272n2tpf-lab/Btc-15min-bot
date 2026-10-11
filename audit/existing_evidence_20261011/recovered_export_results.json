@@ -1,0 +1,687 @@
+{
+  "pr36": {
+    "input_frames": 668,
+    "contracts": 4,
+    "matched_distinct_feature_frames": 668,
+    "health_filtered_distinct_observations": 667,
+    "dedup": {
+      "duplicates": 893,
+      "conflicting_keys": 0
+    },
+    "rejected": {
+      "outside_exact_feature_binding": 37,
+      "known_unhealthy_at_observer_receipt": 2003
+    },
+    "raw_ready_observations": 7,
+    "table": {
+      "CURRENT_75_50": {
+        "selected_contracts": 1,
+        "labeled_contracts": 1,
+        "correct": 1,
+        "incorrect": 0,
+        "accuracy": 1.0,
+        "false_rate": 0.0,
+        "wilson95": [
+          0.20654931437723745,
+          1
+        ],
+        "mean_p": 0.9027766302977154,
+        "brier": 0.009452383616267115,
+        "mean_seconds_left": 217.31426599999995,
+        "median_seconds_left": 217.31426599999995,
+        "additional": {
+          "selected_contracts": 0,
+          "labeled_contracts": 0,
+          "correct": 0,
+          "incorrect": 0,
+          "accuracy": null,
+          "false_rate": null,
+          "wilson95": null,
+          "mean_p": null,
+          "brier": null,
+          "mean_seconds_left": null,
+          "median_seconds_left": null
+        },
+        "by_side": {
+          "UP": {
+            "selected_contracts": 1,
+            "labeled_contracts": 1,
+            "correct": 1,
+            "incorrect": 0,
+            "accuracy": 1.0,
+            "false_rate": 0.0,
+            "wilson95": [
+              0.20654931437723745,
+              1
+            ],
+            "mean_p": 0.9027766302977154,
+            "brier": 0.009452383616267115,
+            "mean_seconds_left": 217.31426599999995,
+            "median_seconds_left": 217.31426599999995
+          },
+          "DOWN": {
+            "selected_contracts": 0,
+            "labeled_contracts": 0,
+            "correct": 0,
+            "incorrect": 0,
+            "accuracy": null,
+            "false_rate": null,
+            "wilson95": null,
+            "mean_p": null,
+            "brier": null,
+            "mean_seconds_left": null,
+            "median_seconds_left": null
+          }
+        },
+        "mean_earlier_seconds_common": 0.0,
+        "records": [
+          {
+            "contract": "KXBTC15M-26SEP241645-45",
+            "time": 1790282482.685734,
+            "left": 217.31426599999995,
+            "p": 0.9027766302977154,
+            "side": "UP",
+            "gap": 149.8700000000099,
+            "ratio": 1.0,
+            "vol5": 0.0001415668579754655,
+            "brti_authority": true,
+            "brti_agrees": true,
+            "target_agrees": true,
+            "raw_ready": true,
+            "correct": true,
+            "feature_weights": "95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6"
+          }
+        ]
+      },
+      "FIXED_50": {
+        "selected_contracts": 1,
+        "labeled_contracts": 1,
+        "correct": 1,
+        "incorrect": 0,
+        "accuracy": 1.0,
+        "false_rate": 0.0,
+        "wilson95": [
+          0.20654931437723745,
+          1
+        ],
+        "mean_p": 0.9027766302977154,
+        "brier": 0.009452383616267115,
+        "mean_seconds_left": 217.31426599999995,
+        "median_seconds_left": 217.31426599999995,
+        "additional": {
+          "selected_contracts": 0,
+          "labeled_contracts": 0,
+          "correct": 0,
+          "incorrect": 0,
+          "accuracy": null,
+          "false_rate": null,
+          "wilson95": null,
+          "mean_p": null,
+          "brier": null,
+          "mean_seconds_left": null,
+          "median_seconds_left": null
+        },
+        "by_side": {
+          "UP": {
+            "selected_contracts": 1,
+            "labeled_contracts": 1,
+            "correct": 1,
+            "incorrect": 0,
+            "accuracy": 1.0,
+            "false_rate": 0.0,
+            "wilson95": [
+              0.20654931437723745,
+              1
+            ],
+            "mean_p": 0.9027766302977154,
+            "brier": 0.009452383616267115,
+            "mean_seconds_left": 217.31426599999995,
+            "median_seconds_left": 217.31426599999995
+          },
+          "DOWN": {
+            "selected_contracts": 0,
+            "labeled_contracts": 0,
+            "correct": 0,
+            "incorrect": 0,
+            "accuracy": null,
+            "false_rate": null,
+            "wilson95": null,
+            "mean_p": null,
+            "brier": null,
+            "mean_seconds_left": null,
+            "median_seconds_left": null
+          }
+        },
+        "mean_earlier_seconds_common": 0.0,
+        "records": [
+          {
+            "contract": "KXBTC15M-26SEP241645-45",
+            "time": 1790282482.685734,
+            "left": 217.31426599999995,
+            "p": 0.9027766302977154,
+            "side": "UP",
+            "gap": 149.8700000000099,
+            "ratio": 1.0,
+            "vol5": 0.0001415668579754655,
+            "brti_authority": true,
+            "brti_agrees": true,
+            "target_agrees": true,
+            "raw_ready": true,
+            "correct": true,
+            "feature_weights": "95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6"
+          }
+        ]
+      },
+      "FIXED_40": {
+        "selected_contracts": 1,
+        "labeled_contracts": 1,
+        "correct": 1,
+        "incorrect": 0,
+        "accuracy": 1.0,
+        "false_rate": 0.0,
+        "wilson95": [
+          0.20654931437723745,
+          1
+        ],
+        "mean_p": 0.9027766302977154,
+        "brier": 0.009452383616267115,
+        "mean_seconds_left": 217.31426599999995,
+        "median_seconds_left": 217.31426599999995,
+        "additional": {
+          "selected_contracts": 0,
+          "labeled_contracts": 0,
+          "correct": 0,
+          "incorrect": 0,
+          "accuracy": null,
+          "false_rate": null,
+          "wilson95": null,
+          "mean_p": null,
+          "brier": null,
+          "mean_seconds_left": null,
+          "median_seconds_left": null
+        },
+        "by_side": {
+          "UP": {
+            "selected_contracts": 1,
+            "labeled_contracts": 1,
+            "correct": 1,
+            "incorrect": 0,
+            "accuracy": 1.0,
+            "false_rate": 0.0,
+            "wilson95": [
+              0.20654931437723745,
+              1
+            ],
+            "mean_p": 0.9027766302977154,
+            "brier": 0.009452383616267115,
+            "mean_seconds_left": 217.31426599999995,
+            "median_seconds_left": 217.31426599999995
+          },
+          "DOWN": {
+            "selected_contracts": 0,
+            "labeled_contracts": 0,
+            "correct": 0,
+            "incorrect": 0,
+            "accuracy": null,
+            "false_rate": null,
+            "wilson95": null,
+            "mean_p": null,
+            "brier": null,
+            "mean_seconds_left": null,
+            "median_seconds_left": null
+          }
+        },
+        "mean_earlier_seconds_common": 0.0,
+        "records": [
+          {
+            "contract": "KXBTC15M-26SEP241645-45",
+            "time": 1790282482.685734,
+            "left": 217.31426599999995,
+            "p": 0.9027766302977154,
+            "side": "UP",
+            "gap": 149.8700000000099,
+            "ratio": 1.0,
+            "vol5": 0.0001415668579754655,
+            "brti_authority": true,
+            "brti_agrees": true,
+            "target_agrees": true,
+            "raw_ready": true,
+            "correct": true,
+            "feature_weights": "95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6"
+          }
+        ]
+      },
+      "FIXED_30": {
+        "selected_contracts": 1,
+        "labeled_contracts": 1,
+        "correct": 1,
+        "incorrect": 0,
+        "accuracy": 1.0,
+        "false_rate": 0.0,
+        "wilson95": [
+          0.20654931437723745,
+          1
+        ],
+        "mean_p": 0.9027766302977154,
+        "brier": 0.009452383616267115,
+        "mean_seconds_left": 217.31426599999995,
+        "median_seconds_left": 217.31426599999995,
+        "additional": {
+          "selected_contracts": 0,
+          "labeled_contracts": 0,
+          "correct": 0,
+          "incorrect": 0,
+          "accuracy": null,
+          "false_rate": null,
+          "wilson95": null,
+          "mean_p": null,
+          "brier": null,
+          "mean_seconds_left": null,
+          "median_seconds_left": null
+        },
+        "by_side": {
+          "UP": {
+            "selected_contracts": 1,
+            "labeled_contracts": 1,
+            "correct": 1,
+            "incorrect": 0,
+            "accuracy": 1.0,
+            "false_rate": 0.0,
+            "wilson95": [
+              0.20654931437723745,
+              1
+            ],
+            "mean_p": 0.9027766302977154,
+            "brier": 0.009452383616267115,
+            "mean_seconds_left": 217.31426599999995,
+            "median_seconds_left": 217.31426599999995
+          },
+          "DOWN": {
+            "selected_contracts": 0,
+            "labeled_contracts": 0,
+            "correct": 0,
+            "incorrect": 0,
+            "accuracy": null,
+            "false_rate": null,
+            "wilson95": null,
+            "mean_p": null,
+            "brier": null,
+            "mean_seconds_left": null,
+            "median_seconds_left": null
+          }
+        },
+        "mean_earlier_seconds_common": 0.0,
+        "records": [
+          {
+            "contract": "KXBTC15M-26SEP241645-45",
+            "time": 1790282482.685734,
+            "left": 217.31426599999995,
+            "p": 0.9027766302977154,
+            "side": "UP",
+            "gap": 149.8700000000099,
+            "ratio": 1.0,
+            "vol5": 0.0001415668579754655,
+            "brti_authority": true,
+            "brti_agrees": true,
+            "target_agrees": true,
+            "raw_ready": true,
+            "correct": true,
+            "feature_weights": "95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6"
+          }
+        ]
+      },
+      "FIXED_20": {
+        "selected_contracts": 1,
+        "labeled_contracts": 1,
+        "correct": 1,
+        "incorrect": 0,
+        "accuracy": 1.0,
+        "false_rate": 0.0,
+        "wilson95": [
+          0.20654931437723745,
+          1
+        ],
+        "mean_p": 0.9027766302977154,
+        "brier": 0.009452383616267115,
+        "mean_seconds_left": 217.31426599999995,
+        "median_seconds_left": 217.31426599999995,
+        "additional": {
+          "selected_contracts": 0,
+          "labeled_contracts": 0,
+          "correct": 0,
+          "incorrect": 0,
+          "accuracy": null,
+          "false_rate": null,
+          "wilson95": null,
+          "mean_p": null,
+          "brier": null,
+          "mean_seconds_left": null,
+          "median_seconds_left": null
+        },
+        "by_side": {
+          "UP": {
+            "selected_contracts": 1,
+            "labeled_contracts": 1,
+            "correct": 1,
+            "incorrect": 0,
+            "accuracy": 1.0,
+            "false_rate": 0.0,
+            "wilson95": [
+              0.20654931437723745,
+              1
+            ],
+            "mean_p": 0.9027766302977154,
+            "brier": 0.009452383616267115,
+            "mean_seconds_left": 217.31426599999995,
+            "median_seconds_left": 217.31426599999995
+          },
+          "DOWN": {
+            "selected_contracts": 0,
+            "labeled_contracts": 0,
+            "correct": 0,
+            "incorrect": 0,
+            "accuracy": null,
+            "false_rate": null,
+            "wilson95": null,
+            "mean_p": null,
+            "brier": null,
+            "mean_seconds_left": null,
+            "median_seconds_left": null
+          }
+        },
+        "mean_earlier_seconds_common": 0.0,
+        "records": [
+          {
+            "contract": "KXBTC15M-26SEP241645-45",
+            "time": 1790282482.685734,
+            "left": 217.31426599999995,
+            "p": 0.9027766302977154,
+            "side": "UP",
+            "gap": 149.8700000000099,
+            "ratio": 1.0,
+            "vol5": 0.0001415668579754655,
+            "brti_authority": true,
+            "brti_agrees": true,
+            "target_agrees": true,
+            "raw_ready": true,
+            "correct": true,
+            "feature_weights": "95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6"
+          }
+        ]
+      },
+      "FIXED_10": {
+        "selected_contracts": 1,
+        "labeled_contracts": 1,
+        "correct": 1,
+        "incorrect": 0,
+        "accuracy": 1.0,
+        "false_rate": 0.0,
+        "wilson95": [
+          0.20654931437723745,
+          1
+        ],
+        "mean_p": 0.9027766302977154,
+        "brier": 0.009452383616267115,
+        "mean_seconds_left": 217.31426599999995,
+        "median_seconds_left": 217.31426599999995,
+        "additional": {
+          "selected_contracts": 0,
+          "labeled_contracts": 0,
+          "correct": 0,
+          "incorrect": 0,
+          "accuracy": null,
+          "false_rate": null,
+          "wilson95": null,
+          "mean_p": null,
+          "brier": null,
+          "mean_seconds_left": null,
+          "median_seconds_left": null
+        },
+        "by_side": {
+          "UP": {
+            "selected_contracts": 1,
+            "labeled_contracts": 1,
+            "correct": 1,
+            "incorrect": 0,
+            "accuracy": 1.0,
+            "false_rate": 0.0,
+            "wilson95": [
+              0.20654931437723745,
+              1
+            ],
+            "mean_p": 0.9027766302977154,
+            "brier": 0.009452383616267115,
+            "mean_seconds_left": 217.31426599999995,
+            "median_seconds_left": 217.31426599999995
+          },
+          "DOWN": {
+            "selected_contracts": 0,
+            "labeled_contracts": 0,
+            "correct": 0,
+            "incorrect": 0,
+            "accuracy": null,
+            "false_rate": null,
+            "wilson95": null,
+            "mean_p": null,
+            "brier": null,
+            "mean_seconds_left": null,
+            "median_seconds_left": null
+          }
+        },
+        "mean_earlier_seconds_common": 0.0,
+        "records": [
+          {
+            "contract": "KXBTC15M-26SEP241645-45",
+            "time": 1790282482.685734,
+            "left": 217.31426599999995,
+            "p": 0.9027766302977154,
+            "side": "UP",
+            "gap": 149.8700000000099,
+            "ratio": 1.0,
+            "vol5": 0.0001415668579754655,
+            "brti_authority": true,
+            "brti_agrees": true,
+            "target_agrees": true,
+            "raw_ready": true,
+            "correct": true,
+            "feature_weights": "95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6"
+          }
+        ]
+      },
+      "NO_FIXED": {
+        "selected_contracts": 1,
+        "labeled_contracts": 1,
+        "correct": 1,
+        "incorrect": 0,
+        "accuracy": 1.0,
+        "false_rate": 0.0,
+        "wilson95": [
+          0.20654931437723745,
+          1
+        ],
+        "mean_p": 0.9027766302977154,
+        "brier": 0.009452383616267115,
+        "mean_seconds_left": 217.31426599999995,
+        "median_seconds_left": 217.31426599999995,
+        "additional": {
+          "selected_contracts": 0,
+          "labeled_contracts": 0,
+          "correct": 0,
+          "incorrect": 0,
+          "accuracy": null,
+          "false_rate": null,
+          "wilson95": null,
+          "mean_p": null,
+          "brier": null,
+          "mean_seconds_left": null,
+          "median_seconds_left": null
+        },
+        "by_side": {
+          "UP": {
+            "selected_contracts": 1,
+            "labeled_contracts": 1,
+            "correct": 1,
+            "incorrect": 0,
+            "accuracy": 1.0,
+            "false_rate": 0.0,
+            "wilson95": [
+              0.20654931437723745,
+              1
+            ],
+            "mean_p": 0.9027766302977154,
+            "brier": 0.009452383616267115,
+            "mean_seconds_left": 217.31426599999995,
+            "median_seconds_left": 217.31426599999995
+          },
+          "DOWN": {
+            "selected_contracts": 0,
+            "labeled_contracts": 0,
+            "correct": 0,
+            "incorrect": 0,
+            "accuracy": null,
+            "false_rate": null,
+            "wilson95": null,
+            "mean_p": null,
+            "brier": null,
+            "mean_seconds_left": null,
+            "median_seconds_left": null
+          }
+        },
+        "mean_earlier_seconds_common": 0.0,
+        "records": [
+          {
+            "contract": "KXBTC15M-26SEP241645-45",
+            "time": 1790282482.685734,
+            "left": 217.31426599999995,
+            "p": 0.9027766302977154,
+            "side": "UP",
+            "gap": 149.8700000000099,
+            "ratio": 1.0,
+            "vol5": 0.0001415668579754655,
+            "brti_authority": true,
+            "brti_agrees": true,
+            "target_agrees": true,
+            "raw_ready": true,
+            "correct": true,
+            "feature_weights": "95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6"
+          }
+        ]
+      }
+    },
+    "diagnostics": {
+      "high_confidence_rows": 38,
+      "high_confidence_contracts": 1,
+      "high_confidence_below_distance_rows": 0,
+      "high_confidence_below_distance_contracts": 0,
+      "distance_only_blocked_visible_predicates_rows": 0,
+      "distance_only_blocked_contracts": 0,
+      "volatility5_observation_range": [
+        9.885007103783878e-05,
+        0.0007416561183362497
+      ]
+    },
+    "status": "RECOVERED_ORIGINAL_FEATURE_BINDING_AND_RECORDED_NUMERIC_GATES_NOT_FULL_NATIVE_BOOK_REPLAY",
+    "prior_strict_qualification_count": 645,
+    "qualification_note": "Current count uses recorded health and exact feature binding; it is not the prior report strict qualification classifier. Neither count supplies missing original executable-book receipts.",
+    "label_basis": "Stored observer official-side outcome for selected contract; no labels influence selection"
+  },
+  "incident": {
+    "common_observations": 300,
+    "contracts": [
+      "KXBTC15M-26OCT111030-30",
+      "KXBTC15M-26OCT111045-45"
+    ],
+    "selected_source_checks": [
+      {
+        "event": "first_protect",
+        "bid": 0.67,
+        "source_ms": 1791729050144,
+        "sequence": 23309,
+        "published": 1791729050.1684973,
+        "quote_age_at_publication_ms": 24.497314453125,
+        "observed": "2026-10-11T14:30:51.085469+00:00"
+      },
+      {
+        "event": "bid70",
+        "bid": 0.7,
+        "source_ms": 1791729079142,
+        "sequence": 36599,
+        "published": 1791729079.3093753,
+        "quote_age_at_publication_ms": 167.375244140625,
+        "observed": "2026-10-11T14:31:20.092466+00:00"
+      },
+      {
+        "event": "peak84",
+        "bid": 0.84,
+        "source_ms": 1791729127146,
+        "sequence": 57091,
+        "published": 1791729127.1725888,
+        "quote_age_at_publication_ms": 26.5888671875,
+        "observed": "2026-10-11T14:32:08.096999+00:00"
+      },
+      {
+        "event": "exit79",
+        "bid": 0.79,
+        "source_ms": 1791729132120,
+        "sequence": 60596,
+        "published": 1791729132.196363,
+        "quote_age_at_publication_ms": 76.363037109375,
+        "observed": "2026-10-11T14:32:13.101678+00:00"
+      }
+    ],
+    "entry_quote_age_at_decision_ms": 24.539306640625,
+    "entry_quote_age_at_signal_ms": 31.396728515625,
+    "entry_source_ms": 1791729045137,
+    "entry_decision": 1791729045.1615393,
+    "entry_publication": 1791729045.1683967,
+    "entry_journal_committed": 1791729045.179955,
+    "entry_observed": "2026-10-11T14:30:46.088506+00:00",
+    "outages": [
+      {
+        "observed": "2026-10-11T14:31:25.091090+00:00",
+        "received": "2026-10-11T14:31:25.081779+00:00",
+        "contract": "KXBTC15M-26OCT111045-45",
+        "origin": "04c02740ab1490770137fc9a53868a5e31b71c56cce6f377b1ef248af4e124c7",
+        "publication": 1791729084.1236713,
+        "expires": null,
+        "status": "UNAVAILABLE",
+        "guidance": null,
+        "reason": "TIMESTAMPED_QUOTES_UNAVAILABLE",
+        "bid": null,
+        "quote": {},
+        "path_missing": null,
+        "journal_committed": null,
+        "path_samples": null,
+        "giveback": null,
+        "mfe": null
+      },
+      {
+        "observed": "2026-10-11T14:32:11.103915+00:00",
+        "received": "2026-10-11T14:32:11.078261+00:00",
+        "contract": "KXBTC15M-26OCT111045-45",
+        "origin": "04c02740ab1490770137fc9a53868a5e31b71c56cce6f377b1ef248af4e124c7",
+        "publication": 1791729130.167684,
+        "expires": null,
+        "status": "UNAVAILABLE",
+        "guidance": null,
+        "reason": "TIMESTAMPED_QUOTES_UNAVAILABLE",
+        "bid": null,
+        "quote": {},
+        "path_missing": null,
+        "journal_committed": null,
+        "path_samples": null,
+        "giveback": null,
+        "mfe": null
+      }
+    ],
+    "complete_path": false,
+    "exit_reason": "ARM5_GIVEBACK4",
+    "exit_net_scenario": 0.15000000000000008,
+    "exit_net_after_reserve": 0.14000000000000007,
+    "realized_profit": null,
+    "manual_fill": null,
+    "early_native_origin_frame_recovered": false,
+    "early_price_corroborated_by_main_observation": true,
+    "full_exchange_depth_or_execution_acknowledgment": false
+  }
+}

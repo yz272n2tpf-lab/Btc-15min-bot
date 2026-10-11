@@ -1,0 +1,51 @@
+{
+  "ranges": [
+    {
+      "offset": 606332017,
+      "end": 610332017,
+      "sha256": "b8aec73eb23627a338f390be4128a31c87341fb2974ed62c12bcaff5e0d9c7af"
+    },
+    {
+      "offset": 610332017,
+      "end": 614332017,
+      "sha256": "7e36b34cb8ce5ba7c451605ad5ff713b97501a2cb6ea1380bba1669e57a59015"
+    },
+    {
+      "offset": 614332017,
+      "end": 618332017,
+      "sha256": "70fb9c071adfad0e3f39089fd5851b2eacc936a41f365ebd80a4bbf26a61d65b"
+    },
+    {
+      "offset": 618332017,
+      "end": 622332017,
+      "sha256": "1af7f76283a8ec29f5fc37b6ba726d517445a77db815eb4c75cefecdc00e41cb"
+    },
+    {
+      "offset": 622332017,
+      "end": 626332017,
+      "sha256": "6701b08574756bd6ee556ef38c84c32ce2334d0ccc98bf8605beac7841df5afc"
+    },
+    {
+      "offset": 626332017,
+      "end": 630332017,
+      "sha256": "ee28b458d15ab87e070ea9ec3605deb15406e51fc979803bdbe2ddc5d5f08d4b"
+    },
+    {
+      "offset": 630332017,
+      "end": 634332017,
+      "sha256": "6417a928c53e70ca14d208b8edf90e1b6e5825ffc783e818efba79c6b6487bc7"
+    }
+  ],
+  "records": 5608,
+  "edge_damage": [
+    {
+      "start": 27997787,
+      "end": 28000000,
+      "reasons": [
+        "EOFError"
+      ],
+      "kind": "incomplete_or_damaged_tail"
+    }
+  ],
+  "sha256": "0ac82e0661c29c4229abb4635a69869d9401a356f4bc5d719bbc8afb6e44984c"
+}

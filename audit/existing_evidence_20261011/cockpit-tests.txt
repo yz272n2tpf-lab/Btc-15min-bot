@@ -1,0 +1,24 @@
+PASS: 100 stable renders, real issued records, expiry, immutable ASK, invalid binding, no stale BUY, rollover, 50 fixtures
+✔ cockpit_candidate/test_explanation_stability.cjs (506.109271ms)
+PASS: verified FINAL call survives expiry/outage without a lease; fresh PASS supersedes; rollover clears headline history
+✔ cockpit_candidate/test_final_retention.cjs (221.255284ms)
+✔ FINAL probability and quotes survive source expiry as timestamped history, without authority (566.552495ms)
+✔ BTC spot and BRTI retain timestamped history and cannot regress on older responses (12.529427ms)
+✔ SVG root and existing path survive a changed chart sample (12.925135ms)
+✔ expired record is historical during same-contract identity retention (1.025689ms)
+✔ older publication cannot replace newer unavailable response or retained quote (36.867341ms)
+✔ quote sequence floor survives invalidate; malformed response cannot change identity (9.243222ms)
+✔ partial response fails closed without erasing last quote; delayed pre-resume reply is ignored (7.28898ms)
+PASS: cold start, asynchronous identity, current information, expiry and rollover display
+✔ cockpit_candidate/test_source_display.cjs (100.57024ms)
+PASS: native BUY/HOLD/gap/EXIT/rollover, legacy compatibility, origin binding, net scenario, and 100 stable repeated DOM renders
+PASS: three EARLY rows, distinct second BUY/history, WATCH could flip, independent deployed FINAL history
+✔ cockpit_candidate/test_trade_records.cjs (599.925734ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 767.232454

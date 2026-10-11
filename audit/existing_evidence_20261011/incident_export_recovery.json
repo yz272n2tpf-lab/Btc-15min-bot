@@ -1,0 +1,162 @@
+{
+  "start": "2026-10-11T14:28:00Z",
+  "end": "2026-10-11T14:33:00Z",
+  "prefix_bytes": 12045773381,
+  "read_bytes": 5310720,
+  "requests": [
+    {
+      "offset": 0,
+      "bytes": 65536,
+      "sha256": "323f1edf0385966c80f2462dcba3673ebac24787c2d2bcb668e8b8c3bea01c6c",
+      "total_bytes": 12045773381
+    },
+    {
+      "offset": 12045707845,
+      "bytes": 65536,
+      "sha256": "8e466e508eda1b83d8953730940e266c9fe204d98a9a371593bae20c6686e0c9",
+      "total_bytes": 12045815708
+    },
+    {
+      "offset": 6022853922,
+      "bytes": 65536,
+      "sha256": "52d598fd19d1645895a2e63548f1f0d4b20dc8f36d8c8e5d61134ee8a0d214cf",
+      "total_bytes": 12045894730
+    },
+    {
+      "offset": 9034280883,
+      "bytes": 65536,
+      "sha256": "1da69fb3104f920b82bae5e9d3f4a7957e1483d5edeb995983615b572a126fe6",
+      "total_bytes": 12045927205
+    },
+    {
+      "offset": 10539994364,
+      "bytes": 65536,
+      "sha256": "0688a1124b9c0e67c6e301edbabac1dea117756efee71ffa7616cae62307b125",
+      "total_bytes": 12045970092
+    },
+    {
+      "offset": 11292851104,
+      "bytes": 65536,
+      "sha256": "4f999c63a300cc7f704b4723924ceb591c7f125dea212679ea5c861d5c29260b",
+      "total_bytes": 12046002861
+    },
+    {
+      "offset": 11669279474,
+      "bytes": 65536,
+      "sha256": "98206d7d3e8e33c653fecf3948a93c94c1679686f5d7c8f3241aafa25551da00",
+      "total_bytes": 12046035424
+    },
+    {
+      "offset": 11857493659,
+      "bytes": 65536,
+      "sha256": "7a1fe9855412176567ede7370b4a32bf46f365d3928b7daee62389f7c7d37e44",
+      "total_bytes": 12046068349
+    },
+    {
+      "offset": 11951600752,
+      "bytes": 65536,
+      "sha256": "341aa96f7708acc8e60378e02400eba461e1c797c2be99bce7846a3524a790aa",
+      "total_bytes": 12046101249
+    },
+    {
+      "offset": 11904547205,
+      "bytes": 65536,
+      "sha256": "4fa76da3a7ba1a36039b555f74fdb4db0a1704a7116647ad4a02f2b4529406c3",
+      "total_bytes": 12046134350
+    },
+    {
+      "offset": 11928073978,
+      "bytes": 65536,
+      "sha256": "7fd512fb6d3586a367c6a0526798933d26e1d1bac5f56f1bb11f6ee0fe147887",
+      "total_bytes": 12046178959
+    },
+    {
+      "offset": 11916310591,
+      "bytes": 65536,
+      "sha256": "c156ea08278f7ca1f76cf2d4d4706659857e77151d542bc29920efe2ef2da277",
+      "total_bytes": 12046212561
+    },
+    {
+      "offset": 11910428898,
+      "bytes": 65536,
+      "sha256": "9049e09b6d173fd516866fb9f9f7e02e5917c4141b9d4ec060b0dc3aacf542b9",
+      "total_bytes": 12046246297
+    },
+    {
+      "offset": 11913369744,
+      "bytes": 65536,
+      "sha256": "a5c8cd26773d2be5952d002f1f87ef1a469a13d37f3109d649c654e1b4f25532",
+      "total_bytes": 12046280254
+    },
+    {
+      "offset": 11911899321,
+      "bytes": 65536,
+      "sha256": "8c3581e1faa3de1cf101eef9a08830db7ed204c8c5f4d29b1cb2b3b01f91fc12",
+      "total_bytes": 12046325627
+    },
+    {
+      "offset": 11912634532,
+      "bytes": 65536,
+      "sha256": "5d1bdf372507b5b5b7ce982814efaa06d105f19bc4ce326dcc781974b10c1411",
+      "total_bytes": 12046359940
+    },
+    {
+      "offset": 11912266926,
+      "bytes": 65536,
+      "sha256": "cdb132a9c5f35ad4c92e7f35fbe6274c7f07d11b0932b195b6a4ed72f56ddb68",
+      "total_bytes": 12046394393
+    },
+    {
+      "offset": 11912083123,
+      "bytes": 65536,
+      "sha256": "71e146a0b8461d66763f9f89783cb28bd3182426429efe9d74ebce177687f78c",
+      "total_bytes": 12046440365
+    },
+    {
+      "offset": 11911991222,
+      "bytes": 65536,
+      "sha256": "8a5c8ceae948bde5f6c8c8eb5d0a41e9aafa54d2268a5dc230ecd2989776c120",
+      "total_bytes": 12046475139
+    },
+    {
+      "offset": 11911945271,
+      "bytes": 65536,
+      "sha256": "8f840db252286c2398ca38d12467d478bfdad2918cd730a8011f89bccad18f5b",
+      "total_bytes": 12046510012
+    },
+    {
+      "offset": 11911879735,
+      "bytes": 4000000,
+      "sha256": "82346d3e35e81d2059cf87ec5c4a8b40a654d891311f5e6605df852702d386f5",
+      "total_bytes": 12046556735
+    }
+  ],
+  "records": 300,
+  "first": "2026-10-11T14:28:00.084109+00:00",
+  "last": "2026-10-11T14:32:59.107303+00:00",
+  "edge_damage": [
+    {
+      "start": 0,
+      "end": 3888,
+      "reasons": [
+        "error"
+      ],
+      "kind": "damaged_range_recovered_after"
+    },
+    {
+      "start": 3988392,
+      "end": 4000000,
+      "reasons": [
+        "EOFError"
+      ],
+      "kind": "incomplete_or_damaged_tail"
+    }
+  ],
+  "internal_damage": [],
+  "run_ids": [
+    "clean-source-v2-1s-20260923"
+  ],
+  "sha256": "7b98219cecb8fbf52bddb4185a59ae7470a92236f09d924f762335bc08b0260c",
+  "signal_only": true,
+  "orders": false
+}

@@ -1,0 +1,1582 @@
+{
+  "scope": "service",
+  "deploymentId": "019191ec-9a3b-4a6c-9290-5706cb56153b",
+  "serviceId": "174bd89d-264b-4882-8d5a-b8dbacf97181",
+  "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+  "status": "SKIPPED",
+  "deploy": [
+    {
+      "timestamp": "2026-09-15T20:40:51.218628874Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | B | DOWN | ask=0.94 | fair=0.940 | left=4.17m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-15T20:40:51.218644104Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | B | UP | ask=0.92 | fair=0.930 | left=4.67m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-15T20:40:51.218785564Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | B | DOWN | ask=0.93 | fair=0.930 | left=3.50m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-15T20:40:51.218803214Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | B | DOWN | ask=0.92 | fair=0.920 | left=3.67m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-15T20:40:51.219446124Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | B | UP | ask=0.9 | fair=0.950 | left=4.00m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-15T20:53:42.658702629Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP151700-00 | UP | ask=0.83 | fair=0.914 | left=6.41m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-15T21:10:12.949577878Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP151715-15 | DOWN | ask=0.943 | fair=0.911 | left=4.85m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-15T21:26:03.811856986Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP151730-30 | DOWN | ask=0.944 | fair=0.901 | left=3.95m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-15T21:54:34.920372529Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP151800-00 | DOWN | ask=0.89 | fair=0.902 | left=5.50m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-15T22:38:45.280667425Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP151845-45 | UP | ask=0.83 | fair=0.916 | left=6.48m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-15T22:52:12.782104117Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP151900-00 | UP | ask=0.86 | fair=0.921 | left=7.80m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-15T23:14:17.532314404Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP151915-15 | UP | ask=0.999 | fair=0.921 | left=0.88m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-16T00:08:13.445056462Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP152015-15 | UP | ask=0.82 | fair=0.921 | left=6.95m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-16T00:25:32.769887693Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP152030-30 | UP | ask=0.928 | fair=0.919 | left=4.52m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-16T00:58:16.833011161Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP152100-00 | DOWN | ask=0.962 | fair=0.902 | left=1.85m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-16T01:23:42.666391282Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP152130-30 | UP | ask=0.72 | fair=0.917 | left=6.34m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-16T01:40:12.678966564Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP152145-45 | DOWN | ask=0.971 | fair=0.904 | left=4.92m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T02:10:02.640134460Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP162215-15 | DOWN | ask=0.967 | fair=0.902 | left=4.98m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T02:24:55.647711666Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP162230-30 | DOWN | ask=0.86 | fair=0.906 | left=5.17m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T02:38:05.083228505Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP162245-45 | UP | ask=0.966 | fair=0.922 | left=7.00m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T03:08:03.339548636Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP162315-15 | UP | ask=0.9 | fair=0.914 | left=6.99m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T03:26:01.343930630Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP162330-30 | UP | ask=0.915 | fair=0.911 | left=3.98m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T03:57:05.203994080Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170000-00 | DOWN | ask=0.87 | fair=0.912 | left=2.93m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T04:09:25.738156742Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170015-15 | DOWN | ask=0.91 | fair=0.901 | left=5.68m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T04:41:37.686075789Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170045-45 | UP | ask=0.926 | fair=0.920 | left=3.50m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T04:56:28.195643356Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170100-00 | UP | ask=0.979 | fair=0.919 | left=3.66m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T05:12:59.305578444Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170115-15 | DOWN | ask=0.983 | fair=0.913 | left=2.16m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T06:08:50.077341591Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170215-15 | UP | ask=0.87 | fair=0.915 | left=6.31m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T06:24:04.365353334Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170230-30 | DOWN | ask=0.944 | fair=0.904 | left=5.98m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T06:39:15.780286276Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170245-45 | UP | ask=0.961 | fair=0.916 | left=5.89m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T06:58:58.225625825Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170300-00 | DOWN | ask=0.999 | fair=0.918 | left=1.14m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T09:07:07.226700646Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170515-15 | UP | ask=0.922 | fair=0.915 | left=7.93m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T09:53:02.477167667Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170600-00 | DOWN | ask=0.9 | fair=0.904 | left=7.00m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T10:10:05.120786781Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170615-15 | DOWN | ask=0.911 | fair=0.903 | left=4.99m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T10:26:28.639448643Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170630-30 | DOWN | ask=0.965 | fair=0.902 | left=3.57m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T10:59:27.234462489Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170700-00 | UP | ask=0.999 | fair=0.916 | left=0.65m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T11:25:24.065999626Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170730-30 | DOWN | ask=0.89 | fair=0.904 | left=4.72m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T11:37:36.344144240Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170745-45 | DOWN | ask=0.959 | fair=0.904 | left=7.47m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T11:58:24.613896846Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170800-00 | UP | ask=0.997 | fair=0.921 | left=1.80m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T12:13:16.667011436Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170815-15 | UP | ask=0.997 | fair=0.921 | left=1.96m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T12:22:26.385656747Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170830-30 | UP | ask=0.927 | fair=0.909 | left=7.62m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T12:43:56.062589955Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170845-45 | DOWN | ask=0.975 | fair=0.915 | left=1.28m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T12:58:58.505877885Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170900-00 | DOWN | ask=0.998 | fair=0.909 | left=1.11m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T13:13:55.383997945Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170915-15 | DOWN | ask=0.991 | fair=0.901 | left=1.19m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T13:28:17.050280876Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170930-30 | DOWN | ask=0.962 | fair=0.907 | left=1.85m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T13:37:47.532829522Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP170945-45 | DOWN | ask=0.951 | fair=0.901 | left=7.34m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T13:52:16.414258905Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP171000-00 | UP | ask=0.948 | fair=0.921 | left=7.84m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T14:08:17.076847788Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP171015-15 | DOWN | ask=0.929 | fair=0.905 | left=6.84m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T14:39:58.682315411Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP171045-45 | DOWN | ask=0.929 | fair=0.904 | left=5.25m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T15:08:05.577589762Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP171115-15 | DOWN | ask=0.915 | fair=0.901 | left=6.98m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T15:26:06.157199830Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP171130-30 | UP | ask=0.9 | fair=0.919 | left=4.06m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T15:37:02.194493278Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP171145-45 | UP | ask=0.965 | fair=0.921 | left=7.97m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T16:41:21.098117927Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP171245-45 | DOWN | ask=0.89 | fair=0.905 | left=3.78m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T17:08:18.183020667Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP171315-15 | UP | ask=0.968 | fair=0.921 | left=6.86m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T17:22:07.097151091Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP171330-30 | UP | ask=0.79 | fair=0.911 | left=7.94m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T17:40:29.152620669Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP171345-45 | DOWN | ask=0.95 | fair=0.900 | left=4.68m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T18:41:03.140309883Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP171445-45 | DOWN | ask=0.986 | fair=0.907 | left=4.16m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T20:25:03.859655938Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP171630-30 | UP | ask=0.942 | fair=0.920 | left=4.95m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T21:13:06.429523642Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP171715-15 | DOWN | ask=0.969 | fair=0.920 | left=1.94m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T21:26:17.912805604Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP171730-30 | UP | ask=0.9 | fair=0.909 | left=3.85m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T21:54:48.064987078Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP171800-00 | DOWN | ask=0.963 | fair=0.913 | left=5.27m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T22:25:06.720321575Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP171830-30 | DOWN | ask=0.958 | fair=0.904 | left=4.93m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T22:38:07.651704825Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP171845-45 | UP | ask=0.964 | fair=0.921 | left=6.92m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T22:55:18.706920235Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP171900-00 | DOWN | ask=0.937 | fair=0.903 | left=4.75m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T23:07:07.031012797Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP171915-15 | UP | ask=0.89 | fair=0.914 | left=7.92m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-17T23:42:03.232997677Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP171945-45 | DOWN | ask=0.933 | fair=0.902 | left=2.99m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T00:22:06.992000291Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP172030-30 | DOWN | ask=0.931 | fair=0.905 | left=7.89m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T00:44:38.736856370Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP172045-45 | UP | ask=0.999 | fair=0.901 | left=0.47m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T00:55:07.535655680Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP172100-00 | UP | ask=0.96 | fair=0.920 | left=4.95m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T01:11:05.007119293Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP172115-15 | UP | ask=0.91 | fair=0.905 | left=3.95m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T01:42:51.183723769Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP172145-45 | UP | ask=0.989 | fair=0.919 | left=2.28m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T02:09:06.875808509Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP172215-15 | DOWN | ask=0.84 | fair=0.902 | left=5.92m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T02:29:06.116938915Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP172230-30 | UP | ask=1.0 | fair=0.921 | left=0.91m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T02:42:38.241296582Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP172245-45 | UP | ask=0.96 | fair=0.905 | left=2.41m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T02:56:02.891391476Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP172300-00 | UP | ask=0.87 | fair=0.915 | left=3.99m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T03:09:04.987264748Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP172315-15 | UP | ask=0.88 | fair=0.912 | left=5.98m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T04:08:21.303220451Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP180015-15 | DOWN | ask=0.921 | fair=0.901 | left=6.89m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T05:53:32.447610353Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP180200-00 | DOWN | ask=0.89 | fair=0.900 | left=6.53m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T06:27:08.478851629Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP180230-30 | UP | ask=0.951 | fair=0.921 | left=2.94m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T06:55:39.141585253Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP180300-00 | DOWN | ask=0.946 | fair=0.906 | left=4.52m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T07:26:04.105440029Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP180330-30 | UP | ask=0.953 | fair=0.920 | left=4.02m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T07:57:47.773279653Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP180400-00 | DOWN | ask=0.87 | fair=0.901 | left=2.43m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T08:22:08.927489004Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP180430-30 | UP | ask=0.89 | fair=0.921 | left=7.92m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T09:13:27.423815127Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP180515-15 | UP | ask=0.987 | fair=0.919 | left=1.58m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T09:28:03.233424012Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP180530-30 | DOWN | ask=0.968 | fair=0.909 | left=2.00m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T09:38:00.193405100Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP180545-45 | DOWN | ask=0.924 | fair=0.901 | left=7.08m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T09:52:36.707275828Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP180600-00 | UP | ask=0.88 | fair=0.909 | left=7.49m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T10:12:48.866782500Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP180615-15 | DOWN | ask=0.952 | fair=0.900 | left=2.32m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T10:27:39.733068709Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP180630-30 | UP | ask=0.987 | fair=0.903 | left=2.48m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T10:42:01.731808179Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP180645-45 | DOWN | ask=0.915 | fair=0.904 | left=2.98m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T10:55:42.811928701Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP180700-00 | UP | ask=0.973 | fair=0.920 | left=4.39m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T11:13:06.131206344Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP180715-15 | DOWN | ask=0.995 | fair=0.912 | left=1.97m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T12:27:20.041928479Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP180830-30 | DOWN | ask=0.87 | fair=0.907 | left=2.78m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T12:39:19.937874505Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP180845-45 | UP | ask=0.88 | fair=0.918 | left=5.78m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T12:54:20.889759669Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP180900-00 | DOWN | ask=0.926 | fair=0.901 | left=5.85m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T13:28:33.714481243Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP180930-30 | UP | ask=0.987 | fair=0.920 | left=1.60m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T13:37:08.433030485Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP180945-45 | UP | ask=0.936 | fair=0.922 | left=7.92m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T13:52:05.503159446Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP181000-00 | UP | ask=0.989 | fair=0.920 | left=7.92m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T14:07:02.509977059Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP181015-15 | UP | ask=0.918 | fair=0.920 | left=8.00m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T14:23:19.877455725Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP181030-30 | UP | ask=0.979 | fair=0.921 | left=6.83m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T14:52:07.008002658Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP181100-00 | UP | ask=0.75 | fair=0.922 | left=7.99m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T15:23:31.313294977Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP181130-30 | UP | ask=0.938 | fair=0.901 | left=6.65m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T15:38:51.859125569Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP181145-45 | DOWN | ask=0.82 | fair=0.900 | left=6.15m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T16:11:29.392614773Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP181215-15 | UP | ask=0.89 | fair=0.918 | left=3.63m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T16:59:06.191449606Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP181300-00 | DOWN | ask=0.957 | fair=0.901 | left=0.95m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T17:29:05.891633700Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP181330-30 | DOWN | ask=0.997 | fair=0.909 | left=0.93m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T17:53:17.534289652Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP181400-00 | UP | ask=0.86 | fair=0.920 | left=6.75m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T18:13:02.094261961Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP181415-15 | DOWN | ask=0.977 | fair=0.902 | left=1.99m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T18:53:33.053689318Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP181500-00 | UP | ask=0.72 | fair=0.913 | left=6.48m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T19:12:32.087729134Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP181515-15 | UP | ask=0.994 | fair=0.921 | left=2.56m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T19:38:02.505613570Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP181545-45 | DOWN | ask=0.9 | fair=0.902 | left=6.96m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T20:12:43.901478577Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP181615-15 | DOWN | ask=0.977 | fair=0.901 | left=2.39m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T20:59:42.591368650Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP181700-00 | DOWN | ask=0.999 | fair=0.907 | left=0.37m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T21:10:34.601339151Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP181715-15 | UP | ask=0.81 | fair=0.905 | left=4.54m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T21:29:04.994156815Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP181730-30 | DOWN | ask=0.992 | fair=0.903 | left=0.95m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T22:10:09.035672867Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP181815-15 | UP | ask=0.94 | fair=0.921 | left=4.88m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T22:43:04.384544917Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP181845-45 | DOWN | ask=0.954 | fair=0.910 | left=1.96m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T23:24:08.384177661Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP181930-30 | DOWN | ask=0.903 | fair=0.905 | left=5.93m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-18T23:40:10.232072982Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP181945-45 | DOWN | ask=0.83 | fair=0.908 | left=4.92m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T00:22:54.613000016Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP182030-30 | UP | ask=0.86 | fair=0.917 | left=7.16m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T00:37:03.259795074Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP182045-45 | UP | ask=0.92 | fair=0.918 | left=7.99m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T00:58:10.861178720Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP182100-00 | UP | ask=0.997 | fair=0.921 | left=1.90m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T01:08:39.195663000Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP182115-15 | DOWN | ask=0.86 | fair=0.909 | left=6.40m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T01:37:05.218444671Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP182145-45 | DOWN | ask=0.89 | fair=0.901 | left=7.97m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T01:52:02.222895626Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP182200-00 | UP | ask=0.89 | fair=0.920 | left=7.97m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T02:15:06.521138395Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP182215-15 | UP | ask=1.0 | fair=0.919 | left=0.05m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T03:25:08.379591589Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP182330-30 | DOWN | ask=0.89 | fair=0.904 | left=4.95m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T04:09:13.102961211Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP190015-15 | UP | ask=0.908 | fair=0.909 | left=5.86m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T04:29:54.577640512Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP190030-30 | DOWN | ask=1.0 | fair=0.910 | left=0.27m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T04:37:05.461306525Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP190045-45 | DOWN | ask=0.88 | fair=0.900 | left=7.93m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T05:08:32.543486111Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP190115-15 | UP | ask=0.956 | fair=0.916 | left=6.59m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T06:43:51.006176751Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP190245-45 | UP | ask=0.996 | fair=0.919 | left=1.25m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T07:12:03.583436148Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP190315-15 | UP | ask=0.946 | fair=0.912 | left=2.99m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T07:28:10.707014908Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP190330-30 | DOWN | ask=0.97 | fair=0.914 | left=1.90m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T07:42:22.328775728Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP190345-45 | DOWN | ask=0.954 | fair=0.905 | left=2.65m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T07:59:09.491564983Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP190400-00 | UP | ask=0.995 | fair=0.919 | left=0.98m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T08:41:24.925499976Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP190445-45 | UP | ask=0.85 | fair=0.905 | left=3.72m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T09:14:11.387404746Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP190515-15 | UP | ask=0.998 | fair=0.920 | left=0.96m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T09:39:09.945726607Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP190545-45 | DOWN | ask=0.946 | fair=0.907 | left=5.87m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T09:55:11.745382603Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP190600-00 | UP | ask=0.905 | fair=0.904 | left=4.95m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T10:41:05.542422771Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP190645-45 | DOWN | ask=0.924 | fair=0.910 | left=3.94m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T11:12:47.315882169Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP190715-15 | UP | ask=0.975 | fair=0.920 | left=2.27m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-19T12:11:33.678651515Z",
+      "severity": "info",
+      "message": "HANDOFF FINAL | KXBTC15M-26SEP190815-15 | UP | ask=0.923 | fair=0.907 | left=3.59m | NO ORDERS",
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    }
+  ]
+}

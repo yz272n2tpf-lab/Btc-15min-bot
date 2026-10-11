@@ -1,0 +1,1642 @@
+{
+  "entry": {
+    "observed": "2026-10-11T14:30:46.088506+00:00",
+    "received": "2026-10-11T14:30:46.064283+00:00",
+    "state": {
+      "build": "6e04aced0f718b29f8ed805abcc0f76b01ed5096",
+      "schema": "BTC15_V2_PRODUCT_ENVELOPE_R1",
+      "contract": "KXBTC15M-26OCT111045-45",
+      "target": 83003.59,
+      "status": "AVAILABLE",
+      "reason": null,
+      "guidance": "ENTER",
+      "published_ts": 1791729045.1683967,
+      "expires_at": 1791729047.0,
+      "journal_committed_ts": 1791729045.179955,
+      "origin": {
+        "close_ts": 1791729900.0,
+        "contract": "KXBTC15M-26OCT111045-45",
+        "deadline": 1791729225.1683967,
+        "decision_ts": 1791729045.1615393,
+        "entry_features": {
+          "btc30": 15.110000000000582
+        },
+        "entry_provenance": {
+          "brti": {
+            "clean_for_qualification": true,
+            "owner_epoch": "37a1202f25614f39ae20a05ac8281966",
+            "sequence": 685898,
+            "source_ts_ms": 1791729042000,
+            "status": "PRIMARY_OK",
+            "value": 83015.64
+          },
+          "btc_source_utc": "2026-10-11T14:30:43.547030611Z",
+          "close_ts": 1791729900.0,
+          "open_ts": 1791729000.0,
+          "orders": false,
+          "quote": {
+            "down_ask": 0.41,
+            "down_bid": 0.4,
+            "epoch": "b9377316-b755-48a3-929f-eb522696a13f",
+            "market_id": "01a12767-b692-7569-8aa3-c75f52881d2e",
+            "sequence": 19614,
+            "sid": 1,
+            "source_ts_ms": 1791729045137,
+            "ticker": "KXBTC15M-26OCT111045-45",
+            "transport": "timestamped_contiguous_ws",
+            "up_ask": 0.6,
+            "up_bid": 0.59,
+            "validated_at_ms": 1791729045161
+          },
+          "schema": "V81_TIMESTAMPED_INPUTS_V1",
+          "signal_only": true,
+          "target": 83003.59,
+          "ticker": "KXBTC15M-26OCT111045-45"
+        },
+        "feature_provenance": {
+          "30": {
+            "btc": 83001.14,
+            "input_provenance": {
+              "brti": {
+                "clean_for_qualification": true,
+                "owner_epoch": "37a1202f25614f39ae20a05ac8281966",
+                "sequence": 685885,
+                "source_ts_ms": 1791729013000,
+                "status": "PRIMARY_OK",
+                "value": 83004.92
+              },
+              "btc_source_utc": "2026-10-11T14:30:11.896548644Z",
+              "close_ts": 1791729900.0,
+              "open_ts": 1791729000.0,
+              "orders": false,
+              "quote": {
+                "down_ask": 0.47,
+                "down_bid": 0.46,
+                "epoch": "b9377316-b755-48a3-929f-eb522696a13f",
+                "market_id": "01a12767-b692-7569-8aa3-c75f52881d2e",
+                "sequence": 6717,
+                "sid": 1,
+                "source_ts_ms": 1791729015105,
+                "ticker": "KXBTC15M-26OCT111045-45",
+                "transport": "timestamped_contiguous_ws",
+                "up_ask": 0.54,
+                "up_bid": 0.53,
+                "validated_at_ms": 1791729015148
+              },
+              "schema": "V81_TIMESTAMPED_INPUTS_V1",
+              "signal_only": true,
+              "target": 83003.59,
+              "ticker": "KXBTC15M-26OCT111045-45"
+            },
+            "observed_ts": 1791729015.1482532
+          }
+        },
+        "fee_schedule": {
+          "basis": "Published series taker schedule; one contract; verify any event/account override manually",
+          "fee_type": "quadratic",
+          "multiplier": 1,
+          "observed_ts": 1791729021.936455,
+          "series": "KXBTC15M",
+          "source": "/trade-api/v2/series/KXBTC15M",
+          "source_updated_ts": "2026-10-08T16:24:37.117847Z"
+        },
+        "lane": "FIRST",
+        "manual_fill": null,
+        "open_ts": 1791729000.0,
+        "origin_id": "04c02740ab1490770137fc9a53868a5e31b71c56cce6f377b1ef248af4e124c7",
+        "original_ask": 0.6,
+        "predecessor_exit_ts": null,
+        "predecessor_id": null,
+        "qualification": {
+          "conditions": {
+            "current_series_fees": true,
+            "kalshi_not_opposing": true,
+            "management_trigger_reachable": true,
+            "native_momentum": true,
+            "net_price_room": true,
+            "room_covers_execution_drag": true,
+            "two_sided_execution": true
+          },
+          "economics": {
+            "basis": "One-contract taker fees rounded up per leg; ASK-to-BID already includes crossing the book; one additional observed spread is execution stress, not a fill/slippage forecast. Depth, quantity and account/event overrides require manual verification.",
+            "entry_fee_scenario": 0.02,
+            "execution_reserve": 0.010000000000000009,
+            "exit_fee_scenario": 0.02,
+            "fees_verified": true,
+            "fill_guaranteed": false,
+            "gross_movement_cents": -1.0000000000000009,
+            "meaningful_positive_net": false,
+            "net_after_execution_reserve": -0.06000000000000002,
+            "net_liquidation_scenario": -0.05000000000000001,
+            "observed_bid": 0.59,
+            "observed_spread": 0.010000000000000009,
+            "original_ask": 0.6,
+            "realized_profit": null,
+            "required_net_exclusive": 0.02
+          },
+          "entry_room": {
+            "basis": "Price room is bounded by $1 payout, not an executable exit or forecast. The BID hurdle is a cost threshold, not a target. Full entry outlay can be lost; depth, fills and account/event fee overrides remain unverified.",
+            "bid_hurdle_exclusive": 0.67,
+            "btc30": 15.110000000000582,
+            "capacity_to_full_loss": 0.564516129032258,
+            "entry_ask": 0.6,
+            "entry_fee_estimate": 0.02,
+            "execution_reserve": 0.010000000000000009,
+            "exit_fee_budget": 0.02,
+            "expected_profit": null,
+            "management_arm_bid": 0.65,
+            "maximum_entry_loss": 0.62,
+            "net_price_room": 0.35,
+            "observed_bid": 0.59,
+            "observed_bid_change_30s": 0.05999999999999994,
+            "observed_move_covers_cost_hurdle": false,
+            "observed_spread": 0.010000000000000009,
+            "required_bid_rise": 0.08000000000000007,
+            "round_trip_execution_cost": 0.06000000000000002
+          },
+          "expected_profit": null,
+          "explanation": "Native momentum and executable risk-trigger room qualify. Trade value remains unproven; maximum payout and past movement are not expected profit.",
+          "native_reason": "QUALIFIED",
+          "policy": "SCALP_MOMENTUM_COST_ROOM_V3",
+          "price_ceiling": null,
+          "profit_expectation": "UNESTABLISHED",
+          "projected_exit_bid": null,
+          "projected_net": null,
+          "ready": true,
+          "reason": "QUALIFIED_MOMENTUM_WITH_COST_ROOM"
+        },
+        "route": "GENERALIZED",
+        "serial_index": 1,
+        "side": "UP",
+        "signal_ts": 1791729045.1683967,
+        "target": 83003.59
+      },
+      "terminal": null,
+      "input_provenance": {
+        "brti": {
+          "clean_for_qualification": true,
+          "owner_epoch": "37a1202f25614f39ae20a05ac8281966",
+          "sequence": 685898,
+          "source_ts_ms": 1791729042000,
+          "status": "PRIMARY_OK",
+          "value": 83015.64
+        },
+        "btc_source_utc": "2026-10-11T14:30:43.547030611Z",
+        "close_ts": 1791729900.0,
+        "open_ts": 1791729000.0,
+        "orders": false,
+        "quote": {
+          "down_ask": 0.41,
+          "down_bid": 0.4,
+          "epoch": "b9377316-b755-48a3-929f-eb522696a13f",
+          "market_id": "01a12767-b692-7569-8aa3-c75f52881d2e",
+          "sequence": 19614,
+          "sid": 1,
+          "source_ts_ms": 1791729045137,
+          "ticker": "KXBTC15M-26OCT111045-45",
+          "transport": "timestamped_contiguous_ws",
+          "up_ask": 0.6,
+          "up_bid": 0.59,
+          "validated_at_ms": 1791729045161
+        },
+        "schema": "V81_TIMESTAMPED_INPUTS_V1",
+        "signal_only": true,
+        "target": 83003.59,
+        "ticker": "KXBTC15M-26OCT111045-45"
+      },
+      "executable_current_bid": null,
+      "path": {
+        "current": null,
+        "giveback": null,
+        "last_quote": null,
+        "mae": null,
+        "mfe": null,
+        "missing": false,
+        "samples": 0,
+        "stop": null,
+        "targets": {
+          "10": null,
+          "15": null,
+          "20": null,
+          "30": null,
+          "8": null
+        }
+      },
+      "context": {
+        "exit_authority": false,
+        "phase": "NORMAL",
+        "reasons": [],
+        "state": "HOLD"
+      },
+      "economics": null,
+      "trailing_trigger_bid": null,
+      "orders": false,
+      "signal_only": true
+    }
+  },
+  "first_protect": {
+    "observed": "2026-10-11T14:30:51.085469+00:00",
+    "received": "2026-10-11T14:30:51.065300+00:00",
+    "state": {
+      "build": "6e04aced0f718b29f8ed805abcc0f76b01ed5096",
+      "schema": "BTC15_V2_PRODUCT_ENVELOPE_R1",
+      "contract": "KXBTC15M-26OCT111045-45",
+      "target": 83003.59,
+      "status": "AVAILABLE",
+      "reason": null,
+      "guidance": "PROTECT",
+      "published_ts": 1791729050.1684973,
+      "expires_at": 1791729053.6684973,
+      "journal_committed_ts": 1791729050.1737819,
+      "origin": {
+        "close_ts": 1791729900.0,
+        "contract": "KXBTC15M-26OCT111045-45",
+        "deadline": 1791729225.1683967,
+        "decision_ts": 1791729045.1615393,
+        "entry_features": {
+          "btc30": 15.110000000000582
+        },
+        "entry_provenance": {
+          "brti": {
+            "clean_for_qualification": true,
+            "owner_epoch": "37a1202f25614f39ae20a05ac8281966",
+            "sequence": 685898,
+            "source_ts_ms": 1791729042000,
+            "status": "PRIMARY_OK",
+            "value": 83015.64
+          },
+          "btc_source_utc": "2026-10-11T14:30:43.547030611Z",
+          "close_ts": 1791729900.0,
+          "open_ts": 1791729000.0,
+          "orders": false,
+          "quote": {
+            "down_ask": 0.41,
+            "down_bid": 0.4,
+            "epoch": "b9377316-b755-48a3-929f-eb522696a13f",
+            "market_id": "01a12767-b692-7569-8aa3-c75f52881d2e",
+            "sequence": 19614,
+            "sid": 1,
+            "source_ts_ms": 1791729045137,
+            "ticker": "KXBTC15M-26OCT111045-45",
+            "transport": "timestamped_contiguous_ws",
+            "up_ask": 0.6,
+            "up_bid": 0.59,
+            "validated_at_ms": 1791729045161
+          },
+          "schema": "V81_TIMESTAMPED_INPUTS_V1",
+          "signal_only": true,
+          "target": 83003.59,
+          "ticker": "KXBTC15M-26OCT111045-45"
+        },
+        "feature_provenance": {
+          "30": {
+            "btc": 83001.14,
+            "input_provenance": {
+              "brti": {
+                "clean_for_qualification": true,
+                "owner_epoch": "37a1202f25614f39ae20a05ac8281966",
+                "sequence": 685885,
+                "source_ts_ms": 1791729013000,
+                "status": "PRIMARY_OK",
+                "value": 83004.92
+              },
+              "btc_source_utc": "2026-10-11T14:30:11.896548644Z",
+              "close_ts": 1791729900.0,
+              "open_ts": 1791729000.0,
+              "orders": false,
+              "quote": {
+                "down_ask": 0.47,
+                "down_bid": 0.46,
+                "epoch": "b9377316-b755-48a3-929f-eb522696a13f",
+                "market_id": "01a12767-b692-7569-8aa3-c75f52881d2e",
+                "sequence": 6717,
+                "sid": 1,
+                "source_ts_ms": 1791729015105,
+                "ticker": "KXBTC15M-26OCT111045-45",
+                "transport": "timestamped_contiguous_ws",
+                "up_ask": 0.54,
+                "up_bid": 0.53,
+                "validated_at_ms": 1791729015148
+              },
+              "schema": "V81_TIMESTAMPED_INPUTS_V1",
+              "signal_only": true,
+              "target": 83003.59,
+              "ticker": "KXBTC15M-26OCT111045-45"
+            },
+            "observed_ts": 1791729015.1482532
+          }
+        },
+        "fee_schedule": {
+          "basis": "Published series taker schedule; one contract; verify any event/account override manually",
+          "fee_type": "quadratic",
+          "multiplier": 1,
+          "observed_ts": 1791729021.936455,
+          "series": "KXBTC15M",
+          "source": "/trade-api/v2/series/KXBTC15M",
+          "source_updated_ts": "2026-10-08T16:24:37.117847Z"
+        },
+        "lane": "FIRST",
+        "manual_fill": null,
+        "open_ts": 1791729000.0,
+        "origin_id": "04c02740ab1490770137fc9a53868a5e31b71c56cce6f377b1ef248af4e124c7",
+        "original_ask": 0.6,
+        "predecessor_exit_ts": null,
+        "predecessor_id": null,
+        "qualification": {
+          "conditions": {
+            "current_series_fees": true,
+            "kalshi_not_opposing": true,
+            "management_trigger_reachable": true,
+            "native_momentum": true,
+            "net_price_room": true,
+            "room_covers_execution_drag": true,
+            "two_sided_execution": true
+          },
+          "economics": {
+            "basis": "One-contract taker fees rounded up per leg; ASK-to-BID already includes crossing the book; one additional observed spread is execution stress, not a fill/slippage forecast. Depth, quantity and account/event overrides require manual verification.",
+            "entry_fee_scenario": 0.02,
+            "execution_reserve": 0.010000000000000009,
+            "exit_fee_scenario": 0.02,
+            "fees_verified": true,
+            "fill_guaranteed": false,
+            "gross_movement_cents": -1.0000000000000009,
+            "meaningful_positive_net": false,
+            "net_after_execution_reserve": -0.06000000000000002,
+            "net_liquidation_scenario": -0.05000000000000001,
+            "observed_bid": 0.59,
+            "observed_spread": 0.010000000000000009,
+            "original_ask": 0.6,
+            "realized_profit": null,
+            "required_net_exclusive": 0.02
+          },
+          "entry_room": {
+            "basis": "Price room is bounded by $1 payout, not an executable exit or forecast. The BID hurdle is a cost threshold, not a target. Full entry outlay can be lost; depth, fills and account/event fee overrides remain unverified.",
+            "bid_hurdle_exclusive": 0.67,
+            "btc30": 15.110000000000582,
+            "capacity_to_full_loss": 0.564516129032258,
+            "entry_ask": 0.6,
+            "entry_fee_estimate": 0.02,
+            "execution_reserve": 0.010000000000000009,
+            "exit_fee_budget": 0.02,
+            "expected_profit": null,
+            "management_arm_bid": 0.65,
+            "maximum_entry_loss": 0.62,
+            "net_price_room": 0.35,
+            "observed_bid": 0.59,
+            "observed_bid_change_30s": 0.05999999999999994,
+            "observed_move_covers_cost_hurdle": false,
+            "observed_spread": 0.010000000000000009,
+            "required_bid_rise": 0.08000000000000007,
+            "round_trip_execution_cost": 0.06000000000000002
+          },
+          "expected_profit": null,
+          "explanation": "Native momentum and executable risk-trigger room qualify. Trade value remains unproven; maximum payout and past movement are not expected profit.",
+          "native_reason": "QUALIFIED",
+          "policy": "SCALP_MOMENTUM_COST_ROOM_V3",
+          "price_ceiling": null,
+          "profit_expectation": "UNESTABLISHED",
+          "projected_exit_bid": null,
+          "projected_net": null,
+          "ready": true,
+          "reason": "QUALIFIED_MOMENTUM_WITH_COST_ROOM"
+        },
+        "route": "GENERALIZED",
+        "serial_index": 1,
+        "side": "UP",
+        "signal_ts": 1791729045.1683967,
+        "target": 83003.59
+      },
+      "terminal": null,
+      "input_provenance": {
+        "brti": {
+          "clean_for_qualification": true,
+          "owner_epoch": "37a1202f25614f39ae20a05ac8281966",
+          "sequence": 685901,
+          "source_ts_ms": 1791729049000,
+          "status": "PRIMARY_OK",
+          "value": 83017.09
+        },
+        "btc_source_utc": "2026-10-11T14:30:49.583534889Z",
+        "close_ts": 1791729900.0,
+        "open_ts": 1791729000.0,
+        "orders": false,
+        "quote": {
+          "down_ask": 0.33,
+          "down_bid": 0.32,
+          "epoch": "b9377316-b755-48a3-929f-eb522696a13f",
+          "market_id": "01a12767-b692-7569-8aa3-c75f52881d2e",
+          "sequence": 23309,
+          "sid": 1,
+          "source_ts_ms": 1791729050144,
+          "ticker": "KXBTC15M-26OCT111045-45",
+          "transport": "timestamped_contiguous_ws",
+          "up_ask": 0.68,
+          "up_bid": 0.67,
+          "validated_at_ms": 1791729050163
+        },
+        "schema": "V81_TIMESTAMPED_INPUTS_V1",
+        "signal_only": true,
+        "target": 83003.59,
+        "ticker": "KXBTC15M-26OCT111045-45"
+      },
+      "executable_current_bid": 0.67,
+      "path": {
+        "current": {
+          "bid": 0.67,
+          "delta_cents": 7.000000000000001,
+          "quote_source_ts": 1791729050.144,
+          "seconds_since_signal": 5.000100612640381,
+          "ts": 1791729050.1684973
+        },
+        "giveback": 0.0,
+        "last_quote": {
+          "down_ask": 0.33,
+          "down_bid": 0.32,
+          "epoch": "b9377316-b755-48a3-929f-eb522696a13f",
+          "market_id": "01a12767-b692-7569-8aa3-c75f52881d2e",
+          "sequence": 23309,
+          "sid": 1,
+          "source_ts_ms": 1791729050144,
+          "ticker": "KXBTC15M-26OCT111045-45",
+          "transport": "timestamped_contiguous_ws",
+          "up_ask": 0.68,
+          "up_bid": 0.67,
+          "validated_at_ms": 1791729050163
+        },
+        "mae": -0.02,
+        "mfe": 0.07,
+        "missing": false,
+        "samples": 5,
+        "stop": null,
+        "targets": {
+          "10": null,
+          "15": null,
+          "20": null,
+          "30": null,
+          "8": null
+        }
+      },
+      "context": {
+        "exit_authority": false,
+        "phase": "NORMAL",
+        "reasons": [],
+        "state": "HOLD"
+      },
+      "economics": {
+        "basis": "One-contract taker fees rounded up per leg; ASK-to-BID already includes crossing the book; one additional observed spread is execution stress, not a fill/slippage forecast. Depth, quantity and account/event overrides require manual verification.",
+        "entry_fee_scenario": 0.02,
+        "execution_reserve": 0.010000000000000009,
+        "exit_fee_scenario": 0.02,
+        "fees_verified": true,
+        "fill_guaranteed": false,
+        "gross_movement_cents": 7.000000000000006,
+        "meaningful_positive_net": false,
+        "net_after_execution_reserve": 0.02000000000000005,
+        "net_liquidation_scenario": 0.030000000000000058,
+        "observed_bid": 0.67,
+        "observed_spread": 0.010000000000000009,
+        "original_ask": 0.6,
+        "realized_profit": null,
+        "required_net_exclusive": 0.02
+      },
+      "trailing_trigger_bid": 0.6299999999999999,
+      "orders": false,
+      "signal_only": true
+    }
+  },
+  "bid70": {
+    "observed": "2026-10-11T14:31:20.092466+00:00",
+    "received": "2026-10-11T14:31:20.070594+00:00",
+    "state": {
+      "build": "6e04aced0f718b29f8ed805abcc0f76b01ed5096",
+      "schema": "BTC15_V2_PRODUCT_ENVELOPE_R1",
+      "contract": "KXBTC15M-26OCT111045-45",
+      "target": 83003.59,
+      "status": "AVAILABLE",
+      "reason": null,
+      "guidance": "PROTECT",
+      "published_ts": 1791729079.3093753,
+      "expires_at": 1791729082.0,
+      "journal_committed_ts": 1791729079.3697982,
+      "origin": {
+        "close_ts": 1791729900.0,
+        "contract": "KXBTC15M-26OCT111045-45",
+        "deadline": 1791729225.1683967,
+        "decision_ts": 1791729045.1615393,
+        "entry_features": {
+          "btc30": 15.110000000000582
+        },
+        "entry_provenance": {
+          "brti": {
+            "clean_for_qualification": true,
+            "owner_epoch": "37a1202f25614f39ae20a05ac8281966",
+            "sequence": 685898,
+            "source_ts_ms": 1791729042000,
+            "status": "PRIMARY_OK",
+            "value": 83015.64
+          },
+          "btc_source_utc": "2026-10-11T14:30:43.547030611Z",
+          "close_ts": 1791729900.0,
+          "open_ts": 1791729000.0,
+          "orders": false,
+          "quote": {
+            "down_ask": 0.41,
+            "down_bid": 0.4,
+            "epoch": "b9377316-b755-48a3-929f-eb522696a13f",
+            "market_id": "01a12767-b692-7569-8aa3-c75f52881d2e",
+            "sequence": 19614,
+            "sid": 1,
+            "source_ts_ms": 1791729045137,
+            "ticker": "KXBTC15M-26OCT111045-45",
+            "transport": "timestamped_contiguous_ws",
+            "up_ask": 0.6,
+            "up_bid": 0.59,
+            "validated_at_ms": 1791729045161
+          },
+          "schema": "V81_TIMESTAMPED_INPUTS_V1",
+          "signal_only": true,
+          "target": 83003.59,
+          "ticker": "KXBTC15M-26OCT111045-45"
+        },
+        "feature_provenance": {
+          "30": {
+            "btc": 83001.14,
+            "input_provenance": {
+              "brti": {
+                "clean_for_qualification": true,
+                "owner_epoch": "37a1202f25614f39ae20a05ac8281966",
+                "sequence": 685885,
+                "source_ts_ms": 1791729013000,
+                "status": "PRIMARY_OK",
+                "value": 83004.92
+              },
+              "btc_source_utc": "2026-10-11T14:30:11.896548644Z",
+              "close_ts": 1791729900.0,
+              "open_ts": 1791729000.0,
+              "orders": false,
+              "quote": {
+                "down_ask": 0.47,
+                "down_bid": 0.46,
+                "epoch": "b9377316-b755-48a3-929f-eb522696a13f",
+                "market_id": "01a12767-b692-7569-8aa3-c75f52881d2e",
+                "sequence": 6717,
+                "sid": 1,
+                "source_ts_ms": 1791729015105,
+                "ticker": "KXBTC15M-26OCT111045-45",
+                "transport": "timestamped_contiguous_ws",
+                "up_ask": 0.54,
+                "up_bid": 0.53,
+                "validated_at_ms": 1791729015148
+              },
+              "schema": "V81_TIMESTAMPED_INPUTS_V1",
+              "signal_only": true,
+              "target": 83003.59,
+              "ticker": "KXBTC15M-26OCT111045-45"
+            },
+            "observed_ts": 1791729015.1482532
+          }
+        },
+        "fee_schedule": {
+          "basis": "Published series taker schedule; one contract; verify any event/account override manually",
+          "fee_type": "quadratic",
+          "multiplier": 1,
+          "observed_ts": 1791729021.936455,
+          "series": "KXBTC15M",
+          "source": "/trade-api/v2/series/KXBTC15M",
+          "source_updated_ts": "2026-10-08T16:24:37.117847Z"
+        },
+        "lane": "FIRST",
+        "manual_fill": null,
+        "open_ts": 1791729000.0,
+        "origin_id": "04c02740ab1490770137fc9a53868a5e31b71c56cce6f377b1ef248af4e124c7",
+        "original_ask": 0.6,
+        "predecessor_exit_ts": null,
+        "predecessor_id": null,
+        "qualification": {
+          "conditions": {
+            "current_series_fees": true,
+            "kalshi_not_opposing": true,
+            "management_trigger_reachable": true,
+            "native_momentum": true,
+            "net_price_room": true,
+            "room_covers_execution_drag": true,
+            "two_sided_execution": true
+          },
+          "economics": {
+            "basis": "One-contract taker fees rounded up per leg; ASK-to-BID already includes crossing the book; one additional observed spread is execution stress, not a fill/slippage forecast. Depth, quantity and account/event overrides require manual verification.",
+            "entry_fee_scenario": 0.02,
+            "execution_reserve": 0.010000000000000009,
+            "exit_fee_scenario": 0.02,
+            "fees_verified": true,
+            "fill_guaranteed": false,
+            "gross_movement_cents": -1.0000000000000009,
+            "meaningful_positive_net": false,
+            "net_after_execution_reserve": -0.06000000000000002,
+            "net_liquidation_scenario": -0.05000000000000001,
+            "observed_bid": 0.59,
+            "observed_spread": 0.010000000000000009,
+            "original_ask": 0.6,
+            "realized_profit": null,
+            "required_net_exclusive": 0.02
+          },
+          "entry_room": {
+            "basis": "Price room is bounded by $1 payout, not an executable exit or forecast. The BID hurdle is a cost threshold, not a target. Full entry outlay can be lost; depth, fills and account/event fee overrides remain unverified.",
+            "bid_hurdle_exclusive": 0.67,
+            "btc30": 15.110000000000582,
+            "capacity_to_full_loss": 0.564516129032258,
+            "entry_ask": 0.6,
+            "entry_fee_estimate": 0.02,
+            "execution_reserve": 0.010000000000000009,
+            "exit_fee_budget": 0.02,
+            "expected_profit": null,
+            "management_arm_bid": 0.65,
+            "maximum_entry_loss": 0.62,
+            "net_price_room": 0.35,
+            "observed_bid": 0.59,
+            "observed_bid_change_30s": 0.05999999999999994,
+            "observed_move_covers_cost_hurdle": false,
+            "observed_spread": 0.010000000000000009,
+            "required_bid_rise": 0.08000000000000007,
+            "round_trip_execution_cost": 0.06000000000000002
+          },
+          "expected_profit": null,
+          "explanation": "Native momentum and executable risk-trigger room qualify. Trade value remains unproven; maximum payout and past movement are not expected profit.",
+          "native_reason": "QUALIFIED",
+          "policy": "SCALP_MOMENTUM_COST_ROOM_V3",
+          "price_ceiling": null,
+          "profit_expectation": "UNESTABLISHED",
+          "projected_exit_bid": null,
+          "projected_net": null,
+          "ready": true,
+          "reason": "QUALIFIED_MOMENTUM_WITH_COST_ROOM"
+        },
+        "route": "GENERALIZED",
+        "serial_index": 1,
+        "side": "UP",
+        "signal_ts": 1791729045.1683967,
+        "target": 83003.59
+      },
+      "terminal": null,
+      "input_provenance": {
+        "brti": {
+          "clean_for_qualification": true,
+          "owner_epoch": "37a1202f25614f39ae20a05ac8281966",
+          "sequence": 685913,
+          "source_ts_ms": 1791729077000,
+          "status": "PRIMARY_OK",
+          "value": 83031.6
+        },
+        "btc_source_utc": "2026-10-11T14:31:17.978402370Z",
+        "close_ts": 1791729900.0,
+        "open_ts": 1791729000.0,
+        "orders": false,
+        "quote": {
+          "down_ask": 0.3,
+          "down_bid": 0.29,
+          "epoch": "b9377316-b755-48a3-929f-eb522696a13f",
+          "market_id": "01a12767-b692-7569-8aa3-c75f52881d2e",
+          "sequence": 36599,
+          "sid": 1,
+          "source_ts_ms": 1791729079142,
+          "ticker": "KXBTC15M-26OCT111045-45",
+          "transport": "timestamped_contiguous_ws",
+          "up_ask": 0.71,
+          "up_bid": 0.7,
+          "validated_at_ms": 1791729079167
+        },
+        "schema": "V81_TIMESTAMPED_INPUTS_V1",
+        "signal_only": true,
+        "target": 83003.59,
+        "ticker": "KXBTC15M-26OCT111045-45"
+      },
+      "executable_current_bid": 0.7,
+      "path": {
+        "current": {
+          "bid": 0.7,
+          "delta_cents": 10.0,
+          "quote_source_ts": 1791729079.142,
+          "seconds_since_signal": 34.14097857475281,
+          "ts": 1791729079.3093753
+        },
+        "giveback": 0.009999999999999995,
+        "last_quote": {
+          "down_ask": 0.3,
+          "down_bid": 0.29,
+          "epoch": "b9377316-b755-48a3-929f-eb522696a13f",
+          "market_id": "01a12767-b692-7569-8aa3-c75f52881d2e",
+          "sequence": 36599,
+          "sid": 1,
+          "source_ts_ms": 1791729079142,
+          "ticker": "KXBTC15M-26OCT111045-45",
+          "transport": "timestamped_contiguous_ws",
+          "up_ask": 0.71,
+          "up_bid": 0.7,
+          "validated_at_ms": 1791729079167
+        },
+        "mae": -0.02,
+        "mfe": 0.11,
+        "missing": false,
+        "samples": 34,
+        "stop": null,
+        "targets": {
+          "10": {
+            "bid": 0.71,
+            "delta_cents": 11.0,
+            "quote_source_ts": 1791729070.146,
+            "seconds_since_signal": 24.99996280670166,
+            "stop_first": false,
+            "ts": 1791729070.1683595
+          },
+          "15": null,
+          "20": null,
+          "30": null,
+          "8": {
+            "bid": 0.68,
+            "delta_cents": 8.0,
+            "quote_source_ts": 1791729052.124,
+            "seconds_since_signal": 6.989742755889893,
+            "stop_first": false,
+            "ts": 1791729052.1581395
+          }
+        }
+      },
+      "context": {
+        "exit_authority": false,
+        "phase": "NORMAL",
+        "reasons": [
+          "EXECUTABLE_PRICE_PULLBACK"
+        ],
+        "state": "WATCH"
+      },
+      "economics": {
+        "basis": "One-contract taker fees rounded up per leg; ASK-to-BID already includes crossing the book; one additional observed spread is execution stress, not a fill/slippage forecast. Depth, quantity and account/event overrides require manual verification.",
+        "entry_fee_scenario": 0.02,
+        "execution_reserve": 0.010000000000000009,
+        "exit_fee_scenario": 0.02,
+        "fees_verified": true,
+        "fill_guaranteed": false,
+        "gross_movement_cents": 9.999999999999998,
+        "meaningful_positive_net": true,
+        "net_after_execution_reserve": 0.04999999999999996,
+        "net_liquidation_scenario": 0.05999999999999997,
+        "observed_bid": 0.7,
+        "observed_spread": 0.010000000000000009,
+        "original_ask": 0.6,
+        "realized_profit": null,
+        "required_net_exclusive": 0.02
+      },
+      "trailing_trigger_bid": 0.6699999999999999,
+      "orders": false,
+      "signal_only": true
+    }
+  },
+  "peak84": {
+    "observed": "2026-10-11T14:32:08.096999+00:00",
+    "received": "2026-10-11T14:32:08.075906+00:00",
+    "state": {
+      "build": "6e04aced0f718b29f8ed805abcc0f76b01ed5096",
+      "schema": "BTC15_V2_PRODUCT_ENVELOPE_R1",
+      "contract": "KXBTC15M-26OCT111045-45",
+      "target": 83003.59,
+      "status": "AVAILABLE",
+      "reason": null,
+      "guidance": "PROTECT",
+      "published_ts": 1791729127.1725888,
+      "expires_at": 1791729129.0,
+      "journal_committed_ts": 1791729127.1783118,
+      "origin": {
+        "close_ts": 1791729900.0,
+        "contract": "KXBTC15M-26OCT111045-45",
+        "deadline": 1791729225.1683967,
+        "decision_ts": 1791729045.1615393,
+        "entry_features": {
+          "btc30": 15.110000000000582
+        },
+        "entry_provenance": {
+          "brti": {
+            "clean_for_qualification": true,
+            "owner_epoch": "37a1202f25614f39ae20a05ac8281966",
+            "sequence": 685898,
+            "source_ts_ms": 1791729042000,
+            "status": "PRIMARY_OK",
+            "value": 83015.64
+          },
+          "btc_source_utc": "2026-10-11T14:30:43.547030611Z",
+          "close_ts": 1791729900.0,
+          "open_ts": 1791729000.0,
+          "orders": false,
+          "quote": {
+            "down_ask": 0.41,
+            "down_bid": 0.4,
+            "epoch": "b9377316-b755-48a3-929f-eb522696a13f",
+            "market_id": "01a12767-b692-7569-8aa3-c75f52881d2e",
+            "sequence": 19614,
+            "sid": 1,
+            "source_ts_ms": 1791729045137,
+            "ticker": "KXBTC15M-26OCT111045-45",
+            "transport": "timestamped_contiguous_ws",
+            "up_ask": 0.6,
+            "up_bid": 0.59,
+            "validated_at_ms": 1791729045161
+          },
+          "schema": "V81_TIMESTAMPED_INPUTS_V1",
+          "signal_only": true,
+          "target": 83003.59,
+          "ticker": "KXBTC15M-26OCT111045-45"
+        },
+        "feature_provenance": {
+          "30": {
+            "btc": 83001.14,
+            "input_provenance": {
+              "brti": {
+                "clean_for_qualification": true,
+                "owner_epoch": "37a1202f25614f39ae20a05ac8281966",
+                "sequence": 685885,
+                "source_ts_ms": 1791729013000,
+                "status": "PRIMARY_OK",
+                "value": 83004.92
+              },
+              "btc_source_utc": "2026-10-11T14:30:11.896548644Z",
+              "close_ts": 1791729900.0,
+              "open_ts": 1791729000.0,
+              "orders": false,
+              "quote": {
+                "down_ask": 0.47,
+                "down_bid": 0.46,
+                "epoch": "b9377316-b755-48a3-929f-eb522696a13f",
+                "market_id": "01a12767-b692-7569-8aa3-c75f52881d2e",
+                "sequence": 6717,
+                "sid": 1,
+                "source_ts_ms": 1791729015105,
+                "ticker": "KXBTC15M-26OCT111045-45",
+                "transport": "timestamped_contiguous_ws",
+                "up_ask": 0.54,
+                "up_bid": 0.53,
+                "validated_at_ms": 1791729015148
+              },
+              "schema": "V81_TIMESTAMPED_INPUTS_V1",
+              "signal_only": true,
+              "target": 83003.59,
+              "ticker": "KXBTC15M-26OCT111045-45"
+            },
+            "observed_ts": 1791729015.1482532
+          }
+        },
+        "fee_schedule": {
+          "basis": "Published series taker schedule; one contract; verify any event/account override manually",
+          "fee_type": "quadratic",
+          "multiplier": 1,
+          "observed_ts": 1791729021.936455,
+          "series": "KXBTC15M",
+          "source": "/trade-api/v2/series/KXBTC15M",
+          "source_updated_ts": "2026-10-08T16:24:37.117847Z"
+        },
+        "lane": "FIRST",
+        "manual_fill": null,
+        "open_ts": 1791729000.0,
+        "origin_id": "04c02740ab1490770137fc9a53868a5e31b71c56cce6f377b1ef248af4e124c7",
+        "original_ask": 0.6,
+        "predecessor_exit_ts": null,
+        "predecessor_id": null,
+        "qualification": {
+          "conditions": {
+            "current_series_fees": true,
+            "kalshi_not_opposing": true,
+            "management_trigger_reachable": true,
+            "native_momentum": true,
+            "net_price_room": true,
+            "room_covers_execution_drag": true,
+            "two_sided_execution": true
+          },
+          "economics": {
+            "basis": "One-contract taker fees rounded up per leg; ASK-to-BID already includes crossing the book; one additional observed spread is execution stress, not a fill/slippage forecast. Depth, quantity and account/event overrides require manual verification.",
+            "entry_fee_scenario": 0.02,
+            "execution_reserve": 0.010000000000000009,
+            "exit_fee_scenario": 0.02,
+            "fees_verified": true,
+            "fill_guaranteed": false,
+            "gross_movement_cents": -1.0000000000000009,
+            "meaningful_positive_net": false,
+            "net_after_execution_reserve": -0.06000000000000002,
+            "net_liquidation_scenario": -0.05000000000000001,
+            "observed_bid": 0.59,
+            "observed_spread": 0.010000000000000009,
+            "original_ask": 0.6,
+            "realized_profit": null,
+            "required_net_exclusive": 0.02
+          },
+          "entry_room": {
+            "basis": "Price room is bounded by $1 payout, not an executable exit or forecast. The BID hurdle is a cost threshold, not a target. Full entry outlay can be lost; depth, fills and account/event fee overrides remain unverified.",
+            "bid_hurdle_exclusive": 0.67,
+            "btc30": 15.110000000000582,
+            "capacity_to_full_loss": 0.564516129032258,
+            "entry_ask": 0.6,
+            "entry_fee_estimate": 0.02,
+            "execution_reserve": 0.010000000000000009,
+            "exit_fee_budget": 0.02,
+            "expected_profit": null,
+            "management_arm_bid": 0.65,
+            "maximum_entry_loss": 0.62,
+            "net_price_room": 0.35,
+            "observed_bid": 0.59,
+            "observed_bid_change_30s": 0.05999999999999994,
+            "observed_move_covers_cost_hurdle": false,
+            "observed_spread": 0.010000000000000009,
+            "required_bid_rise": 0.08000000000000007,
+            "round_trip_execution_cost": 0.06000000000000002
+          },
+          "expected_profit": null,
+          "explanation": "Native momentum and executable risk-trigger room qualify. Trade value remains unproven; maximum payout and past movement are not expected profit.",
+          "native_reason": "QUALIFIED",
+          "policy": "SCALP_MOMENTUM_COST_ROOM_V3",
+          "price_ceiling": null,
+          "profit_expectation": "UNESTABLISHED",
+          "projected_exit_bid": null,
+          "projected_net": null,
+          "ready": true,
+          "reason": "QUALIFIED_MOMENTUM_WITH_COST_ROOM"
+        },
+        "route": "GENERALIZED",
+        "serial_index": 1,
+        "side": "UP",
+        "signal_ts": 1791729045.1683967,
+        "target": 83003.59
+      },
+      "terminal": null,
+      "input_provenance": {
+        "brti": {
+          "clean_for_qualification": true,
+          "owner_epoch": "37a1202f25614f39ae20a05ac8281966",
+          "sequence": 685934,
+          "source_ts_ms": 1791729124000,
+          "status": "PRIMARY_OK",
+          "value": 83056.03
+        },
+        "btc_source_utc": "2026-10-11T14:32:06.385056354Z",
+        "close_ts": 1791729900.0,
+        "open_ts": 1791729000.0,
+        "orders": false,
+        "quote": {
+          "down_ask": 0.16,
+          "down_bid": 0.15,
+          "epoch": "b9377316-b755-48a3-929f-eb522696a13f",
+          "market_id": "01a12767-b692-7569-8aa3-c75f52881d2e",
+          "sequence": 57091,
+          "sid": 1,
+          "source_ts_ms": 1791729127146,
+          "ticker": "KXBTC15M-26OCT111045-45",
+          "transport": "timestamped_contiguous_ws",
+          "up_ask": 0.85,
+          "up_bid": 0.84,
+          "validated_at_ms": 1791729127166
+        },
+        "schema": "V81_TIMESTAMPED_INPUTS_V1",
+        "signal_only": true,
+        "target": 83003.59,
+        "ticker": "KXBTC15M-26OCT111045-45"
+      },
+      "executable_current_bid": 0.84,
+      "path": {
+        "current": {
+          "bid": 0.84,
+          "delta_cents": 24.0,
+          "quote_source_ts": 1791729127.146,
+          "seconds_since_signal": 82.00419211387634,
+          "ts": 1791729127.1725888
+        },
+        "giveback": 0.0,
+        "last_quote": {
+          "down_ask": 0.16,
+          "down_bid": 0.15,
+          "epoch": "b9377316-b755-48a3-929f-eb522696a13f",
+          "market_id": "01a12767-b692-7569-8aa3-c75f52881d2e",
+          "sequence": 57091,
+          "sid": 1,
+          "source_ts_ms": 1791729127146,
+          "ticker": "KXBTC15M-26OCT111045-45",
+          "transport": "timestamped_contiguous_ws",
+          "up_ask": 0.85,
+          "up_bid": 0.84,
+          "validated_at_ms": 1791729127166
+        },
+        "mae": -0.02,
+        "mfe": 0.24,
+        "missing": true,
+        "samples": 81,
+        "stop": null,
+        "targets": {
+          "10": {
+            "bid": 0.71,
+            "delta_cents": 11.0,
+            "quote_source_ts": 1791729070.146,
+            "seconds_since_signal": 24.99996280670166,
+            "stop_first": false,
+            "ts": 1791729070.1683595
+          },
+          "15": {
+            "bid": 0.81,
+            "delta_cents": 21.0,
+            "quote_source_ts": 1791729124.152,
+            "seconds_since_signal": 79.01341891288757,
+            "stop_first": false,
+            "ts": 1791729124.1818156
+          },
+          "20": {
+            "bid": 0.81,
+            "delta_cents": 21.0,
+            "quote_source_ts": 1791729124.152,
+            "seconds_since_signal": 79.01341891288757,
+            "stop_first": false,
+            "ts": 1791729124.1818156
+          },
+          "30": null,
+          "8": {
+            "bid": 0.68,
+            "delta_cents": 8.0,
+            "quote_source_ts": 1791729052.124,
+            "seconds_since_signal": 6.989742755889893,
+            "stop_first": false,
+            "ts": 1791729052.1581395
+          }
+        }
+      },
+      "context": {
+        "exit_authority": false,
+        "phase": "NORMAL",
+        "reasons": [],
+        "state": "HOLD"
+      },
+      "economics": {
+        "basis": "One-contract taker fees rounded up per leg; ASK-to-BID already includes crossing the book; one additional observed spread is execution stress, not a fill/slippage forecast. Depth, quantity and account/event overrides require manual verification.",
+        "entry_fee_scenario": 0.02,
+        "execution_reserve": 0.010000000000000009,
+        "exit_fee_scenario": 0.01,
+        "fees_verified": true,
+        "fill_guaranteed": false,
+        "gross_movement_cents": 24.0,
+        "meaningful_positive_net": true,
+        "net_after_execution_reserve": 0.19999999999999998,
+        "net_liquidation_scenario": 0.21,
+        "observed_bid": 0.84,
+        "observed_spread": 0.010000000000000009,
+        "original_ask": 0.6,
+        "realized_profit": null,
+        "required_net_exclusive": 0.02
+      },
+      "trailing_trigger_bid": 0.7999999999999999,
+      "orders": false,
+      "signal_only": true
+    }
+  },
+  "exit79": {
+    "observed": "2026-10-11T14:32:13.101678+00:00",
+    "received": "2026-10-11T14:32:13.082149+00:00",
+    "state": {
+      "build": "6e04aced0f718b29f8ed805abcc0f76b01ed5096",
+      "schema": "BTC15_V2_PRODUCT_ENVELOPE_R1",
+      "contract": "KXBTC15M-26OCT111045-45",
+      "target": 83003.59,
+      "status": "AVAILABLE",
+      "reason": null,
+      "guidance": "EXIT",
+      "published_ts": 1791729132.196363,
+      "expires_at": 1791729135.696363,
+      "journal_committed_ts": 1791729132.2144666,
+      "origin": {
+        "close_ts": 1791729900.0,
+        "contract": "KXBTC15M-26OCT111045-45",
+        "deadline": 1791729225.1683967,
+        "decision_ts": 1791729045.1615393,
+        "entry_features": {
+          "btc30": 15.110000000000582
+        },
+        "entry_provenance": {
+          "brti": {
+            "clean_for_qualification": true,
+            "owner_epoch": "37a1202f25614f39ae20a05ac8281966",
+            "sequence": 685898,
+            "source_ts_ms": 1791729042000,
+            "status": "PRIMARY_OK",
+            "value": 83015.64
+          },
+          "btc_source_utc": "2026-10-11T14:30:43.547030611Z",
+          "close_ts": 1791729900.0,
+          "open_ts": 1791729000.0,
+          "orders": false,
+          "quote": {
+            "down_ask": 0.41,
+            "down_bid": 0.4,
+            "epoch": "b9377316-b755-48a3-929f-eb522696a13f",
+            "market_id": "01a12767-b692-7569-8aa3-c75f52881d2e",
+            "sequence": 19614,
+            "sid": 1,
+            "source_ts_ms": 1791729045137,
+            "ticker": "KXBTC15M-26OCT111045-45",
+            "transport": "timestamped_contiguous_ws",
+            "up_ask": 0.6,
+            "up_bid": 0.59,
+            "validated_at_ms": 1791729045161
+          },
+          "schema": "V81_TIMESTAMPED_INPUTS_V1",
+          "signal_only": true,
+          "target": 83003.59,
+          "ticker": "KXBTC15M-26OCT111045-45"
+        },
+        "feature_provenance": {
+          "30": {
+            "btc": 83001.14,
+            "input_provenance": {
+              "brti": {
+                "clean_for_qualification": true,
+                "owner_epoch": "37a1202f25614f39ae20a05ac8281966",
+                "sequence": 685885,
+                "source_ts_ms": 1791729013000,
+                "status": "PRIMARY_OK",
+                "value": 83004.92
+              },
+              "btc_source_utc": "2026-10-11T14:30:11.896548644Z",
+              "close_ts": 1791729900.0,
+              "open_ts": 1791729000.0,
+              "orders": false,
+              "quote": {
+                "down_ask": 0.47,
+                "down_bid": 0.46,
+                "epoch": "b9377316-b755-48a3-929f-eb522696a13f",
+                "market_id": "01a12767-b692-7569-8aa3-c75f52881d2e",
+                "sequence": 6717,
+                "sid": 1,
+                "source_ts_ms": 1791729015105,
+                "ticker": "KXBTC15M-26OCT111045-45",
+                "transport": "timestamped_contiguous_ws",
+                "up_ask": 0.54,
+                "up_bid": 0.53,
+                "validated_at_ms": 1791729015148
+              },
+              "schema": "V81_TIMESTAMPED_INPUTS_V1",
+              "signal_only": true,
+              "target": 83003.59,
+              "ticker": "KXBTC15M-26OCT111045-45"
+            },
+            "observed_ts": 1791729015.1482532
+          }
+        },
+        "fee_schedule": {
+          "basis": "Published series taker schedule; one contract; verify any event/account override manually",
+          "fee_type": "quadratic",
+          "multiplier": 1,
+          "observed_ts": 1791729021.936455,
+          "series": "KXBTC15M",
+          "source": "/trade-api/v2/series/KXBTC15M",
+          "source_updated_ts": "2026-10-08T16:24:37.117847Z"
+        },
+        "lane": "FIRST",
+        "manual_fill": null,
+        "open_ts": 1791729000.0,
+        "origin_id": "04c02740ab1490770137fc9a53868a5e31b71c56cce6f377b1ef248af4e124c7",
+        "original_ask": 0.6,
+        "predecessor_exit_ts": null,
+        "predecessor_id": null,
+        "qualification": {
+          "conditions": {
+            "current_series_fees": true,
+            "kalshi_not_opposing": true,
+            "management_trigger_reachable": true,
+            "native_momentum": true,
+            "net_price_room": true,
+            "room_covers_execution_drag": true,
+            "two_sided_execution": true
+          },
+          "economics": {
+            "basis": "One-contract taker fees rounded up per leg; ASK-to-BID already includes crossing the book; one additional observed spread is execution stress, not a fill/slippage forecast. Depth, quantity and account/event overrides require manual verification.",
+            "entry_fee_scenario": 0.02,
+            "execution_reserve": 0.010000000000000009,
+            "exit_fee_scenario": 0.02,
+            "fees_verified": true,
+            "fill_guaranteed": false,
+            "gross_movement_cents": -1.0000000000000009,
+            "meaningful_positive_net": false,
+            "net_after_execution_reserve": -0.06000000000000002,
+            "net_liquidation_scenario": -0.05000000000000001,
+            "observed_bid": 0.59,
+            "observed_spread": 0.010000000000000009,
+            "original_ask": 0.6,
+            "realized_profit": null,
+            "required_net_exclusive": 0.02
+          },
+          "entry_room": {
+            "basis": "Price room is bounded by $1 payout, not an executable exit or forecast. The BID hurdle is a cost threshold, not a target. Full entry outlay can be lost; depth, fills and account/event fee overrides remain unverified.",
+            "bid_hurdle_exclusive": 0.67,
+            "btc30": 15.110000000000582,
+            "capacity_to_full_loss": 0.564516129032258,
+            "entry_ask": 0.6,
+            "entry_fee_estimate": 0.02,
+            "execution_reserve": 0.010000000000000009,
+            "exit_fee_budget": 0.02,
+            "expected_profit": null,
+            "management_arm_bid": 0.65,
+            "maximum_entry_loss": 0.62,
+            "net_price_room": 0.35,
+            "observed_bid": 0.59,
+            "observed_bid_change_30s": 0.05999999999999994,
+            "observed_move_covers_cost_hurdle": false,
+            "observed_spread": 0.010000000000000009,
+            "required_bid_rise": 0.08000000000000007,
+            "round_trip_execution_cost": 0.06000000000000002
+          },
+          "expected_profit": null,
+          "explanation": "Native momentum and executable risk-trigger room qualify. Trade value remains unproven; maximum payout and past movement are not expected profit.",
+          "native_reason": "QUALIFIED",
+          "policy": "SCALP_MOMENTUM_COST_ROOM_V3",
+          "price_ceiling": null,
+          "profit_expectation": "UNESTABLISHED",
+          "projected_exit_bid": null,
+          "projected_net": null,
+          "ready": true,
+          "reason": "QUALIFIED_MOMENTUM_WITH_COST_ROOM"
+        },
+        "route": "GENERALIZED",
+        "serial_index": 1,
+        "side": "UP",
+        "signal_ts": 1791729045.1683967,
+        "target": 83003.59
+      },
+      "terminal": {
+        "actionable_exit": true,
+        "complete_path": false,
+        "economics": {
+          "basis": "One-contract taker fees rounded up per leg; ASK-to-BID already includes crossing the book; one additional observed spread is execution stress, not a fill/slippage forecast. Depth, quantity and account/event overrides require manual verification.",
+          "entry_fee_scenario": 0.02,
+          "execution_reserve": 0.010000000000000009,
+          "exit_fee_scenario": 0.02,
+          "fees_verified": true,
+          "fill_guaranteed": false,
+          "gross_movement_cents": 19.000000000000007,
+          "meaningful_positive_net": true,
+          "net_after_execution_reserve": 0.14000000000000007,
+          "net_liquidation_scenario": 0.15000000000000008,
+          "observed_bid": 0.79,
+          "observed_spread": 0.010000000000000009,
+          "original_ask": 0.6,
+          "realized_profit": null,
+          "required_net_exclusive": 0.02
+        },
+        "executable_exit_bid": 0.79,
+        "exit_class": "PROFIT_PROTECTION",
+        "horizon_delay_seconds": 0.0,
+        "manual_fill": null,
+        "observed_only": true,
+        "orders": false,
+        "origin": {
+          "close_ts": 1791729900.0,
+          "contract": "KXBTC15M-26OCT111045-45",
+          "deadline": 1791729225.1683967,
+          "decision_ts": 1791729045.1615393,
+          "entry_features": {
+            "btc30": 15.110000000000582
+          },
+          "entry_provenance": {
+            "brti": {
+              "clean_for_qualification": true,
+              "owner_epoch": "37a1202f25614f39ae20a05ac8281966",
+              "sequence": 685898,
+              "source_ts_ms": 1791729042000,
+              "status": "PRIMARY_OK",
+              "value": 83015.64
+            },
+            "btc_source_utc": "2026-10-11T14:30:43.547030611Z",
+            "close_ts": 1791729900.0,
+            "open_ts": 1791729000.0,
+            "orders": false,
+            "quote": {
+              "down_ask": 0.41,
+              "down_bid": 0.4,
+              "epoch": "b9377316-b755-48a3-929f-eb522696a13f",
+              "market_id": "01a12767-b692-7569-8aa3-c75f52881d2e",
+              "sequence": 19614,
+              "sid": 1,
+              "source_ts_ms": 1791729045137,
+              "ticker": "KXBTC15M-26OCT111045-45",
+              "transport": "timestamped_contiguous_ws",
+              "up_ask": 0.6,
+              "up_bid": 0.59,
+              "validated_at_ms": 1791729045161
+            },
+            "schema": "V81_TIMESTAMPED_INPUTS_V1",
+            "signal_only": true,
+            "target": 83003.59,
+            "ticker": "KXBTC15M-26OCT111045-45"
+          },
+          "feature_provenance": {
+            "30": {
+              "btc": 83001.14,
+              "input_provenance": {
+                "brti": {
+                  "clean_for_qualification": true,
+                  "owner_epoch": "37a1202f25614f39ae20a05ac8281966",
+                  "sequence": 685885,
+                  "source_ts_ms": 1791729013000,
+                  "status": "PRIMARY_OK",
+                  "value": 83004.92
+                },
+                "btc_source_utc": "2026-10-11T14:30:11.896548644Z",
+                "close_ts": 1791729900.0,
+                "open_ts": 1791729000.0,
+                "orders": false,
+                "quote": {
+                  "down_ask": 0.47,
+                  "down_bid": 0.46,
+                  "epoch": "b9377316-b755-48a3-929f-eb522696a13f",
+                  "market_id": "01a12767-b692-7569-8aa3-c75f52881d2e",
+                  "sequence": 6717,
+                  "sid": 1,
+                  "source_ts_ms": 1791729015105,
+                  "ticker": "KXBTC15M-26OCT111045-45",
+                  "transport": "timestamped_contiguous_ws",
+                  "up_ask": 0.54,
+                  "up_bid": 0.53,
+                  "validated_at_ms": 1791729015148
+                },
+                "schema": "V81_TIMESTAMPED_INPUTS_V1",
+                "signal_only": true,
+                "target": 83003.59,
+                "ticker": "KXBTC15M-26OCT111045-45"
+              },
+              "observed_ts": 1791729015.1482532
+            }
+          },
+          "fee_schedule": {
+            "basis": "Published series taker schedule; one contract; verify any event/account override manually",
+            "fee_type": "quadratic",
+            "multiplier": 1,
+            "observed_ts": 1791729021.936455,
+            "series": "KXBTC15M",
+            "source": "/trade-api/v2/series/KXBTC15M",
+            "source_updated_ts": "2026-10-08T16:24:37.117847Z"
+          },
+          "lane": "FIRST",
+          "manual_fill": null,
+          "open_ts": 1791729000.0,
+          "origin_id": "04c02740ab1490770137fc9a53868a5e31b71c56cce6f377b1ef248af4e124c7",
+          "original_ask": 0.6,
+          "predecessor_exit_ts": null,
+          "predecessor_id": null,
+          "qualification": {
+            "conditions": {
+              "current_series_fees": true,
+              "kalshi_not_opposing": true,
+              "management_trigger_reachable": true,
+              "native_momentum": true,
+              "net_price_room": true,
+              "room_covers_execution_drag": true,
+              "two_sided_execution": true
+            },
+            "economics": {
+              "basis": "One-contract taker fees rounded up per leg; ASK-to-BID already includes crossing the book; one additional observed spread is execution stress, not a fill/slippage forecast. Depth, quantity and account/event overrides require manual verification.",
+              "entry_fee_scenario": 0.02,
+              "execution_reserve": 0.010000000000000009,
+              "exit_fee_scenario": 0.02,
+              "fees_verified": true,
+              "fill_guaranteed": false,
+              "gross_movement_cents": -1.0000000000000009,
+              "meaningful_positive_net": false,
+              "net_after_execution_reserve": -0.06000000000000002,
+              "net_liquidation_scenario": -0.05000000000000001,
+              "observed_bid": 0.59,
+              "observed_spread": 0.010000000000000009,
+              "original_ask": 0.6,
+              "realized_profit": null,
+              "required_net_exclusive": 0.02
+            },
+            "entry_room": {
+              "basis": "Price room is bounded by $1 payout, not an executable exit or forecast. The BID hurdle is a cost threshold, not a target. Full entry outlay can be lost; depth, fills and account/event fee overrides remain unverified.",
+              "bid_hurdle_exclusive": 0.67,
+              "btc30": 15.110000000000582,
+              "capacity_to_full_loss": 0.564516129032258,
+              "entry_ask": 0.6,
+              "entry_fee_estimate": 0.02,
+              "execution_reserve": 0.010000000000000009,
+              "exit_fee_budget": 0.02,
+              "expected_profit": null,
+              "management_arm_bid": 0.65,
+              "maximum_entry_loss": 0.62,
+              "net_price_room": 0.35,
+              "observed_bid": 0.59,
+              "observed_bid_change_30s": 0.05999999999999994,
+              "observed_move_covers_cost_hurdle": false,
+              "observed_spread": 0.010000000000000009,
+              "required_bid_rise": 0.08000000000000007,
+              "round_trip_execution_cost": 0.06000000000000002
+            },
+            "expected_profit": null,
+            "explanation": "Native momentum and executable risk-trigger room qualify. Trade value remains unproven; maximum payout and past movement are not expected profit.",
+            "native_reason": "QUALIFIED",
+            "policy": "SCALP_MOMENTUM_COST_ROOM_V3",
+            "price_ceiling": null,
+            "profit_expectation": "UNESTABLISHED",
+            "projected_exit_bid": null,
+            "projected_net": null,
+            "ready": true,
+            "reason": "QUALIFIED_MOMENTUM_WITH_COST_ROOM"
+          },
+          "route": "GENERALIZED",
+          "serial_index": 1,
+          "side": "UP",
+          "signal_ts": 1791729045.1683967,
+          "target": 83003.59
+        },
+        "path": {
+          "current": {
+            "bid": 0.79,
+            "delta_cents": 19.0,
+            "quote_source_ts": 1791729132.12,
+            "seconds_since_signal": 87.02796626091003,
+            "ts": 1791729132.196363
+          },
+          "giveback": 0.04999999999999999,
+          "last_quote": {
+            "down_ask": 0.21,
+            "down_bid": 0.2,
+            "epoch": "b9377316-b755-48a3-929f-eb522696a13f",
+            "market_id": "01a12767-b692-7569-8aa3-c75f52881d2e",
+            "sequence": 60596,
+            "sid": 1,
+            "source_ts_ms": 1791729132120,
+            "ticker": "KXBTC15M-26OCT111045-45",
+            "transport": "timestamped_contiguous_ws",
+            "up_ask": 0.8,
+            "up_bid": 0.79,
+            "validated_at_ms": 1791729132154
+          },
+          "mae": -0.02,
+          "mfe": 0.24,
+          "missing": true,
+          "samples": 85,
+          "stop": null,
+          "targets": {
+            "10": {
+              "bid": 0.71,
+              "delta_cents": 11.0,
+              "quote_source_ts": 1791729070.146,
+              "seconds_since_signal": 24.99996280670166,
+              "stop_first": false,
+              "ts": 1791729070.1683595
+            },
+            "15": {
+              "bid": 0.81,
+              "delta_cents": 21.0,
+              "quote_source_ts": 1791729124.152,
+              "seconds_since_signal": 79.01341891288757,
+              "stop_first": false,
+              "ts": 1791729124.1818156
+            },
+            "20": {
+              "bid": 0.81,
+              "delta_cents": 21.0,
+              "quote_source_ts": 1791729124.152,
+              "seconds_since_signal": 79.01341891288757,
+              "stop_first": false,
+              "ts": 1791729124.1818156
+            },
+            "30": null,
+            "8": {
+              "bid": 0.68,
+              "delta_cents": 8.0,
+              "quote_source_ts": 1791729052.124,
+              "seconds_since_signal": 6.989742755889893,
+              "stop_first": false,
+              "ts": 1791729052.1581395
+            }
+          }
+        },
+        "quote": {
+          "down_ask": 0.21,
+          "down_bid": 0.2,
+          "epoch": "b9377316-b755-48a3-929f-eb522696a13f",
+          "market_id": "01a12767-b692-7569-8aa3-c75f52881d2e",
+          "sequence": 60596,
+          "sid": 1,
+          "source_ts_ms": 1791729132120,
+          "ticker": "KXBTC15M-26OCT111045-45",
+          "transport": "timestamped_contiguous_ws",
+          "up_ask": 0.8,
+          "up_bid": 0.79,
+          "validated_at_ms": 1791729132154
+        },
+        "realized_profit": null,
+        "reason": "ARM5_GIVEBACK4",
+        "signal_only": true,
+        "state": "EXIT",
+        "ts": 1791729132.196363
+      },
+      "input_provenance": {
+        "brti": {
+          "clean_for_qualification": true,
+          "owner_epoch": "37a1202f25614f39ae20a05ac8281966",
+          "sequence": 685937,
+          "source_ts_ms": 1791729131000,
+          "status": "PRIMARY_OK",
+          "value": 83063.71
+        },
+        "btc_source_utc": "2026-10-11T14:32:11.333505736Z",
+        "close_ts": 1791729900.0,
+        "open_ts": 1791729000.0,
+        "orders": false,
+        "quote": {
+          "down_ask": 0.21,
+          "down_bid": 0.2,
+          "epoch": "b9377316-b755-48a3-929f-eb522696a13f",
+          "market_id": "01a12767-b692-7569-8aa3-c75f52881d2e",
+          "sequence": 60596,
+          "sid": 1,
+          "source_ts_ms": 1791729132120,
+          "ticker": "KXBTC15M-26OCT111045-45",
+          "transport": "timestamped_contiguous_ws",
+          "up_ask": 0.8,
+          "up_bid": 0.79,
+          "validated_at_ms": 1791729132154
+        },
+        "schema": "V81_TIMESTAMPED_INPUTS_V1",
+        "signal_only": true,
+        "target": 83003.59,
+        "ticker": "KXBTC15M-26OCT111045-45"
+      },
+      "executable_current_bid": 0.79,
+      "path": {
+        "current": {
+          "bid": 0.79,
+          "delta_cents": 19.0,
+          "quote_source_ts": 1791729132.12,
+          "seconds_since_signal": 87.02796626091003,
+          "ts": 1791729132.196363
+        },
+        "giveback": 0.04999999999999999,
+        "last_quote": {
+          "down_ask": 0.21,
+          "down_bid": 0.2,
+          "epoch": "b9377316-b755-48a3-929f-eb522696a13f",
+          "market_id": "01a12767-b692-7569-8aa3-c75f52881d2e",
+          "sequence": 60596,
+          "sid": 1,
+          "source_ts_ms": 1791729132120,
+          "ticker": "KXBTC15M-26OCT111045-45",
+          "transport": "timestamped_contiguous_ws",
+          "up_ask": 0.8,
+          "up_bid": 0.79,
+          "validated_at_ms": 1791729132154
+        },
+        "mae": -0.02,
+        "mfe": 0.24,
+        "missing": true,
+        "samples": 85,
+        "stop": null,
+        "targets": {
+          "10": {
+            "bid": 0.71,
+            "delta_cents": 11.0,
+            "quote_source_ts": 1791729070.146,
+            "seconds_since_signal": 24.99996280670166,
+            "stop_first": false,
+            "ts": 1791729070.1683595
+          },
+          "15": {
+            "bid": 0.81,
+            "delta_cents": 21.0,
+            "quote_source_ts": 1791729124.152,
+            "seconds_since_signal": 79.01341891288757,
+            "stop_first": false,
+            "ts": 1791729124.1818156
+          },
+          "20": {
+            "bid": 0.81,
+            "delta_cents": 21.0,
+            "quote_source_ts": 1791729124.152,
+            "seconds_since_signal": 79.01341891288757,
+            "stop_first": false,
+            "ts": 1791729124.1818156
+          },
+          "30": null,
+          "8": {
+            "bid": 0.68,
+            "delta_cents": 8.0,
+            "quote_source_ts": 1791729052.124,
+            "seconds_since_signal": 6.989742755889893,
+            "stop_first": false,
+            "ts": 1791729052.1581395
+          }
+        }
+      },
+      "context": {
+        "exit_authority": false,
+        "phase": "NORMAL",
+        "reasons": [
+          "EXECUTABLE_PRICE_PULLBACK"
+        ],
+        "state": "WATCH"
+      },
+      "economics": null,
+      "trailing_trigger_bid": 0.7999999999999999,
+      "orders": false,
+      "signal_only": true
+    }
+  }
+}

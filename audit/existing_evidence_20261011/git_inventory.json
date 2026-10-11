@@ -1,0 +1,5074 @@
+{
+  "heads": [
+    {
+      "ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926",
+      "sha": "fb5f0e641c8d2b47ec470c98625d6e89cc19d407",
+      "evidence_files": 263
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/brti-publication-expiry-20260924",
+      "sha": "c3cd548d42ef762daedee74f48b01323834bbc32",
+      "evidence_files": 259
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923",
+      "sha": "da64f55f1e270c15e9fa899b4fa16144ba7580c3",
+      "evidence_files": 304
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/btc15-completion-20260923",
+      "sha": "e4ef24813fddb2a4ded75d2e35117f58bc7c7648",
+      "evidence_files": 247
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011",
+      "sha": "02e3faa9fd93c384167b3d989eb4aebfc299c153",
+      "evidence_files": 291
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/cadence-equivalence-rejected-20260924",
+      "sha": "0cc29a2403fdf1acc6217db16425abe603dd20d4",
+      "evidence_files": 258
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/cadence-equivalence-v2-20260924",
+      "sha": "9ff0a2f036df989b98c6bc5d6835933f1c7d7c9d",
+      "evidence_files": 261
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/capacity-only-20261003",
+      "sha": "b49fcffdb617ace6a9ce205027e48af06981abdb",
+      "evidence_files": 283
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/capture-deque-race-fix-20261001",
+      "sha": "deef1c671561fe10cb2a9f61c96cbd684de0a394",
+      "evidence_files": 283
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/capture-durability-fail-20260930",
+      "sha": "8796006d887e936593db65f84ff7df7c30718d58",
+      "evidence_files": 284
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/capture-envelope-prerequisite-20260930",
+      "sha": "e41174b1a4cc8a9d19db2497295cc661f79eaaad",
+      "evidence_files": 283
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/capture-gate-recovery-20260925-31416eee",
+      "sha": "4f8acb592d602ee51b6f4e67e82191f7dfc1d3b8",
+      "evidence_files": 262
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/capture-integrated-pass-20260930",
+      "sha": "9becabe9e5abbba97671b5c4fcfd295bae82e15f",
+      "evidence_files": 284
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/capture-latch-pass-20260930",
+      "sha": "97be81dba18ab6b8c75154e05fa6cec96bd0e658",
+      "evidence_files": 284
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/capture-repair-20260930",
+      "sha": "c63da4374216030b5a1ebac53ab54588f2a61752",
+      "evidence_files": 282
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/capture-writer-throughput-fail-20260930",
+      "sha": "bc27ad4b164db4bc649698c05361e28967ecc80a",
+      "evidence_files": 285
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/continuity-baseline-regression-20261006",
+      "sha": "a3188cb08ca6f61892de5a017fc1e252cdb07024",
+      "evidence_files": 280
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/event-ground-zero-20260930",
+      "sha": "5c68fc86ee885494bea78da3d929d1551db4615f",
+      "evidence_files": 283
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/identity-bound-info-20260928",
+      "sha": "08fa7a04eb1a9a2eebcc4a29f597b1278b265fba",
+      "evidence_files": 242
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/information-identity-projection-20260928",
+      "sha": "48af6829147abd4a10425862f2783e93ba292ecd",
+      "evidence_files": 263
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/information-ingress-fix-20260928",
+      "sha": "5b93ad956b146c2a8767b8f0e3b546035b4733d4",
+      "evidence_files": 264
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/information-ingress-reason-20260928",
+      "sha": "0a59f0b478065ec0caeb1b4a6da3b55c9fb87840",
+      "evidence_files": 263
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/information-ingress-rollout-evidence-20260928",
+      "sha": "5c6c0ad7d84a1e094ccbe64c73257cf84bdab577",
+      "evidence_files": 265
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/main-capture-lifetime-20260930",
+      "sha": "0a482b72633dc432422e990d16924155a08cb74e",
+      "evidence_files": 282
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/offpath-quote-proof-candidate-20260925",
+      "sha": "5e14e33d8aa2bd5d9b5942f109373412524f4647",
+      "evidence_files": 263
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/passive-activation-20260930",
+      "sha": "45bc1c60399804bc70fc10879399a0eede2ee808",
+      "evidence_files": 285
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/passive-ground-zero-20260930",
+      "sha": "e11541cdf5cc2661e587788e8b1b0c3dfc804487",
+      "evidence_files": 284
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/pr36-prospective-rollout-20260924",
+      "sha": "dd47cb42a26f66c34feb4043e535a3f5abe6fc16",
+      "evidence_files": 260
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/two-clock-information-20260925",
+      "sha": "f29ac7d76ec75550efbcae317587533f22615c36",
+      "evidence_files": 268
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/two-clock-integration-20260925",
+      "sha": "ca03e4cd85037116a866d2b9108df0ad2365e738",
+      "evidence_files": 277
+    },
+    {
+      "ref": "refs/remotes/evidence/audit/two-clock-live-cost-gate-20260925",
+      "sha": "852e9a4638eb487ffe5a307b79d039d2a9b747c1",
+      "evidence_files": 282
+    },
+    {
+      "ref": "refs/remotes/evidence/brti-main-cutover-candidate-20260919",
+      "sha": "bf3e12ffc2dbe9ffa733d1b960bf69b6b4c3f99f",
+      "evidence_files": 238
+    },
+    {
+      "ref": "refs/remotes/evidence/brti-rate-limit-canary-20260919",
+      "sha": "115f90e9e1cb0ca5b80bd400204af8b08e6a1764",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/brti-shared-consumer-canary-20260919",
+      "sha": "4a67532669179fb69f7370af01945160dd54710e",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/brti-shared-feed-v1-20260913",
+      "sha": "37735e737690096edea31beb2faff6842770ac4f",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/brti-websocket-dashboard-canary-20260919",
+      "sha": "56a1cb9571b2066c7f6ca9da591cb2182257ee2e",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/brti-websocket-fullbot-canary-20260919",
+      "sha": "f19d1bfae5542c1874414d133aaf7df7b05a354c",
+      "evidence_files": 239
+    },
+    {
+      "ref": "refs/remotes/evidence/brti-websocket-gateway-v1-20260919",
+      "sha": "842cfa7c5dc1c9018c450c8355839292f76fb1aa",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/brti-websocket-qualification-20260919",
+      "sha": "76fd3abcd7662595f0e0ed3c67c0e0c7bf968bc0",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/btc15-project-memory-protocol",
+      "sha": "93e779f96e992a10741e8be17bc1ddc594c947b3",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/candidate/baseline-regression-probe-20261006",
+      "sha": "dff47dd5fdfed528865262478d5bcddec1819485",
+      "evidence_files": 281
+    },
+    {
+      "ref": "refs/remotes/evidence/candidate/btc15-early-opportunity-integrity-20261011",
+      "sha": "702a8906a5fce0b18d0ff0efd8a5fcfed772b757",
+      "evidence_files": 302
+    },
+    {
+      "ref": "refs/remotes/evidence/candidate/btc15-main-continuity-validation-20261008",
+      "sha": "b691f7ccc52ae294d8c36cf0855ca040f70ef2e1",
+      "evidence_files": 281
+    },
+    {
+      "ref": "refs/remotes/evidence/candidate/btc15-main-live-shadow-20261008",
+      "sha": "5802d06ed267464bd17f546a3f95322bcc6482b6",
+      "evidence_files": 281
+    },
+    {
+      "ref": "refs/remotes/evidence/candidate/integrated-finish-line-20261006",
+      "sha": "fec9436961c55951e639b893b01905d280015fc8",
+      "evidence_files": 280
+    },
+    {
+      "ref": "refs/remotes/evidence/candidate/main-acceptance-revalidation-20261005",
+      "sha": "9cd51d8541f71ef2a71fb8e436fd24e6c8c33f80",
+      "evidence_files": 276
+    },
+    {
+      "ref": "refs/remotes/evidence/candidate/main-continuity-ui-freeze-20261005",
+      "sha": "f98ec7638694da1fd2d65106a8f84bf3c6bbb456",
+      "evidence_files": 275
+    },
+    {
+      "ref": "refs/remotes/evidence/candidate/main-decision-surface-continuity-20261006",
+      "sha": "1bd5b44d9e11a4f0dc572cd74b7ba513e61f9844",
+      "evidence_files": 280
+    },
+    {
+      "ref": "refs/remotes/evidence/candidate/main-final-completion-20261005",
+      "sha": "b2209569e8c69ffbf79cb2b219276c95b160f2dc",
+      "evidence_files": 275
+    },
+    {
+      "ref": "refs/remotes/evidence/candidate/main-pass-stability-20261005",
+      "sha": "ebb204255264f8a35c4bdf84cd0fd6e54057b19a",
+      "evidence_files": 277
+    },
+    {
+      "ref": "refs/remotes/evidence/candidate/main-publication-replay-20261004",
+      "sha": "a4461acbcf4b6260f074262dc1cb85d310f06af7",
+      "evidence_files": 275
+    },
+    {
+      "ref": "refs/remotes/evidence/candidate/main-ui-continuity-20261005",
+      "sha": "dc8cb4a75943ca5b0a18b0288ab1b07bd2c75cfe",
+      "evidence_files": 276
+    },
+    {
+      "ref": "refs/remotes/evidence/candidate/operator-cockpit-cleanup-20261006",
+      "sha": "447d3652ed77011faf0cdc42f15934e6898ba0a9",
+      "evidence_files": 280
+    },
+    {
+      "ref": "refs/remotes/evidence/candidate/operator-cockpit-functional-20261006",
+      "sha": "d386ed6bf387ab37a3c4a910ea19b676b14d6842",
+      "evidence_files": 280
+    },
+    {
+      "ref": "refs/remotes/evidence/candidate/presentation-continuity-20261005",
+      "sha": "1b4fed90639b4888e2b01fec4efe82238a50111c",
+      "evidence_files": 275
+    },
+    {
+      "ref": "refs/remotes/evidence/candidate/scalp-qualification-seam-20261006",
+      "sha": "a260810eb5ea76aa204225ac181e163dd4c80392",
+      "evidence_files": 280
+    },
+    {
+      "ref": "refs/remotes/evidence/candidate/v2-product-20261004",
+      "sha": "020f8a38d07e0a11e983a1e3bee3b06a4898c2f3",
+      "evidence_files": 275
+    },
+    {
+      "ref": "refs/remotes/evidence/candidate/v81-final-completion-20261005",
+      "sha": "e7b7ffe6109fbdc064770fba34956f59d94be872",
+      "evidence_files": 238
+    },
+    {
+      "ref": "refs/remotes/evidence/candidate/v81-product-20261004",
+      "sha": "985260e4166559701fc96b5582ca2211619d53ee",
+      "evidence_files": 238
+    },
+    {
+      "ref": "refs/remotes/evidence/clean-ladder-score-probe-20260920",
+      "sha": "7247b0e0b4e9591ac0aeaa2f30589dafcd6b3818",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/clean-ladder-source-audit-20260920",
+      "sha": "a59fc45400c6fea3fe5ad8b000a99b5841fe4fad",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/clean-ladder-source-audit-v2-20260920",
+      "sha": "6a2618ce95598f61ded9f218a8467829add0e115",
+      "evidence_files": 242
+    },
+    {
+      "ref": "refs/remotes/evidence/dashboard-source-diag-20260912",
+      "sha": "f37c7d8c05090867cb5d62599a00483dd1b2ef91",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/diag/rollover-canary-unopened-v1-20260922",
+      "sha": "5fe4c2ed1c60f2ee3fdf3ffcbd1990b46ce719e8",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/diag/rollover-instrumentation-v1-20260921",
+      "sha": "82177fcfcb89687d927865e354be48c6c0e6a796",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/diag/rollover-staged-snapshot-check-20260922",
+      "sha": "3043d94493bda84e8ef57538da8f84f4dd316d1e",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/diag/runtime-discovery-binding-v2-20260921",
+      "sha": "908d2d90d09fe7819b6183a05d31c26201bc2ffe",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/diag/runtime-identity-v1-20260922",
+      "sha": "336f865148bd0e89801ec6e2a30bb6e9d35d5e14",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/diagnostic/early50-ui-check-20261006",
+      "sha": "d5f8807431d8b5426f881ba286864ec0c411d2be",
+      "evidence_files": 280
+    },
+    {
+      "ref": "refs/remotes/evidence/diagnostic/live-dom-capture-20261006",
+      "sha": "c6d3ac1eda5b6eb26074ef5907791456fa7fb602",
+      "evidence_files": 280
+    },
+    {
+      "ref": "refs/remotes/evidence/diagnostic/stable-ui-check2-20261006",
+      "sha": "eea02e8488837ff30700f5daa17c4c47918533a5",
+      "evidence_files": 280
+    },
+    {
+      "ref": "refs/remotes/evidence/diagnostic/stable-ui-check3-20261006",
+      "sha": "9678793a957c2cad5df3b29bb22e9722155066a0",
+      "evidence_files": 280
+    },
+    {
+      "ref": "refs/remotes/evidence/diagnostic/stable-ui-check4-20261006",
+      "sha": "4241c48197cb506117da46519a612679ea5963cc",
+      "evidence_files": 280
+    },
+    {
+      "ref": "refs/remotes/evidence/diagnostic/stable-ui-check5-20261006",
+      "sha": "27cbbebfddfb805cc9c9290292a21c50f8ce9cc3",
+      "evidence_files": 280
+    },
+    {
+      "ref": "refs/remotes/evidence/directional-position-manager-v1-shadow-20260921",
+      "sha": "750cd2298d21405aa51987d32f232779ae71d294",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/early-cheap-side-motion-v1-20260920",
+      "sha": "d31922b4c72d5bc7efa590eb1b3c4f86da71fc0d",
+      "evidence_files": 242
+    },
+    {
+      "ref": "refs/remotes/evidence/early-subminute-preprice-audit-20260920",
+      "sha": "0a2a8cdd29810fe765373948fbf113dad3b04466",
+      "evidence_files": 242
+    },
+    {
+      "ref": "refs/remotes/evidence/egress-private-migration-audit-v1",
+      "sha": "3913a8309acc6a8e2287f2087693bd79534c5c6e",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/evidence-integrity-reconciler-v1",
+      "sha": "850c8d870ee6b639bb51df8603cc35e8149229cc",
+      "evidence_files": 238
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/brti-finalization-retention",
+      "sha": "babcd210145081673a17f7f97fb997573084aeb9",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/brti-rollover-target-fallback",
+      "sha": "28e291db2cac53a9ef5f789edff61ba47bee65cb",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/brti-source-history-20260923",
+      "sha": "ca84a433719cea456aaea0ec6827e0a5e7c58b1a",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/btc15-clean-live-ladders-20261009",
+      "sha": "642988b5e9d0ac845208f4b2f0bd4614b6378d25",
+      "evidence_files": 286
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/btc15-cockpit-issued-records-20261009",
+      "sha": "974b4193b5ed70aa3b7d3c8caeff0452095340f0",
+      "evidence_files": 286
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/btc15-early-directional-lifecycle-20261009",
+      "sha": "2f1901006296b45fbd93a1d73c9a08df62357939",
+      "evidence_files": 286
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/btc15-economic-opportunity-coverage-20261009",
+      "sha": "76713b440dba9ca3c98438af46333f90719705ba",
+      "evidence_files": 287
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/btc15-fair-input-export-20260924",
+      "sha": "f48d9f0d3ef5f2bcae47d7c3a1c8a9b1a52c1d42",
+      "evidence_files": 254
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/btc15-final-history-completed-early-20261009",
+      "sha": "4750954bbe1415712950a1b20db3bbf7a1c448aa",
+      "evidence_files": 286
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/btc15-handoff-preserve-checkpoint-history-20261010",
+      "sha": "4f9ffe51ff9af6adf3f1eb0bd4a77f91dc2caa7c",
+      "evidence_files": 287
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/btc15-independent-btc-history-20260924",
+      "sha": "e02f7373415f42f2738825cd8720abbf45c69b68",
+      "evidence_files": 256
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/btc15-issued-trade-clarity-20261009",
+      "sha": "6d5897c26fc83e62a5425148a773d648dfcbacde",
+      "evidence_files": 286
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/btc15-joint-integrity-20260924",
+      "sha": "79ac5a0276b0d3d3336ebfc4c9b0b0a351e01c40",
+      "evidence_files": 254
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/btc15-journal-archive-20261009",
+      "sha": "559ab9bc86d5d683e26bd259461e9ea991e05841",
+      "evidence_files": 287
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/btc15-live-cockpit-source-visibility-20261008",
+      "sha": "748fd336033ff1a4a6050c2653c4614c522b2d05",
+      "evidence_files": 283
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/btc15-live-infrastructure-20261009",
+      "sha": "85c84df58bba3125f9676ca7c758132083434268",
+      "evidence_files": 289
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/btc15-phase-b-live-audit-20261011",
+      "sha": "c5e2c807343b27aacf04824eca1edb5821ae69d0",
+      "evidence_files": 289
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/btc15-publication-polling-20260923",
+      "sha": "df1fbcf47180d54358e2a31f8217e16845b1dc50",
+      "evidence_files": 248
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/btc15-restore-scalp-entry-20261009",
+      "sha": "322ed2bdc5d0859a6f3f7824a9c3641f257d2a2e",
+      "evidence_files": 286
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/btc15-v81-source-publication-20260923",
+      "sha": "647e9330848309e5c5c34f8069edf85d51cf25c4",
+      "evidence_files": 247
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/btc15-v81-timestamped-quotes-20260923",
+      "sha": "b05723ec622f901a05402ecf27f4d33505753ef1",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/clean-observation-cadence-20260923",
+      "sha": "4cb98a13028f4def94ac0c8586e9862eccca1c74",
+      "evidence_files": 242
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/clean-scalp-shared-source-20260923",
+      "sha": "936ce389e5e72e0c676b269c38d4aff6e5f665d6",
+      "evidence_files": 242
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/evidence-compressed-sizing-20260923",
+      "sha": "5afc9a71cb836bb4a23368142a064357a6686d2f",
+      "evidence_files": 247
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/full-cohort-durable-evidence-20260926",
+      "sha": "e8fb346d35d0b0b32a1f5365f6f5a513b02f04f8",
+      "evidence_files": 263
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/information-identity-postclosed-20260928",
+      "sha": "05240279dd5cc9a017240ae2474ee7e564f57100",
+      "evidence_files": 263
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/pr40-settlement-closeout-evidence-20260927",
+      "sha": "3f896b0d139a67fbbfaa3d9dbe90f8bd84a13bc5",
+      "evidence_files": 263
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/pr42-closeout-lifecycle-20260927",
+      "sha": "f2c47c0bdff61a4a306eb3440618aef41429b94a",
+      "evidence_files": 263
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/pr43-nonblocking-closeout-20260927",
+      "sha": "526bd95c9aca63dbb5ecd5d0a7c2fbfc46767602",
+      "evidence_files": 263
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/production-evidence-scorer-20260926",
+      "sha": "c3efbf5b163cced5ba73ea25bf397d3f817b821f",
+      "evidence_files": 263
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/rescue-retained-history-memory-20260923",
+      "sha": "0bae6faaf7a0a2da02c907463723f347a9a6e70f",
+      "evidence_files": 247
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/rollover-canary-duration-v1-20260922",
+      "sha": "d4a4b4a3f20f7dbf74e857b02aaece505eb41ec4",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/rollover-canary-selector-v1-20260922",
+      "sha": "2c9683b97eb018fe6b30a4ea7586bd235955345e",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/rollover-discovery-v1-20260921",
+      "sha": "49ef6796844f0164410ea10adf3d8f3a9beb3a70",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/rollover-proof-log-v1-20260922",
+      "sha": "09a49907ac5d740ff1b651db0af8557ff829017e",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/rollover-staged-handoff-v1-20260922",
+      "sha": "85a7ce60c34974396d441b75b640aa40f315f72f",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/rollover-staged-snapshot-v1-20260922",
+      "sha": "41e1ee2bd5595030c9e2eac6a89cd98ff2c70ab9",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/scalp-single-brti-owner-20260923",
+      "sha": "b74f76194c730619beba4b23a7be5450cb46cf78",
+      "evidence_files": 238
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/v7-brti-transport",
+      "sha": "7d9c123b3179a1e0420cb220cd35906b67278d61",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/v81-fixed-entry-metadata-20260923",
+      "sha": "2420b718c607b7b120ceb2a2a446f4082d8ada37",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/v81-single-brti-owner-20260923",
+      "sha": "2e505542e73d751c1bdc26237c798400fd113338",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/fix/v81-source-publication-age-20260923",
+      "sha": "d04ec162fec22c664c4159f5701960d571cea74a",
+      "evidence_files": 247
+    },
+    {
+      "ref": "refs/remotes/evidence/forward-evidence-matrix-v1",
+      "sha": "1dc9df5b5bc730ee00913510592e8945e14aedd1",
+      "evidence_files": 238
+    },
+    {
+      "ref": "refs/remotes/evidence/ground-zero-pr44-20260927",
+      "sha": "df52a8831064cdd3dd467ee2376f2966915d3811",
+      "evidence_files": 263
+    },
+    {
+      "ref": "refs/remotes/evidence/integration/information-identity-v1-20260928",
+      "sha": "7f1847dabc5c4421a9346bf70aa9c2b7d04ef514",
+      "evidence_files": 263
+    },
+    {
+      "ref": "refs/remotes/evidence/integration/live-protection-status-20260925",
+      "sha": "229da5f5ac1b7c975df1f6fb07e61e66f5331083",
+      "evidence_files": 263
+    },
+    {
+      "ref": "refs/remotes/evidence/integration/recovered-native-identity-20260928",
+      "sha": "f17d855336096b7f6739b5f8f04c4cda10d20fb4",
+      "evidence_files": 242
+    },
+    {
+      "ref": "refs/remotes/evidence/integrity-sentinel-nextgen-body-dedup-batched-v2",
+      "sha": "cc79b64d787feef04d790780b17c2c2bfc8aa5eb",
+      "evidence_files": 238
+    },
+    {
+      "ref": "refs/remotes/evidence/integrity-sentinel-nextgen-body-dedup-v1",
+      "sha": "7c98f5e54288904534bca6a6cae22eff1823f880",
+      "evidence_files": 238
+    },
+    {
+      "ref": "refs/remotes/evidence/integrity-sentinel-recorder-v1",
+      "sha": "b75c0cee90a114590db612f87e33cc10bf959ccb",
+      "evidence_files": 238
+    },
+    {
+      "ref": "refs/remotes/evidence/main",
+      "sha": "abe212b513827c8cec28a2f64e0161e79296bd82",
+      "evidence_files": 264
+    },
+    {
+      "ref": "refs/remotes/evidence/main-runtime-artifact-canary-20260918",
+      "sha": "5213b8f95f18643df914a9b3eea30cf7e633c04e",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/nextgen-v2-review-run-20260920",
+      "sha": "5dda2659b23bacf219bae670b5f2cd19d3f46b86",
+      "evidence_files": 249
+    },
+    {
+      "ref": "refs/remotes/evidence/ops/brti-1s-shadow-20261005",
+      "sha": "380569362a86f6b1a8739fdf91541f85e9dbf67c",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003",
+      "sha": "1d942014af22ab4acb3048a29dbbc831d5ecc924",
+      "evidence_files": 340
+    },
+    {
+      "ref": "refs/remotes/evidence/ops/v2-product-review-20261004",
+      "sha": "c4ba11cbc7db579cecc60d95d5c6019a0905494c",
+      "evidence_files": 267
+    },
+    {
+      "ref": "refs/remotes/evidence/ops/v2-score",
+      "sha": "61b3b4ddb3a816559355802ddd8dba27abfcdf00",
+      "evidence_files": 245
+    },
+    {
+      "ref": "refs/remotes/evidence/qualification/capture-durability-20260930",
+      "sha": "e050501a93d175a2863f0712c119dbf94c210f11",
+      "evidence_files": 283
+    },
+    {
+      "ref": "refs/remotes/evidence/qualification/capture-envelope-20260930",
+      "sha": "828ea1c7f454ecd92e570d312404958c5cd6481e",
+      "evidence_files": 283
+    },
+    {
+      "ref": "refs/remotes/evidence/qualification/capture-integrated-20260930",
+      "sha": "c33142b1e89a35570f146f82e02fa32d8787b8af",
+      "evidence_files": 283
+    },
+    {
+      "ref": "refs/remotes/evidence/qualification/capture-latch-20260930",
+      "sha": "3685844fcdc5956d8971aa80271ef170ffef30d2",
+      "evidence_files": 283
+    },
+    {
+      "ref": "refs/remotes/evidence/qualification/capture-repair-20260930",
+      "sha": "b6dd2b5f8ce3020e0cc87791a9e0814641ac4a1f",
+      "evidence_files": 281
+    },
+    {
+      "ref": "refs/remotes/evidence/qualification/capture-writer-throughput-20260930",
+      "sha": "d61c021cb405b08603864d077f03474473d2a5f3",
+      "evidence_files": 283
+    },
+    {
+      "ref": "refs/remotes/evidence/qualification/main-1s-brti-shadow-20261005",
+      "sha": "0b4b25b80cf70ca2533e749f0edc555dfd4e3e5e",
+      "evidence_files": 276
+    },
+    {
+      "ref": "refs/remotes/evidence/qualification/main-acceptance-revalidation-20261005",
+      "sha": "9cd51d8541f71ef2a71fb8e436fd24e6c8c33f80",
+      "evidence_files": 276
+    },
+    {
+      "ref": "refs/remotes/evidence/qualification/main-capture-lifetime-20260930",
+      "sha": "90a24b1189a6bae8403e46149313716d19f56229",
+      "evidence_files": 281
+    },
+    {
+      "ref": "refs/remotes/evidence/qualification/passive-producer-20260930",
+      "sha": "3e3cdc199c08a3b56006d2d82e3c405cf5759f00",
+      "evidence_files": 281
+    },
+    {
+      "ref": "refs/remotes/evidence/qualification/seven-day-sprint-20260929",
+      "sha": "9aa9ebf569c559a1e5daf7e8654738cfd7e957f8",
+      "evidence_files": 281
+    },
+    {
+      "ref": "refs/remotes/evidence/railway/code-change-6aufFQ",
+      "sha": "9626115d3e017c235c55eaaae97b09e057992eb2",
+      "evidence_files": 242
+    },
+    {
+      "ref": "refs/remotes/evidence/railway/code-change-MmD60w",
+      "sha": "0872d67fabde512cb94f1b0e0d7a373521b92f65",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/railway/code-change-wChf_C",
+      "sha": "d44e82b395de3ac1c9808fc54472c506dd288a42",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/regime-incremental-canary-20260918",
+      "sha": "ab92d95c87dfa0482f7ba39a1eb38cbce9a72d22",
+      "evidence_files": 238
+    },
+    {
+      "ref": "refs/remotes/evidence/release/btc15-integrity-20260923",
+      "sha": "a2690e97544213f1e35cea0b9caea9621f4079b7",
+      "evidence_files": 254
+    },
+    {
+      "ref": "refs/remotes/evidence/release/ladder-completion-20261003",
+      "sha": "de4f3e20b8657eb8cfee91bd4e525c103b5bf513",
+      "evidence_files": 264
+    },
+    {
+      "ref": "refs/remotes/evidence/release/v81-ladder-completion-20261003",
+      "sha": "60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/repair/early-observer-freshness-rollover-v3-20260921",
+      "sha": "1b4b0571a5659a8ffeea11a8c65e0584c8fc330c",
+      "evidence_files": 242
+    },
+    {
+      "ref": "refs/remotes/evidence/report/wednesday-ground-zero-20260927",
+      "sha": "36b18e82069bb55820fff8714a4f68823b642054",
+      "evidence_files": 263
+    },
+    {
+      "ref": "refs/remotes/evidence/research-checkpoint-v2-regression-20260909",
+      "sha": "bb6c9e616d3e90de2906cc403efa9e01b1f4528a",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/research-safe-20260910",
+      "sha": "227ca6f6d863261fdacef4a662c0a5c7a0f7d848",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/research-v6-log-schema-audit-20260910",
+      "sha": "f3f11fd0065b497d0d8ca6593ec4dd8d01c67386",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/research/btc15-fair-input-integrity-20260923",
+      "sha": "03b6bb750703b5e3bf14cca4c5ab5eace2cbdc5a",
+      "evidence_files": 255
+    },
+    {
+      "ref": "refs/remotes/evidence/research/btc15-structural-architecture-20260924",
+      "sha": "1df57b68018fb5aadf10813517f82c29197ce5e3",
+      "evidence_files": 303
+    },
+    {
+      "ref": "refs/remotes/evidence/research/btc15-v81-exit-lifecycle-20260923",
+      "sha": "fb40269fb3cb973deb3f987899dd466a3da287cc",
+      "evidence_files": 251
+    },
+    {
+      "ref": "refs/remotes/evidence/research/checkpoint-tools-v1",
+      "sha": "3c808f826ce897ba2fdf33972609fabe204dff64",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/research/data-quality-segmenter-v1",
+      "sha": "7b744a018d8b7b38151fcce2414c212f89a17152",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/research/early-coverage-ladder-v1-20260921",
+      "sha": "fb1ff533811230b300af17e30dd0e91b1bb051ae",
+      "evidence_files": 243
+    },
+    {
+      "ref": "refs/remotes/evidence/research/early-final-settlement-audit-20260921",
+      "sha": "b2ebd0faa498ea349570b9d0c119594e5c19d4a2",
+      "evidence_files": 250
+    },
+    {
+      "ref": "refs/remotes/evidence/research/early-projected-cross-v1-20260920",
+      "sha": "a21e4bd0e1275de16457cac81098993f8a90756f",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/research/early-scalp-finishline-20260921",
+      "sha": "543e7d960f1b8aeb9f7c7de2645f46d5b1e181ab",
+      "evidence_files": 245
+    },
+    {
+      "ref": "refs/remotes/evidence/research/early-settlement-runway-consensus-v1-20260920",
+      "sha": "7d07b17c5127a423dd384b36fc21b5d195c7e52c",
+      "evidence_files": 241
+    },
+    {
+      "ref": "refs/remotes/evidence/research/early-target-hold-v1-20260920",
+      "sha": "b0810f637f1d722cd6adacccb94cd46ce7b2ad8c",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/research/early-tier1-7to10-forward-freeze-20260920",
+      "sha": "13c8988fed8c97479203910f5620df64826246f3",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/research/joint-ladder-diagnosis-20260924",
+      "sha": "01f6749a2aaab4f7094374a8cd3928d653b54f97",
+      "evidence_files": 295
+    },
+    {
+      "ref": "refs/remotes/evidence/research/rollover-alternate-discovery-probe-v1-20260921",
+      "sha": "cceca7356e1d97645ab2b1fa408515eee7f66888",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/research/rollover-prediscovery-shadow-v1-20260922",
+      "sha": "0912a86440b9ef6e6573ea5ad2158a4a498c9e8a",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/research/rollover-production-canary-v1-20260922",
+      "sha": "edd16ff4624e2cffa0018b8e119d11d5b5d4c767",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/research/rollover-production-regression-v1-20260922",
+      "sha": "ce401294cf5d7e46d03e7ade267abfba20bd7566",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/research/scalp-developing-move-filter-v1-20260921",
+      "sha": "194c80ee8e814b6041e4f4eb124039b1d376a8d2",
+      "evidence_files": 242
+    },
+    {
+      "ref": "refs/remotes/evidence/research/scalp-v2-early-qualification-20260922",
+      "sha": "194c80ee8e814b6041e4f4eb124039b1d376a8d2",
+      "evidence_files": 242
+    },
+    {
+      "ref": "refs/remotes/evidence/rollback/btc15-before-pr36-20260924",
+      "sha": "1730ceff180394fbd2ebae7a5fddc4acd1e76194",
+      "evidence_files": 254
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-candidate-verify-forward-v1",
+      "sha": "8ad5d166886ca51a0b503fbb71f195a99ea75483",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-economics-exit-cert-v1",
+      "sha": "ebae93d1260c9ec8a91de8a746a14b498972a1e1",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-entry-profit-ladder-v1",
+      "sha": "14ef7cf264eb2e53246082038bd90eef9dde63da",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-false-start-development-20260920",
+      "sha": "38a14fc8085090f2965bf93cf831646a1b5aa6c2",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-false-start-raw-audit-20260920",
+      "sha": "8b8c319a56119ed812478f03cb80d1fe3a08d799",
+      "evidence_files": 242
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-finalprod-clean-v1-20260920",
+      "sha": "e98576f23e247349b90717aea3a3ad832d409354",
+      "evidence_files": 242
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-incremental-disk-v2-20260918",
+      "sha": "652b52f0330c68ef9fe3ba1ee5c1fb57151d6d08",
+      "evidence_files": 244
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-incremental-evidence-v1-20260918",
+      "sha": "c4828adbf2d3c35d92aacd098f6d902388e36f5d",
+      "evidence_files": 242
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-ladder-evidence-review-20260920",
+      "sha": "20a99957e4c8bee59f312b9501b411eff6279b7e",
+      "evidence_files": 242
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-lead-research-v3",
+      "sha": "5044a309b79d8b2036edba4a3b7952bb8485ce86",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-move-shadow-v1-20260912",
+      "sha": "0d698328b17825a0c89479053c0433f945bea8cd",
+      "evidence_files": 242
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-move-shadow-v1-benchmark-20260913",
+      "sha": "336e9fbedaea4d21e71cc3d678ec1af23368deee",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-nextgen-finalprod-clean-v2-20260920",
+      "sha": "fcc2af537326d4e7edc0012e5647adc673d22802",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-nextgen-shadow-v2",
+      "sha": "f23b4b37c0bb5f2ba5a50915933962b9eb7813a1",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-nextgen-v2-operations-log",
+      "sha": "85efadabd78660d8ff637f446c5e4c9f8171c587",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-nextgen-v2-review-tools",
+      "sha": "8124831b7a6c9cde5d694df605aa0cd9fc78cf07",
+      "evidence_files": 250
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-opportunity-density-forward-v1",
+      "sha": "2ff170aced81fbca0e6760c5d197c477fe801003",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-pullback-entry-audit-20260920",
+      "sha": "d7f259b68071dcdddaf90b802fd7d2d0a5ce5a6d",
+      "evidence_files": 242
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-pullback-entry-forward-v1",
+      "sha": "f5755e053dca53b71cfb67e666431ef3413dba03",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-regime-ledger-v1",
+      "sha": "bccb066d6f8853d34a503da7bd8b01586c5b190e",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-reversal-reentry-ladder-v1",
+      "sha": "b124c54ea9d015d88c5237d5e0bc45ded8a37f36",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-ui-state-contract-v1",
+      "sha": "b0999fc80219f16c32a37a822127ed9dc2ad809e",
+      "evidence_files": 242
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-unarmed-memory-opt-20260919",
+      "sha": "026997fd0b03686d28df335d2cf6beaf99a3c497",
+      "evidence_files": 242
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-v8-analysis-tools",
+      "sha": "18b8db49cb827a608420dcdbf8540448a030b404",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/scalp-watch-exit-warning-v1",
+      "sha": "7d5bc7cfce61fb0ee1d2c67fc67c04ed096f212a",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/shadow-diagnostic-pack-v1",
+      "sha": "22b8371bd12a714544396f4d073fccc7e038353f",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/shadow/directional-position-manager-v1-20260921",
+      "sha": "e99dede1ba7e1c0119d3f487e3651d0e3b6e15b2",
+      "evidence_files": 242
+    },
+    {
+      "ref": "refs/remotes/evidence/shadow/volume-retention-v1-20260921",
+      "sha": "dda5758033a5ad5ab98499aa48d6915933b6a99a",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/true-scalp-csv-parser-fix-20260920",
+      "sha": "7339b87624e35314b9d2b94e8a4feefef02715dd",
+      "evidence_files": 240
+    },
+    {
+      "ref": "refs/remotes/evidence/ui/mock-dashboard-shell-20260927",
+      "sha": "a43bb01778839732ab1f34ec089470fca53d4595",
+      "evidence_files": 263
+    },
+    {
+      "ref": "refs/remotes/evidence/ui/phase-b-decision-first-layout-20261011",
+      "sha": "779d698271ba35e9fbfc0618fbacd0f36b3141cb",
+      "evidence_files": 287
+    },
+    {
+      "ref": "refs/remotes/evidence/ui/recover-v11-integrate-current-20260927",
+      "sha": "3a6c9eb75dafa689ebd77a43ba78579e7311a2e5",
+      "evidence_files": 242
+    },
+    {
+      "ref": "refs/remotes/evidence/unarmed-health-startup-fix-20260918",
+      "sha": "860b4a925cdc0f2fd1c20ffee2c66f4acc2c29ee",
+      "evidence_files": 242
+    },
+    {
+      "ref": "refs/remotes/evidence/v13-dashboard-live-fixes",
+      "sha": "f72a106879dd2348b80cb9b98659e744120dfb7c",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/v13-dashboard-live-fixes-2",
+      "sha": "eeb86bd286d2945ff979510c6f49de7bb0a21357",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/v13-dashboard-live-fixes-3",
+      "sha": "eeb86bd286d2945ff979510c6f49de7bb0a21357",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/v13-dashboard-live-fixes-work",
+      "sha": "eeb86bd286d2945ff979510c6f49de7bb0a21357",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/v13-dashboard-live-fixes-work2",
+      "sha": "eeb86bd286d2945ff979510c6f49de7bb0a21357",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/v81-30-45-integration-immutable-20260912",
+      "sha": "b323ef1e52cc162ce0308bb27e7a5fb42302953a",
+      "evidence_files": 238
+    },
+    {
+      "ref": "refs/remotes/evidence/v81-30-45-live-feed-20260912",
+      "sha": "4e5b99e9e89e27e1fc0ba18ff9d4261f9430b2e2",
+      "evidence_files": 238
+    },
+    {
+      "ref": "refs/remotes/evidence/v81-30-45-live-feed-immutable-20260912",
+      "sha": "40a4253bdf982d415058a281b900a08d76a061f8",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/v81-dashboard-live-card-20260912",
+      "sha": "6111ef585348d968c2d5c2c72aa529b1662c73df",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/v81-existing-ladder-hook-prep",
+      "sha": "48d721f36c1448d9cfd58c28bfa02f1eb217560f",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/v81-immutable-20260911",
+      "sha": "0a58af58e7c06d6b87e3fe83af2cf2f65f3383ce",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/v81-inline-scalp-integration-20260912",
+      "sha": "4700e2489f0409be9453bce5b7291d1d327ca64d",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/v81-live-diag-shared-brti-shadow-20260913",
+      "sha": "baf4d3e7376a57a8e117f154cc263f9a7099d5d3",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/v81-live-diagnostics-20260912",
+      "sha": "b05723ec622f901a05402ecf27f4d33505753ef1",
+      "evidence_files": 237
+    },
+    {
+      "ref": "refs/remotes/evidence/v81-posttest-prep",
+      "sha": "0089e1bbf8d4a01001c5eaa27c1019d85ad48c30",
+      "evidence_files": 238
+    }
+  ],
+  "objects": {
+    "a8d97d287a63471f7fcc8761495e75c73aec4f63": {
+      "paths": [
+        "BTC15_CHOP_REVERSAL_EVENT_DETECTOR_V1.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "c37fec443b2096c9f23aa1f499211566ce017379": {
+      "paths": [
+        "BTC15_CORE_PRODUCTION_CANDIDATE_LOCK_V1/LOCK_MANIFEST.json"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "48fa68402f68e71cc9f6b3cd8140777640c01ca9": {
+      "paths": [
+        "BTC15_CORE_PRODUCTION_CANDIDATE_LOCK_V1/kalshi_profit_protection_forward_shadow_v1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "a4b809b37dc2e6198ee6f588461b35f9e5a4229c": {
+      "paths": [
+        "BTC15_CORE_PRODUCTION_CANDIDATE_LOCK_V1/kalshi_subminute_unified_v1_1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "e68192ac4a612e62f9a422afc3592029373e75ff": {
+      "paths": [
+        "BTC15_CORE_PRODUCTION_CANDIDATE_LOCK_V1/kalshi_true_scalp_forward_shadow_v1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "dd75ad88a79bfe88a8a69427eebcfb0172f8b0b3": {
+      "paths": [
+        "BTC15_CORE_PRODUCTION_CANDIDATE_LOCK_V1/union_coverage_gap_audit_v1_contracts.csv",
+        "union_coverage_gap_audit_v1_contracts.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "4526345cf550b4185971d6b6c49325f4ff4a09f3": {
+      "paths": [
+        "BTC15_CORE_PRODUCTION_CANDIDATE_LOCK_V1/union_coverage_gap_audit_v1_gaps.csv",
+        "union_coverage_gap_audit_v1_gaps.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "57c5c059d73c24cefcafb67a420315d62f2507ac": {
+      "paths": [
+        "BTC15_EARLY_ENTRY_FEASIBILITY_FRONTIER_V1.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "4beaf18d65146d2d5d421105f59473619380bd86": {
+      "paths": [
+        "BTC15_EARLY_PERSISTENCE_META_MODEL_V1.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "eba6864b3c7175935e3e6bc13b5f7247b491dd90": {
+      "paths": [
+        "BTC15_FINAL_45S_RECONCILIATION_V1.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "fe8b9766b461a54a216bd2417a279db42e9d3857": {
+      "paths": [
+        "BTC15_FINAL_MIXED_45S_UNION_IMPACT_V1.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "6a018ee2f3d10a5b4525bb64471c920e36511972": {
+      "paths": [
+        "BTC15_FINAL_MIXED_DELAY_RECHECK_V1.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "bf473fb3aa5873cdecdd80fcd963971dd6b3fe82": {
+      "paths": [
+        "BTC15_FRESH_OUT_OF_SAMPLE_VALIDATOR_V1.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "733f2cca4aea7215dc9735e3f86d8209d2543cd9": {
+      "paths": [
+        "BTC15_FRESH_OUT_OF_SAMPLE_VALIDATOR_V1_1.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "4cc8eb319b43dd3d4112350b8df176c44228f435": {
+      "paths": [
+        "BTC15_GAP_FEASIBILITY_FINAL_MISS_AUDIT_V1.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "714fd17599e2f8dfd61a2d2867dc7804d8ac25a6": {
+      "paths": [
+        "BTC15_SCALP_EXIT_OPTIMIZER_V1.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "cd482f7af1b74bbc1902a82553d0addae0c4063e": {
+      "paths": [
+        "BTC15_SECONDARY_SCALP_GAPFILLER_V1.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "3634417d75b5ea53c11e7880946933a554565af4": {
+      "paths": [
+        "BTC15_SECONDARY_SCALP_GAPFILLER_V1_1.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "3c4a47b78e6238c959b1b6d925e3c0d970fb6348": {
+      "paths": [
+        "BTC15_SECONDARY_SCALP_ROI_V2.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "0f5da5ba619889543996e12044e8e7481c4ed02b": {
+      "paths": [
+        "BTC15_SUBMINUTE_EARLY_ENTRY_MODEL_V1.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "c7e3fc729987c3ac163d6dc00a4517806ccbbe88": {
+      "paths": [
+        "BTC15_SUBMINUTE_WALKFORWARD_DEVELOPMENT_V1.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "e8cf0d67600befca3a8a0d71919c23423a8052b2": {
+      "paths": [
+        "BTC15_UNIFIED_EARLY_OFFLINE_SCREEN_V1.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "ec81546e7d06922c75dc933220ef31dce6c31c62": {
+      "paths": [
+        "BTC15_UNIFIED_EARLY_SEQUENCE_V3.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "ff93c79169963cf0d680f5385a62313b0e262632": {
+      "paths": [
+        "BTC15_UNIFIED_EARLY_TOURNAMENT_V2.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "f58c7d5091adf4d973d32c58c35155c3a6007709": {
+      "paths": [
+        "BTC15_UNION_COVERAGE_GAP_AUDIT_V1.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "14ad3757882d80fc1c81d8b3bca8889d866a0f9a": {
+      "paths": [
+        "BTC15_V4_10_DIRECT_BRTI_AUTHORITY.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "aa83fa44e3abdccd54bffe4532ac75b05e957d0b": {
+      "paths": [
+        "BTC15_V4_11_1_UNIFIED_SUBMINUTE_WRITE_FIX.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "f6c21b6578385a694923d7a0fee7835f176fd9dd": {
+      "paths": [
+        "BTC15_V4_11_SUBMINUTE_EARLY_ENTRY_SHADOW.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "0a261444dc2dc1ba3c474d828df6522c270b04a1": {
+      "paths": [
+        "BTC15_V4_11_UNIFIED_SUBMINUTE_COLLECTOR.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "37751903edbf68aca40a60d7e78632c1598a7a41": {
+      "paths": [
+        "BTC15_V4_12_MORNING_SCORER.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "8aae25218f1235452ad8921fdfd0e7c2f907d6b8": {
+      "paths": [
+        "BTC15_V4_12_TRUE_SCALP_FORWARD_SHADOW.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "03fe6c84c1106d992628eb0e198d6ff7268f0d76": {
+      "paths": [
+        "BTC15_V4_13_FORWARD_SCORER.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "06a768941286e851ce83ade83a5f18128c0d595d": {
+      "paths": [
+        "BTC15_V4_13_PROFIT_PROTECTION_SHADOW.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "a6f7aed66bc10e3ba05afc3d2fc3a6fa60b6fb0d": {
+      "paths": [
+        "BTC15_V4_8_1_TRUE_SCALP_FIX.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "7e825ed77b86c8d2707e450d01721182b4f6f0af": {
+      "paths": [
+        "BTC15_V4_8_2_EARLY_CONF_SHADOW.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "dc677eb91cfdfdf6f992a828cb33d2561c0f8cbf": {
+      "paths": [
+        "BTC15_V4_8_3_EARLY_CONF_LIVE_FIX.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "8170c1e4bf8ad7804b44ed9be9aa7cd45b5205b3": {
+      "paths": [
+        "BTC15_V4_8_4_EARLY_CONF_ROLLOVER_FIX.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "59495f2c3259a859dbf5184c67781b8b00dd271b": {
+      "paths": [
+        "BTC15_V4_8_TRUE_SCALP.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "9ce1898d15886e3aa0b2d8ce0d09cbeff85755fb": {
+      "paths": [
+        "BTC15_V4_9_1_DIRECT_BRTI_STARTUP_FIX.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "b65d8ed072c3844a47b1b7d22ddc9d1aaed1bd28": {
+      "paths": [
+        "BTC15_V4_9_2_DIRECT_BRTI_FINALIZE_FIX.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "b63df345dd4b4f6e71b16fb2b05c63b059412576": {
+      "paths": [
+        "BTC15_V4_9_DIRECT_BRTI_PARITY.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "3f5658fa36e5c4d3dc92a158f521ee449b024079": {
+      "paths": [
+        "accepted_union_gap_diagnostic_v1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "c6e2847a464f73c70a7dd223b8b5609dee343820": {
+      "paths": [
+        "accepted_union_scorecard_v1_holdout_detail.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "a6da1be6ba3d84511c48ced7cd29e75e7adcb8ae": {
+      "paths": [
+        "accepted_union_scorecard_v1_summary.txt"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "8ed1d8b89e971cbbe982e7630690a46b9f3bdbaf": {
+      "paths": [
+        "batch_tournament_final_results.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "00ca54dad95043d36e7e533a4a40a5aa24f7704b": {
+      "paths": [
+        "batch_tournament_summary.txt"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "a78c09c89803195a059c6bba10e4c22c2e2fe980": {
+      "paths": [
+        "brti_buffer_failures.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "f068c7a2e41cd1e133bd5ed1141f8e68c25dedbd": {
+      "paths": [
+        "brti_calibration_results.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "e8c1c72abecbd60e14fa54ec2feab59104c78571": {
+      "paths": [
+        "btc_35d_live_cache.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "bd80b09eb28392c4cfd87dcb26262c5348777c25": {
+      "paths": [
+        "btc_large_flow_shadow_log.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "a90409b22350204fa7e1ca8937464c657260aade": {
+      "paths": [
+        "chop_reversal_event_detector_v1_gap_signals.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "7977d19909a8858cdc91d7bb9edcd2f9bcbbc6e1": {
+      "paths": [
+        "chop_reversal_event_detector_v1_grid.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "8c97a7875e1630c0698787d36a7a251c61b20e2a": {
+      "paths": [
+        "chop_reversal_event_detector_v1_walkforward_signals.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "5f1d403ee17f44ff5b56ed8522fdb2860a9757fc": {
+      "paths": [
+        "completion_audit/AUDIT.md"
+      ],
+      "ref_count": 103,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "ec5c96166f49db0724e3f3c33571db29b1e5a91b": {
+      "paths": [
+        "completion_audit/BRTI_DELIVERY_RELEASE_20260924.json"
+      ],
+      "ref_count": 91,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "68958e2de9d40a04a7c9baa32bcebe77b53cf725": {
+      "paths": [
+        "completion_audit/BTC_HISTORY_RECOVERY_RELEASE_20260924.json"
+      ],
+      "ref_count": 91,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "e0384db1e3031884d7999bffee131f9ef76c8125": {
+      "paths": [
+        "completion_audit/MAIN_INTEGRITY_RELEASE_20260923.md"
+      ],
+      "ref_count": 95,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "8fb4ba15ea117fdccd44a8aeb30254682ce424fd": {
+      "paths": [
+        "completion_audit/OFFPATH_QUOTE_PROOF_CANDIDATE_20260925.md"
+      ],
+      "ref_count": 82,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "614e42f0c8f73fde0fc695aedf4a9b406aca3d65": {
+      "paths": [
+        "completion_audit/RELEASE_PLAN.md"
+      ],
+      "ref_count": 106,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "a5ca15905ee54ff6601659347fac158ecb07697f": {
+      "paths": [
+        "completion_audit/SCORECARD.md"
+      ],
+      "ref_count": 103,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "68b3590bd05c9319b12f0f7c356399f814f8bddf": {
+      "paths": [
+        "completion_audit/V81_ENTRY_ACCOUNTING_AMENDMENT_20260923.md"
+      ],
+      "ref_count": 96,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "82378c85fa536ca4c086cf3750499666c424e137": {
+      "paths": [
+        "completion_audit/V81_EXIT_CANDIDATE.md"
+      ],
+      "ref_count": 96,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "d54bc5ee8fa987ea6f48331185edd74fae906eb3": {
+      "paths": [
+        "completion_audit/clean_historical_descriptive.json"
+      ],
+      "ref_count": 106,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "29b329b001374d0bd0abd86bb18d48a1a903b9e0": {
+      "paths": [
+        "completion_audit/fair_candidate_replay_manifest.json"
+      ],
+      "ref_count": 99,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "f9f2a32c74d5aea93114ccea69f3804963154082": {
+      "paths": [
+        "completion_audit/historical_ladder_union.txt"
+      ],
+      "ref_count": 106,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "bae85a5fd8814946fd8a92b34165f24b972e7333": {
+      "paths": [
+        "completion_audit/live_observations.json"
+      ],
+      "ref_count": 106,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "5b6f828d1f582c768e023618ba3855445d2c6885": {
+      "paths": [
+        "completion_audit/model_artifact/manifest.json"
+      ],
+      "ref_count": 95,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "7fe7ac83abc7a26fec8e972dcc85c268bf7c6de6": {
+      "paths": [
+        "completion_audit/railway_inventory.md"
+      ],
+      "ref_count": 106,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "ad0e8d36485ee80a5c47c25ea53251c10680e1ce": {
+      "paths": [
+        "completion_audit/recovery/BTC15_PASSIVE_CAPTURE_RECOVERY_20260925.zip"
+      ],
+      "ref_count": 83,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "6a1282177cf5d046e42295b665a46476b811e088": {
+      "paths": [
+        "completion_audit/recovery/INTEGRATED_CAPTURE_GATE_BLOCKER_20260925.json"
+      ],
+      "ref_count": 83,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "87bd6efecf4866d6bdcc2532e52f8ab6414d0db6": {
+      "paths": [
+        "completion_audit/recovery/INTEGRATED_CAPTURE_GATE_BLOCKER_20260925.md"
+      ],
+      "ref_count": 83,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "724459e7143a7f5f9aaf9c7022b96587d162a6a0": {
+      "paths": [
+        "completion_audit/recovery/README_RESUME_20260925.md"
+      ],
+      "ref_count": 83,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "b1179155c2de57191e39fcb5e6bf108ebd59a625": {
+      "paths": [
+        "completion_audit/recovery/RECOVERY_IDENTITY_20260925.json"
+      ],
+      "ref_count": 83,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "025118f0696c28598cca676ea4cb50393767ae47": {
+      "paths": [
+        "completion_audit/recovery/RECOVERY_MANIFEST_20260925.json"
+      ],
+      "ref_count": 83,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "b8b41408df61238d3697c88a92c5be774bfa7144": {
+      "paths": [
+        "completion_audit/v81_exit_policy_20260923T203000Z.json"
+      ],
+      "ref_count": 96,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "7942ffb3763b99fb6386cde67aec649ee7dbdd0f": {
+      "paths": [
+        "completion_audit/v81_exit_policy_20260923T211500Z.json"
+      ],
+      "ref_count": 96,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "c8f44a6d4d4f2932ba0766bc3708cc276db5e74e": {
+      "paths": [
+        "confidence_data.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "2673693d3b3960ee2cd514669d1808d5d34ba622": {
+      "paths": [
+        "docs/BRTI_FIX_SCORECARD_20260919.md"
+      ],
+      "ref_count": 134,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "13b2ccef6d9efe58615311c69741ab54a5134aa5": {
+      "paths": [
+        "docs/BRTI_WEBSOCKET_DASHBOARD_CANARY_SCORECARD_20260919.md"
+      ],
+      "ref_count": 132,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "264c754a2c4afc535d68df49960871d17ede22cd": {
+      "paths": [
+        "docs/BRTI_WEBSOCKET_FULLBOT_CANARY_SCORECARD_20260919.md"
+      ],
+      "ref_count": 133,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "574e648c339f52f9a238590c56a9b23779c773c8": {
+      "paths": [
+        "early_conf_data.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "1d19c916a33f18f9a9ed34e3247853d3b2d9a14e": {
+      "paths": [
+        "early_conf_data_.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "04e9c90d1309546faa6b794f523bfc3242c59a10": {
+      "paths": [
+        "early_entry_feasibility_best_fresh_calls.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "9d395a206a3fff1c13688ab7022ea417eb8d4dfe": {
+      "paths": [
+        "early_entry_feasibility_frontier_results.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "269cdd8c138c888902be6769cd79108ccd4ae389": {
+      "paths": [
+        "early_entry_feasibility_frontier_summary.txt"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "08b3e3063faf5bbc1bc2de9281f2eef1cc3a9c95": {
+      "paths": [
+        "early_persistence_fresh_calls.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "9b225cc4b9ae9c4f5deb9d3590103845950092b0": {
+      "paths": [
+        "early_persistence_meta_summary.txt"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "12f2877262007590c728f85fcb631e0b4c169ece": {
+      "paths": [
+        "early_persistence_old_holdout_calls.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "c58dd6f3d1fdaf2d9ac063e4957065483a9c71b2": {
+      "paths": [
+        "early_persistence_validation_thresholds.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "48e5a8e8997ff8dde9d3ff803b7751ff81da9b05": {
+      "paths": [
+        "early_v483.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "a0548745260bb693640028ad61c634c72f5488ee": {
+      "paths": [
+        "entry_tournament_v2_all_results.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "d62d2b2058d3a1fc307a0e0e107c288bfae385f5": {
+      "paths": [
+        "entry_tournament_v2_summary.txt"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "1fbe810cd74cbab85f3cf3675cd0917f9e81450f": {
+      "paths": [
+        "entry_tournament_v2_winner_holdout_calls.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "6e67d3c99a2a8d6228fed55f63ca77535f83aa6e": {
+      "paths": [
+        "entry_tournament_v3_all_results.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "a86c7e53e3a1e907f7218d6f629c777993d08a0e": {
+      "paths": [
+        "entry_tournament_v3_summary.txt"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "1ae724598bee06d722b504aadd510fe88919b0f2": {
+      "paths": [
+        "entry_tournament_v3_winner_holdout_calls.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "71f99c65db665b64d49260cc5bb244427a5966b7": {
+      "paths": [
+        "entry_tournament_v3_winner_validation_calls.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "e5135a572d8ba3dbdbe24f16ffb1f02fba26194a": {
+      "paths": [
+        "final_45s_reconciliation_v1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "4bec616ef8714601b77e7d2924c8df7165f9a6f9": {
+      "paths": [
+        "final_miss_audit_v1_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "62fc4d0f5d08ea4317fcc223ac72599e4b44196c": {
+      "paths": [
+        "final_mixed_45s_union_impact_v1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "b1591ccf99b0d8407a4253de047872e3054b234d": {
+      "paths": [
+        "final_mixed_delay_recheck_v1_calls.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "3933835702b1122fa8113c1e87e88010d7a90c63": {
+      "paths": [
+        "final_mixed_delay_recheck_v1_results.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "9dd3b31f619d878cf97b9ec2bc5ffc607ba78b65": {
+      "paths": [
+        "final_mixed_sensitivity_v1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "d074b8ba57596ec07236c488cc855d1d856ca8c9": {
+      "paths": [
+        "flow_test.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "9ee650c1d665acc432100e0022770b671b0554d8": {
+      "paths": [
+        "fresh_oos_candles_cache.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "7c0792bbaf3781f3d9ebcbb22f873f5de3208d41": {
+      "paths": [
+        "fresh_oos_early_p40_calls.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "6409259ade104e1d8fd1f32f4c9a0274c6f2fd35": {
+      "paths": [
+        "fresh_oos_early_p45_calls.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "3438a54cd70d6bae936c8723a1370934bb45deee": {
+      "paths": [
+        "fresh_oos_locked_final_calls.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "85ae92c168d2dc9cc8bc69da4ce2d88861553112": {
+      "paths": [
+        "fresh_oos_locked_tier1_calls.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "61253ecdc61d565ce359994e11b0575ffe164993": {
+      "paths": [
+        "fresh_oos_market_manifest.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "705bdbddd965e8469dac3b0a77af23a0506e72f9": {
+      "paths": [
+        "fresh_oos_results_.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "f5edddb45ef7a0759869fa7a9d963847dbc98f42": {
+      "paths": [
+        "fresh_oos_summary.txt"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "3ce89db62133caef39cdda15453977093974d1d7": {
+      "paths": [
+        "frozen_chop_external_current54_all_signals_v1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "1e845db392e79bef106c19b9d5c89d6e515a55fa": {
+      "paths": [
+        "frozen_chop_external_current54_gap_signals_v1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "8b137891791fe96927ad78e64b0aad7bded08bdc": {
+      "paths": [
+        "gap_feasibility_v1_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "7108afdd7352eee144720bf768affcc0cc039fe8": {
+      "paths": [
+        "holdout_gap_morphology_v1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "9e3775e0e42a95da27171326305403ed38b12aee": {
+      "paths": [
+        "kalshi_30s_early_shock_forward_aligned_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "e8d793934a9e5780c0e14dcef2ce293d56e4d980": {
+      "paths": [
+        "kalshi_30s_early_shock_full_history_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "065dd06af34c52536ccb044c3abef91f194367c0": {
+      "paths": [
+        "kalshi_3min_distance_drop_full_history_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "d6139ea95d906f6e974680b8eb0c2f32e0de07cf": {
+      "paths": [
+        "kalshi_3min_distance_drop_full_history_results.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "df0adef80155ec0435a4ac97460db6c69133d733": {
+      "paths": [
+        "kalshi_attractive_entry_lifecycle_snapshots.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "c017db70c4c061ae32f7edde56da78b6f4302c51": {
+      "paths": [
+        "kalshi_attractive_entry_lifecycle_summary.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "219c3abc7a63dd1f8dec221fd8cb03671876ca7b": {
+      "paths": [
+        "kalshi_attractive_entry_report.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "53bf8e05a148b1b2e5be17e94fd80fe01e6e1713": {
+      "paths": [
+        "kalshi_clean_miss_1to4m_discriminator_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "753f6d48bfe699d0ab5104598d7d1477ab27fd8c": {
+      "paths": [
+        "kalshi_clean_miss_discriminator_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "0dddf830ffd456042c77b05a23422012cc8e6dd6": {
+      "paths": [
+        "kalshi_clean_miss_discriminator_rules.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "5e2dea5db8511c3f84984e51c49beff1b5892695": {
+      "paths": [
+        "kalshi_combined_frozen_5m_3m_forward_results.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "379b04504f5298b0f0ece71056baf15902285b9a": {
+      "paths": [
+        "kalshi_confirmation_failure_audit_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "d2115cfedf5949bfe4f63bcf0771ecf7d79903d8": {
+      "paths": [
+        "kalshi_confirmation_failure_escape_audit_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "b048a59e7f59740e258c3aa6554e95b8d45fa59c": {
+      "paths": [
+        "kalshi_confirmation_failure_forward_results.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "b83b1eb1bfe7474db516eda69d56ff11f1376987": {
+      "paths": [
+        "kalshi_confirmation_matrix_results.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "6bb7d71ca0d764031746e1f3ec80a619a1596d8e": {
+      "paths": [
+        "kalshi_contract_results.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "9d06a11b90b0dc4cc8004b189efb8c40b59658a8": {
+      "paths": [
+        "kalshi_direct_brti_parity_v1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "55964ca5861a2074314bf6086c42ede6cf5df9e7": {
+      "paths": [
+        "kalshi_distance_source_audit_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "31167fb2a95e69df296ff627d9ebcd4dc7e92e28": {
+      "paths": [
+        "kalshi_early_accuracy_coverage_candidate_rules.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "a155b9c49b951a0d678446a9b4a956514db501ff": {
+      "paths": [
+        "kalshi_early_accuracy_coverage_optimizer_results.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "fa239d9427d0a91a5d6e2cd8b172986122dc6c97": {
+      "paths": [
+        "kalshi_early_conf_shadow_v1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "313fdb28460088568e490b4466b3e44628bc1663": {
+      "paths": [
+        "kalshi_early_conf_shadow_v1_1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "d65447fa3a4657e555fd05b238fea63d689ac960": {
+      "paths": [
+        "kalshi_early_conf_shadow_v1_2.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "9997ddd4e3df89d78b3aff1da06f7f56d94aae0e": {
+      "paths": [
+        "kalshi_extended_trajectory_full_history_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "cc84a39d9a50b5754521ba3dd9096b787ac4456c": {
+      "paths": [
+        "kalshi_extended_trajectory_full_history_scan.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "266c94e5ea0b4aee3c184e8cbd4b21ce16a67169": {
+      "paths": [
+        "kalshi_final_position_protection_shadow_v1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "82a364bf5b5268dc6640a4bce08bceaa8f5e53de": {
+      "paths": [
+        "kalshi_final_position_protection_shadow_v2.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "c9cf2c4aa215c1090b6cb2513dff226ce415a874": {
+      "paths": [
+        "kalshi_flow_absorption_warning_results.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "215c46da3518b4f9e2f377fa98eacfe2b6e6db14": {
+      "paths": [
+        "kalshi_flow_contract_summary.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "271573be2e214475ec882b118c19a3282f9d30bb": {
+      "paths": [
+        "kalshi_flow_first_baseline_calls_with_warnings.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "26f56f7b827e381daf5a45fb1a82b8797e0e9a38": {
+      "paths": [
+        "kalshi_flow_matched_snapshots.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "3091339b298f421e5e6e0b551973d537e3ad91f2": {
+      "paths": [
+        "kalshi_flow_pre90_warning_calls.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "e854c9ad9b0bbb1e371dc9b17c73c391bda165dc": {
+      "paths": [
+        "kalshi_forward_aligned_early_shock_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "56699dea9ecb181a1f4065cebbcbaedcad41f6ac": {
+      "paths": [
+        "kalshi_forward_extended_trajectory_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "50653ed2b5c9f60209f03f5da2d33551963e8ac1": {
+      "paths": [
+        "kalshi_forward_extended_trajectory_scan.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "632b3d4d389b134426368cfa6210a7ad1e9cfaf1": {
+      "paths": [
+        "kalshi_frozen_5m_guard_forward_results.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "65bee4efec5f81655db5b22f078f2de3fdb6ca87": {
+      "paths": [
+        "kalshi_frozen_forward_all_diagnostic.csv",
+        "kalshi_frozen_forward_only_results.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "01dddd5e642d337471a81237b16a2217a2ecafca": {
+      "paths": [
+        "kalshi_frozen_forward_miss_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "641fb8bfcab128c8ae15accf3ab9012c797ec53d": {
+      "paths": [
+        "kalshi_frozen_forward_miss_rule_scan.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "85dfed195846bedfdfafb2f85c790cedc9237d33": {
+      "paths": [
+        "kalshi_giveback_recovery_discriminator.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "efb3f83a185efbf332efeb195f0262c28eb37114": {
+      "paths": [
+        "kalshi_giveback_recovery_paths.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "255630a0564e9ad01bffad1c4688dae436e98b19": {
+      "paths": [
+        "kalshi_holdout_miss_diagnostic_contracts.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "d869401b9e4f2d083a7af11aaaf632173e0b82bf": {
+      "paths": [
+        "kalshi_kxbtc15m_1m_candles_cache.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "e0687a2459211107136f8bda79e931f82c1d3f0b": {
+      "paths": [
+        "kalshi_late_reversal_audit_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "557003cc756c8dbb68eb48c595173af4e683fa97": {
+      "paths": [
+        "kalshi_late_reversal_target_path.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "973b4ec856bb1a0692fc5f5032fea080261bc36f": {
+      "paths": [
+        "kalshi_layer_a_forward_only_results.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "df2750343a3f8fde3b1910061aa11e3d262cf122": {
+      "paths": [
+        "kalshi_layer_b_forward_only_results.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "7031b3201ac469c74021c34c5dbfc1c5608506c8": {
+      "paths": [
+        "kalshi_layered_breakdown_holdout_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "958dd01a5218b9a59329e927ce7b2590a2b2cb72": {
+      "paths": [
+        "kalshi_layered_breakdown_summary.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "8f18d2c6e36a9b126565f2b4ebea2c4528f7f144": {
+      "paths": [
+        "kalshi_live_fair_value_shadow_log.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "1f1b1aba8d1545c48d0e88ecf94e390357b6f0cb": {
+      "paths": [
+        "kalshi_live_shadow_log.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "a2af8ee6e65431b8ca3d48079bca3d2b561388f3": {
+      "paths": [
+        "kalshi_logged_contract_official_results.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "dcb936f561e54f831e669affb4ed5b470e4442eb": {
+      "paths": [
+        "kalshi_official_settlement_check.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "004f190bd305454a0e50cdf33f1bff5d98d99804": {
+      "paths": [
+        "kalshi_official_truth_clean_miss_discriminator.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "17dde7e3ae18da466b735beddc2e6b1876d31916": {
+      "paths": [
+        "kalshi_official_truth_clean_miss_followup.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "1623e30f96e2ac1397e982233993c7e327853934": {
+      "paths": [
+        "kalshi_official_truth_combined_clean_warning_results.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "e3fca605cfbf9501c8ad32c9f64a2b76956854ed": {
+      "paths": [
+        "kalshi_official_truth_final_call_rescore_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "4f809ee1ac6d556402dae311127b00540f03d563": {
+      "paths": [
+        "kalshi_official_truth_late_reversal_precursor_audit.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "408a1ea93a746536d2a805696c21220fda1957d6": {
+      "paths": [
+        "kalshi_official_truth_late_reversal_precursor_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "0cd3e7a3024400daa998a115835526b44bc01cc5": {
+      "paths": [
+        "kalshi_official_truth_late_reversal_window_audit.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "3975dbafbc4819df601ded3ba10a17f767da1b83": {
+      "paths": [
+        "kalshi_official_truth_layer_a_rescore_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "8d1974584ca1c5b8f981f1b5e0f3504639eb6102": {
+      "paths": [
+        "kalshi_official_truth_near_strike_results.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "2b6f5ed9302237b48dcaa17478e06a5a51e5e1c3": {
+      "paths": [
+        "kalshi_opposite30_baseline_call_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "99e95491d15bd117f67967c3bf51851c4467ad6b": {
+      "paths": [
+        "kalshi_opposite30_candidate_rules.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "6b4145c279c48c26c5de61fcadebea1bd7780f23": {
+      "paths": [
+        "kalshi_postcall_danger_candidate_rules.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "a99e9421e2be526d4f8f58c177f6195080ad1ac6": {
+      "paths": [
+        "kalshi_postcall_trajectory_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "bdbe1a79bab2829a3bfae8cbc6e3490b34e46388": {
+      "paths": [
+        "kalshi_probability_trajectory_holdout_no_call_contracts.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "22f28347772542f8f18ce1306dad505304879b8e": {
+      "paths": [
+        "kalshi_probability_trajectory_selected_rescue_rule.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "e0b7979f8b2fa46c5277788a01220d67463cb701": {
+      "paths": [
+        "kalshi_probability_trajectory_train_no_call_contracts.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "8ce77a7fc3b9ba2556b1275d58f2666d53470deb": {
+      "paths": [
+        "kalshi_profit_protection_forward_shadow_v1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "bf401175bda6ae46f428a6bceb38eb2ba61992ed": {
+      "paths": [
+        "kalshi_safe_weakening_danger_boundary_results.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "a2b28d10db2629af47db3751a7fe23cb6f652d06": {
+      "paths": [
+        "kalshi_safe_weakening_danger_full_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "d2ee40e260a051a997a74911a32dc867fd5465d2": {
+      "paths": [
+        "kalshi_safe_weakening_danger_holdout_ranked.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "c579fd22127e5af3bd14e287cb27b631459fbcd7": {
+      "paths": [
+        "kalshi_scalp_shadow_events_v1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "f744e29a007c1cf62b943a7f94978656d63c3fe1": {
+      "paths": [
+        "kalshi_scalp_shadow_snapshots_v1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "204e72165f7f2241f1745f2b0c0bfd8be49d99e8": {
+      "paths": [
+        "kalshi_settlement_alignment_audit_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "8115976aacc5a2c0aed62131a431e64b1b4d1ab3": {
+      "paths": [
+        "kalshi_settlement_proxy_mismatch_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "87dc6dec1d7ed4a15a3f7e8e1055f987477aa6b2": {
+      "paths": [
+        "kalshi_settlement_source_inventory.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "0b675d613ab064d4fe58d2b6cbc0ad0f373f88bc": {
+      "paths": [
+        "kalshi_strong5m_late_failure_scan.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "cbcf6837ae82e05ce28c7a466513a7ea9fc90ab9": {
+      "paths": [
+        "kalshi_strong5m_survivor_paths.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "4a1821df7cd1b44c1628bcadcabc499be2a5da0c": {
+      "paths": [
+        "kalshi_strong_confirmation_giveback_details.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "7e889ba813b3bcb7e28037929e8535ce32b63b64": {
+      "paths": [
+        "kalshi_subminute_unified_v1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "459ae7bbc42c7157aa85ac4da01b0b802dddc7c2": {
+      "paths": [
+        "kalshi_subminute_unified_v1_1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "c36484f7c8d87e0ec63b48d2a214e1a59c4f2de3": {
+      "paths": [
+        "kalshi_true_scalp_forward_shadow_v1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "6e3a2544cf5a72c7b01a0fdf2e3e42110aa0a592": {
+      "paths": [
+        "kalshi_two_output_live_log.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "7271db7b8e39e3ab5b50324bd995453135c464a7": {
+      "paths": [
+        "kalshi_two_output_live_log_v4.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "382a3f42b25d30ff6fd63ddef6bef097fe33500b": {
+      "paths": [
+        "kalshi_two_output_live_log_v4_10.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "22e0a4c635e8f855767d40abfac8068c07b3c331": {
+      "paths": [
+        "kalshi_two_output_live_log_v4_11.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "17e8ebd357a96f434036b223fd03ba7d02293310": {
+      "paths": [
+        "kalshi_two_output_live_log_v4_11_1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "03097899aee686b5ccaeaaeb98da0daa8a9f8f61": {
+      "paths": [
+        "kalshi_two_output_live_log_v4_12.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "586669d1d9cd957bc71e0fcf09d04ef3ed659dd9": {
+      "paths": [
+        "kalshi_two_output_live_log_v4_13.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "0891479b055a2ffd3b03752b612245e1a5b71c5a": {
+      "paths": [
+        "kalshi_two_output_live_log_v4_3.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "8e3b010190b4e0fad576405ea56077a1fb29de77": {
+      "paths": [
+        "kalshi_two_output_live_log_v4_4.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "2c584c7163ea7c709ab934b0828d0facde503f52": {
+      "paths": [
+        "kalshi_two_output_live_log_v4_5.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "93341787c77d9a0dd69d58a1a01efb81ad0d64dd": {
+      "paths": [
+        "kalshi_two_output_live_log_v4_6.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "5569befd614d72c1f4e3d6471356d279b3f8c20b": {
+      "paths": [
+        "kalshi_two_output_live_log_v4_7.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "282eac1949ce708e350521811e56ac10c2cf6ac7": {
+      "paths": [
+        "kalshi_two_output_live_log_v4_8.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "b28e5e403063e96f95b5203d7bf676a75b66b25f": {
+      "paths": [
+        "kalshi_two_output_live_log_v4_8_1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "429b7bdd05f57e93ce8b0da829ff3aed82b8404c": {
+      "paths": [
+        "kalshi_two_output_live_log_v4_8_2.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "200b8e132627b0251c71a622680e2be63ddf1cb4": {
+      "paths": [
+        "kalshi_two_output_live_log_v4_8_3.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "5873e142d37d82a6362410f7178694e6b30361fd": {
+      "paths": [
+        "kalshi_two_output_live_log_v4_8_4.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "85a3957b04a950fa19ecf6652487878615ec5964": {
+      "paths": [
+        "kalshi_two_output_live_log_v4_9.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "799c7976313c638561bca4f336282aae48d22493": {
+      "paths": [
+        "kalshi_two_output_live_log_v4_9_1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "1de560a793ababa30d18497a9d6d6e6e5a00919d": {
+      "paths": [
+        "kalshi_two_output_live_log_v4_9_2.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "12061f042e6bb68294dece187c301d193cd4b62d": {
+      "paths": [
+        "old_pool_chop_holdout_v1_1_grid.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "7fcc8621f381da4e1746a2b01dae9fdf49818348": {
+      "paths": [
+        "old_pool_chop_holdout_v1_1_holdout_signals.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "bb1a49a768e342191ee531f8e3823831915ee813": {
+      "paths": [
+        "old_pool_chop_holdout_v1_grid.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "ff3aa58e600bf1bf18030c56074ae33768ebe941": {
+      "paths": [
+        "old_pool_chop_holdout_v1_holdout_signals.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "1776667b04e01aed4e6202cf23afcbbf372a8e03": {
+      "paths": [
+        "overnight.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "e6594a795152ffe4ca1d37ec4683c9f08870e199": {
+      "paths": [
+        "rescue_scalp_holdout_diagnostic_v2.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "4683757c85b25ab400ec4ad83e7af81da8f81b1a": {
+      "paths": [
+        "rescue_v2_walkforward_all_candidates.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "b206073f4d06a945e0660fe3b37ba21cb4df66fd": {
+      "paths": [
+        "rescue_v2_walkforward_top15.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "434a46303526a40ca980d69d2700d872cd5395a2": {
+      "paths": [
+        "scalp_exit_optimizer_v1_grid.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "0166515be35077e7566f393d6f06166f88adff39": {
+      "paths": [
+        "scalp_exit_optimizer_v1_winner_trades.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "1e3caed8a8a69a513c88c78a3cf3305ecae27791": {
+      "paths": [
+        "scalp_overnight_data.zip"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "df292ae66329f750b12634f07d81472a793aa384": {
+      "paths": [
+        "secondary_scalp_gapfiller_v1_1_grid.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "9c60e9db766bdad9f67bb95e674e52085cb95de7": {
+      "paths": [
+        "secondary_scalp_gapfiller_v1_1_holdout_signals.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "58f18347d22fd994e2a51264eb0bc309bd2115bb": {
+      "paths": [
+        "secondary_scalp_gapfiller_v1_1_walkforward_signals.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "fe290e3669f2fbe220a6b20b1161a472bf2cc126": {
+      "paths": [
+        "secondary_scalp_roi_v2_grid.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "b244f34316a122155d2d9f55f2d97b8ca30220c4": {
+      "paths": [
+        "secondary_scalp_roi_v2_holdout_signals.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "99f2e0aa4843bc326ba3c82a486c2ac7c1a2551b": {
+      "paths": [
+        "secondary_scalp_roi_v2_walkforward_signals.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "b2dd97465b88b038bd8ee5b122dfd3cd64837e12": {
+      "paths": [
+        "subminute_early_dataset_v1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "70505f497e8700b6c773efec3eacf04585653238": {
+      "paths": [
+        "subminute_early_model_summary_v1.txt"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "e6345dff922943a60262e76188384aad00306399": {
+      "paths": [
+        "subminute_early_validation_grid_v1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "568f6331c1ebec1adb0b4152792a98fdec64df67": {
+      "paths": [
+        "research_review/early_settlement_audit_20260921/inputs/prior_truth_cache.csv",
+        "subminute_official_truth_cache.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "2eabb7afb3ef02bf76d0814ba6f282818a85b40e": {
+      "paths": [
+        "subminute_walkforward_calls_v1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "c4703463691dd8892855e9a04517c244f6033c0c": {
+      "paths": [
+        "subminute_walkforward_grid_v1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "03ce1060b2ee060f4283b6d6d12c389587e4af16": {
+      "paths": [
+        "subminute_walkforward_summary_v1.txt"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "4afbb8a5cf6fae52a986b44df90db1e75e9a6f2a": {
+      "paths": [
+        "unified_early_screen_v1_grid.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "5e5d77377ba2d3ea27a353eb04ca8be04f503bc6": {
+      "paths": [
+        "unified_early_screen_v1_winner_signals.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "2f7bae70c352d45513f0f8f87972502a65c279da": {
+      "paths": [
+        "unified_early_sequence_v3_grid.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "ad7b9a56c626b9411d0591d22cfcb64a73c6eac9": {
+      "paths": [
+        "unified_early_sequence_v3_holdout_signals.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "b008445b46db0eb2fd312e7a0e86a6008bdee818": {
+      "paths": [
+        "unified_early_sequence_v3_walkforward_signals.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "292e2de23f51db70095d3f33144d011f0a0424af": {
+      "paths": [
+        "unified_early_tournament_v2_grid.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "841f979ee9fa30a0b840693922d754d1a3d51fd9": {
+      "paths": [
+        "unified_early_tournament_v2_holdout_signals.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "4c520d3f80598fa4a3d35716d99410828b689613": {
+      "paths": [
+        "unified_early_tournament_v2_walkforward_signals.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "ef6d5d7455f39852de974c568272e7dfd7d7a5d8": {
+      "paths": [
+        "union_coverage_holdout_detail_v1_2.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "5b6ff78c5362c52b73cbc5ba8f849c9241270a29": {
+      "paths": [
+        "union_coverage_optimizer_v1_2_summary.txt"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "bb7180286608b450bd0fca07ddfbe6b7d5c1dc69": {
+      "paths": [
+        "union_optimizer_processed_snapshot_cache.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "923f9a54bcc6b8bb4b9f51f2451c28698362040b": {
+      "paths": [
+        "union_scalp_results_v1_2.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "e435663a23e122690dec4d53b3b402811ed3a30a": {
+      "paths": [
+        "union_secondary_entry_results.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "8625f90b70ff9bd9324893611dd3eecbc180bec6": {
+      "paths": [
+        "union_secondary_entry_results_v1_2.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "809ab5ddb12bf11433a84649af105158fd1b78cd": {
+      "paths": [
+        "validation_gap_morphology_v1.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "7aedff99e891cbc1d7224c00010d9c2a56a8a640": {
+      "paths": [
+        "x.csv"
+      ],
+      "ref_count": 227,
+      "representative_ref": "refs/remotes/evidence/acceptance/pr40-scorer-proof-20260926"
+    },
+    "cacc963c4b080931b895dadde09e435315d8fc12": {
+      "paths": [
+        "completion_audit/BRTI_PUBLICATION_EXPIRY_CHECKPOINT_20260924.md"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/brti-publication-expiry-20260924"
+    },
+    "e1bef7540b11721e29047463b9afc72f786b7200": {
+      "paths": [
+        "completion_audit/BRTI_PUBLICATION_EXPIRY_DIAGNOSIS_20260924.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/brti-publication-expiry-20260924"
+    },
+    "5d08d8aa0f45333665b7494df936578719380a8a": {
+      "paths": [
+        "completion_audit/BRTI_PUBLICATION_EXPIRY_WAIT_LOGS_20260924.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/brti-publication-expiry-20260924"
+    },
+    "1841fc918e9d5b35ecc4359ef8db7b24f8f3b38e": {
+      "paths": [
+        "completion_audit/AUDIT.md"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "1de6f93624308cdee2298a4e30404a5f5e09e8ce": {
+      "paths": [
+        "completion_audit/COHORT_CAUSAL_CUTOFF_20260924.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "e56ddca629552a91345c810bce0224f6c9488a04": {
+      "paths": [
+        "completion_audit/COHORT_FIRST_FOUR_20260923.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "b3906208111a059973cee5c965322d18fd22b0b6": {
+      "paths": [
+        "completion_audit/COHORT_SAMPLING_AMENDMENT_20260923.md"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "f97eeef9ef72e819b8e7ad6beb3ac0501be6ef0d": {
+      "paths": [
+        "completion_audit/CONTINUATION_20260923_2015.md"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "b65eb30497e92cc113473c27f955b34e631188ca": {
+      "paths": [
+        "completion_audit/CONTINUATION_20260923_2125.md"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "2fada55eda266e79231c6d32d0687b3b5de99c31": {
+      "paths": [
+        "completion_audit/CONTINUATION_20260923_2235.md"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "0c2dd0e2aa4a18a519c84370908593702a333780": {
+      "paths": [
+        "completion_audit/CONTINUATION_20260924_0205.md"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "66bf9a93aa523c74d89e1e99ca4a910af43fb7ee": {
+      "paths": [
+        "completion_audit/CONTINUATION_JOINT_20260924.md"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "fd09777f329802ef8f74689faf14ca3c3b3b07b6": {
+      "paths": [
+        "completion_audit/EXPORT_MANIFEST_20260924_0149.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "3290020775e5ae743f2eca875a6ac519e8f33139": {
+      "paths": [
+        "completion_audit/FORWARD_COHORT_PROTOCOL.md"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "8681a25572ca99cefa0a7cb8940735272694f6e6": {
+      "paths": [
+        "completion_audit/INFRASTRUCTURE_SUMMARY_20260924_0145.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "508d63e280831c7eb20e63e138e84b06c1343d9e": {
+      "paths": [
+        "completion_audit/JOINT_CANDIDATES_LOCK_20260924.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "eaa26afcd031bfc88066284f3bb02cfdfcc4b670": {
+      "paths": [
+        "completion_audit/JOINT_DIAGNOSIS_REGISTRATION_20260924.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "f0080c0618561829bedf11abe496e9a0f1e416bd": {
+      "paths": [
+        "completion_audit/JOINT_EVIDENCE_INTEGRITY_20260924.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "eae2d8178558d7f12f4287c4b20f99e7700a906d": {
+      "paths": [
+        "completion_audit/JOINT_EXIT_DIAGNOSTIC_20260924.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "c7aba0f40d0727e6e7cc19ab8e219f4f239826e5": {
+      "paths": [
+        "completion_audit/JOINT_LABELS_20260924.tar.gz"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "c6a141281e1d425b25dd86d28d4a4579544c30dc": {
+      "paths": [
+        "completion_audit/JOINT_LADDER_DIAGNOSIS_20260924.md"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "6e042b343f1c36d812ad736adebb7c2764217838": {
+      "paths": [
+        "completion_audit/JOINT_TUNING_20260924.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "b2459b64b222997c1c5aa08aadbc0fc4ead933b6": {
+      "paths": [
+        "completion_audit/JOINT_VALIDATION_20260924.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "2bcd133515cccc44e98c4609f3f26e57d36bfb65": {
+      "paths": [
+        "completion_audit/LADDERS_DEVELOPMENT_20260924_0145.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "fb73ac482b1508f0253a6027568f43555a80a0ed": {
+      "paths": [
+        "completion_audit/MODEL_INTEGRITY.md"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "64b41c5131aa35b5b4aab8005baa8c71ba01725d": {
+      "paths": [
+        "completion_audit/POST_RESTART_DEVELOPMENT_20260924_0145_v2.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "d7affbcd53facc1cd4b167cfda65642a1aa43edd": {
+      "paths": [
+        "completion_audit/PR32_BOUNDARY_20260924T130000Z.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "768de9b12056ae526b2195528c50c4438cc90489": {
+      "paths": [
+        "completion_audit/PR32_LIVE_INPUT_PARITY_20260924.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "12e3a76b05d8ddeed345a8f9daa998da87bafec5": {
+      "paths": [
+        "completion_audit/PR32_ROLLOUT_20260924.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "34533286216c2c900b9015ea20b66d13e0e4d9fa": {
+      "paths": [
+        "completion_audit/PR36_ROLLOUT_RESUME_20260924.md"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "e17cb6a7f7563631a00b728975f140821bfd9664": {
+      "paths": [
+        "completion_audit/ROLLOUT_CHECKPOINT.md"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "f66f8302092c5e9deb6bc1198f28ba59c3a9320f": {
+      "paths": [
+        "completion_audit/ROLLOUT_CHECKPOINT_20260924_0018.md"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "b57cda4af69ca2fc2c5d1db82363d22f3f198746": {
+      "paths": [
+        "completion_audit/RUNTIME_ATTESTATION_20260924_000449.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "e9c36c99c25d0bea7a93ecc66264923359c489d7": {
+      "paths": [
+        "completion_audit/SCORECARD.md"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "313c23ee89f396f55f3f2043746980fa40b50a12": {
+      "paths": [
+        "completion_audit/SCORECARD_20260923_2130.md"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "b30cf26634520fbb4c3a9411673227f2b6383789": {
+      "paths": [
+        "completion_audit/SCORECARD_20260923_2235.md"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "5367abb319d9efff049ad24d14cf8381d67df9b7": {
+      "paths": [
+        "completion_audit/SCORECARD_20260924_0205.md"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "981cbfdc6dd1c392f5093024431d8f7ae39ce4cd": {
+      "paths": [
+        "completion_audit/SOURCE_RECOVERY_20260924_0129.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "92786b0a0c01bb750f4cdc4888b8429b9b9850e3": {
+      "paths": [
+        "completion_audit/STRUCTURAL_CHALLENGE_20260924.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "60eeb37ef20fc41f87a949d11151f157fc499397": {
+      "paths": [
+        "completion_audit/STRUCTURAL_INTERACTIONS_20260924.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "8aa71023350a331a43946fa8ade82b9e4373cad8": {
+      "paths": [
+        "completion_audit/STRUCTURAL_LEAD_LAG_STRICT_20260924.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "c95e4c482b8b7a9ede28741a2e710e231890f3e4": {
+      "paths": [
+        "completion_audit/STRUCTURAL_PATH_ALIGNMENT_20260924.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "62a8909f7b8172fcac75baabc22b71dff48dbae2": {
+      "paths": [
+        "completion_audit/STRUCTURAL_POSITION_PROTECTION_20260924.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "ae788a3b96f3c7a7402ca4141da2b2f78a73ba7c": {
+      "paths": [
+        "completion_audit/STRUCTURAL_POSITION_PROTECTION_V2_20260924.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "40506f0046ac97bd0c62f60507165590735c9d32": {
+      "paths": [
+        "completion_audit/STRUCTURAL_TUNING_20260924.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "d12b335425bc62fedfb890b754e61f702cd6a728": {
+      "paths": [
+        "completion_audit/STRUCTURAL_VALUE_HEAD_20260924.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "86257af4ef1442c4c89d684c8d2deaf54bf7e991": {
+      "paths": [
+        "completion_audit/V81_EXITS_DEVELOPMENT_20260924_0145.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "764f81ab70ca7efac04def92049104d0611eae34": {
+      "paths": [
+        "completion_audit/V81_TUNING_20260924.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "ae36f24c2b841fee70f8aedb5a43d1ddf4169868": {
+      "paths": [
+        "completion_audit/candle_availability_reproduction.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "de1cec601bbd43a70594458e00898094d747afd4": {
+      "paths": [
+        "completion_audit/cohort_20260923T203000Z.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "3df0b6f3a0f0927df31c34ab8da24a3ddfcf76d7": {
+      "paths": [
+        "completion_audit/cohort_20260923T211500Z.json"
+      ],
+      "ref_count": 4,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "1d25103df9e5f4ebdd684ad327004c1c99aba165": {
+      "paths": [
+        "completion_audit/fair_candidate_replay_results.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "ddbe4935b21ad87268accfedc883956f71df35ed": {
+      "paths": [
+        "completion_audit/frozen_model_candidate_hosted_verification.json"
+      ],
+      "ref_count": 4,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "4834e6310348ae79e64a91c0bdb8d4fb2c23402d": {
+      "paths": [
+        "completion_audit/joint_input_20260924/inputs.jsonl.gz"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "7f28e7dc885afcf3583cfa138b8ff64fcd0c38dc": {
+      "paths": [
+        "completion_audit/joint_input_20260924/integrity.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "e3af858a93a22e94346bfece0d64153d52dd1798": {
+      "paths": [
+        "completion_audit/joint_input_20260924/main.jsonl.gz"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "2decb91805fe9027e5a94704f8587efcae43fcc5": {
+      "paths": [
+        "completion_audit/joint_input_20260924/manifest.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "261c4bd13bbcba896fa477dedf5830d97f9c2fce": {
+      "paths": [
+        "completion_audit/joint_input_20260924/v81.jsonl.gz"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "9d12034d40effee20850c325e99c2fb67347125f": {
+      "paths": [
+        "completion_audit/training_support_expiry.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "50368ab5597a818a0d55ecfcc534c3c381583c89": {
+      "paths": [
+        "completion_audit/training_support_expiry_boundary.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "6d3b9f08b90fe2edabc47e0de439ef23671853a4": {
+      "paths": [
+        "completion_audit/v81_stale_publication_reproduction.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-acceptance-evidence-20260923"
+    },
+    "5bb87b8d47a58506dc975808227feea67ad26630": {
+      "paths": [
+        "BTC15_STAGE_EXISTING_REPAIR_20261008.zip"
+      ],
+      "ref_count": 17,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "debbbb5f843b20b1e4e7b9aad1e980432754c2a8": {
+      "paths": [
+        "audit/phase_b_20261011/evidence.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "503648fa34c116f18a72ca063db774de2e4bd4e0": {
+      "paths": [
+        "audit/phase_b_20261011/test-results.txt"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "d1792a88aa0804d77a07faafaa03de72130cbaa0": {
+      "paths": [
+        "audit/phase_b_final_20261011/README.txt"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "701ee0c999d9bd29ca768b6f8fc7f5e7dc047e4b": {
+      "paths": [
+        "audit/phase_b_final_20261011/verification_results.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "3ee5336ae69b419084907013647da90952b10832": {
+      "paths": [
+        "completion_audit/INFORMATION_INGRESS_RECOVERY_20260928.md"
+      ],
+      "ref_count": 67,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "4d1db10316d2be0ff90ffb28050a1778e7d8a3fe": {
+      "paths": [
+        "ops/evidence/20261008-live-production-repair.json"
+      ],
+      "ref_count": 15,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "cd2a128664d434d23955d5ae1410474794e5ba5b": {
+      "paths": [
+        "ops/evidence/infrastructure_20261009/rollback.json"
+      ],
+      "ref_count": 13,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "006fac28ec50269a273c9043d34b37ddb2a563e9": {
+      "paths": [
+        "ops/evidence/phase_b_release_20261011/regression-comparison.json"
+      ],
+      "ref_count": 5,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "9e001426c7f2d8f8507a8971255cceb86948daaa": {
+      "paths": [
+        "ops/evidence/value_coverage_20261009/deployments.json"
+      ],
+      "ref_count": 14,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "c5982649d5e8aecfcecee1f8da2e18e73dbdaa8a": {
+      "paths": [
+        "ops/evidence/value_coverage_20261009/main.json"
+      ],
+      "ref_count": 14,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "ef68db51dd81424e2abdcad315f7dbc0c644de1a": {
+      "paths": [
+        "ops/evidence/value_coverage_20261009/scalp.json"
+      ],
+      "ref_count": 14,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "4e30a3ec941532a517f92ef3bc184d618aeb10af": {
+      "paths": [
+        "qualification/integrated_finish_20261006/lineage.json"
+      ],
+      "ref_count": 30,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "21054b5b4fc5e4f508d6d0b9e559b1c478506ea0": {
+      "paths": [
+        "qualification/integrated_finish_20261006/results.json"
+      ],
+      "ref_count": 30,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "7c47fb579befcd2587fec5f861a8f44890aee53c": {
+      "paths": [
+        "qualification/integrated_finish_20261006/ui-results.json"
+      ],
+      "ref_count": 30,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "cf0ff0e06cd6531ed541a454200a9e755746e191": {
+      "paths": [
+        "qualification/pass_stability_20261005/results.json"
+      ],
+      "ref_count": 31,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "181fcd87f5c477423a8f486e62351492ff8f40c9": {
+      "paths": [
+        "qualification/ui_continuity_20261005/results.json"
+      ],
+      "ref_count": 32,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "ae232c64882ebc5b221de4a841bb576cecefa2af": {
+      "paths": [
+        "qualification/v2_product_20261004/assembled_ui_results.json"
+      ],
+      "ref_count": 40,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "b6137eeff7d3a1b04cb173f74ad6f90b4a80c973": {
+      "paths": [
+        "qualification/v2_product_20261004/defect_matrix_with_candidate_disposition.json"
+      ],
+      "ref_count": 40,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "16f4626d7a3dd8ea35e3a0a0d43e209f02423651": {
+      "paths": [
+        "qualification/v2_product_20261004/existing_alerts_before_correction.json"
+      ],
+      "ref_count": 40,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "a085a920459a1260fed5672de63d70366df99eed": {
+      "paths": [
+        "qualification/v2_product_20261004/fixture_bridge_progression.json"
+      ],
+      "ref_count": 40,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "c8c2404e299e794250949b1bc20f33de4fa0db46": {
+      "paths": [
+        "qualification/v2_product_20261004/main_semantic_inventory.json"
+      ],
+      "ref_count": 40,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "c9b4a931bb06b5fb1952b60e120655572776ceb3": {
+      "paths": [
+        "qualification/v2_product_20261004/offline_dependencies.txt"
+      ],
+      "ref_count": 40,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "8cf972ea6fdad0e23d7faf1f1a09549b90f1d57b": {
+      "paths": [
+        "qualification/v2_product_20261004/qualification_summary.json"
+      ],
+      "ref_count": 40,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "a68ce378b0a2f4d91ab6ddb3bd3b3a1262eddc7b": {
+      "paths": [
+        "qualification/v2_product_20261004/shadow_stage_timing.json"
+      ],
+      "ref_count": 40,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "18f4fcba3468567afaa6244fcec229521ae2a5d9": {
+      "paths": [
+        "qualification/v2_product_20261004/stage_timing_before_changes.json"
+      ],
+      "ref_count": 40,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "baa4cafd87f9d69b7083395bb7874a0f6a4e8530": {
+      "paths": [
+        "qualification/v2_product_20261004/ui_fixture.json"
+      ],
+      "ref_count": 40,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "06248a495590cda26cb2276ee32f1ce416996ab5": {
+      "paths": [
+        "qualification/v2_product_20261004/v81_semantic_inventory.json"
+      ],
+      "ref_count": 42,
+      "representative_ref": "refs/remotes/evidence/audit/btc15-phase-b-final-verification-20261011"
+    },
+    "b45df25cd5a6cacf0dc995f5dc20d711081e5229": {
+      "paths": [
+        "completion_audit/CADENCE_EQUIVALENCE_REJECTION_20260924.json"
+      ],
+      "ref_count": 5,
+      "representative_ref": "refs/remotes/evidence/audit/cadence-equivalence-rejected-20260924"
+    },
+    "f8941cc694803529f3ebb87d570b115263684169": {
+      "paths": [
+        "completion_audit/CADENCE_EQUIVALENCE_REJECTION_20260924.md"
+      ],
+      "ref_count": 5,
+      "representative_ref": "refs/remotes/evidence/audit/cadence-equivalence-rejected-20260924"
+    },
+    "0cccf5c61a34541efd7bcc3ee3a669a182458d75": {
+      "paths": [
+        "completion_audit/CADENCE_CONTINUATION_V2_20260924.json"
+      ],
+      "ref_count": 4,
+      "representative_ref": "refs/remotes/evidence/audit/cadence-equivalence-v2-20260924"
+    },
+    "aa8f9482c01b6bf6e5db1e446142afd5d71c2bda": {
+      "paths": [
+        "completion_audit/CADENCE_CONTINUATION_V2_20260924.md"
+      ],
+      "ref_count": 4,
+      "representative_ref": "refs/remotes/evidence/audit/cadence-equivalence-v2-20260924"
+    },
+    "7ac8c5b3b85879eacaeaba556973426146de8658": {
+      "paths": [
+        "completion_audit/CADENCE_STATE_INVENTORY_V2_20260924.md"
+      ],
+      "ref_count": 4,
+      "representative_ref": "refs/remotes/evidence/audit/cadence-equivalence-v2-20260924"
+    },
+    "42cfb32eac44d2f03b9acd1b85b47b33c5c08be8": {
+      "paths": [
+        "capture_durability/results/main-rate-evidence.json"
+      ],
+      "ref_count": 12,
+      "representative_ref": "refs/remotes/evidence/audit/capacity-only-20261003"
+    },
+    "a68e086d8542a7a639c1e64ee6e0e4fd5dff0535": {
+      "paths": [
+        "capture_durability/results/v81-rate-evidence.json"
+      ],
+      "ref_count": 12,
+      "representative_ref": "refs/remotes/evidence/audit/capacity-only-20261003"
+    },
+    "9a2f8b37baeba992ac29e796e98a505dda51c729": {
+      "paths": [
+        "round2_evidence/README.md"
+      ],
+      "ref_count": 21,
+      "representative_ref": "refs/remotes/evidence/audit/capacity-only-20261003"
+    },
+    "928bc208154e79816d1b2f5f2a61186d799d0138": {
+      "paths": [
+        "round2_evidence/acquisition_and_clocks.md"
+      ],
+      "ref_count": 21,
+      "representative_ref": "refs/remotes/evidence/audit/capacity-only-20261003"
+    },
+    "52a66e9467286220ea39e35e8fe58d23de52c03e": {
+      "paths": [
+        "round2_evidence/producer_map.csv"
+      ],
+      "ref_count": 21,
+      "representative_ref": "refs/remotes/evidence/audit/capacity-only-20261003"
+    },
+    "1733bbcbd662109825ae855260586f05ce1b58eb": {
+      "paths": [
+        "round2_evidence/producer_map.json"
+      ],
+      "ref_count": 21,
+      "representative_ref": "refs/remotes/evidence/audit/capacity-only-20261003"
+    },
+    "9d58a9d53d2d5807fa6acfb0acd36dcddfed811b": {
+      "paths": [
+        "round2_evidence/protocol.json"
+      ],
+      "ref_count": 21,
+      "representative_ref": "refs/remotes/evidence/audit/capacity-only-20261003"
+    },
+    "8f827947d036f13279d180b4ca546e8d2a475489": {
+      "paths": [
+        "round2_evidence/qualification_manifest.json"
+      ],
+      "ref_count": 21,
+      "representative_ref": "refs/remotes/evidence/audit/capacity-only-20261003"
+    },
+    "f37328f499595368f98ef184c34548b9442fd327": {
+      "paths": [
+        "round2_evidence/references/early_research_requirements.md"
+      ],
+      "ref_count": 21,
+      "representative_ref": "refs/remotes/evidence/audit/capacity-only-20261003"
+    },
+    "f74cbbdf4bc1babc099c56d550c3b86e4552fb80": {
+      "paths": [
+        "round2_evidence/references/final_requirements.json"
+      ],
+      "ref_count": 21,
+      "representative_ref": "refs/remotes/evidence/audit/capacity-only-20261003"
+    },
+    "8a3b10a96e82b81d5df174dc955d953e520fee55": {
+      "paths": [
+        "round2_evidence/references/observed_common_observer.py.txt"
+      ],
+      "ref_count": 21,
+      "representative_ref": "refs/remotes/evidence/audit/capacity-only-20261003"
+    },
+    "9d2b0ac68a59efc443e21a8357b9cf59a967f644": {
+      "paths": [
+        "round2_evidence/references/scalp_requirements.md"
+      ],
+      "ref_count": 21,
+      "representative_ref": "refs/remotes/evidence/audit/capacity-only-20261003"
+    },
+    "ab2c4e9a0299b1cfeff17492d37f9f8d8451ec15": {
+      "paths": [
+        "round2_evidence/requirements_crosswalk.csv"
+      ],
+      "ref_count": 21,
+      "representative_ref": "refs/remotes/evidence/audit/capacity-only-20261003"
+    },
+    "ee6bae85b94ee6548afb6c0180ea33d6487d47db": {
+      "paths": [
+        "round2_evidence/requirements_crosswalk.json"
+      ],
+      "ref_count": 21,
+      "representative_ref": "refs/remotes/evidence/audit/capacity-only-20261003"
+    },
+    "0de63ef43c9051ce643044ddcbfc51707e0faed3": {
+      "paths": [
+        "round2_evidence/schema.json"
+      ],
+      "ref_count": 21,
+      "representative_ref": "refs/remotes/evidence/audit/capacity-only-20261003"
+    },
+    "31600d74f1633b667f15c5f0454e049253789579": {
+      "paths": [
+        "round2_evidence/test_requirements.txt"
+      ],
+      "ref_count": 21,
+      "representative_ref": "refs/remotes/evidence/audit/capacity-only-20261003"
+    },
+    "7222fe477549a174229f958b3b3d3a929891bc7a": {
+      "paths": [
+        "sprint_evidence/qualification_sources.json"
+      ],
+      "ref_count": 21,
+      "representative_ref": "refs/remotes/evidence/audit/capacity-only-20261003"
+    },
+    "21646f95df11d23079e00b428183c41b1565f51d": {
+      "paths": [
+        "sprint_evidence/sprint_protocol.json"
+      ],
+      "ref_count": 21,
+      "representative_ref": "refs/remotes/evidence/audit/capacity-only-20261003"
+    },
+    "244a0d78ff3c263d002975b8fb18a9f392f34546": {
+      "paths": [
+        "sprint_evidence/test_git_objects.json"
+      ],
+      "ref_count": 21,
+      "representative_ref": "refs/remotes/evidence/audit/capacity-only-20261003"
+    },
+    "4d02fe00e0d0e076ac045c7438fed614e177b844": {
+      "paths": [
+        "capture_durability/REPORT.md"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/capture-durability-fail-20260930"
+    },
+    "e76333b1379d7fc0f5054183b3b118c6be87d0e2": {
+      "paths": [
+        "capture_integrated/results/summary.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/capture-integrated-pass-20260930"
+    },
+    "9316705366f0fee74042e0d3b4eef5a14523e46c": {
+      "paths": [
+        "capture_latch/results/qualification-summary.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/capture-latch-pass-20260930"
+    },
+    "a5b4eb70ea0f29747ec4579d04e877472223daa6": {
+      "paths": [
+        "capture_repair/REPORT.txt"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/capture-repair-20260930"
+    },
+    "f86b1c2496293ded4f57be3bb97f032314574e5a": {
+      "paths": [
+        "capture_writer/REPORT.md"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/capture-writer-throughput-fail-20260930"
+    },
+    "f22e90ef70f372deba92f2f3f5ba1d8a20763aff": {
+      "paths": [
+        "capture_writer/results/qualification-summary.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/capture-writer-throughput-fail-20260930"
+    },
+    "4414cf0ba76397b55701342501066cfcc81a5c9e": {
+      "paths": [
+        "event_ground_zero/REPORT.txt"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/event-ground-zero-20260930"
+    },
+    "9c2aa1cc17586516cc035d245bdf71605943cba2": {
+      "paths": [
+        "event_ground_zero/results/fresh-event-summary.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/event-ground-zero-20260930"
+    },
+    "f370dee13f2dd670af793c2c856adc0a9ea6c19c": {
+      "paths": [
+        "BTC15_AUTHORITATIVE_EVIDENCE_REGISTRY_20260915.md"
+      ],
+      "ref_count": 25,
+      "representative_ref": "refs/remotes/evidence/audit/identity-bound-info-20260928"
+    },
+    "0acc7c1bf2eabb35d1a303cbcd41d2119a3a8d67": {
+      "paths": [
+        "BTC15_COMBINED_FORWARD_SCORECARD_CHECKPOINT_20260915.md"
+      ],
+      "ref_count": 25,
+      "representative_ref": "refs/remotes/evidence/audit/identity-bound-info-20260928"
+    },
+    "b34309da33c23a15ec3e0a4252b9e6a529841fc0": {
+      "paths": [
+        "BTC15_COMBINED_FORWARD_SCORECARD_FREEZE_20260915.md"
+      ],
+      "ref_count": 25,
+      "representative_ref": "refs/remotes/evidence/audit/identity-bound-info-20260928"
+    },
+    "b34bd7535cab84344ab56cbde1719021741f8b68": {
+      "paths": [
+        "BTC15_FINAL_FORWARD_SCORECARD_FREEZE_V1.md"
+      ],
+      "ref_count": 25,
+      "representative_ref": "refs/remotes/evidence/audit/identity-bound-info-20260928"
+    },
+    "90f3f5fd59507b4037d9e93309d2854d608f8901": {
+      "paths": [
+        "BTC15_GENERALIZED_SCALP_SCORECARD_FREEZE_20260913.md"
+      ],
+      "ref_count": 26,
+      "representative_ref": "refs/remotes/evidence/audit/identity-bound-info-20260928"
+    },
+    "fdae81c1bc1fdf2171e70c768d558c512769cfdc": {
+      "paths": [
+        "completion_audit/INFORMATION_INGRESS_ROLLOUT_20260928.md"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/information-ingress-rollout-evidence-20260928"
+    },
+    "a9b0886ed42860f33ccc4b02ed12cdbf87d2a538": {
+      "paths": [
+        "capture_lifetime/REPORT.txt"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/main-capture-lifetime-20260930"
+    },
+    "59e6c2a744a00d4b565cfe6995d53cfa8c079992": {
+      "paths": [
+        "capture2/REPORT.txt"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/audit/passive-activation-20260930"
+    },
+    "c494632158f3780944fc54781228d34c2210b3e1": {
+      "paths": [
+        "capture2/results/final/deployment_evidence.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/audit/passive-activation-20260930"
+    },
+    "3ad5204d14887bbe35312d7c204d76d1a9c124d3": {
+      "paths": [
+        "capture2/results/final/manifest_sha256.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/audit/passive-activation-20260930"
+    },
+    "d4675b70b1bde582aaa44108ae235752c3e78fe3": {
+      "paths": [
+        "capture_activation/REPORT.txt"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/passive-activation-20260930"
+    },
+    "6410d9286c067be0412a7d8e710bf07c356ab02e": {
+      "paths": [
+        "completion_audit/PR36_HTTP_STARTUP_ACCEPTANCE_20260924.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/pr36-prospective-rollout-20260924"
+    },
+    "5b4969c155b6f55b189a28828658266df0a06d46": {
+      "paths": [
+        "completion_audit/PR36_INITIAL_LIVE_ACCEPTANCE_20260924.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/pr36-prospective-rollout-20260924"
+    },
+    "cf34d9fee0cfc33a38896c5d478922ba3dc0e54d": {
+      "paths": [
+        "completion_audit/PR36_PROSPECTIVE_BOUNDARY_20260924.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/pr36-prospective-rollout-20260924"
+    },
+    "68e250588837e812a8a23e07386bfd99561759bb": {
+      "paths": [
+        "completion_audit/PR36_ROLLOUT_CHECKPOINT_20260924.md"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/pr36-prospective-rollout-20260924"
+    },
+    "81f9dd77869778cd71fff8e11cbd6a7a444f546f": {
+      "paths": [
+        "completion_audit/TWO_CLOCK_ACCEPTANCE_20260925.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/two-clock-information-20260925"
+    },
+    "b50d8127b157855ace42c1653f8c3ae26ec39720": {
+      "paths": [
+        "completion_audit/TWO_CLOCK_AVAILABILITY_20260925.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/two-clock-information-20260925"
+    },
+    "d164e2a310ca9af08882a978cb939da8ea7bd878": {
+      "paths": [
+        "completion_audit/TWO_CLOCK_CHECKPOINT_20260925.md"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/two-clock-information-20260925"
+    },
+    "671d5635d2b52545db49edde86fcdb7526c019f0": {
+      "paths": [
+        "completion_audit/TWO_CLOCK_CHECK_COMMANDS_20260925.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/two-clock-information-20260925"
+    },
+    "ff8c7af05ea3286c7b99f51659a53204420c874c": {
+      "paths": [
+        "completion_audit/TWO_CLOCK_FIELD_AUTHORITY_20260925.md"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/two-clock-information-20260925"
+    },
+    "d68995e5c506e44f6d94c9eb287c8cef94b4bf1d": {
+      "paths": [
+        "completion_audit/TWO_CLOCK_LIFECYCLE_SPEC_20260925.md"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/two-clock-information-20260925"
+    },
+    "ac8ba78d429bf8e47596de8d4109338b88083650": {
+      "paths": [
+        "completion_audit/TWO_CLOCK_REPORT_20260925.md"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/audit/two-clock-information-20260925"
+    },
+    "036ffbbaf1f5317ff66e5c5d7af4cd4d1e5fb570": {
+      "paths": [
+        "completion_audit/TWO_CLOCK_INSTALL_AND_ROLLBACK_20260925.md"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/audit/two-clock-integration-20260925"
+    },
+    "429fed2fcc295fd340c009efe840b23abff5eb6b": {
+      "paths": [
+        "completion_audit/TWO_CLOCK_INTEGRATION_ACCEPTANCE_20260925.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/audit/two-clock-integration-20260925"
+    },
+    "656b782dffcb83ff9c4f84724d76682437ffb374": {
+      "paths": [
+        "completion_audit/TWO_CLOCK_INTEGRATION_CHECKPOINT_20260925.md"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/audit/two-clock-integration-20260925"
+    },
+    "d098f9efc4ae41a357eb0f044ebd23f688c14602": {
+      "paths": [
+        "completion_audit/TWO_CLOCK_INTEGRATION_HOSTED_06261db/topology-resources.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/audit/two-clock-integration-20260925"
+    },
+    "f2cd94d090d189418f3165ca6982b5a1b30e26e0": {
+      "paths": [
+        "completion_audit/TWO_CLOCK_INTEGRATION_HOSTED_20260925.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/audit/two-clock-integration-20260925"
+    },
+    "b705658f9fe29259de0f9293f0891351e77c508c": {
+      "paths": [
+        "completion_audit/TWO_CLOCK_INTEGRATION_INSTALL_MANIFEST_20260925.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/audit/two-clock-integration-20260925"
+    },
+    "c05a2ad9201a7556cfc33ee4a315bb20b7059672": {
+      "paths": [
+        "completion_audit/TWO_CLOCK_INTEGRATION_PRODUCTION_CONTEXT_20260925.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/audit/two-clock-integration-20260925"
+    },
+    "705efcee9656e13af82fccdfab1b96cb6f9b50ec": {
+      "paths": [
+        "completion_audit/TWO_CLOCK_INTEGRATION_REPORT_20260925.md"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/audit/two-clock-integration-20260925"
+    },
+    "c671b4dbf226e30420a928b58cc6cb7c43e8c015": {
+      "paths": [
+        "completion_audit/TWO_CLOCK_INTEGRATION_RESOURCES_20260925.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/audit/two-clock-integration-20260925"
+    },
+    "57ca587ff419b4878a53d47b6fcc250e74f50536": {
+      "paths": [
+        "completion_audit/TWO_CLOCK_LIVE_GATE_20260925.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/two-clock-live-cost-gate-20260925"
+    },
+    "61378c14c7ba38dc478e65b8226bc3dd824dbdb3": {
+      "paths": [
+        "completion_audit/TWO_CLOCK_LIVE_GATE_REPORT_20260925.md"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/two-clock-live-cost-gate-20260925"
+    },
+    "834b8cf9abed2c23a952b807e46c2422aaa607fe": {
+      "paths": [
+        "completion_audit/TWO_CLOCK_LIVE_PREFLIGHT_20260925.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/two-clock-live-cost-gate-20260925"
+    },
+    "c16b62c3c42e427d7d0eb975e209cf53469046e9": {
+      "paths": [
+        "completion_audit/TWO_CLOCK_LIVE_PRODUCTION_UNCHANGED_20260925.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/two-clock-live-cost-gate-20260925"
+    },
+    "24d237c92e21857ae4ab0566f4105db19e0114f8": {
+      "paths": [
+        "completion_audit/TWO_CLOCK_LIVE_RESOURCE_PREFLIGHT_20260925.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/audit/two-clock-live-cost-gate-20260925"
+    },
+    "28ecd5e4fa981b4383e74877b2de8984e1caac9b": {
+      "paths": [
+        "qualification/baseline_regression_probe_20261006.txt"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/candidate/baseline-regression-probe-20261006"
+    },
+    "a03c01b25aefdb8b79aa17fe9d1802f7ce55baaa": {
+      "paths": [
+        "audit/opportunity_integrity_20261011/REPORT.txt"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/candidate/btc15-early-opportunity-integrity-20261011"
+    },
+    "6a0e940b2fbf8c63900b189ba5611129caa0c092": {
+      "paths": [
+        "audit/opportunity_integrity_20261011/VALIDATION_PROTOCOL.txt"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/candidate/btc15-early-opportunity-integrity-20261011"
+    },
+    "1b81c732a8860f4655838c37c9aff0c64846a701": {
+      "paths": [
+        "audit/opportunity_integrity_20261011/chromium-results.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/candidate/btc15-early-opportunity-integrity-20261011"
+    },
+    "5a05e0bfab669f66c14613132fc238536f9d46bf": {
+      "paths": [
+        "audit/opportunity_integrity_20261011/final_distance_results.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/candidate/btc15-early-opportunity-integrity-20261011"
+    },
+    "efdab02dfcdcfdd3a95f7080a6a57bb262ce475e": {
+      "paths": [
+        "audit/opportunity_integrity_20261011/invariants.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/candidate/btc15-early-opportunity-integrity-20261011"
+    },
+    "f4cb458f29e5d7f9c7f8b40544d44df32d944799": {
+      "paths": [
+        "audit/opportunity_integrity_20261011/node-results.txt"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/candidate/btc15-early-opportunity-integrity-20261011"
+    },
+    "7906e094362693bd75c1e7f136a4bf12c6a5a191": {
+      "paths": [
+        "audit/opportunity_integrity_20261011/production_identity.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/candidate/btc15-early-opportunity-integrity-20261011"
+    },
+    "18d197f07b86631bf7ae39ca58114f4468cdb5cb": {
+      "paths": [
+        "audit/opportunity_integrity_20261011/python-results.txt"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/candidate/btc15-early-opportunity-integrity-20261011"
+    },
+    "01b4612c56c0c72e3891ad9ec9c1b24092298f28": {
+      "paths": [
+        "audit/opportunity_integrity_20261011/scalp-results.txt"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/candidate/btc15-early-opportunity-integrity-20261011"
+    },
+    "daf9de6fc261ac4da8d7ef9e0b10f6e092f87e0a": {
+      "paths": [
+        "audit/opportunity_integrity_20261011/synthetic_lifecycle_trace.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/candidate/btc15-early-opportunity-integrity-20261011"
+    },
+    "7e8788bbe63df400c9cc88fbf574171c5b35b3f7": {
+      "paths": [
+        "audit/opportunity_integrity_20261011/webkit-status.txt"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/candidate/btc15-early-opportunity-integrity-20261011"
+    },
+    "0bbf01296b1b02e5d7917e8dcf9cd869bf78ef50": {
+      "paths": [
+        "qualification/v2_acceptance_20261005/engineering_results.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/candidate/main-acceptance-revalidation-20261005"
+    },
+    "feaaed3899f6a81cc77adf506b4a0e900e6c293b": {
+      "paths": [
+        "integrity/EVIDENCE_INTEGRITY_RECONCILER_V1_SPEC.md"
+      ],
+      "ref_count": 4,
+      "representative_ref": "refs/remotes/evidence/evidence-integrity-reconciler-v1"
+    },
+    "9b634670bb1142e2086d9411ff1625d6f526a298": {
+      "paths": [
+        "ops/evidence/early_final_management_20261009/main.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/fix/btc15-economic-opportunity-coverage-20261009"
+    },
+    "869429fc91ba42779eeb2e8da1fcc892ec95d4c1": {
+      "paths": [
+        "ops/evidence/early_final_management_20261009/production_receipt.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/fix/btc15-economic-opportunity-coverage-20261009"
+    },
+    "8bf15fe333a6d4e38ca811a69eba11d48fe98ed7": {
+      "paths": [
+        "ops/evidence/archive_20261009/result.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/fix/btc15-journal-archive-20261009"
+    },
+    "af76e908a002c4ff4a25e6df3c3040becfe385ec": {
+      "paths": [
+        "ops/evidence/20261009-explanation-stability.browser.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/fix/btc15-live-cockpit-source-visibility-20261008"
+    },
+    "6fe195bbae285ca2d0017e6b4493855adc2c3c9f": {
+      "paths": [
+        "ops/evidence/infrastructure_20261009/information_verified.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/fix/btc15-live-infrastructure-20261009"
+    },
+    "c012240c243f5d259e23eda0a320899dac02649c": {
+      "paths": [
+        "ops/evidence/infrastructure_20261009/result.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/fix/btc15-live-infrastructure-20261009"
+    },
+    "8fd6aac3e8147f2a38d0c1dfa75aa021b85e0b22": {
+      "paths": [
+        "ops/evidence/infrastructure_20261009/scalp_verified.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/fix/btc15-live-infrastructure-20261009"
+    },
+    "f513ef0f56801bcca37f903684d0e308ee069af6": {
+      "paths": [
+        "completion_audit/PUBLICATION_CADENCE_CANDIDATE.md"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/fix/btc15-publication-polling-20260923"
+    },
+    "b6eddcd7ce031628b0e3e48794862ef473acd5b1": {
+      "paths": [
+        "FORWARD_EVIDENCE_MATRIX_V1.md"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/forward-evidence-matrix-v1"
+    },
+    "73a66ddc5062fa7d1b73dddfa454f2059f4b34d7": {
+      "paths": [
+        "research_review/checkpoints/20260917T002405Z/scorecard.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/nextgen-v2-review-run-20260920"
+    },
+    "7bee02a4fcb341e10e0c789ff876258935e95f0b": {
+      "paths": [
+        "research_review/checkpoints/20260917T002405Z/scorecard.md"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/nextgen-v2-review-run-20260920"
+    },
+    "71603af140806330e836c0a85fd04cec7bd9d83b": {
+      "paths": [
+        "research_review/checkpoints/20260917T002405Z/summary.md"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/nextgen-v2-review-run-20260920"
+    },
+    "87f488259fb76cc26d7a330bdd897d6093a1da7a": {
+      "paths": [
+        "research_review/nextgen_v2_manifest.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/nextgen-v2-review-run-20260920"
+    },
+    "b316a7a5847eaee08dfa01f7c7544af7cea7c430": {
+      "paths": [
+        "research_review/scorecards/20260916T233157Z/scorecard.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/nextgen-v2-review-run-20260920"
+    },
+    "eca4ba4de6cea84489ddce10d882fea4408f281b": {
+      "paths": [
+        "research_review/scorecards/20260916T233157Z/scorecard.md"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/nextgen-v2-review-run-20260920"
+    },
+    "4c764240dff56b261ac194676bdba565b92c06fb": {
+      "paths": [
+        "research_review/scorecards/20260916T234900Z/scorecard.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/nextgen-v2-review-run-20260920"
+    },
+    "4561f8c4a2e0582fcf97a37cc0676b94be78559a": {
+      "paths": [
+        "research_review/scorecards/20260916T234900Z/scorecard.md"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/nextgen-v2-review-run-20260920"
+    },
+    "4c94f49bd816369ceb96639ae714a9a2c4027e6e": {
+      "paths": [
+        "research_review/scorecards/20260916T235948Z/scorecard.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/nextgen-v2-review-run-20260920"
+    },
+    "a7a0ffc24d76c9963617a433064133bedf9aa7bf": {
+      "paths": [
+        "research_review/scorecards/20260916T235948Z/scorecard.md"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/nextgen-v2-review-run-20260920"
+    },
+    "87a8df2fb0b41b615fa6fa39238c0b427b2f004b": {
+      "paths": [
+        "research_review/scorecards/first_contract/scorecard.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/nextgen-v2-review-run-20260920"
+    },
+    "bff81a55fe282558c9e9e66d7dec639921dcdcf1": {
+      "paths": [
+        "research_review/scorecards/first_contract/scorecard.md"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/nextgen-v2-review-run-20260920"
+    },
+    "866b783b914634adecfb98057eb8282c0c7fd6dc": {
+      "paths": [
+        "qualification/BTC15_V2_PRODUCTION_PROMOTION_PROPOSAL_20261004.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "69eedf14a61d9648db0d4eed3f5d843c361a97b7": {
+      "paths": [
+        "qualification/BTC15_V2_PRODUCTION_STAGED_20261004.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "3e2dbdf00ea95e2491050386dd7059b3a6fed8f4": {
+      "paths": [
+        "qualification/BTC15_V2_QUALIFICATION_ATTEMPT_20261004.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "9525bf66270fa93c909857f44bba88cb71f820a5": {
+      "paths": [
+        "qualification/BTC15_V2_RAILWAY_STAGED_20261003.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "84eecc4c8b02f73639f7f08a4bbaf55e899038e0": {
+      "paths": [
+        "qualification/v2_live_20261004/frozen_gate.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "8280e06782033c43425ce6256ee0612ababbee89": {
+      "paths": [
+        "qualification/v2_live_20261004/main_after_restart.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "779ee1ef166e00f5272149addcbeff7455dc108e": {
+      "paths": [
+        "qualification/v2_live_20261004/main_before_restart.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "4e8fc197e797abc28dd308f4b176ddfee70dba3d": {
+      "paths": [
+        "qualification/v2_live_20261004/main_coverage_after_restart.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "f45a798b5f68672ab637899f15b44a13e4c7bed4": {
+      "paths": [
+        "qualification/v2_live_20261004/main_coverage_before_restart.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "08856ba6c5f1074cb1b02bafe9f7a4cd6f9bb01c": {
+      "paths": [
+        "qualification/v2_live_20261004/main_coverage_final.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "06e0c0658df461066dbf62e20b327a009fb5fdcd": {
+      "paths": [
+        "qualification/v2_live_20261004/main_health_after_restart.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "542e84488c5b46086b8a3baab0aa67fba000d9b3": {
+      "paths": [
+        "qualification/v2_live_20261004/official_current.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "33e99f4b2bfe99d575c5aa88e42884ced31e82ec": {
+      "paths": [
+        "qualification/v2_live_20261004/official_prior_settled.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "cb0db1ea6c239abdeb0b151cb06fe0ccf2ed6e9b": {
+      "paths": [
+        "qualification/v2_live_20261004/panel_wiring.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "b0b3b4487eef8f86db97411e06377827f157e617": {
+      "paths": [
+        "qualification/v2_live_20261004/production_unchanged_final.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "45a50ae188ab1244e31566a247876a560af94218": {
+      "paths": [
+        "qualification/v2_live_20261004/qualification_checks.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "4acaaa78bfb884b9c7933d12efc28350bc7ee5b7": {
+      "paths": [
+        "qualification/v2_live_20261004/railway_readback.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "6e059811cd46c4e87b73d880634fa1184adb2f22": {
+      "paths": [
+        "qualification/v2_live_20261004/settlement_path_function.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "3e2e4486f46acb412649d60aded808f3ea4db088": {
+      "paths": [
+        "qualification/v2_live_20261004/startup_verifier_logs.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "874833c7a9533b45dd0fcd52a70127c9272947e5": {
+      "paths": [
+        "qualification/v2_live_20261004/v81_after_restart.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "550f7f908d33bdb9a2bd9dfe47fe12d8f61f7ac1": {
+      "paths": [
+        "qualification/v2_live_20261004/v81_before_restart.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "bf149aea876a69dd30e64250872efe605736d6df": {
+      "paths": [
+        "qualification/v2_live_20261004/v81_cors.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "c5e2cc6c7e13cbad757b2c3fe2904396a3ef23f6": {
+      "paths": [
+        "qualification/v2_live_20261004/v81_coverage_after_restart.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "b4115854355fe738ae6b118034901ba2a92bc10d": {
+      "paths": [
+        "qualification/v2_live_20261004/v81_coverage_before_restart.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "3c674431c6910cb82fd20c1e2284d7b78037bc26": {
+      "paths": [
+        "qualification/v2_live_20261004/v81_coverage_final.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "b15e5a32db31adfe34c54bd9497f3269ce94cd0d": {
+      "paths": [
+        "qualification/v2_live_20261004/v81_health_after_restart.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "c39274fea77f5cf9eff77390398f572506a1685d": {
+      "paths": [
+        "qualification/v2_production_20261004/SHA256SUMS.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "5db3b4b79fb30d18939bd66f79f5734b3730601b": {
+      "paths": [
+        "qualification/v2_production_20261004/access_blocker.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "3d37304faeaae34e54949a4a85b5531c9c068d1f": {
+      "paths": [
+        "qualification/v2_production_20261004/alert_test_request.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "6518ef308d3b90af7a6439e9fae837ffc06535a7": {
+      "paths": [
+        "qualification/v2_production_20261004/automations_after_test.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "32561cf40a1f179fa65a3600cd8e174ce87ed9bd": {
+      "paths": [
+        "qualification/v2_production_20261004/automations_before.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "533343aeaa7ea4a3b33bac6e80b88d2701625c74": {
+      "paths": [
+        "qualification/v2_production_20261004/cleanup_prior_blocker.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "630ef78d7b7e88075062258ce308e84b8f0db52f": {
+      "paths": [
+        "qualification/v2_production_20261004/cleanup_reconciliation.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "9a34ca0ec1a1abe39641de8953a8427f18fe2be1": {
+      "paths": [
+        "qualification/v2_production_20261004/cost_resolution_20260925_excerpt.md"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "9ad23e98c9aff52cb6603355f42822193c423e6a": {
+      "paths": [
+        "qualification/v2_production_20261004/deployment_receipts.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "458a4a5bee76c3dad21d106a7454997397d28b2e": {
+      "paths": [
+        "qualification/v2_production_20261004/environment.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "be9e60659a51b2b0b4ac0950ea43fcd712f007ed": {
+      "paths": [
+        "qualification/v2_production_20261004/main_coverage.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "fe692eb296da6a0b5f5e910408c0ab1c331efb1f": {
+      "paths": [
+        "qualification/v2_production_20261004/main_coverage_http.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "46536c13b7caa42228bd51e76d4a3c74284258d7": {
+      "paths": [
+        "qualification/v2_production_20261004/main_dashboard_http.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "c072906b4021f38802fa1d806538aec6c583db1c": {
+      "paths": [
+        "qualification/v2_production_20261004/main_health.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "835f214f0185542b1d777ed438c28aa44bf0855e": {
+      "paths": [
+        "qualification/v2_production_20261004/main_health_http.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "83f8318cf9aaa1807cfe20a243f2876eed3cb287": {
+      "paths": [
+        "qualification/v2_production_20261004/main_ladders.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "fe32480292dea65ffb9c88c175ab4c1ae12b2a6f": {
+      "paths": [
+        "qualification/v2_production_20261004/main_ladders_http.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "5c7c3d0e782ea839da94dccd7624589fc7815cd2": {
+      "paths": [
+        "qualification/v2_production_20261004/metrics_main.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "750702c561bea7f71a882d9607b1e4cd5321e588": {
+      "paths": [
+        "qualification/v2_production_20261004/metrics_v81.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "eaaf61b6ce7205184a778307a387a74873a5127f": {
+      "paths": [
+        "qualification/v2_production_20261004/official_current.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "95f74289a85f5e80b6293d304e1047388dafe72d": {
+      "paths": [
+        "qualification/v2_production_20261004/official_current_http.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "452fc1d645ca356550cc6965f971c2b9999b2b8d": {
+      "paths": [
+        "qualification/v2_production_20261004/panel_wiring_http.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "b39e936b9994bdcb9ea95fe312a5d70167962cd3": {
+      "paths": [
+        "qualification/v2_production_20261004/previous_state_677200b.md"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "65e699034dba9ddda699076acdb61a8925352735": {
+      "paths": [
+        "qualification/v2_production_20261004/production_checks.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "68c8f43a2678656e989b4dc75bc4c379f70ccb00": {
+      "paths": [
+        "qualification/v2_production_20261004/railway_snapshot_capability.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "8c1c7c1d52bda819511bdadd1811a4e102cd8121": {
+      "paths": [
+        "qualification/v2_production_20261004/reconcile1.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "df353c28e48eac9fba95612952724a789ee05f4a": {
+      "paths": [
+        "qualification/v2_production_20261004/reconcile2.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "2d865d7178c2fe3753a8cf34eb00e9b009621a84": {
+      "paths": [
+        "qualification/v2_production_20261004/recovered_scorer_inventory.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "58bc863768d08cff3cc834c9b7e5d5cb420b27d1": {
+      "paths": [
+        "qualification/v2_production_20261004/runtime_main_ref.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "2902c49549e751b91c727f97d2186e16b74ba504": {
+      "paths": [
+        "qualification/v2_production_20261004/runtime_v81_ref.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "b6e8ac2617edd08f03efa9a3f0139a86a7b6214c": {
+      "paths": [
+        "qualification/v2_production_20261004/scoring_bridge_receipt.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "77038f6cfece1b48865b567e4346469644d1c74f": {
+      "paths": [
+        "qualification/v2_production_20261004/service0.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "72c36213d55d64919660bce894f74a5e1965b126": {
+      "paths": [
+        "qualification/v2_production_20261004/service1.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "f7f4bfcfc62d9ca62249a8c35bae5cf6aa0a3ec1": {
+      "paths": [
+        "qualification/v2_production_20261004/startup_v81_verifier.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "0d252fc581691d1ff56ff830c64ee22026481fad": {
+      "paths": [
+        "qualification/v2_production_20261004/v2_cohort_start.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "f197cefa071e7a18a6562015a040db68c65c3063": {
+      "paths": [
+        "qualification/v2_production_20261004/v81_coverage.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "272eea125f90a28650b6750ee31e9243d5c7d300": {
+      "paths": [
+        "qualification/v2_production_20261004/v81_coverage_http.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "da41ba1c0972c0ce9a6c6b2ad3ed1cd029d860e2": {
+      "paths": [
+        "qualification/v2_production_20261004/v81_health.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "a28072b79bb355a725c3380fdc9da83e61d5e150": {
+      "paths": [
+        "qualification/v2_production_20261004/v81_health_http.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "79c944142bdc195e5fdbd41152bddea6655011ee": {
+      "paths": [
+        "qualification/v2_production_20261004/v81_ladders.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "300232b52f34278b37cf0ffb7ec10795a714ddb0": {
+      "paths": [
+        "qualification/v2_production_20261004/v81_ladders_http.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "895473a11662658d52dd355a2beb78d1ac4f03e0": {
+      "paths": [
+        "qualification/v2_production_preparation_20261004/before.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "44fc2906df183764caed791220abe173538822b9": {
+      "paths": [
+        "qualification/v2_production_preparation_20261004/readback_and_audit.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "5da153833751f5a1099d34028cf4f0778847df28": {
+      "paths": [
+        "qualification/v2_scoring_bridge_20261004/SHA256SUMS.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "d9bd30653ab2def652a475b94cdc29b8c5da2708": {
+      "paths": [
+        "qualification/v2_scoring_bridge_20261004/focused_tests.txt"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "888668ba420c4e31d210766ae039d3e0756cdfa0": {
+      "paths": [
+        "qualification/v2_scoring_bridge_20261004/main_coverage.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "ca9f2b710688550b51b7ef2d53caef4fb5356f25": {
+      "paths": [
+        "qualification/v2_scoring_bridge_20261004/production_acceptance_status.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "3070854b6df53336e48a4313c9ee225e730fa41a": {
+      "paths": [
+        "qualification/v2_scoring_bridge_20261004/recovery_receipt.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "df398abe21f5228c93fc1bb1ff20eaf65e06b605": {
+      "paths": [
+        "qualification/v2_scoring_bridge_20261004/v81_coverage.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "d29f82696478f816b485aece00e04292d71d9438": {
+      "paths": [
+        "qualification/v2_scoring_bridge_20261004/verification_receipt.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/btc15-v2-qualification-20261003"
+    },
+    "ae80fe8d4438fdc2b0d13a57877d5792dacf2377": {
+      "paths": [
+        "release_review/v2-product-r1-20261004/BTC15_V2_Offline_Release_Package_20261004.zip",
+        "release_review/v2-product-r1-packaging-20261004/original/BTC15_V2_Offline_Release_Package_20261004.zip"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/v2-product-review-20261004"
+    },
+    "b46f29f56a57b2b4564deb6ec986bdd0cd57267d": {
+      "paths": [
+        "release_review/v2-product-r1-packaging-20261004/BTC15_V2_Corrected_Release_Package_20261004.zip"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/v2-product-review-20261004"
+    },
+    "9cf88fc0549b4bfb8c79396a81a85885582b79c7": {
+      "paths": [
+        "qualification/v2_live_score_handoff_20261004/checkpoint.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/v2-score"
+    },
+    "5e54a8cc52018365b5f45d1f8a449d47c0ce9ea7": {
+      "paths": [
+        "qualification/v2_live_score_handoff_20261004/main-receipt.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/v2-score"
+    },
+    "617b0301b56284a569f6eccf80144fc23d6cb37c": {
+      "paths": [
+        "qualification/v2_live_score_handoff_20261004/v81_receipt.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/ops/v2-score"
+    },
+    "2641164ea1a3c9c35604d995179c3fc06407c894": {
+      "paths": [
+        "qualification/main_1s_brti_shadow_marker_20261005.txt"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/qualification/main-1s-brti-shadow-20261005"
+    },
+    "f61ef5c7d14d8e23360c002ec0aced8b5565990e": {
+      "paths": [
+        "docs/MATURE_DEVELOPMENT_EVIDENCE_FREEZE_SNAPSHOT_20260918.md"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/regime-incremental-canary-20260918"
+    },
+    "f2dd794bfb196ec1f39ebddb927e9bef98dec847": {
+      "paths": [
+        "completion_audit/FAIR_INPUT_CANDIDATE.md"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/research/btc15-fair-input-integrity-20260923"
+    },
+    "bdd2ad00162963fdeb13a3a98b2f533ecb4f82e7": {
+      "paths": [
+        "completion_audit/FAIR_POLICY_IDENTITY_BLOCK_20260923.md"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/research/btc15-fair-input-integrity-20260923"
+    },
+    "f0ab5e6e9b70c854bd2cbc30d68019c42fa677d5": {
+      "paths": [
+        "completion_audit/fair_forward_policy_20260923T211500Z.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/research/btc15-fair-input-integrity-20260923"
+    },
+    "2adf74d016fdb8a08f891f44502f29567f080ed7": {
+      "paths": [
+        "completion_audit/fair_forward_policy_20260923T214500Z.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/research/btc15-fair-input-integrity-20260923"
+    },
+    "f46f66af5c82923653a8cd7990a69aaf5e8570bf": {
+      "paths": [
+        "completion_audit/forward_features_development_20260923.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/research/btc15-fair-input-integrity-20260923"
+    },
+    "2b07f9263ddb47870b572197c9d04a09560e15d1": {
+      "paths": [
+        "research_review/early_coverage_ladder_v1_20260921/REPORT.md"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/research/early-coverage-ladder-v1-20260921"
+    },
+    "de5eb8739b413fef3cd0e1afaaeea3ffee8ffdce": {
+      "paths": [
+        "research_review/early_coverage_ladder_v1_20260921/evidence.zip"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/research/early-coverage-ladder-v1-20260921"
+    },
+    "d9a6911ad75ac89cbd06bd2844bce535d52a9f8a": {
+      "paths": [
+        "research_review/early_coverage_ladder_v1_20260921/source_manifest.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/research/early-coverage-ladder-v1-20260921"
+    },
+    "e38aaeb96afb6aa51c5c1682a460ba38448a35c9": {
+      "paths": [
+        "research_review/early_settlement_audit_20260921/inputs/source_manifest.json",
+        "research_review/finishline_20260921/source_manifest.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/research/early-final-settlement-audit-20260921"
+    },
+    "abaacc77db87f3d7736c642a53d1e5c3ef9c0be1": {
+      "paths": [
+        "research_review/early_settlement_audit_20260921/per_call.csv"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/research/early-final-settlement-audit-20260921"
+    },
+    "2b079e5c03c91eb39f18a0dbc78b85c0360d4775": {
+      "paths": [
+        "research_review/early_settlement_audit_20260921/retrieval_manifest.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/research/early-final-settlement-audit-20260921"
+    },
+    "c3ec07d21976cfab8fb513bfce859c637791cd7b": {
+      "paths": [
+        "research_review/early_settlement_audit_20260921/summary.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/research/early-final-settlement-audit-20260921"
+    },
+    "9c5e572b583673d8e97eb0253b71dcb9f389d997": {
+      "paths": [
+        "research_review/finishline_20260921/evidence_outputs.zip"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/research/early-final-settlement-audit-20260921"
+    },
+    "bf9a5fa094da2e1e217e187f08132e89c12ce9c9": {
+      "paths": [
+        "research_review/finishline_20260921/report.json"
+      ],
+      "ref_count": 2,
+      "representative_ref": "refs/remotes/evidence/research/early-final-settlement-audit-20260921"
+    },
+    "0ad7ef12473db88a1a0ca151af1676c5f6efe748": {
+      "paths": [
+        "research_review/early_settlement_runway_consensus_v1_20260920/per_call.csv"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/research/early-settlement-runway-consensus-v1-20260920"
+    },
+    "8a770395769fd4929ff0049688d0c00c882589ef": {
+      "paths": [
+        "completion_audit/CONTINUATION_JOINT_20260924.md"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/research/joint-ladder-diagnosis-20260924"
+    },
+    "52ccdb66c4b49321a40748ce8a23c3034e6b7618": {
+      "paths": [
+        "docs/EVIDENCE_FREEZE_DECISION_FRAMEWORK_20260918.md"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/scalp-incremental-disk-v2-20260918"
+    },
+    "019b426d5c7e9720f23bff01f04d0c96d9042a78": {
+      "paths": [
+        "docs/RUNTIME_VALIDATION_REPORT_TEMPLATE_20260918.md"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/scalp-incremental-disk-v2-20260918"
+    },
+    "c771cd9aed7abe0c434e22f3ef0c0c9271517bba": {
+      "paths": [
+        "research_review/evidence_recovery_20260920/RECOVERY_RESULT.md"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/scalp-ladder-evidence-review-20260920"
+    },
+    "3b508ab6e79ec3f86938332738a445e4bfda6de1": {
+      "paths": [
+        "research_review/evidence_recovery_20260920/clean_membership_metadata.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/scalp-ladder-evidence-review-20260920"
+    },
+    "f1fb6ed3476360e377e57a6d821ddfcd4f9923c3": {
+      "paths": [
+        "research_review/evidence_recovery_20260920/inventory.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/scalp-ladder-evidence-review-20260920"
+    },
+    "41d56cea63c79641fe587fda999492f6da4bdba8": {
+      "paths": [
+        "research_review/ladder_20260920/archived_workflow_evidence.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/scalp-ladder-evidence-review-20260920"
+    },
+    "7177428deeef23e5cf6ebafe80c15dcecaf3cfcf": {
+      "paths": [
+        "research_review/ladder_20260920/recovered_scorecard.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/scalp-ladder-evidence-review-20260920"
+    },
+    "e8512770831bf9eeb888a28d735ec77d5825aabf": {
+      "paths": [
+        "research_review/recovery/brti_retry_draft_evidence.json"
+      ],
+      "ref_count": 1,
+      "representative_ref": "refs/remotes/evidence/scalp-nextgen-v2-review-tools"
+    },
+    "09aa9684ef8ab4ecae12f49e9af4b8347d10e964": {
+      "paths": [
+        "v81_integration_manifest.json"
+      ],
+      "ref_count": 3,
+      "representative_ref": "refs/remotes/evidence/v81-30-45-integration-immutable-20260912"
+    },
+    "e341e6951cc8b0ea165da9e0686e78297b9659ec": {
+      "paths": [
+        "research_review/early_settlement_audit_20260921/per_call.csv"
+      ],
+      "ref_count": 0,
+      "representative_ref": null
+    }
+  }
+}

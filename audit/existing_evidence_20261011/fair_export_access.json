@@ -1,0 +1,5 @@
+{
+  "url": "https://btc-15min-bot-production.up.railway.app/research/fair-input-manifest",
+  "status": 200,
+  "body": "{\"schema\":\"BTC15_FAIR_INPUT_EXPORT_V1\",\"journal\":\"kalshi_fair_input_frames_v1.jsonl\",\"identity\":\"7b9f685f1a3bedfb3afed0dfdb7163806e42dc9ace3ac035ce08870713da0996\",\"first_record_sha256\":\"045839d750f296ff398b467d610924d470fd702db09d9df893ab49b0e58a42e6\",\"size_bytes\":381134704,\"max_range_bytes\":1048576,\"feature_order\":[\"elapsed\",\"remaining\",\"current_side\",\"dist_target\",\"abs_dist_target\",\"dist_target_pct\",\"move_from_start\",\"move_from_start_pct\",\"move1\",\"move2\",\"move3\",\"move5\",\"support1\",\"support2\",\"support3\",\"support5\",\"range5\",\"vol5\",\"dist_per_min_remaining\",\"dist_over_range5\"],\"serving_deployment\":\"d6f84479-d722-4139-a96d-6aa155a17dc6\",\"warning\":\"Serving deployment does not relabel historical rows; segment by recorded decision times and release history\",\"signal_only\":true,\"orders\":false}"
+}

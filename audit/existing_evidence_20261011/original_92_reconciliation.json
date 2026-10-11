@@ -1,0 +1,2096 @@
+[
+  {
+    "file": "chop_reversal_event_detector_v1_gap_signals.csv",
+    "sha256": "f2fc4c01db76affc3a810a50109c774854be93c61a0d018272a79b444074117c",
+    "rows": 4,
+    "unique_exact_rows": 4,
+    "contracts": 4,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": true,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-04 02:55:50.163372+00:00",
+        "2026-09-04 22:50:00.257258+00:00"
+      ]
+    }
+  },
+  {
+    "file": "chop_reversal_event_detector_v1_walkforward_signals.csv",
+    "sha256": "8aee0353f52cfcd170011381443d4c37edeb0f5ca515594d079aa58b386c7964",
+    "rows": 11,
+    "unique_exact_rows": 11,
+    "contracts": 11,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": true,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-04 14:27:18.978779+00:00",
+        "2026-09-04 20:56:23.465408+00:00"
+      ]
+    }
+  },
+  {
+    "file": "early_entry_feasibility_best_fresh_calls.csv",
+    "sha256": "1ed1939769fb6747372f3d55d4d9e7905e4351166020ea5e8ceda849fd97229d",
+    "rows": 41,
+    "unique_exact_rows": 41,
+    "contracts": 41,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "snapshot_utc": [
+        "2026-08-30 23:35:00+00:00",
+        "2026-09-02 13:41:00+00:00"
+      ],
+      "candle_end_utc": [
+        "2026-08-30 23:35:00+00:00",
+        "2026-09-02 13:41:00+00:00"
+      ]
+    }
+  },
+  {
+    "file": "early_persistence_fresh_calls.csv",
+    "sha256": "f209c2808cd6e0378a523737e29f31466cd3994f2c3aa59607021b8a83c650f2",
+    "rows": 19,
+    "unique_exact_rows": 19,
+    "contracts": 19,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "snapshot_utc": [
+        "2026-08-31 01:39:00+00:00",
+        "2026-09-02 06:40:00+00:00"
+      ],
+      "candle_end_utc": [
+        "2026-08-31 01:39:00+00:00",
+        "2026-09-02 06:40:00+00:00"
+      ]
+    }
+  },
+  {
+    "file": "early_persistence_old_holdout_calls.csv",
+    "sha256": "929e7d07c55434639deea642d3fadf5885e979dbb88f2aa4671e7cd7b1562a68",
+    "rows": 6,
+    "unique_exact_rows": 6,
+    "contracts": 6,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "snapshot_utc": [
+        "2026-08-22 06:37:00+00:00",
+        "2026-08-22 11:56:00+00:00"
+      ],
+      "candle_end_utc": [
+        "2026-08-22 06:37:00+00:00",
+        "2026-08-22 11:56:00+00:00"
+      ]
+    }
+  },
+  {
+    "file": "entry_tournament_v2_winner_holdout_calls.csv",
+    "sha256": "ed7e0ee19c908f9c1a236fd321e7bd433aba8664a1789f79b4625f049ae883f5",
+    "rows": 1,
+    "unique_exact_rows": 1,
+    "contracts": 1,
+    "kind": "outcomes",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-02 22:16:07.337916+00:00",
+        "2026-09-02 22:16:07.337916+00:00"
+      ]
+    }
+  },
+  {
+    "file": "entry_tournament_v3_winner_holdout_calls.csv",
+    "sha256": "a16ce523f90efed7c2e080d5593f8d113691c23c190546b022982420ef1cb6e4",
+    "rows": 22,
+    "unique_exact_rows": 22,
+    "contracts": 22,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "snapshot_utc": [
+        "2026-08-21 13:41:00+00:00",
+        "2026-08-22 11:57:00+00:00"
+      ],
+      "candle_end_utc": [
+        "2026-08-21 13:41:00+00:00",
+        "2026-08-22 11:57:00+00:00"
+      ]
+    }
+  },
+  {
+    "file": "entry_tournament_v3_winner_validation_calls.csv",
+    "sha256": "d4a1de70d15a48d4e44c6c4e05033a512eaf39471dda43a9b8853b39507ad060",
+    "rows": 16,
+    "unique_exact_rows": 16,
+    "contracts": 16,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "snapshot_utc": [
+        "2026-08-20 12:20:00+00:00",
+        "2026-08-21 11:58:00+00:00"
+      ],
+      "candle_end_utc": [
+        "2026-08-20 12:20:00+00:00",
+        "2026-08-21 11:58:00+00:00"
+      ]
+    }
+  },
+  {
+    "file": "final_miss_audit_v1_details.csv",
+    "sha256": "2bbedd72fcdeb8cb901f8200e09579ced7368e2ce4e3b3d7a963b34e8fbd1bf5",
+    "rows": 2,
+    "unique_exact_rows": 2,
+    "contracts": 2,
+    "kind": "derived research / selected calls",
+    "has_timestamp": false,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": true,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {}
+  },
+  {
+    "file": "final_mixed_delay_recheck_v1_calls.csv",
+    "sha256": "ca99b12aa3a16e9ca3d79f3109d4a27940041e4562b7bfd393cfecc2e61b7ca7",
+    "rows": 118,
+    "unique_exact_rows": 118,
+    "contracts": 27,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": true,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-04 03:07:00.833550+00:00",
+        "2026-09-04 18:43:02.052225+00:00"
+      ]
+    }
+  },
+  {
+    "file": "final_mixed_sensitivity_v1.csv",
+    "sha256": "0339d3670b460586c1dc1012a66c5e264c513e60d17b0f5c2abff60b0117ab73",
+    "rows": 32,
+    "unique_exact_rows": 32,
+    "contracts": 32,
+    "kind": "derived research / selected calls",
+    "has_timestamp": false,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {}
+  },
+  {
+    "file": "fresh_oos_early_p40_calls.csv",
+    "sha256": "edb909815f53be438ee071a4c6352c7589db7e8cae7b30280d6560b44f213a6a",
+    "rows": 12,
+    "unique_exact_rows": 12,
+    "contracts": 12,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "snapshot_utc": [
+        "2026-08-31 01:39:00+00:00",
+        "2026-09-02 08:11:00+00:00"
+      ],
+      "candle_end_utc": [
+        "2026-08-31 01:39:00+00:00",
+        "2026-09-02 08:11:00+00:00"
+      ]
+    }
+  },
+  {
+    "file": "fresh_oos_early_p45_calls.csv",
+    "sha256": "218e65f4aaafa59266c368945b7c0e392bcb42c0e19c220f126a403728318510",
+    "rows": 20,
+    "unique_exact_rows": 20,
+    "contracts": 20,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "snapshot_utc": [
+        "2026-08-31 00:06:00+00:00",
+        "2026-09-02 08:11:00+00:00"
+      ],
+      "candle_end_utc": [
+        "2026-08-31 00:06:00+00:00",
+        "2026-09-02 08:11:00+00:00"
+      ]
+    }
+  },
+  {
+    "file": "fresh_oos_locked_final_calls.csv",
+    "sha256": "f08aa3668ce422f4964304eb4cdbd5e53e14b9fb538d4a78446517d2cfefa786",
+    "rows": 133,
+    "unique_exact_rows": 133,
+    "contracts": 133,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "snapshot_utc": [
+        "2026-08-30 23:58:00+00:00",
+        "2026-09-02 13:07:00+00:00"
+      ],
+      "candle_end_utc": [
+        "2026-08-30 23:58:00+00:00",
+        "2026-09-02 13:07:00+00:00"
+      ]
+    }
+  },
+  {
+    "file": "fresh_oos_locked_tier1_calls.csv",
+    "sha256": "79e7925734c0ed691be132eea7554d6444c8b21f8a52c41e8881593d18dc93f7",
+    "rows": 32,
+    "unique_exact_rows": 32,
+    "contracts": 32,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "snapshot_utc": [
+        "2026-08-31 00:06:00+00:00",
+        "2026-09-02 10:28:00+00:00"
+      ],
+      "candle_end_utc": [
+        "2026-08-31 00:06:00+00:00",
+        "2026-09-02 10:28:00+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_30s_early_shock_forward_aligned_details.csv",
+    "sha256": "b4d020f03dcff65691b73a11b1d71f29e1c948fd4d6bb36d11d602b508e74549",
+    "rows": 84,
+    "unique_exact_rows": 84,
+    "contracts": 84,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "call_time": [
+        "2026-08-23 14:49:43.735041+00:00",
+        "2026-08-26 02:20:12.204993+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_30s_early_shock_full_history_details.csv",
+    "sha256": "8c32a32a823c5b9fa0d495d500f80392fe90d32fe9ba0f652e337035f8f050ba",
+    "rows": 46,
+    "unique_exact_rows": 46,
+    "contracts": 46,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "call_time": [
+        "2026-08-23 15:19:43.688140+00:00",
+        "2026-08-26 01:35:07.413889+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_3min_distance_drop_full_history_details.csv",
+    "sha256": "23e3ae7986cc923d731e011c4eba425c42e06b7d7d772863506f9f13a614bbf6",
+    "rows": 167,
+    "unique_exact_rows": 167,
+    "contracts": 167,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "call_time": [
+        "2026-08-23 14:49:43.735041+00:00",
+        "2026-08-27 19:06:06.353606+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_clean_miss_1to4m_discriminator_details.csv",
+    "sha256": "a8bdf77589c3f18e7f76f4b947bf76b2f7a011d9d31eb93486f19ee301b32b74",
+    "rows": 16,
+    "unique_exact_rows": 16,
+    "contracts": 16,
+    "kind": "derived research / selected calls",
+    "has_timestamp": false,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {}
+  },
+  {
+    "file": "kalshi_clean_miss_discriminator_details.csv",
+    "sha256": "8dd6dfa1894273579235d42bdebcecfc155819b7c6759a10ebc2d589b1441c95",
+    "rows": 16,
+    "unique_exact_rows": 16,
+    "contracts": 16,
+    "kind": "derived research / selected calls",
+    "has_timestamp": false,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {}
+  },
+  {
+    "file": "kalshi_combined_frozen_5m_3m_forward_results.csv",
+    "sha256": "f8f7600cca424ac9169d111cc2da226aaeca955f0ee438ec34cd36fb6fdc68c7",
+    "rows": 8,
+    "unique_exact_rows": 8,
+    "contracts": 8,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-08-31 14:49:22.332530+00:00",
+        "2026-08-31 22:21:52.500103+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_confirmation_failure_audit_details.csv",
+    "sha256": "4647aca8b98367765ba1973f3370c8b481fad62e67d99298939e072e6a54ca6a",
+    "rows": 32,
+    "unique_exact_rows": 32,
+    "contracts": 32,
+    "kind": "derived research / selected calls",
+    "has_timestamp": false,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {}
+  },
+  {
+    "file": "kalshi_confirmation_failure_escape_audit_details.csv",
+    "sha256": "2f17d391590fa0db7eb5a91bca1f6c45d0b0448999601d0ced662eaef5cbfd98",
+    "rows": 17,
+    "unique_exact_rows": 17,
+    "contracts": 17,
+    "kind": "derived research / selected calls",
+    "has_timestamp": false,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {}
+  },
+  {
+    "file": "kalshi_confirmation_failure_forward_results.csv",
+    "sha256": "c729697c94692f0dbd47fda96a11bdb08c013cd2c49b83b0877e98db77908d71",
+    "rows": 17,
+    "unique_exact_rows": 17,
+    "contracts": 17,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "call_time": [
+        "2026-08-27 04:35:25.618188+00:00",
+        "2026-08-27 19:06:06.353606+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_direct_brti_parity_v1.csv",
+    "sha256": "e6b4362ac671b89db5d220ad9c48f7ec46198c976d1ca40dd70978c5ed0ef5d1",
+    "rows": 16642,
+    "unique_exact_rows": 16642,
+    "contracts": 100,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": false,
+    "has_range_ratio": false,
+    "has_brti": true,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-04T00:28:51.558796+00:00",
+        "2026-09-05T11:43:32.096518+00:00"
+      ],
+      "brti_timestamp_utc": [
+        "2026-09-04T00:28:56+00:00",
+        "2026-09-05T11:43:31+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_early_conf_shadow_v1.csv",
+    "sha256": "840cb9f743f32c97120f3fcb6a726153bc4281ac3e26bf71592cf4db9651bc84",
+    "rows": 2590,
+    "unique_exact_rows": 2590,
+    "contracts": 15,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-03T18:17:32.832278+00:00",
+        "2026-09-03T21:57:46.400834+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_early_conf_shadow_v1_1.csv",
+    "sha256": "14d829a354d8a3dd12057f353032c08676b4107c7e02dff14a6001dc8e76c78b",
+    "rows": 23,
+    "unique_exact_rows": 23,
+    "contracts": 1,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-03T22:25:09.823095+00:00",
+        "2026-09-03T22:26:59.837726+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_early_conf_shadow_v1_2.csv",
+    "sha256": "b49b55215a0ae1704cdea1f9aaf1f5db2edcab72eaf3576d68fbae3aa77a43a2",
+    "rows": 16660,
+    "unique_exact_rows": 16660,
+    "contracts": 101,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-03T23:31:43.375835+00:00",
+        "2026-09-05T11:43:32.096518+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_extended_trajectory_full_history_details.csv",
+    "sha256": "596888bfd0360f41a56bb0fecd47dde0c1d1386f60f0b6ae791da6057e1490cc",
+    "rows": 89,
+    "unique_exact_rows": 89,
+    "contracts": 89,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "call_time": [
+        "2026-08-23 14:49:43.735041+00:00",
+        "2026-08-25 12:04:52.121051+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_final_position_protection_shadow_v1.csv",
+    "sha256": "12179d3d0b98bc920d5c3a4f105c6b46d96f0d8f407f1abf146141ca597a0773",
+    "rows": 0,
+    "unique_exact_rows": 0,
+    "contracts": 0,
+    "kind": "derived research / selected calls",
+    "has_timestamp": false,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": true,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {}
+  },
+  {
+    "file": "kalshi_flow_first_baseline_calls_with_warnings.csv",
+    "sha256": "e62ccfbb24babdbbf8d14245ce0db0f230eee0f95d62a73663103e6bfa14999f",
+    "rows": 19,
+    "unique_exact_rows": 19,
+    "contracts": 19,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-08-24 16:03:25.605507+00:00",
+        "2026-08-25 01:06:13.989488+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_flow_matched_snapshots.csv",
+    "sha256": "783e181c95a3fa0faad8cd6f954b40578d2232a82bfff14e0bbf156994dfd7e3",
+    "rows": 1103,
+    "unique_exact_rows": 1103,
+    "contracts": 38,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-08-24 15:38:25.623427+00:00",
+        "2026-08-25 01:12:44.059731+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_forward_aligned_early_shock_details.csv",
+    "sha256": "497d21c65649fcd59b6d7ec8c0d5bcd13b7a6ff2737d2ead3d2313a8030ec7aa",
+    "rows": 84,
+    "unique_exact_rows": 84,
+    "contracts": 84,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "call_time": [
+        "2026-08-23 14:49:43.735041+00:00",
+        "2026-08-26 02:20:12.204993+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_forward_extended_trajectory_details.csv",
+    "sha256": "17604950574b2497bbae832ffd01c1d6b4014ebe5c33786a8f258fcb51d89b55",
+    "rows": 17,
+    "unique_exact_rows": 17,
+    "contracts": 17,
+    "kind": "derived research / selected calls",
+    "has_timestamp": false,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {}
+  },
+  {
+    "file": "kalshi_frozen_5m_guard_forward_results.csv",
+    "sha256": "cf5c83c08c1f2af9faf0a2a48084a9db8c3b22b10590439486f54031da16943e",
+    "rows": 8,
+    "unique_exact_rows": 8,
+    "contracts": 8,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-08-31 14:49:22.332530+00:00",
+        "2026-08-31 22:21:52.500103+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_frozen_forward_all_diagnostic.csv",
+    "sha256": "0e590f821a328782c6d0aa82da58476a5c392980795aba887202747f610f15ca",
+    "rows": 17,
+    "unique_exact_rows": 17,
+    "contracts": 17,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "call_time": [
+        "2026-08-25 03:04:17.244553+00:00",
+        "2026-08-25 12:04:52.121051+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_frozen_forward_miss_details.csv",
+    "sha256": "0c88e4a4d24119a7dfbcca3dc7f98102fb496250cb0f73888af7fde0b436aea4",
+    "rows": 3,
+    "unique_exact_rows": 3,
+    "contracts": 3,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "call_time": [
+        "2026-08-25 09:34:12.724170+00:00",
+        "2026-08-25 11:35:30.890675+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_frozen_forward_only_results.csv",
+    "sha256": "0e590f821a328782c6d0aa82da58476a5c392980795aba887202747f610f15ca",
+    "rows": 17,
+    "unique_exact_rows": 17,
+    "contracts": 17,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "call_time": [
+        "2026-08-25 03:04:17.244553+00:00",
+        "2026-08-25 12:04:52.121051+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_giveback_recovery_discriminator.csv",
+    "sha256": "96b36bef54169acec4173b93a8cc4d01297d9ecdadbccb3888cd9866a661e285",
+    "rows": 2,
+    "unique_exact_rows": 2,
+    "contracts": 2,
+    "kind": "derived research / selected calls",
+    "has_timestamp": false,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {}
+  },
+  {
+    "file": "kalshi_giveback_recovery_paths.csv",
+    "sha256": "3bab1083fe6aabd83090e08332d4fe8242aae3e96eed09f7625dbc52695b3ba0",
+    "rows": 25,
+    "unique_exact_rows": 25,
+    "contracts": 2,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": false,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp": [
+        "2026-08-25 13:33:27.044063+00:00",
+        "2026-08-27 10:14:08.562697+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_late_reversal_audit_details.csv",
+    "sha256": "a10650f0b12a08c7ec8f0e037c1150299cbb83d4335abc358d19d3a81559752e",
+    "rows": 3,
+    "unique_exact_rows": 3,
+    "contracts": 3,
+    "kind": "derived research / selected calls",
+    "has_timestamp": false,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {}
+  },
+  {
+    "file": "kalshi_late_reversal_target_path.csv",
+    "sha256": "bed5b451aba39638c45b9a4db2f1fb1e3710ecd2506259ccd0a5639641ff72a7",
+    "rows": 11,
+    "unique_exact_rows": 11,
+    "contracts": 1,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": false,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp": [
+        "2026-08-27 10:05:11.971972+00:00",
+        "2026-08-27 10:14:08.562697+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_layer_a_forward_only_results.csv",
+    "sha256": "ff8e335d7a1f36f964324ac4799f7c492cdc1954489ab48cfeda59d03a314d2e",
+    "rows": 78,
+    "unique_exact_rows": 78,
+    "contracts": 78,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "call_time": [
+        "2026-08-25 12:50:12.257726+00:00",
+        "2026-08-27 19:06:06.353606+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_layer_b_forward_only_results.csv",
+    "sha256": "30333cceb96021457c9033c5b41f1beb5bbea6df43ed0852896327dcf30ca509",
+    "rows": 24,
+    "unique_exact_rows": 24,
+    "contracts": 24,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "call_time": [
+        "2026-08-26 04:04:24.069385+00:00",
+        "2026-08-26 22:36:31.440108+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_layered_breakdown_holdout_details.csv",
+    "sha256": "13b8b5dfd63580309979782a2176c338aad379d9fb43610ef1f5d3d93500e4f9",
+    "rows": 36,
+    "unique_exact_rows": 36,
+    "contracts": 36,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "call_time": [
+        "2026-08-24 16:03:51.340475+00:00",
+        "2026-08-25 12:04:52.121051+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_live_fair_value_shadow_log.csv",
+    "sha256": "6a948404f3bbf6a7c9e13b6d22c517ae37c51f85f4e9b901c7bbae101b9ea47a",
+    "rows": 9908,
+    "unique_exact_rows": 9908,
+    "contracts": 583,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-08-23T13:23:00.337610+00:00",
+        "2026-09-02T13:46:06.141443+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_logged_contract_official_results.csv",
+    "sha256": "7c6d00ab742163fcf0efadc6beb6609f7ad2d54258a06df4d44242d2ee65d101",
+    "rows": 34,
+    "unique_exact_rows": 34,
+    "contracts": 34,
+    "kind": "outcomes",
+    "has_timestamp": true,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": false,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "fetched_utc": [
+        "2026-09-02T23:09:30.463118+00:00",
+        "2026-09-02T23:09:36.388428+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_official_truth_clean_miss_discriminator.csv",
+    "sha256": "9b866389e0e130d1a179947d94dbccf64bba958f59bc6fd86e9ce8e03ac86b4d",
+    "rows": 95,
+    "unique_exact_rows": 95,
+    "contracts": 95,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "call_time": [
+        "2026-08-23 14:49:43.735041+00:00",
+        "2026-08-27 19:06:06.353606+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_official_truth_combined_clean_warning_results.csv",
+    "sha256": "51b4c162e496062e042736482520f31469484cc877f1fb9148fb97aff4eec545",
+    "rows": 95,
+    "unique_exact_rows": 95,
+    "contracts": 95,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "call_time": [
+        "2026-08-23 14:49:43.735041+00:00",
+        "2026-08-27 19:06:06.353606+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_official_truth_final_call_rescore_details.csv",
+    "sha256": "56590f5db55ba73a1e438472f96644f7c272f2e59beae28f4084c8b14821c290",
+    "rows": 224,
+    "unique_exact_rows": 224,
+    "contracts": 224,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "call_time": [
+        "2026-08-23 14:49:43.735041+00:00",
+        "2026-09-01 11:35:10.415515+00:00"
+      ],
+      "last_timestamp": [
+        "2026-08-23 14:59:43.715236+00:00",
+        "2026-09-01 11:44:27.850510+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_official_truth_late_reversal_precursor_details.csv",
+    "sha256": "530d628a7ff23b6dab398c92c84e4e5e36a43679edabd9e07c02ae40dbbe4f2a",
+    "rows": 149,
+    "unique_exact_rows": 149,
+    "contracts": 149,
+    "kind": "derived research / selected calls",
+    "has_timestamp": false,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {}
+  },
+  {
+    "file": "kalshi_official_truth_late_reversal_window_audit.csv",
+    "sha256": "9f6ca15bee442d7c7bc12c807c5baadd83158ab5b4247cd78a2f31fe81d632e9",
+    "rows": 91,
+    "unique_exact_rows": 91,
+    "contracts": 91,
+    "kind": "derived research / selected calls",
+    "has_timestamp": false,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {}
+  },
+  {
+    "file": "kalshi_official_truth_layer_a_rescore_details.csv",
+    "sha256": "39ae68f310071459d8b8fcf3ab3134c93f68b2efd6e25defe41d11d73f960a0d",
+    "rows": 211,
+    "unique_exact_rows": 211,
+    "contracts": 211,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-08-23T14:49:43.735041+00:00",
+        "2026-08-31T22:21:52.500103+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_opposite30_baseline_call_details.csv",
+    "sha256": "68e2b34c285bccadec6f8a1db4113ff70b22c3f1a1a707af4c4de94ca33fd400",
+    "rows": 19,
+    "unique_exact_rows": 19,
+    "contracts": 19,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-08-24 16:03:25.605507+00:00",
+        "2026-08-25 01:06:13.989488+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_postcall_trajectory_details.csv",
+    "sha256": "def13f06866c3437680a20860609ddf834c2f3b27ac2a4e737287f3173838e4a",
+    "rows": 19,
+    "unique_exact_rows": 19,
+    "contracts": 19,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "call_time": [
+        "2026-08-24 16:03:25.605507+00:00",
+        "2026-08-25 01:06:13.989488+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_safe_weakening_danger_full_details.csv",
+    "sha256": "0088ddc103295952b0e28387744bc636495d766ad4d71e29a7acbe233a81dc38",
+    "rows": 72,
+    "unique_exact_rows": 72,
+    "contracts": 72,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "call_time": [
+        "2026-08-23 14:49:43.735041+00:00",
+        "2026-08-25 01:06:33.341302+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_settlement_alignment_audit_details.csv",
+    "sha256": "f871a1887d44ae6f4e5c55ccc939222eb975b7b5b254e97bf9ddb7f8936c54da",
+    "rows": 30,
+    "unique_exact_rows": 30,
+    "contracts": 2,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp": [
+        "2026-08-25 13:32:33.781106+00:00",
+        "2026-08-27 10:14:08.562697+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_strong5m_survivor_paths.csv",
+    "sha256": "bed73b70d113889a4c518c7bb377f88be87b41e4d276e0b39ebe71e0f3ef3fd7",
+    "rows": 6,
+    "unique_exact_rows": 6,
+    "contracts": 6,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-08-31 14:49:22.332530+00:00",
+        "2026-08-31 22:21:52.500103+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_strong_confirmation_giveback_details.csv",
+    "sha256": "eb8f7757fd38da054a0829e3a7bff7dc3e0e676029cb023d0708213121f7fcb1",
+    "rows": 15,
+    "unique_exact_rows": 15,
+    "contracts": 15,
+    "kind": "derived research / selected calls",
+    "has_timestamp": false,
+    "has_ask": false,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {}
+  },
+  {
+    "file": "kalshi_subminute_unified_v1.csv",
+    "sha256": "da8b772ab401a3296ba6349a541df66026aa3c6c989cf8ac9dcf6056e064e19e",
+    "rows": 0,
+    "unique_exact_rows": 0,
+    "contracts": 0,
+    "kind": "derived research / selected calls",
+    "has_timestamp": false,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": true,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {}
+  },
+  {
+    "file": "kalshi_subminute_unified_v1_1.csv",
+    "sha256": "da73a1373f9504d2e0545f58830a181df04db110a40598db05ba966f13382a21",
+    "rows": 22320,
+    "unique_exact_rows": 22320,
+    "contracts": 65,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": true,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-06T02:57:53.011762+00:00",
+        "2026-09-06T18:54:15.791313+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_two_output_live_log_v4.csv",
+    "sha256": "ad1596ec7235054d62fb0b8782f45e97971e5a9a5c699b5c9cb975922ef2d99f",
+    "rows": 106,
+    "unique_exact_rows": 106,
+    "contracts": 11,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-02T13:54:39.978116+00:00",
+        "2026-09-02T16:29:27.497664+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_two_output_live_log_v4_10.csv",
+    "sha256": "5feb9d367159bf2a2437b61deca3648be1b75f9e6e82a5852e0c848cc0818c75",
+    "rows": 1,
+    "unique_exact_rows": 1,
+    "contracts": 1,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-04T01:07:26.260862+00:00",
+        "2026-09-04T01:07:26.260862+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_two_output_live_log_v4_11.csv",
+    "sha256": "7f7caea9286d33c5a61959a4cf1810b4a2a7a6fa0edf27eedff53f18aba76f7e",
+    "rows": 1,
+    "unique_exact_rows": 1,
+    "contracts": 1,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-04T02:19:06.258515+00:00",
+        "2026-09-04T02:19:06.258515+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_two_output_live_log_v4_11_1.csv",
+    "sha256": "02d75a29ba05711f06bc466d445e24acda4bbbbf1b1895c05436958233b9bc92",
+    "rows": 1,
+    "unique_exact_rows": 1,
+    "contracts": 1,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-04T02:33:07.730874+00:00",
+        "2026-09-04T02:33:07.730874+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_two_output_live_log_v4_12.csv",
+    "sha256": "86151bfebcc807695d5da7a38eb12d570f599499a4cfc92c9f62d8b7f839724a",
+    "rows": 1,
+    "unique_exact_rows": 1,
+    "contracts": 1,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-04T02:54:39.779191+00:00",
+        "2026-09-04T02:54:39.779191+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_two_output_live_log_v4_13.csv",
+    "sha256": "cd0d0a6c2c54cfdbaaa9ce487cb6e46455c562ffe499fc3c6a611ec8bcb1bc7d",
+    "rows": 3,
+    "unique_exact_rows": 3,
+    "contracts": 3,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-04T12:27:43.869537+00:00",
+        "2026-09-05T01:34:09.194800+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_two_output_live_log_v4_3.csv",
+    "sha256": "e65c8506b5dbce2e43902cbd5bbc6ff90e0c87cd2dbbc273850c0af0669b3c4a",
+    "rows": 104,
+    "unique_exact_rows": 104,
+    "contracts": 13,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-02T16:44:26.468921+00:00",
+        "2026-09-02T19:39:28.325186+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_two_output_live_log_v4_4.csv",
+    "sha256": "9f951a741ce7913018a443f5bc8938e2c276bef2710a940e281ba7eb8cbb0cf7",
+    "rows": 72,
+    "unique_exact_rows": 72,
+    "contracts": 7,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-02T20:00:21.883852+00:00",
+        "2026-09-02T21:23:52.040194+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_two_output_live_log_v4_5.csv",
+    "sha256": "c0fe4b4635f8bdc630896641daedcb95c20722729f4c5bed067d3865080e6808",
+    "rows": 1,
+    "unique_exact_rows": 1,
+    "contracts": 1,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-02T21:35:12.821361+00:00",
+        "2026-09-02T21:35:12.821361+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_two_output_live_log_v4_6.csv",
+    "sha256": "a0ccc1da7abe4a9d388cc3c5cd9b567b3afef1019ce126ecb541753141bc842f",
+    "rows": 24,
+    "unique_exact_rows": 24,
+    "contracts": 4,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-02T21:55:19.077776+00:00",
+        "2026-09-02T22:36:36.416641+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_two_output_live_log_v4_7.csv",
+    "sha256": "778c11d8d5eb9cc2d4a5d9f805441cf9a354d20def2c8cd7e8d28f90e51a2f42",
+    "rows": 20,
+    "unique_exact_rows": 20,
+    "contracts": 4,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-02T23:44:16.488569+00:00",
+        "2026-09-03T00:24:14.760589+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_two_output_live_log_v4_8.csv",
+    "sha256": "9c58f94c6fd26e0a82c389154a30ba9aa7d76e2592533c3ade9e962a60f00c2d",
+    "rows": 1,
+    "unique_exact_rows": 1,
+    "contracts": 1,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-03T04:00:01.096304+00:00",
+        "2026-09-03T04:00:01.096304+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_two_output_live_log_v4_8_1.csv",
+    "sha256": "b867bb5dad818aa2f41ecd2510ca9596ce19f1d852482653715b7e256082a8fd",
+    "rows": 1,
+    "unique_exact_rows": 1,
+    "contracts": 1,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-03T04:08:33.279946+00:00",
+        "2026-09-03T04:08:33.279946+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_two_output_live_log_v4_8_2.csv",
+    "sha256": "b16997f481c157674691cfa691ece07d22d63bb06ad168fcc3fb209de397b665",
+    "rows": 1,
+    "unique_exact_rows": 1,
+    "contracts": 1,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-03T18:17:32.705551+00:00",
+        "2026-09-03T18:17:32.705551+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_two_output_live_log_v4_8_3.csv",
+    "sha256": "00207826f7332020b639d0472e02e4530c0843886759848c883940d701c576f8",
+    "rows": 1,
+    "unique_exact_rows": 1,
+    "contracts": 1,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-03T22:25:09.704167+00:00",
+        "2026-09-03T22:25:09.704167+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_two_output_live_log_v4_8_4.csv",
+    "sha256": "a6f1515c4770402fa00c2df90594653b8b95c4b56cb4b6c0024bf78fc8286a7f",
+    "rows": 1,
+    "unique_exact_rows": 1,
+    "contracts": 1,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-03T23:31:43.243488+00:00",
+        "2026-09-03T23:31:43.243488+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_two_output_live_log_v4_9.csv",
+    "sha256": "befa354790838836570a261c98a033c9a91fbaf61102f7f039db5681bc831447",
+    "rows": 1,
+    "unique_exact_rows": 1,
+    "contracts": 1,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-04T00:22:38.809859+00:00",
+        "2026-09-04T00:22:38.809859+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_two_output_live_log_v4_9_1.csv",
+    "sha256": "29e2f5039e4000e999d518af9276a700d157e0212f69ef771eb1900a89052ee0",
+    "rows": 1,
+    "unique_exact_rows": 1,
+    "contracts": 1,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-04T00:28:51.447020+00:00",
+        "2026-09-04T00:28:51.447020+00:00"
+      ]
+    }
+  },
+  {
+    "file": "kalshi_two_output_live_log_v4_9_2.csv",
+    "sha256": "af28c9b7d8ec89b323b69f4efc918668f607c1a8441f507421900d8bd8dd25a0",
+    "rows": 1,
+    "unique_exact_rows": 1,
+    "contracts": 1,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": false,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-04T00:55:50.486273+00:00",
+        "2026-09-04T00:55:50.486273+00:00"
+      ]
+    }
+  },
+  {
+    "file": "overnight.csv",
+    "sha256": "7a4baad2e234a55582460ff0e9caf08f1ee0654936906ff7b307ff964cd20ede",
+    "rows": 2102,
+    "unique_exact_rows": 2102,
+    "contracts": 89,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-08-23T13:23:00.337610+00:00",
+        "2026-08-24T12:49:25.964612+00:00"
+      ]
+    }
+  },
+  {
+    "file": "secondary_scalp_gapfiller_v1_1_holdout_signals.csv",
+    "sha256": "c5573e54bfee2a81930dde8cb2dbbe564a0a72272b251f467b4213157b756486",
+    "rows": 4,
+    "unique_exact_rows": 4,
+    "contracts": 4,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": true,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-04 17:05:29.477780+00:00",
+        "2026-09-04 18:20:56.846277+00:00"
+      ]
+    }
+  },
+  {
+    "file": "secondary_scalp_gapfiller_v1_1_walkforward_signals.csv",
+    "sha256": "f18203f33ba2739154fa321605fd6181807eb2c6a71bf6a40a8056d25b962d97",
+    "rows": 5,
+    "unique_exact_rows": 5,
+    "contracts": 5,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": true,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-04 12:50:45.245275+00:00",
+        "2026-09-04 16:35:29.195121+00:00"
+      ]
+    }
+  },
+  {
+    "file": "secondary_scalp_roi_v2_holdout_signals.csv",
+    "sha256": "17edefcb055b1ea4f52a226aa9126fd5149e282d7dd0db8c592e321d83c59d02",
+    "rows": 4,
+    "unique_exact_rows": 4,
+    "contracts": 4,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": true,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-04 17:05:29.477780+00:00",
+        "2026-09-04 18:21:06.825159+00:00"
+      ]
+    }
+  },
+  {
+    "file": "secondary_scalp_roi_v2_walkforward_signals.csv",
+    "sha256": "79c10c01f5eeadc0efab168d024e8835dbf529b395acdff5bed3dbf1f581302e",
+    "rows": 6,
+    "unique_exact_rows": 6,
+    "contracts": 6,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": true,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-04 12:50:50.281162+00:00",
+        "2026-09-04 16:35:29.195121+00:00"
+      ]
+    }
+  },
+  {
+    "file": "unified_early_screen_v1_winner_signals.csv",
+    "sha256": "e7159262019044d066f014d4810d202dc1a87439ddc6d65cdd0256a4e930b370",
+    "rows": 5,
+    "unique_exact_rows": 5,
+    "contracts": 5,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": true,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-04 03:22:21.150558+00:00",
+        "2026-09-04 06:09:40.047054+00:00"
+      ]
+    }
+  },
+  {
+    "file": "unified_early_sequence_v3_holdout_signals.csv",
+    "sha256": "31f3c3331cf2591825b25f76bd6e656de13e7d47eb61876103a6e9e12ba69859",
+    "rows": 6,
+    "unique_exact_rows": 6,
+    "contracts": 6,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": true,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-04 16:22:33.542222+00:00",
+        "2026-09-04 18:35:07.031151+00:00"
+      ]
+    }
+  },
+  {
+    "file": "unified_early_sequence_v3_walkforward_signals.csv",
+    "sha256": "59d401d35193ac81e6bf181b1aea428b4731604c60aa17d5a9d1ac5b4a515912",
+    "rows": 9,
+    "unique_exact_rows": 9,
+    "contracts": 9,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": true,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-04 13:05:01.023312+00:00",
+        "2026-09-04 16:05:08.118147+00:00"
+      ]
+    }
+  },
+  {
+    "file": "unified_early_tournament_v2_holdout_signals.csv",
+    "sha256": "245fc3d90a165a81699946b00d605062a64ecf07f3793dcc3f66039822869903",
+    "rows": 8,
+    "unique_exact_rows": 8,
+    "contracts": 8,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": true,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-04 16:20:03.541842+00:00",
+        "2026-09-04 18:35:12.048331+00:00"
+      ]
+    }
+  },
+  {
+    "file": "unified_early_tournament_v2_walkforward_signals.csv",
+    "sha256": "dd993ec5f5779a3023ff619bb135fc9a73bfaa1cfee2a2b693628e7c373f345d",
+    "rows": 9,
+    "unique_exact_rows": 9,
+    "contracts": 9,
+    "kind": "derived research / selected calls",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": true,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-09-04 13:05:31.057191+00:00",
+        "2026-09-04 16:05:03.108133+00:00"
+      ]
+    }
+  },
+  {
+    "file": "union_optimizer_processed_snapshot_cache.csv",
+    "sha256": "aca2deba95c6a06160346687fb3de325b046e7def4577c52297eb5eac0742b00",
+    "rows": 2700,
+    "unique_exact_rows": 2700,
+    "contracts": 199,
+    "kind": "recomputed historical features/predictions",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": true,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "descriptive counts/labels; selection-specific accuracy",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "snapshot_utc": [
+        "2026-08-20 11:46:00+00:00",
+        "2026-08-22 13:29:00+00:00"
+      ],
+      "candle_end_utc": [
+        "2026-08-20 11:46:00+00:00",
+        "2026-08-22 13:29:00+00:00"
+      ]
+    }
+  },
+  {
+    "file": "x.csv",
+    "sha256": "f5ca8ec7fc6c8f72b03651d695078754d666540ebb2b3e2913f1a267a13f9ddc",
+    "rows": 1422,
+    "unique_exact_rows": 1422,
+    "contracts": 46,
+    "kind": "recorded observations",
+    "has_timestamp": true,
+    "has_ask": true,
+    "has_bid": true,
+    "has_model_probability": true,
+    "has_range_ratio": false,
+    "has_brti": false,
+    "missing_native": "native epoch/sequence, causal receipts, full book/feature/model binding",
+    "appropriate_use": "timestamped observation/quote-path diagnostics; partial numeric policy screen",
+    "prohibited_claim": "current native full replay or executable fills",
+    "time_ranges": {
+      "timestamp_utc": [
+        "2026-08-23T13:23:00.337610+00:00",
+        "2026-08-24T00:48:56.022804+00:00"
+      ]
+    }
+  }
+]

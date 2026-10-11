@@ -1,0 +1,1 @@
+{"prior_serial_membership_exact": true, "prior_lifecycle_counts_exact": true, "adversarial_fixtures": 8, "native_origin_matches": 76, "native_profit_exit_quote_matches": 53, "native_recorded_stopfirst_disagreements": 0}
