@@ -1,0 +1,1115 @@
+{
+  "baseline": {
+    "summary": [
+      "Ran 109 tests in 4.709s",
+      "FAILED (failures=31, errors=13)"
+    ],
+    "records": [
+      {
+        "test": "test_durable_commit_cursor_prevents_duplicate_after_crash (test_btc15_durable_handoff.HandoffTests.test_durable_commit_cursor_prevents_duplicate_after_crash)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "KeyError: 'journal'"
+        ]
+      },
+      {
+        "test": "test_full_contract_rollover_invalid_sources_and_event_equivalence (test_btc15_durable_handoff.HandoffTests.test_full_contract_rollover_invalid_sources_and_event_equivalence)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "KeyError: 'journal'"
+        ]
+      },
+      {
+        "test": "test_ended_unarmed_nonactionable_and_serial_reentry_reversal (test_btc15_integrated_finish.GeneralizedScalp.test_ended_unarmed_nonactionable_and_serial_reentry_reversal)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "KeyError: 'event'"
+        ]
+      },
+      {
+        "test": "test_first_qualified_native_sample_enters_no_band_no_confirmation (test_btc15_integrated_finish.GeneralizedScalp.test_first_qualified_native_sample_enters_no_band_no_confirmation)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "KeyError: 'event'"
+        ]
+      },
+      {
+        "test": "test_no_artificial_count_cap (test_btc15_integrated_finish.GeneralizedScalp.test_no_artificial_count_cap)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "TypeError: 'NoneType' object is not subscriptable"
+        ]
+      },
+      {
+        "test": "test_actual_native_generalized_feed_scans_both_sides_without_old_gate (test_btc15_integrated_finish.NativeAuthority.test_actual_native_generalized_feed_scans_both_sides_without_old_gate)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "KeyError: 'proposals'"
+        ]
+      },
+      {
+        "test": "test_actual_worker_commits_once_and_links_only_administrative_attempt (test_btc15_v2_product_r1.CohortTests.test_actual_worker_commits_once_and_links_only_administrative_attempt)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "KeyError: 'journal'"
+        ]
+      },
+      {
+        "test": "test_real_processors_journals_snapshot_bridge_and_later_fixture_accumulation (test_btc15_v2_product_r1.CohortTests.test_real_processors_journals_snapshot_bridge_and_later_fixture_accumulation)",
+        "kind": "ERROR",
+        "category": "MISSING_SYNTHETIC_PREDECESSOR_FIXTURE",
+        "errors": [
+          "sqlite3.OperationalError: unable to open database file"
+        ]
+      },
+      {
+        "test": "test_restart_startup_slot_is_excluded_and_old_build_cannot_mix (test_btc15_v2_product_r1.CohortTests.test_restart_startup_slot_is_excluded_and_old_build_cannot_mix)",
+        "kind": "ERROR",
+        "category": "MISSING_SYNTHETIC_PREDECESSOR_FIXTURE",
+        "errors": [
+          "sqlite3.OperationalError: unable to open database file"
+        ]
+      },
+      {
+        "test": "test_complete_native_loop_instrumentation_is_observational (test_btc15_v2_product_r1.EquivalenceTests.test_complete_native_loop_instrumentation_is_observational)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_INSTRUMENTED_NAMESPACE_FIXTURE",
+        "errors": [
+          "NameError: name '_v2_timing' is not defined. Did you mean: '_v2_admin'?"
+        ]
+      },
+      {
+        "test": "test_full_frozen_native_loop_calls_real_observer_during_replay (test_btc15_v2_replay_regression.ReplayRegression.test_full_frozen_native_loop_calls_real_observer_during_replay)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_INSTRUMENTED_NAMESPACE_FIXTURE",
+        "errors": [
+          "NameError: name '_v2_timing' is not defined. Did you mean: '_v2_admin'?"
+        ]
+      },
+      {
+        "test": "test_full_queue_permanently_rejects_and_discards_already_accepted_frames (test_btc15_v81_publication_stall.PublicationStallTests.test_full_queue_permanently_rejects_and_discards_already_accepted_frames)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "KeyError: 'guidance'"
+        ]
+      },
+      {
+        "test": "test_scalp_reports_both_sides_without_using_final (test_btc15_value_opportunities.ValueAnalysis.test_scalp_reports_both_sides_without_using_final)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "KeyError: 'event'"
+        ]
+      },
+      {
+        "test": "test_delayed_worker_160_records_concurrent_reads_and_recovery (test_btc15_durable_handoff.HandoffTests.test_delayed_worker_160_records_concurrent_reads_and_recovery)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "AssertionError: 'UNAVAILABLE' != 'PASS'"
+        ]
+      },
+      {
+        "test": "test_transient_publication_write_failure_retries_without_reprocessing (test_btc15_durable_handoff.HandoffTests.test_transient_publication_write_failure_retries_without_reprocessing)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "AssertionError: 'UNAVAILABLE' != 'PASS'"
+        ]
+      },
+      {
+        "test": "test_confirmation_loss_latches_even_after_recovery (test_btc15_integrated_finish.DirectionalLifecycle.test_confirmation_loss_latches_even_after_recovery)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_UNCORROBORATED_EARLY_FIXTURE",
+        "errors": [
+          "AssertionError: 'PASS' != 'PROTECT'"
+        ]
+      },
+      {
+        "test": "test_preentry_context_cannot_create_or_veto (test_btc15_integrated_finish.DirectionalLifecycle.test_preentry_context_cannot_create_or_veto)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_UNCORROBORATED_EARLY_FIXTURE",
+        "errors": [
+          "AssertionError: False != True"
+        ]
+      },
+      {
+        "test": "test_qualified_opposition_flip_alert (test_btc15_integrated_finish.DirectionalLifecycle.test_qualified_opposition_flip_alert)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_UNCORROBORATED_EARLY_FIXTURE",
+        "errors": [
+          "AssertionError: 'PASS' != 'PROTECT'"
+        ]
+      },
+      {
+        "test": "test_target_and_model_opposition_protect_without_unverified_exit (test_btc15_integrated_finish.DirectionalLifecycle.test_target_and_model_opposition_protect_without_unverified_exit)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_UNCORROBORATED_EARLY_FIXTURE",
+        "errors": [
+          "AssertionError: 'PASS' != 'PROTECT'"
+        ]
+      },
+      {
+        "test": "test_arm_exact_giveback_both_sides_and_immutable_ask (test_btc15_integrated_finish.GeneralizedScalp.test_arm_exact_giveback_both_sides_and_immutable_ask)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "AssertionError: 'PASS' != 'PROTECT'"
+        ]
+      },
+      {
+        "test": "test_armed_horizon_blocks_and_eventual_giveback_exits (test_btc15_integrated_finish.GeneralizedScalp.test_armed_horizon_blocks_and_eventual_giveback_exits)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "AssertionError: 'PASS' != 'PROTECT'"
+        ]
+      },
+      {
+        "test": "test_repeated_or_stale_quote_cannot_arm_exit_or_free_lane (test_btc15_integrated_finish.GeneralizedScalp.test_repeated_or_stale_quote_cannot_arm_exit_or_free_lane)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "AssertionError: 'PASS' != 'HOLD'"
+        ]
+      },
+      {
+        "test": "test_btc_near_limit_cannot_be_renewed_without_new_causal_source (test_btc15_narrow_continuity.NarrowContinuity.test_btc_near_limit_cannot_be_renewed_without_new_causal_source)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'AGREES' != 'CONFIRMED'"
+        ]
+      },
+      {
+        "test": "test_two_complete_contracts_and_rollover (test_btc15_narrow_continuity.NarrowContinuity.test_two_complete_contracts_and_rollover)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'AGREES' != 'CONFIRMED'"
+        ]
+      },
+      {
+        "test": "test_native_only_lease_reproduces_pre_repair_failure_without_revalidation (test_btc15_product_acceptance_r2.MainConstraintEvidence.test_native_only_lease_reproduces_pre_repair_failure_without_revalidation)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "AssertionError: 'JOURNAL_UNAVAILABLE' != 'SOURCE_EXPIRED'"
+        ]
+      },
+      {
+        "test": "test_disagreement_latches_until_next_native_and_cannot_create_events (test_btc15_read_only_revalidation.RevalidationTests.test_disagreement_latches_until_next_native_and_cannot_create_events)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'CHANGED' != 'PENDING'"
+        ]
+      },
+      {
+        "test": "test_every_gate_and_origin_context_disagreement_is_pending (test_btc15_read_only_revalidation.RevalidationTests.test_every_gate_and_origin_context_disagreement_is_pending)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'CHANGED' != 'PENDING'"
+        ]
+      },
+      {
+        "test": "test_identity_disagreement_cannot_resurrect_and_missing_worker_proof_is_pending (test_btc15_read_only_revalidation.RevalidationTests.test_identity_disagreement_cannot_resurrect_and_missing_worker_proof_is_pending)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'REFRESHING' != 'PENDING'"
+        ]
+      },
+      {
+        "test": "test_native_5s_clock_continuous_qualified_sources_and_no_mutation (test_btc15_read_only_revalidation.RevalidationTests.test_native_5s_clock_continuous_qualified_sources_and_no_mutation)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'AGREES' != 'CONFIRMED'"
+        ]
+      },
+      {
+        "test": "test_phase_gate_boundary_cannot_be_crossed_on_retained_confirmation (test_btc15_read_only_revalidation.RevalidationTests.test_phase_gate_boundary_cannot_be_crossed_on_retained_confirmation)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'PASS' != 'UNAVAILABLE'"
+        ]
+      },
+      {
+        "test": "test_quote_and_brti_owner_change_and_regression_cannot_renew (test_btc15_read_only_revalidation.RevalidationTests.test_quote_and_brti_owner_change_and_regression_cannot_renew)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'AGREES' != 'CONFIRMED'"
+        ]
+      },
+      {
+        "test": "test_real_frozen_model_and_native_loop_effects_remain_identical (test_btc15_read_only_revalidation.RevalidationTests.test_real_frozen_model_and_native_loop_effects_remain_identical)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 0 not greater than 0"
+        ]
+      },
+      {
+        "test": "test_stale_and_near_expired_sources_never_get_unearned_time (test_btc15_read_only_revalidation.RevalidationTests.test_stale_and_near_expired_sources_never_get_unearned_time)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'AGREES' != 'CONFIRMED'"
+        ]
+      },
+      {
+        "test": "test_wrong_identity_anchor_future_source_and_rollover_fail_closed (test_btc15_read_only_revalidation.RevalidationTests.test_wrong_identity_anchor_future_source_and_rollover_fail_closed)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'REFRESHING' != 'PENDING'"
+        ]
+      },
+      {
+        "test": "test_unreviewed_deployment_volume_service_and_manifest_are_rejected (test_btc15_v2_product_r1.CohortTests.test_unreviewed_deployment_volume_service_and_manifest_are_rejected) (key='deployment')",
+        "kind": "FAIL",
+        "category": "OBSOLETE_RECEIPT_STRATEGY_FIXTURE",
+        "errors": [
+          "ValueError: RELEASE_RECEIPT_IDENTITY",
+          "AssertionError: \"RELEASE_LANE_IDENTITY\" does not match \"RELEASE_RECEIPT_IDENTITY\""
+        ]
+      },
+      {
+        "test": "test_unreviewed_deployment_volume_service_and_manifest_are_rejected (test_btc15_v2_product_r1.CohortTests.test_unreviewed_deployment_volume_service_and_manifest_are_rejected) (key='volume')",
+        "kind": "FAIL",
+        "category": "OBSOLETE_RECEIPT_STRATEGY_FIXTURE",
+        "errors": [
+          "ValueError: RELEASE_RECEIPT_IDENTITY",
+          "AssertionError: \"RELEASE_LANE_IDENTITY\" does not match \"RELEASE_RECEIPT_IDENTITY\""
+        ]
+      },
+      {
+        "test": "test_unreviewed_deployment_volume_service_and_manifest_are_rejected (test_btc15_v2_product_r1.CohortTests.test_unreviewed_deployment_volume_service_and_manifest_are_rejected) (key='service')",
+        "kind": "FAIL",
+        "category": "OBSOLETE_RECEIPT_STRATEGY_FIXTURE",
+        "errors": [
+          "ValueError: RELEASE_RECEIPT_IDENTITY",
+          "AssertionError: \"RELEASE_LANE_IDENTITY\" does not match \"RELEASE_RECEIPT_IDENTITY\""
+        ]
+      },
+      {
+        "test": "test_unreviewed_deployment_volume_service_and_manifest_are_rejected (test_btc15_v2_product_r1.CohortTests.test_unreviewed_deployment_volume_service_and_manifest_are_rejected) (key='build')",
+        "kind": "FAIL",
+        "category": "OBSOLETE_RECEIPT_STRATEGY_FIXTURE",
+        "errors": [
+          "ValueError: RELEASE_RECEIPT_IDENTITY",
+          "AssertionError: \"RELEASE_LANE_IDENTITY\" does not match \"RELEASE_RECEIPT_IDENTITY\""
+        ]
+      },
+      {
+        "test": "test_unreviewed_deployment_volume_service_and_manifest_are_rejected (test_btc15_v2_product_r1.CohortTests.test_unreviewed_deployment_volume_service_and_manifest_are_rejected)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_RECEIPT_STRATEGY_FIXTURE",
+        "errors": [
+          "ValueError: RELEASE_RECEIPT_IDENTITY",
+          "AssertionError: \"RELEASE_MANIFEST_RECEIPT\" does not match \"RELEASE_RECEIPT_IDENTITY\""
+        ]
+      },
+      {
+        "test": "test_typed_unavailable_has_no_action_or_renewed_source_deadline (test_btc15_v2_product_r1.EquivalenceTests.test_typed_unavailable_has_no_action_or_renewed_source_deadline)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "AssertionError: 'UNAVAILABLE' != 'AVAILABLE'"
+        ]
+      },
+      {
+        "test": "test_800_closeouts_four_bursts_with_current_observer_journals_routes_and_rollover (test_btc15_v2_replay_regression.ReplayRegression.test_800_closeouts_four_bursts_with_current_observer_journals_routes_and_rollover)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "AssertionError: 'UNAVAILABLE' == 'UNAVAILABLE' : {'schema': 'BTC15_V2_PRODUCT_ENVELOPE_R1', 'product_revision': 'BTC15_INTEGRATED_OFFLINE_20261006', 'candidate': 'BTC15_INTEGRATED_FINISH_20261006', 'lane': 'main', 'status': 'UNAVAILABLE', 'reason': 'JOURNAL_UNAVAILABLE', 'served_ts': 1791057900.26, 'historical_only': True, 'signal_only': True, 'manual_execution_only': True, 'orders': False}"
+        ]
+      },
+      {
+        "test": "test_rejected_candidate_negative_control_reproduces_exact_latch (test_btc15_v2_replay_regression.ReplayRegression.test_rejected_candidate_negative_control_reproduces_exact_latch)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "AssertionError: 'JOURNAL_UNAVAILABLE' != 'SOURCE_EXPIRED'"
+        ]
+      },
+      {
+        "test": "test_historical_tier_and_final_are_preserved (test_btc15_value_opportunities.ValueAnalysis.test_historical_tier_and_final_are_preserved)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_UNCORROBORATED_EARLY_FIXTURE",
+        "errors": [
+          "AssertionError: unexpectedly None"
+        ]
+      },
+      {
+        "test": "test_current_publication_cannot_renew_expired_sources (test_v81_product_source_r1.SourceAge.test_current_publication_cannot_renew_expired_sources)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "AssertionError: 'UNAVAILABLE' != 'PASS'"
+        ]
+      }
+    ]
+  },
+  "original_head": {
+    "summary": [
+      "Ran 109 tests in 4.687s",
+      "FAILED (failures=32, errors=13)"
+    ],
+    "records": [
+      {
+        "test": "test_durable_commit_cursor_prevents_duplicate_after_crash (test_btc15_durable_handoff.HandoffTests.test_durable_commit_cursor_prevents_duplicate_after_crash)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "KeyError: 'journal'"
+        ]
+      },
+      {
+        "test": "test_full_contract_rollover_invalid_sources_and_event_equivalence (test_btc15_durable_handoff.HandoffTests.test_full_contract_rollover_invalid_sources_and_event_equivalence)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "KeyError: 'journal'"
+        ]
+      },
+      {
+        "test": "test_ended_unarmed_nonactionable_and_serial_reentry_reversal (test_btc15_integrated_finish.GeneralizedScalp.test_ended_unarmed_nonactionable_and_serial_reentry_reversal)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "KeyError: 'event'"
+        ]
+      },
+      {
+        "test": "test_first_qualified_native_sample_enters_no_band_no_confirmation (test_btc15_integrated_finish.GeneralizedScalp.test_first_qualified_native_sample_enters_no_band_no_confirmation)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "KeyError: 'event'"
+        ]
+      },
+      {
+        "test": "test_no_artificial_count_cap (test_btc15_integrated_finish.GeneralizedScalp.test_no_artificial_count_cap)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "TypeError: 'NoneType' object is not subscriptable"
+        ]
+      },
+      {
+        "test": "test_actual_native_generalized_feed_scans_both_sides_without_old_gate (test_btc15_integrated_finish.NativeAuthority.test_actual_native_generalized_feed_scans_both_sides_without_old_gate)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "KeyError: 'proposals'"
+        ]
+      },
+      {
+        "test": "test_actual_worker_commits_once_and_links_only_administrative_attempt (test_btc15_v2_product_r1.CohortTests.test_actual_worker_commits_once_and_links_only_administrative_attempt)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "KeyError: 'journal'"
+        ]
+      },
+      {
+        "test": "test_real_processors_journals_snapshot_bridge_and_later_fixture_accumulation (test_btc15_v2_product_r1.CohortTests.test_real_processors_journals_snapshot_bridge_and_later_fixture_accumulation)",
+        "kind": "ERROR",
+        "category": "MISSING_SYNTHETIC_PREDECESSOR_FIXTURE",
+        "errors": [
+          "sqlite3.OperationalError: unable to open database file"
+        ]
+      },
+      {
+        "test": "test_restart_startup_slot_is_excluded_and_old_build_cannot_mix (test_btc15_v2_product_r1.CohortTests.test_restart_startup_slot_is_excluded_and_old_build_cannot_mix)",
+        "kind": "ERROR",
+        "category": "MISSING_SYNTHETIC_PREDECESSOR_FIXTURE",
+        "errors": [
+          "sqlite3.OperationalError: unable to open database file"
+        ]
+      },
+      {
+        "test": "test_complete_native_loop_instrumentation_is_observational (test_btc15_v2_product_r1.EquivalenceTests.test_complete_native_loop_instrumentation_is_observational)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_INSTRUMENTED_NAMESPACE_FIXTURE",
+        "errors": [
+          "NameError: name '_v2_timing' is not defined. Did you mean: '_v2_admin'?"
+        ]
+      },
+      {
+        "test": "test_full_frozen_native_loop_calls_real_observer_during_replay (test_btc15_v2_replay_regression.ReplayRegression.test_full_frozen_native_loop_calls_real_observer_during_replay)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_INSTRUMENTED_NAMESPACE_FIXTURE",
+        "errors": [
+          "NameError: name '_v2_timing' is not defined. Did you mean: '_v2_admin'?"
+        ]
+      },
+      {
+        "test": "test_full_queue_permanently_rejects_and_discards_already_accepted_frames (test_btc15_v81_publication_stall.PublicationStallTests.test_full_queue_permanently_rejects_and_discards_already_accepted_frames)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "KeyError: 'guidance'"
+        ]
+      },
+      {
+        "test": "test_scalp_reports_both_sides_without_using_final (test_btc15_value_opportunities.ValueAnalysis.test_scalp_reports_both_sides_without_using_final)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "KeyError: 'event'"
+        ]
+      },
+      {
+        "test": "test_delayed_worker_160_records_concurrent_reads_and_recovery (test_btc15_durable_handoff.HandoffTests.test_delayed_worker_160_records_concurrent_reads_and_recovery)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "AssertionError: 'UNAVAILABLE' != 'PASS'"
+        ]
+      },
+      {
+        "test": "test_transient_publication_write_failure_retries_without_reprocessing (test_btc15_durable_handoff.HandoffTests.test_transient_publication_write_failure_retries_without_reprocessing)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "AssertionError: 'UNAVAILABLE' != 'PASS'"
+        ]
+      },
+      {
+        "test": "test_confirmation_loss_latches_even_after_recovery (test_btc15_integrated_finish.DirectionalLifecycle.test_confirmation_loss_latches_even_after_recovery)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_UNCORROBORATED_EARLY_FIXTURE",
+        "errors": [
+          "AssertionError: 'PASS' != 'PROTECT'"
+        ]
+      },
+      {
+        "test": "test_preentry_context_cannot_create_or_veto (test_btc15_integrated_finish.DirectionalLifecycle.test_preentry_context_cannot_create_or_veto)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_UNCORROBORATED_EARLY_FIXTURE",
+        "errors": [
+          "AssertionError: False != True"
+        ]
+      },
+      {
+        "test": "test_qualified_opposition_flip_alert (test_btc15_integrated_finish.DirectionalLifecycle.test_qualified_opposition_flip_alert)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_UNCORROBORATED_EARLY_FIXTURE",
+        "errors": [
+          "AssertionError: 'PASS' != 'PROTECT'"
+        ]
+      },
+      {
+        "test": "test_target_and_model_opposition_protect_without_unverified_exit (test_btc15_integrated_finish.DirectionalLifecycle.test_target_and_model_opposition_protect_without_unverified_exit)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_UNCORROBORATED_EARLY_FIXTURE",
+        "errors": [
+          "AssertionError: 'PASS' != 'PROTECT'"
+        ]
+      },
+      {
+        "test": "test_arm_exact_giveback_both_sides_and_immutable_ask (test_btc15_integrated_finish.GeneralizedScalp.test_arm_exact_giveback_both_sides_and_immutable_ask)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "AssertionError: 'PASS' != 'PROTECT'"
+        ]
+      },
+      {
+        "test": "test_armed_horizon_blocks_and_eventual_giveback_exits (test_btc15_integrated_finish.GeneralizedScalp.test_armed_horizon_blocks_and_eventual_giveback_exits)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "AssertionError: 'PASS' != 'PROTECT'"
+        ]
+      },
+      {
+        "test": "test_repeated_or_stale_quote_cannot_arm_exit_or_free_lane (test_btc15_integrated_finish.GeneralizedScalp.test_repeated_or_stale_quote_cannot_arm_exit_or_free_lane)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "AssertionError: 'PASS' != 'HOLD'"
+        ]
+      },
+      {
+        "test": "test_btc_near_limit_cannot_be_renewed_without_new_causal_source (test_btc15_narrow_continuity.NarrowContinuity.test_btc_near_limit_cannot_be_renewed_without_new_causal_source)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'AGREES' != 'CONFIRMED'"
+        ]
+      },
+      {
+        "test": "test_two_complete_contracts_and_rollover (test_btc15_narrow_continuity.NarrowContinuity.test_two_complete_contracts_and_rollover)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'AGREES' != 'CONFIRMED'"
+        ]
+      },
+      {
+        "test": "test_native_only_lease_reproduces_pre_repair_failure_without_revalidation (test_btc15_product_acceptance_r2.MainConstraintEvidence.test_native_only_lease_reproduces_pre_repair_failure_without_revalidation)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "AssertionError: 'JOURNAL_UNAVAILABLE' != 'SOURCE_EXPIRED'"
+        ]
+      },
+      {
+        "test": "test_disagreement_latches_until_next_native_and_cannot_create_events (test_btc15_read_only_revalidation.RevalidationTests.test_disagreement_latches_until_next_native_and_cannot_create_events)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'CHANGED' != 'PENDING'"
+        ]
+      },
+      {
+        "test": "test_every_gate_and_origin_context_disagreement_is_pending (test_btc15_read_only_revalidation.RevalidationTests.test_every_gate_and_origin_context_disagreement_is_pending)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'CHANGED' != 'PENDING'"
+        ]
+      },
+      {
+        "test": "test_identity_disagreement_cannot_resurrect_and_missing_worker_proof_is_pending (test_btc15_read_only_revalidation.RevalidationTests.test_identity_disagreement_cannot_resurrect_and_missing_worker_proof_is_pending)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'REFRESHING' != 'PENDING'"
+        ]
+      },
+      {
+        "test": "test_native_5s_clock_continuous_qualified_sources_and_no_mutation (test_btc15_read_only_revalidation.RevalidationTests.test_native_5s_clock_continuous_qualified_sources_and_no_mutation)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'AGREES' != 'CONFIRMED'"
+        ]
+      },
+      {
+        "test": "test_phase_gate_boundary_cannot_be_crossed_on_retained_confirmation (test_btc15_read_only_revalidation.RevalidationTests.test_phase_gate_boundary_cannot_be_crossed_on_retained_confirmation)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'PASS' != 'UNAVAILABLE'"
+        ]
+      },
+      {
+        "test": "test_quote_and_brti_owner_change_and_regression_cannot_renew (test_btc15_read_only_revalidation.RevalidationTests.test_quote_and_brti_owner_change_and_regression_cannot_renew)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'AGREES' != 'CONFIRMED'"
+        ]
+      },
+      {
+        "test": "test_real_frozen_model_and_native_loop_effects_remain_identical (test_btc15_read_only_revalidation.RevalidationTests.test_real_frozen_model_and_native_loop_effects_remain_identical)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 0 not greater than 0"
+        ]
+      },
+      {
+        "test": "test_stale_and_near_expired_sources_never_get_unearned_time (test_btc15_read_only_revalidation.RevalidationTests.test_stale_and_near_expired_sources_never_get_unearned_time)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'AGREES' != 'CONFIRMED'"
+        ]
+      },
+      {
+        "test": "test_wrong_identity_anchor_future_source_and_rollover_fail_closed (test_btc15_read_only_revalidation.RevalidationTests.test_wrong_identity_anchor_future_source_and_rollover_fail_closed)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'REFRESHING' != 'PENDING'"
+        ]
+      },
+      {
+        "test": "test_production_launcher_is_locked_without_reviewed_receipt (test_btc15_v2_product_r1.CohortTests.test_production_launcher_is_locked_without_reviewed_receipt)",
+        "kind": "FAIL",
+        "category": "RELEASE_BLOCKER_FIXED_MANIFEST",
+        "errors": [
+          "ValueError: RELEASE_FILE_MISMATCH:btc15_v2_product/early_origin_transfer.py",
+          "AssertionError: \"DEPLOYMENT_NOT_AUTHORIZED\" does not match \"RELEASE_FILE_MISMATCH:btc15_v2_product/early_origin_transfer.py\""
+        ]
+      },
+      {
+        "test": "test_unreviewed_deployment_volume_service_and_manifest_are_rejected (test_btc15_v2_product_r1.CohortTests.test_unreviewed_deployment_volume_service_and_manifest_are_rejected) (key='deployment')",
+        "kind": "FAIL",
+        "category": "OBSOLETE_RECEIPT_STRATEGY_FIXTURE",
+        "errors": [
+          "ValueError: RELEASE_RECEIPT_IDENTITY",
+          "AssertionError: \"RELEASE_LANE_IDENTITY\" does not match \"RELEASE_RECEIPT_IDENTITY\""
+        ]
+      },
+      {
+        "test": "test_unreviewed_deployment_volume_service_and_manifest_are_rejected (test_btc15_v2_product_r1.CohortTests.test_unreviewed_deployment_volume_service_and_manifest_are_rejected) (key='volume')",
+        "kind": "FAIL",
+        "category": "OBSOLETE_RECEIPT_STRATEGY_FIXTURE",
+        "errors": [
+          "ValueError: RELEASE_RECEIPT_IDENTITY",
+          "AssertionError: \"RELEASE_LANE_IDENTITY\" does not match \"RELEASE_RECEIPT_IDENTITY\""
+        ]
+      },
+      {
+        "test": "test_unreviewed_deployment_volume_service_and_manifest_are_rejected (test_btc15_v2_product_r1.CohortTests.test_unreviewed_deployment_volume_service_and_manifest_are_rejected) (key='service')",
+        "kind": "FAIL",
+        "category": "OBSOLETE_RECEIPT_STRATEGY_FIXTURE",
+        "errors": [
+          "ValueError: RELEASE_RECEIPT_IDENTITY",
+          "AssertionError: \"RELEASE_LANE_IDENTITY\" does not match \"RELEASE_RECEIPT_IDENTITY\""
+        ]
+      },
+      {
+        "test": "test_unreviewed_deployment_volume_service_and_manifest_are_rejected (test_btc15_v2_product_r1.CohortTests.test_unreviewed_deployment_volume_service_and_manifest_are_rejected) (key='build')",
+        "kind": "FAIL",
+        "category": "OBSOLETE_RECEIPT_STRATEGY_FIXTURE",
+        "errors": [
+          "ValueError: RELEASE_RECEIPT_IDENTITY",
+          "AssertionError: \"RELEASE_LANE_IDENTITY\" does not match \"RELEASE_RECEIPT_IDENTITY\""
+        ]
+      },
+      {
+        "test": "test_unreviewed_deployment_volume_service_and_manifest_are_rejected (test_btc15_v2_product_r1.CohortTests.test_unreviewed_deployment_volume_service_and_manifest_are_rejected)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_RECEIPT_STRATEGY_FIXTURE",
+        "errors": [
+          "ValueError: RELEASE_RECEIPT_IDENTITY",
+          "AssertionError: \"RELEASE_MANIFEST_RECEIPT\" does not match \"RELEASE_RECEIPT_IDENTITY\""
+        ]
+      },
+      {
+        "test": "test_typed_unavailable_has_no_action_or_renewed_source_deadline (test_btc15_v2_product_r1.EquivalenceTests.test_typed_unavailable_has_no_action_or_renewed_source_deadline)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "AssertionError: 'UNAVAILABLE' != 'AVAILABLE'"
+        ]
+      },
+      {
+        "test": "test_800_closeouts_four_bursts_with_current_observer_journals_routes_and_rollover (test_btc15_v2_replay_regression.ReplayRegression.test_800_closeouts_four_bursts_with_current_observer_journals_routes_and_rollover)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "AssertionError: 'UNAVAILABLE' == 'UNAVAILABLE' : {'schema': 'BTC15_V2_PRODUCT_ENVELOPE_R1', 'product_revision': 'BTC15_INTEGRATED_OFFLINE_20261006', 'candidate': 'BTC15_INTEGRATED_FINISH_20261006', 'lane': 'main', 'status': 'UNAVAILABLE', 'reason': 'JOURNAL_UNAVAILABLE', 'served_ts': 1791057900.26, 'historical_only': True, 'signal_only': True, 'manual_execution_only': True, 'orders': False}"
+        ]
+      },
+      {
+        "test": "test_rejected_candidate_negative_control_reproduces_exact_latch (test_btc15_v2_replay_regression.ReplayRegression.test_rejected_candidate_negative_control_reproduces_exact_latch)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "AssertionError: 'JOURNAL_UNAVAILABLE' != 'SOURCE_EXPIRED'"
+        ]
+      },
+      {
+        "test": "test_historical_tier_and_final_are_preserved (test_btc15_value_opportunities.ValueAnalysis.test_historical_tier_and_final_are_preserved)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_UNCORROBORATED_EARLY_FIXTURE",
+        "errors": [
+          "AssertionError: unexpectedly None"
+        ]
+      },
+      {
+        "test": "test_current_publication_cannot_renew_expired_sources (test_v81_product_source_r1.SourceAge.test_current_publication_cannot_renew_expired_sources)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "AssertionError: 'UNAVAILABLE' != 'PASS'"
+        ]
+      }
+    ]
+  },
+  "sealed_candidate": {
+    "summary": [
+      "Ran 109 tests in 4.670s",
+      "FAILED (failures=31, errors=13)"
+    ],
+    "records": [
+      {
+        "test": "test_durable_commit_cursor_prevents_duplicate_after_crash (test_btc15_durable_handoff.HandoffTests.test_durable_commit_cursor_prevents_duplicate_after_crash)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "KeyError: 'journal'"
+        ]
+      },
+      {
+        "test": "test_full_contract_rollover_invalid_sources_and_event_equivalence (test_btc15_durable_handoff.HandoffTests.test_full_contract_rollover_invalid_sources_and_event_equivalence)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "KeyError: 'journal'"
+        ]
+      },
+      {
+        "test": "test_ended_unarmed_nonactionable_and_serial_reentry_reversal (test_btc15_integrated_finish.GeneralizedScalp.test_ended_unarmed_nonactionable_and_serial_reentry_reversal)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "KeyError: 'event'"
+        ]
+      },
+      {
+        "test": "test_first_qualified_native_sample_enters_no_band_no_confirmation (test_btc15_integrated_finish.GeneralizedScalp.test_first_qualified_native_sample_enters_no_band_no_confirmation)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "KeyError: 'event'"
+        ]
+      },
+      {
+        "test": "test_no_artificial_count_cap (test_btc15_integrated_finish.GeneralizedScalp.test_no_artificial_count_cap)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "TypeError: 'NoneType' object is not subscriptable"
+        ]
+      },
+      {
+        "test": "test_actual_native_generalized_feed_scans_both_sides_without_old_gate (test_btc15_integrated_finish.NativeAuthority.test_actual_native_generalized_feed_scans_both_sides_without_old_gate)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "KeyError: 'proposals'"
+        ]
+      },
+      {
+        "test": "test_actual_worker_commits_once_and_links_only_administrative_attempt (test_btc15_v2_product_r1.CohortTests.test_actual_worker_commits_once_and_links_only_administrative_attempt)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "KeyError: 'journal'"
+        ]
+      },
+      {
+        "test": "test_real_processors_journals_snapshot_bridge_and_later_fixture_accumulation (test_btc15_v2_product_r1.CohortTests.test_real_processors_journals_snapshot_bridge_and_later_fixture_accumulation)",
+        "kind": "ERROR",
+        "category": "MISSING_SYNTHETIC_PREDECESSOR_FIXTURE",
+        "errors": [
+          "sqlite3.OperationalError: unable to open database file"
+        ]
+      },
+      {
+        "test": "test_restart_startup_slot_is_excluded_and_old_build_cannot_mix (test_btc15_v2_product_r1.CohortTests.test_restart_startup_slot_is_excluded_and_old_build_cannot_mix)",
+        "kind": "ERROR",
+        "category": "MISSING_SYNTHETIC_PREDECESSOR_FIXTURE",
+        "errors": [
+          "sqlite3.OperationalError: unable to open database file"
+        ]
+      },
+      {
+        "test": "test_complete_native_loop_instrumentation_is_observational (test_btc15_v2_product_r1.EquivalenceTests.test_complete_native_loop_instrumentation_is_observational)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_INSTRUMENTED_NAMESPACE_FIXTURE",
+        "errors": [
+          "NameError: name '_v2_timing' is not defined. Did you mean: '_v2_admin'?"
+        ]
+      },
+      {
+        "test": "test_full_frozen_native_loop_calls_real_observer_during_replay (test_btc15_v2_replay_regression.ReplayRegression.test_full_frozen_native_loop_calls_real_observer_during_replay)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_INSTRUMENTED_NAMESPACE_FIXTURE",
+        "errors": [
+          "NameError: name '_v2_timing' is not defined. Did you mean: '_v2_admin'?"
+        ]
+      },
+      {
+        "test": "test_full_queue_permanently_rejects_and_discards_already_accepted_frames (test_btc15_v81_publication_stall.PublicationStallTests.test_full_queue_permanently_rejects_and_discards_already_accepted_frames)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "KeyError: 'guidance'"
+        ]
+      },
+      {
+        "test": "test_scalp_reports_both_sides_without_using_final (test_btc15_value_opportunities.ValueAnalysis.test_scalp_reports_both_sides_without_using_final)",
+        "kind": "ERROR",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "KeyError: 'event'"
+        ]
+      },
+      {
+        "test": "test_delayed_worker_160_records_concurrent_reads_and_recovery (test_btc15_durable_handoff.HandoffTests.test_delayed_worker_160_records_concurrent_reads_and_recovery)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "AssertionError: 'UNAVAILABLE' != 'PASS'"
+        ]
+      },
+      {
+        "test": "test_transient_publication_write_failure_retries_without_reprocessing (test_btc15_durable_handoff.HandoffTests.test_transient_publication_write_failure_retries_without_reprocessing)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "AssertionError: 'UNAVAILABLE' != 'PASS'"
+        ]
+      },
+      {
+        "test": "test_confirmation_loss_latches_even_after_recovery (test_btc15_integrated_finish.DirectionalLifecycle.test_confirmation_loss_latches_even_after_recovery)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_UNCORROBORATED_EARLY_FIXTURE",
+        "errors": [
+          "AssertionError: 'PASS' != 'PROTECT'"
+        ]
+      },
+      {
+        "test": "test_preentry_context_cannot_create_or_veto (test_btc15_integrated_finish.DirectionalLifecycle.test_preentry_context_cannot_create_or_veto)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_UNCORROBORATED_EARLY_FIXTURE",
+        "errors": [
+          "AssertionError: False != True"
+        ]
+      },
+      {
+        "test": "test_qualified_opposition_flip_alert (test_btc15_integrated_finish.DirectionalLifecycle.test_qualified_opposition_flip_alert)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_UNCORROBORATED_EARLY_FIXTURE",
+        "errors": [
+          "AssertionError: 'PASS' != 'PROTECT'"
+        ]
+      },
+      {
+        "test": "test_target_and_model_opposition_protect_without_unverified_exit (test_btc15_integrated_finish.DirectionalLifecycle.test_target_and_model_opposition_protect_without_unverified_exit)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_UNCORROBORATED_EARLY_FIXTURE",
+        "errors": [
+          "AssertionError: 'PASS' != 'PROTECT'"
+        ]
+      },
+      {
+        "test": "test_arm_exact_giveback_both_sides_and_immutable_ask (test_btc15_integrated_finish.GeneralizedScalp.test_arm_exact_giveback_both_sides_and_immutable_ask)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "AssertionError: 'PASS' != 'PROTECT'"
+        ]
+      },
+      {
+        "test": "test_armed_horizon_blocks_and_eventual_giveback_exits (test_btc15_integrated_finish.GeneralizedScalp.test_armed_horizon_blocks_and_eventual_giveback_exits)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "AssertionError: 'PASS' != 'PROTECT'"
+        ]
+      },
+      {
+        "test": "test_repeated_or_stale_quote_cannot_arm_exit_or_free_lane (test_btc15_integrated_finish.GeneralizedScalp.test_repeated_or_stale_quote_cannot_arm_exit_or_free_lane)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_MOMENTUM_ONLY_SCALP_FIXTURE",
+        "errors": [
+          "AssertionError: 'PASS' != 'HOLD'"
+        ]
+      },
+      {
+        "test": "test_btc_near_limit_cannot_be_renewed_without_new_causal_source (test_btc15_narrow_continuity.NarrowContinuity.test_btc_near_limit_cannot_be_renewed_without_new_causal_source)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'AGREES' != 'CONFIRMED'"
+        ]
+      },
+      {
+        "test": "test_two_complete_contracts_and_rollover (test_btc15_narrow_continuity.NarrowContinuity.test_two_complete_contracts_and_rollover)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'AGREES' != 'CONFIRMED'"
+        ]
+      },
+      {
+        "test": "test_native_only_lease_reproduces_pre_repair_failure_without_revalidation (test_btc15_product_acceptance_r2.MainConstraintEvidence.test_native_only_lease_reproduces_pre_repair_failure_without_revalidation)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "AssertionError: 'JOURNAL_UNAVAILABLE' != 'SOURCE_EXPIRED'"
+        ]
+      },
+      {
+        "test": "test_disagreement_latches_until_next_native_and_cannot_create_events (test_btc15_read_only_revalidation.RevalidationTests.test_disagreement_latches_until_next_native_and_cannot_create_events)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'CHANGED' != 'PENDING'"
+        ]
+      },
+      {
+        "test": "test_every_gate_and_origin_context_disagreement_is_pending (test_btc15_read_only_revalidation.RevalidationTests.test_every_gate_and_origin_context_disagreement_is_pending)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'CHANGED' != 'PENDING'"
+        ]
+      },
+      {
+        "test": "test_identity_disagreement_cannot_resurrect_and_missing_worker_proof_is_pending (test_btc15_read_only_revalidation.RevalidationTests.test_identity_disagreement_cannot_resurrect_and_missing_worker_proof_is_pending)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'REFRESHING' != 'PENDING'"
+        ]
+      },
+      {
+        "test": "test_native_5s_clock_continuous_qualified_sources_and_no_mutation (test_btc15_read_only_revalidation.RevalidationTests.test_native_5s_clock_continuous_qualified_sources_and_no_mutation)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'AGREES' != 'CONFIRMED'"
+        ]
+      },
+      {
+        "test": "test_phase_gate_boundary_cannot_be_crossed_on_retained_confirmation (test_btc15_read_only_revalidation.RevalidationTests.test_phase_gate_boundary_cannot_be_crossed_on_retained_confirmation)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'PASS' != 'UNAVAILABLE'"
+        ]
+      },
+      {
+        "test": "test_quote_and_brti_owner_change_and_regression_cannot_renew (test_btc15_read_only_revalidation.RevalidationTests.test_quote_and_brti_owner_change_and_regression_cannot_renew)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'AGREES' != 'CONFIRMED'"
+        ]
+      },
+      {
+        "test": "test_real_frozen_model_and_native_loop_effects_remain_identical (test_btc15_read_only_revalidation.RevalidationTests.test_real_frozen_model_and_native_loop_effects_remain_identical)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 0 not greater than 0"
+        ]
+      },
+      {
+        "test": "test_stale_and_near_expired_sources_never_get_unearned_time (test_btc15_read_only_revalidation.RevalidationTests.test_stale_and_near_expired_sources_never_get_unearned_time)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'AGREES' != 'CONFIRMED'"
+        ]
+      },
+      {
+        "test": "test_wrong_identity_anchor_future_source_and_rollover_fail_closed (test_btc15_read_only_revalidation.RevalidationTests.test_wrong_identity_anchor_future_source_and_rollover_fail_closed)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_REVALIDATION_AUTHORITY_EXPECTATION",
+        "errors": [
+          "AssertionError: 'REFRESHING' != 'PENDING'"
+        ]
+      },
+      {
+        "test": "test_unreviewed_deployment_volume_service_and_manifest_are_rejected (test_btc15_v2_product_r1.CohortTests.test_unreviewed_deployment_volume_service_and_manifest_are_rejected) (key='deployment')",
+        "kind": "FAIL",
+        "category": "OBSOLETE_RECEIPT_STRATEGY_FIXTURE",
+        "errors": [
+          "ValueError: RELEASE_RECEIPT_IDENTITY",
+          "AssertionError: \"RELEASE_LANE_IDENTITY\" does not match \"RELEASE_RECEIPT_IDENTITY\""
+        ]
+      },
+      {
+        "test": "test_unreviewed_deployment_volume_service_and_manifest_are_rejected (test_btc15_v2_product_r1.CohortTests.test_unreviewed_deployment_volume_service_and_manifest_are_rejected) (key='volume')",
+        "kind": "FAIL",
+        "category": "OBSOLETE_RECEIPT_STRATEGY_FIXTURE",
+        "errors": [
+          "ValueError: RELEASE_RECEIPT_IDENTITY",
+          "AssertionError: \"RELEASE_LANE_IDENTITY\" does not match \"RELEASE_RECEIPT_IDENTITY\""
+        ]
+      },
+      {
+        "test": "test_unreviewed_deployment_volume_service_and_manifest_are_rejected (test_btc15_v2_product_r1.CohortTests.test_unreviewed_deployment_volume_service_and_manifest_are_rejected) (key='service')",
+        "kind": "FAIL",
+        "category": "OBSOLETE_RECEIPT_STRATEGY_FIXTURE",
+        "errors": [
+          "ValueError: RELEASE_RECEIPT_IDENTITY",
+          "AssertionError: \"RELEASE_LANE_IDENTITY\" does not match \"RELEASE_RECEIPT_IDENTITY\""
+        ]
+      },
+      {
+        "test": "test_unreviewed_deployment_volume_service_and_manifest_are_rejected (test_btc15_v2_product_r1.CohortTests.test_unreviewed_deployment_volume_service_and_manifest_are_rejected) (key='build')",
+        "kind": "FAIL",
+        "category": "OBSOLETE_RECEIPT_STRATEGY_FIXTURE",
+        "errors": [
+          "ValueError: RELEASE_RECEIPT_IDENTITY",
+          "AssertionError: \"RELEASE_LANE_IDENTITY\" does not match \"RELEASE_RECEIPT_IDENTITY\""
+        ]
+      },
+      {
+        "test": "test_unreviewed_deployment_volume_service_and_manifest_are_rejected (test_btc15_v2_product_r1.CohortTests.test_unreviewed_deployment_volume_service_and_manifest_are_rejected)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_RECEIPT_STRATEGY_FIXTURE",
+        "errors": [
+          "ValueError: RELEASE_RECEIPT_IDENTITY",
+          "AssertionError: \"RELEASE_MANIFEST_RECEIPT\" does not match \"RELEASE_RECEIPT_IDENTITY\""
+        ]
+      },
+      {
+        "test": "test_typed_unavailable_has_no_action_or_renewed_source_deadline (test_btc15_v2_product_r1.EquivalenceTests.test_typed_unavailable_has_no_action_or_renewed_source_deadline)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "AssertionError: 'UNAVAILABLE' != 'AVAILABLE'"
+        ]
+      },
+      {
+        "test": "test_800_closeouts_four_bursts_with_current_observer_journals_routes_and_rollover (test_btc15_v2_replay_regression.ReplayRegression.test_800_closeouts_four_bursts_with_current_observer_journals_routes_and_rollover)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "AssertionError: 'UNAVAILABLE' == 'UNAVAILABLE' : {'schema': 'BTC15_V2_PRODUCT_ENVELOPE_R1', 'product_revision': 'BTC15_INTEGRATED_OFFLINE_20261006', 'candidate': 'BTC15_INTEGRATED_FINISH_20261006', 'lane': 'main', 'status': 'UNAVAILABLE', 'reason': 'JOURNAL_UNAVAILABLE', 'served_ts': 1791057900.26, 'historical_only': True, 'signal_only': True, 'manual_execution_only': True, 'orders': False}"
+        ]
+      },
+      {
+        "test": "test_rejected_candidate_negative_control_reproduces_exact_latch (test_btc15_v2_replay_regression.ReplayRegression.test_rejected_candidate_negative_control_reproduces_exact_latch)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "AssertionError: 'JOURNAL_UNAVAILABLE' != 'SOURCE_EXPIRED'"
+        ]
+      },
+      {
+        "test": "test_historical_tier_and_final_are_preserved (test_btc15_value_opportunities.ValueAnalysis.test_historical_tier_and_final_are_preserved)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_UNCORROBORATED_EARLY_FIXTURE",
+        "errors": [
+          "AssertionError: unexpectedly None"
+        ]
+      },
+      {
+        "test": "test_current_publication_cannot_renew_expired_sources (test_v81_product_source_r1.SourceAge.test_current_publication_cannot_renew_expired_sources)",
+        "kind": "FAIL",
+        "category": "OBSOLETE_PROCESSOR_PRODUCT_IDENTITY_FIXTURE",
+        "errors": [
+          "AssertionError: 'UNAVAILABLE' != 'PASS'"
+        ]
+      }
+    ]
+  },
+  "comparison": {
+    "common_test_count": 109,
+    "original_head_new_failure_records": 1,
+    "sealed_candidate_new_failure_records": 0,
+    "baseline_failure_records": 44,
+    "sealed_candidate_failure_records": 44,
+    "github_only_environment_errors": 2,
+    "github_environment_reason": "PermissionError /data in test_btc15_live_delivery_repair; unchanged import uses BTC15_DATA_DIR default /data; focused CI sets only a temporary test data directory."
+  }
+}

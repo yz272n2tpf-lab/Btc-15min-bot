@@ -29,16 +29,21 @@
     const terminal=r?.terminal;
     const historical=!!r&&(!same||['ENDED_UNARMED','UNAVAILABLE'].includes(terminal?.state));
     const completed=terminal?.state==='EXIT';
+    // Preserve the deployed one-publication EXIT highlight and completed history.
+    const newExit=name==='early'&&fresh&&completed&&p.management?.new_exit===true&&
+      p.early?.guidance==='EXIT'&&p.terminal?.origin_id===r.origin_id&&
+      p.terminal?.decision_ts===terminal.trigger_ts&&p.terminal?.executable_exit_bid===terminal.observed_bid;
     const nativeManagement=fresh&&!terminal?(name==='early'?p.early?.guidance:p.guidance):null;
     const management=name==='early'?(nativeManagement==='ENTER'?'BUY':['HOLD','WATCH','CAUTION','PROTECT'].includes(nativeManagement)?'WATCH':nativeManagement):nativeManagement;
     // Native ENTER is one event publication. An old record can never renew it.
     const entry=fresh&&!terminal&&nativeManagement==='ENTER'&&(c?c.entry_authority_current===true:true);
     const current=fresh&&binding&&!terminal&&!historical;
     const state=completed?(name==='early'?'EXIT RECOMMENDED — AWAIT FRESH QUALIFIED BUY':'COMPLETED EXIT — NO NEW ENTRY'):historical?'LAST ISSUED SIGNAL — HISTORICAL':!fresh&&r?'SOURCE REFRESHING / UNAVAILABLE':entry?'CURRENT ACTIONABLE SIGNAL':current?'EXISTING SIGNAL UNDER MANAGEMENT':'NO ISSUED BUY';
-    return {record:r,records,state,entry,current,completed,historical,management,
+    return {record:r,records,state,entry,current,completed,newExit,historical,management,
+      watchDetail:name==='early'&&['WATCH','CAUTION','PROTECT'].includes(nativeManagement)?'COULD FLIP':null,
       bid:current?p.executable_current_bid:null,
       economics:current?(name==='early'?p.management?.economics:p.economics):null,
-      reason:completed?terminal.reason:fresh&&!binding?'Conflicting origin binding; current action unavailable':r?(r.management_reason||(name==='early'?(p?.origin?.origin_id===r.origin_id?p:retained)?.management?.reason:(p?.origin?.origin_id===r.origin_id?p:retained)?.presentation?.message)||r.entry_reason):'Potential setups are separate; no BUY has been issued',
+      reason:completed?terminal.reason:lane?.eligible&&p&&r&&same&&p.origin?.origin_id===r.origin_id&&!binding?'Conflicting origin binding; current action unavailable':r?(r.management_reason||(name==='early'?(p?.origin?.origin_id===r.origin_id?p:retained)?.management?.reason:(p?.origin?.origin_id===r.origin_id?p:retained)?.presentation?.message)||r.entry_reason):'Potential setups are separate; no BUY has been issued',
       sourceAvailable:!!lane?.eligible};
   }
   const api={project};if(typeof module!=='undefined')module.exports=api;root.BTC15TradeRecords=api;

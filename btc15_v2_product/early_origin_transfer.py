@@ -51,6 +51,11 @@ def transfer(journal, path, now=None):
                     reason=(r.get('management') or t or {}).get('reason'),
                     evidence=(r.get('management') or t or {}).get('evidence')))
     saved=json.loads(meta.get('state','{}'));probe=Directional() if lane=='main' else Scalp();probe.restore(saved)
+    # The committed checkpoint is authoritative for its bounded issued-signal
+    # history. A last-2048-event replay can omit older origins that remain in
+    # that checkpoint, so it must never replace or evict those saved records.
+    # Retain the replay above solely for diagnostic transition output.
+    history=probe.signal_history
     origin=probe.origin;active=bool(origin and (origin['official_open']<=now<origin['official_close'] if lane=='main' else origin['open_ts']<=now<origin['close_ts']))
     history=remember(history,origin,lane,terminal=probe.terminal)
     if not active:probe.restore({})
