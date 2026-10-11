@@ -42,7 +42,8 @@ function setSample(sample){
 }
 const render=()=>window.BTC15Cockpit.renderResolved(resolved);
 const clearWrites=()=>{for(const e of nodes.values())e.writes=[];};
-setSample(samples[0]);render();
+// Start with a genuinely issued EARLY signal, not the SCALP-only PASS fixture.
+setSample(samples[3]);render();
 const explanatory=['final-reason','early-reason','scalp-reason','scalp-up-status','scalp-down-status','health-status','health-quotes','health-continuity','flip-risk'];
 const original=Object.fromEntries(explanatory.map(id=>[id,node(id).textContent]));
 clearWrites();for(let n=0;n<100;n++)render();
