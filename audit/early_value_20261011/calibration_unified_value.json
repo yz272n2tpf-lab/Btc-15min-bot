@@ -1,0 +1,110 @@
+{
+  "summary": {
+    "input_contracts": 82,
+    "observations": 13022,
+    "proposals": 0,
+    "entry_contracts": 0,
+    "entry_ask_cents": {
+      "n": 0,
+      "min": null,
+      "mean": null,
+      "median": null,
+      "max": null
+    },
+    "delayed_entry_ask_cents": {
+      "n": 0,
+      "min": null,
+      "mean": null,
+      "median": null,
+      "max": null
+    },
+    "delayed_valid": 0,
+    "canceled_before_manual_entry": 0,
+    "cancellation_reasons": {},
+    "complete": 0,
+    "independent_complete_contracts": 0,
+    "unresolved_valid_entries": 0,
+    "censor_reasons": {},
+    "positive": 0,
+    "negative_or_zero": 0,
+    "mean_net_cents": null,
+    "contract_mean_net_cents": null,
+    "bootstrap_95_cents": [
+      null,
+      null
+    ],
+    "directional_correct": 0,
+    "by_side": {
+      "UP": {
+        "proposals": 0,
+        "complete": 0,
+        "positive": 0,
+        "directional_correct": 0,
+        "mean_net_cents": null
+      },
+      "DOWN": {
+        "proposals": 0,
+        "complete": 0,
+        "positive": 0,
+        "directional_correct": 0,
+        "mean_net_cents": null
+      }
+    },
+    "watch_events": 0,
+    "watch_recoveries": 0,
+    "max_watch_per_origin": 0,
+    "median_watch_lead_seconds": null,
+    "first_watch_quotes": [],
+    "post_exit_30s": [],
+    "later_bid_higher": 0,
+    "post_exit_n": 0,
+    "multiple_entry_contracts": {},
+    "min_entry_remaining": null,
+    "exact_transferred_tier1_first_predicates": {},
+    "canceled_scenario_diagnostic": {
+      "n": 0,
+      "positive": 0,
+      "mean_net_cents": null
+    },
+    "rejections": {
+      "CAUSAL_30S_HISTORY_UNAVAILABLE": 609,
+      "VALUE_PRICE": 10474,
+      "MODEL_DIRECTION": 4602,
+      "FRESH_DIRECTIONAL_IMPULSE": 6007,
+      "SHORT_PATH_EFFICIENCY": 7119,
+      "MODEL_DISAGREEMENT_MARGIN": 11630,
+      "NO_MATERIAL_QUOTE_REVERSAL": 2807,
+      "EXCEPTIONAL_DIRECTION": 765,
+      "CURRENT_BTC_BRTI_SUPPORT": 1016,
+      "FINITE_RESALE_CAPACITY": 2442,
+      "ENTRY_RUNWAY": 1964,
+      "UNHEALTHY_OR_INVALID_BOOK": 7,
+      "SPREAD": 5,
+      "CONFIRMING_NEW_SETUP": 1
+    }
+  },
+  "policy": "unified_value",
+  "manual_seconds": 10,
+  "episodes": [],
+  "events": [],
+  "rejections": {
+    "CAUSAL_30S_HISTORY_UNAVAILABLE": 609,
+    "VALUE_PRICE": 10474,
+    "MODEL_DIRECTION": 4602,
+    "FRESH_DIRECTIONAL_IMPULSE": 6007,
+    "SHORT_PATH_EFFICIENCY": 7119,
+    "MODEL_DISAGREEMENT_MARGIN": 11630,
+    "NO_MATERIAL_QUOTE_REVERSAL": 2807,
+    "EXCEPTIONAL_DIRECTION": 765,
+    "CURRENT_BTC_BRTI_SUPPORT": 1016,
+    "FINITE_RESALE_CAPACITY": 2442,
+    "ENTRY_RUNWAY": 1964,
+    "UNHEALTHY_OR_INVALID_BOOK": 7,
+    "SPREAD": 5,
+    "CONFIRMING_NEW_SETUP": 1
+  },
+  "statuses": {
+    "PASS": 13022
+  },
+  "invalidations": []
+}

@@ -1,0 +1,17 @@
+{
+  "base": "2f00d06ad6dd707934844d0c438c7fd39de8e70e",
+  "scope": "One isolated EARLY value-entry reducer; existing production, baseline and protected components unchanged",
+  "development": "Existing 122 September 26-29 development contracts",
+  "calibration": "Existing 82 disjoint September 26-29 calibration contracts, exposed",
+  "diagnostics_only": ["October 4 00:00-04:00 UTC", "October 6 00:00-06:00 UTC", "Archived Tier-1 August validation/holdout, already inspected"],
+  "reserved_acceptance_before_retrieval": ["2026-10-07T00:00:00Z", "2026-10-07T06:00:00Z"],
+  "independence": "Check retained inventory contract identities and prior used sets; no acceptance quote retrieval or scoring until rules/profile freeze. Independence is scoped to retained evidence and this investigation, not unknowable human exposure.",
+  "hypothesis": "Restore <=55c primary value selection with >=75% model support, current BTC/BRTI directional confirmation and fresh short momentum; use 120s context for protection without demanding a completed 120s target-side trend or prior quote rally. No lower price veto; <25c requires the same strong directional/economic evidence. >55 through58c additionally requires >=90% model support, multiscale alignment and independently supported exceptional economics. No main price category split into multiple engines.",
+  "comparison": "Frozen 45/50/55/58c structural ceiling alternatives, legacy Tier-1 predicates transferred to available contemporaneous model (explicitly not original RF), current condition research V1, revised unified value. Same retained periods, condition management, reaction delays and cost assumptions where available. Original archive directional result reported separately; minute candles cannot prove 10-second execution.",
+  "economics": "Contract bootstrap of hypothetical gains at own condition EXIT, >=12 independent complete development and >=6 calibration contracts, >=80% complete path coverage in both, positive cost-stressed lower bounds. No threshold reduction for activity. One unified profile with price/side support checks and incremental exceptional-price validation. Disabled regardless of research result.",
+  "manual_entry": "Revalidate every publication and at delayed entry; invalidation latches for that BUY ticket without assuming any fill or terminating protection for a possible holder. Quote expiry independently invalidates the ticket. Refresh ASK and recompute economics; never reuse original price as executable.",
+  "costs": "One-contract M=1 quadratic taker fee rounded upward to cent on both legs; reserve max(entry/exit spreads,2c). First healthy observed quote after10s reaction within10s tolerance.5/20s sensitivity. No future extrema or timer exits. No fills.",
+  "production_enabled": false,
+  "signal_only": true,
+  "orders": false
+}

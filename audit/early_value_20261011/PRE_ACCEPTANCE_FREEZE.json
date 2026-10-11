@@ -1,0 +1,28 @@
+{
+  "base": "2f00d06ad6dd707934844d0c438c7fd39de8e70e",
+  "files": {
+    "candidates/early_value_20261011/test_engine.py": "84f4eebc79f6168dfcee6b29a3e3316172b1d6d9f9974ba746c2f6b341093cd1",
+    "candidates/early_value_20261011/qualification.py": "9aff9eba3b74118b940e98ec6904df4023a87dfcb20eb48553a721d03353ccae",
+    "candidates/early_value_20261011/native.py": "431c51edda9da6782a0d559fd69fcac288d1ca6da74f5801ee2aac4c0267aed7",
+    "candidates/early_value_20261011/study.py": "2099692fa0484e14e253cd330dc790df97903f82aeab5611a94041824f9c7bce",
+    "candidates/early_value_20261011/engine.py": "1db94ace058fe7d96e7c9764cf39d06996989b94ed0943a47b4017ba6c628c2c",
+    "candidates/early_value_20261011/__init__.py": "6beb6b63b41cc7ab7ff0b71accfbd40fccf0551786ce1ae3a280c95e69bfa459",
+    "audit/early_value_20261011/PLAN.json": "0ac6aebc71f20b15f3f7d8e89ff1cfc979609aa37cdeb266f9a9f8ca61f299b8",
+    "audit/early_value_20261011/profile_DISABLED.json": "f42a307816270fbd452602af2f1d4f30b2d5b47fb456294fb05babf19962d69e",
+    "audit/early_value_20261011/reservation_overlap.json": "b457701920099d2d6524bf5cd96df1b6744e013d43395840dea4119b21676cde"
+  },
+  "retained_inputs": {
+    "audit/early_condition_20261011/development_inputs.json.gz": "0a1fac8b0e489deb983dc27be170fe6e3f42c2cc8710eb861bae2d509e8365bc",
+    "audit/early_condition_20261011/calibration_inputs.json.gz": "fe0dfc545037eb68cd5c4150fe62d67ba415ce71599c8e5e96cf626cdd6e5ed7",
+    "audit/early_condition_20261011/diagnostic_inputs.json.gz": "9795ea14649c3e862b3a562f336ff7257b18bd12e0b934c112dde31003c8bad9",
+    "audit/early_condition_20261011/acceptance_inputs.json.gz": "72310a140e2f5fa47f0144a574ab95ab5aa68584441ee6d1dbb26c4f68afbaff"
+  },
+  "acceptance": [
+    "2026-10-07T00:00:00Z",
+    "2026-10-07T06:00:00Z"
+  ],
+  "zero_supported_profiles": true,
+  "strategy_changes_after_acceptance_prohibited": true,
+  "signal_only": true,
+  "orders": false
+}

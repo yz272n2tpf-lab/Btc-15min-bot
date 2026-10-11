@@ -1,0 +1,128 @@
+{
+  "policy": "EARLY_UNIFIED_VALUE_RESEARCH_V1",
+  "rules": {
+    "lookback": 120,
+    "short": 30,
+    "max_gap": 15,
+    "max_age": 10,
+    "min_left": 180,
+    "manual_seconds": 10,
+    "max_ask": 0.55,
+    "exception_max": 0.58,
+    "allow_exception": true,
+    "baseline_tier1": false,
+    "max_spread": 0.03,
+    "min_confidence": 0.75,
+    "persistence": 0.75,
+    "efficiency": 0.3,
+    "gap_range": 0.25,
+    "impulse_range": 0.1,
+    "reserve": 0.02,
+    "confirm_seconds": 10,
+    "watch_seconds": 10,
+    "exit_seconds": 15,
+    "recovery_seconds": 15,
+    "reset_seconds": 30
+  },
+  "support": {
+    "UP": {
+      "supported": false,
+      "reasons": [
+        "DEVELOPMENT_N_LT12",
+        "CALIBRATION_N_LT6",
+        "COMPLETE_COVERAGE_LT80PCT",
+        "COST_STRESSED_LOWER_BOUND_NOT_POSITIVE"
+      ],
+      "development_n": 0,
+      "calibration_n": 0,
+      "development_proposals": 2,
+      "calibration_proposals": 0,
+      "development_coverage": 0.0,
+      "calibration_coverage": 0.0,
+      "gross_gain_lower": null,
+      "calibration_gross_lower": null,
+      "cost_stress": 0.06,
+      "min_ask": null,
+      "max_ask": null,
+      "min_left": null,
+      "max_left": null,
+      "exception": {
+        "supported": false,
+        "reasons": [
+          "DEVELOPMENT_N_LT12",
+          "CALIBRATION_N_LT6",
+          "COMPLETE_COVERAGE_LT80PCT",
+          "COST_STRESSED_LOWER_BOUND_NOT_POSITIVE"
+        ],
+        "development_n": 0,
+        "calibration_n": 0,
+        "development_proposals": 0,
+        "calibration_proposals": 0,
+        "development_coverage": 0.0,
+        "calibration_coverage": 0.0,
+        "gross_gain_lower": null,
+        "calibration_gross_lower": null,
+        "cost_stress": 0.06,
+        "min_ask": null,
+        "max_ask": null,
+        "min_left": null,
+        "max_left": null
+      }
+    },
+    "DOWN": {
+      "supported": false,
+      "reasons": [
+        "DEVELOPMENT_N_LT12",
+        "CALIBRATION_N_LT6",
+        "COMPLETE_COVERAGE_LT80PCT",
+        "COST_STRESSED_LOWER_BOUND_NOT_POSITIVE"
+      ],
+      "development_n": 0,
+      "calibration_n": 0,
+      "development_proposals": 0,
+      "calibration_proposals": 0,
+      "development_coverage": 0.0,
+      "calibration_coverage": 0.0,
+      "gross_gain_lower": null,
+      "calibration_gross_lower": null,
+      "cost_stress": 0.06,
+      "min_ask": null,
+      "max_ask": null,
+      "min_left": null,
+      "max_left": null,
+      "exception": {
+        "supported": false,
+        "reasons": [
+          "DEVELOPMENT_N_LT12",
+          "CALIBRATION_N_LT6",
+          "COMPLETE_COVERAGE_LT80PCT",
+          "COST_STRESSED_LOWER_BOUND_NOT_POSITIVE"
+        ],
+        "development_n": 0,
+        "calibration_n": 0,
+        "development_proposals": 0,
+        "calibration_proposals": 0,
+        "development_coverage": 0.0,
+        "calibration_coverage": 0.0,
+        "gross_gain_lower": null,
+        "calibration_gross_lower": null,
+        "cost_stress": 0.06,
+        "min_ask": null,
+        "max_ask": null,
+        "min_left": null,
+        "max_left": null
+      }
+    }
+  },
+  "enabled": false,
+  "validated": false,
+  "production_authorized": false,
+  "signal_only": true,
+  "orders": false,
+  "inference": "Contract-level cohort mean uncertainty, not conditional per-entry profit guarantee",
+  "limitations": [
+    "Native source receipt/depth not reconstructed from observation journals",
+    "Fee multiplier and reaction delay are explicit stress assumptions",
+    "Unresolved supported opportunities are informatively censored"
+  ]
+}
