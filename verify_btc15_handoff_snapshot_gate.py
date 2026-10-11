@@ -6,11 +6,8 @@ from pathlib import Path
 import sqlite3
 import sys
 
-# When executed through `git show ... | python3`, stdin has no repository path.
-# Explicitly add the Codespace checkout instead of relying on shell PYTHONPATH.
-checkout = Path('/workspaces/Btc-15min-bot')
-if not (checkout / 'btc15_v2_product').is_dir():
-    raise SystemExit('BLOCKED: BTC15_CHECKOUT_NOT_FOUND')
+# Run from a separate checkout of the exact repair branch; no production writes.
+checkout = Path(__file__).resolve().parent
 sys.path.insert(0, str(checkout))
 
 from btc15_v2_product.directional import Directional
