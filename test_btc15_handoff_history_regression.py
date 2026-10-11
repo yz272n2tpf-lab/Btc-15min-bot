@@ -22,7 +22,7 @@ class MemoryJournal:
 
     def get(self, key):
         row = self.db.execute('SELECT v FROM meta WHERE k=?', (key,)).fetchone()
-        return json.loads(row[0]) if row else None
+        return json.loads(row[0]) if row and row[0].startswith(('{', '[', '"')) else row[0] if row else None
 
 
 class HandoffHistoryRegression(unittest.TestCase):
