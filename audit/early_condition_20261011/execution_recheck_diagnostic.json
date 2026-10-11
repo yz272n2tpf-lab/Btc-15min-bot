@@ -1,0 +1,350 @@
+{
+  "acceptance": {
+    "delayed_entry_rechecks": [
+      {
+        "origin_id": "02b94ab8a538b3e95b816e28dd53c9ded68566b255829fc2f42538aa23690958",
+        "entry_recheck_failures": [],
+        "still_structurally_qualified": true,
+        "net": 0.17099999999999999,
+        "complete": false
+      },
+      {
+        "origin_id": "8cae4b9a0f6e5b5fe622e8c59ee7669ea37aacd3fd3ad83058a7cb77ebe44479",
+        "entry_recheck_failures": [
+          "MODEL_SUPPORT",
+          "MULTISCALE_MOMENTUM",
+          "DIRECTIONAL_PERSISTENCE",
+          "QUOTE_CONFIRMATION"
+        ],
+        "still_structurally_qualified": false,
+        "net": -0.08999999999999993,
+        "complete": true
+      },
+      {
+        "origin_id": "a10d333f7c13e523015c8b026d059c61fdad48fc0a28458668d5a29edc2207bf",
+        "entry_recheck_failures": [
+          "MULTISCALE_MOMENTUM",
+          "QUOTE_CONFIRMATION"
+        ],
+        "still_structurally_qualified": false,
+        "net": -0.30000000000000004,
+        "complete": true
+      },
+      {
+        "origin_id": "8792d9d6e5dee5c8857cd37da0c636ec1d72303052ffd0f05cd450eb2834cd5a",
+        "entry_recheck_failures": [],
+        "still_structurally_qualified": true,
+        "net": 0.020000000000000063,
+        "complete": true
+      }
+    ],
+    "passed_complete": 1,
+    "note": "Post-analysis sensitivity only. Primary scenarios execute at first observed ASK after delay regardless of later requalification; no actual fill. No rules altered."
+  },
+  "diagnostic_opened_holdout": {
+    "delayed_entry_rechecks": [
+      {
+        "origin_id": "3e8d68f534d52e9c6ca389b9fe6a34ca6bb77962367f94e23306108ab12f8308",
+        "entry_recheck_failures": [
+          "MULTISCALE_MOMENTUM",
+          "QUOTE_CONFIRMATION"
+        ],
+        "still_structurally_qualified": false,
+        "net": -0.009999999999999957,
+        "complete": true
+      },
+      {
+        "origin_id": "b9fdc7f253d64fe7b9a137488b7ef814544e55c4ec87929355889ff06384ade8",
+        "entry_recheck_failures": [
+          "QUOTE_CONFIRMATION"
+        ],
+        "still_structurally_qualified": false,
+        "net": -0.35000000000000003,
+        "complete": false
+      }
+    ],
+    "passed_complete": 0,
+    "note": "Post-analysis sensitivity only. Primary scenarios execute at first observed ASK after delay regardless of later requalification; no actual fill. No rules altered."
+  },
+  "development": {
+    "delayed_entry_rechecks": [
+      {
+        "origin_id": "c60933cfd7edbffbea6beef276780da96981cabf6064b65bd56b6e7576fa1bd5",
+        "entry_recheck_failures": [],
+        "still_structurally_qualified": true,
+        "net": -0.11000000000000006,
+        "complete": true
+      },
+      {
+        "origin_id": "e1253cb32c74e2d2f49749ed657144e30dae2566c9bd86b36094b57bbc557fc7",
+        "entry_recheck_failures": [],
+        "still_structurally_qualified": true,
+        "net": -0.51,
+        "complete": false
+      },
+      {
+        "origin_id": "fc70350aec9f52d84d84ac06685edb5f0d22ee1dbd24ca384616b51c29fb0b4a",
+        "entry_recheck_failures": [
+          "MULTISCALE_MOMENTUM"
+        ],
+        "still_structurally_qualified": false,
+        "net": -0.15999999999999998,
+        "complete": true
+      },
+      {
+        "origin_id": "a5008b36b79a45e89db68af549e691595a116f71928ee1c0393ebf7d420bc8f7",
+        "entry_recheck_failures": [],
+        "still_structurally_qualified": true,
+        "net": -0.029999999999999975,
+        "complete": true
+      },
+      {
+        "origin_id": "9414865312d3ad24af08c5706d2a099b29d1c7f75d84412e675b2b7402d29f0b",
+        "entry_recheck_failures": [
+          "PRICE_AND_SPREAD"
+        ],
+        "still_structurally_qualified": false,
+        "net": 3.122502256758253e-17,
+        "complete": true
+      },
+      {
+        "origin_id": "53ef6ca010c26ae670a98720562da2a1c9f246c466cbe4fd70b37ea30363604d",
+        "entry_recheck_failures": [],
+        "still_structurally_qualified": true,
+        "net": -0.07,
+        "complete": true
+      },
+      {
+        "origin_id": "364232d8d76b30d4b3e5f8c9e5921e2c4d514e527933f2ca8e87fb1aa4b79c82",
+        "entry_recheck_failures": [],
+        "still_structurally_qualified": true,
+        "net": -0.29000000000000015,
+        "complete": true
+      },
+      {
+        "origin_id": "7a864fbda2d47974b89c2f12cbeb24b8d5c06c075ae38eafa5672406d2d79dd8",
+        "entry_recheck_failures": [
+          "MODEL_SUPPORT",
+          "MULTISCALE_MOMENTUM",
+          "QUOTE_CONFIRMATION"
+        ],
+        "still_structurally_qualified": false,
+        "net": 0.11900000000000004,
+        "complete": true
+      },
+      {
+        "origin_id": "b8dce7de84da96e212b0302e9879d668650d336a9db489654de9d4697de720c6",
+        "entry_recheck_failures": [
+          "PRICE_AND_SPREAD"
+        ],
+        "still_structurally_qualified": false,
+        "net": -0.13999999999999996,
+        "complete": true
+      },
+      {
+        "origin_id": "e86c75e37e314e14ab454494b49bd47199d2cf86e6ea26da6db5fafb2ea03861",
+        "entry_recheck_failures": [],
+        "still_structurally_qualified": true,
+        "net": -0.35000000000000003,
+        "complete": true
+      },
+      {
+        "origin_id": "c5fd06924598c9b835ad5a174ddab98267a8cee1e59d25f7d9ff0f59938aee67",
+        "entry_recheck_failures": [
+          "DIRECTIONAL_PERSISTENCE"
+        ],
+        "still_structurally_qualified": false,
+        "net": -0.09000000000000004,
+        "complete": true
+      },
+      {
+        "origin_id": "8e93a3eb1f7678ecddb81687815547c1a39e9051af810958abf5f8bf5bbf2092",
+        "entry_recheck_failures": [
+          "MODEL_SUPPORT",
+          "MULTISCALE_MOMENTUM",
+          "DIRECTIONAL_PERSISTENCE"
+        ],
+        "still_structurally_qualified": false,
+        "net": -0.42000000000000004,
+        "complete": true
+      },
+      {
+        "origin_id": "8024fa6d5339e3cf884caa050ab8767e5b5c112b80012f67d27249b2908001b3",
+        "entry_recheck_failures": [],
+        "still_structurally_qualified": true,
+        "net": -0.13000000000000006,
+        "complete": true
+      },
+      {
+        "origin_id": "b1630de8ff9c88193024404267cb2e41c6a4b7c03fc109ef92a96da97edf31d5",
+        "entry_recheck_failures": [
+          "PRICE_AND_SPREAD"
+        ],
+        "still_structurally_qualified": false,
+        "net": -0.33000000000000007,
+        "complete": true
+      },
+      {
+        "origin_id": "451e5e27a414ab8e969c9dfb9c30226896ca498add5345fa5dd89aba35dd8d5b",
+        "entry_recheck_failures": [
+          "PRICE_AND_SPREAD"
+        ],
+        "still_structurally_qualified": false,
+        "net": -0.04,
+        "complete": true
+      },
+      {
+        "origin_id": "b9b4a4741fbb41e7c7e0d34a1e6b451ea9547ba16762509fa938ff2f497de24b",
+        "entry_recheck_failures": [
+          "MULTISCALE_MOMENTUM",
+          "QUOTE_CONFIRMATION"
+        ],
+        "still_structurally_qualified": false,
+        "net": 0.009999999999999946,
+        "complete": true
+      },
+      {
+        "origin_id": "cc1dafef614144fef3b28bf49dc2460ed21e82ee7e74862a230cb5ac5dea841e",
+        "entry_recheck_failures": [],
+        "still_structurally_qualified": true,
+        "net": 0.019999999999999945,
+        "complete": true
+      },
+      {
+        "origin_id": "ec34ee1db400a8582e1966a79c02a66a0a3daace0b84645e664e828ad0c5dc72",
+        "entry_recheck_failures": [],
+        "still_structurally_qualified": true,
+        "net": -0.03999999999999998,
+        "complete": true
+      },
+      {
+        "origin_id": "3ef066535db33100328aa5e1266336b432bfa7e4060d4c797e76ca788ed35a16",
+        "entry_recheck_failures": [
+          "MULTISCALE_MOMENTUM",
+          "QUOTE_CONFIRMATION"
+        ],
+        "still_structurally_qualified": false,
+        "net": -0.09000000000000004,
+        "complete": true
+      },
+      {
+        "origin_id": "6316a81b605629f0957df9a2f5d4148e7e06085e2fd9eae8d3758ef808e8f375",
+        "entry_recheck_failures": [],
+        "still_structurally_qualified": true,
+        "net": -0.13999999999999996,
+        "complete": true
+      }
+    ],
+    "passed_complete": 9,
+    "note": "Post-analysis sensitivity only. Primary scenarios execute at first observed ASK after delay regardless of later requalification; no actual fill. No rules altered."
+  },
+  "calibration": {
+    "delayed_entry_rechecks": [
+      {
+        "origin_id": "cda96c63d1a73f5ab32136a8aab8097860f4bec43289e23f6d26f41af3baf839",
+        "entry_recheck_failures": [
+          "DIRECTIONAL_PERSISTENCE"
+        ],
+        "still_structurally_qualified": false,
+        "net": 0.21400000000000002,
+        "complete": true
+      },
+      {
+        "origin_id": "09635b2ea82ca40aef65dba640dbff514331616e44f90bc2b2e83462945ca29a",
+        "entry_recheck_failures": [],
+        "still_structurally_qualified": true,
+        "net": -0.13000000000000006,
+        "complete": true
+      },
+      {
+        "origin_id": "83f758a0f6a7601c674553e4d3d0243d58ef91e8f9032a8a84af7b8e2235b43e",
+        "entry_recheck_failures": [
+          "MULTISCALE_MOMENTUM",
+          "DIRECTIONAL_PERSISTENCE"
+        ],
+        "still_structurally_qualified": false,
+        "net": -0.04999999999999999,
+        "complete": true
+      },
+      {
+        "origin_id": "055b020a1637e2cbf1e781252c474b9526b9204458bcbb656795f7e9f045c660",
+        "entry_recheck_failures": [
+          "MODEL_SUPPORT"
+        ],
+        "still_structurally_qualified": false,
+        "net": -0.26000000000000006,
+        "complete": true
+      },
+      {
+        "origin_id": "34196f8ccf9400a2b4ba0983efb3f2ce6714901d06194def6c0a7636928d119a",
+        "entry_recheck_failures": [
+          "MULTISCALE_MOMENTUM"
+        ],
+        "still_structurally_qualified": false,
+        "net": 0.075,
+        "complete": true
+      },
+      {
+        "origin_id": "0ab8f4c5251f8f7f7ce73f3eb039c2d41b07f51fe9c8717747acea65b13b4f7f",
+        "entry_recheck_failures": [],
+        "still_structurally_qualified": true,
+        "net": -0.6000000000000001,
+        "complete": true
+      },
+      {
+        "origin_id": "12206bd5c0e056ab4280298d825cde994de61928c160004210648eb0f596dbe8",
+        "entry_recheck_failures": [],
+        "still_structurally_qualified": true,
+        "net": -0.09000000000000004,
+        "complete": true
+      },
+      {
+        "origin_id": "bd52d3e4912c7193494b639d978c6dce43fe955d5b837356c681e48e4253ce24",
+        "entry_recheck_failures": [
+          "MODEL_SUPPORT",
+          "DIRECTIONAL_PERSISTENCE"
+        ],
+        "still_structurally_qualified": false,
+        "net": -0.10999999999999995,
+        "complete": true
+      },
+      {
+        "origin_id": "d3ce2ec894b84e994215b21587c0fe3fdcbca763d1c511ba5a5885c062ad3a77",
+        "entry_recheck_failures": [],
+        "still_structurally_qualified": true,
+        "net": -0.020000000000000087,
+        "complete": true
+      },
+      {
+        "origin_id": "fa936b6fd3d347dd5a6d86ce768204bf9363f61c6eb8ad26e500447d15f4b250",
+        "entry_recheck_failures": [
+          "MODEL_SUPPORT"
+        ],
+        "still_structurally_qualified": false,
+        "net": 0.059999999999999984,
+        "complete": true
+      },
+      {
+        "origin_id": "64ebe7e8cee5941d23e452b6a1faa4e3b8c8b0e0a26ad36b3b78dd5cd799aa67",
+        "entry_recheck_failures": [
+          "MODEL_SUPPORT",
+          "MULTISCALE_MOMENTUM",
+          "DIRECTIONAL_PERSISTENCE",
+          "QUOTE_CONFIRMATION"
+        ],
+        "still_structurally_qualified": false,
+        "net": -0.11000000000000006,
+        "complete": true
+      },
+      {
+        "origin_id": "e187b799745107bd3a2bb93f8f3b8fe97858163ed1bda71fbb444bf3f02a2dd6",
+        "entry_recheck_failures": [],
+        "still_structurally_qualified": true,
+        "net": -0.29,
+        "complete": true
+      }
+    ],
+    "passed_complete": 5,
+    "note": "Post-analysis sensitivity only. Primary scenarios execute at first observed ASK after delay regardless of later requalification; no actual fill. No rules altered."
+  }
+}

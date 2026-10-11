@@ -1,0 +1,301 @@
+BTC15 — Condition-driven EARLY candidate, October 11, 2026
+
+READINESS: RESTRICT production; FAIL economic acceptance; PASS focused mechanics.
+The isolated candidate is implemented and reproducible. It is NOT operational.
+No empirical opportunity group qualifies. Zero economically admitted BUYs.
+The research proposals below are hypotheses, NOT validated trading signals.
+
+Base: d42db8cda576013db721e4fc6e77d80ddba33631.
+Prior EARLY framework: 702a8906a5fce0b18d0ff0efd8a5fcfed772b757.
+Evidence recovery: e2b8a6ca21a24eb5dbe33680f792c64ad6311dc2.
+Independent SCALP: 6e04aced0f718b29f8ed805abcc0f76b01ed5096.
+Pre-acceptance local freeze: b2252f302c709bc3729ed3f9e93f44476aad3b8d.
+Final candidate commit is the commit containing this report; the delivery
+message provides its exact published SHA. No production promotion is requested.
+
+1. Diagnosis of the prior forecast failure
+
+The prior ridge models predicted BID at 240/300/360/420 seconds. They trained
+on 97/95/92/87 labeled independent origins and calibrated on 56/51/48/45.
+The empirical fifth-percentile residual penalties were -42.74/-62.03/-57.51/
+-58.66 cents. Consequently, even sizable point forecasts usually could not
+cover current ASK, fees and reserve. The opened 16-contract October4 window
+had only 4/4/2/2 usable first-origin endpoint labels; MAE was 18.88/24.82/
+41.60/43.24 cents. Lower-bound coverage on a handful of labels does not
+establish useful uncertainty calibration.
+
+It screened 505/469/433/376 observations yet admitted zero entries. At those
+same fixed endpoints it missed 3/2/1/1 positive first-origin quote scenarios;
+these overlap across horizons and cannot be added as independent trades.
+Current BID and spread encoded entry ASK implicitly; model confidence and
+BTC/BRTI gaps were used. Entry price and direction were not wholly omitted.
+However, one 60-second momentum value could not represent persistence,
+multiscale reversals, volatility/structure, evolving settlement evidence or
+condition-triggered exit timing. Training used one origin per contract but
+screening covered many later observations, adding distribution-shift risk.
+
+The calibration penalty was an unconditional tail residual, not a validated
+conditional bound on the mean for the particular setup. It was economically
+very conservative, but removing it would not solve the large point errors or
+establish safety. Exact endpoint regression targets a different question from
+whether a directional opportunity remains justified as conditions evolve.
+These are documented objective/model limitations; this study does not pretend
+to statistically isolate the causal contribution of each omitted feature.
+
+2. Implemented approach and scope
+
+New files are confined to candidates/early_condition_20261011 and
+audit/early_condition_20261011. engine.py is a pure in-memory reducer with no
+network, database, order, worker or deployment integration. native.py validates
+original native inputs using the existing validators. study.py fits/replays
+condition-exit economics; acceptance.py evaluates the frozen rules; retained
+normalized observations permit wholly offline reproduction.
+
+The prototype first identifies a structural directional setup. It then needs
+an independently supported empirical distribution of gains at the times its
+OWN exit conditions fire. It does not forecast an exact future BID, substitute
+fair value for liquidation value, search future maxima, or score settlement
+correctness as resale profit. All outputs retain actionable=false,
+production_enabled=false, signal_only=true, orders=false, manual_fill=null and
+realized_profit=null. No trusted production profile has been installed.
+
+3. Exact entry and economics rules — provisional research, not validated gates
+
+Use same-contract, healthy, already available observations spanning120 seconds;
+no inter-observation gap over15 seconds, future receipt or receipt delay over10
+seconds. A30-second point must also be available within15-second tolerance.
+Native mode separately verifies official ticker/window, model artifact/features,
+BTC/BRTI/quote receipt causality, reciprocal book, native/quote sequence, current
+fee binding and settlement samples. Observational journals cannot fabricate
+these native identities or depth. A synthetic fixture cannot establish them.
+
+For the proposed side, define R=max(BTC high-low over120s, target*0.00001).
+All conditions must hold:
+- Same-side BID>0; ASK<=80c; spread<=3c; consistent reciprocal binary book.
+- Remaining time at decision availability >190s (180s provisional entry support
+  boundary +10s manual budget). This is explicitly an unvalidated entry-domain
+  restriction, NEVER a minimum/maximum holding time or timed exit.
+- Model side probability>=75%; BTC and BRTI signed target gaps each>=0.25R.
+- Signed BTC/BRTI120s movements positive; each30s movement>=0.10R.
+- Time-weighted BTC/BRTI target-side alignment>=75% over120s.
+- Signed120s BTC displacement / sum of absolute BTC increments>=0.30.
+- Same-side BID120s rise>=current spread;30s BID change>=0.
+- Finite $1 payout headroom after cost stress. This arithmetic headroom is
+  necessary capacity only, NOT evidence of achievable profit.
+- Conditions persist>=10s on at least two distinct observations; no unchanged
+  active setup can issue a duplicate BUY.
+
+Economic profile groups are UP/DOWN crossed with ASK<=50c or50–80c. Development
+uses complete condition-exit scenarios with contract means, so repeated rows or
+entries cannot inflate independent N. Lower gain estimate is the2.5 percentile
+of5000 contract-bootstrap sample means, seed1011. Require at least12 development
+and6 calibration contracts, >=80% complete episode coverage in EACH, and both
+lower gross-gain estimates above the maximum applicable cost stress. The second
+lower-bound requirement is more conservative than a positive calibration mean.
+No regrouping, relaxed sample threshold or favorable horizon selection occurred.
+Current ASK and remaining time must also fall inside the supported development
+price/runway range. All four groups FAIL; LOW groups have no research entries.
+HIGH-group entries are generally expensive (63–80c in complete development paths).
+This combination demonstrates late confirmation/high-price selection, not an
+exceptional cheap-entry edge. Cheap ASK alone is never sufficient.
+
+At admission, required gross gain = entry fee stress + maximum exit fee stress
++max(current spread,2c). The profile lower gain must exceed that amount.
+Fees use a one-contract, multiplier1 quadratic taker scenario, 0.07*p*(1-p),
+rounded upward to a whole cent, on EACH leg. This is a conservative stress,
+not an account-specific historical fee assertion. Current published schedule:
+https://kalshi.com/docs/kalshi-fee-schedule.pdf (July7,2026 effective schedule).
+Its rounding wording/table and event/account overrides must be verified for any
+operational execution budget; this work does not modify the existing fee code.
+
+4. Lifecycle ownership and condition rules
+
+BUY -> HOLD while direction remains supported. Elapsed holding time never
+forces EXIT; a mechanism test holds beyond7minutes with continued support.
+
+WATCH: at least two non-model evidence groups deteriorate for>=10s on distinct
+observations: short momentum, target-side confirmation, multi-minute trend,
+BID decline>=max(spread,1c), or causal settlement-path contradiction. Missing
+native data/history immediately warns without inventing an exit BID. Low
+remaining execution room (<=manual budget+15s) also warns. Model confidence
+alone does not cause WATCH/EXIT. Reasons are attached to the opportunity ID.
+Recovery to HOLD requires>=15s of restored momentum, alignment and trend.
+
+EXIT: any of these corroborated conditions persists>=15s:
+- Both underlying prices are against target and both short momenta are adverse.
+- Both120s trends and both short momenta reverse, with BID deterioration.
+- During the final60s, verified accumulated-average evidence contradicts the
+  side, together with adverse momentum and BID deterioration.
+- Both BTC and BRTI break stored causal price-structure boundaries by>0.10R,
+  both short momenta are adverse, and BID deteriorates. Boundaries start at
+  signed30s lows at entry and can advance only on a new same-side BID high
+  corroborated by favorable BTC/BRTI momentum. No profit percentage/target.
+
+One development-informed structure-break correction was made before acceptance.
+Its initial and final results are preserved. It did NOT cure the economic
+problem. Calibration was already inspected and is honestly marked exposed;
+only the separately reserved October6 raw quote paths were used for acceptance.
+Neither rules nor profile were changed after those paths were opened.
+
+EXIT never requires a profitable position, a previously reached target, or a
+fixed holding duration. It records current BID and a hypothetical net scenario;
+zero/insufficient liquidity does not manufacture a sale. No independent profit
+protection rule is promoted by this study.
+
+After EXIT, require an observed directional reset lasting>=30s (adverse120s
+momentum or lost target-side confirmation), then an independently qualifying,
+reconfirmed current setup with a new publication/opportunity ID and remaining
+runway. Outage/missing profile alone cannot reset. Both same-side re-entry and
+UP/DOWN reversals pass mechanism tests. FINAL is never a lifecycle owner.
+
+5. Historical evidence, execution and independence
+
+Development122 + calibration82 September26–29 contracts, the exact prior split.
+19,628 +13,022 normalized observations. These are exposed research cohorts.
+The old October4 00:00–04:00 UTC window remains diagnostic only:16 contracts,
+2668 observations. It was not renamed unseen validation.
+
+Reserved acceptance: October6 00:00–06:00 UTC (October5 8pm–October6 2am Eastern),
+selected before retrieval.24 contracts,4019 unique MAIN publications.33,725
+mixed journal records were recovered using bounded GET-only byte ranges; no
+source polling, database open or journal/volume writes. Gzip ranges have no
+internal corruption. Exact source/range/projection hashes and contract IDs are
+retained. Prior inventoried contract overlap and training/calibration/diagnostic
+overlap checks are retained. Independence refers to these previously unrecovered
+quote paths and this investigation; it cannot certify every prior human exposure.
+
+Primary hypothetical execution: buy at first healthy observed ASK>=10s after
+BUY availability; sell at first healthy observed same-side BID>=10s after EXIT
+availability; each quote must be within10s of the requested point. No interpolation
+or maximum BID selection. Subtract both fees plus max(signal-entry spread,
+delayed-entry spread, delayed-exit spread,2c).5s and20s sensitivities use the SAME
+condition-triggered episodes; later sampled prices can improve or worsen results.
+Primary scenarios assume delayed execution even if entry conditions change.
+A separate structural recheck is provided, not used to revise the strategy:
+only1 of3 complete acceptance scenarios still passes the entry screen at the
+delayed quote. This further limits execution credibility. There are NO fills.
+
+Any unhealthy/gapped path is censored from full-path economic acceptance, even
+if observed endpoints are favorable. A still-supported position without an
+observed condition EXIT is censored, not liquidated at a made-up timer. This
+censoring is potentially informative: strong trends that never exit are not
+represented in the completed-exit mean. Means below are NOT whole-policy returns.
+Settlement correctness is not inferred from last quotes; the required official
+settlement binding is absent for this candidate cohort. Reported directional
+correctness means signed BTC movement from hypothetical entry to exit only.
+
+6. Results (uncalibrated structural proposals, not admitted BUYs)
+
+Period        Contracts Proposals Complete +net <=0net Censored Mean net/contract
+Development      122       28       19      4    15       9       -12.01c
+Calibration       82       15       12      3     9       3       -10.93c
+Opened diagnostic 16        3        1      0     1       2        -1.00c
+New acceptance    24        6        3      1     2       3       -12.33c
+
+Each complete episode here comes from a different contract. Descriptive95%
+contract-bootstrap mean intervals: development[-18.48,-6.17]c;
+calibration[-22.46,-0.39]c; acceptance[-30,+2]c. N=3 gives very weak inference;
+N=1 diagnostic has no meaningful inferential interval. Do not interpret these
+as conditional per-trade guarantees or estimates for censored opportunities.
+Acceptance underlying movement:1 correct,2 incorrect among the3 complete cases.
+Its6 proposals are5UP and1DOWN; no complete DOWN exit sample is established.
+
+Acceptance signal ASK / delayed entry ASK / delayed exit BID / net:
+26OCT052030-30 UP:73c /59c /56c /-9c.
+26OCT052045-45 UP:73c /73c /49c /-30c.
+26OCT060000-00 UP:74c /72c /80c /+2c.
+26OCT052015-15 UP:69c /73c /95.1c /+17.1c endpoints ONLY; path incomplete,
+excluded from complete results. Two other proposals have no observed condition
+EXIT, not zero returns. Full quote paths and event reasons are in the evidence.
+
+Acceptance mean net at5/10/20s manual delays: -17.00/-12.33/-11.67c (N=3 each).
+The positive complete case has signal-ASK net approximately0c, versus+2c after
+the assumed delayed entry at a lower ASK. It is especially execution-sensitive.
+
+7. Coverage, warning timing, missed opportunities and false entries
+
+Economic-profile admissions are ZERO in all four periods. The existing disabled
+EARLY framework likewise has no reviewed profile, so zero trusted native BUYs.
+The frozen fixed-horizon screen selects zero on the same replay periods.
+This does NOT establish equivalence of their hypothetical lifecycle performance.
+No complete original live baseline lifecycle is reconstructed from observer
+ready flags; baseline profitability is not claimed.
+
+Relative to the predeclared structural-proposal universe, the failed economic
+screen rejects4/3/0/1 positive complete scenarios in development/calibration/
+diagnostic/acceptance and15/9/1/2 negative-or-zero ones. These are bounded missed
+opportunities and false-entry hypotheses, not counts of every possible market
+trade. The one acceptance positive is only+2c under a favorable delayed-entry
+assumption. Rejection is not repaired by just weakening the economic gate.
+
+WATCH events/recoveries:38/15 development,23/9 calibration,4/2 diagnostic,11/6
+acceptance. Maximum3 WATCH episodes per origin. Median first-WATCH-to-EXIT lead:
+27.54/45.24/344.64/35.28 seconds respectively. Lead measures timing, not predictive
+accuracy. Some warnings recover; churn reduction is not validated.
+At the first available quote30s after actual EXIT, BID is higher in14/20,
+7/12,0/2,2/3 observable cases respectively. This flags possible premature exits,
+not proof that holding was superior or that the later quote was achievable.
+No future best price is used for any scored exit.
+
+8. Multiple BUYs and late entries
+
+Historical useful multiple BUYs in one contract: NOT DEMONSTRATED. No period
+produced multiple structural entries per contract, and no profile qualified.
+Synthetic same-side and opposite-side re-entry works, but is not historical
+performance evidence. This remains an explicit acceptance blocker.
+
+Unsupported29.1/15/5/1.1-second entries are rejected. Minimum proposal remaining
+was226.02s development,475.12s calibration,408.25s diagnostic,573.92s acceptance.
+No late proposal recurs. The provisional190s admission boundary is conservative
+and has NOT been validated as the optimal coverage boundary; no190s holding or
+EXIT target exists. A4–7minute time limit is absent.
+
+9. Regression and protected releases
+
+20 focused tests PASS, covering BUY/HOLD/WATCH/EXIT, WATCH recovery, sustained
+HOLD beyond7minutes, adverse/nonprofitable exits, UP/DOWN reversals, new same-side
+origins, duplicate suppression, noise/confidence alone, delayed/missing data,
+fees/reserve, rollover/old/expired contracts, settlement causality, prefix
+causality, later-price non-substitution, native binding, FINAL ownership and
+signal-only behavior. The single authentic October11 native frame is rejected
+for missing120s history; its original clocks and receipt evidence are preserved.
+Four whole-cohort replays reproduce exactly from retained normalized inputs.
+These tests establish implementation mechanics, not profitability.
+
+No previously tracked file changed. MAIN release46 +9 lane-protected file checks
+pass; independent SCALP46 +3 pass. Pinned EARLY4, FINAL1, cockpit13 and SCALP9
+component hashes match. Existing release manifest SHA256 remains:
+e8d8a1b54ff9ea3850296567ee8921149e5ea07697144b7bbeb41ea382045949.
+No SCALP or browser test suite was unnecessarily repeated.
+FINAL retains90%, $75/$50, range and BRTI confirmation rules.
+Read-only control-plane verification retains:
+MAIN d6f84479-d722-4139-a96d-6aa155a17dc6;
+SCALP49b01605-2a56-4ff5-b55e-332adf4b5b11;
+cockpit5b326cf3-8998-4fba-854f-8aaad7c60c61;
+original MAIN volume6ced6b1a-3755-4518-a240-c895e936d443;
+same four STAGED changes in patch ead9997e-b5b7-4668-a612-e8417e197838.
+No merges, deployment, restart, config/threshold changes, orders or volume writes.
+
+10. Readiness and smallest remaining action
+
+PASS: isolated condition-driven mechanics, causality protections and release
+preservation. FAIL: this structural entry family and empirical opportunity
+profile do not establish a trustworthy combination of price, economic edge,
+coverage, warning/exit quality and useful re-entry. RESTRICT: all activation.
+This is not evidence that every condition-driven strategy must fail.
+
+There is no justified switch to turn on. The smallest next engineering step is
+a bounded ENTRY-SELECTION revision on development evidence addressing the
+observed63–80c late-confirmation bias, while retaining these lifecycle mechanics
+for further validation. It must establish positive after-cost economic evidence,
+then be frozen and tested on another untouched bounded contract set, with actual
+native receipt/depth/fee support and a defensible manual execution budget.
+The October6 acceptance is now opened and must not be reused as unseen.
+No broad repository audit, generic new collection wait, or threshold weakening
+to manufacture BUY frequency is recommended. Do not promote this profile.
+
+Offline reproduction from repository root (Python3 + numpy):
+  python -B -m unittest candidates.early_condition_20261011.test_engine -v
+  python -B -m candidates.early_condition_20261011.verify_replay
+No remote endpoint, journal or database is needed for reproduction.
+Changed paths and SHA256 values are listed in CHANGED_FILES.json and SHA256SUMS.

@@ -1,0 +1,6 @@
+{
+  "raw_sha256": "ee23909ca87ea25a8f0638c2c8a8012b1b1f9d5a303fc9a51d7f00482b2b0774",
+  "projection_sha256": "75a087a5c14895b6091a840df7ddf18d75281560c37c54d20957fde70b61179b",
+  "records": 4019,
+  "selection": "First MAIN publication per contract/source timestamp in reserved window, retaining original source fields except chart; no inferred native identity"
+}

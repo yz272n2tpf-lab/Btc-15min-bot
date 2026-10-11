@@ -1,0 +1,5 @@
+PASS acceptance 24 contracts 4019 source observations; exact frozen replay
+PASS diagnostic_opened_holdout 16 contracts 2668 source observations; exact frozen replay
+PASS development 122 contracts 19628 source observations; exact frozen replay
+PASS calibration 82 contracts 13022 source observations; exact frozen replay
+PASS: zero economically admitted BUYs; disabled profile preserved; no network or writes
