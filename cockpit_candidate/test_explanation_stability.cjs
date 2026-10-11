@@ -76,7 +76,9 @@ assert.match(node('final-reason').textContent,/BRTI does not meet/,'genuine new 
 setSample(samples[4]);render();const prior=resolved.lanes.main.retained_payload;
 resolved.lanes.main.current_payload=structuredClone(prior);resolved.lanes.main.current_payload.final.helper.origin_id='WRONG';render();
 assert.match(node('early-reason').textContent,/Conflicting origin binding; current action unavailable/,'never conceal a current invalid binding with historical wording');
-assert.equal(node('early-action').textContent,'Action unavailable');
+assert.match(node('early-action').textContent,/^(?:SOURCE REFRESHING \/ UNAVAILABLE|Action unavailable)$/,'invalid binding must not be actionable');
+assert.doesNotMatch(node('early-action').textContent,/CURRENT ACTIONABLE SIGNAL|BUY ISSUED|EXISTING SIGNAL UNDER MANAGEMENT/);
+assert.match(node('early-price').textContent,/current executable BID unavailable/,'no executable price on invalid binding');
 setSample(samples[0]);render();
 for(const lane of Object.values(resolved.lanes)){lane.eligible=false;lane.current_payload=null;lane.selection='retained';}
 resolved.identity={...resolved.identity,contract:'NEXT'};render();
