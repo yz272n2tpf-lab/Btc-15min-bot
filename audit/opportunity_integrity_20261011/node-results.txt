@@ -1,0 +1,39 @@
+cockpit_candidate/test_explanation_stability.cjs: exit 0
+PASS: 100 stable renders, real issued records, expiry, immutable ASK, invalid binding, no stale BUY, rollover, 50 fixtures
+
+cockpit_candidate/test_final_retention.cjs: exit 0
+PASS: verified FINAL call survives expiry/outage without a lease; fresh PASS supersedes; rollover clears headline history
+
+cockpit_candidate/test_live_refresh_audit.cjs: exit 0
+✔ FINAL probability and quotes survive source expiry as timestamped history, without authority (597.825758ms)
+✔ BTC spot and BRTI retain timestamped history and cannot regress on older responses (13.833236ms)
+✔ SVG root and existing path survive a changed chart sample (10.800245ms)
+✔ expired record is historical during same-contract identity retention (0.856063ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 645.844858
+
+cockpit_candidate/test_publication_order_audit.cjs: exit 0
+✔ older publication cannot replace newer unavailable response or retained quote (26.627505ms)
+✔ quote sequence floor survives invalidate; malformed response cannot change identity (6.535222ms)
+✔ partial response fails closed without erasing last quote; delayed pre-resume reply is ignored (6.476583ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 45.442506
+
+cockpit_candidate/test_source_display.cjs: exit 0
+PASS: cold start, asynchronous identity, current information, expiry and rollover display
+
+cockpit_candidate/test_trade_records.cjs: exit 0
+PASS: native BUY/HOLD/gap/EXIT/rollover, legacy compatibility, origin binding, net scenario, and 100 stable repeated DOM renders
+PASS: three EARLY rows, distinct second BUY/history, WATCH could flip, independent deployed FINAL history

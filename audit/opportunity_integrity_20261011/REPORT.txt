@@ -1,0 +1,285 @@
+BTC15 — EARLY OPPORTUNITY INTEGRITY / FINAL DISTANCE REVIEW
+2026-10-11. Overall disposition: RESTRICT. Production remains frozen.
+
+Review baseline
+Phase B cockpit repair c5e2c807343b27aacf04824eca1edb5821ae69d0;
+final verification 02e3faa9fd93c384167b3d989eb4aebfc299c153.
+Branch: candidate/btc15-early-opportunity-integrity-20261011.
+The current prior audit, latest final-verification report, preserved incident
+evidence, diagnostic tests and production source were read before development.
+
+1. EARLY root cause and correction scope
+
+The genuine 5-cent UP BUY at 14:29:30.914225 UTC (10:29:30.914225 EDT) had
+29.085775 seconds left on KXBTC15M-26OCT111030-30, target 83008.51. The supported
+value route compared remaining time only with observed source delay. It did not
+establish a meaningful future opportunity horizon and ignored the accumulated
+settlement sum. Positive model-value-after-cost scenarios were part of the
+sufficient admission conditions even though fair value was explicitly NOT a
+forecast of an achievable future liquidation bid. The older Tier-1 entry window
+did not constrain this route. This is a confirmed opportunity-qualification gap.
+
+Original identity:
+a44143eb2a158a37b1a711006ec2ff45ee273b4a746d30ba6b0e1a45e0a997bf
+The event was an issued BUY, subsequently EXPIRED/history-only, not a scan.
+Exact original executable book and decision-frame replay remain unavailable.
+Its later losing settlement does not prove the entry was irrational at issuance;
+the confirmed defect is that qualification did not establish its stated purpose.
+
+Implemented: an OFFLINE-ONLY entry gate and EARLY reducer under
+candidates/early_opportunity_20261011/. They reuse existing native qualification,
+protected FINAL calculation, directional corroboration, fees and core lifecycle
+reducers. They add no worker, production integration, journal, network or order
+entrypoint. Every candidate result has signal_only=true, orders=false and
+actionable=false. No existing runtime source or manifest was edited.
+
+The entry gate requires:
+- A qualified same-contract, timestamped executable-side ASK; reciprocal binary
+  bid/ask mapping; fresh BTC/BRTI/book; causal model features and current fees.
+- An independently reviewed, hash-pinned opportunity profile and a prediction
+  bound to the exact frame, side, target, cutoff and settlement evidence.
+- A same-side future-BID estimate with an explicit uncertainty method, validated
+  horizon and regime support. Substituting model fair as future BID is rejected.
+- A positive conservative expected net after ASK, entry fee, an upper bound on
+  exit fees and the greater of the reviewed reserve or observed spread. Crossing
+  is already in ASK-to-BID; this reserve is additional stress, not another fill.
+- Enough remaining time for that supported horizon AND its measured manual
+  execution budget. No universal entry-clock cutoff or profit target was added.
+- During averaging, exact causal same-contract seconds and a prediction explicitly
+  conditioned on the observed sum/remaining path. Missing past seconds remain
+  unknown. The raw break-even hurdle is a diagnostic, not a settlement forecast.
+
+Critical limitation: there is NO trusted production opportunity profile or
+validated future-BID estimator in the supplied evidence. The default registry is
+empty and therefore rejects new entries. Synthetic profiles require an explicit
+test-only opt-in. A hash/metadata receipt does not itself establish statistical
+quality; independent validation and human review are still required. Horizon
+semantics (larger directional rather than scalp), uncertainty quality, measured
+execution costs and actual opportunity coverage depend on that missing reviewed
+profile. This implementation does not invent them or claim to be a complete
+deployable EARLY strategy. A directional holding-only alternative without a
+supported resale estimate likewise remains unvalidated; it is not silently
+promoted through the old model-fair-value route.
+
+2. Coverage and last-second tests
+
+36 synthetic positive cases pass across UP/DOWN, entry offsets 10/60/300 seconds
+and independently supplied fixture horizons 150/180/240/300/360/420 seconds.
+The four-to-seven-minute examples are accepted when their horizons fit. A
+150-second horizon also fits with 200 seconds remaining while a 240-second
+horizon does not: eligibility follows the evidence-supported plan, not one
+fixed EARLY time window.
+
+Eight UP/DOWN tests at 29.1, 15, 5 and 1.1 seconds remaining reject the supplied
+multi-minute opportunity horizons and issue no candidate BUY. Without an
+approved profile, all unsupported entries reject, irrespective of cheap price
+or high model fair value. No rejected EARLY event is converted to SCALP.
+
+These are behavioral/contract tests, NOT proof of real profitable opportunities,
+historical win rate, calibrated future bids or guaranteed manual execution.
+No unsupported short profile is approved by this work. No real profile exists
+to support a production entry; synthetic positive results cannot be promoted.
+
+3. Lifecycle, warnings and FINAL coordination
+
+Existing functionality, retained in production source unchanged:
+- Immutable BUY origins and recorded same-side entry ASK.
+- HOLD/weakening/protection management using current native evidence.
+- EXIT from corroborated directional thesis failure (model opposition together
+  with BTC/BRTI opposition and adverse momentum), or the existing weakening-model
+  value exit with adverse momentum and a later positive same-side BID.
+- Distinct re-entry after EXIT, observed invalidation and fresh qualification;
+  closed recommendations do not prove the user filled or closed a manual trade.
+- FINAL's independent probability/lock gates; linked evidence supports EARLY
+  management but FINAL does not own a second competing EARLY exit instruction.
+
+Confirmed behavior needing refinement: the existing management code calls any
+probability decline 'weak', so very small probability changes alone can alternate
+WATCH/HOLD. The candidate adds a narrow warning rule: uncorroborated probability
+softening remains context while corroborating market/momentum evidence or loss
+of established FINAL qualification can warn. A WATCH episode clears only when
+support returns to its pre-warning probability anchor with a later quote and
+otherwise supportive evidence. No fixed probability-drop threshold was invented.
+This is a proposed risk policy implemented and unit-tested offline; its observed
+warning quality, missed deterioration and churn performance remain unvalidated.
+
+The candidate also warns when a causal partial settlement hurdle challenges the
+held side even if latest BRTI and spot remain favorable, when the original
+opportunity horizon ends, or when its manual-execution budget no longer fits.
+Missing settlement evidence is visible. Those additions generate WATCH, not an
+automatic timer/average-based EXIT. A brief probability fluctuation alone does
+not EXIT. Existing stronger protection remains latched rather than repeatedly
+opening/closing. No new protective profit target or trailing-stop rule was added.
+
+Candidate re-entry additionally requires fresh native/book evidence and a real
+directional/economic invalidation with valid source/model/fee evidence. Missing
+forecast, fee or feature data alone cannot rearm an unchanged setup. Older,
+conflicting or mis-mapped books cannot create entry/exit instructions. A new
+origin keeps the previous immutable BUY/EXIT in history. Restarts preserve state.
+
+The recorded synthetic trace for BOTH starting sides is:
+BUY -> HOLD -> WATCH -> WATCH (no repeated alert) -> HOLD -> EXIT -> EXIT
+(observed non-qualifying frame) -> new opposite-side BUY -> HOLD.
+Signals have distinct identities; repeated unchanged updates do not repeat BUY.
+HOLD is lifecycle context; the established visible EARLY signals remain
+BUY / WATCH (could flip) / EXIT. The new reducer is not wired into the cockpit.
+
+4. FINAL distance comparison and recommendation
+
+Important correction to the premise: actual protected FINAL uses $75 with
+6–8 minutes remaining, then $50 at six minutes or less. Probability >=90%,
+distance/range >=1, spot-side agreement and same-side BRTI gap >$11 are separate
+requirements. Removing absolute distance alone does not remove those gates.
+For the reported 83% incident, changing distance alone still would not lock.
+
+Available inventory: 92 relevant repository CSVs, 78,233 overlapping rows.
+No inspected CSV contains a complete current native decision frame with original
+quote/source/feature/model proof. Selected winning/locked-call files cannot
+measure additional calls. The 16,642-row direct-BRTI file has useful aggregates
+but lacks a complete exact join to current native decisions. The frozen-model
+manifest has 331 fit, 133 calibration and 199 ALREADY-OPENED historical evaluation
+contracts, explicitly not a new holdout. No gaps were imputed or later settlement
+data substituted for causally known decision evidence.
+
+Comparison                           Admissible N   Accuracy / false-lock rate
+Current $75/$50                      0              N/A / N/A
+$40 in the current $50 phase         0              N/A / N/A
+$30 in the current $50 phase         0              N/A / N/A
+$20 in the current $50 phase         0              N/A / N/A
+$10 in the current $50 phase         0              N/A / N/A
+No fixed dollar distance             0              N/A / N/A
+Settlement-aware supplement          0              N/A / N/A
+Settlement-aware replacement         0              N/A / N/A
+
+Both UP and DOWN are unscorable statistically. Additional correct/incorrect
+locks, timing benefit, false-lock rate, calibration and regime reliability are
+UNAVAILABLE, not zero failures or zero improvement. The table is an evidence
+availability result, not a completed historical backtest. No optimization was
+performed and no winner was selected on the evaluation sample.
+
+Implemented evaluator tests verify exact threshold boundaries on both sides,
+retention of $75 in late-distance ablations, unchanged 90%, first-lock-per-
+contract accounting, duplicate/conflict rejection, additional wrong-call counts,
+earlier timing on common contracts and uncertainty calculations. Settlement
+alternatives are explicitly unscorable without a separately validated causal
+settlement model; a later complete average never supplies the missing forecast.
+
+Recommendation: KEEP the current $75/$50 and 90% gates pending evidence. This
+does not establish that $50 is optimal. A settlement-aware supplement is a
+reasonable research candidate; replacing the distance guard is not justified
+by the currently available data. VALIDATION_PROTOCOL.txt gives the fixed-grid,
+contract/day-split, causal-source, calibration and uncertainty protocol. It
+requires an untouched full cohort and reports time/volatility strata and warning
+utility before promotion. No new data collection or production endpoint was
+started. The evaluator is a research tool, not a deployment authorization.
+
+5. Outstanding incident evidence
+
+Read-only access remains limited to Railway metadata/logs and compact public
+history. The connected tools expose no authorized SQL/SSH journal-snapshot
+reader, and no consistent authorized snapshot was provided. The bounded offline
+extractor was NOT run against live /data or any SQLite SHM/WAL. No authentication
+loop, new production endpoint, backup campaign or volume operation was attempted.
+
+The previously retrieved bounded application logs are preserved evidence, not a
+full journal export. Exact event facts and limitations remain:
+- EARLY origin a44143...997bf, old 10:15–10:30 ET contract: issued UP ASK 5 cents,
+  decision 14:29:30.914225 UTC; original book epoch/sequence and source age missing.
+- SCALP origin 04c02740ab1490770137fc9a53868a5e31b71c56cce6f377b1ef248af4e124c7,
+  KXBTC15M-26OCT111045-45: issued UP ASK 60 cents / same-side BID 59 cents at
+  14:30:45.1683967 UTC. These are stored inputs, not independent fill proof.
+- PROTECT uses the actual observed protective latch: 65-cent arm for this entry
+  and four-cent giveback. The reported intermediate 70-cent quote and exact
+  peak/latch/giveback sequence remain unavailable.
+- EXIT recommendation at 14:32:12.196363 UTC records BID 79 cents and
+  ARM5_GIVEBACK4. Source-book executability at that instant is not reverified.
+- No confirmed wrong-contract rollover or bid/ask inversion. No fills or realized
+  profits inferred; net figures in the prior report remain conditional scenarios.
+
+Next evidence step: obtain a bounded authorized export/snapshot of events in
+[14:28,14:33) UTC from MAIN d6f84479... and SCALP 49b01605..., bind deployment/lane,
+then run the existing offline extractor and verify body hashes. Join source,
+decision, publication, immutable origin and protection/EXIT rows. A read-only
+SQLite connection on a live volume is not an acceptable shortcut for this freeze.
+
+6. Dashboard, regression and production protection
+
+PASS: Chromium 138.0.7204.0, unchanged Phase B repaired assets, eight controlled
+HTTP scenario groups. 390 normal-refresh frames had zero numeric blanking and
+zero SVG root/path replacement while prices changed. Partial/stale/outage replies
+removed authority but retained timestamped values; actual outage reason remained
+visible. Older/delayed responses were rejected. Historical/expired BUY remained
+history-only across rollover. Phone-width layout had no horizontal overflow.
+This turn did not repeat a live-market smoke; the prior report's limited live
+smoke remains separate evidence. No statistical availability guarantee is made.
+
+WebKit: BLOCKED, not passed. WebKit 26.5 build 2336 downloaded, but host GTK4/
+GStreamer and other dependencies are missing. Dependency installation failed on
+environment setgroups/seteuid/setegid restrictions; no bypass was attempted.
+No physical iPad/Safari test was performed.
+
+Focused results:
+- 44 Python tests PASS: 17 new candidate, 6 new FINAL evaluator, 15 existing
+  supported-EARLY and 6 prior diagnostic/reader tests.
+- 8 tests PASS against exact live SCALP source 6e04aced0f718b29f8ed805abcc0f76b01ed5096.
+- 6 existing cockpit Node suites PASS; 8 real Chromium scenario groups PASS.
+- 46 MAIN release files, 9 MAIN protected files, original frozen identity and
+  all 16 cockpit runtime entries verified. Existing tracked-file diff is empty.
+
+Release manifest unchanged:
+e8d8a1b54ff9ea3850296567ee8921149e5ea07697144b7bbeb41ea382045949
+No existing test or protected source was rewritten to make the candidate pass.
+New candidate tests correct the old synthetic book's nonreciprocal opposite
+quotes within their own fixture factory; this is not a detected production
+mapping defect. Early implementation failures were corrected and rerun; the
+final passing results are saved. Production metadata comparison is sorted by
+service ID because API inventory order can vary; identities themselves match.
+
+Read-only before/after metadata confirms unchanged deployments:
+MAIN d6f84479-d722-4139-a96d-6aa155a17dc6
+SCALP 49b01605-2a56-4ff5-b55e-332adf4b5b11
+Cockpit 5b326cf3-8998-4fba-854f-8aaad7c60c61
+Original MAIN volume 6ced6b1a-3755-4518-a240-c895e936d443 remains /data.
+Shadow patch ead9997e-b5b7-4668-a612-e8417e197838 remains STAGED, four changes,
+updatedAt 2026-10-08T22:32:38.147Z.
+No merge, deployment, restart, production configuration/strategy change, order,
+journal mutation, volume write or application of staged changes occurred.
+
+7. Independent assessment and next step
+
+Component                       Mechanics / evidence                  Readiness
+Existing EARLY admission        FAIL stated opportunity qualification  RESTRICT
+Offline EARLY candidate         PASS synthetic gate/lifecycle tests    RESTRICT
+Candidate warning refinement    PASS mechanics; quality unvalidated    RESTRICT
+Existing FINAL gates            PASS unchanged gate regression         KEEP FROZEN
+FINAL distance optimization     INSUFFICIENT causal holdout evidence    RESTRICT
+SCALP independence              PASS source regressions                KEEP FROZEN
+Incident quote/protection proof INCOMPLETE original journal evidence   RESTRICT
+Phase B cockpit / Chromium      PASS tested display/authority behavior PASS scoped
+WebKit / physical iPad          BLOCKED / NOT TESTED                    RESTRICT scope
+Production freeze              PASS                                   UNCHANGED
+
+No statistical strategy improvement is claimed. Review the isolated implementation
+and protocol, obtain bounded journal provenance, then validate the opportunity
+profile and the untouched FINAL comparison cohort. Complete isolated native
+integration/replay before requesting any production approval. The candidate is
+not ready to merge or deploy; a full release approval would be premature.
+
+Evidence and file map
+candidates/early_opportunity_20261011/qualification.py — new entry evidence gate.
+candidates/early_opportunity_20261011/lifecycle.py — offline reducer/coordination.
+candidates/early_opportunity_20261011/test_candidate.py — synthetic mechanism tests.
+audit/opportunity_integrity_20261011/final_distance_study.py — fixed comparison.
+test_final_distance_study.py — gate/statistical-accounting tests.
+final_distance_results.json — complete data inventory and unscorable comparisons.
+synthetic_lifecycle_trace.json — both-direction state sequences, no real trades.
+python-results.txt, scalp-results.txt, node-results.txt, chromium-results.json.
+invariants.json, production_identity.json, webkit-status.txt.
+VALIDATION_PROTOCOL.txt — evidence/calibration/promotion requirements.
+CHECKSUMS.sha256 — exact added-file bytes, excluding the checksum file itself.
+
+Official contextual references (not incident book evidence):
+https://help.kalshi.com/en/articles/13823838-crypto-markets
+https://docs.kalshi.com/getting_started/orderbook_responses
+The official guidance describes final-minute averaging and reciprocal binary
+quotes; later CF data can be revised, so original known-at receipts are needed.

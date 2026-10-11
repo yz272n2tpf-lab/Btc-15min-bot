@@ -1,0 +1,115 @@
+BTC15 fixed offline validation protocol — 2026-10-11
+Status: study design and tested evaluator; NO strategy promotion.
+
+Data acceptance
+1. Register a consecutive contract universe before opening its outcomes. Include
+   no-call contracts, outages, both directions and complete decision streams.
+   Split by contract/day, never random rows. Preserve a separate untouched final
+   evaluation set. Purge overlaps from fitting/calibration/horizon validation.
+2. Bind each exact native frame to deployment, build, model artifact/weights,
+   official contract/open/close/target, decision and publication timestamps,
+   source-known-at receipts, quote epoch/sid/sequence, BTC/BRTI source times,
+   causal features and fee metadata. Hash the original frame and data manifest.
+   Repeated polls are not independent observations. Reject conflicting duplicates.
+3. Preserve every original BRTI second and its receipt/revision history. At time
+   t use only receipts known at t. Do not backfill gaps with later CF revisions.
+   Samples must belong to [close-60,close), one value per second as then known.
+   Missing past observations are unknown, not extra future time. Respect the
+   exact official contract rounding/tie rules in model labels and evaluation.
+4. Join official finalized result/settlement receipts only as outcome labels,
+   never as predictors. Reject target/window conflicts and document exclusions.
+   Minute OHLC and selected-call tables cannot reconstruct executable quote age,
+   depth, publication authority or the original partial-settlement path.
+
+EARLY forecast/profile validation (currently missing)
+5. Pre-register the opportunity estimator, uncertainty method and horizon family
+   using development data. Its output must concern the SAME-SIDE liquidation BID
+   after an evidence-supported directional horizon, not the existing model fair.
+   Train/evaluate directly against timestamped quote paths, with fees and a
+   measured manual-execution reserve/latency budget. Ask-to-bid includes spread
+   crossing; additional reserve must not be represented as another actual fill.
+6. The family must represent larger directional opportunities, not short scalp
+   moves. The human-reviewed profile must exclude short-horizon scalp profiles.
+   Do not invent a universal contract-time cutoff or train on the 5-cent incident
+   alone. Four to seven minutes are examples, not a mandatory duration grid.
+7. Validate profitable-exit potential, loss tails, missing/depleted depth,
+   calibrated uncertainty, regime support, holding-path deterioration and
+   calibration drift. Estimates of a mean are not guarantees for an individual
+   trade. Verify coverage at legitimate early/middle/later portions of contracts.
+8. Pin the reviewed model/profile, validation report, horizon evidence and manual
+   execution evidence hashes. Complete validation before evaluation contracts
+   open. Supply exact frame-bound prediction receipts. A caller's 'validated'
+   boolean alone must not establish trust. The candidate registry is EMPTY by
+   default; only synthetic fixtures currently have explicit test trust.
+9. Test warnings on confidence-only noise, independent market deterioration,
+   partial-average challenges and plan expiry. Compare warning lead time,
+   warning/exit churn, premature exits and missed deterioration. Do not optimize
+   a new probability-drop threshold on the evaluation set. The proposed WATCH
+   corroboration/recovery rule has unit validation, not observed trading-quality
+   validation. Existing EXIT rules also require performance assessment; no
+   fixture pass establishes profitability or manual execution.
+10. Exercise multi-entry contract sequences with fresh evidence, quote continuity,
+    immutable prior BUY/EXIT history, invalidation then recovery and reversal.
+    Re-entry does not imply the user closed the prior manual position. Preserve
+    one recommendation owner and explicit original signal identity.
+
+FINAL preregistered comparisons — do not select a winner on evaluation outcomes
+11. Freeze model/90% probability gate, max eight-minute window, side agreement,
+    BRTI same-side gap >$11 and distance/range >=1 throughout the comparison.
+    Baseline is $75 for 6–8 minutes left, then $50. Test $40/$30/$20/$10 in the
+    $50 phase while retaining the $75 phase. Separately remove BOTH absolute
+    distance phases; this still preserves the relative distance/range gate.
+12. Study a settlement-aware supplement and replacement separately. Require a
+    prevalidated causal remaining-path distribution conditioned on observed
+    sum, missing seconds and uncertainty. A diagnostic break-even hurdle, latest
+    BRTI point or an eventual complete average is not a probability model.
+    Keep the original >=90% model gate; any proposed settlement-model threshold
+    needs a separate preregistered approval, not an optimized after-the-fact rule.
+    The current evaluator deliberately marks these alternatives unscorable
+    without validated settlement evidence.
+13. Primary unit: earliest qualified lock per contract per variant. Report UP
+    and DOWN separately. Report contradictory/reversed later locks separately,
+    without counting repeated polls as independent successes. Compare new
+    contract coverage AND earlier timing on commonly locked contracts; a variant
+    may change the side of the first call, so score each own first-call side.
+14. Report n, correct/incorrect, false-lock rate, accuracy uncertainty, Brier/log
+    loss, reliability by preregistered confidence bands, calibration slope,
+    lead time to close and usable authority duration. Stratify by time remaining
+    and volatility bins defined on development data. Include source outage and
+    all exclusion counts; do not select convenient examples.
+15. Wilson intervals are only descriptive independent-contract intervals. Use
+    paired day-block uncertainty for comparisons because decisions/contracts
+    share market conditions. Pre-register minimum effective sample sizes and
+    acceptable false-lock/calibration margins before opening the evaluation
+    set; the current task supplies no validated margins, so none are invented.
+16. Acceptance requires no unacceptable false-lock increase, calibrated new-call
+    cohorts, useful added/earlier calls and stable performance across regimes,
+    not merely a higher headline accuracy or more signals. If evidence remains
+    insufficient, retain current 75/50 and 90% gates.
+
+Available evidence and blockers
+92 repository CSVs were inventoried (78,233 overlapping rows); none contains a
+complete current native frame. Some are selected winner/call tables. The frozen
+model manifest identifies 331 fit, 133 calibration and 199 already-opened
+historical-evaluation contracts, not a fresh holdout. The 16,642-row direct-BRTI
+CSV has aggregates but not exact current native decisions/source receipts.
+No trusted EARLY opportunity forecast or settlement-aware FINAL model exists
+in the supplied evidence. Therefore this turn's statistical comparison has
+N=0 admissible complete untouched native frames for every alternative. N/A is
+reported for accuracy and false-lock rates; this is not a zero-failure claim.
+
+Incident export
+Available connected Railway capabilities expose logs/metadata, not a journal
+SQL/SSH snapshot reader. No consistent authorized production snapshot was
+provided. The existing bounded reader remains offline-only and was not run
+against /data. Do not use mode=ro as proof that live SQLite SHM is untouched.
+When a consistent authorized snapshot exists, use the existing 14:28–14:33 UTC
+reader with lane main/v81 and the exact deployment identity. Match original
+quote/source/decision/publication and protective latch rows by signal identity.
+Do not infer 70-cent provenance, fills or realized profit from compact history.
+
+Deployment gate
+Only after the missing evidence/profile validation and complete isolated native
+integration review can an exact release candidate be proposed. Obtain explicit
+production approval; no merge, deploy, configuration, order or volume action is
+authorized by this protocol. Protected production manifests are not rewritten.

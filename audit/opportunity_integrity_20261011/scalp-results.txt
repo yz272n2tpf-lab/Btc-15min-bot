@@ -1,0 +1,15 @@
+test_cost_room_and_fee_blocks_are_conditional (test_btc15_scalp_entry_restore.RestoredEntry.test_cost_room_and_fee_blocks_are_conditional) ... ok
+test_eight_serial_records_fit_existing_publication_limit (test_btc15_scalp_entry_restore.RestoredEntry.test_eight_serial_records_fit_existing_publication_limit) ... ok
+test_genuine_native_source_and_time_checks_still_apply (test_btc15_scalp_entry_restore.RestoredEntry.test_genuine_native_source_and_time_checks_still_apply) ... ok
+test_live_951_entry_cannot_reach_configured_risk_trigger (test_btc15_scalp_entry_restore.RestoredEntry.test_live_951_entry_cannot_reach_configured_risk_trigger) ... ok
+test_qualified_up_down_and_low_high_prices_reach_real_processor_buy (test_btc15_scalp_entry_restore.RestoredEntry.test_qualified_up_down_and_low_high_prices_reach_real_processor_buy) ... ok
+test_quiet_predecessor_keeps_history_without_recent_buy (test_btc15_scalp_entry_restore.RestoredEntry.test_quiet_predecessor_keeps_history_without_recent_buy) ... SIGNAL ORIGIN TRANSFER | {"active_origin_imported": false, "history_count": 1, "imported_at": 1791058802.0, "lane": "v81", "origin_id": null, "original_checkpoint_digest": "51677bf8743750de398e6d46da5fb95d7d5c16af3c87a23b6d9367ee8b7f62a7", "predecessor_build": "322ed2bdc5d0859a6f3f7824a9c3641f257d2a2e", "predecessor_deployment": "5171df0d-1134-4e1c-a338-f8a033b8a8f0", "publication_imported": false}
+SIGNAL PREDECESSOR TRANSITIONS | {"lane": "v81", "transitions": []}
+ok
+test_same_side_market_opposition_and_observation_not_forecast (test_btc15_scalp_entry_restore.RestoredEntry.test_same_side_market_opposition_and_observation_not_forecast) ... ok
+test_serial_reentry_reversal_restart_and_origin_binding (test_btc15_scalp_entry_restore.RestoredEntry.test_serial_reentry_reversal_restart_and_origin_binding) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.060s
+
+OK
