@@ -67,7 +67,7 @@ for(const side of ['up','down']){
   assert.equal(node('scalp-'+side+'-status').textContent,original['scalp-'+side+'-status'],'side explanation remains stable through expiry');
   assert.match(node('scalp-'+side+'-freshness').textContent,/LAST QUALIFIED.*historical.*no current authority/);
 }
-assert.equal(node('early-price').textContent,'');assert.equal(node('scalp-price').textContent,'');
+assert.match(node('early-price').textContent,/original ASK.*current executable BID unavailable/);assert.match(node('scalp-price').textContent,/current executable BID unavailable|No recorded BUY/);
 assert.equal(node('up-buy').textContent,'—');
 clearWrites();resolved=qualified;render();
 for(const name of ['final','early','scalp'])assert.equal(node(name+'-reason').writes.length,0,'same decision recovery must not rewrite explanation');
