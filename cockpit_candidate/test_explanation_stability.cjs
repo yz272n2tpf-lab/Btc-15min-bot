@@ -1,6 +1,6 @@
 /* Real renderer + unchanged native adapter. Test display writes, not a second strategy. */
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
-const adapter=require('./adapter.js'),nodes=new Map();
+const adapter=require('./adapter.js'),trade=require('./trade_records.js'),nodes=new Map();
 class Element {
   constructor(){this.children=[];this.dataset={};this.attributes={};this.writes=[];this.value='';this.open=false;}
   get textContent(){return this.value;}
@@ -25,7 +25,7 @@ for(const prefix of ['early','scalp-up','scalp-down']){
 }
 const document={getElementById:node,createElement:()=>new Element(),querySelector:s=>sides[s.includes('"UP"')?'UP':'DOWN']};
 let resolved,market,info,receiveMarket,receiveInfo;
-const window={BTC15SnapshotAdapter:adapter,
+const window={BTC15SnapshotAdapter:adapter,BTC15TradeRecords:trade,
   BTC15LadderOwner:{getResolvedView:()=>resolved},
   BTC15MarketViewOwner:{getResolvedView:()=>market,subscribe:f=>(receiveMarket=f,()=>{})},
   BTC15InformationOwner:{getResolvedView:()=>info,subscribe:f=>(receiveInfo=f,()=>{})},
