@@ -25,12 +25,28 @@ Two packaging defects were corrected, without changing strategy/runtime code:
   `d8d89249e1189e89e89bceae311ef026257bae447268c5bafc40495c39be492d`.
 - The cockpit hosting manifest still named the old conflict-explanation code;
   it now seals `trade_records.js` at
-  `d3cc1c18ff91b8690f6b085fe6eda760418ae4fb8595c4eed7d5f94ce8991892`.
+  `9163cd75a91c6f4cbf95de463d5869c39af2aeeeaa49f526adedfe03dbf9f181` after the display-only reconciliation below.
 
 The manifest workflow now checks the exact PR head, installs pinned dependencies,
 requires candidate/committed manifest byte equality, checks all cockpit hashes,
 and runs current authorization, journal restart, source and startup regressions.
-No safety assertion was removed. The broad workflow was not weakened.
+No strategy safety assertion was removed. The broad workflow was not weakened.
+
+Read-only control-plane inspection also found the dedicated cockpit at build
+4750954bbe1415712950a1b20db3bbf7a1c448aa (deployment
+2868eadc-e36b-41de-814b-1927572515c5), ahead of this branch in FINAL history and
+compact completed-EXIT display. Its stale “One BUY per contract” message and
+five EARLY action rows contradict the approved lifecycle. The candidate now
+preserves that deployed renderer, verified FINAL history owner, compact details
+and styles, while retaining the approved three EARLY states and distinct reentry.
+The exact new EXIT publication highlights once; completed recommendations retire
+to history and cannot create action authority. Existing conflict rejection is
+retained. Authentic candidate-native fixtures verify a second distinct BUY,
+prior history retention, three EARLY rows, WATCH/could-flip, expiry, rollover,
+100-render stability and unchanged SCALP states. Presentation assertions now
+follow the deployed compact UI; no source-expiry/origin-binding gate is relaxed.
+The dedicated read-only cockpit needs its own explicitly approved deployment
+of these sealed assets; a MAIN-only deployment cannot update that separate app.
 
 ## Strategy and history
 
@@ -99,7 +115,7 @@ Root causes, rather than baseline status alone, were inspected:
 
 Local release evidence: 96 focused Python tests passed (including five new
 release/startup/journal checks), seven additional protected-boundary and native
-independence tests passed, all three cockpit Node suites passed, all 16 cockpit
+independence tests passed, all four cockpit Node suites passed, all 16 cockpit
 package checksums passed, and the actual committed MAIN release verifier passed.
 The five new gates include tampered-file rejection, missing-approval rejection,
 all startup identity mismatches, synthetic actual RevisionJournal transfer,
@@ -163,8 +179,13 @@ runtime source configuration have NOT been verified in this session.
    current MAIN maintenance start command. No historical backup campaign.
 3. Re-read MAIN deployment, volume and the four-field shadow patch. Freeze those
    observations into the deployment receipt; abort on identity drift.
-4. Obtain explicit approval for MAIN activation with this exact commit and
-   manifest. Obtain any separate cockpit approval if its release is needed.
+4. Obtain explicit approval for MAIN activation and the separate read-only
+   cockpit display update with this exact commit and manifest. Deploy the
+   cockpit assets first while MAIN is still in maintenance; preserve its
+   /cockpit_candidate root, existing build/start commands, host variables and
+   /index.html healthcheck. Confirm history-only maintenance display and all
+   exact package hashes before authorizing the MAIN step. If the cockpit gate
+   fails, roll it back to 4750954 and leave MAIN in maintenance.
 5. Use a MAIN-only configuration update (explicit environment, staged=false),
    which takes effect on its next deployment; do not accept any environment
    patch. Read back the exact startup command and unchanged volume/patch.
@@ -172,7 +193,9 @@ runtime source configuration have NOT been verified in this session.
    connector's live connect affects that service in all environments: first
    prove MAIN has no other environment instance, or use an authenticated
    environment-scoped deployment route. Do not execute a global source change
-   while that scope remains unverified. Never deploy a moving branch head.
+   while that scope remains unverified. The current list-services inspection confirms this
+   project has only the production environment; recheck immediately before the
+   authorized source connect. Never deploy a moving branch head.
 7. Observe deployment SUCCESS and runtime build/manifest/volume/deployment
    identity. Capture the newly assigned deployment UUID; do not pre-invent it.
    Confirm only native/dashboard/information owners, signal_only=true,
@@ -222,8 +245,10 @@ redeployment. No data restore, volume detach or history deletion is a rollback.
 ## Release decision
 
 BLOCKED for production activation pending read-only verification of actual
-production variable values/source configuration and environment-scoped cutover
-routing. Final candidate CI must also complete after this preparation commit.
+production variable values/source configuration and current storage headroom.
+Environment scope was verified as production-only. Final candidate CI must also
+complete after this preparation commit. Dedicated cockpit deployment is a
+separate, explicit part of the future approval scope.
 The safest next step is scoped read-only inspection, not a restart, deployment,
 backup rerun, strategy retune or broad research campaign. Then obtain explicit
 production approval. No production operation is authorized by this report.

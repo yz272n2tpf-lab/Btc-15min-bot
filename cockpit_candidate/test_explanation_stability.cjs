@@ -18,10 +18,10 @@ class Element {
 const node=id=>{if(!nodes.has(id))nodes.set(id,new Element());return nodes.get(id);};
 const sides={UP:new Element(),DOWN:new Element()},panel=new Element();
 panel.append(node('scalp-heading'),node('scalp-guidance'),sides.UP,sides.DOWN);
-for(const prefix of ['early','scalp-up','scalp-down']){
+for(const prefix of ['early','scalp']){
   const ol=node(prefix+'-ladder');ol.tagName='OL';
-  for(const rung of ['entry','hold','watch','protect','exit']){const li=new Element();li.dataset.rung=rung;ol.append(li);}
-  if(prefix!=='early')sides[prefix.endsWith('up')?'UP':'DOWN'].append(ol);
+  for(const rung of (prefix==='early'?['entry','watch','exit']:['entry','hold','watch','protect','exit'])){const li=new Element();li.dataset.rung=rung;ol.append(li);}
+  if(prefix!=='early')sides.UP.append(ol);
 }
 const document={getElementById:node,createElement:()=>new Element(),querySelector:s=>sides[s.includes('"UP"')?'UP':'DOWN']};
 let resolved,market,info,receiveMarket,receiveInfo;
@@ -46,10 +46,10 @@ function setSample(sample){
 const render=()=>window.BTC15Cockpit.renderResolved(resolved);
 const clearWrites=()=>{for(const e of nodes.values())e.writes=[];};
 const noCurrentBuy=name=>{
-  assert.doesNotMatch(node(name+'-action').textContent,/CURRENT ACTIONABLE SIGNAL|BUY ISSUED ·|EARLY CALL · BUY/);
+  assert.doesNotMatch(node(name+'-action').textContent,/CURRENT ACTIONABLE SIGNAL|BUY ISSUED|EARLY CALL · BUY/);
   assert.doesNotMatch(node(name+'-price').textContent,/current same-side BID/);
 };
-const noRungs=()=>{for(const p of ['early','scalp-up','scalp-down'])
+const noRungs=()=>{for(const p of ['early','scalp'])
   assert.ok(node(p+'-ladder').children.every(e=>!e.attributes['aria-current']),p+' must not show active rung');};
 // Current issued record is stable across 100 renders.
 setSample(samples[3]);render();
@@ -66,11 +66,11 @@ for(const lane of Object.values(resolved.lanes)){
 render();
 assert.equal(node('final-reason').textContent,originalFinal);
 assert.equal(node('final-reason').dataset.displayState,'retained');
-assert.match(node('final-freshness').textContent,/LAST QUALIFIED.*historical/);
+assert.match(node('final-freshness').textContent,/no current call authority/);
 for(const name of ['early','scalp']){
   noCurrentBuy(name);
-  assert.match(node(name+'-freshness').textContent,/no current action authority/);
-  assert.match(node(name+'-price').textContent,/original ASK.*current executable BID unavailable/);
+  assert.match(node(name+'-freshness').textContent,/no current action or executable price|no executable price/);
+  assert.match(node(name+'-price').textContent,/original ASK/);
 }
 noRungs();
 // Recovery cannot create a second entry or cause repeated explanation writes.
@@ -84,7 +84,7 @@ resolved.lanes.main.current_payload=structuredClone(resolved.lanes.main.current_
 resolved.lanes.main.current_payload.final.helper.origin_id='WRONG';render();
 assert.match(node('early-reason').textContent,/Conflicting origin binding; current action unavailable/);
 noCurrentBuy('early');
-assert.match(node('early-price').textContent,/current executable BID unavailable/);
+assert.match(node('early-freshness').textContent,/no executable price/);
 assert.ok(node('early-ladder').children.every(e=>!e.attributes['aria-current']));
 // Contract rollover cannot retain action authority or same-contract explanations.
 setSample(samples[3]);render();
@@ -101,8 +101,11 @@ for(const sample of samples){
   for(const [name,laneName] of [['early','main'],['scalp','scalp']]){
     const lane=resolved.lanes[laneName];
     const t=window.BTC15TradeRecords.project(lane,resolved.identity,name);
-    assert.equal(node(name+'-action').textContent,t.state+(t.current?' · '+(t.entry?'BUY ISSUED':t.management):''),
-      sample.label+' issued-record action');
+    if(t.entry)assert.equal(node(name+'-action').textContent,'BUY ISSUED',sample.label);
+    else if(t.current)assert.match(node(name+'-action').textContent,name==='early'?/^WATCH(?: · COULD FLIP)?$/:/^(HOLD|WATCH|PROTECT|CAUTION)(?: · CAUTION)?$/,sample.label);
+    else if(t.newExit)assert.match(node(name+'-action').textContent,/^EXIT — /,sample.label);
+    else if(name==='early'&&t.completed)assert.equal(node(name+'-action').textContent,'NO ACTIVE EARLY TRADE — PREVIOUS SIGNAL EXITED',sample.label);
+    else assert.doesNotMatch(node(name+'-action').textContent,/BUY ISSUED|^WATCH|^HOLD|^PROTECT|^EXIT — /,sample.label);
     if(!t.current){
       assert.doesNotMatch(node(name+'-price').textContent,/current same-side BID/);
       if(!t.completed)assert.doesNotMatch(node(name+'-action').textContent,/CURRENT ACTIONABLE SIGNAL/);

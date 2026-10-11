@@ -12,7 +12,7 @@ class Element{
 }
 const node=id=>{if(!nodes.has(id))nodes.set(id,new Element());return nodes.get(id);};
 const panel=new Element();panel.append(node('scalp-heading'),node('scalp-guidance'));
-for(const prefix of ['early','scalp-up','scalp-down'])for(const rung of ['entry','hold','watch','protect','exit']){const e=new Element();e.dataset.rung=rung;node(prefix+'-ladder').append(e);}
+for(const prefix of ['early','scalp'])for(const rung of (prefix==='early'?['entry','watch','exit']:['entry','hold','watch','protect','exit'])){const e=new Element();e.dataset.rung=rung;node(prefix+'-ladder').append(e);}
 const document={getElementById:node,createElement:()=>new Element()};let resolved;
 const window={BTC15SnapshotAdapter:adapter,BTC15TradeRecords:trade,BTC15LadderOwner:{getResolvedView:()=>resolved},BTC15CockpitLive:{connect:()=>()=>{}},BTC15MarketViewOwner:{getResolvedView:()=>null,subscribe:()=>()=>{}},BTC15InformationOwner:{getResolvedView:()=>null,subscribe:()=>()=>{}}};
 vm.runInNewContext(fs.readFileSync(__dirname+'/cockpit.js','utf8'),{window,document,console,performance:{now:()=>1000}});
@@ -25,25 +25,78 @@ from test_btc15_trade_clarity import scalp_origin
 from test_btc15_scalp_journal_v1 import state,ENTRY
 from btc15_v2_product import ENVELOPE,REVISION
 out={};e=Directional();e.restore({})
-for name,f in [('entry',value_frame()),('hold',value_frame(2)),('exit',value_frame(3,side='DOWN',p=.6))]:
+for name,f in [('entry',value_frame()),('hold',value_frame(2)),('exit',value_frame(3,side='DOWN',p=.6)),('reset',value_frame(4,ask=.99,p=.995)),('reentry',value_frame(5))]:
  _,_,v=step(e,f);v.update(signal_only=True,orders=False,official_identity={k:v[k]for k in ('contract','target','official_open','official_close')});out[name]=v
 s,o=scalp_origin();_,_,v=s.process(state(ENTRY+1,.7,2),ENTRY+1.001);v['official_identity']={k:v[k] for k in ('contract','target','official_open','official_close')};out['scalp']=v
 print(json.dumps(out))
 `],{cwd:__dirname+'/..',encoding:'utf8'}));
 function show(m,s=null){resolved={identity:m.official_identity,lanes:{main:{eligible:true,current_payload:m,retained_payload:m,issued_records:m.trade_clarity},scalp:{eligible:!!s,current_payload:s,retained_payload:s,issued_records:s?.trade_clarity},quote:{eligible:false}}};return window.BTC15Cockpit.renderResolved(resolved);}
-show(data.entry);assert.match(node('early-action').textContent,/CURRENT ACTIONABLE SIGNAL.*BUY ISSUED/);assert.match(node('early-price').textContent,/53.00/);
-show(data.hold);assert.match(node('early-action').textContent,/EXISTING SIGNAL UNDER MANAGEMENT/);assert.match(node('early-price').textContent,/original ASK 53.00/);
+show(data.entry);assert.match(node('early-action').textContent,/BUY ISSUED/);assert.match(node('early-price').textContent,/53¢/);
+show(data.hold);assert.match(node('early-action').textContent,/WATCH/);assert.match(node('early-price').textContent,/original ASK 53¢/);
 const originalReason=node('early-reason').textContent;
 resolved.lanes.main.eligible=false;resolved.lanes.main.current_payload=null;window.BTC15Cockpit.renderResolved(resolved);
-assert.match(node('early-action').textContent,/SOURCE REFRESHING/);assert.match(node('early-price').textContent,/original ASK 53.00.*unavailable/);assert.equal(node('early-reason').textContent,originalReason);
+assert.match(node('early-action').textContent,/SOURCE REFRESHING/);assert.match(node('early-price').textContent,/original ASK 53¢/);assert.match(node('early-reason').textContent,/Current action unavailable/);assert.match(node('early-freshness').textContent,/no executable price/);
 for(const e of nodes.values())e.writes=[];
 for(let i=0;i<100;i++)window.BTC15Cockpit.renderResolved(resolved);
 for(const id of ['early-action','early-price','early-reason','early-direction','scalp-action','scalp-price'])assert.equal(node(id).writes.length,0,id+' flickers');
-show(data.exit);assert.match(node('early-action').textContent,/EXIT RECOMMENDED — AWAIT FRESH QUALIFIED BUY/);assert.equal(node('early-direction').textContent,'UP');assert.match(node('early-exit-record').textContent,/observed trigger BID/);
+show(data.exit);assert.match(node('early-action').textContent,/EXIT — UP/);assert.equal(node('early-direction').textContent,'UP');assert.match(node('early-exit-record').textContent,/observed trigger BID/);
+assert.equal(node('early-ladder').children.find(x=>x.dataset.rung==='exit').attributes['aria-current'],'step');
+const completed=structuredClone(data.exit);completed.management.new_exit=false;completed.published_ts+=2;
+show(completed);assert.equal(node('early-action').textContent,'NO ACTIVE EARLY TRADE — PREVIOUS SIGNAL EXITED');
+assert.equal(node('early-direction').textContent,'No active signal');assert.equal(node('early-price').textContent,'');
+assert.equal(node('early-entry').textContent,'No active BUY');assert.equal(node('early-exit').textContent,'Previous EXIT recorded');
+assert.match(node('early-potential').textContent,/POTENTIAL.*NOT AN ISSUED BUY/);
+assert.match(node('early-issued').children.map(r=>r.children[1].textContent).join(' '),/53.00¢/);
+assert.match(node('early-exit-record').textContent,/observed trigger BID/);
+for(const e of nodes.values())e.writes=[];
+for(let i=0;i<100;i++)window.BTC15Cockpit.renderResolved(resolved);
+for(const id of ['early-action','early-price','early-reason','early-direction','early-exit','early-entry'])assert.equal(node(id).writes.length,0,id+' completed display flickers');
+resolved.lanes.main.eligible=false;resolved.lanes.main.current_payload=null;window.BTC15Cockpit.renderResolved(resolved);
+assert.match(node('early-action').textContent,/NO ACTIVE EARLY/);assert.equal(node('early-potential').textContent,'');
+assert.doesNotMatch(node('early-reason').textContent,/close at an available/);
+assert.match(node('early-management').textContent,/Recorded trigger scenario/);
+assert.doesNotMatch(fs.readFileSync(__dirname+'/index.html','utf8'),/id="scalp-(up|down)-ladder"/);
 assert.ok(node('early-ladder').children.every(x=>!x.attributes['aria-current']));
 const rolled={...data.hold,official_identity:{...data.hold.official_identity,contract:'NEXT',official_open:data.hold.official_close,official_close:data.hold.official_close+900},origin:null};
 show(rolled);assert.match(node('early-action').textContent,/HISTORICAL/);assert.match(node('early-direction').textContent,/historical/);
-show(data.hold,data.scalp);assert.match(node('scalp-action').textContent,/EXISTING SIGNAL UNDER MANAGEMENT/);assert.match(node('scalp-economics').textContent,/net liquidation/);
-const broken=structuredClone(data.hold);broken.final.helper.origin_id='wrong';show(broken);assert.doesNotMatch(node('early-action').textContent,/CURRENT ACTIONABLE|EXISTING SIGNAL UNDER MANAGEMENT/);
-const legacy=structuredClone(data.hold);delete legacy.trade_clarity;show(legacy);assert.match(node('early-price').textContent,/original ASK 53.00/);
+show(data.hold,data.scalp);assert.match(node('scalp-action').textContent,/HOLD|WATCH|PROTECT/);assert.match(node('scalp-economics').textContent,/net liquidation/);
+const broken=structuredClone(data.hold);broken.final.helper.origin_id='wrong';show(broken);assert.doesNotMatch(node('early-action').textContent,/BUY ISSUED|HOLD|WATCH|PROTECT/);
+const legacy=structuredClone(data.hold);delete legacy.trade_clarity;show(legacy);assert.match(node('early-price').textContent,/original ASK 53¢/);
+const example=structuredClone(data.hold);
+example.final={...example.final,side:'DOWN',confidence:.844,ready:false,lock_state:'UNLOCKED',state:'PASS'};
+const c=example.opportunity_analysis.candidates.find(c=>c.side==='DOWN');
+c.ask=.92;c.bid=.91;c.fair=.844;c.economics={...c.economics,valid_book:true,series_fee_verified:true,net_model_ev_scenario:-.086,stress_net_model_ev_scenario:-.096};
+show(example);assert.equal(node('final-probability').textContent,'84.4%');assert.match(node('final-summary').textContent,/PASS.*below 90%/);assert.match(node('final-value').textContent,/PASS.*92¢/);assert.match(node('final-market').textContent,/DOWN.*92¢/);
+assert.match(node('early-entry').textContent,/BUY UP.*53¢/);
+assert.ok(node('early-ladder').children.some(x=>x.attributes['aria-current']==='step'));
+const call={official_identity:example.official_identity,published_ts:example.published_ts,side:'UP',confidence:.95,publication_id:'a'.repeat(64),action_authority:false};
+resolved.lanes.main.verified_final_call=call;resolved.lanes.main.verified_final_decision={...call,state:'FINAL_CALL'};
+resolved.lanes.main.eligible=false;resolved.lanes.main.current_payload=null;
+window.BTC15Cockpit.renderResolved(resolved);
+assert.equal(node('final-action').textContent,'LAST VERIFIED FINAL CALL — HISTORICAL');
+assert.match(node('final-summary').textContent,/UP.*95.0%.*no current lock/);
+assert.equal(node('final-freshness').textContent,'LIVE SOURCE REFRESHING — NO CURRENT CALL AUTHORITY');
+assert.doesNotMatch(node('final-market').textContent,/92¢/);assert.doesNotMatch(node('final-value').textContent,/Positive model value/);
+assert.doesNotMatch(node('final-probability').textContent,/95/,'historical probability never occupies the current estimate');
+for(const e of nodes.values())e.writes=[];
+for(let i=0;i<100;i++)window.BTC15Cockpit.renderResolved(resolved);
+for(const id of ['final-action','final-summary','final-freshness'])assert.equal(node(id).writes.length,0,id+' historical display flickers');
+resolved.lanes.main.eligible=true;resolved.lanes.main.current_payload=example;window.BTC15Cockpit.renderResolved(resolved);
+assert.equal(node('final-action').textContent,'PASS','fresh PASS overrides the retained call');
+resolved.lanes.main.verified_final_decision={...call,state:'PASS',published_ts:call.published_ts+1};
+resolved.lanes.main.eligible=false;resolved.lanes.main.current_payload=null;window.BTC15Cockpit.renderResolved(resolved);
+assert.equal(node('final-action').textContent,'LAST VERIFIED FINAL DECISION — PASS','a subsequent gap does not resurrect the superseded call');
+resolved.identity={...example.official_identity,contract:'NEXT'};window.BTC15Cockpit.renderResolved(resolved);
+assert.doesNotMatch(node('final-action').textContent,/LAST VERIFIED/);assert.equal(node('final-call-history').children.length,0);
+const html=fs.readFileSync(__dirname+'/index.html','utf8');
+for(const name of ['early','scalp']){assert.match(html,new RegExp('id="'+name+'-ladder"'));assert.match(html,new RegExp('<details class="trade-details" id="'+name+'-trade-details">'));}
+assert.doesNotMatch(html,/<details[^>]*\sopen(?:[\s=>])/);
 console.log('PASS: native BUY/HOLD/gap/EXIT/rollover, legacy compatibility, origin binding, net scenario, and 100 stable repeated DOM renders');
+
+assert.doesNotMatch(html,/id="early-(hold|protect)"/);
+assert.doesNotMatch(fs.readFileSync(__dirname+'/cockpit.js','utf8'),/One BUY per contract/);
+show(data.hold);assert.equal(node('early-action').textContent,'WATCH');assert.equal(node('early-ladder').children.find(x=>x.dataset.rung==='watch').attributes['aria-current'],'step');
+
+show(data.reentry);assert.equal(node('early-action').textContent,'BUY ISSUED');assert.notEqual(data.reentry.origin.origin_id,data.entry.origin.origin_id);assert.equal(data.reentry.trade_clarity.records.length,2);assert.match(node('early-issued').children.map(r=>r.children[1].textContent).join(' '),new RegExp(data.reentry.origin.origin_id));assert.match(node('early-signal-history').children.map(r=>r.children[1].textContent).join(' '),new RegExp(data.entry.origin.origin_id));assert.ok(node('early-ladder').children.find(x=>x.dataset.rung==='entry').attributes['aria-current']);
+const warning=structuredClone(data.hold);warning.early.guidance='PROTECT';warning.final.helper.state='PROTECT';show(warning);assert.equal(node('early-action').textContent,'WATCH · COULD FLIP');assert.ok(node('early-ladder').children.find(x=>x.dataset.rung==='watch').attributes['aria-current']);
+console.log('PASS: three EARLY rows, distinct second BUY/history, WATCH could flip, independent deployed FINAL history');

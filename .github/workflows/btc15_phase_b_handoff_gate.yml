@@ -15,6 +15,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -29,6 +31,7 @@ jobs:
           node cockpit_candidate/test_trade_records.cjs
           node cockpit_candidate/test_source_display.cjs
           node cockpit_candidate/test_explanation_stability.cjs
+          node cockpit_candidate/test_final_retention.cjs
       - name: Verify historical snapshot gate syntax
         run: python -m py_compile verify_btc15_handoff_snapshot_gate.py
 # This CI gate is offline only. Real private SQLite snapshot verification
