@@ -1,0 +1,94 @@
+{
+  "summary": {
+    "input_contracts": 4,
+    "observations": 1404,
+    "proposals": 0,
+    "entry_contracts": 0,
+    "entry_ask_cents": {
+      "n": 0,
+      "min": null,
+      "mean": null,
+      "median": null,
+      "max": null
+    },
+    "delayed_entry_ask_cents": {
+      "n": 0,
+      "min": null,
+      "mean": null,
+      "median": null,
+      "max": null
+    },
+    "delayed_valid": 0,
+    "canceled_before_manual_entry": 0,
+    "cancellation_reasons": {},
+    "complete": 0,
+    "independent_complete_contracts": 0,
+    "unresolved_valid_entries": 0,
+    "censor_reasons": {},
+    "positive": 0,
+    "negative_or_zero": 0,
+    "mean_net_cents": null,
+    "contract_mean_net_cents": null,
+    "bootstrap_95_cents": [
+      null,
+      null
+    ],
+    "directional_correct": 0,
+    "by_side": {
+      "UP": {
+        "proposals": 0,
+        "complete": 0,
+        "positive": 0,
+        "directional_correct": 0,
+        "mean_net_cents": null
+      },
+      "DOWN": {
+        "proposals": 0,
+        "complete": 0,
+        "positive": 0,
+        "directional_correct": 0,
+        "mean_net_cents": null
+      }
+    },
+    "watch_events": 0,
+    "watch_recoveries": 0,
+    "max_watch_per_origin": 0,
+    "median_watch_lead_seconds": null,
+    "first_watch_quotes": [],
+    "post_exit_30s": [],
+    "later_bid_higher": 0,
+    "post_exit_n": 0,
+    "multiple_entry_contracts": {},
+    "min_entry_remaining": null,
+    "exact_transferred_tier1_first_predicates": {},
+    "canceled_scenario_diagnostic": {
+      "n": 0,
+      "positive": 0,
+      "mean_net_cents": null
+    },
+    "rejections": {
+      "TIER1_PRICE": 1381,
+      "TIER1_CONFIDENCE": 605,
+      "TIER1_MODEL_EDGE": 1236,
+      "TIER1_WINDOW": 610,
+      "TIER1_ABSOLUTE_GAP": 318,
+      "PROTECTION_HISTORY": 67
+    }
+  },
+  "policy": "tier1_transferred",
+  "manual_seconds": 10,
+  "episodes": [],
+  "events": [],
+  "rejections": {
+    "TIER1_PRICE": 1381,
+    "TIER1_CONFIDENCE": 605,
+    "TIER1_MODEL_EDGE": 1236,
+    "TIER1_WINDOW": 610,
+    "TIER1_ABSOLUTE_GAP": 318,
+    "PROTECTION_HISTORY": 67
+  },
+  "statuses": {
+    "PASS": 1404
+  },
+  "invalidations": []
+}

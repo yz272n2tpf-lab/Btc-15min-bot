@@ -1,0 +1,355 @@
+{
+  "frozen_policy_changed": false,
+  "results": {
+    "unified_value": {
+      "input_contracts": 4,
+      "observations": 1404,
+      "proposals": 0,
+      "entry_contracts": 0,
+      "entry_ask_cents": {
+        "n": 0,
+        "min": null,
+        "mean": null,
+        "median": null,
+        "max": null
+      },
+      "delayed_entry_ask_cents": {
+        "n": 0,
+        "min": null,
+        "mean": null,
+        "median": null,
+        "max": null
+      },
+      "delayed_valid": 0,
+      "canceled_before_manual_entry": 0,
+      "cancellation_reasons": {},
+      "complete": 0,
+      "independent_complete_contracts": 0,
+      "unresolved_valid_entries": 0,
+      "censor_reasons": {},
+      "positive": 0,
+      "negative_or_zero": 0,
+      "mean_net_cents": null,
+      "contract_mean_net_cents": null,
+      "bootstrap_95_cents": [
+        null,
+        null
+      ],
+      "directional_correct": 0,
+      "by_side": {
+        "UP": {
+          "proposals": 0,
+          "complete": 0,
+          "positive": 0,
+          "directional_correct": 0,
+          "mean_net_cents": null
+        },
+        "DOWN": {
+          "proposals": 0,
+          "complete": 0,
+          "positive": 0,
+          "directional_correct": 0,
+          "mean_net_cents": null
+        }
+      },
+      "watch_events": 0,
+      "watch_recoveries": 0,
+      "max_watch_per_origin": 0,
+      "median_watch_lead_seconds": null,
+      "first_watch_quotes": [],
+      "post_exit_30s": [],
+      "later_bid_higher": 0,
+      "post_exit_n": 0,
+      "multiple_entry_contracts": {},
+      "min_entry_remaining": null,
+      "exact_transferred_tier1_first_predicates": {},
+      "canceled_scenario_diagnostic": {
+        "n": 0,
+        "positive": 0,
+        "mean_net_cents": null
+      },
+      "rejections": {
+        "CAUSAL_30S_HISTORY_UNAVAILABLE": 67,
+        "MODEL_DIRECTION": 557,
+        "CURRENT_BTC_BRTI_SUPPORT": 127,
+        "SHORT_PATH_EFFICIENCY": 759,
+        "MODEL_DISAGREEMENT_MARGIN": 1259,
+        "FRESH_DIRECTIONAL_IMPULSE": 655,
+        "NO_MATERIAL_QUOTE_REVERSAL": 357,
+        "EXCEPTIONAL_DIRECTION": 58,
+        "VALUE_PRICE": 1147,
+        "ENTRY_RUNWAY": 241,
+        "FINITE_RESALE_CAPACITY": 147,
+        "SPREAD": 2
+      }
+    },
+    "tier1_transferred": {
+      "input_contracts": 4,
+      "observations": 1404,
+      "proposals": 0,
+      "entry_contracts": 0,
+      "entry_ask_cents": {
+        "n": 0,
+        "min": null,
+        "mean": null,
+        "median": null,
+        "max": null
+      },
+      "delayed_entry_ask_cents": {
+        "n": 0,
+        "min": null,
+        "mean": null,
+        "median": null,
+        "max": null
+      },
+      "delayed_valid": 0,
+      "canceled_before_manual_entry": 0,
+      "cancellation_reasons": {},
+      "complete": 0,
+      "independent_complete_contracts": 0,
+      "unresolved_valid_entries": 0,
+      "censor_reasons": {},
+      "positive": 0,
+      "negative_or_zero": 0,
+      "mean_net_cents": null,
+      "contract_mean_net_cents": null,
+      "bootstrap_95_cents": [
+        null,
+        null
+      ],
+      "directional_correct": 0,
+      "by_side": {
+        "UP": {
+          "proposals": 0,
+          "complete": 0,
+          "positive": 0,
+          "directional_correct": 0,
+          "mean_net_cents": null
+        },
+        "DOWN": {
+          "proposals": 0,
+          "complete": 0,
+          "positive": 0,
+          "directional_correct": 0,
+          "mean_net_cents": null
+        }
+      },
+      "watch_events": 0,
+      "watch_recoveries": 0,
+      "max_watch_per_origin": 0,
+      "median_watch_lead_seconds": null,
+      "first_watch_quotes": [],
+      "post_exit_30s": [],
+      "later_bid_higher": 0,
+      "post_exit_n": 0,
+      "multiple_entry_contracts": {},
+      "min_entry_remaining": null,
+      "exact_transferred_tier1_first_predicates": {},
+      "canceled_scenario_diagnostic": {
+        "n": 0,
+        "positive": 0,
+        "mean_net_cents": null
+      },
+      "rejections": {
+        "TIER1_PRICE": 1381,
+        "TIER1_CONFIDENCE": 605,
+        "TIER1_MODEL_EDGE": 1236,
+        "TIER1_WINDOW": 610,
+        "TIER1_ABSOLUTE_GAP": 318,
+        "PROTECTION_HISTORY": 67
+      }
+    },
+    "condition_v1": {
+      "input_contracts": 4,
+      "observations": 1404,
+      "proposals": 2,
+      "entry_contracts": 2,
+      "entry_ask_cents": {
+        "n": 2,
+        "min": 71.0,
+        "mean": 73.0,
+        "median": 73.0,
+        "max": 75.0
+      },
+      "delayed_entry_ask_cents": {
+        "n": 0,
+        "min": null,
+        "mean": null,
+        "median": null,
+        "max": null
+      },
+      "delayed_valid": 0,
+      "canceled_before_manual_entry": 2,
+      "cancellation_reasons": {
+        "MODEL_SUPPORT": 1,
+        "MULTISCALE_MOMENTUM": 2,
+        "QUOTE_CONFIRMATION": 1
+      },
+      "complete": 0,
+      "independent_complete_contracts": 0,
+      "unresolved_valid_entries": 0,
+      "censor_reasons": {
+        "MANUAL_BUY_INVALIDATED": 2
+      },
+      "positive": 0,
+      "negative_or_zero": 0,
+      "mean_net_cents": null,
+      "contract_mean_net_cents": null,
+      "bootstrap_95_cents": [
+        null,
+        null
+      ],
+      "directional_correct": 0,
+      "by_side": {
+        "UP": {
+          "proposals": 1,
+          "complete": 0,
+          "positive": 0,
+          "directional_correct": 0,
+          "mean_net_cents": null
+        },
+        "DOWN": {
+          "proposals": 1,
+          "complete": 0,
+          "positive": 0,
+          "directional_correct": 0,
+          "mean_net_cents": null
+        }
+      },
+      "watch_events": 4,
+      "watch_recoveries": 2,
+      "max_watch_per_origin": 3,
+      "median_watch_lead_seconds": 126.73586058616638,
+      "first_watch_quotes": [
+        {
+          "origin": "477e281fa87fc3df8a47025df7972b39e30c950eadb4dc12fd16ef4367fd0a68",
+          "time": 1791735598.377554,
+          "bid": 0.75,
+          "gross_vs_original_ask": 0.0
+        },
+        {
+          "origin": "834680b56ea766d607f78b838f26645a8fc10174606e1ba0fc30d126b92c3d5f",
+          "time": 1791737608.971073,
+          "bid": 0.56,
+          "gross_vs_original_ask": -0.1499999999999999
+        }
+      ],
+      "post_exit_30s": [
+        {
+          "origin": "477e281fa87fc3df8a47025df7972b39e30c950eadb4dc12fd16ef4367fd0a68",
+          "bid": 0.63,
+          "higher": true
+        },
+        {
+          "origin": "834680b56ea766d607f78b838f26645a8fc10174606e1ba0fc30d126b92c3d5f",
+          "bid": 0.903,
+          "higher": true
+        }
+      ],
+      "later_bid_higher": 2,
+      "post_exit_n": 2,
+      "multiple_entry_contracts": {},
+      "min_entry_remaining": 414.44,
+      "exact_transferred_tier1_first_predicates": {},
+      "canceled_scenario_diagnostic": {
+        "n": 2,
+        "positive": 1,
+        "mean_net_cents": -12.0
+      },
+      "rejections": {
+        "CAUSAL_120S_HISTORY_UNAVAILABLE": 225,
+        "MODEL_SUPPORT": 248,
+        "BTC_BRTI_ALIGNMENT": 92,
+        "DIRECTIONAL_PERSISTENCE": 647,
+        "CONFIRMING_NEW_SETUP": 24,
+        "MULTISCALE_MOMENTUM": 503,
+        "QUOTE_CONFIRMATION": 305,
+        "PRICE_AND_SPREAD": 466,
+        "ENTRY_RUNWAY": 93,
+        "FINITE_PRICE_HEADROOM": 120
+      }
+    },
+    "economically_admitted": {
+      "input_contracts": 4,
+      "observations": 1404,
+      "proposals": 0,
+      "entry_contracts": 0,
+      "entry_ask_cents": {
+        "n": 0,
+        "min": null,
+        "mean": null,
+        "median": null,
+        "max": null
+      },
+      "delayed_entry_ask_cents": {
+        "n": 0,
+        "min": null,
+        "mean": null,
+        "median": null,
+        "max": null
+      },
+      "delayed_valid": 0,
+      "canceled_before_manual_entry": 0,
+      "cancellation_reasons": {},
+      "complete": 0,
+      "independent_complete_contracts": 0,
+      "unresolved_valid_entries": 0,
+      "censor_reasons": {},
+      "positive": 0,
+      "negative_or_zero": 0,
+      "mean_net_cents": null,
+      "contract_mean_net_cents": null,
+      "bootstrap_95_cents": [
+        null,
+        null
+      ],
+      "directional_correct": 0,
+      "by_side": {
+        "UP": {
+          "proposals": 0,
+          "complete": 0,
+          "positive": 0,
+          "directional_correct": 0,
+          "mean_net_cents": null
+        },
+        "DOWN": {
+          "proposals": 0,
+          "complete": 0,
+          "positive": 0,
+          "directional_correct": 0,
+          "mean_net_cents": null
+        }
+      },
+      "watch_events": 0,
+      "watch_recoveries": 0,
+      "max_watch_per_origin": 0,
+      "median_watch_lead_seconds": null,
+      "first_watch_quotes": [],
+      "post_exit_30s": [],
+      "later_bid_higher": 0,
+      "post_exit_n": 0,
+      "multiple_entry_contracts": {},
+      "min_entry_remaining": null,
+      "exact_transferred_tier1_first_predicates": {},
+      "canceled_scenario_diagnostic": {
+        "n": 0,
+        "positive": 0,
+        "mean_net_cents": null
+      },
+      "rejections": {
+        "CAUSAL_30S_HISTORY_UNAVAILABLE": 67,
+        "MODEL_DIRECTION": 557,
+        "CURRENT_BTC_BRTI_SUPPORT": 127,
+        "SHORT_PATH_EFFICIENCY": 759,
+        "MODEL_DISAGREEMENT_MARGIN": 1259,
+        "FRESH_DIRECTIONAL_IMPULSE": 655,
+        "NO_MATERIAL_QUOTE_REVERSAL": 357,
+        "EXCEPTIONAL_DIRECTION": 58,
+        "VALUE_PRICE": 1147,
+        "ENTRY_RUNWAY": 241,
+        "FINITE_RESALE_CAPACITY": 147,
+        "SPREAD": 2
+      }
+    }
+  }
+}

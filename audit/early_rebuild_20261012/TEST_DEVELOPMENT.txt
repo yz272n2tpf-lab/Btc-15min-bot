@@ -1,0 +1,53 @@
+test_canceled_ticket_does_not_monopolize_same_setup_refresh (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_canceled_ticket_does_not_monopolize_same_setup_refresh) ... FAIL
+test_cheap_weak_cannot_recognize_or_buy (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_cheap_weak_cannot_recognize_or_buy) ... ok
+test_deterioration_cancels_ticket_and_requires_reconfirmation (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_deterioration_cancels_ticket_and_requires_reconfirmation) ... ok
+test_duplicates_and_outage_do_not_create_setups (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_duplicates_and_outage_do_not_create_setups) ... ok
+test_entry_retains_management_after_ticket_cancel_and_no_adding (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_entry_retains_management_after_ticket_cancel_and_no_adding) ... ok
+test_expiry_without_publication (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_expiry_without_publication) ... ok
+test_fixture_switch_cannot_authorize_retained_rows (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_fixture_switch_cannot_authorize_retained_rows) ... ok
+test_genuine_same_side_and_opposite_requalification (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_genuine_same_side_and_opposite_requalification) ... ok
+test_human_latency_is_observed_elapsed_not_exact_requested (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_human_latency_is_observed_elapsed_not_exact_requested) ... ok
+test_independent_both_sides_from_same_snapshot (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_independent_both_sides_from_same_snapshot) ... ok
+test_invalid_target_close_and_future_receipt_fail_closed (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_invalid_target_close_and_future_receipt_fail_closed) ... ok
+test_manual_confirmation_checks_price_time_and_identity (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_manual_confirmation_checks_price_time_and_identity) ... ok
+test_missing_economics_and_source_reasons_visible (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_missing_economics_and_source_reasons_visible) ... ok
+test_no_auto_close_or_position_netting_on_exit (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_no_auto_close_or_position_netting_on_exit) ... ok
+test_output_mapping_preserves_protect_latch (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_output_mapping_preserves_protect_latch) ... ok
+test_pre_crossing_management_baseline_exact_compatibility (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_pre_crossing_management_baseline_exact_compatibility) ... ok
+test_pre_crossing_warning_recovery_remains_conservative (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_pre_crossing_warning_recovery_remains_conservative) ... ok
+test_prefix_decisions_unchanged_by_future_data (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_prefix_decisions_unchanged_by_future_data) ... ok
+test_price_bands_and_exception_support (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_price_bands_and_exception_support) ... ok
+test_proposal_has_no_origin_or_fill (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_proposal_has_no_origin_or_fill) ... ok
+test_reflected_up_down_and_contexts (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_reflected_up_down_and_contexts) ... FAIL
+test_refresh_same_ticket_then_price_cancellation (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_refresh_same_ticket_then_price_cancellation) ... ok
+test_rollover_never_transfers_entry_to_new_contract (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_rollover_never_transfers_entry_to_new_contract) ... ok
+test_signal_only_recursively_on_events_and_top_level (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_signal_only_recursively_on_events_and_top_level) ... ok
+test_simulation_is_explicit_and_does_not_block_recognition (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_simulation_is_explicit_and_does_not_block_recognition) ... ok
+test_source_unavailable_never_infers_exit_or_executable_quote (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_source_unavailable_never_infers_exit_or_executable_quote) ... ok
+test_sub25_requires_stronger_path_no_min_price_floor (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_sub25_requires_stronger_path_no_min_price_floor) ... ok
+test_watch_recovery_and_no_fixed_exit_timer (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_watch_recovery_and_no_fixed_exit_timer) ... ok
+
+======================================================================
+FAIL: test_canceled_ticket_does_not_monopolize_same_setup_refresh (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_canceled_ticket_does_not_monopolize_same_setup_refresh)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/116fa3ce3509/early_rebuild/repo/candidates/early_rebuild_20261012/test_engine.py", line 102, in test_canceled_ticket_does_not_monopolize_same_setup_refresh
+    self.assertEqual(e.current_ticket['predecessor_ticket_id'],tid)
+AssertionError: 'd883b4dce067674d5047d47c6809f4eb6edb4fc4294ed26b797ba8b19f7252fc' != '86f53ea816fb8ab5a01db3b5015cdda75c4452fb27d650c90066986c8a95f605'
+- d883b4dce067674d5047d47c6809f4eb6edb4fc4294ed26b797ba8b19f7252fc
++ 86f53ea816fb8ab5a01db3b5015cdda75c4452fb27d650c90066986c8a95f605
+
+
+======================================================================
+FAIL: test_reflected_up_down_and_contexts (candidates.early_rebuild_20261012.test_engine.RebuildMechanics.test_reflected_up_down_and_contexts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/116fa3ce3509/early_rebuild/repo/candidates/early_rebuild_20261012/test_engine.py", line 40, in test_reflected_up_down_and_contexts
+    self.assertEqual(xa['features'],xb['features'])
+AssertionError: {'gap[257 chars]tc': 99715.0, 'structure_brti': 99713.0, 'cont[265 chars]alse} != {'gap[257 chars]tc': -100285.0, 'structure_brti': -100287.0, '[271 chars]alse}
+Diff is 915 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 28 tests in 0.447s
+
+FAILED (failures=2)

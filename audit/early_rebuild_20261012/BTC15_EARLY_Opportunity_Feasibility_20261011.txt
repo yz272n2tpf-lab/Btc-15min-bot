@@ -1,0 +1,113 @@
+BTC15 — Dedicated EARLY Opportunity Model Feasibility
+Completed October 11, 2026 (America/New_York)
+Decision: RESTRICT. The causal-data prerequisite fails for the bounded evidence inspected.
+Next action: narrowly scoped recovery of existing evidence, not model development.
+No replacement model was fitted, no strategy was activated, and no production component was touched.
+
+1. Is there sufficient causal historical evidence?
+Not established. The primary source was the completed October 11 Tier-1 Directional Findings PDF, supplemented by its saved six-test evidence log, 27-test lifecycle log, and exact retained files at published baseline 5c856bd15824a929a5dee04b77cde65f50b4f602. Prior tests were read, not rerun.
+
+A new bounded availability check inspected the FIRST FOUR contract paths in the preserved original MAIN projection, stopping when the fifth contract appeared. This was a schema/chronology check on already recovered October 6 evidence, not a journal rescan or fresh holdout.
+
+Contract                         Observations   Source interval (October 6 UTC)
+KXBTC15M-26OCT052015-15            166            00:00:11.402690–00:14:02.565251
+KXBTC15M-26OCT052030-30            174            00:15:06.223495–00:29:42.901544
+KXBTC15M-26OCT052045-45            170            00:30:09.058242–00:44:30.290988
+KXBTC15M-26OCT052100-00            168            00:45:13.465485–00:59:14.061319
+TOTAL                            678
+
+All four had increasing source timestamps and nondecreasing MAIN response receipts, with no internal source gap over 15 seconds. Snapshot-to-MAIN-receipt lags ranged from 0.076 to 2.504 seconds. These establish publication chronology, not original exchange-book/BRTI freshness.
+
+Essential blocker: none of the 678 original states supplies the native quote identity/sequence/exchange timestamp and original receipt chain, independently bound BRTI delivery identity/receipt chain, or full causal feature-cutoff binding needed to verify a decision and its subsequent executable quote path. The projected close is explicitly derived from source_timestamp_plus_logged_remaining, not independently supplied official-close authority. Fee/depth bindings are also absent. Displayed freshness flags and ages cannot substitute for the missing provenance.
+
+Result: 0 of 4 inspected paths qualifies as a verified complete causal economic path. This is a bounded result, not a claim that no suitable evidence exists elsewhere. Four adjacent contracts would in any case be insufficient for independent training and evaluation.
+
+The retained native-frame result is one UP frame for KXBTC15M-26OCT111045-45 at ASK 83c/BID 82c. It lacks required history and has no supported economic cohort. It is not a low-price complete path.
+
+2. Is specialized EARLY opportunity prediction demonstrably feasible?
+Not demonstrated; the modeling hypothesis is not disproved. Settlement prediction and condition-managed resale opportunity are different targets. The existing flip-probability ceiling of 67.09% explains why its 75% reversal admission floor cannot be reached; it does not establish a profitable reversal forecast.
+
+A suitable future target would use the actual refreshed ASK and first admissible observed selling BID after the unchanged condition-driven EXIT, less both fees and a declared execution reserve. Labels must distinguish canceled entries, valid complete outcomes, and censored paths. Favorable outcome cannot mean future maximum BID, settlement correctness, model-fair sale, or BID at a chosen holding duration.
+
+No target labels, probability threshold, model settings, or candidate rules were fitted or tuned here. The 75% settlement threshold was not transferred to a different target. No completed candle was backdated or joined to a decision before its actual availability.
+
+3. What entry prices and opportunities were actually supported?
+Observed cheap prices exist; validated profitable opportunities do not.
+
+In the 678-row check, UP had 198 quote observations at ASK <=55c and DOWN had 553. Across all eligible side-quotes, the observed range was 0.2–55c. Both sides may be counted at one timestamp. These are correlated quote observations, not BUYs or independent opportunities; no runway or economic eligibility is implied.
+
+The retained unified-value development result contains two UP research proposals:
+- KXBTC15M-26SEP261645-45: signal ASK 54c/BID 53c; refreshed ASK 56c. Qualification failed before the delayed BUY.
+- KXBTC15M-26SEP271200-00: signal ASK 53c/BID 52c; refreshed ASK 45c. Qualification also failed before the delayed BUY.
+
+Both were already BTC/BRTI target-aligned at their origins. Neither became a valid manual-entry scenario. Their stored no-revalidation counterfactuals are -9c and -20c under the prior cost assumptions, not realized or avoided losses.
+
+No supported sub-25c strong-evidence entry or 56–58c exceptional entry was established. The previously tested unrestricted 57c diagnostic had refreshed ASK 56c and delayed EXIT BID 57c; subtracting 2c entry fee, 2c exit fee, and 2c reserve gives -5c. That diagnostic bypassed the exceptional filter and is not an admission by the requested policy. Above 58c remains outside normal eligibility. No new price-policy sweep was performed.
+
+The retained 5/10/20-second sensitivities for opened October 4, 6 and 7 each contain zero unified-value proposals and zero delayed-valid complete entries. They provide no comparative economic delay estimate. The two development cancellations above refer to the existing 10-second scenario. No unsupported interpolation or new hypothetical execution was added.
+
+4. Were UP and DOWN both evaluated?
+Both were inspected for data availability and cheap quote coverage. Neither received a valid new economic/model evaluation.
+
+Cheap quote configurations:
+Side   BTC AND BRTI aligned   BTC AND BRTI opposite   Mixed/zero   Total
+UP     38                    154                    6            198
+DOWN   30                    518                    5            553
+
+“Opposite” is a pre-crossing price configuration, not evidence of an actual reversal setup. The receipt/feature gap prevents verification of directional momentum, acceleration and reversal at the required source level. Aligned and pre-crossing opportunities were not pooled into an economic success rate. Retained candidate proposals were UP only; real DOWN profitability remains untested.
+
+5. Did a candidate improve economics versus current admission?
+No valid A/B result exists. Existing current-model admission limitations and the retained two canceled proposals are known; a narrowly defined opportunity-quality baseline was not scored because the mandatory data gate failed. Older expensive condition-v1 scenarios are not substituted for the requested current baseline. Zero valid entries does not mean zero return, zero risk, or a zero false-positive rate.
+
+Complete candidate economic paths: 0. Retained proposals canceled before entry: 2. They are cancellations, not losses or completed trades. For a new candidate, coverage, false positives, net outcomes and confidence intervals are not estimable.
+
+6. What validation limitations remain?
+- Source-level contract/clock/freshness binding is missing in the inspected historical projection.
+- Causal feature replays reported in the PDF do not themselves recover missing quote/BRTI execution receipts.
+- No legitimate untouched evaluation cohort was established here. August and October 4/6/7/8/11 are already exposed and cannot become fresh holdouts for this approach.
+- Cheap quote rows are strongly dependent; neither 678 rows nor 751 side-quotes represents that many independent examples.
+- Historical fee/depth bindings and manual fills are absent. Prior fee/reserve numbers are stress assumptions, not verified fills/account pricing.
+- No economic calibration, both-direction success, repeated profitable re-entry, or out-of-sample superiority can be claimed.
+
+7. Next action
+Evidence recovery only, if existing retained artifacts can supply the missing original quote/BRTI receipts and bind them to the recovered decision-time features and complete later quote paths. The recovery must be bounded and include both directions, genuine pre-crossing reversal evidence and aligned opportunities. Confirm a meaningful number of independent complete contracts and a legitimate untouched evaluation set BEFORE model development.
+
+If those existing source records cannot be recovered, stop historical model development on this corpus. This run does not authorize new capture, production changes, a broader search, or strategy activation.
+
+8. Exact identity and status
+PASS: bounded evidence inspection, stopping rule, and production-freeze compliance.
+FAIL: this inspected sample passes neither the complete-causal-path gate nor the independent model-evaluation prerequisite.
+RESTRICT: model fitting, claims of economic improvement, and activation.
+
+Published baseline verified by read-only GitHub access:
+5c856bd15824a929a5dee04b77cde65f50b4f602
+
+Directional research commit, as recorded in the completed PDF:
+20502c26566f6279e74d4889dd940f53a3cc77f8
+Reported branch: candidate/early-directional-recovery-20261011
+Its remote publication was not assumed or verified. Its directional feature-row files were not retrieved in this run; the PDF and saved test logs were available. Original fitted Tier-1 weights remain reported missing; they are unnecessary for diagnosing this new task's receipt-chain blocker.
+
+New repository branch/commit: NONE.
+New deliverable:
+/workspace/scratch/cddc5c35b162/BTC15_EARLY_Opportunity_Feasibility_20261011.txt
+
+Primary evidence:
+BTC15_Tier1_Directional_Findings_20261011.pdf, pages 1–5
+EVIDENCE_TESTS.txt (6 prior passing tests)
+LIFECYCLE_TESTS.txt (27 prior passing tests)
+
+Exact supporting paths, all read at baseline 5c856bd15824a929a5dee04b77cde65f50b4f602:
+audit/early_condition_20261011/acceptance_original_main_projection.json.gz
+audit/early_condition_20261011/source_projection_manifest.json
+audit/early_condition_20261011/input_manifest.json
+audit/early_condition_20261011/native_frame_result.json
+candidates/early_condition_20261011/native.py
+candidates/early_condition_20261011/study.py
+audit/early_value_20261011/REPORT.txt
+audit/early_value_20261011/development_unified_value.json
+audit/early_value_20261011/delay_sensitivity.json
+
+Original projection bytes verified against retained SHA256:
+75a087a5c14895b6091a840df7ddf18d75281560c37c54d20957fde70b61179b
+
+Read-only analysis only. No repository changes, merges, pushes, deployments, restarts, configuration/threshold changes, orders, or journal/volume writes occurred. Lifecycle code was not changed. Independent SCALP revision 6e04aced0f718b29f8ed805abcc0f76b01ed5096, FINAL and its $75/$50/90% locks, dashboard ordering, signal_only=true and orders=false were left untouched. Live production state was not re-audited.

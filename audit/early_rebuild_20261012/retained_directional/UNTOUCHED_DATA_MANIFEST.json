@@ -1,0 +1,46 @@
+{
+  "window": [
+    "2026-10-11T16:15:00+00:00",
+    "2026-10-11T17:15:00+00:00"
+  ],
+  "contracts": [
+    "KXBTC15M-26OCT111230-30",
+    "KXBTC15M-26OCT111245-45",
+    "KXBTC15M-26OCT111300-00",
+    "KXBTC15M-26OCT111315-15"
+  ],
+  "contract_count": 4,
+  "observations": 1404,
+  "raw_sha256": "127ead20a149c271084572b3d753655af58d797262542040d489a5631af608cb",
+  "projection_sha256": "85d0ed9264c5ab3e7751d96c532d43467872a248d3c3426092d61765a2c7a927",
+  "quality": {
+    "duplicate_publications": 2184
+  },
+  "source_record_kinds": {
+    "UNKNOWN": 3599
+  },
+  "main_state_fields": {
+    "display_build": 3599,
+    "generated_utc": 3599,
+    "source_timestamp_utc": 3599,
+    "health": 3599,
+    "source_age_sec": 3599,
+    "contract": 3599,
+    "timer": 3599,
+    "chart": 3599,
+    "market": 3599,
+    "final": 3599,
+    "early": 3599,
+    "scalp": 3599,
+    "rescue_v2": 3599,
+    "parity": 3599,
+    "position_protection": 3599,
+    "safety": 3599
+  },
+  "independently_bound_quote_receipts": false,
+  "independent_brti_receipts": false,
+  "fee_depth_manual_fills": false,
+  "authentic_native_feature_journal_checked_separately": false,
+  "status": "OBSERVATIONAL_BASELINE_DIAGNOSTIC_NOT_NATIVE_PROFITABILITY_ACCEPTANCE",
+  "prior_label_overlap": 0
+}

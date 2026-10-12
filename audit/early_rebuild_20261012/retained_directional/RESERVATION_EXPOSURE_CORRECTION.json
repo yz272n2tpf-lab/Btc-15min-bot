@@ -1,0 +1,10 @@
+{
+  "oct8_retained_official_label_overlap": [
+    "KXBTC15M-26OCT072100-00",
+    "KXBTC15M-26OCT072115-15",
+    "KXBTC15M-26OCT080130-30"
+  ],
+  "reason": "Prior CSV/tape metadata overlap check did not include nested JSON settlement records",
+  "tuning_after_oct8_results": false,
+  "correction": "October 8 remains observational diagnostic only; do not call it fully untouched acceptance"
+}

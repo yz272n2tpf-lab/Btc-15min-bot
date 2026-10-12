@@ -1,0 +1,22 @@
+{
+  "policy": "UNCHANGED_BASELINE_ONLY_NO_REPLACEMENT_TUNED",
+  "files": {
+    "candidates/early_value_20261011/engine.py": "1db94ace058fe7d96e7c9764cf39d06996989b94ed0943a47b4017ba6c628c2c",
+    "candidates/early_value_20261011/qualification.py": "b48de467a9c40f8fa376465f2518666107043e42e69aaa5927a24ed635ad842d",
+    "candidates/early_value_20261011/study.py": "2099692fa0484e14e253cd330dc790df97903f82aeab5611a94041824f9c7bce",
+    "audit/early_value_20261011/profile_DISABLED.json": "f42a307816270fbd452602af2f1d4f30b2d5b47fb456294fb05babf19962d69e",
+    "completion_audit/model_artifact/frozen_fair_candidate.joblib": "1bf10e755fc81584bab3c3682b16103353f84582c27bb003664de883e7e7c816",
+    "audit/early_directional_20261011/RESERVATION.json": "b89a72501c6803f17e5a9fa860b46f19a359f15a9f597d5d1091702f9356546a"
+  },
+  "primary_replay": "Existing unified_value and its unsupported profile, no fit or rule changes",
+  "comparators": [
+    "Tier-1 predicates on frozen current model",
+    "Previously fixed condition_v1"
+  ],
+  "manual_delay": 10,
+  "economics": "Existing fee/reserve and manual-ticket revalidation unchanged",
+  "outcome_rules": "No future maximum BID, proxy labels or fabricated native inputs",
+  "evaluation": "October 8 reserved window remains unseen for outcomes",
+  "thresholds_frozen": true,
+  "production_enabled": false
+}

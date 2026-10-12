@@ -1,0 +1,23 @@
+test_all_archived_entry_features_reproduce_and_use_unfinished_bucket (candidates.early_directional_20261011.test_evidence.EvidenceIntegrity.test_all_archived_entry_features_reproduce_and_use_unfinished_bucket) ... /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/joblib/numpy_pickle.py:207: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+  array.shape = self.shape
+ok
+test_fixed_sigmoid_cannot_qualify_pre_crossing_75pct (candidates.early_directional_20261011.test_evidence.EvidenceIntegrity.test_fixed_sigmoid_cannot_qualify_pre_crossing_75pct) ... /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/joblib/numpy_pickle.py:207: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+  array.shape = self.shape
+ok
+test_future_bucket_edits_cannot_change_current_features (candidates.early_directional_20261011.test_evidence.EvidenceIntegrity.test_future_bucket_edits_cannot_change_current_features) ... ok
+test_native_binding_allows_only_exact_display_timer_rounding (candidates.early_directional_20261011.test_evidence.EvidenceIntegrity.test_native_binding_allows_only_exact_display_timer_rounding) ... /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/joblib/numpy_pickle.py:207: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+  array.shape = self.shape
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/joblib/numpy_pickle.py:207: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+  array.shape = self.shape
+ok
+test_native_binding_rejects_future_clocks_and_mismatched_market (candidates.early_directional_20261011.test_evidence.EvidenceIntegrity.test_native_binding_rejects_future_clocks_and_mismatched_market) ... ok
+test_rule_direction_reflection_is_symmetric (candidates.early_directional_20261011.test_evidence.EvidenceIntegrity.test_rule_direction_reflection_is_symmetric) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 2.933s
+
+OK

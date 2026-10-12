@@ -1,0 +1,709 @@
+{
+  "summary": {
+    "input_contracts": 4,
+    "observations": 1404,
+    "proposals": 2,
+    "entry_contracts": 2,
+    "entry_ask_cents": {
+      "n": 2,
+      "min": 71.0,
+      "mean": 73.0,
+      "median": 73.0,
+      "max": 75.0
+    },
+    "delayed_entry_ask_cents": {
+      "n": 0,
+      "min": null,
+      "mean": null,
+      "median": null,
+      "max": null
+    },
+    "delayed_valid": 0,
+    "canceled_before_manual_entry": 2,
+    "cancellation_reasons": {
+      "MODEL_SUPPORT": 1,
+      "MULTISCALE_MOMENTUM": 2,
+      "QUOTE_CONFIRMATION": 1
+    },
+    "complete": 0,
+    "independent_complete_contracts": 0,
+    "unresolved_valid_entries": 0,
+    "censor_reasons": {
+      "MANUAL_BUY_INVALIDATED": 2
+    },
+    "positive": 0,
+    "negative_or_zero": 0,
+    "mean_net_cents": null,
+    "contract_mean_net_cents": null,
+    "bootstrap_95_cents": [
+      null,
+      null
+    ],
+    "directional_correct": 0,
+    "by_side": {
+      "UP": {
+        "proposals": 1,
+        "complete": 0,
+        "positive": 0,
+        "directional_correct": 0,
+        "mean_net_cents": null
+      },
+      "DOWN": {
+        "proposals": 1,
+        "complete": 0,
+        "positive": 0,
+        "directional_correct": 0,
+        "mean_net_cents": null
+      }
+    },
+    "watch_events": 4,
+    "watch_recoveries": 2,
+    "max_watch_per_origin": 3,
+    "median_watch_lead_seconds": 126.73586058616638,
+    "first_watch_quotes": [
+      {
+        "origin": "477e281fa87fc3df8a47025df7972b39e30c950eadb4dc12fd16ef4367fd0a68",
+        "time": 1791735598.377554,
+        "bid": 0.75,
+        "gross_vs_original_ask": 0.0
+      },
+      {
+        "origin": "834680b56ea766d607f78b838f26645a8fc10174606e1ba0fc30d126b92c3d5f",
+        "time": 1791737608.971073,
+        "bid": 0.56,
+        "gross_vs_original_ask": -0.1499999999999999
+      }
+    ],
+    "post_exit_30s": [
+      {
+        "origin": "477e281fa87fc3df8a47025df7972b39e30c950eadb4dc12fd16ef4367fd0a68",
+        "bid": 0.63,
+        "higher": true
+      },
+      {
+        "origin": "834680b56ea766d607f78b838f26645a8fc10174606e1ba0fc30d126b92c3d5f",
+        "bid": 0.903,
+        "higher": true
+      }
+    ],
+    "later_bid_higher": 2,
+    "post_exit_n": 2,
+    "multiple_entry_contracts": {},
+    "min_entry_remaining": 414.44,
+    "exact_transferred_tier1_first_predicates": {},
+    "canceled_scenario_diagnostic": {
+      "n": 2,
+      "positive": 1,
+      "mean_net_cents": -12.0
+    },
+    "rejections": {
+      "CAUSAL_120S_HISTORY_UNAVAILABLE": 225,
+      "MODEL_SUPPORT": 248,
+      "BTC_BRTI_ALIGNMENT": 92,
+      "DIRECTIONAL_PERSISTENCE": 647,
+      "CONFIRMING_NEW_SETUP": 24,
+      "MULTISCALE_MOMENTUM": 503,
+      "QUOTE_CONFIRMATION": 305,
+      "PRICE_AND_SPREAD": 466,
+      "ENTRY_RUNWAY": 93,
+      "FINITE_PRICE_HEADROOM": 120
+    }
+  },
+  "policy": "condition_v1",
+  "manual_seconds": 10,
+  "episodes": [
+    {
+      "origin": {
+        "id": "477e281fa87fc3df8a47025df7972b39e30c950eadb4dc12fd16ef4367fd0a68",
+        "contract": "KXBTC15M-26OCT111230-30",
+        "side": "DOWN",
+        "time": 1791735527.871946,
+        "decision_available": 1791735528.93664,
+        "ask": 0.75,
+        "bid": 0.74,
+        "left": 672.13,
+        "publication_id": "16cb31e11c2ae6bede4b43e9e1762493932423242676db943cb440a53fa91e32",
+        "features": {
+          "gap": 71.4600000000064,
+          "brti_gap": 68.24000000000524,
+          "move_short": 11.59000000001106,
+          "move_long": 60.86000000000058,
+          "brti_short": 17.460000000006403,
+          "brti_long": 68.2100000000064,
+          "quote_short": 0.040000000000000036,
+          "quote_long": 0.22999999999999998,
+          "range": 60.86999999999534,
+          "efficiency": 0.8071618037134421,
+          "persistence": 0.9776075733946391,
+          "spread": 0.010000000000000009,
+          "p": 0.7651266356562545,
+          "structure_btc": -83696.6,
+          "structure_brti": -83705.79
+        },
+        "economics": {
+          "cell": "DOWN_HIGH",
+          "ask": 0.75,
+          "bid": 0.74,
+          "spread": 0.010000000000000009,
+          "entry_fee_stress": 0.02,
+          "exit_fee_upper_stress": 0.02,
+          "execution_reserve": 0.02,
+          "required_gross_gain": 0.06,
+          "condition_exit_gain_lower": null,
+          "net_mean_lower": null,
+          "ready": false,
+          "reasons": [
+            "NO_SUPPORTED_CONDITION_EXIT_COHORT",
+            "INSUFFICIENT_CONDITION_EXIT_NET_EVIDENCE",
+            "OUTSIDE_OBSERVED_RUNWAY_SUPPORT",
+            "OUTSIDE_OBSERVED_PRICE_SUPPORT"
+          ],
+          "realized_profit": null
+        },
+        "evidence_class": "COMMON_OBSERVED_NO_NATIVE_RECEIPT",
+        "complete": true,
+        "structure_btc": -83685.01,
+        "structure_brti": -83691.41,
+        "best_bid": 0.79
+      },
+      "exit": {
+        "time": 1791735622.054967,
+        "available": 1791735622.944793,
+        "bid": 0.62,
+        "reason": "CAUSAL_STRUCTURE_BREAKDOWN",
+        "publication_id": "f6dea0c4fb3a400aa3f04d222d718b78aa82c884df3fea13047758b6940fbfa4",
+        "origin_id": "477e281fa87fc3df8a47025df7972b39e30c950eadb4dc12fd16ef4367fd0a68",
+        "net_quote_scenario": -0.18999999999999997,
+        "realized_profit": null,
+        "complete": true
+      },
+      "censor": "MANUAL_BUY_INVALIDATED",
+      "scenario": null,
+      "manual_seconds": 10,
+      "delayed_revalidation": {
+        "available": true,
+        "valid": false,
+        "failures": [
+          "MODEL_SUPPORT",
+          "MULTISCALE_MOMENTUM"
+        ],
+        "refreshed_ask": 0.75,
+        "available_at": 1791735540.942072
+      },
+      "scenario_without_revalidation": {
+        "entry_ask": 0.75,
+        "entry_at": 1791735540.772228,
+        "exit_bid": 0.55,
+        "exit_at": 1791735635.028147,
+        "gross_gain": -0.19999999999999996,
+        "entry_fee": 0.02,
+        "exit_fee": 0.02,
+        "reserve": 0.02,
+        "net": -0.25999999999999995,
+        "complete_path": true,
+        "at_signal_ask_net": -0.25999999999999995,
+        "underlying_direction_correct": false,
+        "duration": 94.18302083015442,
+        "realized_profit": null,
+        "confirmed_fill": false
+      }
+    },
+    {
+      "origin": {
+        "id": "834680b56ea766d607f78b838f26645a8fc10174606e1ba0fc30d126b92c3d5f",
+        "contract": "KXBTC15M-26OCT111300-00",
+        "side": "UP",
+        "time": 1791737585.561721,
+        "decision_available": 1791737586.203488,
+        "ask": 0.71,
+        "bid": 0.7,
+        "left": 414.44,
+        "publication_id": "7007e725d1d32c5a3cd4eecd1a92eefcae694c1ae98a537a9a5eb6a80a514c5b",
+        "features": {
+          "gap": 44.89999999999418,
+          "brti_gap": 45.33999999999651,
+          "move_short": 22.14999999999418,
+          "move_long": 66.47999999999593,
+          "brti_short": 20.00999999999476,
+          "brti_long": 59.669999999998254,
+          "quote_short": 0.13,
+          "quote_long": 0.31999999999999995,
+          "range": 69.36000000000058,
+          "efficiency": 0.5704479148790079,
+          "persistence": 0.8511688839354528,
+          "spread": 0.010000000000000009,
+          "p": 0.7769782424219862,
+          "structure_btc": 83862.83,
+          "structure_brti": 83865.23
+        },
+        "economics": {
+          "cell": "UP_HIGH",
+          "ask": 0.71,
+          "bid": 0.7,
+          "spread": 0.010000000000000009,
+          "entry_fee_stress": 0.02,
+          "exit_fee_upper_stress": 0.02,
+          "execution_reserve": 0.02,
+          "required_gross_gain": 0.06,
+          "condition_exit_gain_lower": null,
+          "net_mean_lower": null,
+          "ready": false,
+          "reasons": [
+            "NO_SUPPORTED_CONDITION_EXIT_COHORT",
+            "INSUFFICIENT_CONDITION_EXIT_NET_EVIDENCE",
+            "OUTSIDE_OBSERVED_RUNWAY_SUPPORT",
+            "OUTSIDE_OBSERVED_PRICE_SUPPORT"
+          ],
+          "realized_profit": null
+        },
+        "evidence_class": "COMMON_OBSERVED_NO_NATIVE_RECEIPT",
+        "complete": true,
+        "structure_btc": 83889.84,
+        "structure_brti": 83893.18,
+        "best_bid": 0.89
+      },
+      "exit": {
+        "time": 1791737838.765381,
+        "available": 1791737839.242858,
+        "bid": 0.61,
+        "reason": "CAUSAL_STRUCTURE_BREAKDOWN",
+        "publication_id": "0021b465e1dcdb80558ae73b2dece52ddaba3a4c923380445a952f8c4bd89c3b",
+        "origin_id": "834680b56ea766d607f78b838f26645a8fc10174606e1ba0fc30d126b92c3d5f",
+        "net_quote_scenario": -0.15999999999999998,
+        "realized_profit": null,
+        "complete": true
+      },
+      "censor": "MANUAL_BUY_INVALIDATED",
+      "scenario": null,
+      "manual_seconds": 10,
+      "delayed_revalidation": {
+        "available": true,
+        "valid": false,
+        "failures": [
+          "MULTISCALE_MOMENTUM",
+          "QUOTE_CONFIRMATION"
+        ],
+        "refreshed_ask": 0.65,
+        "available_at": 1791737599.202732
+      },
+      "scenario_without_revalidation": {
+        "entry_ask": 0.65,
+        "entry_at": 1791737598.401423,
+        "exit_bid": 0.73,
+        "exit_at": 1791737849.787488,
+        "gross_gain": 0.07999999999999996,
+        "entry_fee": 0.02,
+        "exit_fee": 0.02,
+        "reserve": 0.02,
+        "net": 0.019999999999999952,
+        "complete_path": true,
+        "at_signal_ask_net": -0.03999999999999998,
+        "underlying_direction_correct": false,
+        "duration": 253.2036600112915,
+        "realized_profit": null,
+        "confirmed_fill": false
+      }
+    }
+  ],
+  "events": [
+    {
+      "policy": "EARLY_CONDITION_RESEARCH_V1",
+      "mode": "UNCALIBRATED_PROPOSAL",
+      "signal_only": true,
+      "orders": false,
+      "actionable": false,
+      "production_enabled": false,
+      "event": "BUY",
+      "guidance": "HOLD",
+      "contract": "KXBTC15M-26OCT111230-30",
+      "time": 1791735527.871946,
+      "side": "DOWN",
+      "reasons": [
+        "STRUCTURAL_PROPOSAL"
+      ],
+      "origin_id": "477e281fa87fc3df8a47025df7972b39e30c950eadb4dc12fd16ef4367fd0a68",
+      "realized_profit": null,
+      "manual_fill": null,
+      "warning_owner": "EARLY",
+      "economics": {
+        "cell": "DOWN_HIGH",
+        "ask": 0.75,
+        "bid": 0.74,
+        "spread": 0.010000000000000009,
+        "entry_fee_stress": 0.02,
+        "exit_fee_upper_stress": 0.02,
+        "execution_reserve": 0.02,
+        "required_gross_gain": 0.06,
+        "condition_exit_gain_lower": null,
+        "net_mean_lower": null,
+        "ready": false,
+        "reasons": [
+          "NO_SUPPORTED_CONDITION_EXIT_COHORT",
+          "INSUFFICIENT_CONDITION_EXIT_NET_EVIDENCE",
+          "OUTSIDE_OBSERVED_RUNWAY_SUPPORT",
+          "OUTSIDE_OBSERVED_PRICE_SUPPORT"
+        ],
+        "realized_profit": null
+      }
+    },
+    {
+      "policy": "EARLY_CONDITION_RESEARCH_V1",
+      "mode": "UNCALIBRATED_PROPOSAL",
+      "signal_only": true,
+      "orders": false,
+      "actionable": false,
+      "production_enabled": false,
+      "event": "WATCH",
+      "guidance": "WATCH",
+      "contract": "KXBTC15M-26OCT111230-30",
+      "time": 1791735598.377554,
+      "side": "DOWN",
+      "reasons": [
+        "MOMENTUM_WEAKENING",
+        "BID_DETERIORATION"
+      ],
+      "origin_id": "477e281fa87fc3df8a47025df7972b39e30c950eadb4dc12fd16ef4367fd0a68",
+      "realized_profit": null,
+      "manual_fill": null,
+      "warning_owner": "EARLY",
+      "management_evidence": {
+        "gap": 67.05999999999767,
+        "brti_gap": 69.86999999999534,
+        "move_short": -23.40000000000873,
+        "move_long": 7.5,
+        "brti_short": -11.889999999999418,
+        "brti_long": 22.479999999995925,
+        "quote_short": -0.040000000000000036,
+        "quote_long": 0.06999999999999995,
+        "range": 30.90000000000873,
+        "efficiency": 0.09742790335150661,
+        "persistence": 1.0,
+        "spread": 0.010000000000000009,
+        "p": 0.7181871328778264,
+        "structure_btc": -83689.41,
+        "structure_brti": -83689.46
+      }
+    },
+    {
+      "policy": "EARLY_CONDITION_RESEARCH_V1",
+      "mode": "UNCALIBRATED_PROPOSAL",
+      "signal_only": true,
+      "orders": false,
+      "actionable": false,
+      "production_enabled": false,
+      "event": "EXIT",
+      "guidance": "EXIT",
+      "contract": "KXBTC15M-26OCT111230-30",
+      "time": 1791735622.054967,
+      "side": "DOWN",
+      "reasons": [
+        "CAUSAL_STRUCTURE_BREAKDOWN",
+        "MOMENTUM_WEAKENING",
+        "MULTIMINUTE_REVERSAL",
+        "BID_DETERIORATION",
+        "CONFIRMED_STRUCTURE_BREAK"
+      ],
+      "origin_id": "477e281fa87fc3df8a47025df7972b39e30c950eadb4dc12fd16ef4367fd0a68",
+      "realized_profit": null,
+      "manual_fill": null,
+      "warning_owner": "EARLY",
+      "executable_exit_bid": 0.62,
+      "terminal": {
+        "time": 1791735622.054967,
+        "available": 1791735622.944793,
+        "bid": 0.62,
+        "reason": "CAUSAL_STRUCTURE_BREAKDOWN",
+        "publication_id": "f6dea0c4fb3a400aa3f04d222d718b78aa82c884df3fea13047758b6940fbfa4",
+        "origin_id": "477e281fa87fc3df8a47025df7972b39e30c950eadb4dc12fd16ef4367fd0a68",
+        "net_quote_scenario": -0.18999999999999997,
+        "realized_profit": null,
+        "complete": true
+      }
+    },
+    {
+      "policy": "EARLY_CONDITION_RESEARCH_V1",
+      "mode": "UNCALIBRATED_PROPOSAL",
+      "signal_only": true,
+      "orders": false,
+      "actionable": false,
+      "production_enabled": false,
+      "event": "BUY",
+      "guidance": "HOLD",
+      "contract": "KXBTC15M-26OCT111300-00",
+      "time": 1791737585.561721,
+      "side": "UP",
+      "reasons": [
+        "STRUCTURAL_PROPOSAL"
+      ],
+      "origin_id": "834680b56ea766d607f78b838f26645a8fc10174606e1ba0fc30d126b92c3d5f",
+      "realized_profit": null,
+      "manual_fill": null,
+      "warning_owner": "EARLY",
+      "economics": {
+        "cell": "UP_HIGH",
+        "ask": 0.71,
+        "bid": 0.7,
+        "spread": 0.010000000000000009,
+        "entry_fee_stress": 0.02,
+        "exit_fee_upper_stress": 0.02,
+        "execution_reserve": 0.02,
+        "required_gross_gain": 0.06,
+        "condition_exit_gain_lower": null,
+        "net_mean_lower": null,
+        "ready": false,
+        "reasons": [
+          "NO_SUPPORTED_CONDITION_EXIT_COHORT",
+          "INSUFFICIENT_CONDITION_EXIT_NET_EVIDENCE",
+          "OUTSIDE_OBSERVED_RUNWAY_SUPPORT",
+          "OUTSIDE_OBSERVED_PRICE_SUPPORT"
+        ],
+        "realized_profit": null
+      }
+    },
+    {
+      "policy": "EARLY_CONDITION_RESEARCH_V1",
+      "mode": "UNCALIBRATED_PROPOSAL",
+      "signal_only": true,
+      "orders": false,
+      "actionable": false,
+      "production_enabled": false,
+      "event": "WATCH",
+      "guidance": "WATCH",
+      "contract": "KXBTC15M-26OCT111300-00",
+      "time": 1791737608.971073,
+      "side": "UP",
+      "reasons": [
+        "MOMENTUM_WEAKENING",
+        "BID_DETERIORATION",
+        "CONFIRMED_STRUCTURE_BREAK"
+      ],
+      "origin_id": "834680b56ea766d607f78b838f26645a8fc10174606e1ba0fc30d126b92c3d5f",
+      "realized_profit": null,
+      "manual_fill": null,
+      "warning_owner": "EARLY",
+      "management_evidence": {
+        "gap": 19.919999999998254,
+        "brti_gap": 21.470000000001164,
+        "move_short": -24.55000000000291,
+        "move_long": 11.960000000006403,
+        "brti_short": -23.020000000004075,
+        "brti_long": 12.389999999999418,
+        "quote_short": -0.1499999999999999,
+        "quote_long": 0.040000000000000036,
+        "range": 39.820000000006985,
+        "efficiency": 0.13324420677365445,
+        "persistence": 1.0,
+        "spread": 0.009999999999999898,
+        "p": 0.7196944829764678,
+        "structure_btc": 83860.0,
+        "structure_brti": 83860.7
+      }
+    },
+    {
+      "policy": "EARLY_CONDITION_RESEARCH_V1",
+      "mode": "UNCALIBRATED_PROPOSAL",
+      "signal_only": true,
+      "orders": false,
+      "actionable": false,
+      "production_enabled": false,
+      "event": "HOLD",
+      "guidance": "HOLD",
+      "contract": "KXBTC15M-26OCT111300-00",
+      "time": 1791737647.814026,
+      "side": "UP",
+      "reasons": [
+        "DIRECTION_REMAINS_SUPPORTED"
+      ],
+      "origin_id": "834680b56ea766d607f78b838f26645a8fc10174606e1ba0fc30d126b92c3d5f",
+      "realized_profit": null,
+      "manual_fill": null,
+      "warning_owner": "EARLY",
+      "management_evidence": {
+        "gap": 61.88999999999942,
+        "brti_gap": 65.05000000000291,
+        "move_short": 52.320000000006985,
+        "move_long": 41.44000000000233,
+        "brti_short": 52.35000000000582,
+        "brti_long": 39.73000000001048,
+        "quote_short": 0.25,
+        "quote_long": 0.18000000000000005,
+        "range": 68.25,
+        "efficiency": 0.24296435272046724,
+        "persistence": 1.0,
+        "spread": 0.010000000000000009,
+        "p": 0.8482354039463982,
+        "structure_btc": 83849.65,
+        "structure_brti": 83852.78
+      }
+    },
+    {
+      "policy": "EARLY_CONDITION_RESEARCH_V1",
+      "mode": "UNCALIBRATED_PROPOSAL",
+      "signal_only": true,
+      "orders": false,
+      "actionable": false,
+      "production_enabled": false,
+      "event": "WATCH",
+      "guidance": "WATCH",
+      "contract": "KXBTC15M-26OCT111300-00",
+      "time": 1791737684.615291,
+      "side": "UP",
+      "reasons": [
+        "MOMENTUM_WEAKENING",
+        "MULTIMINUTE_REVERSAL",
+        "BID_DETERIORATION"
+      ],
+      "origin_id": "834680b56ea766d607f78b838f26645a8fc10174606e1ba0fc30d126b92c3d5f",
+      "realized_profit": null,
+      "manual_fill": null,
+      "warning_owner": "EARLY",
+      "management_evidence": {
+        "gap": 27.679999999993015,
+        "brti_gap": 38.979999999995925,
+        "move_short": -31.810000000012224,
+        "move_long": -10.35000000000582,
+        "brti_short": -25.69999999999709,
+        "brti_long": -0.04000000000814907,
+        "quote_short": -0.12,
+        "quote_long": -0.010000000000000009,
+        "range": 68.25,
+        "efficiency": -0.05415162454877384,
+        "persistence": 1.0,
+        "spread": 0.010000000000000009,
+        "p": 0.8006501855009992,
+        "structure_btc": 83867.74,
+        "structure_brti": 83872.57
+      }
+    },
+    {
+      "policy": "EARLY_CONDITION_RESEARCH_V1",
+      "mode": "UNCALIBRATED_PROPOSAL",
+      "signal_only": true,
+      "orders": false,
+      "actionable": false,
+      "production_enabled": false,
+      "event": "HOLD",
+      "guidance": "HOLD",
+      "contract": "KXBTC15M-26OCT111300-00",
+      "time": 1791737726.293828,
+      "side": "UP",
+      "reasons": [
+        "DIRECTION_REMAINS_SUPPORTED"
+      ],
+      "origin_id": "834680b56ea766d607f78b838f26645a8fc10174606e1ba0fc30d126b92c3d5f",
+      "realized_profit": null,
+      "manual_fill": null,
+      "warning_owner": "EARLY",
+      "management_evidence": {
+        "gap": 49.75999999999476,
+        "brti_gap": 53.91000000000349,
+        "move_short": 12.559999999997672,
+        "move_long": 15.589999999996508,
+        "brti_short": 14.880000000004657,
+        "brti_long": 30.410000000003492,
+        "quote_short": 0.07999999999999996,
+        "quote_long": 0.18000000000000005,
+        "range": 68.25,
+        "efficiency": 0.08045621097175698,
+        "persistence": 1.0,
+        "spread": 0.010000000000000009,
+        "p": 0.8089096170091219,
+        "structure_btc": 83877.28,
+        "structure_brti": 83861.95
+      }
+    },
+    {
+      "policy": "EARLY_CONDITION_RESEARCH_V1",
+      "mode": "UNCALIBRATED_PROPOSAL",
+      "signal_only": true,
+      "orders": false,
+      "actionable": false,
+      "production_enabled": false,
+      "event": "WATCH",
+      "guidance": "WATCH",
+      "contract": "KXBTC15M-26OCT111300-00",
+      "time": 1791737783.490427,
+      "side": "UP",
+      "reasons": [
+        "MOMENTUM_WEAKENING",
+        "MULTIMINUTE_REVERSAL"
+      ],
+      "origin_id": "834680b56ea766d607f78b838f26645a8fc10174606e1ba0fc30d126b92c3d5f",
+      "realized_profit": null,
+      "manual_fill": null,
+      "warning_owner": "EARLY",
+      "management_evidence": {
+        "gap": 54.720000000001164,
+        "brti_gap": 58.679999999993015,
+        "move_short": -3.1999999999970896,
+        "move_long": -14.339999999996508,
+        "brti_short": -6.080000000001746,
+        "brti_long": -12.75,
+        "quote_short": 0.020000000000000018,
+        "quote_long": 0.039999999999999925,
+        "range": 49.679999999993015,
+        "efficiency": -0.09189951294537144,
+        "persistence": 1.0,
+        "spread": 0.010000000000000009,
+        "p": 0.8418494323739251,
+        "structure_btc": 83894.8,
+        "structure_brti": 83894.97
+      }
+    },
+    {
+      "policy": "EARLY_CONDITION_RESEARCH_V1",
+      "mode": "UNCALIBRATED_PROPOSAL",
+      "signal_only": true,
+      "orders": false,
+      "actionable": false,
+      "production_enabled": false,
+      "event": "EXIT",
+      "guidance": "EXIT",
+      "contract": "KXBTC15M-26OCT111300-00",
+      "time": 1791737838.765381,
+      "side": "UP",
+      "reasons": [
+        "CAUSAL_STRUCTURE_BREAKDOWN",
+        "MOMENTUM_WEAKENING",
+        "MULTIMINUTE_REVERSAL",
+        "BID_DETERIORATION",
+        "CONFIRMED_STRUCTURE_BREAK"
+      ],
+      "origin_id": "834680b56ea766d607f78b838f26645a8fc10174606e1ba0fc30d126b92c3d5f",
+      "realized_profit": null,
+      "manual_fill": null,
+      "warning_owner": "EARLY",
+      "executable_exit_bid": 0.61,
+      "terminal": {
+        "time": 1791737838.765381,
+        "available": 1791737839.242858,
+        "bid": 0.61,
+        "reason": "CAUSAL_STRUCTURE_BREAKDOWN",
+        "publication_id": "0021b465e1dcdb80558ae73b2dece52ddaba3a4c923380445a952f8c4bd89c3b",
+        "origin_id": "834680b56ea766d607f78b838f26645a8fc10174606e1ba0fc30d126b92c3d5f",
+        "net_quote_scenario": -0.15999999999999998,
+        "realized_profit": null,
+        "complete": true
+      }
+    }
+  ],
+  "rejections": {
+    "CAUSAL_120S_HISTORY_UNAVAILABLE": 225,
+    "MODEL_SUPPORT": 248,
+    "BTC_BRTI_ALIGNMENT": 92,
+    "DIRECTIONAL_PERSISTENCE": 647,
+    "CONFIRMING_NEW_SETUP": 24,
+    "MULTISCALE_MOMENTUM": 503,
+    "QUOTE_CONFIRMATION": 305,
+    "PRICE_AND_SPREAD": 466,
+    "ENTRY_RUNWAY": 93,
+    "FINITE_PRICE_HEADROOM": 120
+  },
+  "statuses": {
+    "PASS": 978,
+    "HOLD": 77,
+    "WATCH": 67,
+    "EXIT": 282
+  },
+  "invalidations": []
+}

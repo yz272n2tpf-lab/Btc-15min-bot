@@ -1,0 +1,132 @@
+BTC15 — Separate EARLY BUY and EXIT Diagnostics
+October 11, 2026 | Bounded retained-observation analysis | RESTRICT activation
+
+Finding: BUY eligibility is demonstrably restrictive, but unnecessary economic harm is not established. Premature EXIT is a concern in the older expensive-entry study; the current low-price examples do not establish it. The stronger actionable evidence is the BUY task/settlement-confidence mismatch. Keep BUY and management measurements separate.
+
+Scope and interpretation
+Used the completed directional report and feasibility assessment; reused the same four October 6 contract paths (678 MAIN snapshots, 00:00–01:00 UTC) and retained September 26–28 development event results. No new source recovery, model fitting, tournament, or live capture. All timestamps below are UTC; October 6 00:xx UTC is October 5 20:xx Eastern.
+
+“Current policy” below means the disabled unified-value research policy at published baseline 5c856bd15824a929a5dee04b77cde65f50b4f602. This is not verification of today's deployed policy. Original recorded EARLY readiness and retrospective current-policy screens are separate measurements. All management events reviewed are stored UNCALIBRATED_PROPOSAL simulations on retained observations, not confirmed manual trades or proof of live recommendations.
+
+1. Is BUY unnecessarily restrictive, and where?
+
+Restriction: yes. Unnecessary loss of profitable trades: unproven.
+
+Price-band side-observations in the four-contract sample:
+ASK band                 UP       DOWN
+Below 25c                48       207
+25–55c                   150      346
+Above 55c through 58c     52       11
+
+These are observations, not independent setups. Both sides can appear at one timestamp. There were 0 recorded EARLY-ready snapshots. Applying unchanged current research entry predicates separately to both sides gave 0 observations passing every instantaneous screen; confirmation and economic qualification therefore cannot create a BUY.
+
+Of 496 primary-band side-observations, 101 lacked usable 30-second history. Among the remaining 395, 394 failed the 75% settlement-confidence screen. Overlapping primary-band veto counts:
+- MODEL_DIRECTION: 394
+- MODEL_DISAGREEMENT_MARGIN: 382
+- CURRENT_BTC_BRTI_SUPPORT: 374
+- SHORT_PATH_EFFICIENCY: 286
+- FRESH_DIRECTIONAL_IMPULSE: 268
+- NO_MATERIAL_QUOTE_REVERSAL: 214
+- ENTRY_RUNWAY: 12
+- UNHEALTHY_OBSERVATION: 10
+Counts overlap; history failure short-circuits the other feature screens.
+
+A descriptive BUY-only observation set retained existing price/spread/runway, 30-second BTC/BRTI impulse, efficiency and quote-stability checks, while REPORTING confidence, target-alignment and model-margin failures separately. No gate was waived for a BUY. This yielded 97 primary-band observations: 28 UP/69 DOWN. Taking only the first observation per contract/direction/target configuration/price band gave 15 diagnostic examples in FOUR contracts: aligned UP4/DOWN2; opposite-target UP3/DOWN4; mixed UP1/DOWN1. These are not 15 independent trades.
+
+For these 15 examples, the first eligible observed BID at 30–40 seconds was available in 14 cases and exceeded the original ASK in 8. At 60–70 seconds, 15 were available and 9 exceeded original ASK. One 30-second checkpoint was unavailable/unhealthy. These are hindsight quote movements, not profits, EXIT rules, or a success rate; downside and delay can erase them.
+
+Concrete examples, selected from those first-observation groups:
+- UP aligned, KXBTC15M-26OCT052015-15, Oct 6 00:01:07.209; observed receipt 00:01:08.178. ASK54/BID53c, ~832 seconds left. BTC/BRTI gaps +$13.92/+$8.30 and short moves +$24.95/+$16.11. Settlement support70.99%; ONLY instantaneous screen failure was MODEL_DIRECTION. Later BID59c at00:01:42.564, but55c at00:02:13.744. First eligible refreshed ASKs for5/10/20-second scenarios were60/58/62c: primary price eligibility disappeared. Full10-second confirmation, native freshness and actual execution were not established.
+- UP pre-crossing configuration, KXBTC15M-26OCT052100-00,00:46:13.695; receipt00:46:14.817. ASK46/BID45c,~825s left. Positive short BTC/BRTI movement while both remained below target; support48.01%. Vetoes: confidence, target support and model margin. Refreshed ASKs52/55/60c for5/10/20s; later BID59c at00:46:47.952 and62c at00:47:18.333. Possible missed directional opportunity, not a qualified or executable profit.
+- DOWN counterexample, KXBTC15M-26OCT052015-15,00:01:57.494: ASK43/BID42c, support28.03%, positive short downward impulse but still opposite target. BID40c at00:02:32.636 and31c at00:02:58.728; minimum observed BID over the next60 seconds31c. Rejecting this setup was not obviously harmful.
+- DOWN opposite-target, KXBTC15M-26OCT052100-00,00:47:33.956: ASK35/BID34c. BID45c at00:48:09.543 and48c at00:48:39.374. Short downward impulse was positive, but120-second movement opposed DOWN. This is partial directional evidence, not a strongly supported reversal.
+
+No strongly supported sub25c or56–58c exception was established. The confidence ceiling reported by the completed research also makes the75% floor impossible for pre-crossing reversals under that model. Independently, the positive current-target-gap rule rejects pre-crossing observations by design. Lowering confidence alone would not remove those other vetoes.
+
+EXIT-dependent economics is a distinct restriction: normal admission requires independently supported development AND calibration condition-exit gross-gain bounds above current costs, with price/runway support. The retained profile supports neither direction. It blocks both retained53/54c structural proposals, but both ALSO invalidate before delayed entry. In the four-contract check every observation already failed structural screens, so no additional economic-only rejection was demonstrated there. The evidence does not show that merely removing the economic gate rescues good BUYs.
+
+2. Is EXIT prematurely ending supported opportunities?
+
+Not established for the current low-price candidate. Retained current-candidate events:
+2 simulated BUY origins, 3 WATCH transitions, 1 HOLD recovery, 2 EXITs.
+Both BUY tickets canceled before delayed entry; confirmed fills0, delayed-valid trades0.
+HOLD/WATCH state observations were29/15, distinct from transition counts.
+
+KXBTC15M-26SEP261645-45, UP:
+- Sep26 20:32:16.647 simulated origin atASK54c.
+- 20:32:41.695 WATCH, BID53c: short/long momentum weakening.
+- 20:33:21.668 HOLD recovery: both gaps and short/long BTC/BRTI moves positive.
+- 20:35:06.664 WATCH: momentum weakening plus BID deterioration.
+- 20:35:36.674 EXIT, BID51c: structure break, lost target confirmation, negative momentum and BID deterioration.
+- Later30-second checkpoint BID51c, unchanged.
+Total simulated lifetime200.03s: HOLD130.05s, WATCH69.98s. The initial pullback recovered WITHOUT EXIT. The final EXIT had corroborating deterioration.
+
+KXBTC15M-26SEP271200-00, UP:
+- Sep27 15:53:27.520 simulated origin atASK53c.
+- 15:53:42.510 WATCH, BID42c: BTC/BRTI short moves-$19.22/-$9.26 and long moves-$23.37/-$19.86, with BID deterioration.
+- 15:53:47.749 EXIT, BID44c: corroborated trend reversal.
+- Later30-second checkpoint BID38c.
+Lifetime20.23s: HOLD14.99s, WATCH5.24s. The15-second exit persistence can begin before the WATCH transition; this was not a fixed holding timer. WATCH already came11c below original ASK, flagging possible protection latency, not proving an earlier safe/executable exit.
+
+Both first WATCH quotes were below original ASK (1c/11c). Neither later30-second BID was higher than EXIT. These two UP-only canceled proposals cannot establish management quality or DOWN coverage.
+
+Older condition-v1 context, kept separate:
+28 simulated origins(16UP/12DOWN),38 WATCH,15 HOLD recoveries,20 EXIT;8 origins without an observed EXIT. Entry ASKs63–80c are outside the intended range. Of20 available post-EXIT checkpoints,14 BIDs rose and6 did not;16/26 first WATCH quotes were already below original ASK. This suggests both rebound sensitivity and protection-latency questions.
+Example DOWN KXBTC15M-26SEP261430-30: Sep26 18:17:51.298 origin ASK75c;18:18:42.913 EXIT BID64c; later checkpoint77c. A rebound alone does not prove that continued holding was supported when EXIT occurred.
+Opposite example UP KXBTC15M-26SEP261415-15:18:08:00.378 EXIT BID28c; later checkpoint21c. Blanket patience can worsen exposure.
+The older study's10 delayed-valid scenarios included8 complete/2 unresolved; only1 of8 was positive under its stated cost stress. Do not attribute those results solely to EXIT.
+
+No useful repeated BUY was observed in the retained current or older candidate results. This does not prove reset rules blocked a legitimate fresh entry: fresh requalification and executable re-entry evidence are not established.
+
+3. Which issue has stronger evidence?
+BUY task mismatch/restriction. It is identifiable in unchanged predicates and concrete low-price snapshots. Evidence of premature current EXIT is weaker: two canceled UP cases, one demonstrated WATCH recovery, and no higher30-second post-EXIT BID. The older expensive policy raises a separate management hypothesis, not a current-policy verdict.
+
+4. Specific next BUY experiment
+A single isolated BUY-only shadow audit of MODEL_DIRECTION: preserve the75% gate for actual qualification, but separately flag observations passing every OTHER current entry screen and record why confidence rejects them. Freeze the observational definition before further inspection. Keep delayed rechecks, price limits, freshness, duplicate/reset protection and economic admission unchanged. Report structural opportunity evidence independently from EXIT-profile eligibility. Do not replace75% with an unvalidated new threshold. This experiment targets the54c aligned example; it does not solve pre-crossing target-support vetoes.
+
+5. Specific next EXIT experiment
+One patient diagnostic alternative: for TREND-REVERSAL-ONLY exits while BOTH BTC/BRTI remain target-aligned and stored structure is intact, continue WATCH; retain confirmed target-breakdown, structure-break and causal settlement-risk exits, plus all source-loss warnings. No fixed hold duration or profit target.
+Do NOT activate this alternative. It was not replayed/scored here: the current low-price set has only two canceled UP origins, and full post-EXIT source-level paths are not available in the inspected event files. The second case's44c-to38c decline specifically cautions against extra patience. Also investigate warning availability relative to rapid BID loss, without changing thresholds in this assignment.
+
+6. Safe/practical dashboard specification — display only
+Keep FINAL → EARLY → SCALP → chart and ONE EARLY engine with separate entry-ticket and management state views.
+
+EARLY BUY
+Direction | current ASK and spread | QUALIFIED / REJECTED / STALE
+Primary rejection plus expandable independent vetoes
+Directional evidence; identify settlement-model confidence as settlement confidence
+Contract/time remaining | source timestamp, age and ticket expiry
+Research-only setup labels must never look like permission to BUY.
+
+EARLY MANAGEMENT
+Scope badge: NO CONFIRMED POSITION / SIMULATED OPPORTUNITY / MANUAL BUY CONFIRMED
+HOLD / WATCH / EXIT | same-side current selling BID and quote age
+Confirmed entry price/time/size only if supplied; otherwise “simulated origin54c” or “entry unknown”
+Current support/deterioration | concise protection explanation
+Fresh re-entry: awaiting reset / reset observed, not qualified / independently requalified
+Do not transfer a tracked opportunity across contract rollover.
+
+With no confirmed purchase, say “opportunity management,” not “your position.” A rejected new BUY must not hide protection for an earlier confirmed or explicitly simulated entry. Stale quotes display unavailable, not an executable BID. Omit actual P&L without confirmed fills, size and fees; hypothetical scenarios stay explicitly labeled. Separate visual sections are safe and practical, but this is NOT a validated performance improvement or deployment authorization.
+
+7. What remains unknown?
+Native quote/BRTI receipt provenance, original causal feature bindings and official-close binding remain incomplete. Displayed values support observation diagnostics, not verified execution. Fees, depth, actual manual delay, buys and sells are unconfirmed. Prior whole-cent fee stress and reserves are assumptions; no hypothetical quote movement here is called actual profit. Checkpoints are first healthy observations at or after requested delay with up to10s tolerance, never future-best prices; missing checkpoints remain missing.
+
+These are exposed windows and highly correlated observations. No new holdout, probability calibration, model comparison, or unified BUY/EXIT success score was created. Rebound does not prove premature EXIT, loss before WATCH does not prove avoidable delay, and cheaper price plus impulse does not prove entry quality.
+
+Provenance and freeze
+Primary: completed October11 Directional Findings PDF and Early model feasibility evaluation.pdf.
+Exact baseline:5c856bd15824a929a5dee04b77cde65f50b4f602.
+Retained paths:
+audit/early_condition_20261011/acceptance_original_main_projection.json.gz
+audit/early_value_20261011/development_unified_value.json
+audit/early_value_20261011/development_condition_v1.json
+candidates/early_condition_20261011/engine.py
+candidates/early_value_20261011/engine.py
+candidates/early_value_20261011/qualification.py
+candidates/early_value_20261011/study.py
+Projection SHA256:75a087a5c14895b6091a840df7ddf18d75281560c37c54d20957fde70b61179b.
+Directional commit20502c26566f6279e74d4889dd940f53a3cc77f8 was not fetched or published.
+
+New deliverable only:BTC15_EARLY_BUY_EXIT_Diagnostics_20261011.txt. No repository branch/commit.
+PASS bounded diagnostic separation; RESTRICT economic conclusions and activation.
+No production/source-code edits, model tuning, dashboard changes, merges, restarts, live settings, orders or journal/volume writes. FINAL and independent SCALP untouched; signal_only=true, orders=false. Stop here.

@@ -1,0 +1,15 @@
+{
+  "base": "5c856bd15824a929a5dee04b77cde65f50b4f602",
+  "preexisting_tracked_files_changed": [],
+  "main_release_files": 46,
+  "main_lane_protected_files": 9,
+  "release_manifest_sha256": "e8d8a1b54ff9ea3850296567ee8921149e5ea07697144b7bbeb41ea382045949",
+  "independent_scalp_revision": "6e04aced0f718b29f8ed805abcc0f76b01ed5096",
+  "final_rules": "Unchanged 90%, $75/$50 and supporting locks",
+  "cockpit": "Unchanged FINAL -> EARLY -> SCALP -> chart",
+  "production_operations": [],
+  "journal_or_volume_writes": 0,
+  "signal_only": true,
+  "orders": false,
+  "change_scope": "Offline EARLY research and evidence additions only; no replacement strategy or active thresholds changed"
+}

@@ -1,0 +1,161 @@
+BTC15 - Tier-1 EARLY directional selection findings
+October 11, 2026 | Research only | Production frozen
+
+RECOMMENDATION: RESTRICT ACTIVATION
+PASS evidence diagnosis and preserved lifecycle mechanics. FAIL restoration of a demonstrated profitable low-price strategy. No replacement model or entry-rule change is justified by this evidence. The unified value candidate remains disabled.
+
+Base: 5c856bd15824a929a5dee04b77cde65f50b4f602
+Branch: candidate/early-directional-recovery-20261011
+Delivery identity: the Git commit containing this report; the delivered PDF and final response provide its exact SHA.
+
+1. The principal finding
+
+The archived advantage cannot be treated as a causal trading benchmark. Every one of the 38 qualified validation/holdout entries selected by the winning rule used a full BTC candle whose bucket START matched the decision timestamp. Its Close, High and Low were not fully available until one minute later. The historical Kalshi quote ended at the earlier decision time.
+
+All 20 stored features reproduce from the archived source and BTC cache, within numerical tolerance, on all 38 rows. Moving the same BTC history to completed-candle availability changes the target side on ALL 38 rows. This is direct evidence of an availability defect, not a market-regime hypothesis.
+
+The current model, evaluated on the same noncausal archived vectors for forensic comparison only, still gives substantial support to those sides. Using causal completed-candle vectors removes that support. No noncausal vector was used to admit a candidate BUY or calculate a tradable return.
+
+Cohort | Archived entries | Mean stored p | Current p on SAME noncausal X | Current p on causal X
+Validation | 16 | 83.54% | 79.88% | 29.04%
+Holdout | 22 | 83.54% | 80.30% | 26.73%
+
+At the holdout entries, the mean change associated with current versus archived model predictions on the same vectors is 3.25 percentage points. The current model's own change from noncausal to causal inputs is 53.56 points. This decomposition diagnoses the observed discrepancy; missing original weights prevent measuring the original model's timing-only counterfactual.
+
+The unchanged Tier-1 rule admits ZERO entries on all 2,786 causal completed-candle snapshots across the same 99 validation and 100 holdout contracts. Thus later momentum/confirmation gates are not necessary to produce the coverage collapse. These are exact current-weight predictions on reconstructed historical minute inputs, not an exact native live replay. Historical spot ticks and receipt delays are missing; legitimate intraminute opportunities cannot be ruled out.
+
+2. Original identity, recipe and recovered artifacts
+
+Archive: a63d4579bae2ca64df6f45efff40819c709e44a2, September 7. Strategy: first-ranked entry_tournament_v3_all_results.csv row, implemented by kalshi_entry_tournament_v3_1_datetime_fix.py. V3.1 normalizes join timestamp resolution; it does not fix candle availability.
+
+Winner: ASK <=45c; preferred-side p >=75%; p-ASK >=8c; 120-600 seconds remaining; absolute BTC-target gap >=$25; minimum distance/range ratio 0; persistence 1; strengthening false; side_agree false. First qualifying observation per contract. No 25c floor, direct two-source BRTI confirmation, resale-profit qualification or condition-driven EXIT was part of that tournament.
+
+Model: RandomForestClassifier, 900 trees, max_depth=9, min_samples_leaf=12, class_weight=balanced, random_state=42. Calibration: LogisticRegression on raw RF flip probabilities, solver=lbfgs, C=1, max_iter=1000, random_state=42. Target: official settlement side differs from the BTC target side at the snapshot. Chronological roles: 331 fit, 133 calibration, 99 rule-validation and 100 holdout contracts. No fitting or tournament search was repeated here. The archive reports validation 16/16 and holdout 20/22 (90.9%), with mean holdout runway 6.09 minutes; those historical statistics retain the availability defect.
+
+Twenty features: elapsed, remaining, current_side, dist_target, abs_dist_target, dist_target_pct, move_from_start, move_from_start_pct, move1/2/3/5, support1/2/3/5, range5, vol5, dist_per_min_remaining and dist_over_range5. Time is in minutes; moves are BTC dollar differences; support multiplies a move by current target-side sign; range5 is five-minute high minus low; vol5 is population standard deviation of close percentage changes. Distance ratios use max(remaining,0.25) and max(range5,1).
+
+Recovered: recipe/source, official target/settlement table, BTC OHLCV cache, minute Kalshi candles, ranked rules, all 38 qualified feature/prediction rows, and exact cohort membership. YES ASK/BID are minute closes; NO ASK=1-YES BID; the original backward join allows 90 seconds. Neither RF feature set contains a live BRTI stream: BRTI supplies target/settlement authority, while current entry gates additionally use direct BRTI observations.
+
+Missing in bounded known locations: original fitted RF and sigmoid weights, original native spot/book/BRTI receipt tape, native depth/fees and manual fills. Checked the original archive tree, 13 relevant original ZIP member lists, all fetched Git model-suffix objects and retained manifests. Only the later frozen model artifact was found. The prior corpus catalog omitted binary model members, so its silence is explicitly not treated as proof. The original tournament code has no model-serialization step. Global nonexistence outside these locations is not asserted.
+
+Current artifact: completion_audit/model_artifact/frozen_fair_candidate.joblib
+Artifact SHA256: 1bf10e755fc81584bab3c3682b16103353f84582c27bb003664de883e7e7c816
+Fitted-weight SHA256: 95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6
+The original input-file hashes, feature definitions, split recipe and labels are retained. Current training uses completed-candle availability, introduced by the September 23 integrity work. Original fitted weights were not invented or reconstructed.
+
+3. A separate current-model limitation
+
+The fitted current calibration is p(flip)=sigmoid(2.9910579826854993*q - 2.278633903090592), where RF probability q lies in [0,1]. Therefore p(flip) lies in [9.2908%,67.0937%]. Reaching 75% would require q=1.1291, which is impossible. Maximum stay probability is 90.7092%.
+
+Consequently the current model cannot satisfy EARLY's 75% requirement for a side opposite its current BTC target side, whether UP from below the target or DOWN from above. It can qualify a cheap same-target-side quote when one exists. The archived winners all agreed with their noncausal target-side feature; they do not demonstrate genuine pre-crossing prediction skill.
+
+This is a mathematical capability limit, not proof that the true reversal probability should exceed 67.1%. Changing calibration to force stronger confidence would manufacture support unless independently validated. No calibration, confidence floor, FINAL model or production threshold was changed.
+
+4. Exact current-model replay and source distinctions
+
+Recovered captured native feature vectors bind by exact contract and decision timestamp to 19,628 development observations (122 contracts), 13,022 calibration observations (82 contracts), 667 earlier PR36 observations (4 contracts), and 3,985 October 8 observations (24 contracts). All 37,302 model outputs reproduce with maximum absolute probability difference 5.56e-17; none differs by more than 1e-12. Direct target/BTC-price equality is additionally checked for the 36,635 development, calibration and October 8 bindings. The reduced earlier PR36 numeric table lacks those fields, so its 667 matches do not independently recheck them.
+
+October 8 display timers are rounded to two decimals: 3,916 bindings require exact round(native_remaining,2) equality. No timestamp, feature, probability or replay input was changed to obtain a match. A focused test rejects any additional timer difference. Captured BTC source <= receipt <= decision clocks and frozen weight identities are checked.
+
+This removes the previous missing-native-feature obstacle for those current-model comparisons. It does not recover the old forest or native executable books. Repeated observation rows, historical candle scenarios, authentic feature frames and full native signal/receipt replays remain distinct evidence classes.
+
+5. Model versus rule rejections, including UP/DOWN
+
+Healthy development data with adequate runway contains only 26 preferred-side observations at ASK <=55c and p >=75%, across 10 of 122 contracts. Calibration contains 6 observations across 6 of 82 contracts. All 32 are UP. The first bottleneck is directional support at a low price, before additional confirmation rules.
+
+On those 26 development observations, the older condition candidate reports overlapping vetoes: 120-second history 8; alignment 9; multiscale momentum 13; persistence 16; prior BID confirmation 13. The latest unified value screen reports current BTC/BRTI support 10; fresh impulse 9; path efficiency 9; material quote reversal 8. Eleven observations across four contracts pass its structural screen, but only two setups persist to BUY proposals. Calibration has one structural-pass observation, with no sustained proposal.
+
+At 56-58c, the exceptional gate rejects additional cases; removing it is not justified. Under an unrestricted 58c diagnostic, one extra 57c development proposal produces only a -5c complete delayed-quote scenario after costs. No valid economic profile exists for either direction.
+
+Detailed row-level causes, including overlapping failures and confirmation status, are in CHEAP_CONFIDENT_GATE_ROWS.csv. A sole structural veto is not proof of a profitable missed entry. Current and previous rule screens are compared separately from model inference. Reflection checks pass for UP/DOWN rules; observed coverage asymmetry arises upstream in probabilities/data, not a different UP/DOWN price or confidence threshold. The forest itself is not forced to be direction-symmetric.
+
+The archive holdout reports UP 14/15 and DOWN 6/7 correct. Current causal support for those original sides averages 29.73% UP and 20.30% DOWN; zero reaches 75%. Both directions are affected by the timing defect. The original/current same-August comparison controls the market period, so regime change cannot explain that difference. August-to-October regime effects cannot be separately quantified from this evidence.
+
+6. Entry prices and the October policy changes
+
+Series | Entries/proposals | Mean ASK | Median ASK | Range
+Archived holdout | 22 | 31.93c | 34c | 0.5-45c
+Same sides at first full original-feature minute | 22 quotes | 74.07c | 69.5c | 57-94.6c
+Condition-v1 development | 28 | 75.57c | 77c | 63-80c
+Unified value development | 2 | 53.5c | 53.5c | 53-54c
+
+Four original holdout entries are below 25c and eighteen are 25-45c. At full original-feature availability, none of the 22 observed minute ASKs remains <=55c. The later quotes are timing diagnostics, not fills or executable resale returns. No future maximum BID is used.
+
+Preserved patches confirm: 3c12dd0 added <=50c guidance on October 6; f9ef31a replaced that display ceiling with unbounded value analysis; f2f5045 enabled unbounded origins with strong confirmation; 7a0b661 changed those qualifications; c4f5147 added causal corroboration to legacy Tier-1. October 11 condition-v1 allowed up to 80c with substantial confirmation. These changes explain price-policy drift and why mature moves were eligible. They do not restore the original time-misaligned evidence.
+
+The unified 25-55c focus, strong sub-25c requirements, exceptional 56-58c treatment and >58c rejection remain research-only and unchanged. Lower ASK preserves upside for the same exit BID and costs, but cheap price alone does not establish a directional or resale advantage.
+
+7. Historical economics under common assumptions
+
+Reused existing matching-period replays; no new tuning. Primary delay: first healthy observed quote at least 10 seconds after signal/EXIT availability, within the existing 10-second tolerance, with entry qualification latched invalid when lost. Stress costs: one-contract 0.07*p*(1-p), rounded up to a cent on each leg; reserve is max(relevant spreads,2c). These are conservative assumptions, not verified historical account pricing or fills.
+
+Period/policy | Proposals | Delayed-valid | Complete | Positive | Mean net
+Development condition-v1 | 28 | 10 | 8 | 1 | -13.88c
+Calibration condition-v1 | 15 | 2 | 2 | 0 | -15.50c
+Opened October 4 condition-v1 | 3 | 0 | 0 | 0 | N/A
+Opened October 6 condition-v1 | 6 | 2 | 1 | 1 | +2.00c
+Opened October 7 condition-v1 | 6 | 4 | 4 | 3 | +5.95c
+Development unified value | 2 | 0 | 0 | 0 | N/A
+Calibration / opened Oct 4,6,7 unified value | 0 | 0 | 0 | 0 | N/A
+October 8 diagnostic unified value | 0 | 0 | 0 | 0 | N/A
+Untouched October 11 window unified value | 0 | 0 | 0 | 0 | N/A
+
+All economically admitted unified BUY counts are zero. N/A is not a 0% return. The prior expensive candidate's tiny positive October 7 sample does not overcome negative development/calibration results or justify selecting that policy after inspection. Complete-path means exclude censoring and are not whole-strategy returns.
+
+The two unified UP proposals in contracts ending September 26 16:45 ET and September 27 12:00 ET lose qualification before the delayed entry. Their refreshed ASKs are 56c and 45c. Ignoring invalidation yields observed condition-exit scenarios of -9c and -20c after costs; these are canceled counterfactuals, not realized or avoided losses. The economic gate suppresses no demonstrated positive complete unified scenario, because none exists. Legitimate profitable missed low-price entries are not established.
+
+Original resale-profit comparison: unavailable. The archive has no condition-driven EXIT or native delayed-execution path. Its 20/22 directional statistic cannot substitute for resale economics. Modern official-side labels are partially recoverable for 25 development and 21 calibration contracts, selected by a FINAL-lock observer; neither unified proposal has a retained label. That biased subset cannot establish full EARLY accuracy. Underlying movement-to-exit in older reports is not official settlement accuracy.
+
+8. Lifecycle preservation and historical limits
+
+Existing engine and profile bytes are unchanged. BUY, condition-supported HOLD, corroborated WATCH/EXIT, stale-ticket invalidation, refreshed-ASK economics, independent same/opposite-side re-entry, source expiry, settlement protection and late-entry rejection remain intact. FINAL contributes evidence; EARLY owns management; SCALP stays independent. There is no 4-, 5-, 6- or 7-minute exit timer.
+
+All 27 focused lifecycle tests pass. The two canceled value proposals have three WATCH events, one recovery, median first-WATCH-to-EXIT 90.11 seconds and condition-exit durations 200.03 and 20.23 seconds. These are management diagnostics, not successful trades. No useful historical same-contract repeated BUY is demonstrated. Premature-exit risk for the older expensive candidate remains unresolved: later observed BID was higher in 14/20 development and 7/12 calibration post-exit checks. Those later quotes are diagnostics only, never scored exits.
+
+9. Independent evaluation and uncertainty
+
+Before analysis/tuning, 24 October 8 UTC contracts were reserved and hashed. A later nested-JSON check found three official labels already retained by an older report, so the entire October 8 window is conservatively labeled diagnostic rather than fully untouched acceptance. It supplies 3,985 observations and zero unified proposals; the old condition policy proposes three expensive entries, all invalidated before delayed entry. This exposure correction is recorded explicitly.
+
+A separate October 11 16:15-17:15 UTC section was reserved and hashed before retrieval/scoring, with no known prior cohort or retained-label overlap: four contracts, 1,404 observations. The unchanged unified and transferred Tier-1 policies each produce zero proposals/admissions; the old condition policy produces two expensive proposals, both invalidated before entry. No policy, model or profile was tuned after either evaluation.
+
+The four-contract section lacks independently bound book/BRTI receipt chains, depth, fee bindings and manual fills. Its model outputs are stored observations, not a newly recovered native feature replay. It is an untouched observational baseline check, not native profitability acceptance; four contracts and zero qualifying entries cannot validate restoration. Unknown prior human exposure cannot be certified. August and October 4,6,7 were never reused as fresh holdouts.
+
+10. Correction decision and production protection
+
+No EARLY strategy replacement, retraining or confidence/economic relaxation was implemented. The correction is to the evidence attribution: retire 90.9% as a causal low-price performance benchmark and explicitly identify the current pre-crossing probability ceiling. New files contain isolated research, exact feature bindings, gate attribution, reservations, findings and focused integrity tests.
+
+Six new evidence checks pass, including original-feature reconstruction, future-bucket exclusion, calibration bounds, UP/DOWN screen symmetry, causal native bindings and exact timer rounding. Combined with the existing lifecycle suite: 33 tests pass. Synthetic integrity/mechanics checks are not historical profit validation.
+
+All pre-existing tracked files are byte-identical to the base. MAIN's 46 release files and 9 protected files verify. Manifest SHA256 remains e8d8a1b54ff9ea3850296567ee8921149e5ea07697144b7bbeb41ea382045949. SCALP revision 6e04aced0f718b29f8ed805abcc0f76b01ed5096, FINAL 90%/$75/$50/supporting locks, and FINAL -> EARLY -> SCALP -> chart order are preserved. No merge, deployment, restart, live configuration/threshold edit, order or production journal/volume write occurred. Existing staged production changes were not touched. signal_only=true; orders=false.
+
+11. Smallest next action
+
+Build one bounded, previously unscored cohort of complete native low-price decision paths from the existing retained sources: bind the recovered current feature vectors to original same-decision quote/BRTI receipts, official settlement labels and delayed executable BID observations. Include pre-crossing and same-side opportunities in both directions. First test whether the current reversal calibration materially understates supported probabilities in that cohort.
+
+Only if that deficiency is demonstrated should an EARLY-only probability correction be frozen and tested on another untouched section, with the existing lifecycle and economic admission unchanged. Do not reintroduce future candles, raise confidence by construction, remove protection gates merely to create activity, or modify FINAL's shared model. The specific blocker is unvalidated pre-crossing predictive/economic support, not a need for more price-cap experiments.
+
+12. Evidence and reproduction
+
+ARTIFACT_SEARCH.json: bounded model search and byte identities.
+ARCHIVE_COMPARISON.json / ARCHIVED_ENTRY_ATTRIBUTION.csv: original-versus-current evidence and feature availability.
+CURRENT_CAUSAL_AUGUST_SNAPSHOTS.csv: every matched August current-model snapshot and Tier-1 rejection.
+MODEL_CALIBRATION_LIMITS.json: fitted calibration range and exact coefficient evidence.
+NATIVE_MODEL_REPLAY.json / NATIVE_PREDICTION_BINDINGS.csv.gz: current-model replay and binding results.
+MODERN_GATE_ATTRIBUTION.json / CHEAP_CONFIDENT_GATE_ROWS.csv: separate model/rule rejection evidence.
+EXISTING_ECONOMIC_COMPARISON.json, RESERVED_* and UNTOUCHED_*: prior economics and frozen new diagnostics.
+PROTECTION_CHECKS.json, LIFECYCLE_TESTS.txt, EVIDENCE_TESTS.txt: preservation and focused test evidence.
+CHANGED_FILES.json and SHA256SUMS: exact added-file inventory and hashes.
+
+Offline commands from the candidate branch:
+python -B -m candidates.early_directional_20261011.archive
+python -B -m candidates.early_directional_20261011.gates
+python -B -m candidates.early_directional_20261011.native_replay --directory audit/early_directional_20261011
+python -B -m unittest candidates.early_directional_20261011.test_evidence -v
+python -B -m unittest candidates.early_value_20261011.test_engine -v
+
+Frozen observation inputs are retained locally in the branch. Raw bounded export ranges were GET-only; source/range hashes and acquisition identities are retained. Do not rerun live recovery to reproduce the retained offline model/gate results. Reconstructed-model experiments: none. Original-model exact replay: unavailable. Current native model replay: verified. Candidate native profitability acceptance: not established.
+
+13. Source for candle semantics
+
+Coinbase Exchange Get product candles documentation, checked October 11, 2026: time identifies the bucket start, while Close is the last trade in that interval. Repository fetch_coinbase_range stores this timestamp directly. This supports the availability interpretation; the row-by-row defect itself is verified from the archived code/cache/features.
+https://docs.cdp.coinbase.com/api-reference/exchange-api/rest-api/products/get-product-candles

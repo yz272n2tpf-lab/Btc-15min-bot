@@ -1,0 +1,600 @@
+{
+  "classification": "Exact unchanged EARLY screening using stored contemporaneous model outputs; NOT inference from missing native features",
+  "cohorts": {
+    "development": {
+      "contracts": 122,
+      "observations": 19628,
+      "by_side": {
+        "UP": {
+          "rows": {
+            "cheap": 9600,
+            "primary_25_55": 5741,
+            "cheap_confident": 77,
+            "cheap55_confident": 26,
+            "structural_pass": 11
+          },
+          "p_bins": {
+            "<50": 8291,
+            "50to75": 1232,
+            "75plus": 77
+          },
+          "all_gate_failures": {
+            "CAUSAL_30S_HISTORY_UNAVAILABLE": 600,
+            "MODEL_DIRECTION": 8924,
+            "CURRENT_BTC_BRTI_SUPPORT": 8571,
+            "MODEL_DISAGREEMENT_MARGIN": 8374,
+            "SHORT_PATH_EFFICIENCY": 6379,
+            "FRESH_DIRECTIONAL_IMPULSE": 6408,
+            "NO_MATERIAL_QUOTE_REVERSAL": 4535,
+            "EXCEPTIONAL_DIRECTION": 449,
+            "SPREAD": 1
+          },
+          "confident_gate_failures": {
+            "CURRENT_BTC_BRTI_SUPPORT": 18,
+            "SHORT_PATH_EFFICIENCY": 33,
+            "EXCEPTIONAL_DIRECTION": 50,
+            "FRESH_DIRECTIONAL_IMPULSE": 41,
+            "NO_MATERIAL_QUOTE_REVERSAL": 33,
+            "CAUSAL_30S_HISTORY_UNAVAILABLE": 1
+          },
+          "prior_confident_gate_failures": {
+            "BTC_BRTI_ALIGNMENT": 19,
+            "DIRECTIONAL_PERSISTENCE": 43,
+            "MULTISCALE_MOMENTUM": 43,
+            "QUOTE_CONFIRMATION": 40,
+            "CAUSAL_120S_HISTORY_UNAVAILABLE": 22
+          },
+          "sole_structural_gate": {
+            "CURRENT_BTC_BRTI_SUPPORT": 4,
+            "EXCEPTIONAL_DIRECTION": 12,
+            "NO_MATERIAL_QUOTE_REVERSAL": 1,
+            "CAUSAL_30S_HISTORY_UNAVAILABLE": 1
+          },
+          "contract_counts": {
+            "cheap": 116,
+            "cheap_confident": 22,
+            "cheap55_confident": 10,
+            "structural_pass": 4
+          },
+          "cheap_side_probability": {
+            "n": 9600,
+            "mean": 0.3350027462161429,
+            "median": 0.3088013289937557,
+            "min": 0.09981376143805454,
+            "max": 0.8311574360592279,
+            "quartiles": [
+              0.21615792334007158,
+              0.4399001784652659
+            ],
+            "bins": {
+              "below25": 3150,
+              "primary25to55": 5428,
+              "exceptional56to58": 117,
+              "above58": 905
+            }
+          }
+        },
+        "DOWN": {
+          "rows": {
+            "cheap": 9919,
+            "primary_25_55": 5364,
+            "cheap_confident": 5
+          },
+          "p_bins": {
+            "<50": 8180,
+            "50to75": 1734,
+            "75plus": 5
+          },
+          "all_gate_failures": {
+            "MODEL_DIRECTION": 9259,
+            "CURRENT_BTC_BRTI_SUPPORT": 8152,
+            "FRESH_DIRECTIONAL_IMPULSE": 6613,
+            "SHORT_PATH_EFFICIENCY": 6530,
+            "NO_MATERIAL_QUOTE_REVERSAL": 4638,
+            "MODEL_DISAGREEMENT_MARGIN": 9118,
+            "CAUSAL_30S_HISTORY_UNAVAILABLE": 655,
+            "EXCEPTIONAL_DIRECTION": 486
+          },
+          "confident_gate_failures": {
+            "FRESH_DIRECTIONAL_IMPULSE": 3,
+            "SHORT_PATH_EFFICIENCY": 3,
+            "NO_MATERIAL_QUOTE_REVERSAL": 3,
+            "EXCEPTIONAL_DIRECTION": 5
+          },
+          "prior_confident_gate_failures": {
+            "MULTISCALE_MOMENTUM": 3,
+            "DIRECTIONAL_PERSISTENCE": 3,
+            "QUOTE_CONFIRMATION": 3,
+            "CAUSAL_120S_HISTORY_UNAVAILABLE": 2
+          },
+          "sole_structural_gate": {
+            "EXCEPTIONAL_DIRECTION": 2
+          },
+          "contract_counts": {
+            "cheap": 116,
+            "cheap_confident": 4
+          },
+          "cheap_side_probability": {
+            "n": 9919,
+            "mean": 0.28547076344327055,
+            "median": 0.23098831099204553,
+            "min": 0.09334249482086421,
+            "max": 0.7743510677933694,
+            "quartiles": [
+              0.14124714283996842,
+              0.39683638692165735
+            ],
+            "bins": {
+              "below25": 5181,
+              "primary25to55": 3861,
+              "exceptional56to58": 362,
+              "above58": 515
+            }
+          }
+        }
+      }
+    },
+    "calibration": {
+      "contracts": 82,
+      "observations": 13022,
+      "by_side": {
+        "UP": {
+          "rows": {
+            "cheap": 6648,
+            "primary_25_55": 3877,
+            "cheap_confident": 28,
+            "cheap55_confident": 6,
+            "structural_pass": 1
+          },
+          "p_bins": {
+            "50to75": 928,
+            "<50": 5692,
+            "75plus": 28
+          },
+          "all_gate_failures": {
+            "MODEL_DIRECTION": 6231,
+            "FRESH_DIRECTIONAL_IMPULSE": 4325,
+            "SHORT_PATH_EFFICIENCY": 4743,
+            "NO_MATERIAL_QUOTE_REVERSAL": 3315,
+            "MODEL_DISAGREEMENT_MARGIN": 6011,
+            "EXCEPTIONAL_DIRECTION": 394,
+            "CURRENT_BTC_BRTI_SUPPORT": 5832,
+            "CAUSAL_30S_HISTORY_UNAVAILABLE": 391,
+            "SPREAD": 2
+          },
+          "confident_gate_failures": {
+            "FRESH_DIRECTIONAL_IMPULSE": 18,
+            "SHORT_PATH_EFFICIENCY": 19,
+            "NO_MATERIAL_QUOTE_REVERSAL": 15,
+            "EXCEPTIONAL_DIRECTION": 21,
+            "CURRENT_BTC_BRTI_SUPPORT": 2,
+            "SPREAD": 1,
+            "CAUSAL_30S_HISTORY_UNAVAILABLE": 2
+          },
+          "prior_confident_gate_failures": {
+            "MULTISCALE_MOMENTUM": 16,
+            "QUOTE_CONFIRMATION": 15,
+            "BTC_BRTI_ALIGNMENT": 13,
+            "DIRECTIONAL_PERSISTENCE": 19,
+            "PRICE_AND_SPREAD": 1,
+            "CAUSAL_120S_HISTORY_UNAVAILABLE": 8
+          },
+          "sole_structural_gate": {
+            "EXCEPTIONAL_DIRECTION": 5,
+            "CAUSAL_30S_HISTORY_UNAVAILABLE": 2
+          },
+          "contract_counts": {
+            "cheap": 79,
+            "cheap_confident": 15,
+            "cheap55_confident": 6,
+            "structural_pass": 1
+          },
+          "cheap_side_probability": {
+            "n": 6648,
+            "mean": 0.32092367029888014,
+            "median": 0.30063486036174325,
+            "min": 0.10118729774221569,
+            "max": 0.8258997811181585,
+            "quartiles": [
+              0.17289993816617083,
+              0.40475111960323623
+            ],
+            "bins": {
+              "below25": 2618,
+              "primary25to55": 3204,
+              "exceptional56to58": 73,
+              "above58": 753
+            }
+          }
+        },
+        "DOWN": {
+          "rows": {
+            "cheap": 6448,
+            "primary_25_55": 3989,
+            "cheap_confident": 1
+          },
+          "p_bins": {
+            "<50": 5303,
+            "50to75": 1144,
+            "75plus": 1
+          },
+          "all_gate_failures": {
+            "CAUSAL_30S_HISTORY_UNAVAILABLE": 402,
+            "MODEL_DIRECTION": 6045,
+            "CURRENT_BTC_BRTI_SUPPORT": 5416,
+            "FRESH_DIRECTIONAL_IMPULSE": 4047,
+            "SHORT_PATH_EFFICIENCY": 4495,
+            "NO_MATERIAL_QUOTE_REVERSAL": 3139,
+            "MODEL_DISAGREEMENT_MARGIN": 6021,
+            "EXCEPTIONAL_DIRECTION": 372,
+            "SPREAD": 2
+          },
+          "confident_gate_failures": {
+            "EXCEPTIONAL_DIRECTION": 1
+          },
+          "prior_confident_gate_failures": {
+            "DIRECTIONAL_PERSISTENCE": 1
+          },
+          "sole_structural_gate": {
+            "EXCEPTIONAL_DIRECTION": 1
+          },
+          "contract_counts": {
+            "cheap": 77,
+            "cheap_confident": 1
+          },
+          "cheap_side_probability": {
+            "n": 6448,
+            "mean": 0.27792822697764696,
+            "median": 0.21298668442917895,
+            "min": 0.09332353958663708,
+            "max": 0.7652249255018468,
+            "quartiles": [
+              0.13060428215393868,
+              0.3687689330257844
+            ],
+            "bins": {
+              "below25": 3556,
+              "primary25to55": 2145,
+              "exceptional56to58": 149,
+              "above58": 598
+            }
+          }
+        }
+      }
+    },
+    "opened_oct4": {
+      "contracts": 16,
+      "observations": 2668,
+      "by_side": {
+        "UP": {
+          "rows": {
+            "cheap": 1169,
+            "primary_25_55": 926,
+            "cheap_confident": 43,
+            "cheap55_confident": 40
+          },
+          "p_bins": {
+            "50to75": 241,
+            "<50": 885,
+            "75plus": 43
+          },
+          "all_gate_failures": {
+            "CAUSAL_30S_HISTORY_UNAVAILABLE": 235,
+            "MODEL_DIRECTION": 904,
+            "CURRENT_BTC_BRTI_SUPPORT": 876,
+            "FRESH_DIRECTIONAL_IMPULSE": 793,
+            "SHORT_PATH_EFFICIENCY": 691,
+            "MODEL_DISAGREEMENT_MARGIN": 875,
+            "NO_MATERIAL_QUOTE_REVERSAL": 389,
+            "EXCEPTIONAL_DIRECTION": 59
+          },
+          "confident_gate_failures": {
+            "CAUSAL_30S_HISTORY_UNAVAILABLE": 13,
+            "FRESH_DIRECTIONAL_IMPULSE": 30,
+            "SHORT_PATH_EFFICIENCY": 22,
+            "CURRENT_BTC_BRTI_SUPPORT": 19,
+            "NO_MATERIAL_QUOTE_REVERSAL": 16,
+            "EXCEPTIONAL_DIRECTION": 2
+          },
+          "prior_confident_gate_failures": {
+            "CAUSAL_120S_HISTORY_UNAVAILABLE": 22,
+            "BTC_BRTI_ALIGNMENT": 17,
+            "MULTISCALE_MOMENTUM": 21,
+            "DIRECTIONAL_PERSISTENCE": 21,
+            "QUOTE_CONFIRMATION": 17
+          },
+          "sole_structural_gate": {
+            "CAUSAL_30S_HISTORY_UNAVAILABLE": 13,
+            "FRESH_DIRECTIONAL_IMPULSE": 1
+          },
+          "contract_counts": {
+            "cheap": 15,
+            "cheap_confident": 3,
+            "cheap55_confident": 3
+          },
+          "cheap_side_probability": {
+            "n": 1169,
+            "mean": 0.4290829540155368,
+            "median": 0.43403691801871624,
+            "min": 0.12365418715957599,
+            "max": 0.8206023014101398,
+            "quartiles": [
+              0.3618493946874305,
+              0.4967965567386389
+            ],
+            "bins": {
+              "below25": 151,
+              "primary25to55": 847,
+              "exceptional56to58": 24,
+              "above58": 147
+            }
+          }
+        },
+        "DOWN": {
+          "rows": {
+            "cheap": 1667,
+            "primary_25_55": 1105
+          },
+          "p_bins": {
+            "<50": 1227,
+            "50to75": 440
+          },
+          "all_gate_failures": {
+            "CAUSAL_30S_HISTORY_UNAVAILABLE": 232,
+            "MODEL_DIRECTION": 1435,
+            "CURRENT_BTC_BRTI_SUPPORT": 1162,
+            "FRESH_DIRECTIONAL_IMPULSE": 1125,
+            "SHORT_PATH_EFFICIENCY": 985,
+            "MODEL_DISAGREEMENT_MARGIN": 1403,
+            "NO_MATERIAL_QUOTE_REVERSAL": 666,
+            "EXCEPTIONAL_DIRECTION": 72,
+            "SPREAD": 1
+          },
+          "contract_counts": {
+            "cheap": 16
+          },
+          "cheap_side_probability": {
+            "n": 1667,
+            "mean": 0.3373681723281372,
+            "median": 0.31147059173854874,
+            "min": 0.10791041320399675,
+            "max": 0.7075510831645087,
+            "quartiles": [
+              0.1663387868787191,
+              0.5127597367764813
+            ],
+            "bins": {
+              "below25": 668,
+              "primary25to55": 723,
+              "exceptional56to58": 173,
+              "above58": 103
+            }
+          }
+        }
+      }
+    },
+    "opened_oct6": {
+      "contracts": 24,
+      "observations": 4019,
+      "by_side": {
+        "UP": {
+          "rows": {
+            "cheap": 2036,
+            "primary_25_55": 1245,
+            "cheap_confident": 3,
+            "cheap55_confident": 1
+          },
+          "p_bins": {
+            "<50": 1632,
+            "50to75": 401,
+            "75plus": 3
+          },
+          "all_gate_failures": {
+            "CAUSAL_30S_HISTORY_UNAVAILABLE": 370,
+            "MODEL_DIRECTION": 1663,
+            "CURRENT_BTC_BRTI_SUPPORT": 1534,
+            "FRESH_DIRECTIONAL_IMPULSE": 1077,
+            "MODEL_DISAGREEMENT_MARGIN": 1539,
+            "EXCEPTIONAL_DIRECTION": 104,
+            "SHORT_PATH_EFFICIENCY": 1140,
+            "NO_MATERIAL_QUOTE_REVERSAL": 826,
+            "SPREAD": 2
+          },
+          "confident_gate_failures": {
+            "FRESH_DIRECTIONAL_IMPULSE": 3,
+            "SHORT_PATH_EFFICIENCY": 3,
+            "NO_MATERIAL_QUOTE_REVERSAL": 3,
+            "EXCEPTIONAL_DIRECTION": 2
+          },
+          "prior_confident_gate_failures": {
+            "BTC_BRTI_ALIGNMENT": 3,
+            "MULTISCALE_MOMENTUM": 3,
+            "DIRECTIONAL_PERSISTENCE": 3,
+            "QUOTE_CONFIRMATION": 3
+          },
+          "contract_counts": {
+            "cheap": 23,
+            "cheap_confident": 2,
+            "cheap55_confident": 1
+          },
+          "cheap_side_probability": {
+            "n": 2036,
+            "mean": 0.36305139379103213,
+            "median": 0.3409061407395514,
+            "min": 0.1036485359265148,
+            "max": 0.8049650825519196,
+            "quartiles": [
+              0.2424100764245497,
+              0.4754128941601754
+            ],
+            "bins": {
+              "below25": 528,
+              "primary25to55": 1171,
+              "exceptional56to58": 41,
+              "above58": 296
+            }
+          }
+        },
+        "DOWN": {
+          "rows": {
+            "cheap": 1889,
+            "primary_25_55": 1116
+          },
+          "p_bins": {
+            "50to75": 252,
+            "<50": 1637
+          },
+          "all_gate_failures": {
+            "CAUSAL_30S_HISTORY_UNAVAILABLE": 249,
+            "MODEL_DIRECTION": 1640,
+            "FRESH_DIRECTIONAL_IMPULSE": 1137,
+            "SHORT_PATH_EFFICIENCY": 1169,
+            "MODEL_DISAGREEMENT_MARGIN": 1639,
+            "CURRENT_BTC_BRTI_SUPPORT": 1503,
+            "NO_MATERIAL_QUOTE_REVERSAL": 879,
+            "EXCEPTIONAL_DIRECTION": 91,
+            "SPREAD": 1
+          },
+          "contract_counts": {
+            "cheap": 22
+          },
+          "cheap_side_probability": {
+            "n": 1889,
+            "mean": 0.27424774160610305,
+            "median": 0.23555975640286564,
+            "min": 0.09354395105863222,
+            "max": 0.6466929608046736,
+            "quartiles": [
+              0.14058769085070766,
+              0.3780449630219116
+            ],
+            "bins": {
+              "below25": 975,
+              "primary25to55": 827,
+              "exceptional56to58": 45,
+              "above58": 42
+            }
+          }
+        }
+      }
+    },
+    "opened_oct7": {
+      "contracts": 24,
+      "observations": 3902,
+      "by_side": {
+        "UP": {
+          "rows": {
+            "cheap": 1576,
+            "primary_25_55": 946,
+            "cheap_confident": 3,
+            "cheap55_confident": 1
+          },
+          "p_bins": {
+            "<50": 1252,
+            "50to75": 321,
+            "75plus": 3
+          },
+          "all_gate_failures": {
+            "CAUSAL_30S_HISTORY_UNAVAILABLE": 316,
+            "MODEL_DIRECTION": 1258,
+            "CURRENT_BTC_BRTI_SUPPORT": 1110,
+            "FRESH_DIRECTIONAL_IMPULSE": 867,
+            "SHORT_PATH_EFFICIENCY": 907,
+            "NO_MATERIAL_QUOTE_REVERSAL": 608,
+            "MODEL_DISAGREEMENT_MARGIN": 1224,
+            "EXCEPTIONAL_DIRECTION": 88
+          },
+          "confident_gate_failures": {
+            "CAUSAL_30S_HISTORY_UNAVAILABLE": 1,
+            "EXCEPTIONAL_DIRECTION": 2,
+            "SHORT_PATH_EFFICIENCY": 1
+          },
+          "prior_confident_gate_failures": {
+            "CAUSAL_120S_HISTORY_UNAVAILABLE": 3
+          },
+          "sole_structural_gate": {
+            "CAUSAL_30S_HISTORY_UNAVAILABLE": 1,
+            "EXCEPTIONAL_DIRECTION": 1
+          },
+          "contract_counts": {
+            "cheap": 23,
+            "cheap_confident": 3,
+            "cheap55_confident": 1
+          },
+          "cheap_side_probability": {
+            "n": 1576,
+            "mean": 0.349838055606178,
+            "median": 0.3214568156083276,
+            "min": 0.1017191421989152,
+            "max": 0.7683480646334343,
+            "quartiles": [
+              0.19875877007947212,
+              0.47793249420251155
+            ],
+            "bins": {
+              "below25": 548,
+              "primary25to55": 750,
+              "exceptional56to58": 30,
+              "above58": 248
+            }
+          }
+        },
+        "DOWN": {
+          "rows": {
+            "cheap": 2116,
+            "primary_25_55": 1284,
+            "cheap_confident": 2,
+            "cheap55_confident": 2
+          },
+          "p_bins": {
+            "50to75": 255,
+            "75plus": 2,
+            "<50": 1859
+          },
+          "all_gate_failures": {
+            "CAUSAL_30S_HISTORY_UNAVAILABLE": 495,
+            "MODEL_DIRECTION": 1619,
+            "MODEL_DISAGREEMENT_MARGIN": 1600,
+            "EXCEPTIONAL_DIRECTION": 76,
+            "FRESH_DIRECTIONAL_IMPULSE": 1126,
+            "SHORT_PATH_EFFICIENCY": 1163,
+            "NO_MATERIAL_QUOTE_REVERSAL": 827,
+            "CURRENT_BTC_BRTI_SUPPORT": 1483
+          },
+          "confident_gate_failures": {
+            "FRESH_DIRECTIONAL_IMPULSE": 2,
+            "SHORT_PATH_EFFICIENCY": 2,
+            "NO_MATERIAL_QUOTE_REVERSAL": 2
+          },
+          "prior_confident_gate_failures": {
+            "MULTISCALE_MOMENTUM": 2,
+            "DIRECTIONAL_PERSISTENCE": 2,
+            "QUOTE_CONFIRMATION": 2
+          },
+          "contract_counts": {
+            "cheap": 23,
+            "cheap_confident": 1,
+            "cheap55_confident": 1
+          },
+          "cheap_side_probability": {
+            "n": 2116,
+            "mean": 0.25854525776774784,
+            "median": 0.1953276140139254,
+            "min": 0.09351527925617342,
+            "max": 0.8362907967796578,
+            "quartiles": [
+              0.127169683461966,
+              0.36439233494631146
+            ],
+            "bins": {
+              "below25": 1226,
+              "primary25to55": 773,
+              "exceptional56to58": 44,
+              "above58": 73
+            }
+          }
+        }
+      }
+    }
+  }
+}

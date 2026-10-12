@@ -1,0 +1,90 @@
+{
+  "development": {
+    "contracts": 122,
+    "verified_target_label_overlap": 25,
+    "label_contracts": [
+      "KXBTC15M-26SEP261700-00",
+      "KXBTC15M-26SEP261815-15",
+      "KXBTC15M-26SEP262045-45",
+      "KXBTC15M-26SEP262200-00",
+      "KXBTC15M-26SEP270015-15",
+      "KXBTC15M-26SEP270045-45",
+      "KXBTC15M-26SEP270145-45",
+      "KXBTC15M-26SEP270930-30",
+      "KXBTC15M-26SEP271000-00",
+      "KXBTC15M-26SEP271130-30",
+      "KXBTC15M-26SEP271215-15",
+      "KXBTC15M-26SEP271430-30",
+      "KXBTC15M-26SEP271545-45",
+      "KXBTC15M-26SEP271630-30",
+      "KXBTC15M-26SEP271715-15",
+      "KXBTC15M-26SEP271800-00",
+      "KXBTC15M-26SEP271830-30",
+      "KXBTC15M-26SEP271930-30",
+      "KXBTC15M-26SEP272000-00",
+      "KXBTC15M-26SEP272030-30",
+      "KXBTC15M-26SEP272100-00",
+      "KXBTC15M-26SEP272130-30",
+      "KXBTC15M-26SEP272315-15",
+      "KXBTC15M-26SEP272345-45",
+      "KXBTC15M-26SEP280115-15"
+    ],
+    "proposal_labels": [
+      {
+        "contract": "KXBTC15M-26SEP261645-45",
+        "side": "UP",
+        "official_side": null,
+        "correct": null,
+        "manual_valid": false
+      },
+      {
+        "contract": "KXBTC15M-26SEP271200-00",
+        "side": "UP",
+        "official_side": null,
+        "correct": null,
+        "manual_valid": false
+      }
+    ],
+    "selection_bias": "Labels retained by FINAL lock observer; incomplete and not random, unsuitable for full EARLY accuracy"
+  },
+  "calibration": {
+    "contracts": 82,
+    "verified_target_label_overlap": 21,
+    "label_contracts": [
+      "KXBTC15M-26SEP280245-45",
+      "KXBTC15M-26SEP280400-00",
+      "KXBTC15M-26SEP280500-00",
+      "KXBTC15M-26SEP280615-15",
+      "KXBTC15M-26SEP280630-30",
+      "KXBTC15M-26SEP280645-45",
+      "KXBTC15M-26SEP280745-45",
+      "KXBTC15M-26SEP280815-15",
+      "KXBTC15M-26SEP280900-00",
+      "KXBTC15M-26SEP280945-45",
+      "KXBTC15M-26SEP281045-45",
+      "KXBTC15M-26SEP281145-45",
+      "KXBTC15M-26SEP281200-00",
+      "KXBTC15M-26SEP281230-30",
+      "KXBTC15M-26SEP281415-15",
+      "KXBTC15M-26SEP281500-00",
+      "KXBTC15M-26SEP281600-00",
+      "KXBTC15M-26SEP281615-15",
+      "KXBTC15M-26SEP281715-15",
+      "KXBTC15M-26SEP281845-45",
+      "KXBTC15M-26SEP281930-30"
+    ],
+    "proposal_labels": [],
+    "selection_bias": "Labels retained by FINAL lock observer; incomplete and not random, unsuitable for full EARLY accuracy"
+  },
+  "oct8_diagnostic": {
+    "contracts": 24,
+    "verified_target_label_overlap": 3,
+    "label_contracts": [
+      "KXBTC15M-26OCT072100-00",
+      "KXBTC15M-26OCT072115-15",
+      "KXBTC15M-26OCT080130-30"
+    ],
+    "proposal_labels": [],
+    "selection_bias": "Labels retained by FINAL lock observer; incomplete and not random, unsuitable for full EARLY accuracy"
+  }
+}

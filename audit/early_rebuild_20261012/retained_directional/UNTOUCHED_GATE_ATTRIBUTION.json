@@ -1,0 +1,119 @@
+{
+  "summary": {
+    "contracts": 4,
+    "observations": 1404,
+    "by_side": {
+      "UP": {
+        "rows": {
+          "cheap": 1013,
+          "primary_25_55": 463,
+          "cheap_confident": 1
+        },
+        "p_bins": {
+          "<50": 892,
+          "50to75": 120,
+          "75plus": 1
+        },
+        "all_gate_failures": {
+          "CAUSAL_30S_HISTORY_UNAVAILABLE": 45,
+          "MODEL_DIRECTION": 967,
+          "CURRENT_BTC_BRTI_SUPPORT": 915,
+          "SHORT_PATH_EFFICIENCY": 684,
+          "MODEL_DISAGREEMENT_MARGIN": 918,
+          "FRESH_DIRECTIONAL_IMPULSE": 607,
+          "NO_MATERIAL_QUOTE_REVERSAL": 481,
+          "EXCEPTIONAL_DIRECTION": 29
+        },
+        "confident_gate_failures": {
+          "FRESH_DIRECTIONAL_IMPULSE": 1,
+          "SHORT_PATH_EFFICIENCY": 1,
+          "NO_MATERIAL_QUOTE_REVERSAL": 1,
+          "EXCEPTIONAL_DIRECTION": 1
+        },
+        "prior_confident_gate_failures": {
+          "MULTISCALE_MOMENTUM": 1,
+          "QUOTE_CONFIRMATION": 1
+        },
+        "contract_counts": {
+          "cheap": 4,
+          "cheap_confident": 1
+        },
+        "cheap_side_probability": {
+          "n": 1013,
+          "mean": 0.301512485952677,
+          "median": 0.2593942371011376,
+          "min": 0.1083326952806104,
+          "max": 0.7703891678331336,
+          "quartiles": [
+            0.19276115156765794,
+            0.38325496343783283
+          ],
+          "bins": {
+            "below25": 489,
+            "primary25to55": 432,
+            "exceptional56to58": 8,
+            "above58": 84
+          }
+        }
+      },
+      "DOWN": {
+        "rows": {
+          "cheap": 332,
+          "primary_25_55": 244
+        },
+        "p_bins": {
+          "50to75": 75,
+          "<50": 257
+        },
+        "all_gate_failures": {
+          "CAUSAL_30S_HISTORY_UNAVAILABLE": 37,
+          "MODEL_DIRECTION": 295,
+          "CURRENT_BTC_BRTI_SUPPORT": 266,
+          "FRESH_DIRECTIONAL_IMPULSE": 199,
+          "SHORT_PATH_EFFICIENCY": 232,
+          "NO_MATERIAL_QUOTE_REVERSAL": 173,
+          "MODEL_DISAGREEMENT_MARGIN": 295,
+          "EXCEPTIONAL_DIRECTION": 31
+        },
+        "contract_counts": {
+          "cheap": 3
+        },
+        "cheap_side_probability": {
+          "n": 332,
+          "mean": 0.3426955233224078,
+          "median": 0.33285556696386553,
+          "min": 0.11211152533089364,
+          "max": 0.6641122035030949,
+          "quartiles": [
+            0.20276146505814852,
+            0.4789404087844723
+          ],
+          "bins": {
+            "below25": 109,
+            "primary25to55": 197,
+            "exceptional56to58": 8,
+            "above58": 18
+          }
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "cohort": "untouched_oct11",
+      "contract": "KXBTC15M-26OCT111300-00",
+      "time": 1791737606.311509,
+      "side": "UP",
+      "p": 0.7703891678331336,
+      "ask": 0.57,
+      "bid": 0.56,
+      "left": 393.69,
+      "btc_gap": 34.169999999998254,
+      "brti_gap": 20.619999999995343,
+      "current_failures": "FRESH_DIRECTIONAL_IMPULSE|SHORT_PATH_EFFICIENCY|NO_MATERIAL_QUOTE_REVERSAL|EXCEPTIONAL_DIRECTION",
+      "previous_failures": "MULTISCALE_MOMENTUM|QUOTE_CONFIRMATION",
+      "reducer_reasons": "FRESH_DIRECTIONAL_IMPULSE|SHORT_PATH_EFFICIENCY|NO_MATERIAL_QUOTE_REVERSAL|EXCEPTIONAL_DIRECTION",
+      "reducer_event": null
+    }
+  ]
+}

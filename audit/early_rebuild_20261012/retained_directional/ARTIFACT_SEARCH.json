@@ -1,0 +1,141 @@
+{
+  "scope": "Exact original archive tree, targeted ZIP members, prior repository/Library corpus manifests, known current artifact",
+  "original_model_files": [],
+  "archive_zip_checks": [
+    {
+      "path": "BTC15_EARLY_ENTRY_FEASIBILITY_FRONTIER_V1.zip",
+      "sha256": "9c1178973a75512111aca8be5a5e3c024b29571703330b218dc390800cb7d040",
+      "members": 1,
+      "model_members": []
+    },
+    {
+      "path": "BTC15_EARLY_PERSISTENCE_META_MODEL_V1.zip",
+      "sha256": "30c05c99c7c6b63c3ea5b4d662e04939f50a6f7481e8fb7e536b0760196761c8",
+      "members": 1,
+      "model_members": []
+    },
+    {
+      "path": "BTC15_SUBMINUTE_EARLY_ENTRY_MODEL_V1.zip",
+      "sha256": "7a91ac438cbae38c8e14f088ca7858c45abb0d76370aa150e40a0e4690b94f61",
+      "members": 1,
+      "model_members": []
+    },
+    {
+      "path": "BTC15_UNIFIED_EARLY_OFFLINE_SCREEN_V1.zip",
+      "sha256": "50742300f7eaf474a6361114b2562d822c8a3c329d29e0209c1e399f93893a9f",
+      "members": 1,
+      "model_members": []
+    },
+    {
+      "path": "BTC15_UNIFIED_EARLY_SEQUENCE_V3.zip",
+      "sha256": "6059caab9fb028051ca210c3d020db28d082a5a03382752959fc0af838b5832b",
+      "members": 1,
+      "model_members": []
+    },
+    {
+      "path": "BTC15_UNIFIED_EARLY_TOURNAMENT_V2.zip",
+      "sha256": "ad79b186deaeba1c2870c3068600f44946a9ce089345a6e442c00e85ecf29abf",
+      "members": 1,
+      "model_members": []
+    },
+    {
+      "path": "BTC15_V4_11_SUBMINUTE_EARLY_ENTRY_SHADOW.zip",
+      "sha256": "36dc61d400a89a3d78b230e9cf5e48da06c19221a1ade3dd78495af6ab23f8c9",
+      "members": 1,
+      "model_members": []
+    },
+    {
+      "path": "BTC15_V4_8_2_EARLY_CONF_SHADOW.zip",
+      "sha256": "497cd7c5ab9b48375b7dae6cbb8812b9e8e14cf5856db490e04749f877bab878",
+      "members": 1,
+      "model_members": []
+    },
+    {
+      "path": "BTC15_V4_8_3_EARLY_CONF_LIVE_FIX.zip",
+      "sha256": "6e97ad9761c7b466fb2d57c83d8ec696e932a47e8170675c715d87ab200d715a",
+      "members": 1,
+      "model_members": []
+    },
+    {
+      "path": "BTC15_V4_8_4_EARLY_CONF_ROLLOVER_FIX.zip",
+      "sha256": "b398d195fd0ccb68d4202f30328d3f69eff686664d8fd61bbc36f9078023e4e3",
+      "members": 1,
+      "model_members": []
+    },
+    {
+      "path": "early_conf_data.zip",
+      "sha256": "953f6c073cf9cce5d7315ca1e457fcb2a2dc09dee25931e05306d4ef0ff36f84",
+      "members": 1,
+      "model_members": []
+    },
+    {
+      "path": "early_conf_data_.zip",
+      "sha256": "86f8c48becbaae9c3bfbd1c1ca020414b90305df2f22ccf57cfa3fe3614bfa37",
+      "members": 1,
+      "model_members": []
+    },
+    {
+      "path": "early_v483.zip",
+      "sha256": "70ee91689cd1bf8fee31662d650270f4688002516b531e9d5d5f8f1da325a31e",
+      "members": 1,
+      "model_members": []
+    }
+  ],
+  "prior_corpus_model_matches": [],
+  "source_byte_checks": {
+    "kalshi_entry_tournament_v3_historical_prices.py": {
+      "archive_sha256": "38b6df54e2c55d79ae4428fb513e654993d6a0c15da7f7c4144c122739a8c794",
+      "current_sha256": "38b6df54e2c55d79ae4428fb513e654993d6a0c15da7f7c4144c122739a8c794",
+      "expected": "38b6df54e2c55d79ae4428fb513e654993d6a0c15da7f7c4144c122739a8c794"
+    },
+    "kalshi_entry_tournament_v3_1_datetime_fix.py": {
+      "archive_sha256": "3030b85b1346a6d468876252ac361eb5521607d847822ecbe2f1a460867b9ffd",
+      "current_sha256": "3030b85b1346a6d468876252ac361eb5521607d847822ecbe2f1a460867b9ffd",
+      "expected": "3030b85b1346a6d468876252ac361eb5521607d847822ecbe2f1a460867b9ffd"
+    },
+    "entry_tournament_v3_summary.txt": {
+      "archive_sha256": "e297a6de4feee8598f6b92119d6d90b0766f072ca55cc969f7801ae9fbdb4f77",
+      "current_sha256": "e297a6de4feee8598f6b92119d6d90b0766f072ca55cc969f7801ae9fbdb4f77",
+      "expected": "e297a6de4feee8598f6b92119d6d90b0766f072ca55cc969f7801ae9fbdb4f77"
+    },
+    "entry_tournament_v3_winner_holdout_calls.csv": {
+      "archive_sha256": "a16ce523f90efed7c2e080d5593f8d113691c23c190546b022982420ef1cb6e4",
+      "current_sha256": "a16ce523f90efed7c2e080d5593f8d113691c23c190546b022982420ef1cb6e4",
+      "expected": "a16ce523f90efed7c2e080d5593f8d113691c23c190546b022982420ef1cb6e4"
+    },
+    "entry_tournament_v3_winner_validation_calls.csv": {
+      "archive_sha256": "d4a1de70d15a48d4e44c6c4e05033a512eaf39471dda43a9b8853b39507ad060",
+      "current_sha256": "d4a1de70d15a48d4e44c6c4e05033a512eaf39471dda43a9b8853b39507ad060",
+      "expected": "d4a1de70d15a48d4e44c6c4e05033a512eaf39471dda43a9b8853b39507ad060"
+    },
+    "entry_tournament_v3_all_results.csv": {
+      "archive_sha256": "477b40a75f33a607a745e8a1cc616970868220c9a901c4268d191037b8ce8af4",
+      "current_sha256": "477b40a75f33a607a745e8a1cc616970868220c9a901c4268d191037b8ce8af4",
+      "expected": "477b40a75f33a607a745e8a1cc616970868220c9a901c4268d191037b8ce8af4"
+    },
+    "kalshi_kxbtc15m_1m_candles_cache.csv": {
+      "archive_sha256": "ad847699dbda01def5d544a3dd899ca528e6f8f0cf0b4cfe875de6746b0c85ba",
+      "current_sha256": "ad847699dbda01def5d544a3dd899ca528e6f8f0cf0b4cfe875de6746b0c85ba",
+      "expected": "ad847699dbda01def5d544a3dd899ca528e6f8f0cf0b4cfe875de6746b0c85ba"
+    },
+    "brti_calibration_results.csv": {
+      "archive_sha256": "78cc03b5ea15ec1d310aa3de68a5024ade7fe80f91762d1e3ee0cab03903ff4b",
+      "current_sha256": "78cc03b5ea15ec1d310aa3de68a5024ade7fe80f91762d1e3ee0cab03903ff4b",
+      "expected": "78cc03b5ea15ec1d310aa3de68a5024ade7fe80f91762d1e3ee0cab03903ff4b"
+    },
+    "btc_35d_live_cache.csv": {
+      "archive_sha256": "40e44f08637a3636fbb8a14e81cf0db47335e00e74bf16bcd4c1077318fd2a85",
+      "current_sha256": "40e44f08637a3636fbb8a14e81cf0db47335e00e74bf16bcd4c1077318fd2a85",
+      "expected": "40e44f08637a3636fbb8a14e81cf0db47335e00e74bf16bcd4c1077318fd2a85"
+    }
+  },
+  "prior_corpus_search_limitation": "Prior corpus extractor omitted binary model suffixes inside ZIPs; it is not proof those archives lack weights. Targeted original ZIP members were inspected directly here.",
+  "all_fetched_git_model_objects": [
+    "66d95be0edb3ccc3955aa280b94cc3bb6c908576 completion_audit/model_artifact/frozen_fair_candidate.joblib"
+  ],
+  "current_artifact_sha256": "1bf10e755fc81584bab3c3682b16103353f84582c27bb003664de883e7e7c816",
+  "current_weights_sha256": "95fc4e893c9032f29b9732d03c4a2e0cd62755ba93b36106a1d0c8c094520ba6",
+  "original_fitted_weights": "NOT_FOUND_IN_BOUNDED_KNOWN_LOCATIONS",
+  "global_nonexistence_proven": false,
+  "original_code_has_no_serialization": true
+}
