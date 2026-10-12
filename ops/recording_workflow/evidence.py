@@ -72,6 +72,7 @@ def index_run(root,out,*,max_index_bytes=128*1024**2):
             previous=digest;expected=seq+1;last=kind
         if last!='STOP':gaps.append(dict(reason='UNCLOSED_SESSION',session=s))
         sessions[s]=dict(last_sequence=expected-1,clean_stop=last=='STOP',last_sha256=previous)
+    if not sessions:gaps.append(dict(reason='UNCLOSED_SESSION',session=None,detail='NO_DURABLE_START_OR_VALID_RECORDS'))
     db.commit();db.close()
     info=dict(schema='BTC15_INDEX_V1',root=str(root),files=files,counts=dict(counts),coverage=dict(coverage),
               sessions=sessions,gaps=gaps,index_sha256=file_sha(out/'index.sqlite3'),**SAFETY)

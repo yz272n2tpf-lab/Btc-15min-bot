@@ -1,0 +1,8 @@
+test_disk_failure_report_survives_archive_failure (ops.recording_workflow.test_workflow.Workflow.test_disk_failure_report_survives_archive_failure) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp18h4vumn/source.segments/20261012-007dabbe94f64e49ae12b8ba2b811679-a37e70d7.jsonl.gz","records":1,"raw_bytes":579,"stored_bytes":422,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_empty_partial_and_corrupt_archives_cannot_be_complete (ops.recording_workflow.test_workflow.Workflow.test_empty_partial_and_corrupt_archives_cannot_be_complete) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.060s
+
+OK

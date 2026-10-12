@@ -27,7 +27,7 @@
   {
     "path": "candidates/early_recording_20261012/archive.py",
     "target_before_sha256": null,
-    "candidate_sha256": "38e27d9c3ef341430aea12be5da20252b122c0d783969f76a527e6c148dafbf9"
+    "candidate_sha256": "8b96575f9cf2b24fee034745b0e99867a273c4fa086d977ce3a532c65f2b0f27"
   },
   {
     "path": "candidates/early_recording_20261012/ledger.py",
@@ -62,7 +62,7 @@
   {
     "path": "ops/recording_workflow/evidence.py",
     "target_before_sha256": null,
-    "candidate_sha256": "11a2438fdb5c624c78a4895f817cc500b88ed4ed12b471538c7921e60a1fb72e"
+    "candidate_sha256": "0c9bc58f0955de62838d0ac04e886547eb5ced804b0fac0bb0baba2c8c23da41"
   },
   {
     "path": "ops/recording_workflow/integration.py",

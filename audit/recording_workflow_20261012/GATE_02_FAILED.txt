@@ -1,0 +1,116 @@
+test_admin_original_worker_mirror_and_detached_backup (ops.recording_workflow.test_workflow.Workflow.test_admin_original_worker_mirror_and_detached_backup) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpu3qlc5tn/run/source.segments/20261012-f7328af59c4640ab9ddc3c50bc83ad43-58ca9b6d.jsonl.gz","records":1,"raw_bytes":579,"stored_bytes":418,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15_CAPTURE_FINAL {"actionable": false, "archive_failed": false, "archive_session": "665061f7fd5f4876a255f5be56aa695f", "failure": null, "information_gap": null, "losses": {}, "orders": false, "peak_queued_bytes": 963, "production_enabled": false, "queue_byte_budget": 33554432, "queue_capacity": 16384, "queued_bytes": 0, "run_id": "fixture-rollover", "signal_only": true, "status": "CLOSED"}
+ok
+test_automatic_completion_report_package_idempotence_and_failure_channel (ops.recording_workflow.test_workflow.Workflow.test_automatic_completion_report_package_idempotence_and_failure_channel) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp1969bvc0/run/source.segments/20261012-973ed2a2b334480e9f26da9613e05e19-696602aa.jsonl.gz","records":1,"raw_bytes":579,"stored_bytes":420,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15_CAPTURE_FINAL {"actionable": false, "archive_failed": false, "archive_session": "b30959bb829645f5b925305e2ed7f5d3", "failure": null, "information_gap": null, "losses": {}, "orders": false, "peak_queued_bytes": 992, "production_enabled": false, "queue_byte_budget": 33554432, "queue_capacity": 16384, "queued_bytes": 0, "run_id": "fixture-rollover", "signal_only": true, "status": "CLOSED"}
+BTC15_AUTOMATIC_COMPLETION {"complete_evidence": false, "long_test": "NO_GO", "package": {"files": 5, "manifest": "/tmp/tmp1969bvc0/store/465b6cbc28ce3a4404878673de102780524b5f44f78439af1a577d50450f98b4.manifest.json", "sha256": "465b6cbc28ce3a4404878673de102780524b5f44f78439af1a577d50450f98b4", "total_bytes": 32949}, "reason": "FIXTURE_END", "report": "/tmp/tmp1969bvc0/final/report/REPORT.txt", "status": "COMPLETED_OFFLINE"}
+BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp6myh2iqs/run/source.segments/20261012-8c9027e86cb749908b403e91212b0c70-6d01d498.jsonl.gz","records":1,"raw_bytes":579,"stored_bytes":419,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_bounded_contract_range_source_context_and_index_corruption (ops.recording_workflow.test_workflow.Workflow.test_bounded_contract_range_source_context_and_index_corruption) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp3hfo_7o_/run/source.segments/20261012-8c8ab67662804f1f92910ee096847983-eff2e850.jsonl.gz","records":1,"raw_bytes":579,"stored_bytes":420,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15_CAPTURE_FINAL {"actionable": false, "archive_failed": false, "archive_session": "b417036703484b24a4cfe9e675368816", "failure": null, "information_gap": null, "losses": {}, "orders": false, "peak_queued_bytes": 4730, "production_enabled": false, "queue_byte_budget": 33554432, "queue_capacity": 16384, "queued_bytes": 0, "run_id": "fixture-rollover", "signal_only": true, "status": "CLOSED"}
+ok
+test_capture_default_off_no_threads_or_paths (ops.recording_workflow.test_workflow.Workflow.test_capture_default_off_no_threads_or_paths) ... ok
+test_disk_failure_report_survives_archive_failure (ops.recording_workflow.test_workflow.Workflow.test_disk_failure_report_survives_archive_failure) ... FAIL
+test_empty_partial_and_corrupt_archives_cannot_be_complete (ops.recording_workflow.test_workflow.Workflow.test_empty_partial_and_corrupt_archives_cannot_be_complete) ... ok
+test_failed_mirror_still_publishes_existing_proof_cache (ops.recording_workflow.test_workflow.Workflow.test_failed_mirror_still_publishes_existing_proof_cache) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpvp2owflj/run/source.segments/20261012-5bf1bd0a23254779a20e14d4110d4e85-5f4d5008.jsonl.gz","records":1,"raw_bytes":579,"stored_bytes":420,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15_CAPTURE_FINAL {"actionable": false, "archive_failed": true, "archive_session": "5f2c6b3a0ecd4c578eb3e82696f11c15", "failure": null, "information_gap": null, "losses": {"WRITER_FAILURE": 1}, "orders": false, "peak_queued_bytes": 0, "production_enabled": false, "queue_byte_budget": 33554432, "queue_capacity": 16384, "queued_bytes": 0, "run_id": "fixture-rollover", "signal_only": true, "status": "INCOMPLETE"}
+ok
+test_information_role_shares_run_identity_without_source_thread (ops.recording_workflow.test_workflow.Workflow.test_information_role_shares_run_identity_without_source_thread) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmppp227pt1/source.segments/20261012-5c00552da1324ef7aaa89263fed19285-91359442.jsonl.gz","records":1,"raw_bytes":579,"stored_bytes":419,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15 INFORMATION STORAGE | {"path":"/tmp/tmppp227pt1/information.segments/20261012-6e74e83663504c348dd8ece34ebd0814-e08afcb5.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":422,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15_CAPTURE_FINAL {"actionable": false, "archive_failed": false, "archive_session": "0017acfe3f8a45cab0b24c78a01b4c3a", "failure": null, "information_gap": null, "losses": {}, "orders": false, "peak_queued_bytes": 0, "production_enabled": false, "queue_byte_budget": 33554432, "queue_capacity": 16384, "queued_bytes": 0, "run_id": "fixture-rollover", "signal_only": true, "status": "CLOSED"}
+ok
+test_installed_preflight_uses_bundled_lock_without_production_access (ops.recording_workflow.test_workflow.Workflow.test_installed_preflight_uses_bundled_lock_without_production_access) ... ok
+test_later_brti_not_backdated_and_incompatible_model_rejected (ops.recording_workflow.test_workflow.Workflow.test_later_brti_not_backdated_and_incompatible_model_rejected) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp6pf8dgqi/source.segments/20261012-a24a28927f6d4fdb9010ad981b1f17d7-404ebd68.jsonl.gz","records":1,"raw_bytes":579,"stored_bytes":419,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15_CAPTURE_FINAL {"actionable": false, "archive_failed": false, "archive_session": "bd0a4529ba4b4fe884d2e61f2e49f948", "failure": null, "information_gap": null, "losses": {}, "orders": false, "peak_queued_bytes": 1988, "production_enabled": false, "queue_byte_budget": 33554432, "queue_capacity": 16384, "queued_bytes": 0, "run_id": "fixture-rollover", "signal_only": true, "status": "CLOSED"}
+ok
+test_live_mode_flags_protected_paths_and_policy_rejected (ops.recording_workflow.test_workflow.Workflow.test_live_mode_flags_protected_paths_and_policy_rejected) ... ok
+test_mirror_blocked_disk_does_not_block_proof_queue_or_consumer (ops.recording_workflow.test_workflow.Workflow.test_mirror_blocked_disk_does_not_block_proof_queue_or_consumer) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpybr_ijvo/run/source.segments/20261012-a67347e4188f48269643a845ad5e4b02-6541c5ca.jsonl.gz","records":1,"raw_bytes":579,"stored_bytes":420,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15_CAPTURE_FINAL {"actionable": false, "archive_failed": false, "archive_session": "484942eeca93400896fb71ee57c236e0", "failure": null, "information_gap": null, "losses": {}, "orders": false, "peak_queued_bytes": 2235, "production_enabled": false, "queue_byte_budget": 33554432, "queue_capacity": 16384, "queued_bytes": 0, "run_id": "fixture-rollover", "signal_only": true, "status": "CLOSED"}
+ok
+test_native_journal_postcommit_capture_preserves_exact_record (ops.recording_workflow.test_workflow.Workflow.test_native_journal_postcommit_capture_preserves_exact_record) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp2kgwsqs5/run/source.segments/20261012-2412f1908d394c75a048d26259f43526-f65f7fc8.jsonl.gz","records":1,"raw_bytes":579,"stored_bytes":419,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15_CAPTURE_FINAL {"actionable": false, "archive_failed": false, "archive_session": "2b0b11dad9d74bc59fca7b898baf27d4", "failure": null, "information_gap": null, "losses": {}, "orders": false, "peak_queued_bytes": 1052, "production_enabled": false, "queue_byte_budget": 33554432, "queue_capacity": 16384, "queued_bytes": 0, "run_id": "fixture-rollover", "signal_only": true, "status": "CLOSED"}
+ok
+test_outage_partial_prefix_and_export_quota_fail_closed (ops.recording_workflow.test_workflow.Workflow.test_outage_partial_prefix_and_export_quota_fail_closed) ... ok
+test_partial_transfer_resume_duplicate_retry_and_corruption_rejection (ops.recording_workflow.test_workflow.Workflow.test_partial_transfer_resume_duplicate_retry_and_corruption_rejection) ... ok
+test_queue_overflow_reports_independent_health_and_incomplete_session (ops.recording_workflow.test_workflow.Workflow.test_queue_overflow_reports_independent_health_and_incomplete_session) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp6n_kg275/source.segments/20261012-a20f39d7c2904d13987c7f8ed1d5c3b1-ecb162fd.jsonl.gz","records":1,"raw_bytes":579,"stored_bytes":419,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_quota_exhaustion_no_pruning_and_restart_boundaries (ops.recording_workflow.test_workflow.Workflow.test_quota_exhaustion_no_pruning_and_restart_boundaries) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp9_m6cost/source.segments/20261012-2e314b7889714028b7fc72a544625122-b2416932.jsonl.gz","records":1,"raw_bytes":574,"stored_bytes":416,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15 EVIDENCE GAP | WRITER_FAILURE | session incomplete
+BTC15_CAPTURE_FINAL {"actionable": false, "archive_failed": true, "archive_session": "6227ccf64ce04d10b8d8686e3916347f", "failure": null, "information_gap": null, "losses": {"WRITER_FAILURE": 10}, "orders": false, "peak_queued_bytes": 992, "production_enabled": false, "queue_byte_budget": 33554432, "queue_capacity": 16384, "queued_bytes": 0, "run_id": "fixture-rollover", "signal_only": true, "status": "INCOMPLETE"}
+BTC15 EVIDENCE GAP | WRITER_FAILURE | session incomplete
+BTC15_CAPTURE_FINAL {"actionable": false, "archive_failed": true, "archive_session": "cd6e6a00cc414549a45f7c87498f9e09", "failure": null, "information_gap": null, "losses": {"WRITER_FAILURE": 1}, "orders": false, "peak_queued_bytes": 0, "production_enabled": false, "queue_byte_budget": 33554432, "queue_capacity": 16384, "queued_bytes": 0, "run_id": "fixture-rollover", "signal_only": true, "status": "INCOMPLETE"}
+ok
+test_real_child_exit_and_deterministic_restart_preserve_old_bytes (ops.recording_workflow.test_workflow.Workflow.test_real_child_exit_and_deterministic_restart_preserve_old_bytes) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpbm9mq5gm/run/source.segments/20261012-c975c01050b446bb854e4a6480ab0d22-e440e646.jsonl.gz","records":1,"raw_bytes":579,"stored_bytes":420,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15_CAPTURE_FINAL {"actionable": false, "archive_failed": false, "archive_session": "876a2ff1ac424f6a8e92589db082eaff", "failure": null, "information_gap": null, "losses": {}, "orders": false, "peak_queued_bytes": 992, "production_enabled": false, "queue_byte_budget": 33554432, "queue_capacity": 16384, "queued_bytes": 0, "run_id": "fixture-rollover", "signal_only": true, "status": "CLOSED"}
+ok
+test_staging_install_rollback_and_drift_rejection (ops.recording_workflow.test_workflow.Workflow.test_staging_install_rollback_and_drift_rejection) ... ok
+test_storage_projection_accounts_all_copies_without_reclamation (ops.recording_workflow.test_workflow.Workflow.test_storage_projection_accounts_all_copies_without_reclamation) ... ok
+test_accept_without_receipt_is_not_upgraded_consumer_time (candidates.early_recording_20261012.test_recording.QuoteMechanics.test_accept_without_receipt_is_not_upgraded_consumer_time) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpv523mqg9/evidence.segments/20261012-5384c7f89e934d97aec0d97a2eddcf99-51a6a3d1.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":424,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_exact_proof_hash_and_native_witness_with_receipt_association (candidates.early_recording_20261012.test_recording.QuoteMechanics.test_exact_proof_hash_and_native_witness_with_receipt_association) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpz1i04j0v/evidence.segments/20261012-060c7072442040eab1ba68f86aeb6b3f-3776611b.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":425,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_missing_update_gap_disconnect_reconnect (candidates.early_recording_20261012.test_recording.QuoteMechanics.test_missing_update_gap_disconnect_reconnect) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpip2uqyo9/evidence.segments/20261012-7be471b638e5409c9a535345ace5b642-ffac03c8.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":425,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_receive_after_accept_is_rejected (candidates.early_recording_20261012.test_recording.QuoteMechanics.test_receive_after_accept_is_rejected) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpuj1don6y/evidence.segments/20261012-fe8bdc16231c44b799a7b9a95e30d477-a3caefd9.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":425,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_same_socket_decoder_outputs_and_subscription_commands (candidates.early_recording_20261012.test_recording.QuoteMechanics.test_same_socket_decoder_outputs_and_subscription_commands) ... KALSHI QUOTE WS CONNECT | M | epoch=e | NO ORDERS
+KALSHI QUOTE WS CONNECT | M | epoch=e | NO ORDERS
+BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpw9w0m2h_/evidence.segments/20261012-af79722f13bf46aa81daa2e8c2587cbe-17b0ccfb.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":423,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_archive_byte_corruption_and_fixture_identity_cannot_pass (candidates.early_recording_20261012.test_recording.Provenance.test_archive_byte_corruption_and_fixture_identity_cannot_pass) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp0v1vo2b8/evidence.segments/20261012-98c238cd5cf2475c89424e9d5cf49da7-0ef9bc53.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":423,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_http_seam_uses_original_get_and_decoded_return (candidates.early_recording_20261012.test_recording.Provenance.test_http_seam_uses_original_get_and_decoded_return) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpyfymngrq/evidence.segments/20261012-bf8a561c60054fdb919b156889705c04-c695dd53.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":424,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_information_publisher_false_and_exception_keep_input_failure_record (candidates.early_recording_20261012.test_recording.Provenance.test_information_publisher_false_and_exception_keep_input_failure_record) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpyvz7zh9l/archive.segments/20261012-c5944cc28fe6490393f4a7673df8048a-42cdadd3.jsonl.gz","records":1,"raw_bytes":565,"stored_bytes":408,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_lifecycle_keeps_cancellations_expiries_and_exact_final_origin (candidates.early_recording_20261012.test_recording.Provenance.test_lifecycle_keeps_cancellations_expiries_and_exact_final_origin) ... ok
+test_metadata_raw_receipt_fee_unknowns_and_endpoint_whitelist (candidates.early_recording_20261012.test_recording.Provenance.test_metadata_raw_receipt_fee_unknowns_and_endpoint_whitelist) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp5xsxynlv/evidence.segments/20261012-a748530d30c147f7b7f056beefc0b9d6-357bc2f6.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":424,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_mutated_depth_cannot_match_original_receive_even_with_same_identity (candidates.early_recording_20261012.test_recording.Provenance.test_mutated_depth_cannot_match_original_receive_even_with_same_identity) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpmzjuce27/evidence.segments/20261012-db549a26247a4dd79c024fc8abd2c9ea-fc6c2ef5.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":424,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_original_native_source_join_rejects_later_brti (candidates.early_recording_20261012.test_recording.Provenance.test_original_native_source_join_rejects_later_brti) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpulxbe2tm/evidence.segments/20261012-6ddd635b675242f0b16efe7075522e5c-63bd87c0.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":426,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_real_information_publisher_capture_equivalence_and_reconstruction (candidates.early_recording_20261012.test_recording.Provenance.test_real_information_publisher_capture_equivalence_and_reconstruction) ... /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator DecisionTreeClassifier from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator RandomForestClassifier from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator LogisticRegression from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator DecisionTreeClassifier from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator RandomForestClassifier from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator LogisticRegression from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpmv_pmbx4/archive.segments/20261012-1020f175827b441caf0eff453b533096-32893348.jsonl.gz","records":1,"raw_bytes":565,"stored_bytes":409,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_disk_retention_is_bounded (test_btc15_quote_proof_offpath_v1.OffPath.test_disk_retention_is_bounded) ... ok
+test_identity_mismatch_fails_closed (test_btc15_quote_proof_offpath_v1.OffPath.test_identity_mismatch_fails_closed) ... ok
+test_queue_overflow_drops_evidence_not_strategy (test_btc15_quote_proof_offpath_v1.OffPath.test_queue_overflow_drops_evidence_not_strategy) ... ok
+test_submit_never_serializes_payload (test_btc15_quote_proof_offpath_v1.OffPath.test_submit_never_serializes_payload) ... ok
+test_validated_content_addressed_publish (test_btc15_quote_proof_offpath_v1.OffPath.test_validated_content_addressed_publish) ... ok
+test_large_proof_not_serialized_before_return (test_btc15_quote_proof_offpath_timing.Timing.test_large_proof_not_serialized_before_return) ... ok
+test_mutated_event_reference_fails_worker_replay (test_btc15_quote_proof_offpath_timing.Timing.test_mutated_event_reference_fails_worker_replay) ... ok
+test_queue_rejection_does_not_change_quote (test_btc15_quote_proof_offpath_timing.Timing.test_queue_rejection_does_not_change_quote) ... ok
+test_rollover_still_clears_before_use (test_btc15_quote_proof_offpath_timing.Timing.test_rollover_still_clears_before_use) ... BTC15_ROLLOVER_DIAG | {"component":"quote_provider","details":{"book_reset":true},"event":"TICKER_SWITCH_BOOK_RESET","expected_open_utc":"2026-09-21T14:21:40.500000Z","ms_from_open":1837492371.597,"orders":false,"signal_only":true,"ticker":"NEXT","timestamp_utc":"2026-10-12T20:46:32.871597Z"}
+ok
+
+======================================================================
+FAIL: test_disk_failure_report_survives_archive_failure (ops.recording_workflow.test_workflow.Workflow.test_disk_failure_report_survives_archive_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/f71b3a798a6e/recording_workflow_dev/repo/ops/recording_workflow/test_workflow.py", line 85, in test_disk_failure_report_survives_archive_failure
+    self.assertTrue(any(g['reason']=='UNCLOSED_OR_INCOMPLETE_SESSION' for g in read_archive(Path(d)/'source')['gaps']))
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 42 tests in 4.791s
+
+FAILED (failures=1)
+{"tests": 42, "failures": 1, "errors": 0, "skipped": 0, "successful": false, "network_blocked": true, "fit_calibration_blocked": true, "predictive_evaluation": false}

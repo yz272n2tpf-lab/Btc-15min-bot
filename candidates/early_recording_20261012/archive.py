@@ -285,6 +285,8 @@ def read_archive(path, max_decoded_bytes=256*1024*1024):
             gaps.append(dict(reason='CORRUPT_SEGMENT',file=file.name,error=type(exc).__name__))
             continue
         for r in records:sessions[r['session']].append(r)
+    if not sessions:
+        gaps.append(dict(reason='UNCLOSED_OR_INCOMPLETE_SESSION',session=None,details='NO_DURABLE_START_OR_VALID_RECORDS'))
     valid=[]
     for session,rows in sorted(sessions.items()):
         rows.sort(key=lambda r:r['sequence']);prev=None
