@@ -1,7 +1,7 @@
 """Streaming immutable index and bounded range retrieval. No source mutations."""
 from pathlib import Path
 from collections import Counter,defaultdict
-import base64,gzip,hashlib,json,os,sqlite3
+import base64,gzip,hashlib,json,os,sqlite3,time
 from candidates.early_recording_20261012.archive import SCHEMA,canonical,sha,SAFETY
 from .policy import local_root
 MAX_LINE=5*1024**2
@@ -35,8 +35,11 @@ def clocks(p):
     return at
 
 def index_run(root,out,*,max_index_bytes=128*1024**2):
+    begun=time.monotonic();decoded=0;record_count=0
+    if not 4096<=max_index_bytes<=128*1024**2:raise ValueError('INDEX_BUDGET')
     root=local_root(root);out=local_root(out);out.mkdir(parents=True,exist_ok=False)
     db=sqlite3.connect(out/'index.sqlite3');db.execute('PRAGMA journal_mode=DELETE')
+    db.execute('PRAGMA cache_size=-4096');db.execute('PRAGMA temp_store=FILE')
     db.execute('PRAGMA max_page_count='+str(max_index_bytes//4096))
     db.executescript('''CREATE TABLE records(role TEXT,session TEXT,seq INTEGER,kind TEXT,at REAL,
         contract TEXT,sha TEXT,prev TEXT,file TEXT,line INTEGER,PRIMARY KEY(session,seq));
@@ -45,10 +48,15 @@ def index_run(root,out,*,max_index_bytes=128*1024**2):
     files=[];gaps=[];counts=Counter();coverage=defaultdict(lambda:dict(count=0,first=None,last=None));sessions={}
     for role in ('source','information'):
         for f in sorted((root/(role+'.segments')).glob('*.jsonl.gz')):
+            if f.is_symlink():raise ValueError('INDEX_SYMLINK')
+            if len(files)>=4096:raise ValueError('INDEX_FILE_BUDGET')
             rel=str(f.relative_to(root));before=file_sha(f);size=f.stat().st_size
+            if sum(e['size'] for e in files)+size>512*1024**2:raise ValueError('INDEX_COMPRESSED_BUDGET')
             files.append(dict(path=rel,sha256=before,size=size,role=role))
             try:
                 for n,r,raw in lines(f):
+                    decoded+=len(raw);record_count+=1
+                    if decoded>512*1024**2 or record_count>500000 or time.monotonic()-begun>180 or len(gaps)>1024:raise MemoryError('INDEX_CAPACITY_EXHAUSTED')
                     p=r['payload'];k=r['kind'];s=r['session'];at=clocks(p)
                     contract=p.get('ticker') or p.get('contract') or (p.get('witness') or {}).get('ticker') or (p.get('official_fields') or {}).get('ticker')
                     if k=='INFORMATION_INPUT':contract=(p['skeleton']['anchor'].get('contract') or p['skeleton']['anchor'].get('ticker'))
@@ -63,6 +71,8 @@ def index_run(root,out,*,max_index_bytes=128*1024**2):
                     if k in ('EVIDENCE_GAP','INFORMATION_FAILURE') or (k=='SOURCE_GAP' and p.get('reason')!='SOURCE_START_OR_EPOCH_CHANGE'):
                         gaps.append(dict(reason=k,session=s,seq=r['sequence'],details=p))
                 if f.stat().st_size!=size or file_sha(f)!=before:raise ValueError('SOURCE_CHANGED_DURING_INDEX')
+            except (MemoryError,sqlite3.OperationalError):
+                db.close();raise
             except Exception as exc:gaps.append(dict(reason='INDEX_OR_CORRUPT_SEGMENT',file=rel,error=str(exc)[:160]))
     for s, in db.execute('SELECT DISTINCT session FROM records'):
         previous=None;expected=1;last=None
@@ -93,6 +103,7 @@ def records_for(root,index,*,contract=None,start=None,end=None,max_bytes=32*1024
             s,seq,kind,at,ticker,file,line=row
             if (start is None or at is not None and at>=start) and (end is None or at is not None and at<=end) and (contract is None or ticker in (contract,None)):
                 todo.append((s,seq))
+                if len(todo)>65536:raise ValueError('RANGE_RECORD_COUNT_BUDGET')
         file_entries={e['path']:e for e in manifest['files']};cache={};used=0
         def fetch(s,seq):
             nonlocal used
@@ -119,6 +130,7 @@ def records_for(root,index,*,contract=None,start=None,end=None,max_bytes=32*1024
             if row is None:raise ValueError('MISSING_DEPENDENCY:'+identity)
             todo.append((s,row[0]))
         while todo:
+            if len(todo)+len(selected)>131072:raise ValueError('RANGE_DEPENDENCY_COUNT_BUDGET')
             s,seq=todo.pop()
             if (s,seq) in selected:continue
             r=fetch(s,seq);p=r['payload'];k=r['kind']

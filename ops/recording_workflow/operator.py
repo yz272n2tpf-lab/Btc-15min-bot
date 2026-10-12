@@ -22,11 +22,11 @@ def preflight(c):
         target_release=RELEASE,running_bytes_verified=False,dependencies=dependencies,
         historical_archive_access='BLOCKED',production_retrieval='BLOCKED',long_test='NO_GO')
 
-def finalize(root,output,*,health=None):
+def finalize(root,output,*,health=None,verification_limits=None):
     root=Path(root);output=Path(output)
     output.mkdir(parents=True,exist_ok=False)
     idx=index_run(root,output/'index')
-    report=generate(root,output/'index',output/'report',health=health)
+    report=generate(root,output/'index',output/'report',health=health,verification_limits=verification_limits)
     return dict(index=idx,report=report)
 
 def main():
@@ -34,7 +34,8 @@ def main():
     for cmd in ('preflight','status'):
         q=s.add_parser(cmd);q.add_argument('--config',required=True)
     q=s.add_parser('rehearse');q.add_argument('--output',required=True)
-    q=s.add_parser('finalize');q.add_argument('--root',required=True);q.add_argument('--output',required=True)
+    q=s.add_parser('finalize');q.add_argument('--root',required=True);q.add_argument('--output',required=True);q.add_argument('--limits')
+    q=s.add_parser('verify-run');q.add_argument('--root',required=True);q.add_argument('--index',required=True);q.add_argument('--output',required=True);q.add_argument('--limits')
     q=s.add_parser('package');q.add_argument('--root',required=True);q.add_argument('--finalized',required=True);q.add_argument('--store',required=True)
     q=s.add_parser('restore');q.add_argument('--manifest',required=True);q.add_argument('--sha256',required=True);q.add_argument('--output',required=True)
     for cmd in ('make-target','install','rollback'):
@@ -50,7 +51,10 @@ def main():
     elif a.command=='rehearse':
         from .rehearsal import run
         result=run(a.output)
-    elif a.command=='finalize':result=finalize(a.root,a.output)
+    elif a.command=='finalize':result=finalize(a.root,a.output,verification_limits=json.loads(Path(a.limits).read_bytes()) if a.limits else None)
+    elif a.command=='verify-run':
+        from .whole_run import verify_run
+        result=verify_run(a.root,a.index,a.output,budget=json.loads(Path(a.limits).read_bytes()) if a.limits else None)
     elif a.command=='package':
         f=Path(a.finalized);result=package(a.root,f/'index',a.store,quota=512*1024**2,
             identity=json.loads((Path(a.root)/'identity.json').read_bytes()),report=f/'report/quality.json')

@@ -53,6 +53,10 @@ def install(target):
 
 def rollback(target):
     target=local_root(target);state=target/'LOCAL_RECORDING_OVERLAY';plan=json.loads((state/'plan.json').read_bytes())
+    baseline=json.loads((target/'LOCAL_STAGING_TARGET.json').read_bytes())
+    changed={r['path'] for r in plan}
+    for name,digest in baseline['files'].items():
+        if name not in changed and (not (target/name).is_file() or file_sha(target/name)!=digest):raise ValueError('TARGET_DRIFT:'+name)
     # Refuse modified overlays; never overwrite new user changes.
     for r in plan:
         p=target/r['path']

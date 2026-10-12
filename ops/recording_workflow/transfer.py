@@ -59,14 +59,34 @@ def package(root,index,store,*,quota,identity,report):
     sources=[(root/e['path'],e['path'],'RAW_EVIDENCE') for e in idx['files']]
     sources += [(index/'index.sqlite3','index.sqlite3','INDEX'),(index/'index_manifest.json','index_manifest.json','INDEX'),
                 (root/'identity.json','identity.json','RUN_IDENTITY'),(report,'quality.json','REPORT')]
+    scope=root/'verification_scope.json'
+    if scope.exists():
+        if scope.stat().st_size>4*1024**2:raise ValueError('SCOPE_MANIFEST_BUDGET')
+        value=json.loads(scope.read_bytes());sources.append((scope,'verification_scope.json','DECLARED_FIXTURE_SCOPE'))
+        for entry in value.get('journals',[]):
+            name=entry['path'];p=root/name
+            if not name.startswith('detached/') or not p.resolve().is_relative_to(root) or p.is_symlink():raise ValueError('DETACHED_PACKAGE_PATH')
+            if file_sha(p)!=entry['sha256']:raise ValueError('DETACHED_PACKAGE_HASH')
+            sources.append((p,name,'DETACHED_FIXTURE_JOURNAL'))
+    whole=Path(report).parent/'whole-run'
+    for name in ('summary.json','partitions.jsonl','partition_results.jsonl','issues.jsonl','associations.jsonl'):
+        p=whole/name
+        if p.exists():sources.append((p,'verification/'+name,'WHOLE_RUN_VERIFICATION'))
+    if len(sources)>8192 or sum(Path(p).stat().st_size for p,_,_ in sources)>quota:raise OSError('PACKAGE_AGGREGATE_BUDGET')
+    if file_sha(index/'index.sqlite3')!=idx['index_sha256']:raise ValueError('PACKAGE_INDEX_HASH')
+    for e in idx['files']:
+        if file_sha(root/e['path'])!=e['sha256']:raise ValueError('PACKAGE_SEGMENT_HASH')
     for p,name,kind in sources:
         digest=file_sha(p);transfer(p,store,expected_sha256=digest,quota=quota)
         entries.append(dict(path=name,sha256=digest,size=Path(p).stat().st_size,kind=kind))
     manifest=dict(schema='BTC15_PRIVATE_EVIDENCE_PACKAGE_V1',entries=entries,identity=identity,
         fixture_only=True,remote_production_delivery=False,original_index_sha256=sha(canonical(idx)))
-    raw=canonical(manifest);digest=sha(raw);destination=store/(digest+'.manifest.json')
+    raw=canonical(manifest)
+    if len(raw)>4*1024**2:raise ValueError('PACKAGE_MANIFEST_BUDGET')
+    digest=sha(raw);destination=store/(digest+'.manifest.json')
     if destination.exists() and destination.read_bytes()!=raw:raise ValueError('MANIFEST_COLLISION')
     if not destination.exists():
+        if sum(p.stat().st_size for p in store.iterdir() if p.is_file())+len(raw)>quota:raise OSError('PACKAGE_MANIFEST_QUOTA')
         with destination.open('xb') as f:f.write(raw);f.flush();os.fsync(f.fileno())
     return dict(manifest=str(destination),sha256=digest,files=len(entries),total_bytes=sum(e['size'] for e in entries))
 

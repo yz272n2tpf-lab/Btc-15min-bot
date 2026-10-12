@@ -110,3 +110,40 @@ blocks cost-verified conclusions. Fixture rows never become retained actual/live
 observations. Historical archive access, prospective capture mechanics, live delivery,
 full-duration capacity, dependencies, model readiness and production approval are
 separate. Long test remains NO-GO. Stop after this offline handoff.
+
+20261012 OFFLINE FOLLOW-UP
+Whole-run verification is now separate from bounded range retrieval:
+  python -B -m ops.recording_workflow.operator verify-run --root RUN --index INDEX --output NEW_OUTPUT
+  python -B -m ops.recording_workflow.operator finalize --root RUN --output NEW_FINAL --limits OPTIONAL_LIMITS_JSON
+The optional limits JSON may only reduce defaults in whole_run.LIMITS.
+No full-run data array is created. A new disposable SQLite work database carries
+exact dependencies across deterministic decoded-byte partitions. Input segments
+are never changed. Ledgers retain original record references and hashes.
+Capacity exhaustion is an explicit incomplete result, never silent sampling.
+quality.json keeps complete_evidence=false for actual production. The separate
+fixture_complete value is derived from every supplied record, declared nonempty
+fixture scope, session boundaries, original journal snapshot, source windows,
+and applicable lifecycle associations. Unknown schemas/links block the verdict.
+Native decisions do not store a consumed information-input hash/anchor ID or
+consumed HTTP-response hash. Exact unique source/official tuples and quote
+witnesses are checkable; those missing consumed-record links are not claimed.
+Nonempty completed-candle vectors lack original candle receipt evidence in this
+profile and block fixture completeness. Admin schemas and external settlement
+schemas are reported unsupported instead of being ignored or forced to FINAL.
+Reports verify stored FINAL/PASS publications independently of entry/EXIT.
+No model, strategy reducer, service, collector, scheduler or campaign is started.
+
+Default bounds: input gzip bytes 512 MiB, decoded bytes 512 MiB, 500000 records,
+128 MiB combined detached journals, 4096 input files/partitions, 8 MiB partitions, 5 MiB per record, 3 MiB vectors,
+32 MiB object-graph limit, 256 MiB disposable verification database, SQLite cache
+4 MiB, 128 MiB immutable index, 4 MiB manifest and 16 MiB ledgers, 180 s verifier
+wall-time checks. Individual DBs/objects have finite limits; source reads and
+SQLite operations are local and expected to terminate. These are offline bounds,
+not a measured live-rate/storage qualification. Snapshot reads are local fixture
+only; no production filesystem command is enabled.
+Range retrieval remains <=32 MiB with explicit record/dependency count limits.
+The private local package has a 512 MiB quota including verification ledgers and
+detached fixture journal files; restore retains its explicit 2 GiB total ceiling.
+Source archive segments/queues and their existing default lifetime caps unchanged.
+A run beyond any supported offline bound is INCOMPLETE; larger batch qualification
+requires a separately reviewed capacity policy, not an implicit quota increase.
