@@ -90,32 +90,15 @@ def execution_reasons(r, side, x, rules):
     return reasons
 
 
-def source_reasons(r, now, *, fixture_mode=False):
-    """Historical displayed rows never become native receipts through a healthy flag."""
+def source_reasons(r, now, *, fixture_mode=False, registry=None, side=None, quantity=None):
+    """Retained rows require actual bound inputs; no healthy flag or fixture promotion."""
     if fixture_mode and r.get('evidence_class')=='SYNTHETIC_FIXTURE':
         return [] if r['time']<=now<r['time']+10 else ['SOURCE_EXPIRED']
-    f=r.get('native_frame')
-    if not isinstance(f,dict):
+    if not isinstance(r.get('native_frame'),dict):
         return ['NATIVE_QUOTE_BRTI_RECEIPTS_MISSING','AUTHORITATIVE_CLOSE_BINDING_MISSING',
                 'CAUSAL_FEATURE_BINDING_NOT_COMPLETE','DEPTH_AND_FEE_APPLICABILITY_UNVERIFIED']
-    try:
-        from btc15_v2_product.directional import qualify
-        from btc15_v2_product.early_entry import fee_valid
-        from btc15_v2_product.early_management import features as native_features
-        from candidates.early_opportunity_20261011.qualification import validate_quote
-        if f.get('kind')!='NATIVE_DECISION':return ['NATIVE_DECISION_REQUIRED']
-        qualify(f,now);validate_quote(f)
-        expected=dict(contract=f['contract'],target=f['target'],time=f['feature_cutoff'],
-                      btc=f['btc_price'],brti=f['brti']['value'],side=f['fair']['side'],p=f['fair']['fair'])
-        expected.update({k:f[k] for k in ('up_bid','up_ask','down_bid','down_ask')})
-        if any(r[k]!=v for k,v in expected.items()) or abs(r['time']+r['left']-f['official_close'])>1e-6:
-            return ['NATIVE_FRAME_ROW_BINDING_CONFLICT']
-        if native_features(f) is None: return ['CAUSAL_FEATURE_BINDING_NOT_COMPLETE']
-        if not fee_valid(f): return ['FEE_APPLICABILITY_UNVERIFIED']
-        # Retained frame schema has no validated depth/size adapter. Never infer liquidity.
-        return ['DEPTH_SIZE_BINDING_UNSUPPORTED']
-    except (ValueError,TypeError,KeyError,OverflowError) as exc:
-        return ['INVALID_NATIVE_BINDING:'+str(exc)]
+    from .execution import execution_assessment
+    return execution_assessment(r,side or r['side'],now,registry,quantity)['blockers']
 
 
 def economic_assessment(r, side, x):
@@ -131,12 +114,12 @@ def economic_assessment(r, side, x):
                 settlement_probability_is_not_resale_probability=True)
 
 
-def assess(history,r,side,rules,fixture_mode=False):
+def assess(history,r,side,rules,fixture_mode=False,*,registry=None,quantity=None):
     x=features(history,r,side,rules)
     return dict(side=side,features=x,recognized=not recognition_reasons(x,rules),
                 recognition_blockers=recognition_reasons(x,rules),
                 execution_blockers=execution_reasons(r,side,x,rules),
-                source_blockers=source_reasons(r,r['received'],fixture_mode=fixture_mode),
+                source_blockers=source_reasons(r,r['received'],fixture_mode=fixture_mode,registry=registry,side=side,quantity=quantity),
                 economics=economic_assessment(r,side,x),
                 settlement_probability=r['p'] if r['side']==side else 1-r['p'],
                 ask=r[side.lower()+'_ask'],bid=r[side.lower()+'_bid'])

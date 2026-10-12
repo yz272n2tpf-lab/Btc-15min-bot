@@ -1,0 +1,38 @@
+{
+  "additional_non_git_paths": [],
+  "before_index_bytes_available": false,
+  "before_logical_index_entry_dump_available": false,
+  "before_logical_index_evidence": "retained empty staged.patch and recorded clean status; no raw index archive",
+  "candidate_branch": "research/early-rebuild-20261012",
+  "candidate_frozen_source_count": 10,
+  "candidate_frozen_source_differences": [],
+  "candidate_head": "619ce154c53e4103378a2a75a020a16138f801cc",
+  "candidate_workspace": "/workspace/scratch/116fa3ce3509/early_rebuild/repo",
+  "current_index_entries": 1165,
+  "current_logical_index_equals_recorded_head_tree": true,
+  "disposition": "STOP_REMAINS_HISTORICAL_INDEX_MUTATION_UNATTRIBUTED",
+  "engineering_resumed": false,
+  "exact_historical_byte_change_cause": "UNVERIFIED",
+  "git_commands_against_original": 0,
+  "git_differences_from_prior_before": [
+    {
+      "before": "9a4d91cccfcb21d4f1af607e39d7507815b2630b0075e4e329efda44681387f4",
+      "current": "4cd507900281af4dc65fa86979fb8608e6fd5604e6bf8c31ce3551dd357c4905",
+      "path": ".git/index"
+    }
+  ],
+  "git_record_count": 93,
+  "index_sha256_at_end": "4cd507900281af4dc65fa86979fb8608e6fd5604e6bf8c31ce3551dd357c4905",
+  "index_sha256_at_start": "4cd507900281af4dc65fa86979fb8608e6fd5604e6bf8c31ce3551dd357c4905",
+  "missing_non_git_paths": [],
+  "original_branch": "candidate/early-directional-recovery-20261011",
+  "original_file_count": 1165,
+  "original_file_differences": [],
+  "original_head": "20502c26566f6279e74d4889dd940f53a3cc77f8",
+  "original_workspace_available": true,
+  "original_workspace_inspected": "/workspace/scratch/41086fcf0d99/btc15",
+  "recorded_git_files_stable_during_inspection": true,
+  "recorded_head_tree_entries": 1165,
+  "recovery_package_manifest_count": 28,
+  "recovery_package_manifest_valid": true
+}

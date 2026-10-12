@@ -1,0 +1,19 @@
+test_artifact_identity_policy_and_nonfinite_checks (candidates.early_rebuild_20261012.test_blockers.ArtifactTests.test_artifact_identity_policy_and_nonfinite_checks) ... ok
+test_engine_actual_record_inference_matches_frozen_diagnostic (candidates.early_rebuild_20261012.test_blockers.ArtifactTests.test_engine_actual_record_inference_matches_frozen_diagnostic) ... ok
+test_malformed_pinned_artifact_rejects_bad_support (candidates.early_rebuild_20261012.test_blockers.ArtifactTests.test_malformed_pinned_artifact_rejects_bad_support) ... ok
+test_real_estimate_is_not_buy_authority_or_fixture_support (candidates.early_rebuild_20261012.test_blockers.ArtifactTests.test_real_estimate_is_not_buy_authority_or_fixture_support) ... ok
+test_unsupported_price_context_time_and_selection_fail_closed (candidates.early_rebuild_20261012.test_blockers.ArtifactTests.test_unsupported_price_context_time_and_selection_fail_closed) ... ok
+test_depth_price_coverage_sequence_and_latched_gap (candidates.early_rebuild_20261012.test_blockers.ExecutionTests.test_depth_price_coverage_sequence_and_latched_gap) ... ok
+test_fee_effective_period_not_source_updated_time (candidates.early_rebuild_20261012.test_blockers.ExecutionTests.test_fee_effective_period_not_source_updated_time) ... ok
+test_fixture_complete_packet_and_both_sides (candidates.early_rebuild_20261012.test_blockers.ExecutionTests.test_fixture_complete_packet_and_both_sides) ... ok
+test_fixture_never_authorizes_actual_frame (candidates.early_rebuild_20261012.test_blockers.ExecutionTests.test_fixture_never_authorizes_actual_frame) ... ok
+test_native_mismatch_and_future_clock_are_rejected (candidates.early_rebuild_20261012.test_blockers.ExecutionTests.test_native_mismatch_and_future_clock_are_rejected) ... ok
+test_out_of_order_future_event_and_stale_decision (candidates.early_rebuild_20261012.test_blockers.ExecutionTests.test_out_of_order_future_event_and_stale_decision) ... ok
+test_real_frame_partial_binding_and_missing_inputs_visible (candidates.early_rebuild_20261012.test_blockers.ExecutionTests.test_real_frame_partial_binding_and_missing_inputs_visible) ... ok
+test_registry_size_fees_and_packet_identity (candidates.early_rebuild_20261012.test_blockers.ExecutionTests.test_registry_size_fees_and_packet_identity) ... ok
+test_stale_future_malformed_mismatch_and_negative_book (candidates.early_rebuild_20261012.test_blockers.ExecutionTests.test_stale_future_malformed_mismatch_and_negative_book) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.259s
+
+OK

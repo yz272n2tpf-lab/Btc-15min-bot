@@ -1,0 +1,21 @@
+{
+  "frozen_candidate_source": "/workspace/scratch/116fa3ce3509/early_rebuild/repo",
+  "frozen_candidate_compared_files": 1317,
+  "frozen_candidate_changes": [],
+  "original_workspace_reinspected": false,
+  "original_workspace_accessed_this_development_pass": false,
+  "development_existing_source_changes": [
+    "candidates/early_rebuild_20261012/management.py",
+    "candidates/early_rebuild_20261012/assessment.py",
+    "candidates/early_rebuild_20261012/engine.py"
+  ],
+  "development_generated_cache_changes": [
+    "candidates/early_condition_20261011/__pycache__/__init__.cpython-312.pyc",
+    "candidates/early_condition_20261011/__pycache__/engine.cpython-312.pyc",
+    "candidates/early_value_20261011/__pycache__/qualification.cpython-312.pyc",
+    "candidates/early_value_20261011/__pycache__/__init__.cpython-312.pyc",
+    "candidates/early_value_20261011/__pycache__/engine.cpython-312.pyc"
+  ],
+  "native_FINAL_SCALP_dashboard_operational_source_changes": [],
+  "remote_operations": []
+}

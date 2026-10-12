@@ -78,3 +78,43 @@ class Management:
                     final_protect_latched=self.protect_latched,terminal=deepcopy(self.core.terminal),
                     closure_confirmed=self.closed,realized_profit=None,manual_fill=None,
                     confirmed_entry_event=self.origin.evidence_id if self.origin.kind=='MANUAL_CONFIRMED' else None)
+
+
+class ThesisRecoveryManagement(Management):
+    """EARLY-only recovery compatibility. Baseline exits and FINAL run first.
+
+    The baseline was written for favorable-gap entries. Requiring that same gap
+    to recover from a warning conflicts with an immutable pre-crossing origin.
+    This changes internal recovery only; the public action remains WATCH.
+    """
+    policy='EARLY_PRE_CROSSING_RECOVERY_V1'
+
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        self.pre_crossing_origin=self.core.origin['features']['context']=='PRE_CROSSING'
+        self.approach_recovery_since=None
+
+    def unavailable(self,reason):
+        self.approach_recovery_since=None
+        return super().unavailable(reason)
+
+    def update(self,history,r,unavailable=None):
+        out=super().update(history,r,unavailable)
+        if self.closed or unavailable or self.core.terminal or r.get('contract')!=self.origin.contract:
+            self.approach_recovery_since=None;return out
+        from .assessment import features,recognition_reasons,validate_row
+        x=features(history,r,self.origin.side,self.core.rules) if history else None
+        eligible=bool(self.pre_crossing_origin and not self.protect_latched and not validate_row(r) and x and
+            not recognition_reasons(x,self.core.rules) and min(x['move_short'],x['brti_short'])>0 and
+            (not x['context120_available'] or min(x['move_long'],x['brti_long'])>0) and
+            x['quote_short']>-max(x['spread'],.01) and
+            not {'EXECUTION_ROOM_LOW','SETTLEMENT_PATH_CONTRADICTION','CONFIRMED_STRUCTURE_BREAK',
+                 'DATA_UNAVAILABLE','MOMENTUM_HISTORY_UNAVAILABLE'}.intersection(self.last_reasons))
+        if not eligible:
+            self.approach_recovery_since=None;return out
+        if self.approach_recovery_since is None:self.approach_recovery_since=r['time']
+        if self.core.guidance=='WATCH' and r['time']-self.approach_recovery_since>=self.core.rules.recovery_seconds:
+            self.core.guidance='HOLD'
+            self.last_reasons=['PRE_CROSSING_APPROACH_RECOVERED_TARGET_NOT_REQUIRED']
+            self.core.emit('HOLD',r,self.last_reasons,{'management_evidence':x,'recovery_policy':self.policy})
+        return self.view()

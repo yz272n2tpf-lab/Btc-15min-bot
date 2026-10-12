@@ -8,8 +8,13 @@ from .management import Origin,Management
 POLICY='EARLY_TWO_SIDED_REBUILD_20261012'
 
 class Engine:
-    def __init__(self,*,rules=None,permit_synthetic_support=False):
+    def __init__(self,*,rules=None,permit_synthetic_support=False,conditional_estimator=None,
+                 execution_registry=None,intended_quantity=None,management_class=Management):
         self.rules=rules or Rules();self.permit_synthetic_support=permit_synthetic_support
+        if conditional_estimator is not None and (management_class is not Management or self.rules != Rules()):
+            raise ValueError('ESTIMATOR_REQUIRES_FROZEN_BASELINE_MANAGEMENT')
+        self.conditional_estimator=conditional_estimator;self.execution_registry=execution_registry
+        self.intended_quantity=intended_quantity;self.management_class=management_class
         self.contract=None;self.target=None;self.close=None;self.last=None;self.history=[]
         self.seen_contracts=set();self.seen_publications=set();self.clock=None
         self.setups={};self.setup_archive=[];self.tickets=[];self.current_ticket=None
@@ -100,7 +105,8 @@ class Engine:
             for m in self.managers:m.unavailable('SOURCE_GAP_OR_EPOCH_CHANGE')
         self.last=r;self.seen_publications.add(r['publication_id'])
         self.history.append(r);self.history=[z for z in self.history if z['time']>=r['time']-q.lookback-q.max_gap]
-        assessments={side:assess(self.history,r,side,q,self.permit_synthetic_support) for side in ('UP','DOWN')}
+        assessments={side:assess(self.history,r,side,q,self.permit_synthetic_support,
+                                     registry=self.execution_registry,quantity=self.intended_quantity) for side in ('UP','DOWN')}
         for side,a in assessments.items():
             x=a['features'];s=self.setups.get(side)
             # Market reset requires adverse delivered evidence, never a cheap quote or outage.
@@ -130,6 +136,14 @@ class Engine:
                         self.emit('SETUP_CONFIRMED',now,setup_id=s['id'],side=side,ask=a['ask'],context=x['context'])
                     s['confirmed']=confirmed
                 else:s['confirm_since']=None;s['confirmed']=False
+            # Fit selection was the first confirmed primary observational point.
+            # Later snapshots never reuse its old forecast as fresh qualification.
+            if (self.conditional_estimator is not None and s and s['confirmed'] and
+                a['recognized'] and not a['execution_blockers'] and .25<=a['ask']<=.55 and
+                not s.get('resale_scored')):
+                a['economics']=self.conditional_estimator.infer(r,side,x,selection_point=True)
+                s['resale_scored']=True
+                self.emit('EXPLORATORY_RESALE_ASSESSMENT',now,setup_id=s['id'],economics=a['economics'])
             # This is a mechanism-only certificate, never an estimate or real-data backdoor.
             if self.permit_synthetic_support and r.get('evidence_class')=='SYNTHETIC_FIXTURE':
                 a['economics'].update(ready=True,status='SYNTHETIC_MECHANISM_ONLY',reasons=[],
@@ -180,7 +194,8 @@ class Engine:
         if not self.last:fail.append('CURRENT_EVIDENCE_REQUIRED')
         if not fail:
             a=self.last_assessments[t['side']]
-            fail+=a['authorization_blockers']+source_reasons(self.last,now,fixture_mode=self.permit_synthetic_support)
+            fail+=a['authorization_blockers']+source_reasons(self.last,now,fixture_mode=self.permit_synthetic_support,
+                registry=self.execution_registry,side=t['side'],quantity=event.get('quantity'))
             if now-t['issued_at']<self.rules.manual_seconds:fail.append('MANUAL_REACTION_BUDGET_NOT_ELAPSED')
             if (event.get('contract')!=t['contract'] or event.get('side')!=t['side'] or
                 not finite(event.get('price')) or event['price']!=t['current_ask'] or
@@ -190,7 +205,7 @@ class Engine:
         s=self.setups[t['side']]
         origin=Origin(digest([s['id'],event['id'],'MANUAL']),s['id'],t['id'],t['contract'],t['side'],
                       'MANUAL_CONFIRMED',now,event['price'],event['quantity'],event['id'])
-        self.managers.append(Management(origin,self.history,self.last,a['features'],self.rules))
+        self.managers.append(self.management_class(origin,self.history,self.last,a['features'],self.rules))
         self.seen_events.add(event['id']);s['consumed']=True
         t.update(status='CONSUMED_BY_EXPLICIT_EVENT',ended_at=now)
         self.emit('MANUAL_ENTRY_EVENT_ACCEPTED',now,origin=asdict(origin),
@@ -210,7 +225,7 @@ class Engine:
             return dict(**SAFETY,accepted=False,reasons=['EXPLICIT_SIMULATION_INPUT_NOT_ELIGIBLE'])
         origin=Origin(digest([s['id'],event_id,'SIMULATION']),s['id'],None,self.contract,side,
                       'SIMULATED',now,a['ask'],1,event_id)
-        self.managers.append(Management(origin,self.history,self.last,a['features'],self.rules))
+        self.managers.append(self.management_class(origin,self.history,self.last,a['features'],self.rules))
         self.seen_events.add(event_id)
         self.emit('EXPLICIT_SIMULATION_STARTED',now,origin=asdict(origin),economic_support=False)
         return dict(**SAFETY,accepted=True,origin=asdict(origin),manual_fill=None)

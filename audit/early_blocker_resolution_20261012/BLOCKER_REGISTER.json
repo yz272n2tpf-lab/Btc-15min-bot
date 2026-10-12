@@ -1,0 +1,70 @@
+[
+  {
+    "id": "preservation",
+    "classification": [
+      "EVIDENCE GAP"
+    ],
+    "requirement": "Accepted disposition and independent writable source copy",
+    "failure": "Historical index-byte mutation has no attribution",
+    "correction": "Explicit user acceptance retained; independent inode-verified copy created; frozen candidate unchanged",
+    "location": "COPY_BASELINE.json; PROTECTED_BOUNDARY_CHECK.json; preservation/",
+    "closure_test": "Copy HEAD/freeze/hash checks; protected source hash comparison",
+    "outcome": "CLOSED WITH EVIDENCE for authorized continuation",
+    "remaining": "Historical cause remains unresolved; no repair"
+  },
+  {
+    "id": "resale_computation",
+    "classification": [
+      "IMPLEMENTATION GAP"
+    ],
+    "requirement": "Causal conditional delayed-entry/condition-exit resale estimation and inference",
+    "failure": "Permanent unestimated assessment without fitted computation",
+    "correction": "Pinned four-feature per-cell ridge; causal feature construction; label binding; deterministic fitting, support checks and cluster uncertainty; first-qualification engine integration",
+    "location": "candidates/early_rebuild_20261012/resale.py; engine.py; test_blockers.py",
+    "closure_test": "147 retained complete labels bound; actual-record engine prediction exact match; identity/causality/support tests",
+    "outcome": "IMPLEMENTED; VALIDATION STILL REQUIRED",
+    "remaining": "Complete-case quote estimand only; actual execution evidence and independent validation absent"
+  },
+  {
+    "id": "model_performance",
+    "classification": [
+      "PERFORMANCE PROBLEM",
+      "VALIDATION GAP"
+    ],
+    "requirement": "Useful after-cost prediction and supported favorable selection",
+    "failure": "Unfavorable retained outcomes and no independent economic support",
+    "correction": "One frozen chronological exposed diagnostic evaluation; no retuning",
+    "location": "EXPOSED_LATER_PREDICTIONS.json; RESULTS.json",
+    "closure_test": "59 matched complete supported later labels; MAE and frozen selector",
+    "outcome": "NOT SUPPORTED BY TESTED RESULTS",
+    "remaining": "10.9383c MAE exceeds simple comparator 10.1486c; zero selector positives; censoring unresolved"
+  },
+  {
+    "id": "execution_adapters",
+    "classification": [
+      "IMPLEMENTATION GAP",
+      "EVIDENCE GAP"
+    ],
+    "requirement": "Explicit native identity, receipt, depth, quantity and fee binding",
+    "failure": "Missing depth-size adapter and unverified execution inputs",
+    "correction": "Offline snapshot/delta reducer; market and series interval binders; hash-pinned execution/fee registry; quantity-depth checks",
+    "location": "candidates/early_rebuild_20261012/execution.py; assessment.py; engine.py; SOURCE_DEPENDENCIES.txt",
+    "closure_test": "Actual native partial binding plus synthetic full UP/DOWN and invalid/stale/future/sequence/depth/fee rejection tests",
+    "outcome": "IMPLEMENTED; VALIDATION STILL REQUIRED",
+    "remaining": "Zero complete retained execution packets; original quote receipts/depth and applicable account/event fee evidence unavailable in permitted retained sources"
+  },
+  {
+    "id": "management_recovery",
+    "classification": [
+      "IMPLEMENTATION GAP",
+      "VALIDATION GAP"
+    ],
+    "requirement": "Pre-crossing warning recovery consistent with immutable approach thesis while preserving exits",
+    "failure": "Positive target gaps required for baseline HOLD recovery",
+    "correction": "Separate ThesisRecoveryManagement override after unchanged exit logic, with existing recovery duration and corroboration/protection conditions",
+    "location": "candidates/early_rebuild_20261012/management.py; test_blockers.py; MANAGEMENT_MATCHED.json",
+    "closure_test": "Reflected UP/DOWN fixtures; 209 exact retained baseline terminals; 0 candidate terminal changes; 25 paths change state",
+    "outcome": "CLOSED WITH EVIDENCE for isolated state behavior",
+    "remaining": "Native FINAL-protected lifecycle evidence absent; no economic improvement established"
+  }
+]

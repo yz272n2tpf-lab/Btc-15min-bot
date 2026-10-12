@@ -1,0 +1,9 @@
+{
+  "baseline_retained_terminal_mismatches": 0,
+  "candidate_baseline_terminal_differences": 0,
+  "management_correction_economic_improvement_claim": false,
+  "management_pairs": 209,
+  "management_paths_with_state_changes": 25,
+  "management_state_difference_rows": 165,
+  "management_diagnostic_correction": "Restored inherited Engine.tick source-expiry event before each row; no model refit or policy change"
+}

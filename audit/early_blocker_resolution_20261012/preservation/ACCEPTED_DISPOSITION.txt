@@ -1,0 +1,195 @@
+BTC15 — BOUNDED PRESERVATION DISPOSITION
+2026-10-12 UTC / 2026-10-11 Eastern
+
+DECISION: STOP REMAINS. ENGINEERING DID NOT RESUME.
+
+The authorized narrow read-only inspection is complete. The actual original
+workspace is available and was inspected, not replaced with recovery-package
+evidence. Current content integrity is corroborated. The historical index-byte
+mutation cannot be attributed with the retained evidence. No claim is made that
+it was harmless, or that clean status explains it. Your instruction not to
+self-waive this STOP controls this disposition.
+
+1. ACTUAL ORIGINAL-WORKSPACE EVIDENCE
+
+Original: /workspace/scratch/41086fcf0d99/btc15
+HEAD: 20502c26566f6279e74d4889dd940f53a3cc77f8
+Branch: candidate/early-directional-recovery-20261011
+
+All 1,165 non-.git files match the retained before SHA256 manifest. No additional
+or missing non-.git files were found. Of 93 recorded Git metadata files, the
+index is the sole difference from the retained before manifest. All 93 were
+stable between this inspection's beginning and end.
+
+Recorded before-index SHA256:
+9a4d91cccfcb21d4f1af607e39d7507815b2630b0075e4e329efda44681387f4
+Recorded after-index AND current-index SHA256:
+4cd507900281af4dc65fa86979fb8608e6fd5604e6bf8c31ce3551dd357c4905
+
+The current index is valid Git index version 2, with a valid embedded SHA1
+checksum. Every one of its 1,165 (path, mode, blob-object-ID, stage) entries
+exactly matches the recorded original HEAD tree. No unmerged stages or
+assume-valid flags are present. Its sole extension is TREE, 1,968 bytes.
+
+These observations verify CURRENT versioned content and logical index state.
+The retained empty staged.patch and clean status support the prior recorded
+absence of staged content differences. They are not a raw before-index dump.
+Before-index bytes and a before logical-entry/stat-cache dump were not retained.
+Therefore byte-level changes to stat-cache fields, flags or extensions cannot
+be compared, and the process that changed the index cannot be identified.
+
+A stat-cache or cache-tree refresh is a plausible explanation, not a verified
+one. The current TREE extension and clean logical entries do not establish that
+this was the historical change. No speculative refresh experiment or repeated
+forensic search was performed.
+
+All Git commands used copies of metadata in the new scratch workspace. No Git
+command targeted the original or prior candidate repository. Ordinary file
+reads, hashes and copies were used on the originals. No index refresh, restore,
+reset, overwrite, clean, stash or repair was performed. Reads may affect file
+access times; byte preservation is what was checked.
+
+Evidence files in this delivery:
+- evidence/PRESERVATION_INSPECTION.json
+- evidence/current_index_structure.json
+- evidence/logical_index_entries.json
+- evidence/current_index_entries.z
+- evidence/recorded_head_tree.z
+- evidence/original_index_observed.bin
+- inspect_preservation.py (exact inspection procedure; not a candidate change)
+
+2. CANDIDATE AND RECOVERY EVIDENCE — SEPARATE FROM THE ORIGINAL
+
+Available candidate: /workspace/scratch/116fa3ce3509/early_rebuild/repo
+Verified local commit: 619ce154c53e4103378a2a75a020a16138f801cc
+Verified branch: research/early-rebuild-20261012
+Candidate directory: candidates/early_rebuild_20261012/
+
+The candidate HEAD/branch were read from another independent metadata copy.
+All 10 files in PRE_EVALUATION_FREEZE.json's code_sha256 map still match.
+No new candidate working tree was authorized for engineering after this
+disposition, and no new candidate commit was created.
+
+The locally retained delivered recovery ZIP was verified without extracting it
+into either original repository. All 28 manifest-listed members match their
+SHA256 values; there are no unmanifested file members. This verifies package
+internal integrity, not remote publication or an external authenticity claim.
+The original candidate workspace was available, so no fallback source recovery
+or restoration was needed. The unchanged ZIP is included in this new delivery.
+
+Recovery source:
+/workspace/scratch/116fa3ce3509/early_rebuild/delivery/BTC15_EARLY_Rebuild_Recovery_20261012.zip
+Verification: evidence/recovery_manifest_verification.json
+Historical STOP, before manifests, source, tests, incremental bundle, patch,
+row-level evaluation outputs and prior findings remain inside the unchanged ZIP.
+
+3. BLOCKER STATUS AT THE PRESERVATION GATE
+
+No blocker is called resolved by passing a current-content check. The mission
+explicitly requires preservation clearance before implementation mapping and
+engineering. Consequently the following are carry-forward findings from the
+delivered report, not a new code review or new validation result.
+
+Preservation — EVIDENCE GAP.
+Outcome: UNRESOLVED — missing original before-index bytes and attribution.
+Completed action: actual workspace hashes, copied logical-index/tree comparison,
+current-index structural checks, and recovery manifest verification.
+Closure reached: current file and index-to-HEAD consistency only.
+Closure NOT reached: historical byte-change attribution or permission to proceed
+despite that attribution remaining unknown.
+
+Conditional resale — IMPLEMENTATION GAP, with EVIDENCE/VALIDATION dependencies.
+Outcome: UNRESOLVED — engineering blocked by preservation gate.
+Prior location: candidates/early_rebuild_20261012/assessment.py; prior findings
+section 4. Status remains UNESTIMATED, with null return, uncertainty and downside.
+No estimator, training, artifact loading or inference correction was attempted.
+After authorized resumption, the concrete requirement remains an explainable
+conditional-resale path with causal decision inputs, defensible delayed-entry
+and condition-EXIT labels, artifact identity/support checks and explicit costs.
+The current evidence has not been newly adjudicated as fit-worthy or unfit.
+The lack of an untouched holdout alone does not bar an exploratory fit.
+
+Native execution adapters — IMPLEMENTATION GAP plus EVIDENCE GAP.
+Outcome: UNRESOLVED — engineering blocked by preservation gate.
+Prior findings sections 4 and 6 document missing validated depth/size, incomplete
+receipt/official-close bindings and unverified applicable historical fees.
+No new actual-record binding, source-schema retrieval or fixture test occurred.
+Implementation and source recoverability remain to be determined after clearance.
+Actual-record coverage added: zero. Fixture-only coverage added: zero.
+The prior one-contract fee-stress assumption remains a comparison assumption,
+not verified account pricing. No missing receipt chain or quantity was invented.
+
+Evaluation/economic support — VALIDATION GAP and PERFORMANCE PROBLEM.
+Outcome: independent economic support UNRESOLVED; favorable economic performance
+NOT SUPPORTED BY THE PREVIOUSLY TESTED RESULTS.
+Prior findings sections 5–6 and evaluation/ in the unchanged recovery ZIP retain
+the results. No new split, fitting, scoring, model selection or replay occurred.
+
+Management compatibility — documented state-behavior limitation, with its
+IMPLEMENTATION-versus-intended-conservatism classification still unresolved.
+Outcome: UNRESOLVED — investigation/correction blocked by preservation gate.
+Prior findings section 7 documents the pre-crossing warning-recovery limitation
+in unchanged CoreEngine.manage and missing full native FINAL state in historical
+rows. No management correction or UP/DOWN comparison was run. This inspection
+provides no evidence that FINAL or warning recovery caused the prior losses.
+
+4. ECONOMIC AND MATCHED DIAGNOSTIC STATUS
+
+Economic assessment: UNESTIMATED. Independent validation: absent. Live authority:
+absent. No result here changes any of those statuses.
+
+The previous result is preserved, not rerun: 521 initial observational checks,
+312 cancellations before simulated entry, 209 simulations, 147 complete quote
+scenarios and 62 censored paths. The complete scenarios had 18 positive and 129
+nonpositive stressed outcomes, mean net -12.4231 cents. Simulations may overlap;
+complete-case averages are not whole-strategy returns. All periods were exposed,
+and historical rows lacked full native FINAL state. There are no new matched
+diagnostic results and no claim of improvement.
+
+5. CHANGES, REPRODUCTION AND DELIVERY
+
+Original repository changed files: none detected.
+Prior candidate source changes made in this pass: none.
+New local candidate commit: NONE. The verified candidate identity above remains
+the last frozen source commit, not a claim about current production or GitHub.
+No publication or remote branch operation was attempted.
+
+New audit-only deliverables are enumerated in NEW_FILES.json and SHA256SUMS.txt.
+The nested historical recovery ZIP contains the original CHANGED_FILES.json,
+source/tests/artifacts, input manifests, and historical reproduction commands.
+Those historical test/replay commands were not executed in this pass.
+
+From a fresh directory containing the extracted NEW delivery, run:
+  python3 -B verify_delivery.py
+
+This verifies delivery hashes, the nested prior package manifest, the recorded
+logical-entry/tree equality, and the captured index bytes/checksum. It reads only
+the extracted delivery. It does not inspect originals, execute bot code, train,
+replay, contact a service, or confer preservation clearance.
+
+inspect_preservation.py documents the exact completed original inspection. Do
+not rerun it as a substitute for the necessary authorization below; the one
+authorized original inspection is complete. Its source paths refer to this
+session's retained workspaces and may not exist in another environment.
+
+6. SINGLE NEXT NECESSARY AUTHORIZATION
+
+Authorize isolated EARLY-only development from verified candidate commit
+619ce154c53e4103378a2a75a020a16138f801cc, accepting the historical index-byte change
+as an unresolved metadata incident on the strength of the verified unchanged
+files and current logical index. Preserve that incident and the original
+workspace without repair; require a fresh independent working copy before code
+changes. Keep all remaining boundaries of this assignment in force.
+
+This is a specific acceptance of residual preservation uncertainty, not an
+authorization to declare the cause known. It is requested because your own
+preservation gate forbids self-waiver. No skill rule or automatic approval
+rejection caused this stop. Without that authorization (or the missing original
+before-index evidence), implementation remains stopped.
+
+No production, FINAL, SCALP, dashboard, collector, configuration, logging, scoring
+or storage changes were made. No orders, publishing, deployment, restart or
+collection occurred. signal_only=true; orders=false; production_enabled=false;
+actionable=false remain the candidate's constraints. Production remains frozen.
+
+STOPPED AFTER DELIVERY.

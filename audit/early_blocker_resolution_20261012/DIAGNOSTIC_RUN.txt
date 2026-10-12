@@ -1,0 +1,34 @@
+{
+  "fit_status": "EXPLORATORY_QUOTE_ESTIMATE",
+  "train_complete_labels": 74,
+  "later_complete_labels": 73,
+  "label_errors": {},
+  "supported_predictions": 195,
+  "diagnostic_selected": 0,
+  "matched_complete_prediction_error": {
+    "mae": {
+      "n": 59,
+      "mean": 10.938254367460113,
+      "median": 7.841931962977584
+    },
+    "bias": {
+      "n": 59,
+      "mean": -0.8162411957891995,
+      "median": 1.3352956527397026
+    },
+    "observed_net": {
+      "n": 59,
+      "mean": -10.498305084745763,
+      "median": -14.000000000000002
+    },
+    "training_cell_mean_mae": {
+      "n": 59,
+      "mean": 10.148606112165433,
+      "median": 6.835714285714285
+    }
+  },
+  "management_pairs": 209,
+  "baseline_retained_terminal_mismatches": 22,
+  "candidate_baseline_terminal_differences": 0,
+  "management_paths_with_state_changes": 24
+}
