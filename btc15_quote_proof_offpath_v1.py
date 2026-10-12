@@ -50,8 +50,12 @@ class Capture:
 class OffPathProofWriter:
     """Bounded best-effort evidence writer; never blocks submit()."""
     def __init__(self, directory, validator, max_bytes, queue_size=2, retain=32,
-                 *, archive=None, queue_bytes=8*1024*1024):
-        if archive is not None and not (1<=int(queue_size)<=64 and 1<=int(queue_bytes)<=8*1024*1024
+                 *, archive=None, queue_bytes=8*1024*1024, admission_limits=None):
+        limits=admission_limits or dict(queue_size=64,queue_bytes=8*1024*1024)
+        if (set(limits)!={'queue_size','queue_bytes'} or any(type(v) is not int for v in limits.values())
+                or not 1<=limits['queue_size']<=16384 or not 1<=limits['queue_bytes']<=32*1024*1024):
+            raise ValueError('Explicit archive admission limits')
+        if archive is not None and not (1<=int(queue_size)<=limits['queue_size'] and 1<=int(queue_bytes)<=limits['queue_bytes']
                                        and 1<=int(max_bytes)<=2*1024*1024):
             raise ValueError('Isolated archive admission budget')
         self.directory = Path(directory)
@@ -63,6 +67,9 @@ class OffPathProofWriter:
         self.published = 0
         self.rejected = 0
         self.archive = archive
+        # Optional mirror receives validated bytes AFTER the existing cache is
+        # published. Its queue/disk is never the proof queue used by MAIN safety.
+        self.evidence_sink = None
         self.queue_bytes = int(queue_bytes)
         self.queued_bytes = 0
         self.peak_queued_bytes = 0
@@ -81,7 +88,11 @@ class OffPathProofWriter:
         if self.archive is not None and self.archive_failed:
             self.gap('WRITER_FAILURE');return False
         capture = Capture(witness=witness, events=tuple(events))
-        return self._enqueue(capture, self.max_bytes)
+        accepted=self._enqueue(capture, self.max_bytes)
+        if not accepted and self.evidence_sink is not None:
+            try:self.evidence_sink.gap('PROOF_REJECTED')
+            except Exception:pass
+        return accepted
 
     def gap(self, reason):
         if reason not in GAP_REASONS:
@@ -219,6 +230,9 @@ class OffPathProofWriter:
             reconstructed = self.validator(proof, w)
         except Exception:
             self.gap('PROOF_REJECTED')
+            if self.evidence_sink is not None:
+                try:self.evidence_sink.gap('PROOF_REJECTED')
+                except Exception:pass
             raise
         if list(reconstructed) != w.identity:
             raise ValueError("off-path proof identity mismatch")
@@ -257,6 +271,14 @@ class OffPathProofWriter:
         tmp.write_bytes(idx_raw)
         tmp.replace(idx)
         self.published += 1
+        if self.evidence_sink is not None:
+            try:
+                from dataclasses import asdict
+                self.evidence_sink.submit_observation('PROOF_BYTES', raw=raw,
+                    witness_json=json.dumps(asdict(w),separators=(',',':')))
+            except Exception:
+                try:self.evidence_sink.gap('CAPTURE_ERROR')
+                except Exception:pass
         # Bound disk growth. Keep newest validated content-addressed blobs only.
         blobs = sorted(self.directory.glob('*.json'), key=lambda p: p.stat().st_mtime_ns, reverse=True)
         blobs = [p for p in blobs if p.name != 'latest.json']

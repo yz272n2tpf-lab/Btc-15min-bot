@@ -1,0 +1,10 @@
+PACKAGE_HASHES_OK 16
+/workspace/scratch/f71b3a798a6e/delivery/package/candidate.bundle is okay
+The bundle contains this ref:
+d38e1efc076d8b1ea8cfec0b6ec4d715cf3ea048 HEAD
+The bundle records a complete history.
+The bundle uses this hash algorithm: sha1
+SOURCE_HASHES_OK 1299
+COMMIT d38e1efc076d8b1ea8cfec0b6ec4d715cf3ea048
+TREE 57b6b1c1b2f83800cef507a59d851ad458d7f69a
+RESTORED_DETACHED_COPY /workspace/scratch/f71b3a798a6e/recording_workflow_dev/repo

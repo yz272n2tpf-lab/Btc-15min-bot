@@ -1,0 +1,10 @@
+{
+  "tests": 37,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "successful": true,
+  "network_blocked": true,
+  "fit_calibration_blocked": true,
+  "predictive_evaluation": false
+}

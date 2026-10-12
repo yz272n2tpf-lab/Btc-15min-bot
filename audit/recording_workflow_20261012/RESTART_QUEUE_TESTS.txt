@@ -1,0 +1,10 @@
+test_real_child_exit_and_deterministic_restart_preserve_old_bytes (ops.recording_workflow.test_workflow.Workflow.test_real_child_exit_and_deterministic_restart_preserve_old_bytes) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpzoj3c3cg/run/source.segments/20261012-6f87b5e714c84c179ca9ecc7df7fa595-49264c52.jsonl.gz","records":1,"raw_bytes":579,"stored_bytes":417,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15_CAPTURE_FINAL {"actionable": false, "archive_failed": false, "archive_session": "f903fdbfcacd42fdbabb4e6a7191cd9b", "failure": null, "information_gap": null, "losses": {}, "orders": false, "peak_queued_bytes": 992, "production_enabled": false, "queue_byte_budget": 33554432, "queue_capacity": 16384, "queued_bytes": 0, "run_id": "fixture-rollover", "signal_only": true, "status": "CLOSED"}
+ok
+test_queue_overflow_reports_independent_health_and_incomplete_session (ops.recording_workflow.test_workflow.Workflow.test_queue_overflow_reports_independent_health_and_incomplete_session) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmplfq9nck6/source.segments/20261012-00a77871e1a44b28a1da5ea8d317fdb0-80d7ad2f.jsonl.gz","records":1,"raw_bytes":579,"stored_bytes":419,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.475s
+
+OK

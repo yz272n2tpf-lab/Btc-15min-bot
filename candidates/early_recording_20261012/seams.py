@@ -126,7 +126,7 @@ class Observer:
         return self.emit('QUOTE_ACCEPT',raw=raw,ticker=ticker,epoch=epoch,received_at=receipt,
                          accepted_at=at,accept_basis='AFTER_EXISTING_EVIDENCE_ACCEPT')
 
-    def bind_provider(self, provider):
+    def bind_provider(self, provider, *, preserve_proof_writer=False):
         """Recompile the same session with three append-only observation seams.
 
         Uses the SAME ws object and decoder, subscription and refresh requests.
@@ -163,7 +163,10 @@ class Observer:
         exec(compile(ast.fix_missing_locations(ast.Module(body=[fn],type_ignores=[])),'<offline-quote-evidence>','exec'),scope)
         observed=scope['session']
         provider.session=types.MethodType(observed,provider)
-        provider.proof_writer=self.writer
+        if preserve_proof_writer:
+            provider.proof_writer.evidence_sink=self.writer
+        else:
+            provider.proof_writer=self.writer
 
 
 def available_sources(records, cut, *, asset, include_recovered=False):

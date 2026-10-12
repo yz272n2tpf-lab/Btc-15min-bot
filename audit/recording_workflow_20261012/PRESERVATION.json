@@ -1,0 +1,12 @@
+{
+  "baseline_count": 1299,
+  "unchanged": 1296,
+  "changed": [
+    "btc15_quote_proof_offpath_v1.py",
+    "candidates/early_recording_20261012/archive.py",
+    "candidates/early_recording_20261012/seams.py"
+  ],
+  "prior_153_test_log_sha256": "2821e2f29c423a71a1c02ed2d750c7f358bd4b4b936a5488dbded69628d6f75c",
+  "protected_workspaces_written": false,
+  "historical_index_investigation_repeated": false
+}

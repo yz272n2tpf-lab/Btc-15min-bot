@@ -49,7 +49,7 @@ def bounded_size(value, limit=CACHE_BYTES):
 
 
 class Archive:
-    def __init__(self, path, *, evidence_class, source_binding, budget=None):
+    def __init__(self, path, *, evidence_class, source_binding, budget=None, storage_policy=None):
         if evidence_class not in {'FIXTURE','NATIVE_CAPTURE'}:
             raise ValueError('Explicit evidence class required')
         if not isinstance(source_binding,str) or not source_binding:
@@ -61,7 +61,12 @@ class Archive:
         self.session = uuid.uuid4().hex
         self.seq, self.previous = 0, None
         self.budget=dict(budget or BUDGET)
-        if set(self.budget)!=set(BUDGET) or any(type(v) is not int or not 0<v<=BUDGET[k] for k,v in self.budget.items()):
+        limits=dict(BUDGET)
+        if storage_policy is not None:
+            from ops.recording_workflow.policy import validate_policy
+            validate_policy(storage_policy)
+            limits['max_total_bytes']=storage_policy['per_archive_bytes']
+        if set(self.budget)!=set(BUDGET) or any(type(v) is not int or not 0<v<=limits[k] for k,v in self.budget.items()):
             raise ValueError('ARCHIVE_BUDGET')
         self.journal = CompressedJournal(self.path, **self.budget)
         self._lock_file = None
@@ -148,6 +153,13 @@ class Archive:
             fill_evidence=False))
 
     def observe(self, kind, fields):
+        if kind=='PROOF_BYTES':
+            raw=fields['raw'];proof=json.loads(raw)
+            self.proof(proof,json.loads(fields['witness_json']),raw,sha(raw));return
+        if kind=='NATIVE_RECORD':
+            raw=fields['raw']
+            self.write(kind,dict(fields,raw=raw.decode(),sha256=sha(raw)))
+            return
         if kind=='INFORMATION_INPUT':
             if not isinstance(fields.get('raw'),bytes) or len(fields['raw'])>3*1024*1024:
                 self.write('INFORMATION_FAILURE',dict(reason='INPUT_BYTES_BUDGET',raw_retained=False));return

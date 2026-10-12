@@ -1,0 +1,63 @@
+{
+  "configured_release": "4f9ffe51ff9af6adf3f1eb0bd4a77f91dc2caa7c",
+  "configured_release_manifest": "e8d8a1b54ff9ea3850296567ee8921149e5ea07697144b7bbeb41ea382045949",
+  "running_container_bytes": "UNVERIFIED",
+  "running_dependencies": "UNVERIFIED",
+  "files": [
+    {
+      "path": "requirements.txt",
+      "release_sha256": "510246d681fc831ae8361577c90afcc8fc894968e15fb4688657a528cd785e8a",
+      "candidate_sha256": "510246d681fc831ae8361577c90afcc8fc894968e15fb4688657a528cd785e8a"
+    },
+    {
+      "path": "btc15_v2_product/runtime.py",
+      "release_sha256": "8b0a83793f25b86db1b3246fe83618e4d00cd20c0280d70dbce884369bf84aef",
+      "candidate_sha256": "8b0a83793f25b86db1b3246fe83618e4d00cd20c0280d70dbce884369bf84aef"
+    },
+    {
+      "path": "btc15_v2_product/bootstrap.py",
+      "release_sha256": "dd760e3ba66cc97a4f4cb7324998467b8bf33cb8282de67eaa32cf7290d5c0e1",
+      "candidate_sha256": "dd760e3ba66cc97a4f4cb7324998467b8bf33cb8282de67eaa32cf7290d5c0e1"
+    },
+    {
+      "path": "btc15_v2_product/main_timing.py",
+      "release_sha256": "606862d49af2643c4059bc2887567aceb660a923d30c5b0f3a052d4bed2f4ef9",
+      "candidate_sha256": "606862d49af2643c4059bc2887567aceb660a923d30c5b0f3a052d4bed2f4ef9"
+    },
+    {
+      "path": "btc15_v2_product/admin.py",
+      "release_sha256": "33912a9118ba5f5671cdf98848aed18f1601047b6de61892d7e939d410fb8f84",
+      "candidate_sha256": "33912a9118ba5f5671cdf98848aed18f1601047b6de61892d7e939d410fb8f84"
+    },
+    {
+      "path": "btc15_v2_product/worker.py",
+      "release_sha256": "8201c9fdce9b912a0c0f8351203c36f0649b2987fe92573841b9aeee9835377e",
+      "candidate_sha256": "8201c9fdce9b912a0c0f8351203c36f0649b2987fe92573841b9aeee9835377e"
+    },
+    {
+      "path": "btc15_brti_delivery_v1.py",
+      "release_sha256": "6231e35afef153e813ba8ad63e5a13f47531d3c82cac51348a23baf4c7ef9b02",
+      "candidate_sha256": "6231e35afef153e813ba8ad63e5a13f47531d3c82cac51348a23baf4c7ef9b02"
+    },
+    {
+      "path": "btc15_kalshi_quote_provenance_v1.py",
+      "release_sha256": "a21396b88b3820c8f99bbd800b43a5c449f1fd10d632f2e2535ed792402dbe9a",
+      "candidate_sha256": "a21396b88b3820c8f99bbd800b43a5c449f1fd10d632f2e2535ed792402dbe9a"
+    },
+    {
+      "path": "btc15_information_service_v1.py",
+      "release_sha256": "7405dd37f4b00eae4620cd290334692b8ffeaa428bfde62f639a79a73875a2b0",
+      "candidate_sha256": "94b2d70b388f66fed4d7859983dd928c76dbf3ec2ae0771caf7e1b010b75932c"
+    },
+    {
+      "path": "btc15_information_journal_v1.py",
+      "release_sha256": "b66ecfb3cc1e3ae4d2f3a103ae84bd711f94fe1323ee0ffaf661b9674224436e",
+      "candidate_sha256": "48db6d2619d24629dc85a7eb829360999eaa0c11364047131e6f7c67068259d5"
+    },
+    {
+      "path": "btc15_quote_proof_offpath_v1.py",
+      "release_sha256": "b2b1f2ced06503d8f5a635cb0794e8712b780fb68c60d899267a307929a3a7b0",
+      "candidate_sha256": "b6c92fa8023b61f4ef35b3ead55391cfae6f2b7ba324e0b33ec3a4603eb6b4c2"
+    }
+  ]
+}

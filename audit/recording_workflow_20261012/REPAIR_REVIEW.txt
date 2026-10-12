@@ -1,0 +1,81 @@
+BTC15 RECORDING REPAIR — INDEPENDENT DELIVERY REVIEW
+Date: 2026-10-12
+Scope: User-uploaded checkpoint, repair PDF, handoff TXT, recovery ZIP, test log and FINAL_PACKAGE_CHECK.json.
+No production or remote services were accessed. No bot modules, model artifacts, strategy tests, fitting,
+calibration, resource probes or economic replays were executed. Git recovery operations were local only.
+
+CHECKS PERFORMED
+1. Uploaded ZIP size: 59,584,251 bytes, exactly matching FINAL_PACKAGE_CHECK.json.
+2. Uploaded ZIP SHA256: ed1fb1d71d62fce2f0253da2afdb0524efb3631986a9bf7c693f8f603442c3cf
+   Exactly matches FINAL_PACKAGE_CHECK.json.
+3. ZIP CRC check: PASS; no duplicate filenames or unsafe extraction paths.
+4. All 16 PACKAGE_MANIFEST.json payload sizes and SHA256 values verified.
+   Exact ZIP membership: the 16 payloads plus PACKAGE_MANIFEST.json itself.
+5. Standalone repair PDF and handoff TXT are byte-identical to their packaged counterparts.
+6. Reviewed verify_recovery.py before invoking its local-only restore into a NEW directory.
+   Complete local Git bundle verification and independent detached restoration: PASS.
+7. All 1,299 SOURCE_FILES.json file sizes and SHA256 values verified in the restored copy.
+   Exact non-.git file coverage: 1,299 files; no extras or missing entries.
+8. Verified commit: d38e1efc076d8b1ea8cfec0b6ec4d715cf3ea048
+   Tree: 57b6b1c1b2f83800cef507a59d851ad458d7f69a
+   Parent: 3fd0e8a8b49e4db564e3185acb051e75d60e8e06
+   Restored state: detached HEAD; no branch refs; no remote configured by restore.
+9. Committed changes: 20 additions; 3 modifications; 0 deletions.
+   Modified inherited files:
+   - btc15_information_journal_v1.py
+   - btc15_information_service_v1.py
+   - btc15_quote_proof_offpath_v1.py
+10. Uploaded TEST_RESULTS.txt is byte-identical to audit/early_recording_20261012/TEST_RESULTS.txt in the commit.
+11. Uploaded test log and packaged RECOVERY_TESTS.txt each contain 153 distinct test entries;
+    the same 153 test identities appear in both. Both recorded summaries report 0 failures/0 errors,
+    network blocked, fitting/calibration blocked, economic_evaluation=false.
+    THESE ARE VERIFICATIONS OF SAVED TEST RECORDS, NOT A NEW TEST EXECUTION.
+12. The recorded tests include sklearn InconsistentVersionWarning: the legacy artifacts report
+    version 1.9.0, while that test runtime used 1.8.0. No dependency or model version was changed in this review.
+
+REVIEW DISPOSITION
+The delivered offline recorder candidate and its recovery identity are corroborated by these checks.
+This verifies internal byte consistency and recoverability, not independent external authenticity,
+current production state, live timing equivalence, complete market-data coverage or profitability.
+
+The supplied handoff explicitly says runtime integration is unwired and current archive access was blocked.
+Archive quota remains 256 MiB per instance. The supplied 4.4-hour illustration assumes 10 quote messages/s
+plus one BTC and one BRTI observation/s, and excludes information/proof/metadata additions.
+It is a synthetic estimate, not a measured live rate.
+
+The user's 24-hour readiness requirements are NOT established by this delivery: a proven operational
+export/download route, actual integrated capture, complete source/metadata/fee/lifecycle evidence,
+sustained resource qualification, automatic test-result delivery, and staging/rollback demonstration
+remain to be shown. A recovery bundle for this offline code is not a proven future live-data delivery path.
+The corrected history candidate still has its prior artifact-provenance/calibration limitations;
+this recorder pass does not create a compatible calibrated EARLY model.
+
+LOCAL REVIEW COPY
+/mnt/data/recording_repair_review_20261012/restored
+This path is a review sandbox, not Work's original development workspace or a deployed bot.
+
+EXACT COMMITTED CHANGE LIST
+A	audit/early_recording_20261012/BASELINE_VERIFICATION.json
+A	audit/early_recording_20261012/CHANGES.json
+A	audit/early_recording_20261012/ENVIRONMENT.json
+A	audit/early_recording_20261012/FINDINGS.txt
+A	audit/early_recording_20261012/P0_ARCHIVE_FINDINGS.json
+A	audit/early_recording_20261012/PRESERVATION_VERIFICATION.json
+A	audit/early_recording_20261012/RESOURCE_PROBE.txt
+A	audit/early_recording_20261012/RESOURCE_RESULTS.json
+A	audit/early_recording_20261012/SOURCE_MAP.json
+A	audit/early_recording_20261012/TEST_RESULTS.txt
+A	audit/early_recording_20261012/TEST_SUMMARY.json
+A	audit/early_recording_20261012/resource_probe.py
+A	audit/early_recording_20261012/run_tests.py
+M	btc15_information_journal_v1.py
+M	btc15_information_service_v1.py
+M	btc15_quote_proof_offpath_v1.py
+A	candidates/early_recording_20261012/README.txt
+A	candidates/early_recording_20261012/__init__.py
+A	candidates/early_recording_20261012/archive.py
+A	candidates/early_recording_20261012/ledger.py
+A	candidates/early_recording_20261012/replay.py
+A	candidates/early_recording_20261012/seams.py
+A	candidates/early_recording_20261012/test_recording.py
+

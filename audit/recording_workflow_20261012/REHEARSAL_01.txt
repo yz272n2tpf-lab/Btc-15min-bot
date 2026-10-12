@@ -1,0 +1,15 @@
+KALSHI QUOTE WS CONNECT | FIXTURE-A | epoch=98bc272e-91ee-4f0e-af04-75949033fb81 | NO ORDERS
+BTC15 INFORMATION STORAGE | {"path":"/workspace/scratch/f71b3a798a6e/recording_workflow_dev/rehearsal_01/run/source.segments/20261012-2db7614804bf460d958543f537dec2d6-c8beed61.jsonl.gz","records":1,"raw_bytes":579,"stored_bytes":421,"historical_files_untouched":true,"signal_only":true,"orders":false}
+KALSHI QUOTE WS CONNECT | FIXTURE-B | epoch=bd2fe516-d84a-4bf6-9cc8-789b0fd98bf7 | NO ORDERS
+BTC15 INFORMATION STORAGE | {"path":"/workspace/scratch/f71b3a798a6e/recording_workflow_dev/rehearsal_01/run/source.segments/20261012-2db7614804bf460d958543f537dec2d6-c8beed61.jsonl.gz","records":1000,"raw_bytes":858245,"stored_bytes":562257,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15_CAPTURE_HEALTH {"actionable": false, "archive_failed": false, "archive_session": "482f0d8fc1074bd2bb891a844c490759", "failure": null, "information_gap": null, "losses": {}, "orders": false, "peak_queued_bytes": 23599, "production_enabled": false, "queue_byte_budget": 8388608, "queue_capacity": 64, "queued_bytes": 17564, "run_id": "fixture-rollover", "signal_only": true, "status": "CAPTURING_FIXTURE"}
+BTC15 INFORMATION STORAGE | {"path":"/workspace/scratch/f71b3a798a6e/recording_workflow_dev/rehearsal_01/run/source.segments/20261012-2db7614804bf460d958543f537dec2d6-c8beed61.jsonl.gz","records":2000,"raw_bytes":1693245,"stored_bytes":1124761,"historical_files_untouched":true,"signal_only":true,"orders":false}
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator DecisionTreeClassifier from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator RandomForestClassifier from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator LogisticRegression from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
