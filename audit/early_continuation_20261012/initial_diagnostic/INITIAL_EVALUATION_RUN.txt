@@ -1,0 +1,236 @@
+sep26_27_development {"recognized": 761, "confirmed": 585, "landmarks": 480, "labels": {"CANCELED_ENTRY": 292, "ADVERSE_FIRST": 148, "DURABLE_SUCCESS": 14, "CENSORED_PATH": 24, "UNASSESSABLE": 2}}
+sep28_29_diagnostic {"recognized": 574, "confirmed": 413, "landmarks": 350, "labels": {"CANCELED_ENTRY": 224, "CENSORED_PATH": 68, "ADVERSE_FIRST": 56, "DURABLE_SUCCESS": 1, "UNASSESSABLE": 1}}
+FIT_UNAVAILABLE CALIBRATION_BOTH_CLASSES_REQUIRED
+oct4_diagnostic {"recognized": 76, "confirmed": 55, "landmarks": 46, "labels": {"UNASSESSABLE": 46}}
+oct6_diagnostic {"recognized": 167, "confirmed": 129, "landmarks": 107, "labels": {"UNASSESSABLE": 107}}
+oct7_diagnostic {"recognized": 136, "confirmed": 99, "landmarks": 84, "labels": {"UNASSESSABLE": 84}}
+oct8_diagnostic {"recognized": 167, "confirmed": 120, "landmarks": 85, "labels": {"UNASSESSABLE": 85}}
+oct11_diagnostic {"recognized": 35, "confirmed": 29, "landmarks": 20, "labels": {"UNASSESSABLE": 20}}
+{
+  "fit_status": "UNESTIMATED",
+  "later_landmarks": 342,
+  "supported_predictions": 0,
+  "brier": null,
+  "training_prevalence_brier": null,
+  "candidate": {
+    "attempts": 0,
+    "contracts": 0,
+    "status": {},
+    "success_bounds": null,
+    "entry_count": 0,
+    "price_lost": 0,
+    "burst_observed": 0,
+    "entry_delay_seconds": {
+      "n": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "entry_ask_cents": {
+      "n": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "episode_span_seconds": {
+      "n": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "maximum_episode_per_entry_seconds": {
+      "n": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "coverage_fraction": {
+      "n": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "worst_observed_net_cents": {
+      "n": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "first_certificate_delayed_net_cents": {
+      "n": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "checkpoints": {
+      "60": {
+        "runway_possible": 0,
+        "observed_attempts": 0,
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "primary_success_and_accessible": 0
+      },
+      "120": {
+        "runway_possible": 0,
+        "observed_attempts": 0,
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "primary_success_and_accessible": 0
+      },
+      "180": {
+        "runway_possible": 0,
+        "observed_attempts": 0,
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "primary_success_and_accessible": 0
+      },
+      "240": {
+        "runway_possible": 0,
+        "observed_attempts": 0,
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "primary_success_and_accessible": 0
+      },
+      "300": {
+        "runway_possible": 0,
+        "observed_attempts": 0,
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "primary_success_and_accessible": 0
+      },
+      "420": {
+        "runway_possible": 0,
+        "observed_attempts": 0,
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "primary_success_and_accessible": 0
+      }
+    }
+  },
+  "baseline_observational": {
+    "attempts": 163,
+    "contracts": 80,
+    "status": {
+      "UNASSESSABLE": 163
+    },
+    "success_bounds": [
+      0.0,
+      1.0
+    ],
+    "entry_count": 0,
+    "price_lost": 0,
+    "burst_observed": 0,
+    "entry_delay_seconds": {
+      "n": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "entry_ask_cents": {
+      "n": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "episode_span_seconds": {
+      "n": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "maximum_episode_per_entry_seconds": {
+      "n": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "coverage_fraction": {
+      "n": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "worst_observed_net_cents": {
+      "n": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "first_certificate_delayed_net_cents": {
+      "n": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "checkpoints": {
+      "60": {
+        "runway_possible": 0,
+        "observed_attempts": 0,
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "primary_success_and_accessible": 0
+      },
+      "120": {
+        "runway_possible": 0,
+        "observed_attempts": 0,
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "primary_success_and_accessible": 0
+      },
+      "180": {
+        "runway_possible": 0,
+        "observed_attempts": 0,
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "primary_success_and_accessible": 0
+      },
+      "240": {
+        "runway_possible": 0,
+        "observed_attempts": 0,
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "primary_success_and_accessible": 0
+      },
+      "300": {
+        "runway_possible": 0,
+        "observed_attempts": 0,
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "primary_success_and_accessible": 0
+      },
+      "420": {
+        "runway_possible": 0,
+        "observed_attempts": 0,
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "primary_success_and_accessible": 0
+      }
+    }
+  }
+}

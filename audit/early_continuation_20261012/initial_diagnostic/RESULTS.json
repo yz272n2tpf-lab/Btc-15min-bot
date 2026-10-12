@@ -1,0 +1,2508 @@
+{
+  "actionable": false,
+  "actual_native_supported_labels": 0,
+  "actual_native_supported_selections": 0,
+  "all_first_common": {
+    "attempts": 521,
+    "burst_observed": 35,
+    "checkpoints": {
+      "120": {
+        "accessible_attempts": 26,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 6,
+        "observed_attempts": 32,
+        "primary_success_and_accessible": 6,
+        "runway_possible": 157
+      },
+      "180": {
+        "accessible_attempts": 18,
+        "delayed_failed_attempts": 1,
+        "delayed_unknown_attempts": 0,
+        "observed_attempts": 19,
+        "primary_success_and_accessible": 5,
+        "runway_possible": 157
+      },
+      "240": {
+        "accessible_attempts": 11,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "observed_attempts": 11,
+        "primary_success_and_accessible": 4,
+        "runway_possible": 148
+      },
+      "300": {
+        "accessible_attempts": 9,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "observed_attempts": 9,
+        "primary_success_and_accessible": 3,
+        "runway_possible": 144
+      },
+      "420": {
+        "accessible_attempts": 2,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 1,
+        "observed_attempts": 3,
+        "primary_success_and_accessible": 1,
+        "runway_possible": 127
+      },
+      "60": {
+        "accessible_attempts": 56,
+        "delayed_failed_attempts": 4,
+        "delayed_unknown_attempts": 5,
+        "observed_attempts": 61,
+        "primary_success_and_accessible": 10,
+        "runway_possible": 157
+      }
+    },
+    "contracts": 258,
+    "coverage_fraction": {
+      "max": 1.0,
+      "mean": 0.9348481431817958,
+      "median": 0.9604759366427483,
+      "min": 0.7320440244943693,
+      "n": 157
+    },
+    "entry_ask_cents": {
+      "max": 55.00000000000001,
+      "mean": 40.45859872611465,
+      "median": 42.0,
+      "min": 25.0,
+      "n": 157
+    },
+    "entry_count": 157,
+    "entry_delay_seconds": {
+      "max": 16.023253917694092,
+      "mean": 11.818042949506431,
+      "median": 10.396301984786987,
+      "min": 10.000073194503784,
+      "n": 157
+    },
+    "episode_span_seconds": {
+      "max": 460.0088949203491,
+      "mean": 44.86881571220902,
+      "median": 20.027159929275513,
+      "min": 0.0,
+      "n": 424
+    },
+    "first_certificate_delayed_net_cents": {
+      "max": 50.6,
+      "mean": 30.159999999999997,
+      "median": 28.499999999999993,
+      "min": 16.999999999999996,
+      "n": 10
+    },
+    "maximum_episode_per_entry_seconds": {
+      "max": 460.0088949203491,
+      "mean": 71.2236908985551,
+      "median": 30.116370916366577,
+      "min": 0,
+      "n": 157
+    },
+    "price_lost": 69,
+    "status": {
+      "ADVERSE_FIRST": 101,
+      "CANCELED_ENTRY": 201,
+      "CENSORED_PATH": 46,
+      "DURABLE_SUCCESS": 10,
+      "UNASSESSABLE": 163
+    },
+    "success_bounds": [
+      0.019193857965451054,
+      0.42034548944337813
+    ],
+    "worst_observed_net_cents": {
+      "max": -7.000000000000001,
+      "mean": -33.78025477707007,
+      "median": -35.900000000000006,
+      "min": -58.900000000000006,
+      "n": 157
+    }
+  },
+  "all_periods_exposed": true,
+  "artifact_sha256": null,
+  "baseline_by_direction": {
+    "DOWN": {
+      "attempts": 82,
+      "burst_observed": 0,
+      "checkpoints": {
+        "120": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        },
+        "180": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        },
+        "240": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        },
+        "300": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        },
+        "420": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        },
+        "60": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        }
+      },
+      "contracts": 58,
+      "coverage_fraction": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "entry_ask_cents": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "entry_count": 0,
+      "entry_delay_seconds": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "episode_span_seconds": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "first_certificate_delayed_net_cents": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "maximum_episode_per_entry_seconds": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "price_lost": 0,
+      "status": {
+        "UNASSESSABLE": 82
+      },
+      "success_bounds": [
+        0.0,
+        1.0
+      ],
+      "worst_observed_net_cents": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      }
+    },
+    "UP": {
+      "attempts": 81,
+      "burst_observed": 0,
+      "checkpoints": {
+        "120": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        },
+        "180": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        },
+        "240": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        },
+        "300": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        },
+        "420": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        },
+        "60": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        }
+      },
+      "contracts": 58,
+      "coverage_fraction": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "entry_ask_cents": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "entry_count": 0,
+      "entry_delay_seconds": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "episode_span_seconds": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "first_certificate_delayed_net_cents": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "maximum_episode_per_entry_seconds": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "price_lost": 0,
+      "status": {
+        "UNASSESSABLE": 81
+      },
+      "success_bounds": [
+        0.0,
+        1.0
+      ],
+      "worst_observed_net_cents": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      }
+    }
+  },
+  "baseline_observational": {
+    "attempts": 163,
+    "burst_observed": 0,
+    "checkpoints": {
+      "120": {
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "observed_attempts": 0,
+        "primary_success_and_accessible": 0,
+        "runway_possible": 0
+      },
+      "180": {
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "observed_attempts": 0,
+        "primary_success_and_accessible": 0,
+        "runway_possible": 0
+      },
+      "240": {
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "observed_attempts": 0,
+        "primary_success_and_accessible": 0,
+        "runway_possible": 0
+      },
+      "300": {
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "observed_attempts": 0,
+        "primary_success_and_accessible": 0,
+        "runway_possible": 0
+      },
+      "420": {
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "observed_attempts": 0,
+        "primary_success_and_accessible": 0,
+        "runway_possible": 0
+      },
+      "60": {
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "observed_attempts": 0,
+        "primary_success_and_accessible": 0,
+        "runway_possible": 0
+      }
+    },
+    "contracts": 80,
+    "coverage_fraction": {
+      "max": null,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "n": 0
+    },
+    "entry_ask_cents": {
+      "max": null,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "n": 0
+    },
+    "entry_count": 0,
+    "entry_delay_seconds": {
+      "max": null,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "n": 0
+    },
+    "episode_span_seconds": {
+      "max": null,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "n": 0
+    },
+    "first_certificate_delayed_net_cents": {
+      "max": null,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "n": 0
+    },
+    "maximum_episode_per_entry_seconds": {
+      "max": null,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "n": 0
+    },
+    "price_lost": 0,
+    "status": {
+      "UNASSESSABLE": 163
+    },
+    "success_bounds": [
+      0.0,
+      1.0
+    ],
+    "worst_observed_net_cents": {
+      "max": null,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "n": 0
+    }
+  },
+  "baseline_success_contract_capture": null,
+  "brier": null,
+  "candidate": {
+    "attempts": 0,
+    "burst_observed": 0,
+    "checkpoints": {
+      "120": {
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "observed_attempts": 0,
+        "primary_success_and_accessible": 0,
+        "runway_possible": 0
+      },
+      "180": {
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "observed_attempts": 0,
+        "primary_success_and_accessible": 0,
+        "runway_possible": 0
+      },
+      "240": {
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "observed_attempts": 0,
+        "primary_success_and_accessible": 0,
+        "runway_possible": 0
+      },
+      "300": {
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "observed_attempts": 0,
+        "primary_success_and_accessible": 0,
+        "runway_possible": 0
+      },
+      "420": {
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "observed_attempts": 0,
+        "primary_success_and_accessible": 0,
+        "runway_possible": 0
+      },
+      "60": {
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "observed_attempts": 0,
+        "primary_success_and_accessible": 0,
+        "runway_possible": 0
+      }
+    },
+    "contracts": 0,
+    "coverage_fraction": {
+      "max": null,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "n": 0
+    },
+    "entry_ask_cents": {
+      "max": null,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "n": 0
+    },
+    "entry_count": 0,
+    "entry_delay_seconds": {
+      "max": null,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "n": 0
+    },
+    "episode_span_seconds": {
+      "max": null,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "n": 0
+    },
+    "first_certificate_delayed_net_cents": {
+      "max": null,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "n": 0
+    },
+    "maximum_episode_per_entry_seconds": {
+      "max": null,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "n": 0
+    },
+    "price_lost": 0,
+    "status": {},
+    "success_bounds": null,
+    "worst_observed_net_cents": {
+      "max": null,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "n": 0
+    }
+  },
+  "candidate_by_direction": {
+    "DOWN": {
+      "attempts": 0,
+      "burst_observed": 0,
+      "checkpoints": {
+        "120": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        },
+        "180": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        },
+        "240": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        },
+        "300": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        },
+        "420": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        },
+        "60": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        }
+      },
+      "contracts": 0,
+      "coverage_fraction": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "entry_ask_cents": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "entry_count": 0,
+      "entry_delay_seconds": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "episode_span_seconds": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "first_certificate_delayed_net_cents": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "maximum_episode_per_entry_seconds": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "price_lost": 0,
+      "status": {},
+      "success_bounds": null,
+      "worst_observed_net_cents": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      }
+    },
+    "UP": {
+      "attempts": 0,
+      "burst_observed": 0,
+      "checkpoints": {
+        "120": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        },
+        "180": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        },
+        "240": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        },
+        "300": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        },
+        "420": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        },
+        "60": {
+          "accessible_attempts": 0,
+          "delayed_failed_attempts": 0,
+          "delayed_unknown_attempts": 0,
+          "observed_attempts": 0,
+          "primary_success_and_accessible": 0,
+          "runway_possible": 0
+        }
+      },
+      "contracts": 0,
+      "coverage_fraction": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "entry_ask_cents": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "entry_count": 0,
+      "entry_delay_seconds": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "episode_span_seconds": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "first_certificate_delayed_net_cents": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "maximum_episode_per_entry_seconds": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      },
+      "price_lost": 0,
+      "status": {},
+      "success_bounds": null,
+      "worst_observed_net_cents": {
+        "max": null,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "n": 0
+      }
+    }
+  },
+  "candidate_managed": {
+    "max": null,
+    "mean": null,
+    "median": null,
+    "min": null,
+    "n": 0
+  },
+  "candidate_managed_status": {},
+  "economic_readiness": false,
+  "exposed_inherited_baseline": {
+    "max": 54.39999999999999,
+    "mean": -12.423129251700681,
+    "median": -15.000000000000002,
+    "min": -40.0,
+    "n": 147
+  },
+  "fit_status": "UNESTIMATED",
+  "full_native_FINAL_verified": false,
+  "independent_validation": false,
+  "input_contracts": 296,
+  "input_rows": 48628,
+  "later_landmarks": 342,
+  "limitations": [
+    "NO_ORIGINAL_RECEIPTS",
+    "NO_SIZE_DEPTH_CHAINS",
+    "NO_APPLICABLE_FEES",
+    "EXPOSED_AND_INFORMATIVELY_CENSORED",
+    "DEPENDENT_OVERLAPPING_LANDMARKS",
+    "NO_PORTFOLIO_OR_REALIZED_RETURN",
+    "NO_NATIVE_FINAL_PATH"
+  ],
+  "method": {
+    "C": 1,
+    "block_contracts": 4,
+    "bootstrap": 200,
+    "cadence": 10,
+    "calibration": "INTERCEPT_ONLY",
+    "calibration_period": "sep28_29_diagnostic",
+    "evidence_class": "QUOTE_ONLY_STRESS_EXPOSED",
+    "features": [
+      "ask_cents",
+      "runway_minutes",
+      "joint_impulse30",
+      "joint_efficiency30",
+      "joint_movement120",
+      "joint_structure120"
+    ],
+    "id": "CONTINUATION_LOGISTIC_V1",
+    "independent_validation": false,
+    "min_bootstrap": 160,
+    "min_cell_contracts": 12,
+    "seed": 1210,
+    "selection_lower": 0.5,
+    "selection_probability": 0.75,
+    "target": "DURABLE_10C_60S_DELAYED_OPPORTUNITY_BEFORE_ADVERSE_10C",
+    "train": "sep26_27_development"
+  },
+  "model_score_cancellations": 0,
+  "newly_identified_success_contracts": [],
+  "orders": false,
+  "periods": {
+    "oct11_diagnostic": {
+      "comparator": {
+        "attempts": 9,
+        "burst_observed": 0,
+        "checkpoints": {
+          "120": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "180": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "240": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "300": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "420": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "60": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          }
+        },
+        "contracts": 3,
+        "coverage_fraction": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "entry_ask_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "entry_count": 0,
+        "entry_delay_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "episode_span_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "first_certificate_delayed_net_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "maximum_episode_per_entry_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "price_lost": 0,
+        "status": {
+          "UNASSESSABLE": 9
+        },
+        "success_bounds": [
+          0.0,
+          1.0
+        ],
+        "worst_observed_net_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        }
+      },
+      "confirmed": 29,
+      "contracts": 4,
+      "labels": {
+        "attempts": 20,
+        "burst_observed": 0,
+        "checkpoints": {
+          "120": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "180": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "240": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "300": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "420": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "60": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          }
+        },
+        "contracts": 3,
+        "coverage_fraction": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "entry_ask_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "entry_count": 0,
+        "entry_delay_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "episode_span_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "first_certificate_delayed_net_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "maximum_episode_per_entry_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "price_lost": 0,
+        "status": {
+          "UNASSESSABLE": 20
+        },
+        "success_bounds": [
+          0.0,
+          1.0
+        ],
+        "worst_observed_net_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        }
+      },
+      "landmarks": 20,
+      "observations": 1404,
+      "recognized": 35
+    },
+    "oct4_diagnostic": {
+      "comparator": {
+        "attempts": 25,
+        "burst_observed": 0,
+        "checkpoints": {
+          "120": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "180": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "240": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "300": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "420": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "60": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          }
+        },
+        "contracts": 13,
+        "coverage_fraction": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "entry_ask_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "entry_count": 0,
+        "entry_delay_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "episode_span_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "first_certificate_delayed_net_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "maximum_episode_per_entry_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "price_lost": 0,
+        "status": {
+          "UNASSESSABLE": 25
+        },
+        "success_bounds": [
+          0.0,
+          1.0
+        ],
+        "worst_observed_net_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        }
+      },
+      "confirmed": 55,
+      "contracts": 16,
+      "labels": {
+        "attempts": 46,
+        "burst_observed": 0,
+        "checkpoints": {
+          "120": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "180": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "240": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "300": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "420": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "60": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          }
+        },
+        "contracts": 13,
+        "coverage_fraction": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "entry_ask_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "entry_count": 0,
+        "entry_delay_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "episode_span_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "first_certificate_delayed_net_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "maximum_episode_per_entry_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "price_lost": 0,
+        "status": {
+          "UNASSESSABLE": 46
+        },
+        "success_bounds": [
+          0.0,
+          1.0
+        ],
+        "worst_observed_net_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        }
+      },
+      "landmarks": 46,
+      "observations": 2668,
+      "recognized": 76
+    },
+    "oct6_diagnostic": {
+      "comparator": {
+        "attempts": 47,
+        "burst_observed": 0,
+        "checkpoints": {
+          "120": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "180": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "240": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "300": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "420": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "60": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          }
+        },
+        "contracts": 21,
+        "coverage_fraction": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "entry_ask_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "entry_count": 0,
+        "entry_delay_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "episode_span_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "first_certificate_delayed_net_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "maximum_episode_per_entry_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "price_lost": 0,
+        "status": {
+          "UNASSESSABLE": 47
+        },
+        "success_bounds": [
+          0.0,
+          1.0
+        ],
+        "worst_observed_net_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        }
+      },
+      "confirmed": 129,
+      "contracts": 24,
+      "labels": {
+        "attempts": 107,
+        "burst_observed": 0,
+        "checkpoints": {
+          "120": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "180": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "240": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "300": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "420": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "60": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          }
+        },
+        "contracts": 21,
+        "coverage_fraction": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "entry_ask_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "entry_count": 0,
+        "entry_delay_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "episode_span_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "first_certificate_delayed_net_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "maximum_episode_per_entry_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "price_lost": 0,
+        "status": {
+          "UNASSESSABLE": 107
+        },
+        "success_bounds": [
+          0.0,
+          1.0
+        ],
+        "worst_observed_net_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        }
+      },
+      "landmarks": 107,
+      "observations": 4019,
+      "recognized": 167
+    },
+    "oct7_diagnostic": {
+      "comparator": {
+        "attempts": 37,
+        "burst_observed": 0,
+        "checkpoints": {
+          "120": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "180": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "240": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "300": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "420": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "60": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          }
+        },
+        "contracts": 20,
+        "coverage_fraction": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "entry_ask_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "entry_count": 0,
+        "entry_delay_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "episode_span_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "first_certificate_delayed_net_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "maximum_episode_per_entry_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "price_lost": 0,
+        "status": {
+          "UNASSESSABLE": 37
+        },
+        "success_bounds": [
+          0.0,
+          1.0
+        ],
+        "worst_observed_net_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        }
+      },
+      "confirmed": 99,
+      "contracts": 24,
+      "labels": {
+        "attempts": 84,
+        "burst_observed": 0,
+        "checkpoints": {
+          "120": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "180": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "240": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "300": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "420": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "60": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          }
+        },
+        "contracts": 20,
+        "coverage_fraction": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "entry_ask_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "entry_count": 0,
+        "entry_delay_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "episode_span_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "first_certificate_delayed_net_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "maximum_episode_per_entry_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "price_lost": 0,
+        "status": {
+          "UNASSESSABLE": 84
+        },
+        "success_bounds": [
+          0.0,
+          1.0
+        ],
+        "worst_observed_net_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        }
+      },
+      "landmarks": 84,
+      "observations": 3902,
+      "recognized": 136
+    },
+    "oct8_diagnostic": {
+      "comparator": {
+        "attempts": 45,
+        "burst_observed": 0,
+        "checkpoints": {
+          "120": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "180": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "240": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "300": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "420": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "60": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          }
+        },
+        "contracts": 23,
+        "coverage_fraction": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "entry_ask_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "entry_count": 0,
+        "entry_delay_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "episode_span_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "first_certificate_delayed_net_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "maximum_episode_per_entry_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "price_lost": 0,
+        "status": {
+          "UNASSESSABLE": 45
+        },
+        "success_bounds": [
+          0.0,
+          1.0
+        ],
+        "worst_observed_net_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        }
+      },
+      "confirmed": 120,
+      "contracts": 24,
+      "labels": {
+        "attempts": 85,
+        "burst_observed": 0,
+        "checkpoints": {
+          "120": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "180": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "240": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "300": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "420": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          },
+          "60": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 0
+          }
+        },
+        "contracts": 23,
+        "coverage_fraction": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "entry_ask_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "entry_count": 0,
+        "entry_delay_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "episode_span_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "first_certificate_delayed_net_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "maximum_episode_per_entry_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        },
+        "price_lost": 0,
+        "status": {
+          "UNASSESSABLE": 85
+        },
+        "success_bounds": [
+          0.0,
+          1.0
+        ],
+        "worst_observed_net_cents": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0
+        }
+      },
+      "landmarks": 85,
+      "observations": 3985,
+      "recognized": 167
+    },
+    "sep26_27_development": {
+      "comparator": {
+        "attempts": 203,
+        "burst_observed": 21,
+        "checkpoints": {
+          "120": {
+            "accessible_attempts": 21,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 6,
+            "observed_attempts": 27,
+            "primary_success_and_accessible": 6,
+            "runway_possible": 98
+          },
+          "180": {
+            "accessible_attempts": 14,
+            "delayed_failed_attempts": 1,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 15,
+            "primary_success_and_accessible": 5,
+            "runway_possible": 98
+          },
+          "240": {
+            "accessible_attempts": 9,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 9,
+            "primary_success_and_accessible": 4,
+            "runway_possible": 91
+          },
+          "300": {
+            "accessible_attempts": 7,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 7,
+            "primary_success_and_accessible": 3,
+            "runway_possible": 88
+          },
+          "420": {
+            "accessible_attempts": 2,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 1,
+            "observed_attempts": 3,
+            "primary_success_and_accessible": 1,
+            "runway_possible": 81
+          },
+          "60": {
+            "accessible_attempts": 36,
+            "delayed_failed_attempts": 1,
+            "delayed_unknown_attempts": 1,
+            "observed_attempts": 38,
+            "primary_success_and_accessible": 9,
+            "runway_possible": 98
+          }
+        },
+        "contracts": 102,
+        "coverage_fraction": {
+          "max": 1.0,
+          "mean": 0.9699964110974184,
+          "median": 0.9851073363994969,
+          "min": 0.771026725180053,
+          "n": 98
+        },
+        "entry_ask_cents": {
+          "max": 55.00000000000001,
+          "mean": 40.43877551020408,
+          "median": 40.5,
+          "min": 25.0,
+          "n": 98
+        },
+        "entry_count": 98,
+        "entry_delay_seconds": {
+          "max": 15.576128959655762,
+          "mean": 11.861440850763906,
+          "median": 10.153247475624084,
+          "min": 10.000073194503784,
+          "n": 98
+        },
+        "episode_span_seconds": {
+          "max": 460.0088949203491,
+          "mean": 63.82894935309887,
+          "median": 20.045453906059265,
+          "min": 0.0,
+          "n": 160
+        },
+        "first_certificate_delayed_net_cents": {
+          "max": 50.6,
+          "mean": 31.066666666666663,
+          "median": 29.999999999999993,
+          "min": 16.999999999999996,
+          "n": 9
+        },
+        "maximum_episode_per_entry_seconds": {
+          "max": 460.0088949203491,
+          "mean": 79.68441245750505,
+          "median": 27.483933448791504,
+          "min": 0,
+          "n": 98
+        },
+        "price_lost": 35,
+        "status": {
+          "ADVERSE_FIRST": 76,
+          "CANCELED_ENTRY": 105,
+          "CENSORED_PATH": 13,
+          "DURABLE_SUCCESS": 9
+        },
+        "success_bounds": [
+          0.04433497536945813,
+          0.10837438423645321
+        ],
+        "worst_observed_net_cents": {
+          "max": -7.000000000000001,
+          "mean": -34.388775510204084,
+          "median": -35.900000000000006,
+          "min": -58.900000000000006,
+          "n": 98
+        }
+      },
+      "confirmed": 585,
+      "contracts": 122,
+      "labels": {
+        "attempts": 480,
+        "burst_observed": 40,
+        "checkpoints": {
+          "120": {
+            "accessible_attempts": 37,
+            "delayed_failed_attempts": 1,
+            "delayed_unknown_attempts": 9,
+            "observed_attempts": 47,
+            "primary_success_and_accessible": 11,
+            "runway_possible": 186
+          },
+          "180": {
+            "accessible_attempts": 24,
+            "delayed_failed_attempts": 4,
+            "delayed_unknown_attempts": 1,
+            "observed_attempts": 28,
+            "primary_success_and_accessible": 7,
+            "runway_possible": 186
+          },
+          "240": {
+            "accessible_attempts": 13,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 13,
+            "primary_success_and_accessible": 6,
+            "runway_possible": 175
+          },
+          "300": {
+            "accessible_attempts": 10,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 10,
+            "primary_success_and_accessible": 4,
+            "runway_possible": 163
+          },
+          "420": {
+            "accessible_attempts": 2,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 1,
+            "observed_attempts": 3,
+            "primary_success_and_accessible": 1,
+            "runway_possible": 143
+          },
+          "60": {
+            "accessible_attempts": 65,
+            "delayed_failed_attempts": 1,
+            "delayed_unknown_attempts": 3,
+            "observed_attempts": 67,
+            "primary_success_and_accessible": 14,
+            "runway_possible": 186
+          }
+        },
+        "contracts": 102,
+        "coverage_fraction": {
+          "max": 1.0,
+          "mean": 0.9718225614709489,
+          "median": 0.9856755102992585,
+          "min": 0.771026725180053,
+          "n": 186
+        },
+        "entry_ask_cents": {
+          "max": 55.00000000000001,
+          "mean": 42.11290322580645,
+          "median": 44.0,
+          "min": 25.0,
+          "n": 186
+        },
+        "entry_count": 186,
+        "entry_delay_seconds": {
+          "max": 15.842829942703247,
+          "mean": 12.102576973617717,
+          "median": 10.322378516197205,
+          "min": 10.000073194503784,
+          "n": 186
+        },
+        "episode_span_seconds": {
+          "max": 460.0088949203491,
+          "mean": 63.06594663816141,
+          "median": 25.016304969787598,
+          "min": 0.0,
+          "n": 282
+        },
+        "first_certificate_delayed_net_cents": {
+          "max": 50.6,
+          "mean": 31.099999999999994,
+          "median": 31.999999999999993,
+          "min": 16.999999999999996,
+          "n": 14
+        },
+        "maximum_episode_per_entry_seconds": {
+          "max": 460.0088949203491,
+          "mean": 72.59165703609426,
+          "median": 19.751696944236755,
+          "min": 0,
+          "n": 186
+        },
+        "price_lost": 78,
+        "status": {
+          "ADVERSE_FIRST": 148,
+          "CANCELED_ENTRY": 292,
+          "CENSORED_PATH": 24,
+          "DURABLE_SUCCESS": 14,
+          "UNASSESSABLE": 2
+        },
+        "success_bounds": [
+          0.029166666666666667,
+          0.08333333333333333
+        ],
+        "worst_observed_net_cents": {
+          "max": -6.999999999999995,
+          "mean": -36.340322580645164,
+          "median": -37.400000000000006,
+          "min": -59.900000000000006,
+          "n": 186
+        }
+      },
+      "landmarks": 480,
+      "observations": 19628,
+      "recognized": 761
+    },
+    "sep28_29_diagnostic": {
+      "comparator": {
+        "attempts": 155,
+        "burst_observed": 14,
+        "checkpoints": {
+          "120": {
+            "accessible_attempts": 5,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 5,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 59
+          },
+          "180": {
+            "accessible_attempts": 4,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 4,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 59
+          },
+          "240": {
+            "accessible_attempts": 2,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 2,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 57
+          },
+          "300": {
+            "accessible_attempts": 2,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 2,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 56
+          },
+          "420": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 46
+          },
+          "60": {
+            "accessible_attempts": 20,
+            "delayed_failed_attempts": 3,
+            "delayed_unknown_attempts": 4,
+            "observed_attempts": 23,
+            "primary_success_and_accessible": 1,
+            "runway_possible": 59
+          }
+        },
+        "contracts": 76,
+        "coverage_fraction": {
+          "max": 1.0,
+          "mean": 0.876466274440592,
+          "median": 0.8774179552011879,
+          "min": 0.7320440244943693,
+          "n": 59
+        },
+        "entry_ask_cents": {
+          "max": 55.00000000000001,
+          "mean": 40.49152542372882,
+          "median": 42.0,
+          "min": 25.0,
+          "n": 59
+        },
+        "entry_count": 59,
+        "entry_delay_seconds": {
+          "max": 16.023253917694092,
+          "mean": 11.74595829996012,
+          "median": 10.583628177642822,
+          "min": 10.008289098739624,
+          "n": 59
+        },
+        "episode_span_seconds": {
+          "max": 332.3626809120178,
+          "mean": 33.37782562682123,
+          "median": 19.26319646835327,
+          "min": 0.0,
+          "n": 264
+        },
+        "first_certificate_delayed_net_cents": {
+          "max": 21.999999999999993,
+          "mean": 21.999999999999993,
+          "median": 21.999999999999993,
+          "min": 21.999999999999993,
+          "n": 1
+        },
+        "maximum_episode_per_entry_seconds": {
+          "max": 332.3626809120178,
+          "mean": 57.17028898707891,
+          "median": 35.568483114242554,
+          "min": 0,
+          "n": 59
+        },
+        "price_lost": 34,
+        "status": {
+          "ADVERSE_FIRST": 25,
+          "CANCELED_ENTRY": 96,
+          "CENSORED_PATH": 33,
+          "DURABLE_SUCCESS": 1
+        },
+        "success_bounds": [
+          0.0064516129032258064,
+          0.21935483870967742
+        ],
+        "worst_observed_net_cents": {
+          "max": -7.000000000000001,
+          "mean": -32.76949152542373,
+          "median": -34.900000000000006,
+          "min": -53.900000000000006,
+          "n": 59
+        }
+      },
+      "confirmed": 413,
+      "contracts": 82,
+      "labels": {
+        "attempts": 350,
+        "burst_observed": 33,
+        "checkpoints": {
+          "120": {
+            "accessible_attempts": 8,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 8,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 125
+          },
+          "180": {
+            "accessible_attempts": 6,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 6,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 125
+          },
+          "240": {
+            "accessible_attempts": 2,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 2,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 122
+          },
+          "300": {
+            "accessible_attempts": 2,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 2,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 117
+          },
+          "420": {
+            "accessible_attempts": 0,
+            "delayed_failed_attempts": 0,
+            "delayed_unknown_attempts": 0,
+            "observed_attempts": 0,
+            "primary_success_and_accessible": 0,
+            "runway_possible": 89
+          },
+          "60": {
+            "accessible_attempts": 37,
+            "delayed_failed_attempts": 6,
+            "delayed_unknown_attempts": 10,
+            "observed_attempts": 43,
+            "primary_success_and_accessible": 1,
+            "runway_possible": 125
+          }
+        },
+        "contracts": 76,
+        "coverage_fraction": {
+          "max": 1.0,
+          "mean": 0.8795719680757795,
+          "median": 0.8805956059743191,
+          "min": 0.724421829720332,
+          "n": 125
+        },
+        "entry_ask_cents": {
+          "max": 55.00000000000001,
+          "mean": 41.456,
+          "median": 43.0,
+          "min": 25.0,
+          "n": 125
+        },
+        "entry_count": 125,
+        "entry_delay_seconds": {
+          "max": 16.093751192092896,
+          "mean": 11.953240173339843,
+          "median": 10.54667592048645,
+          "min": 10.008289098739624,
+          "n": 125
+        },
+        "episode_span_seconds": {
+          "max": 332.3626809120178,
+          "mean": 30.154399101444753,
+          "median": 19.030575037002563,
+          "min": 0.0,
+          "n": 519
+        },
+        "first_certificate_delayed_net_cents": {
+          "max": 21.999999999999993,
+          "mean": 21.999999999999993,
+          "median": 21.999999999999993,
+          "min": 21.999999999999993,
+          "n": 1
+        },
+        "maximum_episode_per_entry_seconds": {
+          "max": 332.3626809120178,
+          "mean": 48.98316668701172,
+          "median": 29.227089881896973,
+          "min": 0,
+          "n": 125
+        },
+        "price_lost": 77,
+        "status": {
+          "ADVERSE_FIRST": 56,
+          "CANCELED_ENTRY": 224,
+          "CENSORED_PATH": 68,
+          "DURABLE_SUCCESS": 1,
+          "UNASSESSABLE": 1
+        },
+        "success_bounds": [
+          0.002857142857142857,
+          0.2
+        ],
+        "worst_observed_net_cents": {
+          "max": -7.000000000000001,
+          "mean": -34.6248,
+          "median": -36.900000000000006,
+          "min": -56.900000000000006,
+          "n": 125
+        }
+      },
+      "landmarks": 350,
+      "observations": 13022,
+      "recognized": 574
+    }
+  },
+  "production_enabled": false,
+  "signal_only": true,
+  "supported_labeled_predictions": 0,
+  "supported_predictions": 0,
+  "training_prevalence_brier": null,
+  "unsupported": {
+    "NO_LIVE_AUTHORITY": 342
+  }
+}

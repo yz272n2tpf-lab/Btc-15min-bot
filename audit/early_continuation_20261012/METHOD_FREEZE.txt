@@ -1,0 +1,81 @@
+BTC15 SUSTAINED CONTINUATION / frozen before label generation or fitting
+
+Authorization: one isolated implementation and exposed exploratory comparison.
+Starting source ca26c5911d50f8b7f14343a8d1295fc5abb65353. All 1,223 source
+manifest hashes verified; independent copy, no shared Git metadata or links.
+Accepted historical original-index incident remains unresolved; not reinvestigated.
+
+Specification: October 12 assessment sections 11-13, plus user-required descriptive
+120/180/240/300/420-second persistence checkpoints. Primary target stays 10c/60s.
+Six features only: ASK cents; receipt-adjusted remaining minutes; min signed
+BTC/BRTI 30s move / BTC30 range; min signed 30s path efficiency; min signed
+BTC/BRTI120 move / BTC120 range; min improvement in signed BTC/BRTI adverse
+extrema from older to newer nonoverlapping60s halves / BTC120 range.
+Endpoints: most recent observation at/before cutoff, at most15s early; no
+interpolation. Range floor target*0.00001. Older half includes midpoint, newer
+half strictly after midpoint; windows are selected by source time. Every feature
+observation must already be received by decision, source time <= decision,
+same contract/target/close/epoch, advancing, valid, adjacent gaps <=15s.
+No universal positive120s gate. No MACD/RSI predictors or settlement features.
+
+Unchanged independent onset/confirmation/reset reducer creates common eligibility.
+One landmark per setup per >=10 observed seconds while confirmed, recognized,
+primary25-55c, and baseline execution checks pass. Unsupported120s landmarks
+remain in the ledger. First eligible landmark is baseline observational comparator;
+candidate first supported p>=.75 and nominal95% bootstrap lower>.50 per setup.
+Additional model-score losses during entry wait are separate policy cancellations,
+not rewrites of the common path labels. Refresh only with new inference on cadence;
+score expires at min(score receipt+10, score source+10, close).
+
+Primary historical evidence class QUOTE_ONLY_STRESS_EXPOSED: normalized receipts
+are not original receipt evidence, no size/fill or fee applicability is claimed.
+Native economic labels remain unassessable without complete execution evidence.
+Stress fee per leg is ceil-cent(0.07*p*(1-p)), one-contract comparison assumption;
+reserve=max2c,decision/entry/current-sale spread. Assumed10s entry and10s exit
+reaction, each with10s observation tolerance, first admissible quote only.
+Any observed common-qualification loss while awaiting entry latches cancellation.
+Known cancellations Y=0 are failed deliveries, not trading losses. Missing recheck
+Y=null. For path evidence use strict6s adjacent quote-time and receipt gap budget;
+this is an OBSERVED quote continuity proxy, not native sequence proof.
+No gaps/interpolation count toward episodes. A gap before primary competing event
+makes its ordering unassessable; later episodes remain descriptive only.
+Y=1 requires >=10c net throughout observed episode>=60s, >=3 advancing quotes,
+then first quote after10s reaction within10s tolerance still>=10c. An observed
+<=-10c net first is Y=0 only if prior path continuous. Complete no-success path
+Y=0 only if covered through close-10s; otherwise censored. No manager outcome used.
+Report all episode spans, covered time, counts, cadence, worst observed net,
+time-to-positive/+10, delayed certificate net, and 120/180/240/300/420s checkpoints
+with delayed-accessibility and runway/coverage denominators. Later rebounds cannot
+rewrite adverse-first. No fixed holding timer or assumed future maximum sale.
+
+One pooled standardized logistic objective: weighted summed log loss + ||b||²/2
+(C=1), unpenalized intercept; one total weight per whole contract over labeled
+landmarks and both directions. Center/scale training only. No feature interactions.
+Fit first122 development contracts; scalar intercept-only calibration following82;
+last92 diagnostic contracts remain exposed. No train/evaluation contract overlap.
+Calibration weight is also one per contract. Calibration must have both classes.
+Require both outcome classes among training contracts for an exploratory fit;
+report independent-stage class minima separately, never pretend they were satisfied.
+Numerical method Newton/IRLS, max100 steps, tolerance1e-9, stable sigmoid; singular
+or one-class fit fails explicitly. Nominal uncertainty:200 bootstrap refits of
+contiguous four-contract blocks with replacement, seed1210; replicate training
+scaler/refit and calibration intercept using separately resampled calibration
+blocks. Degenerate replicate counted; fewer160 valid means no selection interval.
+Support: both direction/context observed with >=12 labeled training contracts,
+plus six marginal min/max bounds in that cell; no extrapolation. These are
+exploratory boundaries, not evidence of full multivariate coverage. Final model
+availability after calibration labels; no retrospective predictions on fit/cal
+periods masquerade as causal evaluation. Brier versus training-prevalence predictor
+on supported diagnostic rows; first-attempt selection and contract counts separate.
+
+Reuse inherited baseline-manager outcomes only for exactly matched origins. Run
+unchanged manager only for newly selected, delayed-valid origins where needed;
+no full old replay. Report overlap and incomplete paths, never portfolio returns.
+Native FINAL absent means no verified FINAL-protected result. Native FINAL,
+SCALP and management files remain unchanged. All authority flags remain false
+except signal_only=true. Synthetic fixtures test mechanics only and cannot train
+the retained-data model. Zero candidate selections is an acceptable negative result.
+
+Stop after focused tests, one fit/calibration/diagnostic pass, preservation check,
+local commit and recovery handoff. No tournament, retuning, new collection or
+live activation. Code-defect corrections, if necessary, must be recorded explicitly.

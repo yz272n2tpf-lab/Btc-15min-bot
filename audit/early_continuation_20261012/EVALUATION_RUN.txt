@@ -1,0 +1,267 @@
+sep26_27_development {"recognized": 761, "confirmed": 585, "landmarks": 480, "labels": {"CANCELED_ENTRY": 292, "ADVERSE_FIRST": 148, "DURABLE_SUCCESS": 14, "CENSORED_PATH": 24, "UNASSESSABLE": 2}}
+sep28_29_diagnostic {"recognized": 574, "confirmed": 413, "landmarks": 350, "labels": {"CANCELED_ENTRY": 224, "CENSORED_PATH": 68, "ADVERSE_FIRST": 56, "DURABLE_SUCCESS": 1, "UNASSESSABLE": 1}}
+FIT_COMPLETE 11e6b1b033785ce6b240d4a879b835471e4cf22e64b2acc9aafa2f3a2e441a1c
+oct4_diagnostic {"recognized": 76, "confirmed": 55, "landmarks": 46, "labels": {"CANCELED_ENTRY": 33, "CENSORED_PATH": 13}}
+oct6_diagnostic {"recognized": 167, "confirmed": 129, "landmarks": 107, "labels": {"CANCELED_ENTRY": 76, "CENSORED_PATH": 22, "ADVERSE_FIRST": 9}}
+oct7_diagnostic {"recognized": 136, "confirmed": 99, "landmarks": 84, "labels": {"CANCELED_ENTRY": 59, "CENSORED_PATH": 23, "ADVERSE_FIRST": 2}}
+oct8_diagnostic {"recognized": 167, "confirmed": 120, "landmarks": 85, "labels": {"CANCELED_ENTRY": 62, "CENSORED_PATH": 9, "ADVERSE_FIRST": 13, "DURABLE_SUCCESS": 1}}
+oct11_diagnostic {"recognized": 35, "confirmed": 29, "landmarks": 20, "labels": {"DURABLE_SUCCESS": 1, "CANCELED_ENTRY": 14, "ADVERSE_FIRST": 5}}
+{
+  "fit_status": "UNCALIBRATED_EXPLORATORY_QUOTE_ONLY",
+  "later_landmarks": 342,
+  "supported_predictions": 187,
+  "brier": 0.002108026700958302,
+  "training_prevalence_brier": 0.0011842788626415242,
+  "candidate": {
+    "attempts": 0,
+    "contracts": 0,
+    "status": {},
+    "success_bounds": null,
+    "entry_count": 0,
+    "price_lost": 0,
+    "burst_observed": 0,
+    "delayed_price": {
+      "observed": 0,
+      "unavailable": 0,
+      "above55": 0,
+      "below25": 0,
+      "primary": 0,
+      "delay_seconds": {
+        "n": 0,
+        "mean": null,
+        "median": null,
+        "min": null,
+        "max": null
+      }
+    },
+    "entry_delay_seconds": {
+      "n": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "entry_ask_cents": {
+      "n": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "episode_span_seconds": {
+      "n": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "maximum_episode_per_entry_seconds": {
+      "n": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "coverage_fraction": {
+      "n": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "worst_observed_net_cents": {
+      "n": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "first_certificate_delayed_net_cents": {
+      "n": 0,
+      "mean": null,
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "checkpoints": {
+      "60": {
+        "runway_possible": 0,
+        "observed_attempts": 0,
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "primary_success_and_accessible": 0
+      },
+      "120": {
+        "runway_possible": 0,
+        "observed_attempts": 0,
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "primary_success_and_accessible": 0
+      },
+      "180": {
+        "runway_possible": 0,
+        "observed_attempts": 0,
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "primary_success_and_accessible": 0
+      },
+      "240": {
+        "runway_possible": 0,
+        "observed_attempts": 0,
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "primary_success_and_accessible": 0
+      },
+      "300": {
+        "runway_possible": 0,
+        "observed_attempts": 0,
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "primary_success_and_accessible": 0
+      },
+      "420": {
+        "runway_possible": 0,
+        "observed_attempts": 0,
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "primary_success_and_accessible": 0
+      }
+    }
+  },
+  "baseline_observational": {
+    "attempts": 163,
+    "contracts": 80,
+    "status": {
+      "CANCELED_ENTRY": 111,
+      "CENSORED_PATH": 35,
+      "ADVERSE_FIRST": 15,
+      "DURABLE_SUCCESS": 2
+    },
+    "success_bounds": [
+      0.012269938650306749,
+      0.22699386503067484
+    ],
+    "entry_count": 52,
+    "price_lost": 35,
+    "burst_observed": 28,
+    "delayed_price": {
+      "observed": 161,
+      "unavailable": 2,
+      "above55": 24,
+      "below25": 9,
+      "primary": 128,
+      "delay_seconds": {
+        "n": 161,
+        "mean": 14.170803973393411,
+        "median": 14.990973949432373,
+        "min": 10.958508968353271,
+        "max": 18.01621413230896
+      }
+    },
+    "entry_delay_seconds": {
+      "n": 52,
+      "mean": 13.867156780683077,
+      "median": 14.007566452026367,
+      "min": 10.958508968353271,
+      "max": 16.008388996124268
+    },
+    "entry_ask_cents": {
+      "n": 52,
+      "mean": 42.34615384615385,
+      "median": 44.0,
+      "min": 28.000000000000004,
+      "max": 55.00000000000001
+    },
+    "episode_span_seconds": {
+      "n": 380,
+      "mean": 17.402325596307453,
+      "median": 8.027785062789917,
+      "min": 0.0,
+      "max": 181.02009987831116
+    },
+    "maximum_episode_per_entry_seconds": {
+      "n": 52,
+      "mean": 41.286757927674515,
+      "median": 25.986433029174805,
+      "min": 0,
+      "max": 181.02009987831116
+    },
+    "coverage_fraction": {
+      "n": 52,
+      "mean": 0.7986609906045028,
+      "median": 0.8229378090214303,
+      "min": 0.37558152342633794,
+      "max": 1.0
+    },
+    "worst_observed_net_cents": {
+      "n": 52,
+      "mean": -33.925000000000004,
+      "median": -35.150000000000006,
+      "min": -59.70000000000001,
+      "max": -7.000000000000001
+    },
+    "first_certificate_delayed_net_cents": {
+      "n": 2,
+      "mean": 15.0,
+      "median": 15.0,
+      "min": 12.999999999999998,
+      "max": 17.0
+    },
+    "checkpoints": {
+      "60": {
+        "runway_possible": 52,
+        "observed_attempts": 12,
+        "accessible_attempts": 10,
+        "delayed_failed_attempts": 3,
+        "delayed_unknown_attempts": 4,
+        "primary_success_and_accessible": 2
+      },
+      "120": {
+        "runway_possible": 52,
+        "observed_attempts": 5,
+        "accessible_attempts": 3,
+        "delayed_failed_attempts": 1,
+        "delayed_unknown_attempts": 2,
+        "primary_success_and_accessible": 2
+      },
+      "180": {
+        "runway_possible": 52,
+        "observed_attempts": 1,
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 1,
+        "primary_success_and_accessible": 0
+      },
+      "240": {
+        "runway_possible": 45,
+        "observed_attempts": 0,
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "primary_success_and_accessible": 0
+      },
+      "300": {
+        "runway_possible": 42,
+        "observed_attempts": 0,
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "primary_success_and_accessible": 0
+      },
+      "420": {
+        "runway_possible": 38,
+        "observed_attempts": 0,
+        "accessible_attempts": 0,
+        "delayed_failed_attempts": 0,
+        "delayed_unknown_attempts": 0,
+        "primary_success_and_accessible": 0
+      }
+    }
+  }
+}

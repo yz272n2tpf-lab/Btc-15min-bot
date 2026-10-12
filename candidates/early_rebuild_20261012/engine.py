@@ -24,6 +24,10 @@ class Engine:
     def emit(self,event,now,**kw):
         self.events.append(dict(**SAFETY,event=event,time=now,**deepcopy(kw)))
 
+    def assess_entry_objective(self,r,side,assessment,setup):
+        """Isolated research extension point; default preserves the frozen behavior."""
+        return assessment['economics']
+
     def cancel(self,now,reasons,status='CANCELED'):
         t=self.current_ticket
         if t and t['status']=='VALID':
@@ -144,6 +148,7 @@ class Engine:
                 a['economics']=self.conditional_estimator.infer(r,side,x,selection_point=True)
                 s['resale_scored']=True
                 self.emit('EXPLORATORY_RESALE_ASSESSMENT',now,setup_id=s['id'],economics=a['economics'])
+            a['economics']=self.assess_entry_objective(r,side,a,s)
             # This is a mechanism-only certificate, never an estimate or real-data backdoor.
             if self.permit_synthetic_support and r.get('evidence_class')=='SYNTHETIC_FIXTURE':
                 a['economics'].update(ready=True,status='SYNTHETIC_MECHANISM_ONLY',reasons=[],

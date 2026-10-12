@@ -1,0 +1,298 @@
+BTC 15 EARLY SUSTAINED-RUNWAY DEVELOPMENT HANDOFF — 2026-10-12
+PRODUCTION FROZEN | EXPLORATORY ONLY | STOP AFTER HANDOFF
+
+Outcome: IMPLEMENTED; sustained-run selection NOT SUPPORTED BY TESTED RESULTS.
+Recommendation: REVISE the evidence/readiness plan before another evaluation.
+Do not proceed to collection, deployment, lower thresholds, or another model in this
+assignment. The six-feature computation and uncalibrated training fit exist. Finite
+intercept calibration cannot be supported by these retained calibration labels.
+No continuation research proposal qualified. No live activation is authorized.
+
+1. PROVENANCE, ISOLATION AND PRESERVATION
+New workspace:
+/workspace/scratch/e6cca000d6e7/early_continuation_dev/repo
+Local branch: research/early-sustained-runway-20261012
+Starting commit: ca26c5911d50f8b7f14343a8d1295fc5abb65353
+Final local commit/tree: delivery/DELIVERY_IDENTITY.json (written after commit).
+Protected source: /workspace/scratch/e6cca000d6e7/early_blocker_dev/repo
+
+All 1,223 frozen source-manifest hashes matched. Independently copied 1,453 files,
+including separate Git metadata; hashes matched and device/inode pairs differed.
+No symlinks, linked worktree or alternates were used. COPY_BASELINE.json records
+this baseline before edits. Final PROTECTED_BOUNDARY_CHECK.json verifies all 1,453
+protected-source files unchanged, with no added files. Only engine.py among inherited
+non-Git files changed in the new copy. Native FINAL, SCALP, management, execution
+adapters, dashboard, collectors and operational files are unchanged.
+
+The original 41086 workspace and earlier 116 fa candidate were not accessed. The
+historical original-index incident remains accepted but UNRESOLVED; its evidence
+and STOP remain preserved. No repeat inspection or repair was performed. Local
+engineering continued under the user's explicit acceptance, with no new material
+preservation inconsistency. No remote availability or current production identity
+is asserted. No push, remote branch operation, merge, deployment, restart, order,
+collection or operational write occurred.
+
+2. EXACT IMPLEMENTED ARCHITECTURE
+All source paths below are relative to the new workspace.
+
+candidates/early_rebuild_20261012/continuation.py
+  causal_vector: exactly six direction-normalized decision-time features:
+  (1) current same-side ASK cents;
+  (2) (source_time+remaining_time-receipt_time)/60;
+  (3) min(signed BTC30 move, signed BRTI30 move)/BTC30 range;
+  (4) min(signed BTC 30 efficiency, signed BRTI 30 efficiency);
+  (5) min(signed BTC120 move, signed BRTI120 move)/BTC120 range;
+  (6) min improvement of signed adverse BTC/BRTI extrema from older60s half to
+      newer60s half / BTC120 range. UP uses lows; DOWN uses negative highs.
+  Range floor target*0.00001. Cutoffs use delivered observations at/before endpoint,
+  at most 15 s early. Older half includes midpoint; newer excludes it. No interpolation.
+  Finite, causal, advancing, same-contract/target/close/epoch history is required.
+  A negative 120 s feature is allowed; there is no universal positive-long-trend veto.
+  MACD, RSI, settlement probability and future-best BID are not predictors.
+  solve/fit/calibrate: training-standardized pooled logistic, L2 C=1, unpenalized
+  intercept, whole-contract total weight 1 across both sides and labeled landmarks.
+  Calibration is a single intercept only. No feature/threshold/model search.
+  ContinuationEstimator: pinned artifact, exact method/code identity, shape/numeric
+  checks, chronology, evidence domain, context and marginal feature support checks.
+
+candidates/early_rebuild_20261012/continuation_engine.py
+  ContinuationEngine inherits the existing independent UP/DOWN onset and10s
+  confirmation, source clocks, genuine30s reset, ticket/origin separation, cancellation,
+  manual confirmation, duplicate and rollover protections. assess_entry_objective
+  scores at most once per 10 s per eligible setup. Earlier missing 120 s landmarks remain
+  recorded; later scores are dependent observations, not independent opportunities.
+  Selection remains p>=.75 AND nominal 95% bootstrap lower>.50 AND calibration,
+  feature support and common eligibility. First qualifying landmark per genuine setup
+  only. Scores expire at min(score receipt+10,score source+10,declared row close
+  (not a verified official-close binding)); ticks cannot refresh them. A fresh new score is required on
+  cadence. Quote-only research proposals cannot become supported BUY tickets.
+  Standard EARLY BUY output stays WATCH here because execution/validation authority
+  is absent. The research selector is explicit and independently measurable.
+
+candidates/early_rebuild_20261012/engine.py
+  One no-op-default assess_entry_objective hook and one invocation. Baseline behavior
+  remains identical when the continuation subclass is not selected. The old resale
+  model remains available as a separate baseline; the new class does not train from it.
+
+candidates/early_rebuild_20261012/durability.py
+  label: independent common-path label, never uses manager EXIT or a fitted score.
+  Wait 10 s, then use first admissible quote within 10 s additional tolerance. Any observed
+  common qualification loss latches cancellation. Primary ASK remains 25-55 c; sub 25,
+  56-58 and>58 are not normal research-entry authorization. No chasing after delay.
+  Cancellation is a failed opportunity delivery, not a trading loss. The delayed ASK
+  remains reported even if an earlier common-qualification loss already canceled entry.
+  Net = observed same-side BID - delayed ASK - two ceil-cent 0.07*p*(1-p) fee stresses
+  - max(2c,decision/entry/current-sale spreads). Fee and one-contract size are comparison
+  assumptions, NOT verified account pricing, quantity or fills.
+  Certificate requires observed net>=10 c spanning>=60 s and>=3 advancing quotes;
+  strict6s source/receipt adjacency means considerably more quotes in practice.
+  No gaps, stale data or interpolated intervals count toward a supported episode.
+  First observed sale after another 10 s reaction, within 10 s tolerance, must still
+  show>=10 c. A <=-10 c observation before success is adverse-first only when prior
+  ordering is observable. Gaps before competing events make the label unknown.
+  Fully observed failure/cancellation Y=0; supported durable delivery Y=1; censored
+  or unavailable Y=null. Complete failure requires coverage through close-10 s.
+  Observation window is contract runway, never a fixed holding/selling timer.
+  Descriptive120/180/240/300/420s checkpoints include delayed accessibility, runway
+  denominators, failed/unknown delayed checks, episode span/count/cadence/coverage,
+  adverse movement, time-to-positive/+10 and short-direction agreement occupancy.
+  Later rebounds remain descriptive; they never rewrite adverse-first success.
+
+candidates/early_rebuild_20261012/continuation_study.py
+  Hash-verified input/retained-result binding; new landmark/label generation;
+  fit 122 contracts, calibration 82, final 92 exposed diagnostics. Comparator first-common
+  landmarks exactly match all 521 retained observational qualifications by setup/time.
+  Candidate score-loss cancellations are separate from underlying common labels.
+  Existing baseline-manager outcomes are reused at exactly matched origins. Only
+  genuinely new selected origins would require new manager paths; none did here.
+  No unchanged legacy replay was run.
+
+candidates/early_rebuild_20261012/test_continuation.py
+  31 new focused tests, including actual-record artifact integration. Synthetic
+  labels stay SYNTHETIC_FIXTURE and cannot train the empirical artifact.
+
+3. ESTIMATOR AND ARTIFACT STATUS
+Artifact: evaluation/CONTINUATION_ARTIFACT.json
+Artifact identity: 11e6b1b033785ce6b240d4a879b835471e4cf22e64b2acc9aafa2f3a2e441a1c
+Status: UNCALIBRATED_EXPLORATORY_QUOTE_ONLY. Economic readiness=false.
+Training:388 six-feature known labels =374 failures/cancellations +14 successes.
+Success support is 9 UP contracts and 3 DOWN contracts, below independent-stage minima.
+Calibration:238 six-feature known labels, all zero; zero positive labels. Its one
+observed durable success lacks120s causal history. Contract KXBTC15M-26SEP280300-00,
+DOWN, decision 1790578009.536002; retained current-contract prefix is only 80.665 s.
+A finite unconstrained intercept calibration is unsupported. No made-up intercept
+or confidence is supplied. The artifact stores zero ADDITIONAL calibration shift,
+explicitly unapplied; the estimated training intercept is retained. The calibrated
+selector remains blocked. Code for fitting the scalar intercept is tested.
+
+200/200 contiguous-four-contract-block bootstrap training fits completed, seed1210.
+Since calibration is unavailable, these quantify nominal TRAINING-FIT uncertainty,
+not calibrated probability coverage, native economics or independent uncertainty.
+Fit coefficients in standardized feature order, including intercept:
+[-3.5797915238719566, 0.43220820084923206, -0.39577053634385356, -0.3359290920807314, 0.3935139326200744, 0.09267003922504317, 0.04718385647696617]
+
+Inference support requires>=12 labeled training contracts in side/context and all
+six marginal training bounds. UP_CONTINUATION has only10 and is unsupported;
+DOWN_CONTINUATION21, DOWN_PRE_CROSSING50, UP_PRE_CROSSING59 meet this exploratory
+count rule. Some cells have no positives; this does not validate prediction there.
+Exact centers/scales/bounds and class counts are in the artifact/HANDOFF_METRICS.
+Artifact availability is a hypothetical offline as-of-completed-calibration boundary,
+not a claim that this model was actually published in September. All periods exposed.
+
+4. BOUNDED COMPARISON — NEW FINDINGS, NOT INDEPENDENT VALIDATION
+296 contracts,48,628 retained rows. Shared detector:1,916 recognized setups,
+1,430 confirmed,521 first primary opportunities,1,172 dependent 10 s landmarks.
+Final 92-contract diagnostic block:342 landmarks;187 supported raw predictions,
+154 known outcomes (all zero) and 33 censored.127 landmarks lack 120 s history,
+17 lack side/context support and11 exceed marginal feature support.
+Raw probabilities 0.007412-0.167118; none meets.75 even before the calibration block.
+Uncalibrated Brier 0.002108 vs training-prevalence 0.001184 on the SAME 154 known rows:
+WORSE. There are no positive labels in that supported group, so this is not a test
+of sensitivity to sustained opportunities; low raw error is not evidence of skill.
+
+Final 92 contracts, first-common comparator:
+                         UP       DOWN      TOTAL
+Attempts                 81         82        163
+Canceled                 58         53        111
+Adverse-first             5         10         15
+Durable success           0          2          2
+Censored                 18         17         35
+Delayed entries          23         29         52
+Candidate selected        0          0          0
+
+Both diagnostic successes lack 120 s history and remain unsupported by the six-feature
+model (KXBTC15M-26OCT072345-45 and KXBTC15M-26OCT111230-30, both DOWN). This exposes
+an evidence/early-availability limitation, not evidence for removing the long feature.
+No target, costs or thresholds were changed to rescue selection.
+
+Comparator diagnostic success bounds over ALL 163 attempts:1.23%-22.70%, assigning
+35 missing outcomes to failure/success. Across ALL521 first attempts:12 durable,
+116 adverse-first,312 canceled,81 censored; bounds 2.30%-17.85%. These broad bounds
+are incompatible with a validated success claim. Candidate coverage of comparator
+success contracts is 0%. Zero selection is not improved precision or profitability.
+
+63 of all 521 attempts and 28 of 163 diagnostic attempts show only brief observed
+favorable episodes. These are not automatically fully observed BURST_ONLY outcomes:
+censored and adverse-first classifications retain priority. No fully observed
+BURST_ONLY or no-excursion terminal label was established in the comparator. A missing
+long episode or a sideways quote alone does not establish market chop.
+
+5. DURATIONS AND MANUAL ENTRY DELAYS
+Counts below are attempts with an observed >=10c net episode / attempts with at least
+one such episode still accessible at its delayed checkpoint. They include later
+rebounds and censored paths; they are not counts of safe primary-label successes.
+                           All 209 delayed entries       Diagnostic 52 entries
+60 seconds                         73 /66                      12 /10
+2 minutes                          37 /29                       5 /3
+3 minutes                          20 /18                       1 /0
+4 minutes                          11 /11                       0 /0
+5 minutes                           9 /9                        0 /0
+7 minutes                           3 /2                        0 /0
+
+Runway permits2/3/4/5/7min checks for209/209/193/186/165 all-history entries,
+and52/52/45/42/38 diagnostic entries. Remaining capacity is not evidence coverage.
+Longest continuously supported observed episode 460.009 s overall,181.020 s diagnostic.
+The one diagnostic 3-minute episode's delayed check is UNKNOWN, not a known failure.
+Of all-history accessible2/3/4/5/7-minute attempts, only8/5/4/3/1 also have a primary
+success label. At most 2 diagnostic primary successes support the 2-minute checkpoint;
+none supports 3-7 minutes. No optimization used these durations.
+
+All-history delayed ASK observations:519/521 available,67 above55c,38 below25c,
+414 still primary;2 unavailable. Diagnostic:161/163 available,24 above55c,9 below25c,
+128 primary;2 unavailable. Diagnostic observed reaction mean 14.171 s, median 14.991 s,
+range 10.959-18.016 s, despite nominal 10 s. All known canceled waits count as delivery
+failures even if later quote/price recovers. An expired affordable quote is kept
+separate from directional deterioration. No price limit was widened.
+
+6. BUY TARGET VERSUS UNCHANGED MANAGEMENT
+No management/FINAL rule or threshold changed. Existing condition-driven warnings,
+source-unavailable handling, native FINAL protection latch, immutable origin and
+no-fixed-hold-timer behavior remain. The optional earlier thesis-recovery component
+is preserved and was not selected or changed for this comparison.
+
+Inherited 147 complete baseline-manager scenarios: mean-12.423 c, median-15 c,
+18 positive,129 nonpositive.209 simulated entries include 62 censored manager paths.
+For the matched diagnostic comparator:52 entries,29 complete manager scenarios,
+mean-14.628 c,2 positive;23 censored. These were READ from retained records, not rerun.
+The 2 diagnostic durable-opportunity successes have one censored manager result and
+one complete -3 c result. A usable observed opportunity is not the same as realized
+profit or a profitable BUY+EXIT system. No losses are attributed to FINAL.
+Candidate:zero entries; no candidate manager return estimate or new manager replay.
+Full native FINAL frames remain absent; no native FINAL-protected replay claim.
+
+Overlapping descriptive entry-to-contract-end windows:61 pairs across 51 contracts
+for 209 first-common entries;14 pairs across 12 contracts in the diagnostic 52. All
+landmarks yield 455 overlapping pairs across 119 contracts. These are broader than
+old completed-manager-path overlaps; none is a sequential portfolio or independent
+trade count. Whole-contract weights and bootstrap clustering address only part of
+this dependence; they do not repair informative censoring or missing native evidence.
+
+7. TESTS AND CORRECTIONS
+87 tests PASS:31 new plus56 inherited focused mechanics/adapter/replay-unit tests.
+No full prior historical replay was invoked; actual-prefix tests are focused. Coverage: UP/DOWN reflection,
+future/invalid/stale inputs, exact six features, reversal allowance, primary prices,
+delayed cancellation and price loss, bursts/durable/adverse-first, gaps/censoring,
+reaction sale, long checkpoints, duplicate/setup reset, expiry without publication,
+immutable origins, unchanged manager transitions, artifact identity/calibration/
+chronology/domain checks and native FINAL latch inherited tests.
+FOCUSED_TESTS.txt is the full result. Passing tests prove mechanics, not prediction.
+
+initial_diagnostic/ preserves the first pass and freeze. CORRECTION_LOG.txt records
+an evidence-domain allowlist defect (the later files use a second exact quote-only
+class name) and preserving the fitted training stage when calibration cannot fit.
+Neither correction changes the frozen features, logistic penalty, partitions,
+thresholds, target, costs or delays. A subsequent corrected pass is the reported
+result. Additional price-at-reaction reporting does not change labels. No tournament.
+
+8. REMAINING REQUIREMENTS AND DISPOSITION
+IMPLEMENTED; VALIDATION STILL REQUIRED:
+- Six causal features, logistic solver, scalar calibrator, identity/support inference,
+  refresh/expiry integration, independent durable labels and matched harness.
+- Calibrator works in fixtures; actual calibration needs positive AND negative
+  durable labels with complete six-feature causal history. Currently no positives.
+- Research supports QUOTE-ONLY assumptions. Native label request fails explicitly.
+
+UNRESOLVED — CONCRETE EVIDENCE:
+- At least120s delivered BTC/BRTI history before attractive first opportunities,
+  including genuine pre-open history where necessary, with source/receipt identity
+  and no disallowed gap. Do not reconstruct missing history from later values.
+- Continuous native quote snapshot/delta chains, source/event/receipt clocks,
+  sequence/epoch IDs, market/side/target/official-close binding, intended quantity,
+  and price-depth at decision, delayed entry, each episode and delayed resale.
+- Applicable fee formula/rounding/effective period/account scope; retained0.07 stress
+  is not such evidence. Displayed capacity alone would still not prove a fill.
+- Native FINAL frames throughout origins before claiming protected economics.
+- Genuinely unexamined whole-contract evidence and the preregistered class/coverage/
+  calibration gates. Current positive training contracts9UP/3DOWN and calibration0
+  cannot meet the proposed independent-stage minima20 per class/direction training
+  and 10 calibration. No 320-contract campaign was begun.
+
+NOT SUPPORTED BY TESTED RESULTS:
+- Useful sustained-opportunity selection, calibrated probability, candidate economic
+  superiority, profitable managed outcomes, or adequate selection coverage.
+- The method's inability to score the observed early successes must be addressed as
+  an input availability/readiness issue before claiming the architecture solves EARLY.
+
+Recommendation: REVISE the evidence/readiness plan, retain this testable candidate,
+and stop this pass. Do not revise coefficients/thresholds on these diagnostic results.
+No further authorization is requested or assumed. Any collection or independent
+validation remains a separate user decision; no automatic next phase is scheduled.
+
+9. REPRODUCTION AND RECOVERY
+Runtime used: Python 3.12.14, NumPy 2.3.5, SciPy 1.17.0.
+Only NumPy is required by the new estimator; no network is needed to run it.
+From the new workspace (or an extracted recovery copy):
+python3 -B -m unittest candidates.early_rebuild_20261012.test_continuation candidates.early_rebuild_20261012.test_engine candidates.early_rebuild_20261012.test_blockers candidates.early_rebuild_20261012.test_replay -v
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python3 -B -m candidates.early_rebuild_20261012.continuation_study --output audit/early_continuation_20261012/reproduction
+python3 -B audit/early_continuation_20261012/summarize_handoff.py
+
+The study refuses an existing RESULTS output and validates method/code/input hashes.
+Use the distinct reproduction directory; never overwrite delivered evidence.
+Recovery includes a standalone Git bundle with the new commit and its history,
+untracked retained evidence needed by the harness, manifests, audit outputs, source,
+tests and a verifier. Exact changed-file list and byte identities are under delivery/.
+Restoration and verification commands are in recovery REPRODUCE.txt.
+Remote publication: NOT ATTEMPTED, NOT AUTHORIZED.
+
+signal_only=true | orders=false | production_enabled=false | actionable=false
+STOP AFTER DELIVERY. PRODUCTION REMAINS FROZEN.

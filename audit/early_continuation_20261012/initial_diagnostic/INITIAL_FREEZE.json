@@ -1,0 +1,14 @@
+{
+  "method_sha256": "0eb1f181c21bd23d058e94d06e24e894be558802ebde92217e5a731c298b11d7",
+  "method_text_sha256": "e33242cc3e8ea6f7ae6a774b5c6377e6ab6bc3e6b7de0c464de40d7fc22adb41",
+  "code_identity": {
+    "continuation.py": "ee53f4a96a357571ca82d64db1d8ca4de1133d082b4f2b542b0e3799a0918558",
+    "durability.py": "0e6d5df9d21938ba94a67a1addd4ddee40f8715e64c0e233a5ddeae812db89b9",
+    "continuation_engine.py": "0dc01a7e1b124a6eb911bd93667fb032a6a04167a818aa08cb281453d4a7e0d2",
+    "assessment.py": "167e64ebc24468259038fb7814514a4d40b93474b9dbc92c0ff00a4b1b8a7113",
+    "engine.py": "09c572ac0360c9170b1d3c347e52b709b9815f4b5b515c47ed009a40eeebe7a4"
+  },
+  "study_sha256": "335710201e990c175edd624644eab7db09b6890feeaa8077f2e8ce1e90bfecd4",
+  "stage": "BEFORE_LABEL_GENERATION_AND_FITTING",
+  "all_periods_exposed": true
+}
