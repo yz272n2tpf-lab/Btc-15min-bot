@@ -54,20 +54,23 @@ class Verifier:
         self.db.execute('PRAGMA synchronous=OFF');self.db.execute('PRAGMA temp_store=FILE')
         self.db.execute('PRAGMA mmap_size=0');self.db.execute('PRAGMA cache_size=-'+str(b['cache_kib']))
         self.db.execute('PRAGMA max_page_count='+str(b['work_db_bytes']//4096))
-        self.db.executescript('''
-          CREATE TABLE raw(s TEXT,q INTEGER,k TEXT,p INTEGER,r BLOB,h TEXT,role TEXT,PRIMARY KEY(s,q));
-          CREATE INDEX raw_partition ON raw(p);
-          CREATE TABLE deps(s TEXT,t TEXT,id TEXT,q INTEGER,p INTEGER,v BLOB,PRIMARY KEY(s,t,id));
-          CREATE TABLE facts(t TEXT,id TEXT,s TEXT,q INTEGER,p INTEGER,v BLOB);
-          CREATE INDEX fact_id ON facts(t,id);
-          CREATE TABLE sessions(s TEXT PRIMARY KEY,role TEXT,n INTEGER,h TEXT,class TEXT);
-          CREATE TABLE sources(asset TEXT,source REAL,receipt REAL,value REAL,epoch TEXT,available REAL,basis TEXT,accepted INTEGER,s TEXT,q INTEGER,p INTEGER,v BLOB);
-          CREATE INDEX source_tuple ON sources(asset,source,receipt,value);
-          CREATE INDEX source_availability ON sources(asset,basis,accepted,available);
-          CREATE TABLE accepted(s TEXT,epoch TEXT,ticker TEXT,market TEXT,sid INTEGER,seq INTEGER,ts INTEGER,at REAL,received REAL,event TEXT,proof_event TEXT,p INTEGER,q INTEGER);
-          CREATE INDEX accepted_tuple ON accepted(epoch,ticker,market,sid,seq,ts);
-          CREATE TABLE journals(id TEXT,seq INTEGER,h TEXT,s TEXT,q INTEGER,p INTEGER,v BLOB,PRIMARY KEY(id,seq));
-        ''')
+        try:
+            self.db.executescript('''
+              CREATE TABLE raw(s TEXT,q INTEGER,k TEXT,p INTEGER,r BLOB,h TEXT,role TEXT,PRIMARY KEY(s,q));
+              CREATE INDEX raw_partition ON raw(p);
+              CREATE TABLE deps(s TEXT,t TEXT,id TEXT,q INTEGER,p INTEGER,v BLOB,PRIMARY KEY(s,t,id));
+              CREATE TABLE facts(t TEXT,id TEXT,s TEXT,q INTEGER,p INTEGER,v BLOB);
+              CREATE INDEX fact_id ON facts(t,id);
+              CREATE TABLE sessions(s TEXT PRIMARY KEY,role TEXT,n INTEGER,h TEXT,class TEXT);
+              CREATE TABLE sources(asset TEXT,source REAL,receipt REAL,value REAL,epoch TEXT,available REAL,basis TEXT,accepted INTEGER,s TEXT,q INTEGER,p INTEGER,v BLOB);
+              CREATE INDEX source_tuple ON sources(asset,source,receipt,value);
+              CREATE INDEX source_availability ON sources(asset,basis,accepted,available);
+              CREATE TABLE accepted(s TEXT,epoch TEXT,ticker TEXT,market TEXT,sid INTEGER,seq INTEGER,ts INTEGER,at REAL,received REAL,event TEXT,proof_event TEXT,p INTEGER,q INTEGER);
+              CREATE INDEX accepted_tuple ON accepted(epoch,ticker,market,sid,seq,ts);
+              CREATE TABLE journals(id TEXT,seq INTEGER,h TEXT,s TEXT,q INTEGER,p INTEGER,v BLOB,PRIMARY KEY(id,seq));
+            ''')
+        except Exception:
+            self.db.close();raise
         self.fgap=(self.out/'issues.jsonl').open('xb');self.fpart=(self.out/'partitions.jsonl').open('xb')
         self.fassoc=(self.out/'associations.jsonl').open('xb')
 
@@ -363,4 +366,19 @@ class Verifier:
         (self.out/'summary.json').write_bytes(canonical(value));return value
 
 def verify_run(root,index,output,*,budget=None):
-    return Verifier(root,index,output,limits(budget)).run()
+    b=limits(budget)
+    try:return Verifier(root,index,output,b).run()
+    except (sqlite3.OperationalError,OSError,MemoryError) as exc:
+        # Failure may occur during schema creation, before normal issue ledgers
+        # exist. Always expose it independently of the failed output disk.
+        value=dict(schema='BTC15_WHOLE_RUN_VERIFICATION_V1',status='INCOMPLETE',
+            evidence_classes=[],fixture_complete=False,complete_supplied_scope=False,
+            actual_production_complete=False,all_partitions_processed=False,partitions=0,
+            records_read=0,decoded_bytes=0,counts={},metrics={},
+            issue_counts={'CAPACITY_OR_STORAGE_FAILURE':1},failure=str(exc)[:200],limits=b,
+            economic_readiness='BLOCKED',predictive_readiness='NOT_EVALUATED',
+            production_authorization='NOT_AUTHORIZED',long_test='NO_GO',**FLAGS)
+        print('BTC15_VERIFY_INCOMPLETE '+json.dumps(value),file=__import__('sys').stderr,flush=True)
+        try:(local_root(output)/'summary.json').write_bytes(canonical(value))
+        except OSError:pass
+        return value
