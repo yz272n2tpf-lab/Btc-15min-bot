@@ -13,6 +13,18 @@ import hashlib
 import json
 import queue
 import threading
+from collections import Counter
+from itertools import count
+import sys
+
+GAP_REASONS={'QUEUE_OVERFLOW','QUEUE_BYTES','ADMISSION_BUSY','CLOSED',
+             'INVALID_OBSERVATION','OVERSIZE','WRITER_FAILURE','PROOF_REJECTED','CAPTURE_ERROR'}
+
+@dataclass(frozen=True)
+class Observation:
+    kind: str
+    fields: tuple
+    charge: int
 
 @dataclass(frozen=True)
 class Witness:
@@ -37,7 +49,11 @@ class Capture:
 
 class OffPathProofWriter:
     """Bounded best-effort evidence writer; never blocks submit()."""
-    def __init__(self, directory, validator, max_bytes, queue_size=2, retain=32):
+    def __init__(self, directory, validator, max_bytes, queue_size=2, retain=32,
+                 *, archive=None, queue_bytes=8*1024*1024):
+        if archive is not None and not (1<=int(queue_size)<=64 and 1<=int(queue_bytes)<=8*1024*1024
+                                       and 1<=int(max_bytes)<=2*1024*1024):
+            raise ValueError('Isolated archive admission budget')
         self.directory = Path(directory)
         self.validator = validator
         self.max_bytes = int(max_bytes)
@@ -46,27 +62,141 @@ class OffPathProofWriter:
         self.dropped = 0
         self.published = 0
         self.rejected = 0
+        self.archive = archive
+        self.queue_bytes = int(queue_bytes)
+        self.queued_bytes = 0
+        self.peak_queued_bytes = 0
+        self._admission = threading.Lock()
+        self._loss_counters = {reason:count() for reason in GAP_REASONS}
+        self._loss_reads = Counter()
+        self._status_lock = threading.Lock()
+        self._reported = Counter()
+        self._closing = False
+        self.archive_failed = False
         self._thread = threading.Thread(target=self._run, daemon=True,
                                         name="btc15-offpath-quote-proof")
         self._thread.start()
 
     def submit(self, witness, events):
+        if self.archive is not None and self.archive_failed:
+            self.gap('WRITER_FAILURE');return False
         capture = Capture(witness=witness, events=tuple(events))
-        try:
-            self.queue.put_nowait(capture)
-            return True
-        except queue.Full:
-            self.dropped += 1
+        return self._enqueue(capture, self.max_bytes)
+
+    def gap(self, reason):
+        if reason not in GAP_REASONS:
+            reason = 'CAPTURE_ERROR'
+        next(self._loss_counters[reason])  # atomic C-level increment on target CPython
+
+    def _loss_snapshot(self):
+        # Only diagnostic/worker readers lock; source producers never wait here.
+        with self._status_lock:
+            result=Counter()
+            for reason,counter in self._loss_counters.items():
+                result[reason]=next(counter)-self._loss_reads[reason]
+                self._loss_reads[reason]+=1
+            return +result
+
+    def submit_observation(self, kind, **fields):
+        """Only immutable scalar/byte fields; no serialization, filesystem or network."""
+        if self.archive is None:
             return False
+        if self.archive_failed:
+            self.gap('WRITER_FAILURE');return False
+        try:
+            if len(fields) > 32 or not isinstance(kind, str) or len(kind) > 64:
+                raise ValueError('schema')
+            charge = 512
+            for key, value in fields.items():
+                if not isinstance(key, str) or len(key) > 64 or type(value) not in (str, bytes, int, float, bool, type(None)):
+                    raise ValueError('mutable observation')
+                if key != 'raw' and isinstance(value,(str,bytes)) and len(value)>1024:
+                    raise ValueError('identity budget')
+                charge += len(value) * (4 if isinstance(value,str) else 1) if isinstance(value,(str,bytes)) else 32
+            if charge > 4*1024*1024:
+                self.gap('OVERSIZE'); return False
+            return self._enqueue(Observation(kind,tuple(fields.items()),charge), charge)
+        except Exception:
+            self.gap('INVALID_OBSERVATION'); return False
+
+    def _enqueue(self, capture, charge):
+        if self._closing:
+            self.gap('CLOSED'); return False
+        if not self._admission.acquire(blocking=False):
+            self.gap('ADMISSION_BUSY'); return False
+        try:
+            if self._closing:
+                self.gap('CLOSED');return False
+            if self.queued_bytes + charge > self.queue_bytes:
+                self.dropped += 1; self.gap('QUEUE_BYTES'); return False
+            try:
+                self.queue.put_nowait((capture,charge))
+                self.queued_bytes += charge
+                self.peak_queued_bytes = max(self.peak_queued_bytes,self.queued_bytes)
+                return True
+            except queue.Full:
+                self.dropped += 1; self.gap('QUEUE_OVERFLOW'); return False
+        finally:
+            self._admission.release()
+
+    def _flush_gaps(self):
+        if self.archive is None or self.archive_failed:
+            return
+        current = self._loss_snapshot()
+        delta = current - self._reported
+        if delta:
+            self.archive.write('EVIDENCE_GAP',dict(reasons=dict(delta)))
+            self._reported = current
+
+    def _archive_error(self):
+        first = not self.archive_failed
+        self.archive_failed = True
+        self.gap('WRITER_FAILURE')
+        # A full/broken disk cannot guarantee a durable marker on that disk.
+        # Memory status + worker diagnostic + unclosed session expose the gap.
+        if first:print('BTC15 EVIDENCE GAP | WRITER_FAILURE | session incomplete',file=sys.stderr,flush=True)
+
+    def close(self, timeout=5):
+        """Explicit offline teardown. Never called by a trading decision."""
+        with self._admission:self._closing = True
+        self._thread.join(timeout)
+        return not self._thread.is_alive()
+
+    def status(self):
+        return dict(losses=dict(self._loss_snapshot()),archive_failed=self.archive_failed,
+                    queued_bytes=self.queued_bytes,peak_queued_bytes=self.peak_queued_bytes,
+                    queue_capacity=self.queue.maxsize,queue_byte_budget=self.queue_bytes)
 
     def _run(self):
+        if self.archive is not None:
+            try:self.archive.start()
+            except Exception:self._archive_error()
         while True:
-            capture = self.queue.get()
+            try:item = self.queue.get(timeout=.05)
+            except queue.Empty:
+                try:self._flush_gaps()
+                except Exception:self._archive_error()
+                if self._closing:
+                    if self.archive is not None:
+                        try:
+                            if not self.archive_failed:self.archive.write('STOP',dict(clean=True))
+                        except Exception:self._archive_error()
+                        finally:self.archive.close()
+                    return
+                continue
+            capture,charge = item
             try:
-                self._materialize(capture)
+                self._flush_gaps()
+                if isinstance(capture, Observation):
+                    if not self.archive_failed:
+                        self.archive.observe(capture.kind,dict(capture.fields))
+                else:
+                    self._materialize(capture)
             except Exception:
                 self.rejected += 1
+                if self.archive is not None:self._archive_error()
             finally:
+                with self._admission:self.queued_bytes -= charge
                 self.queue.task_done()
 
     def _materialize(self, capture):
@@ -85,10 +215,22 @@ class OffPathProofWriter:
         # Validator must replay the payload and return the exact reconstructed
         # identity. Mutation, stale refs, cross-market data, gaps and restarts
         # therefore fail closed before anything is published.
-        reconstructed = self.validator(proof, w)
+        try:
+            reconstructed = self.validator(proof, w)
+        except Exception:
+            self.gap('PROOF_REJECTED')
+            raise
         if list(reconstructed) != w.identity:
             raise ValueError("off-path proof identity mismatch")
         digest = hashlib.sha256(raw).hexdigest()
+        if self.archive is not None:
+            if not self.archive_failed:
+                from dataclasses import asdict
+                self.archive.proof(proof, asdict(w), raw, digest)
+                self.published += 1
+            # Archive mode replaces the rolling blob cache in this isolated
+            # instance. Existing default instances retain their old behavior.
+            return
         self.directory.mkdir(parents=True, exist_ok=True)
         blob = self.directory / (digest + ".json")
         if not blob.exists():

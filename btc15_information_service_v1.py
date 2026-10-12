@@ -37,15 +37,65 @@ def diagnostic(reason, exc=None):
 
 class DurablePublisher(InformationPublisher):
     """Append exact qualified immutable frames after publication; never strategy authority."""
-    def __init__(self, *args, journal_path=JOURNAL_PATH, compress_new=False, **kwargs):
+    def __init__(self, *args, journal_path=JOURNAL_PATH, compress_new=False,
+                 evidence_archive=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.journal_path = Path(journal_path)
         self.compressed_journal = None
         if compress_new:
             from btc15_information_journal_v1 import CompressedJournal
             self.compressed_journal = CompressedJournal(self.journal_path)
+        # Explicit isolated archive only. Reuse this existing information worker;
+        # do not create a second recorder thread, collector or subscription.
+        self.evidence_archive = evidence_archive
+        self.evidence_gap = None
+        self.evidence_lock = threading.Lock()
+        if evidence_archive is not None:
+            try:evidence_archive.start()
+            except Exception:
+                self.evidence_gap = 'ARCHIVE_START_FAILED'
+                diagnostic('EVIDENCE_GAP_ARCHIVE_START')
 
     def offer(self, raw, health_reader, clock):
+        try:
+            published = self._offer_original(raw, health_reader, clock)
+        except Exception:
+            self._capture_evidence(raw,False,'PUBLISHER_EXCEPTION')
+            raise
+        self._capture_evidence(raw,published,None if published else 'INPUT_NOT_PUBLISHED')
+        return published
+
+    def _capture_evidence(self,raw,published,reason):
+        with self.evidence_lock:
+            self._capture_evidence_locked(raw,published,reason)
+
+    def _capture_evidence_locked(self,raw,published,reason):
+        if self.evidence_archive is None or self.evidence_gap is not None:return
+        try:
+            with self.lock:
+                frame_id=self.latest if published else None
+                saved=self.frames.get(frame_id)
+                if saved is None or saved[0]!=raw:frame_id=None
+            self.evidence_archive.observe('INFORMATION_INPUT',dict(raw=raw,published=published,
+                frame_id=frame_id))
+            if published and frame_id is None:reason='PUBLISHED_FRAME_LINK_UNAVAILABLE'
+            if reason:self.evidence_archive.write('INFORMATION_FAILURE',dict(reason=reason))
+        except Exception:
+            self.evidence_gap='ARCHIVE_WRITE_FAILED'
+            diagnostic('EVIDENCE_GAP_ARCHIVE_WRITE')
+
+    def close_evidence(self):
+        """Offline teardown hook. No live operational action is added."""
+        with self.evidence_lock:self._close_evidence_locked()
+
+    def _close_evidence_locked(self):
+        if self.evidence_archive is not None:
+            try:
+                if self.evidence_gap is None:self.evidence_archive.write('STOP',dict(clean=True))
+            except Exception:self.evidence_gap='ARCHIVE_CLOSE_FAILED'
+            finally:self.evidence_archive.close()
+
+    def _offer_original(self, raw, health_reader, clock):
         published = super().offer(raw, health_reader, clock)
         if not published:
             return False

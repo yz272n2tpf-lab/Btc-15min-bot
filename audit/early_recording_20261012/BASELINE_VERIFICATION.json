@@ -1,0 +1,22 @@
+{
+  "BTC15_EARLY_History_Readiness_Recovery_20261012(1)": {
+    "entries": 10,
+    "mismatches": []
+  },
+  "BTC15_EARLY_Recording_Readiness_Evidence_20261012(1)": {
+    "entries": 33,
+    "mismatches": []
+  },
+  "recovery": {
+    "source_files": 1279,
+    "mismatches": []
+  },
+  "audit": {
+    "source_files": 1279,
+    "mismatches": []
+  },
+  "head": "3fd0e8a8b49e4db564e3185acb051e75d60e8e06",
+  "tree": "b6aecb8b5d63155872a5c4ea71e1db9e4a716963",
+  "branch": "DETACHED (no branch created or moved)",
+  "remote_operations": false
+}

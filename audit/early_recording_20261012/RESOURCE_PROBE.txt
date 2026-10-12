@@ -1,0 +1,62 @@
+BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpypcdz37t/fixture.segments/20261012-fb523a59ba944f41b3df1d89d41f6264-797a88c8.jsonl.gz","records":1,"raw_bytes":579,"stored_bytes":421,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpl5lhzctu/fixture.segments/20261012-ea423294535d44fb8d024d7cdc45967a-8c4eb402.jsonl.gz","records":1,"raw_bytes":579,"stored_bytes":421,"historical_files_untouched":true,"signal_only":true,"orders":false}
+{
+  "source": {
+    "evidence_class": "FIXTURE",
+    "observations": 240,
+    "compressed_bytes": 133679,
+    "bytes_per_observation_including_overhead": 556.9958333333333,
+    "peak_traced_python_bytes": 413771,
+    "p99_submission_microseconds": 183.137,
+    "writer_status": {
+      "losses": {},
+      "archive_failed": false,
+      "queued_bytes": 0,
+      "peak_queued_bytes": 8096,
+      "queue_capacity": 64,
+      "queue_byte_budget": 8388608
+    },
+    "records": 243
+  },
+  "quote": {
+    "evidence_class": "FIXTURE",
+    "observations": 240,
+    "compressed_bytes": 381378,
+    "bytes_per_observation_including_overhead": 1589.075,
+    "peak_traced_python_bytes": 390548,
+    "p99_submission_microseconds": 339.813,
+    "writer_status": {
+      "losses": {},
+      "archive_failed": false,
+      "queued_bytes": 0,
+      "peak_queued_bytes": 25408,
+      "queue_capacity": 64,
+      "queue_byte_budget": 8388608
+    },
+    "records": 722
+  },
+  "assumption_scenarios": [
+    {
+      "btc_per_second": 1,
+      "brti_per_second": 1,
+      "quote_messages_per_second": 1,
+      "estimated_MiB_per_day": 222.725830078125,
+      "estimated_hours_to_256MiB": 27.58548479915816
+    },
+    {
+      "btc_per_second": 1,
+      "brti_per_second": 1,
+      "quote_messages_per_second": 10,
+      "estimated_MiB_per_day": 1401.147537231445,
+      "estimated_hours_to_256MiB": 4.384977196719804
+    },
+    {
+      "btc_per_second": 1,
+      "brti_per_second": 1,
+      "quote_messages_per_second": 100,
+      "estimated_MiB_per_day": 13185.364608764648,
+      "estimated_hours_to_256MiB": 0.4659711871688347
+    }
+  ],
+  "limits": "Synthetic small-message estimates only. Excludes raw information/proof/metadata contributions, Python RSS/native allocations and live latency. No production sizing certification."
+}

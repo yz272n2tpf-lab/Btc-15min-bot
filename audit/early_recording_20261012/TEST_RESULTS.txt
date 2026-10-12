@@ -1,0 +1,234 @@
+test_actual_btc_getter_same_request_return_and_failure (candidates.early_recording_20261012.test_recording.Equivalence.test_actual_btc_getter_same_request_return_and_failure) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmptfgt64y4/evidence.segments/20261012-6e351d76b2fe485ca6bf4e5869f95e49-0bdbef0d.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":422,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_full_frozen_loop_capture_enabled_disabled_exact (candidates.early_recording_20261012.test_recording.Equivalence.test_full_frozen_loop_capture_enabled_disabled_exact) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmphyp83w9d/evidence.segments/20261012-decf32a4cb2f4f2db858a456b5feb42f-0f30e731.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":425,"historical_files_untouched":true,"signal_only":true,"orders":false}
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator DecisionTreeClassifier from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator RandomForestClassifier from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator LogisticRegression from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+ok
+test_native_early_final_management_scalp_and_research_transitions (candidates.early_recording_20261012.test_recording.Equivalence.test_native_early_final_management_scalp_and_research_transitions) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpnn8539yk/evidence.segments/20261012-2e5058d8a44646b993536c0d786facee-6858ce87.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":424,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_strategy_sources_byte_identical_to_verified_baseline (candidates.early_recording_20261012.test_recording.Equivalence.test_strategy_sources_byte_identical_to_verified_baseline) ... ok
+test_archive_byte_corruption_and_fixture_identity_cannot_pass (candidates.early_recording_20261012.test_recording.Provenance.test_archive_byte_corruption_and_fixture_identity_cannot_pass) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp_ag8n_pv/evidence.segments/20261012-621ddc8c8ade4032a3707efcf43a5adc-f3619664.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":423,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_http_seam_uses_original_get_and_decoded_return (candidates.early_recording_20261012.test_recording.Provenance.test_http_seam_uses_original_get_and_decoded_return) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpebt8_yar/evidence.segments/20261012-e8879ddd43124b2692d646e1b6edf3f2-7eb66081.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":425,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_information_publisher_false_and_exception_keep_input_failure_record (candidates.early_recording_20261012.test_recording.Provenance.test_information_publisher_false_and_exception_keep_input_failure_record) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp2kuupgt6/archive.segments/20261012-03e29201052a49faa5bdf499b8fb0d63-ed75c8fd.jsonl.gz","records":1,"raw_bytes":565,"stored_bytes":409,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_lifecycle_keeps_cancellations_expiries_and_exact_final_origin (candidates.early_recording_20261012.test_recording.Provenance.test_lifecycle_keeps_cancellations_expiries_and_exact_final_origin) ... ok
+test_metadata_raw_receipt_fee_unknowns_and_endpoint_whitelist (candidates.early_recording_20261012.test_recording.Provenance.test_metadata_raw_receipt_fee_unknowns_and_endpoint_whitelist) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp784mzruk/evidence.segments/20261012-6eeb32815bed42f48f172365268a99eb-5b6b7bf4.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":425,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_mutated_depth_cannot_match_original_receive_even_with_same_identity (candidates.early_recording_20261012.test_recording.Provenance.test_mutated_depth_cannot_match_original_receive_even_with_same_identity) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp2ggw9tes/evidence.segments/20261012-926038ada7ce4457ad33ce452a17cb41-028780e4.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":425,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_original_native_source_join_rejects_later_brti (candidates.early_recording_20261012.test_recording.Provenance.test_original_native_source_join_rejects_later_brti) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpsqqfhz72/evidence.segments/20261012-adc71b26d5fe43f98952ce77a5a2166a-157a0069.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":424,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_real_information_publisher_capture_equivalence_and_reconstruction (candidates.early_recording_20261012.test_recording.Provenance.test_real_information_publisher_capture_equivalence_and_reconstruction) ... /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator DecisionTreeClassifier from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator RandomForestClassifier from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator LogisticRegression from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator DecisionTreeClassifier from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator RandomForestClassifier from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator LogisticRegression from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpfcn214n0/archive.segments/20261012-7be6bd50a65642c0af6a658009079179-8630153d.jsonl.gz","records":1,"raw_bytes":565,"stored_bytes":409,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_accept_without_receipt_is_not_upgraded_consumer_time (candidates.early_recording_20261012.test_recording.QuoteMechanics.test_accept_without_receipt_is_not_upgraded_consumer_time) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpeeo_fl65/evidence.segments/20261012-fc6ee34b0aa74e53ab4d33042bfcf5ec-220d78f6.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":426,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_exact_proof_hash_and_native_witness_with_receipt_association (candidates.early_recording_20261012.test_recording.QuoteMechanics.test_exact_proof_hash_and_native_witness_with_receipt_association) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp05y4n6ea/evidence.segments/20261012-82482bad169449e993302d4e79e612f4-318013dd.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":423,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_missing_update_gap_disconnect_reconnect (candidates.early_recording_20261012.test_recording.QuoteMechanics.test_missing_update_gap_disconnect_reconnect) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpcweww22k/evidence.segments/20261012-4959000d4f8d41029106df6f46b13646-79b1bfe2.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":425,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_receive_after_accept_is_rejected (candidates.early_recording_20261012.test_recording.QuoteMechanics.test_receive_after_accept_is_rejected) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpe6lis1t4/evidence.segments/20261012-946c037ce5074f3387177e87d90e3651-f493ce87.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":425,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_same_socket_decoder_outputs_and_subscription_commands (candidates.early_recording_20261012.test_recording.QuoteMechanics.test_same_socket_decoder_outputs_and_subscription_commands) ... KALSHI QUOTE WS CONNECT | M | epoch=e | NO ORDERS
+KALSHI QUOTE WS CONNECT | M | epoch=e | NO ORDERS
+BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpqk055efm/evidence.segments/20261012-4c1d04a18e29432786f91e931f1b3759-454b619b.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":424,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_brtI_duplicate_keeps_first_receipt_later_update_not_backdated (candidates.early_recording_20261012.test_recording.Storage.test_brtI_duplicate_keeps_first_receipt_later_update_not_backdated) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpdvwjutnf/evidence.segments/20261012-4d26ea0b9fbd4c9fb8ef184a019e939b-22370fe7.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":423,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_concurrent_gap_counters_and_idle_durable_report (candidates.early_recording_20261012.test_recording.Storage.test_concurrent_gap_counters_and_idle_durable_report) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpgvqttlmw/evidence.segments/20261012-69c8a10056234dad95e01c3f9a6eef31-29b78384.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":423,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_conflict_failure_epoch_gap_are_visible_without_owner_change (candidates.early_recording_20261012.test_recording.Storage.test_conflict_failure_epoch_gap_are_visible_without_owner_change) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp9oy7s2vt/evidence.segments/20261012-5c06d95fcb314c2493bdda1c3025c583-3e6100ef.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":424,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_corruption_restart_deterministic_and_old_bytes_untouched (candidates.early_recording_20261012.test_recording.Storage.test_corruption_restart_deterministic_and_old_bytes_untouched) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp2_s0wlc1/evidence.segments/20261012-92e4681cfa914775854580a5f640e943-a5306f78.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":424,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp2_s0wlc1/evidence.segments/20261012-4d0f653a73f84db1891f88642e1ca3e9-7716a82b.jsonl.gz","records":1,"raw_bytes":570,"stored_bytes":414,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_disk_full_worker_failure_cannot_throw_into_owner (candidates.early_recording_20261012.test_recording.Storage.test_disk_full_worker_failure_cannot_throw_into_owner) ... BTC15 EVIDENCE GAP | WRITER_FAILURE | session incomplete
+ok
+test_exact_information_reconstruction_uses_vector_deltas (candidates.early_recording_20261012.test_recording.Storage.test_exact_information_reconstruction_uses_vector_deltas) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpbvxe1vqs/evidence.segments/20261012-d89d7e4dbbc7463ea12f4ccbbe4da569-243f8f19.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":424,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_exact_source_roundtrip_and_rollover_120_seconds (candidates.early_recording_20261012.test_recording.Storage.test_exact_source_roundtrip_and_rollover_120_seconds) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp85pbv3lq/evidence.segments/20261012-f448f75e6cea4434bf0a0771cfa57991-e50e58a6.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":425,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_exclusive_archive_and_protected_root (candidates.early_recording_20261012.test_recording.Storage.test_exclusive_archive_and_protected_root) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp6qmpso6t/a.segments/20261012-03ce179b7ce04ed6bf210eaa2dc1fd61-73ed2176.jsonl.gz","records":1,"raw_bytes":559,"stored_bytes":403,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_invalid_chronology_is_gap_not_native_point (candidates.early_recording_20261012.test_recording.Storage.test_invalid_chronology_is_gap_not_native_point) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp_51dfk2d/evidence.segments/20261012-0533e1bae8b8440db44bd09152b00206-34a23503.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":426,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_queue_capacity_overflow (candidates.early_recording_20261012.test_recording.Storage.test_queue_capacity_overflow) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp0a6tj8t6/evidence.segments/20261012-4f4d3e62b7964c68bde154618efea309-cc6190cb.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":425,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_queue_overflow_idle_flush_and_byte_cap (candidates.early_recording_20261012.test_recording.Storage.test_queue_overflow_idle_flush_and_byte_cap) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpuq477hu1/evidence.segments/20261012-47bb59fa78b4451785a8abf24baf3047-3bfb7299.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":424,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_recovery_never_becomes_original_receipt (candidates.early_recording_20261012.test_recording.Storage.test_recovery_never_becomes_original_receipt) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpec524bxx/evidence.segments/20261012-6f2a4e24987a4225931835394ab3d57d-c72132c9.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":423,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_segment_disk_budgets_and_no_pruning (candidates.early_recording_20261012.test_recording.Storage.test_segment_disk_budgets_and_no_pruning) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpsmy8h37i/x.segments/20261012-d0ca6758675e4569a3008f1760354f23-97da8850.jsonl.gz","records":1,"raw_bytes":109,"stored_bytes":32,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_short_write_roundtrip_and_zero_write_fail_closed (candidates.early_recording_20261012.test_recording.Storage.test_short_write_roundtrip_and_zero_write_fail_closed) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp6nlkbays/a.segments/20261012-49ccd6352332491da6ae48262c72b198-f55ff087.jsonl.gz","records":1,"raw_bytes":14,"stored_bytes":34,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_submit_has_no_serialization_or_io_and_rejects_mutable_payloads (candidates.early_recording_20261012.test_recording.Storage.test_submit_has_no_serialization_or_io_and_rejects_mutable_payloads) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpi2t169j5/evidence.segments/20261012-ebb92166ea0343698c9dde3d15dfeb40-913de9b4.jsonl.gz","records":1,"raw_bytes":586,"stored_bytes":425,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_disk_retention_is_bounded (test_btc15_quote_proof_offpath_v1.OffPath.test_disk_retention_is_bounded) ... ok
+test_identity_mismatch_fails_closed (test_btc15_quote_proof_offpath_v1.OffPath.test_identity_mismatch_fails_closed) ... ok
+test_queue_overflow_drops_evidence_not_strategy (test_btc15_quote_proof_offpath_v1.OffPath.test_queue_overflow_drops_evidence_not_strategy) ... ok
+test_submit_never_serializes_payload (test_btc15_quote_proof_offpath_v1.OffPath.test_submit_never_serializes_payload) ... ok
+test_validated_content_addressed_publish (test_btc15_quote_proof_offpath_v1.OffPath.test_validated_content_addressed_publish) ... ok
+test_large_proof_not_serialized_before_return (test_btc15_quote_proof_offpath_timing.Timing.test_large_proof_not_serialized_before_return) ... ok
+test_mutated_event_reference_fails_worker_replay (test_btc15_quote_proof_offpath_timing.Timing.test_mutated_event_reference_fails_worker_replay) ... ok
+test_queue_rejection_does_not_change_quote (test_btc15_quote_proof_offpath_timing.Timing.test_queue_rejection_does_not_change_quote) ... ok
+test_rollover_still_clears_before_use (test_btc15_quote_proof_offpath_timing.Timing.test_rollover_still_clears_before_use) ... BTC15_ROLLOVER_DIAG | {"component":"quote_provider","details":{"book_reset":true},"event":"TICKER_SWITCH_BOOK_RESET","expected_open_utc":"2026-09-21T14:21:40.500000Z","ms_from_open":1831491846.971,"orders":false,"signal_only":true,"ticker":"NEXT","timestamp_utc":"2026-10-12T19:06:32.346971Z"}
+ok
+test_blocked_history_does_not_block_next_live_state (test_btc15_brti_delivery_v1.BotIntegrationTests.test_blocked_history_does_not_block_next_live_state) ... ok
+test_history_timeout_in_real_poller_does_not_poison_live_state (test_btc15_brti_delivery_v1.BotIntegrationTests.test_history_timeout_in_real_poller_does_not_poison_live_state) ... ok
+test_main_calls_snapshot_with_unchanged_original_decision (test_btc15_brti_delivery_v1.BotIntegrationTests.test_main_calls_snapshot_with_unchanged_original_decision) ... ok
+test_primary_failure_still_fails_closed_despite_retained_history (test_btc15_brti_delivery_v1.BotIntegrationTests.test_primary_failure_still_fails_closed_despite_retained_history) ... ok
+test_retained_history_alone_never_qualifies_live_authority (test_btc15_brti_delivery_v1.BotIntegrationTests.test_retained_history_alone_never_qualifies_live_authority) ... ok
+test_same_cut_does_not_take_future_receipt_or_late_final60_history (test_btc15_brti_delivery_v1.BotIntegrationTests.test_same_cut_does_not_take_future_receipt_or_late_final60_history) ... ok
+test_asof_keeps_prior_receipt_when_newer_source_was_received_after_cut (test_btc15_brti_delivery_v1.DeliveryTests.test_asof_keeps_prior_receipt_when_newer_source_was_received_after_cut) ... ok
+test_delayed_old_source_is_not_available_retroactively (test_btc15_brti_delivery_v1.DeliveryTests.test_delayed_old_source_is_not_available_retroactively) ... ok
+test_epoch_change_cannot_lend_new_state_to_old_decision (test_btc15_brti_delivery_v1.DeliveryTests.test_epoch_change_cannot_lend_new_state_to_old_decision) ... ok
+test_error_and_recovery_apply_at_their_actual_receipts (test_btc15_brti_delivery_v1.DeliveryTests.test_error_and_recovery_apply_at_their_actual_receipts) ... ok
+test_future_stale_conflicting_and_regressed_state_rejected (test_btc15_brti_delivery_v1.DeliveryTests.test_future_stale_conflicting_and_regressed_state_rejected) ... ok
+test_history_remains_observation_only_and_keeps_first_arrival (test_btc15_brti_delivery_v1.DeliveryTests.test_history_remains_observation_only_and_keeps_first_arrival) ... ok
+test_repeated_receipts_do_not_refresh_source_or_first_receipt (test_btc15_brti_delivery_v1.DeliveryTests.test_repeated_receipts_do_not_refresh_source_or_first_receipt) ... ok
+test_retention_bounded_without_source_clock_substitution (test_btc15_brti_delivery_v1.DeliveryTests.test_retention_bounded_without_source_clock_substitution) ... ok
+test_actual_same_publication_mismatch_is_still_fail (test_btc15_parity_measurement_regressions.ParityMeasurements.test_actual_same_publication_mismatch_is_still_fail) ... ok
+test_conflicting_publication_values_are_not_arbitrarily_selected (test_btc15_parity_measurement_regressions.ParityMeasurements.test_conflicting_publication_values_are_not_arbitrarily_selected) ... ok
+test_different_ticks_do_not_create_a_false_eight_dollar_failure (test_btc15_parity_measurement_regressions.ParityMeasurements.test_different_ticks_do_not_create_a_false_eight_dollar_failure) ... ok
+test_exact_frame_reconstruction_never_borrows_an_old_side (test_btc15_parity_measurement_regressions.ParityMeasurements.test_exact_frame_reconstruction_never_borrows_an_old_side) ... ok
+test_flat_is_consistent_with_the_bots_raw_side_semantics (test_btc15_parity_measurement_regressions.ParityMeasurements.test_flat_is_consistent_with_the_bots_raw_side_semantics) ... ok
+test_freshness_at_exact_five_seconds_is_not_retuned (test_btc15_parity_measurement_regressions.ParityMeasurements.test_freshness_at_exact_five_seconds_is_not_retuned) ... ok
+test_genuine_clock_target_and_log_target_failures_remain_visible (test_btc15_parity_measurement_regressions.ParityMeasurements.test_genuine_clock_target_and_log_target_failures_remain_visible) ... ok
+test_historical_match_is_allowed_when_fresh_at_collection (test_btc15_parity_measurement_regressions.ParityMeasurements.test_historical_match_is_allowed_when_fresh_at_collection) ... ok
+test_nearby_collector_frame_and_duplicate_frame_are_unverified (test_btc15_parity_measurement_regressions.ParityMeasurements.test_nearby_collector_frame_and_duplicate_frame_are_unverified) ... ok
+test_no_exact_tick_does_not_fall_back_to_a_nearby_tick (test_btc15_parity_measurement_regressions.ParityMeasurements.test_no_exact_tick_does_not_fall_back_to_a_nearby_tick) ... ok
+test_nonempty_tick_history_does_not_bypass_live_freshness_guard (test_btc15_parity_measurement_regressions.ParityMeasurements.test_nonempty_tick_history_does_not_bypass_live_freshness_guard) ... ok
+test_output_schema_stays_compatible_and_contains_timing_evidence (test_btc15_parity_measurement_regressions.ParityMeasurements.test_output_schema_stays_compatible_and_contains_timing_evidence) ... ok
+test_prior_contract_finalization_cannot_contaminate_current_join (test_btc15_parity_measurement_regressions.ParityMeasurements.test_prior_contract_finalization_cannot_contaminate_current_join) ... ok
+test_qualified_gateway_uses_true_timestamps_and_no_direct_http (test_btc15_parity_measurement_regressions.ParityMeasurements.test_qualified_gateway_uses_true_timestamps_and_no_direct_http) ... ok
+test_quotes_are_unverified_for_both_zero_and_ten_cent_deltas (test_btc15_parity_measurement_regressions.ParityMeasurements.test_quotes_are_unverified_for_both_zero_and_ten_cent_deltas) ... ok
+test_real_same_publication_side_mismatch_remains_failure (test_btc15_parity_measurement_regressions.ParityMeasurements.test_real_same_publication_side_mismatch_remains_failure) ... ok
+test_reference_failure_is_unknown_and_error_detail_is_not_exposed (test_btc15_parity_measurement_regressions.ParityMeasurements.test_reference_failure_is_unknown_and_error_detail_is_not_exposed) ... ok
+test_rollover_cross_contract_market_is_wait_not_false_clock_failure (test_btc15_parity_measurement_regressions.ParityMeasurements.test_rollover_cross_contract_market_is_wait_not_false_clock_failure) ... ok
+test_source_age_bounds_and_incomplete_frame_are_unknown (test_btc15_parity_measurement_regressions.ParityMeasurements.test_source_age_bounds_and_incomplete_frame_are_unknown) ... ok
+test_stale_not_ready_future_and_invalid_ages_cannot_pass (test_btc15_parity_measurement_regressions.ParityMeasurements.test_stale_not_ready_future_and_invalid_ages_cannot_pass) ... ok
+test_target_crossing_by_different_ticks_is_not_transport_failure (test_btc15_parity_measurement_regressions.ParityMeasurements.test_target_crossing_by_different_ticks_is_not_transport_failure) ... ok
+test_value_threshold_is_not_widened (test_btc15_parity_measurement_regressions.ParityMeasurements.test_value_threshold_is_not_widened) ... ok
+test_missing_or_stale_proof_never_passes (test_btc15_kalshi_quote_provenance_regressions.QuoteParity.test_missing_or_stale_proof_never_passes) ... ok
+test_same_identity_different_value_fails_without_tolerance_widening (test_btc15_kalshi_quote_provenance_regressions.QuoteParity.test_same_identity_different_value_fails_without_tolerance_widening) ... ok
+test_verified_exact_state_can_pass (test_btc15_kalshi_quote_provenance_regressions.QuoteParity.test_verified_exact_state_can_pass) ... ok
+test_verified_quotes_cannot_hide_brti_failure (test_btc15_kalshi_quote_provenance_regressions.QuoteParity.test_verified_quotes_cannot_hide_brti_failure) ... ok
+test_atomic_consumption_and_replay (test_btc15_kalshi_quote_provenance_regressions.Quotes.test_atomic_consumption_and_replay) ... ok
+test_bad_levels_fail_closed (test_btc15_kalshi_quote_provenance_regressions.Quotes.test_bad_levels_fail_closed) ... ok
+test_conflicting_duplicate_invalidates (test_btc15_kalshi_quote_provenance_regressions.Quotes.test_conflicting_duplicate_invalidates) ... ok
+test_cross_contract_and_market_id_rejected (test_btc15_kalshi_quote_provenance_regressions.Quotes.test_cross_contract_and_market_id_rejected) ... ok
+test_duplicate_does_not_apply_twice_or_refresh (test_btc15_kalshi_quote_provenance_regressions.Quotes.test_duplicate_does_not_apply_twice_or_refresh) ... ok
+test_exact_contract_window (test_btc15_kalshi_quote_provenance_regressions.Quotes.test_exact_contract_window) ... ok
+test_exact_timestamp_sequence_replay (test_btc15_kalshi_quote_provenance_regressions.Quotes.test_exact_timestamp_sequence_replay) ... ok
+test_gap_requires_new_snapshot (test_btc15_kalshi_quote_provenance_regressions.Quotes.test_gap_requires_new_snapshot) ... ok
+test_missing_field_diagnostics_never_echo_unknown_values (test_btc15_kalshi_quote_provenance_regressions.Quotes.test_missing_field_diagnostics_never_echo_unknown_values) ... ok
+test_missing_or_crossed_side (test_btc15_kalshi_quote_provenance_regressions.Quotes.test_missing_or_crossed_side) ... ok
+test_missing_snapshot_field_reports_exact_safe_path (test_btc15_kalshi_quote_provenance_regressions.Quotes.test_missing_snapshot_field_reports_exact_safe_path) ... ok
+test_missing_stale_and_incomplete_proof (test_btc15_kalshi_quote_provenance_regressions.Quotes.test_missing_stale_and_incomplete_proof) ... ok
+test_opt_in_default_off_and_both_data_roots_supported (test_btc15_kalshi_quote_provenance_regressions.Quotes.test_opt_in_default_off_and_both_data_roots_supported) ... ok
+test_out_of_order_invalidates (test_btc15_kalshi_quote_provenance_regressions.Quotes.test_out_of_order_invalidates) ... ok
+test_proof_exact_frame_contract_and_identity (test_btc15_kalshi_quote_provenance_regressions.Quotes.test_proof_exact_frame_contract_and_identity) ... ok
+test_read_only_wire_and_unchanged_brti_loop_order (test_btc15_kalshi_quote_provenance_regressions.Quotes.test_read_only_wire_and_unchanged_brti_loop_order) ... ok
+test_reconnect_cannot_start_with_delta (test_btc15_kalshi_quote_provenance_regressions.Quotes.test_reconnect_cannot_start_with_delta) ... ok
+test_rollover_clears_provider_before_use (test_btc15_kalshi_quote_provenance_regressions.Quotes.test_rollover_clears_provider_before_use) ... ok
+test_same_millisecond_distinct_sequence (test_btc15_kalshi_quote_provenance_regressions.Quotes.test_same_millisecond_distinct_sequence) ... ok
+test_stale_and_future (test_btc15_kalshi_quote_provenance_regressions.Quotes.test_stale_and_future) ... ok
+test_subscription_identity_rejected (test_btc15_kalshi_quote_provenance_regressions.Quotes.test_subscription_identity_rejected) ... ok
+test_timestamp_mismatch_regression_and_missing (test_btc15_kalshi_quote_provenance_regressions.Quotes.test_timestamp_mismatch_regression_and_missing) ... ok
+test_untimestamped_snapshot_not_fresh (test_btc15_kalshi_quote_provenance_regressions.Quotes.test_untimestamped_snapshot_not_fresh) ... ok
+test_actual_session_many_rebases_no_reconnect_or_order_commands (test_btc15_kalshi_quote_provenance_regressions.Retention.test_actual_session_many_rebases_no_reconnect_or_order_commands) ... ok
+test_duplicate_delta_preserves_timestamp_and_size (test_btc15_kalshi_quote_provenance_regressions.Retention.test_duplicate_delta_preserves_timestamp_and_size) ... ok
+test_duplicate_snapshot_does_not_reset_retention_or_refresh (test_btc15_kalshi_quote_provenance_regressions.Retention.test_duplicate_snapshot_does_not_reset_retention_or_refresh) ... ok
+test_empty_side_recovers_only_from_real_contiguous_update (test_btc15_kalshi_quote_provenance_regressions.Retention.test_empty_side_recovers_only_from_real_contiguous_update) ... ok
+test_gap_cannot_be_hidden_by_rebase (test_btc15_kalshi_quote_provenance_regressions.Retention.test_gap_cannot_be_hidden_by_rebase) ... ok
+test_missing_deprecated_ts_uses_real_ts_ms (test_btc15_kalshi_quote_provenance_regressions.Retention.test_missing_deprecated_ts_uses_real_ts_ms) ... ok
+test_missing_required_timestamp_diagnostic_and_invalidation (test_btc15_kalshi_quote_provenance_regressions.Retention.test_missing_required_timestamp_diagnostic_and_invalidation) ... ok
+test_near_close_empty_book_and_exact_rollover (test_btc15_kalshi_quote_provenance_regressions.Retention.test_near_close_empty_book_and_exact_rollover) ... ok
+test_omitted_empty_sides_are_not_keyerrors_or_quotes (test_btc15_kalshi_quote_provenance_regressions.Retention.test_omitted_empty_sides_are_not_keyerrors_or_quotes) ... ok
+test_overflow_waits_for_snapshot_without_inventing_replay_base (test_btc15_kalshi_quote_provenance_regressions.Retention.test_overflow_waits_for_snapshot_without_inventing_replay_base) ... ok
+test_rebase_rejects_cross_market_sid_and_wrong_command (test_btc15_kalshi_quote_provenance_regressions.Retention.test_rebase_rejects_cross_market_sid_and_wrong_command) ... ok
+test_rebase_starts_at_actual_exchange_snapshot_and_waits_for_timestamp (test_btc15_kalshi_quote_provenance_regressions.Retention.test_rebase_starts_at_actual_exchange_snapshot_and_waits_for_timestamp) ... ok
+test_reconnect_recovery_does_not_reuse_old_book (test_btc15_kalshi_quote_provenance_regressions.Retention.test_reconnect_recovery_does_not_reuse_old_book) ... ok
+test_retention_requests_snapshot_without_discarding_current_evidence (test_btc15_kalshi_quote_provenance_regressions.Retention.test_retention_requests_snapshot_without_discarding_current_evidence) ... ok
+test_sequenced_acknowledgement_counts_but_never_freshens (test_btc15_kalshi_quote_provenance_regressions.Retention.test_sequenced_acknowledgement_counts_but_never_freshens) ... ok
+test_unresponsive_snapshot_request_fails_closed (test_btc15_kalshi_quote_provenance_regressions.Retention.test_unresponsive_snapshot_request_fails_closed) ... ok
+test_53_at_83_first_frame_both_sides_real_immutable_origins (test_btc15_supported_early.SupportedEarly.test_53_at_83_first_frame_both_sides_real_immutable_origins) ... ok
+test_all_management_states_without_final_lock (test_btc15_supported_early.SupportedEarly.test_all_management_states_without_final_lock) ... ok
+test_deployment_handoff_copies_only_live_origin_not_old_publication (test_btc15_supported_early.SupportedEarly.test_deployment_handoff_copies_only_live_origin_not_old_publication) ... BRTI HISTORY WARNING: TimeoutError | live state independent | NO ORDERS
+SIGNAL ORIGIN TRANSFER | {"active_origin_imported": true, "history_count": 1, "imported_at": 1791058141.0, "lane": "main", "origin_id": "9e9c20f675f60d15d8bfadd29a6338a8b5d7b00af5aaf1b54e58fa65dd5c73a9", "original_checkpoint_digest": "7e6c615fc7ffee64e90d1cf3699810168f72b60cf715140096aa10f15c4515af", "predecessor_build": "6d5897c26fc83e62a5425148a773d648dfcbacde", "predecessor_deployment": "4b33134d-d832-409e-bf35-f80689beb66b", "publication_imported": false}
+SIGNAL PREDECESSOR TRANSITIONS | {"lane": "main", "transitions": []}
+SIGNAL ORIGIN TRANSFER | {"active_origin_imported": false, "history_count": 1, "imported_at": 1791058500.0, "lane": "main", "origin_id": null, "original_checkpoint_digest": "7e6c615fc7ffee64e90d1cf3699810168f72b60cf715140096aa10f15c4515af", "predecessor_build": "6d5897c26fc83e62a5425148a773d648dfcbacde", "predecessor_deployment": "4b33134d-d832-409e-bf35-f80689beb66b", "publication_imported": false}
+SIGNAL PREDECESSOR TRANSITIONS | {"lane": "main", "transitions": []}
+ok
+test_exit_releases_at_contract_rollover_without_fabricated_fill (test_btc15_supported_early.SupportedEarly.test_exit_releases_at_contract_rollover_without_fabricated_fill) ... ok
+test_favorable_price_without_weakening_does_not_force_exit (test_btc15_supported_early.SupportedEarly.test_favorable_price_without_weakening_does_not_force_exit) ... ok
+test_feature_capture_returns_unchanged_original_and_exact_causal_binding (test_btc15_supported_early.SupportedEarly.test_feature_capture_returns_unchanged_original_and_exact_causal_binding) ... ok
+test_fee_cache_is_bounded_and_missing_fees_fail_closed (test_btc15_supported_early.SupportedEarly.test_fee_cache_is_bounded_and_missing_fees_fail_closed) ... ok
+test_historical_tier1_needs_directional_corroboration (test_btc15_supported_early.SupportedEarly.test_historical_tier1_needs_directional_corroboration) ... ok
+test_legacy_entry_veto_does_not_suppress_final_publication (test_btc15_supported_early.SupportedEarly.test_legacy_entry_veto_does_not_suppress_final_publication) ... ok
+test_model_value_risk_exit_requires_weakening_and_adverse_momentum (test_btc15_supported_early.SupportedEarly.test_model_value_risk_exit_requires_weakening_and_adverse_momentum) ... ok
+test_no_exit_from_clock_outage_missing_features_or_repeated_quote (test_btc15_supported_early.SupportedEarly.test_no_exit_from_clock_outage_missing_features_or_repeated_quote) ... ok
+test_no_universal_price_probability_window_or_count_gate (test_btc15_supported_early.SupportedEarly.test_no_universal_price_probability_window_or_count_gate) ... ok
+test_positive_ev_alone_cannot_create_call (test_btc15_supported_early.SupportedEarly.test_positive_ev_alone_cannot_create_call) ... ok
+test_second_buy_after_exit_with_restart_and_distinct_origin (test_btc15_supported_early.SupportedEarly.test_second_buy_after_exit_with_restart_and_distinct_origin) ... ok
+test_supported_value_entry_remains_eligible_across_contract (test_btc15_supported_early.SupportedEarly.test_supported_value_entry_remains_eligible_across_contract) ... ok
+test_active_origin_cannot_be_replaced_by_opposite_setup (test_btc15_scalp_journal_v1.ScalpTests.test_active_origin_cannot_be_replaced_by_opposite_setup) ... ok
+test_arm_pullback_latched_exit_actual_bid_both_sides (test_btc15_scalp_journal_v1.ScalpTests.test_arm_pullback_latched_exit_actual_bid_both_sides) ... ok
+test_caution_and_watch_have_no_exit_authority (test_btc15_scalp_journal_v1.ScalpTests.test_caution_and_watch_have_no_exit_authority) ... ok
+test_gap_overshoot_never_fill_at_trailing_floor (test_btc15_scalp_journal_v1.ScalpTests.test_gap_overshoot_never_fill_at_trailing_floor) ... ok
+test_horizon_uses_current_bid_and_actual_delay (test_btc15_scalp_journal_v1.ScalpTests.test_horizon_uses_current_bid_and_actual_delay) ... ok
+test_outage_clears_half_confirmation (test_btc15_scalp_journal_v1.ScalpTests.test_outage_clears_half_confirmation) ... ok
+test_repeated_quote_cannot_confirm (test_btc15_scalp_journal_v1.ScalpTests.test_repeated_quote_cannot_confirm) ... ok
+test_serial_reentry_and_reversal_need_exit_then_two_new_observations (test_btc15_scalp_journal_v1.ScalpTests.test_serial_reentry_and_reversal_need_exit_then_two_new_observations) ... ok
+test_source_adversaries_preserve_origin_unavailable (test_btc15_scalp_journal_v1.ScalpTests.test_source_adversaries_preserve_origin_unavailable) ... ok
+test_stale_horizon_does_not_exit_or_release (test_btc15_scalp_journal_v1.ScalpTests.test_stale_horizon_does_not_exit_or_release) ... ok
+test_target_then_stop_terminal_not_settlement (test_btc15_scalp_journal_v1.ScalpTests.test_target_then_stop_terminal_not_settlement) ... ok
+test_targets_stop_and_time_are_observational (test_btc15_scalp_journal_v1.ScalpTests.test_targets_stop_and_time_are_observational) ... ok
+test_two_fresh_confirmations_entry_not_later_bid (test_btc15_scalp_journal_v1.ScalpTests.test_two_fresh_confirmations_entry_not_later_bid) ... ok
+test_wrong_candidate_checkpoint_rejected (test_btc15_scalp_journal_v1.ScalpTests.test_wrong_candidate_checkpoint_rejected) ... ok
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator DecisionTreeClassifier from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator RandomForestClassifier from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator LogisticRegression from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+test_durable_journal_reconstructs_exact_frame_after_memory_eviction (test_btc15_information_v1.InformationTests.test_durable_journal_reconstructs_exact_frame_after_memory_eviction) ... ok
+test_durable_journal_records_only_successful_qualified_publications (test_btc15_information_v1.InformationTests.test_durable_journal_records_only_successful_qualified_publications) ... ok
+test_journal_survives_publisher_restart_and_appends_without_overwrite (test_btc15_information_v1.InformationTests.test_journal_survives_publisher_restart_and_appends_without_overwrite) ... ok
+test_journal_reconstructs_two_contracts_without_cross_labeling (test_btc15_information_v1.InformationTests.test_journal_reconstructs_two_contracts_without_cross_labeling) ... ok
+
+----------------------------------------------------------------------
+Ran 153 tests in 9.861s
+
+OK
+{"tests": 153, "failures": 0, "errors": 0, "successful": true, "network_blocked": true, "fit_calibration_blocked": true, "economic_evaluation": false, "modules": ["candidates.early_recording_20261012.test_recording", "test_btc15_quote_proof_offpath_v1", "test_btc15_quote_proof_offpath_timing", "test_btc15_brti_delivery_v1", "test_btc15_kalshi_quote_provenance_regressions", "test_btc15_supported_early", "test_btc15_scalp_journal_v1", "test_btc15_information_v1.InformationTests.test_durable_journal_reconstructs_exact_frame_after_memory_eviction", "test_btc15_information_v1.InformationTests.test_durable_journal_records_only_successful_qualified_publications", "test_btc15_information_v1.InformationTests.test_journal_survives_publisher_restart_and_appends_without_overwrite", "test_btc15_information_v1.InformationTests.test_journal_reconstructs_two_contracts_without_cross_labeling"]}

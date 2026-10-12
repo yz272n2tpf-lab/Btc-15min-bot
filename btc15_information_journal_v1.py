@@ -15,7 +15,8 @@ import uuid
 
 
 class CompressedJournal:
-    def __init__(self, legacy_path, clock=time.time):
+    def __init__(self, legacy_path, clock=time.time, *, segment_bytes=None,
+                 max_total_bytes=None, max_record_bytes=None):
         self.directory = Path(str(legacy_path)+'.segments')
         self.clock = clock
         self.session = uuid.uuid4().hex
@@ -24,17 +25,34 @@ class CompressedJournal:
         self.lock = threading.Lock()
         self.failed = False
         self.raw_bytes = self.stored_bytes = self.records = 0
+        # Optional budgets belong only to a separately authorized evidence path.
+        # Defaults preserve the existing information journal/retention behavior.
+        self.segment_bytes = segment_bytes
+        self.max_total_bytes = max_total_bytes
+        self.max_record_bytes = max_record_bytes
+        self.total_bytes = None
 
     def append(self, line):
         if not isinstance(line, bytes) or not line.endswith(b'\n'):
             raise ValueError('Complete journal line required')
+        if self.max_record_bytes is not None and len(line) > self.max_record_bytes:
+            raise ValueError('Evidence record budget exceeded')
         encoded = gzip.compress(line, compresslevel=6, mtime=0)
         with self.lock:
             if self.failed:
                 raise OSError('Journal segment requires process restart')
             day = datetime.fromtimestamp(self.clock(), timezone.utc).strftime('%Y%m%d')
             self.directory.mkdir(parents=True, exist_ok=True)
-            if self.day != day:
+            if self.total_bytes is None:
+                self.total_bytes = (sum(p.stat().st_size for p in self.directory.glob('*.jsonl.gz'))
+                                    if self.max_total_bytes is not None else 0)
+            if self.max_total_bytes is not None and self.total_bytes + len(encoded) > self.max_total_bytes:
+                raise OSError('Evidence disk budget exhausted; no automatic pruning')
+            if self.segment_bytes is not None and len(encoded) > self.segment_bytes:
+                raise ValueError('Evidence member exceeds segment budget')
+            rotate = (self.segment_bytes is not None and self.path is not None
+                      and self.path.exists() and self.path.stat().st_size + len(encoded) > self.segment_bytes)
+            if self.day != day or rotate:
                 self.day = day
                 self.path = self.directory/(day+'-'+self.session+'-'+uuid.uuid4().hex[:8]+'.jsonl.gz')
             created = not self.path.exists()
@@ -59,6 +77,7 @@ class CompressedJournal:
             self.records += 1
             self.raw_bytes += len(line)
             self.stored_bytes += len(encoded)
+            self.total_bytes += len(encoded)
             if self.records == 1 or self.records % 1000 == 0:
                 import json
                 print('BTC15 INFORMATION STORAGE | '+json.dumps(dict(
