@@ -1,0 +1,32 @@
+{
+  "protected_source": "/workspace/scratch/e6cca000d6e7/early_continuation_dev/repo",
+  "protected_files_verified": 1470,
+  "changed_protected_files": [],
+  "authorized_existing_changes": [
+    "candidates/early_rebuild_20261012/continuation.py",
+    "candidates/early_rebuild_20261012/continuation_engine.py"
+  ],
+  "engine_unchanged": true,
+  "model_functions_ast_unchanged": {
+    "solve": true,
+    "calibrate": true,
+    "_data": true,
+    "_fit": true,
+    "_block_weights": true,
+    "fit": true,
+    "predict": true
+  },
+  "feature_math_ast_unchanged": {
+    "scale": true,
+    "impulse": true,
+    "eff": true,
+    "older": true,
+    "newer": true,
+    "structure": true,
+    "v": true
+  },
+  "artifact_sha256": "af167bcf00ac974ffa488f0fcd0a483b5dc6c22e5731f74c975e793909ea81c9",
+  "original_index_incident": "ACCEPTED_UNRESOLVED_NOT_REINVESTIGATED",
+  "production": "NOT_ACCESSED",
+  "remote": "NOT_ACCESSED"
+}

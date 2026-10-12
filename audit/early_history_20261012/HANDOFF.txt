@@ -1,0 +1,255 @@
+BTC15 — EARLY CONTINUATION HISTORY & READINESS
+2026-10-12 | Bounded isolated correction | PRODUCTION FROZEN
+
+OUTCOME
+The independent BTC/BRTI history interface is implemented and mechanically tested.
+It can supply genuinely delivered 120-second context on the first observation of
+a new contract without carrying quotes, target, close, setups, tickets or manager
+state across that boundary. The six feature formulas and strategy are unchanged.
+
+The narrow retained-record check recovers three previously unavailable contexts,
+all UP, out of 246 saved landmarks missing 120-second history. These are three
+distinct existing setups/contracts. They are normalized observational contexts,
+NOT native source/receipt-verified histories, BUY signals or profitable trades.
+243 remain unavailable. Zero gain native execution or model validation support.
+
+Recommendation: the corrected input interface is ready for a separately authorized
+evidence-bound evaluation of history readiness. It is NOT ready to reuse the old
+fitted artifact, publish research BUY signals, claim calibrated performance or
+activate production. No next phase was started.
+
+IDENTITY AND PRESERVATION
+Starting local commit: 019b95091924b265f999ce23579801d2ee5e52ca
+Starting branch: research/early-sustained-runway-20261012
+Protected source: /workspace/scratch/e6cca000d6e7/early_continuation_dev/repo
+Editable copy: /workspace/scratch/e6cca000d6e7/early_history_dev/repo
+New branch: research/early-history-readiness-20261012
+Final commit/tree: recorded in recovery DELIVERY_IDENTITY.json and the external
+handoff's delivery identity section; no claim of remote publication.
+
+The source was available; recovery was not substituted for inspecting that source.
+Its frozen SOURCE_FILES manifest verified 1,257 source/evidence files. Those and
+213 Git metadata files were independently copied, with hashes and inode separation
+verified before editing (COPY_BASELINE.json). No shared metadata, worktree links,
+symlinks or alternates were used. All 1,470 protected source files still match.
+Original production and earlier frozen workspaces were not edited or repaired.
+The accepted historical index incident remains UNRESOLVED; its investigation was
+not repeated. Earlier results and historical STOP records are preserved.
+Expected changes in this new authorized copy are not changes to protected sources.
+
+IMPLEMENTATION — paths relative to the new repository
+1. candidates/early_rebuild_20261012/underlying_history.py (new)
+   Observation contains only BTC/BRTI values, joint cutoff/receipt, original per-feed
+   source and receipt clocks, record identities, feed IDs and epochs. It contains
+   no contract identifier, target, window, quote, origin or management field.
+   UnderlyingHistory.ingest owns a bounded 135-second delivered prefix; Snapshot
+   supplies an immutable view. No sorting of events, interpolation, backfilling,
+   synthetic clocks or missing-price reconstruction occurs.
+
+   Validation requires finite positive values, ordered source<=receipt<=cutoff
+   clocks for each component, a cutoff delivered by decision time, nondecreasing
+   receipts, strictly advancing joint observations with gaps <=15 seconds, stable
+   source identities/epochs, BTC age <=10 seconds and BRTI age <=5 seconds. These
+   per-source limits follow the retained native directional source gates; the
+   existing feature endpoint allowance and gap limit remain 15 seconds.
+   Component freshness is also checked at the actual current decision/tick.
+   Repeated publications cannot change their values or receipt timestamps.
+   Exact duplicates do not add or refresh an observation. Conflicts/out-of-order
+   samples invalidate the buffer; a gap or source/epoch change starts a fresh
+   segment that must independently accumulate legitimate longer context.
+
+   Native-clock, fixture and retained-observation proxy domains remain distinct.
+   Fixtures cannot qualify retained decisions. The proxy requires healthy=True
+   but never treats that flag as proof of original clocks; absent component clocks
+   remain None. Its use requires an explicit diagnostic-only opt-in.
+
+2. candidates/early_rebuild_20261012/continuation.py (modified)
+   causal_vector has an optional underlying_history Snapshot input. Only price
+   history is substituted. Current ASK, runway and target-based range floor come
+   from the current validated contract observation. The six ordered feature
+   definitions and arithmetic are unchanged, including the 30-second windows.
+   When no new input is supplied, the old same-contract computation remains.
+   Explicit empty/invalid independent input fails closed; it does not fall back.
+   Future observations, endpoint mismatches and missing 120-second context return
+   explicit unavailable errors rather than estimated features.
+
+   ContinuationEstimator requires the independent-history provenance schema in
+   addition to existing digest, method, code, support and chronology checks. Its
+   inference accepts the dedicated Snapshot. underlying_history.py participates
+   in code identity. No artifact coefficients or calibration were changed.
+
+3. candidates/early_rebuild_20261012/continuation_engine.py (modified)
+   Owns a separate copied UnderlyingHistory, ingest_underlying, and availability-
+   only continuation_context. Contract rollover does not clear this separate
+   buffer. Invalid history clears continuation score availability without changing
+   onset or manager state. Cached scoring cannot bypass new history validation.
+   A tick cannot refresh an old component's freshness. Scoring cadence is unchanged.
+   Proxy histories are rejected by this engine interface.
+
+4. candidates/early_rebuild_20261012/engine.py (INSPECTED; BYTE UNCHANGED)
+   Its history remains contract scoped. Rollover clearing, 30-second onset,
+   10-second confirmation, ticket cancellation/expiry, duplicate protection,
+   immutable origin ownership, re-entry and management protections are retained.
+   A pre-open price history does not bypass new-contract onset/confirmation.
+
+5. candidates/early_rebuild_20261012/test_underlying_history.py (new)
+   21 focused tests cover both directions, exact expected features, immediate
+   rollover context, same-contract equivalence, invalid clocks/sources/gaps,
+   duplicates, causality, missing history, ownership, source expiry, artifact
+   rejection, fixture boundaries and unchanged onset/protection behavior.
+
+6. candidates/early_rebuild_20261012/history_availability.py (new)
+   Hash-pins the prior landmarks and seven retained input files. Examines only
+   the 246 saved CAUSAL_120S_HISTORY_UNAVAILABLE landmarks, at their original
+   decision endpoints. It performs no fit, calibration, prediction, new outcome
+   labeling, selection, manager replay or economic comparison. It never joins
+   different files or epochs and does not bridge gaps or unhealthy rows.
+
+7. audit/early_history_20261012/ (new audit and focused runner)
+   COPY_BASELINE, preservation/strategy checks, source review, focused logs,
+   exact availability rows/prefix IDs, results and correction log are included.
+   CHANGED_FILES.json in the recovery lists every committed file exactly.
+
+FROZEN STRATEGY / ARTIFACT DISPOSITION
+Six features, logistic/calibration methods, p>=0.75, nominal lower95>0.50,
+25–55c primary prices, 10-second reactions, 10c/60-second durable label, unchanged
+weakening/EXIT, FINAL and SCALP remain intact. No added indicators or relaxed gates.
+AST checks confirm unchanged feature arithmetic and solve/calibrate/fit/predict
+functions. The artifact bytes are unchanged:
+  audit/early_continuation_20261012/evaluation/CONTINUATION_ARTIFACT.json
+  file SHA256 af167bcf00ac974ffa488f0fcd0a483b5dc6c22e5731f74c975e793909ea81c9
+  body identity 11e6b1b033785ce6b240d4a879b835471e4cf22e64b2acc9aafa2f3a2e441a1c
+
+Disposition: UNSUPPORTED FOR NEW HISTORY PROVENANCE.
+The old artifact was trained on same-contract normalized rows and lacks the
+INDEPENDENT_UNDERLYING_HISTORY_V1 contract. Loading it now explicitly raises
+ARTIFACT_HISTORY_PROVENANCE_UNSUPPORTED_REQUIRES_SEPARATE_EVALUATION, after digest
+verification. There is no hash rewrite, automatic migration or counterfeit model.
+The old artifact remains usable only with its frozen old code in the preserved
+candidate. The unchanged fit writer has not been adapted or invoked to produce
+a new-schema artifact; separately authorized compatibility work would be needed.
+Thus feature availability is implemented; compatible calibrated inference is not
+asserted. This pass does not claim the old trained model is invariant to provenance.
+
+TEST RESULTS AND SCOPE
+Final focused gate: 101 tests, 0 failures, 0 errors (FINAL_FOCUSED_TESTS.txt).
+Its runner explicitly excludes fitting/calibration and patches those entry points
+to fail if called. It includes 21 new history tests plus unchanged entry, duration,
+execution, manager, FINAL isolation and source-integrity regressions.
+An earlier broader 103-test run also passed; it included the pre-existing four-
+point synthetic solver/calibrator unit test and a test of rejecting fixture
+training. Those numerical fixture calls produced no empirical fit or artifact.
+They are documented here and excluded from the final no-fitting recovery gate.
+No historical model fit or calibration occurred. Earlier partial redirected logs
+are retained as partial, not counted as completed runs.
+Five old ArtifactIntegrationTests assume acceptance of the legacy artifact and
+are deliberately not represented as passing under this new provenance contract.
+The focused tests verify explicit rejection instead. The old test file is frozen.
+
+BEFORE / AFTER — RETAINED OBSERVATIONS, NOT PREDICTIONS
+Denominator: 1,172 prior saved landmarks; inspect only the 246 missing 120s context.
+Before: 0/246 assessable. After: 3/246 quote-only contexts; 0/246 native histories.
+Remaining: 243 CAUSAL_120S_HISTORY_UNAVAILABLE. All periods remain exposed.
+
+Contract                         Side  ASK(c)  New-contract span  Boundary gap
+KXBTC15M-26OCT052330-30           UP    55      46.395s            14.829s
+KXBTC15M-26OCT070045-45           UP    41      100.074s           14.581s
+KXBTC15M-26OCT111300-00           UP    47      82.367s            14.696s
+
+The saved decision times are respectively 1791256557.000709, 1791347513.253824,
+1791737189.143770 UTC epoch seconds. Remaining runway is 14.050,13.112,13.514min.
+The first ASK is represented in floating point as 55.00000000000001c; unchanged
+primary-price handling recognizes the recorded $0.55 quote. Exact six-vectors,
+source file hashes and causal prefix record/receipt IDs are in AVAILABILITY_ROWS.
+No manual-delay price, durable label or BUY selection is recalculated here.
+No DOWN retained context is newly recovered; both-direction mechanics pass fixtures.
+
+Exposed development Sep26–27: 0/69 recovered. Calibration Sep28–29: 0/50.
+Oct4:0/26; Oct6:1/36; Oct7:1/39; Oct8:0/23; Oct11:1/3.
+The known missed successes remain unavailable:
+- KXBTC15M-26SEP280300-00: 117.939s prior-contract gap; saved first span80.665s.
+- KXBTC15M-26OCT072345-45: 52.592s prior-contract gap; saved span117.170s.
+- KXBTC15M-26OCT111230-30: no earlier contract in supplied file; span100.873s.
+No gaps are bridged to turn these outcomes into model-ready examples.
+
+During development the first proxy diagnostic incorrectly admitted unhealthy
+earlier rows and reported77 gains. Prefix inspection found74 were not legitimate
+cross-boundary recoveries. The adapter was corrected to reject and break on those
+rows; a regression test was added. The corrected result is3. The initial outputs
+remain under initial_proxy_diagnostic with CORRECTION_LOG; none is used as final
+evidence. This was a corrected new diagnostic defect, not a protected-source change.
+
+EVIDENCE READINESS — SPECIFIC SOURCES
+Available and verified: the seven manifest-pinned normalized input files retain
+observed BTC/BRTI values and joint time/receipt/epoch/record IDs. These support the
+three causal observational contexts above at their original recorded decisions.
+Their flags do not establish original per-feed availability or executable prices.
+
+Available but incomplete: retained_directional/development_features.jsonl.gz has
+19,688 BTC-clock feature rows; calibration_features has13,075; reserved_features
+has3,985. These 36,748 rows lack paired BRTI fields. They cannot provide the required
+joint chain. early_native_replay_frame.json binds one native point's BTC clocks
+and BRTI cf_ts/delivery.observed_ts/owner_epoch, not a continuous120s history.
+Known raw bounded archives contain records and some BTC feature frames. Inspected
+MAIN examples contain chart t/btc/brti/brti_age_sec and HTTP response receipt;
+they do not establish each original BRTI receipt. This is a bounded schema/example
+finding, not a claim that every archived byte was exhaustively searched anew.
+
+Future observation only, if separately authorized: existing BTC native directional
+frames expose BTC source/observed times; the existing BRTI collector calls delivery
+accept(value,cf_ts,time.time(),epoch) and retains actual publications. A minimal
+paired capture would preserve every source value, original source and receipt
+clock, feed identity/epoch, record ID, decision cutoff and consecutive observations
+for >=120s before the decision, including before contract opening, with gap and
+reset evidence. No collector/recorder was changed, started or deployed here.
+
+Unavailable in the retained diagnostic projections: complete original paired
+BTC/BRTI source-receipt chains for the three recovered contexts. Historical ticks
+recovered later cannot have their later ingestion receipts backdated. Chart age,
+minute candles and known noncausal archived OHLCV features cannot repair this.
+No qualifying native 120-second pre-open chain was verified in this bounded pass.
+
+Independent execution requirements remain: original quote receipts; correctly
+bound book snapshot/delta continuity, side/price quantities and intended size;
+applicable account/contract fee schedule with effective period and units; actual
+native FINAL lifecycle frames. Displayed depth still would not prove a fill.
+The prior fee-stress calculation remains an assumption. None of these gaps is
+closed by a price-history interface or synthetic test.
+
+CALIBRATION / ECONOMICS LIMITATIONS
+Inherited calibration has238 six-feature known labels, all zero; its positive
+case lacks valid longer context. This pass recovers no development/calibration
+landmark and does not repair that limitation. A compatible artifact would need
+explicit provenance/identity and separately authorized evidence assessment;
+calibration still requires defensible positive and negative complete-history
+labels. No new split is called untouched and no independent validation is claimed.
+
+Inherited unfavorable manager evidence remains:147 complete overlapping scenarios,
+mean -12.423c, median -15c,18 positive and129 nonpositive;209 entries include62
+censored manager paths. These are inherited findings, not rerun results or a
+sequential portfolio. Prior continuation selections were zero. Increased history
+availability alone establishes neither better selection nor profitability.
+
+OFFLINE REPRODUCTION (from a NEW restored repository root)
+python audit/early_history_20261012/run_focused_tests.py
+python -m candidates.early_rebuild_20261012.history_availability
+The second command writes only new-copy availability audit outputs; it does not
+run the prior study. Do not run it in any protected source repository. Recovery
+REPRODUCE.txt explains hash verification and independent restoration first.
+
+BLOCKER DISPOSITIONS
+- Cross-contract underlying input gap: CLOSED WITH FIXTURE EVIDENCE; retained
+  observational availability demonstrated for3 contexts. Native validation remains.
+- Contract state isolation: CLOSED WITH FOCUSED TEST EVIDENCE; engine unchanged.
+- Artifact silent compatibility: CLOSED WITH EXPLICIT REJECTION; compatible model
+  artifact remains UNRESOLVED pending separately authorized evidence/compatibility.
+- Complete paired native history: UNRESOLVED — original per-feed clocks and a
+  continuous pre-open chain, not just more rows or later reconstructed values.
+- Calibration, executable economics and independent predictive performance:
+  UNRESOLVED; exact dependencies above, no claimed performance improvement.
+
+No authorization request is needed to complete this delivery. Any further evidence
+evaluation, artifact work or collection requires a separate bounded authorization.
+No remote operation, push, publication, deployment, restart or order occurred.
+signal_only=true; orders=false; production_enabled=false; actionable=false.
+STOP AFTER DELIVERY. PRODUCTION REMAINS FROZEN.

@@ -1,0 +1,75 @@
+{
+  "inspected": 246,
+  "after_proxy_available": 77,
+  "after_native_available": 0,
+  "remaining_proxy_reasons": {
+    "CAUSAL_120S_HISTORY_UNAVAILABLE": 169
+  },
+  "by_period": {
+    "oct11_diagnostic": {
+      "inspected": 3,
+      "recovered_proxy": 1
+    },
+    "oct4_diagnostic": {
+      "inspected": 26,
+      "recovered_proxy": 11
+    },
+    "oct6_diagnostic": {
+      "inspected": 36,
+      "recovered_proxy": 24
+    },
+    "oct7_diagnostic": {
+      "inspected": 39,
+      "recovered_proxy": 26
+    },
+    "oct8_diagnostic": {
+      "inspected": 23,
+      "recovered_proxy": 12
+    },
+    "sep26_27_development": {
+      "inspected": 69,
+      "recovered_proxy": 0
+    },
+    "sep28_29_diagnostic": {
+      "inspected": 50,
+      "recovered_proxy": 3
+    }
+  },
+  "recovered_contracts": [
+    "KXBTC15M-26OCT032030-30",
+    "KXBTC15M-26OCT032045-45",
+    "KXBTC15M-26OCT032100-00",
+    "KXBTC15M-26OCT032130-30",
+    "KXBTC15M-26OCT032215-15",
+    "KXBTC15M-26OCT032245-45",
+    "KXBTC15M-26OCT032300-00",
+    "KXBTC15M-26OCT052015-15",
+    "KXBTC15M-26OCT052045-45",
+    "KXBTC15M-26OCT052245-45",
+    "KXBTC15M-26OCT052330-30",
+    "KXBTC15M-26OCT052345-45",
+    "KXBTC15M-26OCT060030-30",
+    "KXBTC15M-26OCT060045-45",
+    "KXBTC15M-26OCT060100-00",
+    "KXBTC15M-26OCT060145-45",
+    "KXBTC15M-26OCT060200-00",
+    "KXBTC15M-26OCT062145-45",
+    "KXBTC15M-26OCT062200-00",
+    "KXBTC15M-26OCT062300-00",
+    "KXBTC15M-26OCT070015-15",
+    "KXBTC15M-26OCT070030-30",
+    "KXBTC15M-26OCT070045-45",
+    "KXBTC15M-26OCT070115-15",
+    "KXBTC15M-26OCT070145-45",
+    "KXBTC15M-26OCT072015-15",
+    "KXBTC15M-26OCT072045-45",
+    "KXBTC15M-26OCT072200-00",
+    "KXBTC15M-26OCT072230-30",
+    "KXBTC15M-26OCT080015-15",
+    "KXBTC15M-26OCT080100-00",
+    "KXBTC15M-26OCT080115-15",
+    "KXBTC15M-26OCT111300-00",
+    "KXBTC15M-26SEP280200-00",
+    "KXBTC15M-26SEP281815-15"
+  ]
+}

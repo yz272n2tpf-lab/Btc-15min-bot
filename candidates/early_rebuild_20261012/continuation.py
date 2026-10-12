@@ -11,6 +11,7 @@ from pathlib import Path
 import numpy as np
 from .assessment import SAFETY, Rules, validate_row, price_group
 from .resale import digest
+from .underlying_history import SCHEMA as HISTORY_SCHEMA, Snapshot
 
 FEATURES = ['ask_cents', 'runway_minutes', 'joint_impulse30', 'joint_efficiency30',
             'joint_movement120', 'joint_structure120']
@@ -28,22 +29,29 @@ METHOD = dict(id='CONTINUATION_LOGISTIC_V1', features=FEATURES, C=1,
 def code_identity():
     root=Path(__file__).resolve().parent
     return {n:hashlib.sha256((root/n).read_bytes()).hexdigest()
-            for n in ('continuation.py','durability.py','continuation_engine.py','assessment.py','engine.py')}
+            for n in ('continuation.py','durability.py','continuation_engine.py','assessment.py','engine.py','underlying_history.py')}
 
 
-def causal_vector(history, r, side):
+def causal_vector(history, r, side, *, underlying_history=None, allow_observation_proxy=False):
     if side not in ('UP','DOWN') or validate_row(r): raise ValueError('INVALID_DECISION')
     if price_group(r[side.lower()+'_ask'])!='PRIMARY': raise ValueError('PRIMARY_PRICE_REQUIRED')
     if not history or history[-1]!=r: raise ValueError('DECISION_ENDPOINT_REQUIRED')
     # Reject supplied future data; never silently truncate a contaminated prefix.
     if any(z['received']>r['received'] or z['time']>r['time'] for z in history):
         raise ValueError('FUTURE_FEATURE_INPUT')
+    independent=underlying_history is not None
+    if independent:
+        if not isinstance(underlying_history,Snapshot):raise ValueError('UNDERLYING_SNAPSHOT_REQUIRED')
+        # Only BTC/BRTI and their delivered chronology cross the contract boundary.
+        # ASK, runway, current target range floor and onset history stay with r.
+        price_history=underlying_history.rows_at(r,allow_observation_proxy=allow_observation_proxy)
+    else:price_history=history
     end=r['time']; close=end+r['left']; sign=1 if side=='UP' else -1
     def window(seconds):
-        old=next((z for z in reversed(history) if z['time']<=end-seconds),None)
+        old=next((z for z in reversed(price_history) if z['time']<=end-seconds),None)
         if old is None or end-seconds-old['time']>15: raise ValueError('CAUSAL_120S_HISTORY_UNAVAILABLE')
-        seq=[z for z in history if z['time']>=old['time']]
-        if any(validate_row(z) or z['contract']!=r['contract'] or z['target']!=r['target'] or
+        seq=[z for z in price_history if z['time']>=old['time']]
+        if not independent and any(validate_row(z) or z['contract']!=r['contract'] or z['target']!=r['target'] or
                abs(z['time']+z['left']-close)>1 or z['source_epoch']!=r['source_epoch'] for z in seq):
             raise ValueError('FEATURE_IDENTITY_OR_SOURCE_INVALID')
         if any(not 0<b['time']-a['time']<=15 or b['received']<a['received']
@@ -158,6 +166,8 @@ class ContinuationEstimator:
     def __init__(self,artifact,*,expected_sha256):
         b=artifact['body']
         if artifact.get('artifact_sha256')!=expected_sha256 or digest(b)!=expected_sha256:raise ValueError('ARTIFACT_IDENTITY_MISMATCH')
+        if b.get('feature_history_schema')!=HISTORY_SCHEMA:
+            raise ValueError('ARTIFACT_HISTORY_PROVENANCE_UNSUPPORTED_REQUIRES_SEPARATE_EVALUATION')
         if b.get('method')!=METHOD or b.get('schema')!=1 or b.get('code_identity')!=code_identity():raise ValueError('METHOD_OR_CODE_MISMATCH')
         if b.get('evidence_class')!=EVIDENCE:raise ValueError('EVIDENCE_CLASS_MISMATCH')
         calibrated=b.get('calibration_status')=='FITTED_EXPLORATORY'
@@ -176,7 +186,7 @@ class ContinuationEstimator:
     @classmethod
     def load(cls,path,*,expected_sha256):return cls(json.loads(Path(path).read_text()),expected_sha256=expected_sha256)
 
-    def infer(self,r,side,history,context):
+    def infer(self,r,side,history,context,*,underlying_history=None):
         out=dict(**SAFETY,target=TARGET,status='UNESTIMATED',ready=False,probability=None,lower95=None,upper95=None,
             diagnostic_selected=False,artifact_sha256=self.identity,validation='EXPLORATORY_ONLY',
             evidence_class=EVIDENCE,decision_time=r['received'],side=side,context=context,
@@ -184,7 +194,8 @@ class ContinuationEstimator:
         try:
             if r.get('evidence_class') not in OBSERVED_DOMAINS:raise ValueError('ARTIFACT_EVIDENCE_DOMAIN_UNSUPPORTED')
             if r['received']<=self.body['available_after']:raise ValueError('ARTIFACT_NOT_AVAILABLE_AT_DECISION')
-            v=causal_vector(history,r,side);cell=self.body['support'].get(side+'_'+context)
+            if underlying_history is None:raise ValueError('ARTIFACT_UNDERLYING_HISTORY_REQUIRED')
+            v=causal_vector(history,r,side,underlying_history=underlying_history);cell=self.body['support'].get(side+'_'+context)
             if not cell or not cell['supported']:raise ValueError('DIRECTION_CONTEXT_UNSUPPORTED')
             if any(x<a-1e-8 or x>b+1e-8 for x,a,b in zip(v,cell['min'],cell['max'])):raise ValueError('FEATURE_OUT_OF_SUPPORT')
             p=predict(self.body['model'],v);lo=hi=None
