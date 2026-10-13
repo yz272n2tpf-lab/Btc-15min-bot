@@ -65,6 +65,8 @@ def main():
             with changed:changed.notify_all()
             time.sleep(max(.01,.1-(time.monotonic()-started)))
     threading.Thread(target=sample,daemon=True,name='read-only-confirmation').start()
+    from ops.live_recording.bootstrap import start
+    start('information')
     service.main()
 
 

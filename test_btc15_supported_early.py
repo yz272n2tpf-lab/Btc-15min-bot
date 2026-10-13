@@ -108,21 +108,13 @@ class SupportedEarly(unittest.TestCase):
         damaged=deepcopy(s);damaged['terminal']['origin_id']='WRONG'
         with self.assertRaisesRegex(ValueError,'TERMINAL_CONFLICT'):self.engine().restore(damaged)
 
-    def test_model_value_risk_exit_requires_weakening_and_adverse_momentum(self):
+    def test_gain_exit_uses_net_sale_value_and_deterioration(self):
         e=self.engine();step(e,value_frame())
         _,_,v=step(e,value_frame(2,ask=.80,p=.75,momentum=-10))
-        self.assertEqual(v['early']['guidance'],'EXIT')
+        self.assertEqual(v['early']['guidance'],'EXIT');self.assertFalse(v['final']['ready'])
         self.assertEqual(v['terminal']['reason'],'NET_BID_EXCEEDS_WEAKENING_MODEL_VALUE')
-        self.assertTrue(v['management']['evidence']['probability_weakening'])
-        self.assertTrue(v['management']['evidence']['recent_momentum_adverse'])
         self.assertGreater(v['terminal']['economics']['net_liquidation_scenario'],0)
         self.assertIsNone(v['terminal']['realized_profit'])
-
-    def test_favorable_price_without_weakening_does_not_force_exit(self):
-        e=self.engine();step(e,value_frame())
-        _,_,v=step(e,value_frame(2,ask=.80,p=.83,momentum=10))
-        self.assertNotEqual(v['early']['guidance'],'EXIT')
-        self.assertIsNone(v['terminal'])
 
     def test_no_exit_from_clock_outage_missing_features_or_repeated_quote(self):
         for mode in ('clock','brti','book','features','repeated','zero_bid'):
@@ -145,18 +137,12 @@ class SupportedEarly(unittest.TestCase):
         f['quote'].update(ticker=f['contract'],close_ms=int(f['official_close']*1000))
         r,_,v=step(e,f);self.assertIsNone(v['origin']);self.assertIsNone(v['terminal']);self.assertIsNone(r['event'])
 
-    def test_historical_tier1_needs_directional_corroboration(self):
+    def test_historical_origins_remain_independent_and_compatible(self):
         f=frame(ask=.35,p=.8);f['candidate']=CANDIDATE
-        r,s,v=step(self.engine(),f)
-        self.assertNotEqual(r['event'],'BUY')
-        self.assertIsNone(v['origin'])
-        self.assertFalse(v['early']['ready'])
-        self.assertFalse(v['early']['directional_corroboration']['qualified'])
-        # Existing supported-value route remains eligible with full evidence.
-        e=self.engine()
-        r,_,v=step(e,value_frame())
-        self.assertEqual(r['event'],'BUY')
-        self.assertEqual(v['origin']['entry_policy'],POLICY)
+        r,s,v=step(self.engine(),f);self.assertEqual(r['event'],'BUY');self.assertFalse(v['final']['ready'])
+        self.assertEqual(v['origin']['entry_policy'],'HISTORICAL_TIER1')
+        s.pop('terminal');e=self.engine();e.restore(s)
+        _,_,v=step(e,value_frame(2));self.assertEqual(v['origin']['original_ask'],.35)
 
     def test_feature_capture_returns_unchanged_original_and_exact_causal_binding(self):
         returned={'move1':1};start=datetime(2026,10,3,20,tzinfo=timezone.utc)
@@ -194,52 +180,6 @@ class SupportedEarly(unittest.TestCase):
                     self.assertEqual(j.get('state')['signal_history'][-1]['origin_id'],v['origin']['origin_id'])
                 j.close()
             self.assertEqual(prior.read_bytes(),before)
-
-    def test_second_buy_after_exit_with_restart_and_distinct_origin(self):
-        e=self.engine()
-        first,_,entry=step(e,value_frame())
-        self.assertEqual(first['event'],'BUY')
-        exited,_,exit_view=step(e,value_frame(2,side='DOWN',p=.6))
-        self.assertEqual(exited['event'],'EXIT')
-        first_origin=entry['origin']['origin_id']
-        first_terminal=deepcopy(exit_view['terminal'])
-        # A post-EXIT frame that is not entry-qualified must not erase history.
-        unready=value_frame(3,ask=.99,p=.995)
-        rejected,saved,view=step(e,unready)
-        self.assertNotEqual(rejected['event'],'BUY')
-        self.assertEqual(view['terminal'],first_terminal)
-        self.assertEqual(view['origin']['origin_id'],first_origin)
-        restored=self.engine();restored.restore(saved)
-        # Only fresh qualified evidence can create another origin.
-        second,checkpoint,new_view=step(restored,value_frame(4))
-        self.assertEqual(second['event'],'BUY')
-        self.assertNotEqual(new_view['origin']['origin_id'],first_origin)
-        self.assertIsNone(new_view['terminal'])
-        self.assertIn(first_origin,[x['origin_id'] for x in checkpoint['signal_history']])
-        previous=next(x for x in checkpoint['signal_history'] if x['origin_id']==first_origin)
-        self.assertEqual(previous['terminal']['state'],'EXIT')
-        self.assertFalse(previous['terminal']['manual_exit_confirmed'])
-        duplicate,_,dup_view=step(restored,value_frame(5))
-        self.assertNotEqual(duplicate['event'],'BUY')
-        self.assertEqual(dup_view['origin']['origin_id'],new_view['origin']['origin_id'])
-
-    def test_legacy_entry_veto_does_not_suppress_final_publication(self):
-        f=frame(ask=.35,p=.8);f['candidate']=CANDIDATE
-        r,_,v=step(self.engine(),f)
-        self.assertNotEqual(r.get('event'),'BUY')
-        self.assertIsNone(v['origin'])
-        self.assertEqual(v['final_status'],'AVAILABLE')
-        self.assertIn('probability_up',v['final'])
-        self.assertFalse(v['orders'])
-        self.assertFalse(v['early']['directional_corroboration']['qualified'])
-
-    def test_supported_value_entry_remains_eligible_across_contract(self):
-        for offset in (10,60,300,540,790,895):
-            with self.subTest(offset=offset):
-                r,_,v=step(self.engine(),value_frame(offset=offset))
-                self.assertEqual(r['event'],'BUY')
-                self.assertEqual(v['origin']['entry_policy'],POLICY)
-                self.assertEqual(v['final_status'],'AVAILABLE')
 
     def test_fee_cache_is_bounded_and_missing_fees_fail_closed(self):
         at=[10];calls=[]

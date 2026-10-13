@@ -67,8 +67,6 @@ def decide(f, origin, prior_p, path, current_action, later_bid, terminal=None):
             economics=economics,evidence=evidence,new_exit=False,policy=POLICY)
     thesis_failed=opposing and btc<0 and brti<0 and adverse
     sell_dominates=bool(exit_fee is not None and bid-exit_fee>=p and weak and adverse)
-    # Retain the existing directional-risk and model-value EXIT safeguards.
-    # Neither is a standalone short-window profit target or trailing stop.
     exit_reason=('DIRECTIONAL_THESIS_INVALIDATED' if thesis_failed else
                  'NET_BID_EXCEEDS_WEAKENING_MODEL_VALUE' if sell_dominates else None)
     if exit_reason and later_bid and bid>0:

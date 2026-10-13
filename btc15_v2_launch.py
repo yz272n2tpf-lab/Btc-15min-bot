@@ -20,6 +20,8 @@ def main():
     verify_environment(a.lane)
     if a.lane=='v81':
         from btc15_v2_product.runtime import v81_main
+        from ops.live_recording.bootstrap import start
+        start('v81')
         return v81_main(ROOT)
     if os.getenv('BTC15_ENABLE_INFORMATION_EXPORT')!='1':raise ValueError('INFORMATION_EXPORT_OPT_IN_REQUIRED')
     if Path.cwd().resolve()!=ROOT:raise ValueError('REPOSITORY_WORKING_DIRECTORY_REQUIRED')

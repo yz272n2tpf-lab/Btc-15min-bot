@@ -129,7 +129,6 @@ class Directional:
     def restore(self, saved):
         self.signal_history = saved.get('signal_history', []) if saved else []
         self.terminal = saved.get('terminal') if saved else None
-        self.reentry_disarmed = saved.get('reentry_disarmed', True) if saved else True
         if saved and saved.get('candidate') != CANDIDATE:
             raise ValueError('DIRECTIONAL_CHECKPOINT_CANDIDATE_MISMATCH')
         self.state = decode_state(saved['manager']) if saved else manager.State()
@@ -166,7 +165,7 @@ class Directional:
         self.signal_history=remember(self.signal_history,self.origin,'main',terminal=self.terminal)
 
     def checkpoint(self):
-        return deepcopy(dict(candidate=CANDIDATE,manager=encode_state(self.state),origin=self.origin,last=self.last,prior_final=self.prior_final,position_path=self.position_path,terminal=self.terminal,signal_history=self.signal_history,reentry_disarmed=self.reentry_disarmed))
+        return deepcopy(dict(candidate=CANDIDATE,manager=encode_state(self.state),origin=self.origin,last=self.last,prior_final=self.prior_final,position_path=self.position_path,terminal=self.terminal,signal_history=self.signal_history))
 
     def process(self, f, now):
         record = dict(schema=SCHEMA, candidate=CANDIDATE, build=os.getenv('RAILWAY_GIT_COMMIT_SHA'),
@@ -203,26 +202,7 @@ class Directional:
                 state='FINAL_CALL' if raw['final']['ready'] else 'PASS',
                 confidence=raw['final']['confidence'],lock_state='QUALIFIED' if raw['final']['ready'] else 'UNLOCKED')
             view.update(final=standalone,expires_at=expires,final_status='AVAILABLE')
-            # Re-entry requires a genuine new qualifying edge after the prior
-            # EXIT: observe a NOT-ready frame first, then a fresh ready frame.
-            # Do not assume that the user manually filled or closed anything.
-            reentry_candidate = False
-            if self.terminal and self.origin and self.origin['contract']==f['contract']:
-                if not raw['early']['ready']:
-                    self.reentry_disarmed = False
-                elif not self.reentry_disarmed and continuity=='OBSERVED':
-                    # Speculative transition only. Preserve the original state,
-                    # origin, EXIT and checkpoint until a fresh BUY is accepted.
-                    proposed = replace(self.state, position=None, buy_emitted=False)
-                    trial_state,trial_event,trial_status,trial_frame = reduce_signal(
-                        proposed,raw,qualified,datetime.fromtimestamp(now,timezone.utc))
-                    if trial_event == 'BUY':
-                        next_state,event,status,frame = (
-                            trial_state,trial_event,trial_status,trial_frame)
-                        reentry_candidate = True
-            if not reentry_candidate:
-                next_state,event,status,frame = reduce_signal(
-                    self.state,raw,qualified,datetime.fromtimestamp(now,timezone.utc))
+            next_state,event,status,frame = reduce_signal(self.state,raw,qualified,datetime.fromtimestamp(now,timezone.utc))
             origin = self.origin if self.origin and self.origin['contract']==f['contract'] else None
             if event == 'BUY':
                 origin = dict(origin_id=digest([CANDIDATE,f['contract'],key,frame.early['side']]),
@@ -235,7 +215,6 @@ class Directional:
                     qualification=deepcopy(value_entry) if raw['early'].get('policy') else
                         dict(policy='HISTORICAL_TIER1',conditions=raw['early']['conditions'],ready=True))
                 self.terminal = None
-                self.reentry_disarmed = True
                 self.position_path = dict(mfe=None,mae=None,last_quote=None,current=None,missing=False)
             elif origin is None:
                 self.position_path = {}

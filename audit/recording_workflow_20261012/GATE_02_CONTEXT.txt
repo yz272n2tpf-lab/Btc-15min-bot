@@ -1,1 +1,0 @@
-Executed in the independent development repo, not the fresh recovery directory. 42 tests; 1 failed: empty archive could lack an explicit reader gap when disk failure preceded START durability. Failure retained. Readers now expose NO_DURABLE_START_OR_VALID_RECORDS as an incomplete session. No production or strategy change. Final restored-copy gate pending.

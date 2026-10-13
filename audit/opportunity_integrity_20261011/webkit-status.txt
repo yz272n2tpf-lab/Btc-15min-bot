@@ -1,1 +1,0 @@
-NOT RUN / BLOCKED. Playwright WebKit 26.5 build 2336 downloaded successfully via Microsoft fallback. Host validation found missing GTK4/GStreamer and other libraries. playwright install-deps webkit failed because setgroups/seteuid/setegid are not permitted in this environment. No bypass attempted. No physical iPad/Safari test performed. Chromium tests passed separately.

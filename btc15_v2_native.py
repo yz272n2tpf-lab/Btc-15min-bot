@@ -3,4 +3,6 @@ if __name__=='__main__':
     from btc15_v2_product.release import verify_environment
     verify_environment('main')
     from btc15_v2_product.runtime import native_main
+    from ops.live_recording.bootstrap import start
+    start('main')
     native_main()

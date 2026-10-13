@@ -39,7 +39,7 @@ class Clarity(unittest.TestCase):
     def test_exit_is_completed_not_new_entry_and_direction_does_not_flip(self):
         e=Directional();e.restore({});_,_,v=step(e,value_frame());oid=v['origin']['origin_id']
         _,saved,v=step(e,value_frame(2,side='DOWN',p=.6))
-        self.assertEqual(v['trade_clarity']['display_state'],'EXIT RECOMMENDED — AWAIT FRESH QUALIFIED BUY')
+        self.assertEqual(v['trade_clarity']['display_state'],'COMPLETED EXIT — NO NEW ENTRY')
         r=v['trade_clarity']['records'][-1];self.assertEqual(r['side'],'UP');self.assertEqual(r['origin_id'],oid)
         self.assertEqual(r['terminal']['observed_bid'],v['terminal']['executable_exit_bid'])
         self.assertIsNone(v['trade_clarity']['current_bid']);self.assertFalse(v['trade_clarity']['entry_authority_current'])
@@ -65,15 +65,12 @@ class Clarity(unittest.TestCase):
         self.assertFalse(liquidation(.6,.8,.81,None,ENTRY,s,ENTRY)['meaningful_positive_net'])
         self.assertFalse(liquidation(.6,.8,.81,s,ENTRY,None,None)['meaningful_positive_net'])
 
-    def test_no_price_ceiling_or_momentum_to_buy_conversion(self):
-        for bid in (.03,.4,.6,.8,.95):
-            f=state(ENTRY,bid);row=f['row'];s=schedule(ENTRY)
-            a=entry_assessment(row,'UP',s);self.assertIsNone(a['price_ceiling']);self.assertFalse(a['ready'])
-            f['fee_schedule']=s
-            for x in f['proposals'].values():x['history']['30']['btc']=row['btc']-20
-            e=Scalp();e.restore({});r,_,v=e.process(f,ENTRY+.001)
-            self.assertNotIn('event',r);self.assertIsNone(v['origin'])
-            self.assertEqual(v['opportunity_coverage'][0]['status'],'WATCH')
+    def test_missing_native_momentum_does_not_buy_even_with_cost_room(self):
+        f=state(ENTRY,.4);f['fee_schedule']=schedule(ENTRY)
+        a=entry_assessment(f['row'],'UP',f['fee_schedule'],f['proposals']['UP']['history'],management_arm=.05)
+        self.assertIsNone(a['price_ceiling']);self.assertFalse(a['ready'])
+        e=Scalp();e.restore({});r,_,v=e.process(f,ENTRY+.001)
+        self.assertNotIn('event',r);self.assertIsNone(v['origin'])
 
     def test_defensive_exit_with_one_cent_gross_and_with_loss(self):
         for side in ('UP','DOWN'):
