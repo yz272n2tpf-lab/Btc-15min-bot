@@ -10,8 +10,7 @@
     'btc-price','btc-timestamp','health-status','health-continuity','health-quotes',
     'health-brti','health-at','evidence-score','flip-risk','market-momentum',
     'early-action','early-direction','early-price','scalp-action','scalp-price',
-    'early-entry','early-hold','early-watch','early-protect','early-exit','final-action',
-    'final-direction','final-probability','up-buy','down-buy','contract-window']);
+    'early-entry','early-hold','early-watch','early-protect','early-exit','final-action']);
   const same=(a,b)=>!!a&&!!b&&['contract','target','official_open','official_close'].every(k=>a[k]===b[k]);
   const stamp=v=>finite(v)?new Date(v*1000).toISOString():'Unavailable';
   const text=(id,value,source)=>{const n=node(id);if(!n)return;if(n.textContent!==String(value))n.textContent=String(value);if(source)n.dataset.source=source;};
@@ -28,7 +27,7 @@
   }
   function paint(view,scalpDisplaySide=view.scalpSide){
     for(const [id,value] of Object.entries(view.fields))if(!connected||!resolvedFields.has(id))text(id,value,view.trace[id]);
-    if(!connected)node('final-direction').className='direction '+(view.finalSide==='UP'?'up':view.finalSide==='DOWN'?'down':'');
+    node('final-direction').className='direction '+(view.finalSide==='UP'?'up':view.finalSide==='DOWN'?'down':'');
     for(const [prefix,active] of Object.entries(view.activeRungs))for(const row of node(prefix+'-ladder')?.children||[]){
       if(connected)continue; // Issued record is the single live ladder owner.
       if(row.dataset.rung===active)row.setAttribute('aria-current','step');else row.removeAttribute('aria-current');
@@ -50,10 +49,9 @@
   function laneState(lane){
     if(lane?.eligible)return 'CURRENT';
     if(lane?.reason_code&&lane.reason_code!=='SOURCE_EXPIRED')return 'UNAVAILABLE';
-    if(lane?.retained_payload||lane?.reason_code==='SOURCE_EXPIRED')return 'STALE';
-    return lane?.refreshing?'REFRESHING':lane?.current_payload?'UNAVAILABLE':'LOADING';
+    return lane?.selection==='retained'||lane?.reason_code==='SOURCE_EXPIRED'?'REFRESHING':'UNAVAILABLE';
   }
-  function nativeSnapshot(v){const lanes=v?.lanes||{};return {main:lanes.main?.eligible?lanes.main.current_payload:{status:'UNAVAILABLE',official_identity:v?.identity||v?.display_identity,reason:lanes.main?.reason_code},scalp:lanes.scalp?.eligible?lanes.scalp.current_payload:null,quote:lanes.quote?.eligible?lanes.quote.current_payload:null};}
+  function nativeSnapshot(v){const lanes=v?.lanes||{};return {main:lanes.main?.eligible?lanes.main.current_payload:{status:'UNAVAILABLE',official_identity:v?.identity,reason:lanes.main?.reason_code},scalp:lanes.scalp?.eligible?lanes.scalp.current_payload:null,quote:lanes.quote?.eligible?lanes.quote.current_payload:null};}
   const centsValue=v=>finite(v)?(v*100).toFixed(2)+'¢':'Unavailable';
   const dollarsValue=v=>finite(v)?v.toFixed(2)+' USD':'Unavailable';
   const percentValue=v=>finite(v)?(v*100).toFixed(1)+'%':'Unavailable';
@@ -70,24 +68,17 @@
     ESTABLISHED_PROTECTION_REMAINS_LATCHED:'Protection remains warranted',
     POSITIVE_LIQUIDATION_SCENARIO_WITH_DETERIORATION:'Positive net; support weakening'};
   function renderFinal(lane,identity){
-    const p=lane?.eligible?lane.current_payload:null,f=p?.final;
-    // Retained values are descriptions only. Qualification below still uses p/f.
-    const display=p||history(lane,identity),a=display?.opportunity_analysis,model=display?.final;
-    text('final-direction',model?(model.side==='UP'?'↑ UP':'↓ DOWN'):'—');
-    text('final-probability',model?percentValue(model.confidence):'—');
-    node('final-direction').className='direction '+(model?.side==='UP'?'up':model?.side==='DOWN'?'down':'');
+    const p=lane?.eligible?lane.current_payload:null,f=p?.final,a=p?.opportunity_analysis;
     const h=same(lane?.verified_final_call?.official_identity,identity)?lane.verified_final_call:null;
     const last=same(lane?.verified_final_decision?.official_identity,identity)?lane.verified_final_decision:null;
     const historicCall=!f&&h&&last?.state==='FINAL_CALL';
-    const c=a?.contract===display?.contract?a?.candidates?.find(c=>c.side===model?.side):null,e=c?.economics;
+    const c=a?.contract===p?.contract?a?.candidates?.find(c=>c.side===f?.side):null,e=c?.economics;
     text('final-action',f?.state==='FINAL_CALL'?'QUALIFIED CALL':f?.state==='PASS'?'PASS':historicCall?'LAST VERIFIED FINAL CALL — HISTORICAL':last?.state==='PASS'?'LAST VERIFIED FINAL DECISION — PASS':'Unavailable');
     const gap=v=>finite(v)?Math.abs(v).toFixed(2)+' USD '+(v>0?'above':v<0?'below':'at')+' target':'unavailable';
-    text('final-targets',c?(!p?'HISTORICAL · ':'')+'BTC '+gap(c.target_gap)+' · BRTI '+gap(c.brti_gap):'Target relationship unavailable');
-    text('final-market',c?(!p?'HISTORICAL · ':'')+'Kalshi '+c.side+' BID / ASK '+shortCents(c.bid)+' / '+shortCents(c.ask)+' · at model snapshot':'Market odds unavailable');
+    text('final-targets',c?'BTC '+gap(c.target_gap)+' · BRTI '+gap(c.brti_gap):'Target relationship unavailable');
+    text('final-market',c?'Kalshi '+c.side+' BID / ASK '+shortCents(c.bid)+' / '+shortCents(c.ask)+' · at model snapshot':'Market odds unavailable');
     text('final-summary',historicCall?h.side+' · '+percentValue(h.confidence)+' · '+clockTime(h.published_ts)+' · no current lock':!f?'Current qualification unavailable':f.ready&&f.lock_state==='QUALIFIED'&&f.state==='FINAL_CALL'?'Qualified settlement call · not a BUY':finite(f.confidence)&&f.confidence<.90?'PASS · model below 90% lock requirement':'PASS · other lock conditions not met');
-    label('final-freshness',f?'CURRENT native publication · '+stamp(p.published_ts)+(lane.refreshing?' · REFRESHING':''):
-      laneState(lane)+(lane?.reason_code?' · '+String(lane.reason_code).replaceAll('_',' '):'')+
-      (model?' · historical model; original publication '+stamp(display.published_ts):'')+' · no current call authority',f?'current':model?'retained':'unavailable');
+    label('final-freshness',f?'CURRENT native publication':last?'LIVE SOURCE REFRESHING — NO CURRENT CALL AUTHORITY':'Current source unavailable · no current call authority',f?'current':'unavailable');
     table('final-call-history',h?[
       ['Last verified qualified call',h.side+' · '+percentValue(h.confidence)+' · HISTORICAL'],
       ['Original publication',stamp(h.published_ts)],['Contract',h.official_identity.contract],
@@ -96,12 +87,12 @@
     ]:[]);
     const verified=e?.valid_book===true&&e.series_fee_verified===true;
     const supported=verified&&finite(e.stress_net_model_ev_scenario)&&e.stress_net_model_ev_scenario>0;
-    text('final-value',(!p&&c?'HISTORICAL model value · ':'')+(!verified?'Uncertain · current book or applicable fees unavailable':supported?'Positive model value at '+shortCents(c.ask)+' ASK · not an entry signal':'PASS · '+c.side+' ASK '+shortCents(c.ask)+' lacks supported value after costs'));
+    text('final-value',!verified?'Uncertain · current book or applicable fees unavailable':supported?'Positive model value at '+shortCents(c.ask)+' ASK · not an entry signal':'PASS · '+c.side+' ASK '+shortCents(c.ask)+' lacks supported value after costs');
     table('final-value-details',c?[
       ['Native model / ASK',percentValue(c.fair)+' / '+centsValue(c.ask)],
       ['Entry fee / spread',centsValue(e?.entry_fee_scenario)+' / '+centsValue(e?.spread)],
       ['Model value after fee / spread stress',centsValue(e?.net_model_ev_scenario)+' / '+centsValue(e?.stress_net_model_ev_scenario)],
-      ['Qualification',f?f.state+' · '+f.lock_state+' · existing 90% and all other native gates':'Historical values only; no current lock'],
+      ['Qualification',f?.state+' · '+f?.lock_state+' · existing 90% and all other native gates'],
       ['Meaning','Model-implied settlement scenario, not calibrated expected profit, a scalp forecast, a BUY or a fill. Market prices do not guarantee settlement.']
     ]:[]);
   }
@@ -220,8 +211,7 @@
   function renderResolved(v){
     return preserveDetails(()=>{
       const view=window.BTC15SnapshotAdapter.project(nativeSnapshot(v));
-      const lanes=v?.lanes||{},identity=v?.identity||v?.display_identity,m=lanes.main,s=lanes.scalp,q=lanes.quote;
-      text('contract-window',view.fields['contract-window']+(!v?.identity&&identity?' · LAST VERIFIED · awaiting official identity':''));
+      const lanes=v?.lanes||{},identity=v?.identity,m=lanes.main,s=lanes.scalp,q=lanes.quote;
       const oldMain=history(m,identity),oldScalp=history(s,identity),oldQuote=history(q,identity);
       // P1 performs the SAME immutable-ID and terminal validation for historical
       // text. Historical projections are never passed to paint or rung activation.
@@ -271,15 +261,12 @@
         text('scalp-'+side.toLowerCase()+'-status',coverage?coverage.status+' · '+coverage.reason+' · '+coverage.next_condition:current?'Published '+scalp.guidance+' · '+side:scalp?(explain?'No new '+side+' entry · '+explain:'No new '+side+' opportunity published'):'No qualified '+side+' explanation');
         label('scalp-'+side.toLowerCase()+'-freshness',scalpHistorical?'LAST QUALIFIED · historical; no current authority':s?.eligible?'CURRENT · source diagnostic':'UNAVAILABLE · no current source',scalpHistorical?'retained':s?.eligible?'current':'unavailable');
       }
-      renderIssued(m,v?.identity,'early');
-      renderIssued(s,v?.identity,'scalp');
+      renderIssued(m,identity,'early');
+      renderIssued(s,identity,'scalp');
       // History is in Details; inserting/removing duplicate history paragraphs
       // above the guidance moved otherwise unchanged reasons during every gap.
       for(const name of ['final','early','scalp','quote'])label(name+'-retained','','retained');
-      const shownQuote=q?.eligible?q.current_payload:oldQuote;
-      for(const side of ['up','down'])text(side+'-buy',shownQuote?centsValue(shownQuote[side+'_ask']):'—');
-      text('quote-status',q?.eligible?'CURRENT Kalshi ASK · source '+stamp(q.current_payload.exchange_ts)+(q.refreshing?' · REFRESHING':''):
-        laneState(q)+(q?.reason_code?' · '+String(q.reason_code).replaceAll('_',' '):'')+(oldQuote?' · historical ASK; source '+stamp(oldQuote.exchange_ts):'')+' · no executable buy quote','P2 quote eligibility');
+      text('quote-status',q?.eligible?'CURRENT Kalshi ASK · source '+stamp(q.current_payload.exchange_ts):laneState(q)+' · no executable buy quote','P2 quote eligibility');
       table('explanation-details',sourceReasons.concat([
         ['Historical FINAL publication',stamp(oldMain?.published_ts)],['Historical FINAL outcome',oldMain?.final?old.fields['final-direction']+' · '+old.fields['final-probability']+' · no current call':'None'],['Historical EARLY',old.fields['early-price']||'None'],
         ['Historical SCALP',old.fields['scalp-price']||'None'],['Historical quote source',stamp(oldQuote?.exchange_ts)],
@@ -316,22 +303,8 @@
   function mountChart(m){
     const parent=node('chart-surface');if(!m?.chart?.svg)return;
     if(parent.dataset.sourceSvg===m.chart.svg)return;
-    const template=document.createElement('template');template.innerHTML=m.chart.svg;const incoming=template.content.firstElementChild;if(incoming?.tagName.toLowerCase()!=='svg')return;
-    // Keep the mounted SVG and unchanged descendants through routine samples.
-    function sync(target,source){
-      for(const a of Array.from(target.attributes))if(!source.hasAttribute(a.name))target.removeAttribute(a.name);
-      for(const a of Array.from(source.attributes))if(target.getAttribute(a.name)!==a.value)target.setAttribute(a.name,a.value);
-      Array.from(source.childNodes).forEach((child,index)=>{
-        const old=target.childNodes[index];
-        if(!old){target.append(child.cloneNode(true));return;}
-        if(old.nodeType!==child.nodeType||old.nodeName!==child.nodeName){old.replaceWith(child.cloneNode(true));return;}
-        if(child.nodeType===1)sync(old,child);else if(old.nodeValue!==child.nodeValue)old.nodeValue=child.nodeValue;
-      });
-      while(target.childNodes.length>source.childNodes.length)target.lastChild.remove();
-    }
-    let svg=parent.firstElementChild;
-    if(svg?.tagName.toLowerCase()==='svg')sync(svg,incoming);else{svg=incoming;parent.replaceChildren(svg);}
-    parent.dataset.sourceSvg=m.chart.svg;
+    const template=document.createElement('template');template.innerHTML=m.chart.svg;const svg=template.content.firstElementChild;if(svg?.tagName.toLowerCase()!=='svg')return;
+    parent.replaceChildren(svg);parent.dataset.sourceSvg=m.chart.svg;
     // Original renderMainChart pointer presentation, using its resolved samples
     // and geometry. No history reconstruction, interpolation or new timeframe.
     const signature=m.chart.signature?JSON.parse(m.chart.signature):null,pts=signature?.[4];if(!pts?.length)return;
@@ -369,11 +342,10 @@
       ['Information status',i.labels.status],['Information assessment',i.labels.assessment],['Information selection',i.selection],['Information ticker',i.display?.ticker||'Unavailable'],['Information target (USD)',(i.current.assessment?i.delivery:i.retained_source)?.payload.target??'Unavailable'],['Information source reason',(i.current.assessment?i.delivery:i.retained_source)?.payload.reason||'Unavailable'],['Information original publication',stamp((i.current.assessment?i.delivery:i.retained_source)?.payload.published_ts)],['Information original display deadline',stamp((i.current.assessment?i.delivery:i.retained_source)?.payload.display_until)],['Information original expiry',stamp((i.current.assessment?i.delivery:i.retained_source)?.payload.expires_at)],['Information authority','Descriptive only; never native FINAL / EARLY / SCALP']
     ]);});
   }
-  let spotObservation=null,brtiObservation=null; // Display only; never an input to an owner.
   function renderSourceInformation(i){
-    const v=window.BTC15LadderOwner?.getResolvedView(),identity=v?.identity||v?.display_identity;
+    const v=window.BTC15LadderOwner?.getResolvedView(),identity=v?.identity;
     const p=i?.delivery?.payload,a=i?.current?.assessment;
-    const qualified=!!v?.identity&&!!a&&p?.ticker===identity?.contract&&p?.target===identity?.target&&finite(a.probability_up)&&finite(a.probability_down);
+    const qualified=!!a&&p?.ticker===identity?.contract&&p?.target===identity?.target&&finite(a.probability_up)&&finite(a.probability_down);
     const retained=i?.retained_source?.payload;
     const old=retained&&identity&&retained.ticker===identity.contract&&retained.target===identity.target&&finite(retained.probability_up)&&finite(retained.probability_down)?retained:null;
     const model=qualified?a:old;
@@ -384,25 +356,11 @@
     const now=qualified?p.checked_ts+(performance.now()-i.delivery.requestStartedMs)/1000:NaN;
     const btcAge=now-p?.btc_source_ts,brtiAge=now-p?.brti_source_ts;
     const money=x=>finite(x)?'$'+x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}):'Unavailable';
-    if(spotObservation&&identity&&!same(spotObservation.identity,identity))spotObservation=null;
-    if(brtiObservation&&identity&&!same(brtiObservation.identity,identity))brtiObservation=null;
-    const sourceState=i?.labels?.status||m?.reason||'No current source';
-    const spotCurrent=qualified&&finite(btcAge)&&btcAge>=0&&btcAge<=10&&finite(p.btc_price);
-    const candidate=spotCurrent?{value:p.btc_price,at:p.btc_source_ts,basis:'source'}:
-      marketCurrent&&finite(m.source?.btc_price)?{value:m.source.btc_price,at:Date.parse(m.source.source_timestamp_utc)/1000,basis:'market snapshot (BTC source time unavailable)'}:null;
-    if(candidate&&finite(candidate.at)&&(!spotObservation||candidate.at>spotObservation.at))spotObservation={...candidate,identity};
-    const currentSpot=spotCurrent&&spotObservation?.at===candidate.at&&spotObservation?.value===candidate.value;
-    text('spot-price',spotObservation?money(spotObservation.value):'Unavailable');
-    text('spot-age',spotObservation?(currentSpot?'CURRENT':'STALE · REFRESHING')+' BTC spot · '+spotObservation.basis+' '+stamp(spotObservation.at)+(currentSpot?'':' · historical; no current receipt · '+sourceState):'LOADING · no BTC spot observation · '+sourceState);
-    const freshBrti=qualified&&finite(brtiAge)&&brtiAge>=0&&brtiAge<=5&&finite(p.brti_value);
-    const mr=m?.brti?.record;
-    const brtiCandidate=freshBrti?{value:p.brti_value,at:p.brti_source_ts,current:true}:
-      mr?.contract===identity?.contract&&mr?.target===identity?.target&&finite(mr?.value)&&finite(mr?.observed)?
-        {value:mr.value,at:mr.observed/1000,current:marketMatches(m,v)&&m.brti.price_state==='fresh'}:null;
-    if(brtiCandidate&&(!brtiObservation||brtiCandidate.at>brtiObservation.at))brtiObservation={...brtiCandidate,identity};
-    const currentBrti=brtiCandidate?.current&&brtiObservation?.at===brtiCandidate.at&&brtiObservation?.value===brtiCandidate.value;
-    text('brti-latest',brtiObservation?money(brtiObservation.value):'Unavailable');
-    text('brti-latest-age',brtiObservation?(currentBrti?'CURRENT':'STALE · REFRESHING')+' BRTI · source '+stamp(brtiObservation.at)+(currentBrti?'':' · historical; no current receipt · '+sourceState):'LOADING · no BRTI observation · '+sourceState);
+    text('spot-price',qualified&&finite(btcAge)&&btcAge>=0&&btcAge<=10?money(p.btc_price):marketCurrent?money(m.source?.btc_price):'Refreshing');
+    text('spot-age',qualified&&finite(btcAge)&&btcAge>=0&&btcAge<=10?'BTC spot · source '+stamp(p.btc_source_ts)+' · '+btcAge.toFixed(1)+'s':marketCurrent?'BTC spot at market snapshot '+m.source.source_timestamp_utc:'No current BTC spot receipt');
+    const freshBrti=qualified&&finite(brtiAge)&&brtiAge>=0&&brtiAge<=5;
+    text('brti-latest',freshBrti?money(p.brti_value):m?.values?.btcPrice||'BRTI refreshing');
+    text('brti-latest-age',freshBrti?'BRTI · source '+stamp(p.brti_source_ts)+' · '+brtiAge.toFixed(1)+'s':m?.brti?.label||'No current BRTI receipt');
     // One formatter resolves all diagnostic BRTI inputs, independent of which
     // owner notified us. Delivery refreshes never compete with market wording.
     const lane=v?.lanes?.main,d=lane?.current_payload?.delivery,clock=lane?.clock;

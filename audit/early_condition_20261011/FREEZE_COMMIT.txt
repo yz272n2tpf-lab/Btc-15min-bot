@@ -1,7 +1,0 @@
-b2252f302c709bc3729ed3f9e93f44476aad3b8d
-tree 435a03e8bf0fcad84f2d2a4f1a28cee9fae9ef1f
-parent d42db8cda576013db721e4fc6e77d80ddba33631
-author Codex <codex@openai.com> 1791747408 -0400
-committer Codex <codex@openai.com> 1791747408 -0400
-
-research: freeze disabled condition-driven EARLY candidate before acceptance

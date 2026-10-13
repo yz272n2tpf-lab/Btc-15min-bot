@@ -1,7 +1,0 @@
-test_estimate_cannot_attach_to_a_different_management_policy (candidates.early_rebuild_20261012.test_blockers.ArtifactTests.test_estimate_cannot_attach_to_a_different_management_policy) ... ok
-test_engine_actual_record_inference_matches_frozen_diagnostic (candidates.early_rebuild_20261012.test_blockers.ArtifactTests.test_engine_actual_record_inference_matches_frozen_diagnostic) ... ok
-
-----------------------------------------------------------------------
-Ran 2 tests in 0.189s
-
-OK

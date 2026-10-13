@@ -65,16 +65,16 @@
       payload,
       selection:eligible?'current':payload?'retained':'none',
       eligible:!!eligible,tracking:!!tracking,
-      reason_code:current?.reason??refreshErrors[name],reason_text:reasonText(current?.reason??refreshErrors[name]),
+      reason_code:current?.reason??null,reason_text:reasonText(current?.reason),
       lease:caches[name]?{deadline:caches[name].deadline,received:caches[name].received,rtt:caches[name].rtt}:null,
-      clock:clocks[name],display_history:history[name],refreshing:!!requests[name]
+      clock:clocks[name],display_history:history[name]
     });
     // These are the existing render resolution locals, not another qualifier.
     // Clone before freezing: no source, cache, clock or retained object is frozen/mutated.
     resolvedView=freezeView(structuredClone({
       schema:'BTC15_COCKPIT_LADDER_RESOLVED_R1',signal_only:true,orders:false,
       resolved_monotonic:now,epoch,visibility:document.visibilityState,
-      identity:ident??null,display_identity:lastDisplayIdentity,identity_deadline:identity?.deadline??null,
+      identity:ident??null,identity_deadline:identity?.deadline??null,
       lanes:{
         main:lane('main',liveM,m,qualified,mainTracking),
         scalp:lane('scalp',liveS,s,aligned,scalpTracking),
@@ -87,10 +87,6 @@
   const REVISION='BTC15_INTEGRATED_OFFLINE_20261006',STRATEGY='BTC15_INTEGRATED_FINISH_20261006';
   const caches={main:null,scalp:null,quote:null},requests={main:null,scalp:null,quote:null},lastQualified={main:null,scalp:null,quote:null};
   const clocks={main:null,scalp:null,quote:null}; // Monotonic floor survives hide/resume; cached replies cannot renew leases.
-  // Floors are evidence ordering, not action caches. Outages cannot reset them.
-  const publicationFloor={main:-Infinity,scalp:-Infinity,quote:-Infinity};
-  const refreshErrors={main:null,scalp:null,quote:null};
-  let lastDisplayIdentity=null; // Presentation only; never used by qualification.
   let epoch=0,identity=null,quoteHistory=null;const receipts=[];
   let indicators=null,indicatorRequest=null,indicatorClock=null,lastIndicators=null,lastModel=null;const lowerStable=new Map();
   // Strings only, display-only: never read by accept(), current(), or any action gate.
@@ -314,18 +310,12 @@
     const serverNow=Math.max(data.served_ts,priorClock?priorClock.server+(received-priorClock.received)/1000:-Infinity);
     clocks[lane]={server:serverNow,received};
     const i=data.official_identity;
-    if(finite(data.published_ts)&&data.published_ts<publicationFloor[lane])throw Error('PUBLICATION_ROLLBACK');
-    const commitIdentity=()=>{if((lane==='main'||lane==='quote')&&official(i,serverNow)){
+    if((lane==='main'||lane==='quote')&&official(i,serverNow)){
       if(identity&&identity.value.official_open>i.official_open)throw Error('IDENTITY_ROLLBACK');
       if(identity&&identity.value.contract===i.contract&&key(identity.value)!==key(i))throw Error('FIXED_IDENTITY_CONFLICT');
       identity={value:i,deadline:received+(i.official_close-serverNow)*1000-rtt};
-      lastDisplayIdentity=i;
-    }};
-    if(data.status==='UNAVAILABLE'){
-      commitIdentity();refreshErrors[lane]=null;
-      if(finite(data.published_ts))publicationFloor[lane]=data.published_ts;
-      retainIssued(lane,data);return {data,deadline:received+2000,received,rtt};
-    } // Reason only; never an action lease.
+    }
+    if(data.status==='UNAVAILABLE'){retainIssued(lane,data);return {data,deadline:received+2000,received,rtt};} // Reason only; never an action lease.
     if(!['AVAILABLE','PASS'].includes(data.status)||!finite(data.published_ts)||!finite(data.expires_at)||data.published_ts>data.served_ts||!official(i,data.served_ts))throw Error('CLOCK_OR_IDENTITY');
     if(lane!=='quote'){
       if(data.contract!==i.contract||data.target!==i.target||data.official_open!==i.official_open||data.official_close!==i.official_close||data.expires_at>i.official_close)throw Error('ACTION_IDENTITY');
@@ -341,12 +331,12 @@
     if(lane==='quote'){
       if(!data.epoch||!Number.isInteger(data.sid)||!Number.isInteger(data.sequence)||!finite(data.exchange_ts)||!finite(data.accepted_ts)||!(i.official_open<=data.exchange_ts&&data.exchange_ts<=data.accepted_ts&&data.accepted_ts<=data.published_ts)||data.expires_at>Math.min(i.official_close,data.exchange_ts+6))throw Error('QUOTE_PROVENANCE');
       if(!['up_ask','up_bid','down_ask','down_bid'].every(k=>finite(data[k])&&data[k]>=0&&data[k]<=1)||data.up_bid>data.up_ask||data.down_bid>data.down_ask)throw Error('QUOTE_VALUES');
-      const old=lastQualified.quote;
+      const old=caches.quote?.data;
       if(old?.status==='AVAILABLE'&&key(old.official_identity)===key(i)&&data.exchange_ts<old.exchange_ts)throw Error('QUOTE_ROLLBACK');
       if(old?.epoch===data.epoch&&(old.sid!==data.sid||old.sequence>data.sequence))throw Error('QUOTE_SEQUENCE_ROLLBACK');
     }
-    commitIdentity();refreshErrors[lane]=null;
-    publicationFloor[lane]=data.published_ts;
+    const old=caches[lane]?.data;
+    if(old?.published_ts>data.published_ts)throw Error('PUBLICATION_ROLLBACK');
     retainIssued(lane,data);
     lastQualified[lane]=data;
     return {data,deadline:received+Math.max(0,(data.expires_at-serverNow)*1000)-rtt,received,rtt};
@@ -362,10 +352,9 @@
       if(generation!==epoch||document.visibilityState==='hidden')return;
       caches[lane]=accept(lane,data,sent,received);
     }catch(error){if(generation===epoch){
-      refreshErrors[lane]=error.name==='AbortError'?'REQUEST_TIMEOUT':/^[A-Z_]+$/.test(error.message)?error.message:'SOURCE_TRANSPORT';
       // A transport interruption retains only the ORIGINAL unexpired lease.
       // Explicit revocation, malformed data, expiry and identity failures clear.
-      if(!['HTTP','QUOTE_TRANSPORT','PUBLICATION_ROLLBACK','QUOTE_ROLLBACK','QUOTE_SEQUENCE_ROLLBACK','IDENTITY_ROLLBACK'].includes(error.message))caches[lane]=null;
+      if(!['HTTP','QUOTE_TRANSPORT'].includes(error.message))caches[lane]=null;
     }}
     finally{clearTimeout(timeout);if(requests[lane]===token)requests[lane]=null;}
     render();

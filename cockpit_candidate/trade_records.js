@@ -25,9 +25,9 @@
     const r=records.find(x=>x.origin_id===c?.selected_origin_id)||records.at(-1)||null;
     const same=!!r&&!!identity&&r.contract===identity.contract&&r.target===identity.target&&r.open_ts===identity.official_open&&r.close_ts===identity.official_close;
     const binding=name==='early'?p?.final?.helper?.origin_id===r?.origin_id&&p?.final?.early_origin_id===r?.origin_id:(!p?.terminal||p.terminal.origin?.origin_id===r?.origin_id);
-    const fresh=!!lane?.eligible&&!!p&&same&&r.status!=='EXPIRED'&&p.origin?.origin_id===r?.origin_id&&binding;
+    const fresh=!!lane?.eligible&&!!p&&same&&p.origin?.origin_id===r?.origin_id&&binding;
     const terminal=r?.terminal;
-    const historical=!!r&&(!same||r.status==='EXPIRED'||['ENDED_UNARMED','UNAVAILABLE'].includes(terminal?.state));
+    const historical=!!r&&(!same||['ENDED_UNARMED','UNAVAILABLE'].includes(terminal?.state));
     const completed=terminal?.state==='EXIT';
     // Preserve the deployed one-publication EXIT highlight and completed history.
     const newExit=name==='early'&&fresh&&completed&&p.management?.new_exit===true&&
