@@ -65,6 +65,7 @@ class Verifier:
               CREATE TABLE sources(asset TEXT,source REAL,receipt REAL,value REAL,epoch TEXT,available REAL,basis TEXT,accepted INTEGER,s TEXT,q INTEGER,p INTEGER,v BLOB);
               CREATE INDEX source_tuple ON sources(asset,source,receipt,value);
               CREATE INDEX source_availability ON sources(asset,basis,accepted,available);
+              CREATE INDEX source_identity ON sources(s,json_extract(v,'$.observation_id'));
               CREATE TABLE accepted(s TEXT,epoch TEXT,ticker TEXT,market TEXT,sid INTEGER,seq INTEGER,ts INTEGER,at REAL,received REAL,event TEXT,proof_event TEXT,p INTEGER,q INTEGER);
               CREATE INDEX accepted_tuple ON accepted(epoch,ticker,market,sid,seq,ts);
               CREATE TABLE journals(id TEXT,seq INTEGER,h TEXT,s TEXT,q INTEGER,p INTEGER,v BLOB,PRIMARY KEY(id,seq));
@@ -179,7 +180,7 @@ class Verifier:
         for gap in idx['gaps']:self.issue('INDEX_REPORTED_GAP',detail=gap)
 
     def reconstruct(self):
-        for s,role in self.db.execute('SELECT s,role FROM raw GROUP BY s,role ORDER BY s'):
+        for s,role in self.db.execute('SELECT s,role FROM raw GROUP BY s,role ORDER BY CASE role WHEN "information" THEN 1 ELSE 0 END,s'):
             previous=None;last=None;expected=1;ec=None;starts=stops=0;binding=None
             for q,k,p,raw in self.db.execute('SELECT q,k,p,r FROM raw WHERE s=? ORDER BY q',(s,)):
                 self.budget();r=json.loads(raw);r['_part']=p;self.counts[k]+=1;self.classes.add(r['evidence_class'])
@@ -202,7 +203,7 @@ class Verifier:
             self.fact('session',s,dict(session=s,sequence=1,_part=0),dict(binding=binding,role=role))
         for s,t,id,q,p in self.db.execute("SELECT s,t,id,q,p FROM deps WHERE t IN ('stream','receive')"):
             target='stream_end' if t=='stream' else 'accepted_receive'
-            if not self.db.execute('SELECT 1 FROM deps WHERE s=? AND t=? AND id=?',(s,target,id)).fetchone():self.issue('UNRESOLVED_STREAM_OR_RECEIVE',session=s,sequence=q,partition=p,kind=t)
+            if not self.db.execute('SELECT 1 FROM deps WHERE s=? AND t=? AND id=?',(s,target,id)).fetchone():self.unresolved(s,t,id,q,p)
         self.db.commit()
 
     def record(self,r):
@@ -336,8 +337,7 @@ class Verifier:
         scope=None;finished=False
         try:
             self.ingest();self.reconstruct();scope=self.expectations()
-            from .lifecycle import verify_associations
-            verify_associations(self,scope)
+            self.associate(scope)
             finished=True
         except (Exhausted,sqlite3.OperationalError) as exc:
             self.errors['CAPACITY_EXHAUSTED']+=1
@@ -353,7 +353,7 @@ class Verifier:
                     f.write(canonical(dict(partition=part,indexed_records=n,processed_records=self.processed[part],local_errors=self.partition_errors[part],all_global_checks_finished=finished,whole_run_errors_apply=bool(self.errors)))+b'\n')
             self.db.commit();db_bytes=self.db.execute('PRAGMA page_count').fetchone()[0]*4096;self.db.close()
             for f in (self.fgap,self.fpart,self.fassoc):f.close()
-        complete=finished and not self.errors and scope is not None and self.classes=={'FIXTURE'} and self.metrics['native_associations']>0 and self.metrics['information_associations']>0
+        complete=self.complete(finished,scope)
         value=dict(schema='BTC15_WHOLE_RUN_VERIFICATION_V1',status='VERIFIED' if complete else 'INCOMPLETE',
             evidence_classes=sorted(self.classes),fixture_complete=complete,complete_supplied_scope=complete,actual_production_complete=False,
             all_partitions_processed=finished,partitions=self.part,records_read=self.rows,decoded_bytes=self.total,
@@ -363,7 +363,16 @@ class Verifier:
             elapsed_seconds=time.monotonic()-self.started,limits=self.b,
             predictive_readiness='NOT_EVALUATED',economic_readiness='BLOCKED_FEE_APPLICABILITY',
             production_authorization='NOT_AUTHORIZED',long_test='NO_GO',**FLAGS)
+        value=self.result(value,complete)
         (self.out/'summary.json').write_bytes(canonical(value));return value
+
+    def associate(self,scope):
+        from .lifecycle import verify_associations
+        verify_associations(self,scope)
+    def complete(self,finished,scope):
+        return finished and not self.errors and scope is not None and self.classes=={'FIXTURE'} and self.metrics['native_associations']>0 and self.metrics['information_associations']>0
+    def result(self,value,complete):return value
+    def unresolved(self,s,t,id,q,p):self.issue('UNRESOLVED_STREAM_OR_RECEIVE',session=s,sequence=q,partition=p,kind=t)
 
 def verify_run(root,index,output,*,budget=None):
     b=limits(budget)

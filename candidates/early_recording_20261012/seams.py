@@ -126,6 +126,12 @@ class Observer:
         return self.emit('QUOTE_ACCEPT',raw=raw,ticker=ticker,epoch=epoch,received_at=receipt,
                          accepted_at=at,accept_basis='AFTER_EXISTING_EVIDENCE_ACCEPT')
 
+    def send(self,original,raw,ticker,epoch):
+        result=original(raw)
+        self.emit('QUOTE_REQUEST',raw=raw,ticker=ticker,epoch=epoch,sent_at=self.clock(),
+                  receipt_basis='EXISTING_WS_SEND_RETURN')
+        return result
+
     def bind_provider(self, provider, *, preserve_proof_writer=False):
         """Recompile the same session with three append-only observation seams.
 
@@ -138,8 +144,15 @@ class Observer:
         from btc15_kalshi_quote_provenance_v1 import Provider
         tree=ast.parse(inspect.getsource(Provider))
         fn=next(n for n in tree.body[0].body if isinstance(n,ast.FunctionDef) and n.name=='session')
-        counts=dict(receive=0,accept=0,clock=0,start=0)
+        requests=getattr(self,'capture_requests',False)
+        counts=dict(receive=0,accept=0,clock=0,start=0,requests=0)
         class Insert(ast.NodeTransformer):
+            def visit_Expr(visitor,node):
+                if requests and isinstance(node.value,ast.Call) and ast.unparse(node.value.func)=='ws.send':
+                    counts['requests']+=1
+                    call=node.value
+                    return ast.copy_location(ast.Expr(value=ast.Call(func=ast.Attribute(value=ast.Name(id='_evidence',ctx=ast.Load()),attr='send',ctx=ast.Load()),args=[call.func,*call.args,ast.Name(id='ticker',ctx=ast.Load()),ast.parse("locals().get('epoch')",mode='eval').body],keywords=call.keywords)),node)
+                return node
             def visit_Assign(visitor,node):
                 label=ast.unparse(node.targets[0])
                 if label=='event' and ast.unparse(node.value)=='json.loads(ws.recv(timeout=1))':
@@ -156,7 +169,7 @@ class Observer:
                     return [node,*ast.parse('self._accepted_clock(evidence.book, epoch)').body]
                 return node
         fn=Insert().visit(fn)
-        if counts!=dict(receive=1,accept=1,clock=1,start=1):raise ValueError('QUOTE_SEAM_MISMATCH')
+        if counts!=dict(receive=1,accept=1,clock=1,start=1,requests=2 if requests else 0):raise ValueError('QUOTE_SEAM_MISMATCH')
         final=ast.parse("_evidence.emit('STREAM_END',ticker=ticker,epoch=locals().get('epoch'),observed_at=time.time(),reason='SESSION_RETURN_OR_DISCONNECT',continuity=False)").body
         fn.body=[ast.Try(body=fn.body,handlers=[],orelse=[],finalbody=final)]
         scope=dict(_accepted_session().__globals__);scope['_evidence']=self

@@ -34,9 +34,13 @@ def clocks(p):
     if at is None and type((p.get('witness') or {}).get('consumed_ms')) in (int,float):at=p['witness']['consumed_ms']/1000
     return at
 
-def index_run(root,out,*,max_index_bytes=128*1024**2):
+def index_run(root,out,*,max_index_bytes=128*1024**2,profile=None):
     begun=time.monotonic();decoded=0;record_count=0
-    if not 4096<=max_index_bytes<=128*1024**2:raise ValueError('INDEX_BUDGET')
+    caps=dict(index=128*1024**2,decoded=512*1024**2,records=500000,compressed=512*1024**2,seconds=180)
+    if profile is not None:
+        from ops.live_recording.policy import PROFILES
+        p=PROFILES[profile];caps=dict(index=p['index'],decoded=p['decoded'],records=p['records'],compressed=sum(p['compressed'].values()),seconds=p['reader_seconds']);max_index_bytes=caps['index']
+    if not 4096<=max_index_bytes<=caps['index']:raise ValueError('INDEX_BUDGET')
     root=local_root(root);out=local_root(out);out.mkdir(parents=True,exist_ok=False)
     db=sqlite3.connect(out/'index.sqlite3');db.execute('PRAGMA journal_mode=DELETE')
     db.execute('PRAGMA cache_size=-4096');db.execute('PRAGMA temp_store=FILE')
@@ -51,12 +55,12 @@ def index_run(root,out,*,max_index_bytes=128*1024**2):
             if f.is_symlink():raise ValueError('INDEX_SYMLINK')
             if len(files)>=4096:raise ValueError('INDEX_FILE_BUDGET')
             rel=str(f.relative_to(root));before=file_sha(f);size=f.stat().st_size
-            if sum(e['size'] for e in files)+size>512*1024**2:raise ValueError('INDEX_COMPRESSED_BUDGET')
+            if sum(e['size'] for e in files)+size>caps['compressed']:raise ValueError('INDEX_COMPRESSED_BUDGET')
             files.append(dict(path=rel,sha256=before,size=size,role=role))
             try:
                 for n,r,raw in lines(f):
                     decoded+=len(raw);record_count+=1
-                    if decoded>512*1024**2 or record_count>500000 or time.monotonic()-begun>180 or len(gaps)>1024:raise MemoryError('INDEX_CAPACITY_EXHAUSTED')
+                    if decoded>caps['decoded'] or record_count>caps['records'] or time.monotonic()-begun>caps['seconds'] or len(gaps)>1024:raise MemoryError('INDEX_CAPACITY_EXHAUSTED')
                     p=r['payload'];k=r['kind'];s=r['session'];at=clocks(p)
                     contract=p.get('ticker') or p.get('contract') or (p.get('witness') or {}).get('ticker') or (p.get('official_fields') or {}).get('ticker')
                     if k=='INFORMATION_INPUT':contract=(p['skeleton']['anchor'].get('contract') or p['skeleton']['anchor'].get('ticker'))
@@ -68,7 +72,8 @@ def index_run(root,out,*,max_index_bytes=128*1024**2):
                     for identity in [p.get('id'),p.get('sha256'),p.get('observation_id')]:
                         if identity:db.execute('INSERT OR IGNORE INTO dependencies VALUES (?,?,?)',(s,identity,r['sequence']))
                     counts[k]+=1
-                    if k in ('EVIDENCE_GAP','INFORMATION_FAILURE') or (k=='SOURCE_GAP' and p.get('reason')!='SOURCE_START_OR_EPOCH_CHANGE'):
+                    owner_unavailable=profile is not None and k=='INFORMATION_FAILURE' and p.get('reason') in ('INPUT_NOT_PUBLISHED','PUBLISHER_EXCEPTION')
+                    if (k in ('EVIDENCE_GAP','INFORMATION_FAILURE') and not owner_unavailable) or (k=='SOURCE_GAP' and p.get('reason')!='SOURCE_START_OR_EPOCH_CHANGE'):
                         gaps.append(dict(reason=k,session=s,seq=r['sequence'],details=p))
                 if f.stat().st_size!=size or file_sha(f)!=before:raise ValueError('SOURCE_CHANGED_DURING_INDEX')
             except (MemoryError,sqlite3.OperationalError):

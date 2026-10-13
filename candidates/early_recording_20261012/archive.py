@@ -49,19 +49,27 @@ def bounded_size(value, limit=CACHE_BYTES):
 
 
 class Archive:
-    def __init__(self, path, *, evidence_class, source_binding, budget=None, storage_policy=None):
+    def __init__(self, path, *, evidence_class, source_binding, budget=None, storage_policy=None, live_config=None, role=None):
         if evidence_class not in {'FIXTURE','NATIVE_CAPTURE'}:
             raise ValueError('Explicit evidence class required')
         if not isinstance(source_binding,str) or not source_binding:
             raise ValueError('Source binding required')
         self.path = Path(path).resolve()
-        if self.path.is_relative_to(Path('/data')):
+        live_limit=None
+        if live_config is not None:
+            from ops.live_recording.policy import validate,PROFILES
+            expected=validate(live_config,role)
+            if self.path!=expected/('information' if role=='information' else 'source') or evidence_class!='NATIVE_CAPTURE':
+                raise ValueError('LIVE_ARCHIVE_AUTHORITY')
+            live_limit=PROFILES[live_config['profile']]['compressed'][role]
+        if self.path.is_relative_to(Path('/data')) and live_limit is None:
             raise ValueError('Protected production storage forbidden')
         self.evidence_class, self.source_binding = evidence_class, source_binding
         self.session = uuid.uuid4().hex
         self.seq, self.previous = 0, None
         self.budget=dict(budget or BUDGET)
         limits=dict(BUDGET)
+        if live_limit is not None:limits['max_total_bytes']=live_limit
         if storage_policy is not None:
             from ops.recording_workflow.policy import validate_policy
             validate_policy(storage_policy)
@@ -172,7 +180,7 @@ class Archive:
             return
         if kind=='SOURCE':
             self.source(fields);return
-        if kind in {'QUOTE_RECEIVE','QUOTE_ACCEPT'}:
+        if kind in {'QUOTE_RECEIVE','QUOTE_ACCEPT','QUOTE_REQUEST'}:
             raw=fields.pop('raw')
             if isinstance(raw,str):raw=raw.encode()
             digest=sha(raw)
