@@ -15,7 +15,7 @@ import urllib.error
 import urllib.request
 
 ORIGIN = "https://btc-15min-bot-production.up.railway.app"
-PATHS = ("/ladders/coverage", "/ladders")
+PATHS = ("/ladders/coverage", "/ladders", "/ladders/quotes")
 MAX_BYTES = 262144
 
 
