@@ -7,6 +7,7 @@ on:
       - .github/workflows/btc15-early-native-journal-feasibility.yml
       - candidates/early_feasibility_20261014/**
       - test_btc15_early_native_feasibility.py
+      - test_btc15_early_quote_pair_feasibility.py
   workflow_dispatch:
 permissions:
   contents: read
@@ -21,7 +22,9 @@ jobs:
           python-version: '3.12'
       - name: Check source and failure-label unit tests
         run: |
-          python -m py_compile candidates/early_feasibility_20261014/public_probe.py
-          python -m unittest -v test_btc15_early_native_feasibility
+          python -m py_compile candidates/early_feasibility_20261014/public_probe.py candidates/early_feasibility_20261014/pair_probe.py
+          python -m unittest -v test_btc15_early_native_feasibility test_btc15_early_quote_pair_feasibility
       - name: Exactly two public GETs, no polling or writes
         run: python -m candidates.early_feasibility_20261014.public_probe
+      - name: Bounded six GET prospective decision/quote proof (stop if no match)
+        run: python -m candidates.early_feasibility_20261014.pair_probe
