@@ -1,0 +1,27 @@
+name: BTC15 V10 isolated durable receipt readback
+on:
+  push:
+    branches: [research/main-closeout-incremental-20261015]
+    paths:
+      - 'research/main_closeout_incremental_20261015/btc15_v10_receipt_readback_research.py'
+      - 'research/main_closeout_incremental_20261015/test_v10_receipt_readback_research.py'
+      - '.github/workflows/btc15-v10-receipt-readback.yml'
+permissions:
+  contents: read
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      RAILWAY_DEPLOYMENT_ID: OFFLINE
+      KALSHI_KEY_ID: ""
+      KALSHI_PRIVATE_KEY: ""
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run actual-worker readback suite
+        run: python -m unittest -v research.main_closeout_incremental_20261015.test_v10_receipt_readback_research
