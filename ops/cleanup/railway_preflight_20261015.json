@@ -1,0 +1,342 @@
+{
+  "schema": "BTC15_RAILWAY_SAFE_CLEANUP_PREFLIGHT_V1",
+  "timestamp_utc": "2026-10-15",
+  "repository": "yz272n2tpf-lab/Btc-15min-bot",
+  "projectId": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+  "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+  "referenceRelease": "dd46b7bc2fcc49865c49dc59eb7ad7d7316f6d72",
+  "method": "Read-only Railway environment inventory; zero deployment and zero attached volume are eligibility only; delete checks require no dependencies.",
+  "protected": [
+    "Btc-15min-bot",
+    "v81-live-diagnostics",
+    "brti-shared-feed-v1",
+    "btc15-operator-cockpit-readonly",
+    "btc-15min-bot-volume",
+    "btc15-v81-ladder-journal-v2"
+  ],
+  "observedServiceCount": 60,
+  "observedVolumeCount": 7,
+  "preexistingStagedPatch": {
+    "patchId": "ead9997e-b5b7-4668-a612-e8417e197838",
+    "status": "STAGED",
+    "changeCount": 4,
+    "message": null,
+    "createdAt": "2026-10-08T22:15:42.934Z",
+    "updatedAt": "2026-10-08T22:32:38.147Z"
+  },
+  "zeroDeploymentNoVolume": [
+    {
+      "name": "scalp-reversal-reentry-holdout-v1",
+      "id": "a0f417fe-9bfe-4d80-bcd0-5647a582a1e7",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": null
+      },
+      "replicasConfigured": 1,
+      "volumeCount": 0,
+      "latestDeployment": null
+    },
+    {
+      "name": "scalp-lead-v5-main",
+      "id": "2b0060ac-e0d1-49a2-a2f6-b577fd9ac478",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": null
+      },
+      "replicasConfigured": 1,
+      "volumeCount": 0,
+      "latestDeployment": null
+    },
+    {
+      "name": "scalp-lead-v4",
+      "id": "ca605c00-4608-4b32-b0bb-d1ca9c6b42a5",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": null
+      },
+      "replicasConfigured": 1,
+      "volumeCount": 0,
+      "latestDeployment": null
+    },
+    {
+      "name": "scalp-entry-profit-holdout-v1",
+      "id": "4a7f7942-7701-4441-8061-d1c6148d0e81",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": null
+      },
+      "replicasConfigured": 1,
+      "volumeCount": 0,
+      "latestDeployment": null
+    },
+    {
+      "name": "scalp-developing-move-v1-forward",
+      "id": "fcfb3a93-f007-4061-9cb8-bdae28f72cc2",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": null
+      },
+      "replicasConfigured": 1,
+      "volumeCount": 0,
+      "latestDeployment": null
+    },
+    {
+      "name": "v81-live-diag-shared-brti-shadow",
+      "id": "84f579fc-36d0-4170-8a28-6d26c01bb364",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": null
+      },
+      "replicasConfigured": 1,
+      "volumeCount": 0,
+      "latestDeployment": null
+    },
+    {
+      "name": "v81-immutable-test",
+      "id": "0bda3f3d-90b7-4934-8636-d16a45a3dc32",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": null
+      },
+      "replicasConfigured": 1,
+      "volumeCount": 0,
+      "latestDeployment": null
+    },
+    {
+      "name": "combined-dashboard-shadow-v13",
+      "id": "b210d5f0-0616-4e39-9812-ce7b41b73d67",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": null
+      },
+      "replicasConfigured": 1,
+      "volumeCount": 0,
+      "latestDeployment": null
+    },
+    {
+      "name": "v81-final-isolated-test",
+      "id": "10045980-cdd0-485a-a827-b50a3f0b4943",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": null
+      },
+      "replicasConfigured": 1,
+      "volumeCount": 0,
+      "latestDeployment": null
+    },
+    {
+      "name": "v81-30-45-live-feed-v2",
+      "id": "afd8f1f0-65f6-46f0-a79b-ef582f35293f",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": null
+      },
+      "replicasConfigured": 1,
+      "volumeCount": 0,
+      "latestDeployment": null
+    },
+    {
+      "name": "rollover-alt-discovery-probe-v1",
+      "id": "5a3eda51-3074-42aa-9e46-06695d47a378",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": null
+      },
+      "replicasConfigured": 1,
+      "volumeCount": 0,
+      "latestDeployment": null
+    },
+    {
+      "name": "scalp-lead-shadow",
+      "id": "90d3435e-c98c-43ae-880f-cd629b9606e2",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": null
+      },
+      "replicasConfigured": 1,
+      "volumeCount": 0,
+      "latestDeployment": null
+    },
+    {
+      "name": "scalp-v81-sub30-shadow",
+      "id": "2e63484b-e726-41fc-980a-a117b5efdcfd",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": null
+      },
+      "replicasConfigured": 1,
+      "volumeCount": 0,
+      "latestDeployment": null
+    },
+    {
+      "name": "scalp-lead-v5-live",
+      "id": "7e643823-456a-414b-a369-0ee40462223f",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": null
+      },
+      "replicasConfigured": 1,
+      "volumeCount": 0,
+      "latestDeployment": null
+    },
+    {
+      "name": "early-forward-scorecard-v1",
+      "id": "efb56ace-8c0e-4672-a772-6dd3b8633078",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": null
+      },
+      "replicasConfigured": 1,
+      "volumeCount": 0,
+      "latestDeployment": null
+    },
+    {
+      "name": "scalp-lead-v6",
+      "id": "ea6e520b-fa94-49bb-abf9-094817ae3d6b",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": null
+      },
+      "replicasConfigured": 1,
+      "volumeCount": 0,
+      "latestDeployment": null
+    },
+    {
+      "name": "v81-30-45-dashboard-validation-v3",
+      "id": "43e53181-102a-4759-a7cd-70875c605cf0",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": null
+      },
+      "replicasConfigured": 1,
+      "volumeCount": 0,
+      "latestDeployment": null
+    },
+    {
+      "name": "scalp-lead-qualified",
+      "id": "f6e62c87-ac2a-4340-8be2-72932ad4c486",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": null
+      },
+      "replicasConfigured": 1,
+      "volumeCount": 0,
+      "latestDeployment": null
+    },
+    {
+      "name": "scalp-v81-sub30-shadow-v2",
+      "id": "b883a5e1-7cef-4d3d-b3f6-cffccde53053",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": null
+      },
+      "replicasConfigured": 1,
+      "volumeCount": 0,
+      "latestDeployment": null
+    },
+    {
+      "name": "scalp-lead-v6-main",
+      "id": "568716be-9c96-446e-aecb-0fcd16158b8e",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": null
+      },
+      "replicasConfigured": 1,
+      "volumeCount": 0,
+      "latestDeployment": null
+    },
+    {
+      "name": "rollover-prediscovery-shadow-v1",
+      "id": "9a566a85-0b12-4ab7-9c95-cced457e3bf5",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": null
+      },
+      "replicasConfigured": 1,
+      "volumeCount": 0,
+      "latestDeployment": null
+    },
+    {
+      "name": "scalp-incremental-disk-v2",
+      "id": "f4d0996f-9dd1-47ba-a237-67353acd5bec",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": null
+      },
+      "replicasConfigured": 1,
+      "volumeCount": 0,
+      "latestDeployment": null
+    }
+  ],
+  "volumes": [
+    {
+      "id": "656da4af-6a3f-4907-95da-2c0c0000cf29",
+      "name": "scalp-move-shadow-v1-volume",
+      "sizeMB": 5000,
+      "attachedTo": "scalp-move-shadow-v1"
+    },
+    {
+      "id": "93e974dc-b8bb-4658-bed5-dc4815308396",
+      "name": "scalp-finalprod-clean-v1-volume",
+      "sizeMB": 50000,
+      "attachedTo": "scalp-finalprod-clean-v1"
+    },
+    {
+      "id": "97cc9dcd-ef90-495e-a1be-ffda31eac1b3",
+      "name": "btc15-v2-v81-journal",
+      "sizeMB": 2048,
+      "attachedTo": "btc15-v2-v81-qualification"
+    },
+    {
+      "id": "b6304c46-7027-4bfd-932d-94bb9c67da8e",
+      "name": "btc15-v2-main-journal",
+      "sizeMB": 2048,
+      "attachedTo": "btc15-v2-main-qualification"
+    },
+    {
+      "id": "3ed8bbca-31aa-43c0-b672-60a7a75b062b",
+      "name": "btc15-main-shadow-1s-brti-volume",
+      "sizeMB": 1024,
+      "attachedTo": null
+    },
+    {
+      "id": "6ced6b1a-3755-4518-a240-c895e936d443",
+      "name": "btc-15min-bot-volume",
+      "sizeMB": 20000,
+      "attachedTo": "Btc-15min-bot"
+    },
+    {
+      "id": "d5eeafca-e0fc-42f0-b7d1-4705907720c6",
+      "name": "btc15-v81-ladder-journal-v2",
+      "sizeMB": 5000,
+      "attachedTo": "v81-live-diagnostics"
+    }
+  ],
+  "notes": [
+    "No keys or private values are included.",
+    "No historical code branches, volumes or strategy files are deleted by this batch.",
+    "Data-bearing services will be assessed separately for external backup before removal."
+  ]
+}
