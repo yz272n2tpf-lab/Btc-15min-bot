@@ -1,5 +1,5 @@
 """V11 isolated V3-outbox to actual V2 worker integration tests."""
-import hashlib,json,sqlite3
+import hashlib,json,sqlite3,time
 from .test_v9_actual_worker_receipts import Tests as WorkerTests
 from .btc15_v11_outbox_actual_worker_bridge_research import dispatch_pending
 from .btc15_closeout_outbox_research_v3 import OUTBOX_SCHEMA, EvidenceChanged
@@ -13,6 +13,21 @@ class Tests(WorkerTests):
             db.execute('CREATE TABLE items(contract TEXT PRIMARY KEY,payload TEXT NOT NULL,sha256 TEXT NOT NULL,source_offset INTEGER NOT NULL,journal_seq INTEGER,created REAL NOT NULL)')
             db.executemany('INSERT INTO meta VALUES (?,?)',[('schema',OUTBOX_SCHEMA),('historical_cutover','EXPLICIT_NO_BACKFILL')])
         self.insert('A')
+        # Explicit bounded readiness handshake: schema must be created by the
+        # actual worker's journal thread, not by the outbox or a second writer.
+        deadline=time.monotonic()+3
+        while time.monotonic()<deadline:
+            if self.worker.failed:
+                self.fail('WORKER_FAILED_BEFORE_RECEIPT_READY:'+str(self.worker.failed))
+            try:
+                with sqlite3.connect(self.root/'main.sqlite3') as db:
+                    ready=db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='closeout_receipts_v9'").fetchone()
+                if ready:break
+            except sqlite3.OperationalError:
+                pass
+            time.sleep(.01)
+        else:
+            self.fail('RECEIPT_SCHEMA_NOT_INITIALIZED_BY_OWNER')
     def insert(self,contract,side='UP'):
         row=dict(contract=contract,brti=dict(final60_side=side,final60_count=60,final60_complete=True))
         body=json.dumps(row,sort_keys=True,separators=(',',':'))
