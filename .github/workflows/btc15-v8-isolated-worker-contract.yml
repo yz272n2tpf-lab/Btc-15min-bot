@@ -1,0 +1,30 @@
+name: BTC15 V8 isolated real-worker contract
+on:
+  push:
+    branches:
+      - research/main-closeout-incremental-20261015
+    paths:
+      - 'research/main_closeout_incremental_20261015/test_v8_actual_worker_contract.py'
+      - '.github/workflows/btc15-v8-isolated-worker-contract.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-v2-worker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      RAILWAY_PROJECT_ID: ""
+      RAILWAY_ENVIRONMENT_ID: ""
+      RAILWAY_DEPLOYMENT_ID: ""
+      KALSHI_KEY_ID: ""
+      KALSHI_PRIVATE_KEY: ""
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test actual V2 worker offline
+        run: python -m unittest -v research.main_closeout_incremental_20261015.test_v8_actual_worker_contract
