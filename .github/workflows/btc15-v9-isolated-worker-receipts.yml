@@ -1,0 +1,27 @@
+name: BTC15 V9 isolated worker receipts
+on:
+  push:
+    branches: [research/main-closeout-incremental-20261015]
+    paths:
+      - 'research/main_closeout_incremental_20261015/btc15_v9_actual_worker_receipt_research.py'
+      - 'research/main_closeout_incremental_20261015/test_v9_actual_worker_receipts.py'
+      - '.github/workflows/btc15-v9-isolated-worker-receipts.yml'
+permissions:
+  contents: read
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      RAILWAY_DEPLOYMENT_ID: OFFLINE
+      KALSHI_KEY_ID: ""
+      KALSHI_PRIVATE_KEY: ""
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run actual worker V9 tests
+        run: python -m unittest -v research.main_closeout_incremental_20261015.test_v9_actual_worker_receipts
