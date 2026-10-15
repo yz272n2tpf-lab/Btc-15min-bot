@@ -7,8 +7,11 @@ on:
       - .github/workflows/btc15-v81-recorder-drain-recovery.yml
       - ops/live_recording/capture.py
       - ops/live_recording/batched_journal.py
+      - ops/live_recording/recorder_queue.py
+      - ops/live_recording/v81_capacity_review.py
       - test_btc15_v81_recorder_drain_recovery.py
       - test_btc15_v81_batched_journal.py
+      - test_btc15_v81_loss_and_capacity.py
   workflow_dispatch:
 permissions:
   contents: read
@@ -25,5 +28,5 @@ jobs:
         run: python -m pip install -r requirements.txt
       - name: Syntax and offline regressions only
         run: |
-          python -m py_compile ops/live_recording/capture.py ops/live_recording/batched_journal.py test_btc15_v81_recorder_drain_recovery.py test_btc15_v81_batched_journal.py
-          python -m unittest -v test_btc15_v81_recorder_drain_recovery test_btc15_v81_batched_journal test_btc15_quote_proof_offpath_v1
+          python -m py_compile ops/live_recording/capture.py ops/live_recording/batched_journal.py ops/live_recording/recorder_queue.py ops/live_recording/v81_capacity_review.py test_btc15_v81_recorder_drain_recovery.py test_btc15_v81_batched_journal.py test_btc15_v81_loss_and_capacity.py
+          python -m unittest -v test_btc15_v81_recorder_drain_recovery test_btc15_v81_batched_journal test_btc15_v81_loss_and_capacity test_btc15_quote_proof_offpath_v1
