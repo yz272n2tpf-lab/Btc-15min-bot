@@ -35,7 +35,11 @@ def dispatch_pending(outbox_path, journal_path, offer, *, max_items=200, hook=No
                 except ReceiptUnavailable as exc:
                     if str(exc)!='NOT_DURABLY_COMMITTED':
                         raise
-                    if not offer(dict(kind='BRTI_CLOSEOUT',contract=contract,settlement=settlement)):
+                    try:
+                        offered=offer(dict(kind='BRTI_CLOSEOUT',contract=contract,settlement=settlement))
+                    except RuntimeError as exc:
+                        raise EvidenceChanged('WORKER_DID_NOT_ACK_COMMIT') from exc
+                    if not offered:
                         raise EvidenceChanged('WORKER_DID_NOT_ACK_COMMIT')
                     receipt=verify_receipt(journal_path,contract,settlement)
                 if hook:hook('AFTER_JOURNAL',contract)
