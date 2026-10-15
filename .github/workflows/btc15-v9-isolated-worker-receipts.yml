@@ -6,6 +6,7 @@ on:
       - 'research/main_closeout_incremental_20261015/btc15_v9_actual_worker_receipt_research.py'
       - 'research/main_closeout_incremental_20261015/test_v9_actual_worker_receipts.py'
       - '.github/workflows/btc15-v9-isolated-worker-receipts.yml'
+      - 'research/main_closeout_incremental_20261015/test_v9_admin_receipt_research.py'
 permissions:
   contents: read
 jobs:
@@ -24,4 +25,4 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run actual worker V9 tests
-        run: python -m unittest -v research.main_closeout_incremental_20261015.test_v9_actual_worker_receipts
+        run: python -m unittest -v research.main_closeout_incremental_20261015.test_v9_admin_receipt_research
