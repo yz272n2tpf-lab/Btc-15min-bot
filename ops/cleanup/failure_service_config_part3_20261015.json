@@ -1,0 +1,38 @@
+{
+  "schema": "BTC15_OBSOLETE_FAILED_CONFIG_SNAPSHOT_V1",
+  "part": {
+    "name": "rollover-core-integration-live-shadow",
+    "id": "ab491df9-2b75-43f2-92da-bc2a6db1cf6d",
+    "source": {
+      "repo": "yz272n2tpf-lab/Btc-15min-bot",
+      "branch": "research/rollover-production-regression-v1-20260922",
+      "checkSuites": false
+    },
+    "deploy": {
+      "startCommand": "python -u bot_two_output_build_v4_13_rollover_prediscovery_integration_shadow.py",
+      "restartPolicyMaxRetries": 2,
+      "useLegacyStacker": false,
+      "ipv6EgressEnabled": false,
+      "runtime": "V2",
+      "multiRegionConfig": {
+        "iad": {
+          "numReplicas": 1
+        }
+      }
+    },
+    "domains": {
+      "serviceDomains": [],
+      "customDomains": []
+    },
+    "volumeCount": 0,
+    "variableNames": [],
+    "stagedChanges": [],
+    "latestDeployment": {
+      "id": "07204949-0f3a-4c5e-ae59-71da69f7a8c2",
+      "status": "CRASHED",
+      "createdAt": "2026-09-22T18:35:26.614Z",
+      "url": null
+    }
+  },
+  "redacted": true
+}
