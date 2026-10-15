@@ -1,0 +1,289 @@
+{
+  "schema": "BTC15_RUNNING_RESEARCH_CONFIG_ARCHIVE_V1",
+  "secretsExcluded": true,
+  "entries": [
+    {
+      "name": "authoritative-scoreboard-v1",
+      "id": "6c0ec9d5-2187-4623-97ec-44c3304b8074",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-move-shadow-v1-20260912",
+        "checkSuites": false
+      },
+      "deploy": {
+        "startCommand": "python -m unittest -q test_BTC15_AUTHORITATIVE_SCOREBOARD_V1.py test_BTC15_AUTHORITATIVE_SCOREBOARD_LIVE_V1.py test_BTC15_AUTHORITATIVE_SCOREBOARD_V2.py test_BTC15_AUTHORITATIVE_SCOREBOARD_VIEWMODEL_V1.py && python -c \"import json; import BTC15_AUTHORITATIVE_SCOREBOARD_LIVE_V3 as m; import BTC15_AUTHORITATIVE_SCOREBOARD_VIEWMODEL_V1 as vm; s=m.collect_live(); v=vm.build_viewmodel(s['scoreboard']); print('SCOREBOARD V3 STARTUP PROBE | '+json.dumps({'connected':s['connected_sources'],'expected':s['expected_sources'],'all':s['all_sources_connected'],'final':v['cards']['final'],'early':v['cards']['early'],'scalp':v['cards']['scalp'],'excursion':v['cards']['early_excursion'],'handoff':v['cards']['handoff'],'flip':v['cards']['flip_risk'],'system':v['cards']['system']},sort_keys=True),flush=True)\" && exec python -u BTC15_AUTHORITATIVE_SCOREBOARD_LIVE_V3.py",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 30,
+        "restartPolicyMaxRetries": 3,
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [],
+        "customDomains": []
+      },
+      "variableNames": [
+        "SCOREBOARD_BOOTSTRAP",
+        "SCOREBOARD_CONNECTIVITY_PROBE",
+        "SCOREBOARD_VERSION"
+      ],
+      "volumeCount": 0,
+      "latestDeployment": {
+        "id": "1bb0e9b5-a299-4516-bad4-79b57686b9ff",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-15T23:32:29.505Z",
+        "url": null
+      },
+      "stagedChanges": []
+    },
+    {
+      "name": "brti-1s-contract-monitor-20261005",
+      "id": "157dbb9e-9781-40db-949e-6987e33030df",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "ops/brti-1s-shadow-20261005",
+        "commitSha": "b9093cec4c5680f05be60f4c567d857fd591d53a"
+      },
+      "deploy": {
+        "startCommand": "python -u ops/brti_shadow_contract_monitor.py",
+        "restartPolicyType": "NEVER",
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [],
+        "customDomains": []
+      },
+      "variableNames": [
+        "BRTI_SHADOW_SAMPLE_S",
+        "BRTI_SHADOW_STATE_URL",
+        "BRTI_SHADOW_TIMEOUT_S",
+        "PYTHONUNBUFFERED"
+      ],
+      "volumeCount": 0,
+      "latestDeployment": {
+        "id": "76a94370-f6a3-437f-9e6d-976b68bed0f7",
+        "status": "SUCCESS",
+        "createdAt": "2026-10-05T19:38:36.730Z",
+        "url": null
+      },
+      "stagedChanges": []
+    },
+    {
+      "name": "brti-shared-feed-shadow-1s-20261005",
+      "id": "e1f0ffbc-f169-4687-96d0-7cbf12982067",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "brti-shared-feed-v1-20260913",
+        "commitSha": "37735e737690096edea31beb2faff6842770ac4f"
+      },
+      "deploy": {
+        "startCommand": "python -u brti_shared_feed_guarded_launcher_v1.py",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 120,
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [
+          {
+            "id": "cfddbd12-892b-476a-bc34-331654ef8c07",
+            "domain": "brti-shared-feed-shadow-1s-20261005-production.up.railway.app",
+            "targetPort": 8080
+          }
+        ],
+        "customDomains": []
+      },
+      "variableNames": [
+        "BRTI_SHARED_ENABLE",
+        "BRTI_SHARED_MAX_429_BACKOFF_S",
+        "BRTI_SHARED_MAX_QUAL_AGE_S",
+        "BRTI_SHARED_POLL_INTERVAL_S",
+        "KALSHI_KEY_ID",
+        "KALSHI_PRIVATE_KEY_B64",
+        "PYTHONUNBUFFERED"
+      ],
+      "volumeCount": 0,
+      "latestDeployment": {
+        "id": "f1f41a8e-12b0-4ff5-bf90-8d8a5da32c06",
+        "status": "SUCCESS",
+        "createdAt": "2026-10-05T19:34:34.128Z",
+        "url": null
+      },
+      "stagedChanges": []
+    },
+    {
+      "name": "btc15-1s-main-contract-monitor-20261005",
+      "id": "81ebb485-34f2-4094-95c6-2588893582a9",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "ops/brti-1s-shadow-20261005",
+        "commitSha": "7cf849416f5f768ed328a0b839eb1c4b1f521f22"
+      },
+      "deploy": {
+        "startCommand": "python -u ops/brti_main_shadow_contract_monitor.py",
+        "restartPolicyType": "NEVER",
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [],
+        "customDomains": []
+      },
+      "variableNames": [
+        "BRTI_SHADOW_STATE_URL",
+        "BTC15_MAIN_SHADOW_LADDERS_URL",
+        "BTC15_SHADOW_SAMPLE_S",
+        "BTC15_SHADOW_TIMEOUT_S",
+        "PYTHONUNBUFFERED"
+      ],
+      "volumeCount": 0,
+      "latestDeployment": {
+        "id": "8790deec-42ad-4086-b324-9544b1edd89c",
+        "status": "SUCCESS",
+        "createdAt": "2026-10-05T19:56:29.476Z",
+        "url": null
+      },
+      "stagedChanges": []
+    },
+    {
+      "name": "combined-forward-scorecard-v1",
+      "id": "e9399baa-25a8-4801-a374-ae6c5401060d",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-move-shadow-v1-20260912",
+        "checkSuites": false
+      },
+      "deploy": {
+        "startCommand": "python -m unittest -q test_btc15_combined_empirical_scorecard_v2.py test_BTC15_COMBINED_FORWARD_SCORECARD_V2.py test_BTC15_KALSHI_ROLLOVER_DISCOVERY_PROBE_V1.py test_BTC15_KALSHI_ROLLOVER_DISCOVERY_PROBE_V2.py test_BTC15_KALSHI_ROLLOVER_OPERATIONAL_GATE_V3.py test_BTC15_KALSHI_ROLLOVER_DISCOVERY_PROBE_V3.py && exec python -u BTC15_COMBINED_V2_WITH_ROLLOVER_PROBE_V3.py",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 120,
+        "restartPolicyMaxRetries": 3,
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [],
+        "customDomains": []
+      },
+      "variableNames": [
+        "COMBINED_SCORECARD_POLL_SEC",
+        "ROLLOVER_PROBE_VERSION"
+      ],
+      "volumeCount": 0,
+      "latestDeployment": {
+        "id": "4b23c967-5cae-49f0-b2de-7ee2aa74a8e1",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-15T19:49:39.005Z",
+        "url": null
+      },
+      "stagedChanges": []
+    },
+    {
+      "name": "early-excursion-forward-v1",
+      "id": "6b847381-fc63-4421-b7bd-e8111c844e2f",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-move-shadow-v1-20260912",
+        "checkSuites": false
+      },
+      "deploy": {
+        "startCommand": "python -m unittest -q test_BTC15_EARLY_EXCURSION_FORWARD_V1.py && exec python -u BTC15_EARLY_EXCURSION_FORWARD_V1.py",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 120,
+        "restartPolicyMaxRetries": 3,
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [],
+        "customDomains": []
+      },
+      "variableNames": [
+        "EARLY_EXCURSION_BOOTSTRAP"
+      ],
+      "volumeCount": 0,
+      "latestDeployment": {
+        "id": "b6c7e09a-e6bd-4c36-a98c-48a50e72d0cf",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-15T22:33:47.303Z",
+        "url": null
+      },
+      "stagedChanges": []
+    },
+    {
+      "name": "early-final-handoff-v1",
+      "id": "174bd89d-264b-4882-8d5a-b8dbacf97181",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-move-shadow-v1-20260912",
+        "checkSuites": false
+      },
+      "deploy": {
+        "startCommand": "python -m unittest -q test_BTC15_EARLY_FINAL_HANDOFF_FORWARD_V1.py && exec python -u BTC15_EARLY_FINAL_HANDOFF_FORWARD_V1.py",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 120,
+        "restartPolicyMaxRetries": 3,
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [],
+        "customDomains": []
+      },
+      "variableNames": [
+        "HANDOFF_SCORECARD_BOOTSTRAP"
+      ],
+      "volumeCount": 0,
+      "latestDeployment": {
+        "id": "43e32eee-afea-4986-a944-803a53945852",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-15T20:39:32.809Z",
+        "url": null
+      },
+      "stagedChanges": []
+    }
+  ]
+}
