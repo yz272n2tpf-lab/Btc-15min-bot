@@ -112,6 +112,49 @@ class V81Batching(unittest.TestCase):
             self.assertEqual(len(report['records']), 2602)
             self.assertEqual(archive.journal.durable_records, 2602)
 
+    def test_high_entropy_quote_bursts_with_delayed_fsync(self):
+        # Source-like workload shape, NOT a replay of the unavailable original.
+        # Every 10th observation is a larger incompressible quote message.
+        import base64
+        import random
+        from ops.live_recording.recorder_queue import RecorderOffPathProofWriter
+        with tempfile.TemporaryDirectory() as directory:
+            archive=self.archive(directory)
+            original_fsync=os.fsync
+            def delayed(fd):
+                time.sleep(.004)
+                return original_fsync(fd)
+            rng=random.Random(20261014)
+            accepted=0
+            began=time.monotonic()
+            with patch('ops.live_recording.batched_journal.os.fsync', side_effect=delayed):
+                writer=RecorderOffPathProofWriter(
+                    Path(directory)/'unused',lambda p,w:w.identity,2*MIB,
+                    archive=archive,queue_size=16384,queue_bytes=32*MIB,
+                    admission_limits=dict(queue_size=16384,queue_bytes=32*MIB))
+                for i in range(6000):
+                    n=16384 if i%10==0 else 900
+                    raw=base64.b64encode(rng.randbytes(n))
+                    if writer.submit_observation(
+                        'QUOTE_RECEIVE',raw=raw,received_at=float(i),
+                        ticker='SYNTHETIC_NO_REAL_MARKET'):
+                        accepted+=1
+                    if i%400==399:
+                        time.sleep(.8)
+                done=writer.close(timeout=60)
+            self.assertTrue(done)
+            self.assertEqual(accepted,6000)
+            self.assertFalse(writer.archive_failed)
+            self.assertEqual(writer.status()['losses'],{})
+            self.assertEqual(archive.journal.pending_records,0)
+            self.assertEqual(archive.journal.durable_records,archive.journal.records)
+            verified=read_archive(archive.path,max_decoded_bytes=96*MIB)
+            self.assertEqual(verified['gaps'],[])
+            self.assertEqual(sum(x['kind']=='QUOTE_RECEIVE' for x in verified['records']),6000)
+            print('V81_HIGH_ENTROPY_OFFLINE | events=6000 elapsed=%.2fs compressed=%d peak_queued=%d loss=0' % (
+                time.monotonic()-began,archive.journal.stored_bytes,
+                writer.peak_queued_bytes),flush=True)
+
     def test_sustained_live_like_intake_without_dropped_offpath_events(self):
         with tempfile.TemporaryDirectory() as directory:
             archive = self.archive(directory)
