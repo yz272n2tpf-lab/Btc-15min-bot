@@ -16,7 +16,7 @@ jobs:
     env:
       RAILWAY_PROJECT_ID: ""
       RAILWAY_ENVIRONMENT_ID: ""
-      RAILWAY_DEPLOYMENT_ID: ""
+      RAILWAY_DEPLOYMENT_ID: OFFLINE
       KALSHI_KEY_ID: ""
       KALSHI_PRIVATE_KEY: ""
     steps:
