@@ -8,11 +8,22 @@ from collections import Counter
 from pathlib import Path
 from btc15_quote_proof_offpath_v1 import OffPathProofWriter
 from candidates.early_recording_20261012.archive import Archive,BUDGET
+from .batched_journal import BatchedCompressedJournal
 from candidates.early_recording_20261012.seams import Observer
 from .policy import canonical,sha,file_sha,atomic,need,validate,runtime_identity,PROFILES,MiB
 
 RAW_KINDS={'ORIGINAL_RESPONSE','CANDLE_ACCEPTANCE','V81_INPUT','BRTI_READ','OUTCOME_ACCEPTANCE','CLOSEOUT_ACCEPTANCE','NATIVE_FRAME'}
 class RoleArchive(Archive):
+ def __init__(self,*args,**kwargs):
+  role=kwargs.get('role')
+  super().__init__(*args,**kwargs)
+  # Only the isolated V81 recorder opts into batched evidence durability.
+  # MAIN, Information, and every native journal retain their original writer.
+  if role=='v81':self.journal=BatchedCompressedJournal(self.path,**self.budget)
+ def close(self):
+  try:
+   if isinstance(self.journal,BatchedCompressedJournal):self.journal.flush()
+  finally:super().close()
  def observe(self,kind,fields):
   if kind=='ORIGINAL_RESPONSE':
    raw=fields['raw'];self.write(kind,dict({k:v for k,v in fields.items() if k!='raw'},raw_base64=base64.b64encode(raw).decode(),sha256=sha(raw)));return
@@ -118,11 +129,13 @@ class Capture:
   except Exception:self.gate.gap('CAPTURE_ERROR')
   finally:self.gate.overhead(started,kind)
  def status(self):
-  return dict(run_id=self.config['run_id'],role=self.role,session=self.archive.session,admission=self.gate.active,stopped=self.stopped,failure=self.failure or self.gate.reason,drain_timeout_observed=getattr(self,'drain_timeout_observed',False),writer=self.writer.status(),hooks=dict(self.gate.metrics),raw_bytes=self.archive.journal.raw_bytes,compressed_bytes=self.archive.journal.stored_bytes,records=self.archive.journal.records,elapsed=time.monotonic()-self.begin,peak_rates={k:dict(v) for k,v in self.peaks.items()},original_proof_queues=[dict(writer_id=id(p.proof_writer),queue_id=id(p.proof_writer.queue),unfinished=p.proof_writer.queue.unfinished_tasks,dropped=p.proof_writer.dropped,rejected=p.proof_writer.rejected,published=p.proof_writer.published) for p in self.providers])
+  return dict(run_id=self.config['run_id'],role=self.role,session=self.archive.session,admission=self.gate.active,stopped=self.stopped,failure=self.failure or self.gate.reason,drain_timeout_observed=getattr(self,'drain_timeout_observed',False),writer=self.writer.status(),hooks=dict(self.gate.metrics),raw_bytes=self.archive.journal.raw_bytes,compressed_bytes=self.archive.journal.stored_bytes,records=self.archive.journal.records,durable_records=getattr(self.archive.journal,'durable_records',self.archive.journal.records),pending_raw_bytes=getattr(self.archive.journal,'pending_raw_bytes',0),pending_records=getattr(self.archive.journal,'pending_records',0),journal_failed=getattr(self.archive.journal,'failed',False),elapsed=time.monotonic()-self.begin,peak_rates={k:dict(v) for k,v in self.peaks.items()},original_proof_queues=[dict(writer_id=id(p.proof_writer),queue_id=id(p.proof_writer.queue),unfinished=p.proof_writer.queue.unfinished_tasks,dropped=p.proof_writer.dropped,rejected=p.proof_writer.rejected,published=p.proof_writer.published) for p in self.providers])
  def watch(self):
   while not self.stop_event.wait(.5):
    try:
-    now=time.monotonic();j=self.archive.journal;before,raw,stored,n=self.last_rate;dt=now-before;peak=self.peaks['warmup' if now-self.begin<120 else 'steady']
+    now=time.monotonic();j=self.archive.journal
+    if isinstance(j,BatchedCompressedJournal):j.flush_due()
+    before,raw,stored,n=self.last_rate;dt=now-before;peak=self.peaks['warmup' if now-self.begin<120 else 'steady']
     for k,v in [('decoded',(j.raw_bytes-raw)/dt),('compressed',(j.stored_bytes-stored)/dt),('envelopes',(j.records-n)/dt)]:peak[k]=max(peak[k],v)
     self.last_rate=(now,j.raw_bytes,j.stored_bytes,j.records)
     s=self.status();atomic(self.root/'health.json',s)
@@ -130,7 +143,7 @@ class Capture:
     if (self.root/'stop-request.json').exists():
      request=json.loads((self.root/'stop-request.json').read_bytes());need(request['run_id']==self.config['run_id'] and request['role']==self.role,'STOP_IDENTITY');reason='OPERATOR_FINISH'
     if time.monotonic()-self.begin>=self.config['duration_seconds']:reason='DURATION_LIMIT'
-    if s['writer']['archive_failed'] or s['writer']['losses']:reason='RECORDER_LOSS_OR_FAILURE';self.failure=reason
+    if s['writer']['archive_failed'] or s['writer']['losses'] or s['journal_failed']:reason='RECORDER_LOSS_OR_FAILURE';self.failure=reason
     if self.gate.reason:reason=self.gate.reason;self.failure=reason
     for key,n in list(self.gate.metrics.items()):
      if key.endswith(':calls') and n>=100 and self.gate.metrics[key[:-6]+':over_1ms']/n>.01:reason='HOOK_P99_OVER_1MS';self.failure=reason
@@ -177,6 +190,12 @@ class Capture:
       self.stop(reason,timeout=0)
      self.late_sealer=threading.Thread(target=await_drain,daemon=True,name='recorder-incomplete-drain-recovery')
      self.late_sealer.start()
+    return s
+   if getattr(self.archive.journal,'failed',False):
+    self.failure=self.failure or 'JOURNAL_FLUSH_FAILURE'
+    s=self.status();s['status']='INCOMPLETE';s['reason']=reason
+    atomic(self.root/'terminal-status.json',s)
+    # A potentially torn gzip member is never presented as a sealed archive.
     return s
    self.stopped=True
    if self.control is not threading.current_thread():self.control.join(1)
