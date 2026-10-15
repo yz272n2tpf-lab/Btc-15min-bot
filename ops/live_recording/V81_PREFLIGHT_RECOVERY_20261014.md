@@ -60,14 +60,15 @@ reads and produces an EVIDENCE_GAP in the archive.
 
 ## Latest tests and capacity screening
 
-- CI: https://github.com/yz272n2tpf-lab/Btc-15min-bot/actions/runs/38664161191
-- 19 / 19 offline tests passed; no Railway or live data was used.
+- CI: https://github.com/yz272n2tpf-lab/Btc-15min-bot/actions/runs/38664467712
+- 20 / 20 offline tests passed; no Railway or live data was used.
 - A 6,000-event high-entropy synthetic quote workload with 4 ms artificial
   fsync latency finished in about 12.53 seconds, with zero admission losses,
   20,050,023 compressed bytes, and 1,561,920 peak queued bytes.
 - A separate 9,000-event compressible fixture finished in about 15 seconds with
   zero observed losses. Their very different compression ratios demonstrate
   why the synthetic compression result cannot be substituted for genuine data.
+- Isolation tests confirm MAIN and Information still use the unmodified CompressedJournal class and the native quote-proof owner is not replaced.
 - The new read-only v81_capacity_review.py rejects malformed or incomplete
   measurements; a saved failure-window receipt remains NO_GO_UNQUALIFIED for
   both current profile capacities. This tool cannot grant any campaign approval.
