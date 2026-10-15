@@ -1,0 +1,268 @@
+{
+  "schema": "BTC15_RUNNING_RESEARCH_CONFIG_ARCHIVE_V1",
+  "secretsExcluded": true,
+  "entries": [
+    {
+      "name": "final-forward-scorecard-v1",
+      "id": "fbe79688-25ed-4329-b0d6-c9b669559b17",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-move-shadow-v1-20260912",
+        "checkSuites": false
+      },
+      "deploy": {
+        "startCommand": "python -m unittest -q test_BTC15_FINAL_FORWARD_SCORECARD_V1.py test_BTC15_FINAL_FORWARD_SCORECARD_V2.py test_BTC15_FINAL_FORWARD_SCORECARD_V3.py test_BTC15_FINAL_FORWARD_SCORECARD_V4.py && exec python -u BTC15_FINAL_FORWARD_SCORECARD_V4.py",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 120,
+        "restartPolicyMaxRetries": 3,
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [
+          {
+            "id": "0c09c6e7-eb21-42da-93c1-ec06429ca95c",
+            "domain": "final-forward-scorecard-v1-production.up.railway.app",
+            "targetPort": 8080
+          }
+        ],
+        "customDomains": []
+      },
+      "variableNames": [
+        "FINAL_SCORECARD_POLL_SEC",
+        "FINAL_SCORECARD_VERSION"
+      ],
+      "volumeCount": 0,
+      "latestDeployment": {
+        "id": "48b86488-3688-40d3-82b4-ad5fe028a61f",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-15T19:55:38.110Z",
+        "url": null
+      },
+      "stagedChanges": []
+    },
+    {
+      "name": "information-identity-audit-v1",
+      "id": "befbc458-e41e-4995-8354-fa5c7bbfe095",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "audit/information-identity-projection-20260928",
+        "checkSuites": false
+      },
+      "deploy": {
+        "startCommand": "python -m unittest -v test_btc15_information_identity_projection_v1.py",
+        "restartPolicyType": "NEVER",
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [],
+        "customDomains": []
+      },
+      "variableNames": [],
+      "volumeCount": 0,
+      "latestDeployment": {
+        "id": "9ffd621f-63ef-4057-82bf-d12f747d7758",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-28T15:07:43.062Z",
+        "url": null
+      },
+      "stagedChanges": []
+    },
+    {
+      "name": "information-identity-integration-v1",
+      "id": "c0be1409-9fdf-47d8-a681-fba03dca378e",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "integration/information-identity-v1-20260928",
+        "checkSuites": false
+      },
+      "deploy": {
+        "startCommand": "python -m unittest -v test_btc15_information_identity_projection_v1.py",
+        "restartPolicyType": "NEVER",
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [],
+        "customDomains": []
+      },
+      "variableNames": [],
+      "volumeCount": 0,
+      "latestDeployment": {
+        "id": "58e5d956-574d-4dfc-8287-178520a5defa",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-28T15:14:19.940Z",
+        "url": null
+      },
+      "stagedChanges": []
+    },
+    {
+      "name": "information-identity-integration-v2",
+      "id": "c3043d22-9141-487b-8f5d-955ccb4cd8b0",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "integration/information-identity-v1-20260928",
+        "checkSuites": false
+      },
+      "deploy": {
+        "startCommand": "python -m unittest -v test_btc15_information_identity_projection_v1.py",
+        "restartPolicyType": "NEVER",
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [],
+        "customDomains": []
+      },
+      "variableNames": [],
+      "volumeCount": 0,
+      "latestDeployment": {
+        "id": "08de032e-0f5a-4f68-a4ad-a1cee0d28d90",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-28T15:30:23.412Z",
+        "url": null
+      },
+      "stagedChanges": []
+    },
+    {
+      "name": "operator-cockpit-ipad-preview-20261006",
+      "id": "53f2b821-8960-4221-aabc-c4beefb86c44",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "candidate/operator-cockpit-functional-20261006",
+        "commitSha": "d386ed6bf387ab37a3c4a910ea19b676b14d6842"
+      },
+      "deploy": {
+        "startCommand": "python -u btc15_operator_cockpit_launch.py --preview",
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [
+          {
+            "id": "af76532c-f5ed-4292-bcc7-1e9ecf3068b8",
+            "domain": "operator-cockpit-ipad-preview-20261006-production.up.railway.app",
+            "targetPort": 8080
+          }
+        ],
+        "customDomains": []
+      },
+      "variableNames": [
+        "BTC15_PREVIEW_UPSTREAM"
+      ],
+      "volumeCount": 0,
+      "latestDeployment": {
+        "id": "1042ce64-dabf-486b-8d37-7dc2295782ac",
+        "status": "SUCCESS",
+        "createdAt": "2026-10-07T12:07:29.376Z",
+        "url": null
+      },
+      "stagedChanges": []
+    },
+    {
+      "name": "recovered-v11-preview-pr47",
+      "id": "c600567f-42e9-432a-839c-140131124fe0",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "railway/code-change-6aufFQ",
+        "checkSuites": false
+      },
+      "deploy": {
+        "startCommand": "python3 qualify_recovered_v11_candidate.py && exec python3 -u btc15_recovered_v11_live_host_v1.py",
+        "restartPolicyType": "NEVER",
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [
+          {
+            "id": "c1ff24d4-795e-4328-96eb-16859c15e3ee",
+            "domain": "recovered-v11-preview-pr47-production.up.railway.app",
+            "targetPort": null
+          }
+        ],
+        "customDomains": []
+      },
+      "variableNames": [],
+      "volumeCount": 0,
+      "latestDeployment": {
+        "id": "4d3f54c5-0508-4912-874c-db017dec72c1",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-28T18:18:20.081Z",
+        "url": null
+      },
+      "stagedChanges": []
+    },
+    {
+      "name": "rollover-canary-predeploy-check",
+      "id": "fd54c023-b855-4ccb-90ca-4cbf772bdf4a",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "research/rollover-production-canary-v1-20260922",
+        "checkSuites": false
+      },
+      "deploy": {
+        "startCommand": "python -m py_compile btc15_rollover_production_canary_v1.py bot_two_output_build_v4_13_profit_protection_shadow.py && python -c \"import btc15_rollover_production_canary_v1 as c; print('CANARY IMPORT PASS | OBSERVE ONLY | NO ORDERS')\"",
+        "restartPolicyType": "NEVER",
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [],
+        "customDomains": []
+      },
+      "variableNames": [],
+      "volumeCount": 0,
+      "latestDeployment": {
+        "id": "9ee22695-1157-4407-9586-ec84c7ff3a70",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-22T19:39:03.253Z",
+        "url": null
+      },
+      "stagedChanges": []
+    }
+  ]
+}
