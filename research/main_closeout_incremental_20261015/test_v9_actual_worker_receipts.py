@@ -11,7 +11,7 @@ class Processor:
         record=dict(kind=value['kind'],contract=value['contract'],published_ts=now,
                     signal_only=True,orders=False)
         if value['kind']=='BRTI_CLOSEOUT':record['brti_closeout']=value['settlement']
-        return record,dict(self.state),dict(status='UNAVAILABLE',signal_only=True,orders=False)
+        return record,dict(self.state),dict(status='UNAVAILABLE',signal_only=True,orders=False,published_ts=now,expires_at=now+5)
 
 class Tests(unittest.TestCase):
     def setUp(self):
@@ -56,4 +56,21 @@ class Tests(unittest.TestCase):
         with self.assertRaises(RuntimeError):self.offer('A','DOWN')
         self.assertTrue(self.worker.failed)
         self.assertEqual(len(self.rows()),1)
+    def test_native_queue_interleaved_with_closeouts(self):
+        self.assertTrue(self.offer('A'))
+        self.assertTrue(self.worker.offer(dict(kind='NATIVE_DECISION',contract='NATIVE-1')))
+        self.worker.queue.join()
+        self.assertTrue(self.offer('B'))
+        self.assertEqual([r['kind'] for r in self.rows()],
+                         ['BRTI_CLOSEOUT','NATIVE_DECISION','BRTI_CLOSEOUT'])
+        self.assertIsNone(self.worker.failed)
+    def test_atomic_receipt_failure_rolls_back_event(self):
+        self.assertTrue(self.offer('A'))
+        with sqlite3.connect(self.root/'main.sqlite3') as db:
+            db.execute("""CREATE TRIGGER fail_receipt_v9 BEFORE INSERT ON closeout_receipts_v9
+                WHEN NEW.contract='B' BEGIN SELECT RAISE(ABORT,'FORCED_RECEIPT_FAILURE'); END""")
+        with self.assertRaises(RuntimeError):
+            self.offer('B')
+        self.assertTrue(self.worker.failed)
+        self.assertEqual([r['contract'] for r in self.rows()],['A'])
 if __name__=='__main__':unittest.main()
