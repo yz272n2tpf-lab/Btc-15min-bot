@@ -92,6 +92,26 @@ class V81Batching(unittest.TestCase):
             # Do not call close() on a failed journal; no seal is claimed.
             archive._lock_file.close()
 
+    def test_segment_rollover_retains_all_events_and_reader_chain(self):
+        with tempfile.TemporaryDirectory() as directory:
+            archive = RoleArchive(
+                Path(directory) / 'v81-multisegment', role='v81',
+                evidence_class='FIXTURE', source_binding='synthetic-rollover',
+                budget=dict(BUDGET, segment_bytes=32*1024, max_total_bytes=64*MIB))
+            archive.start()
+            for i in range(2600):
+                archive.write('FIXTURE_OBSERVATION', dict(
+                    n=i, payload=hashlib.sha256(str(i).encode()).hexdigest()*10))
+            archive.write('STOP', dict(clean=True))
+            archive.close()
+            segments = list(archive.journal.directory.glob('*.jsonl.gz'))
+            self.assertGreater(len(segments), 1)
+            self.assertTrue(all(0 < p.stat().st_size <= 32*1024 for p in segments))
+            report = read_archive(archive.path, max_decoded_bytes=32*MIB)
+            self.assertEqual(report['gaps'], [])
+            self.assertEqual(len(report['records']), 2602)
+            self.assertEqual(archive.journal.durable_records, 2602)
+
     def test_sustained_live_like_intake_without_dropped_offpath_events(self):
         with tempfile.TemporaryDirectory() as directory:
             archive = self.archive(directory)
