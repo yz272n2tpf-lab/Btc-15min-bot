@@ -1,0 +1,25 @@
+name: BTC15 V11 acceptance
+on:
+  push:
+    branches:
+      - research/main-closeout-incremental-20261015
+    paths:
+      - research/main_closeout_incremental_20261015/test_v11_consolidated_acceptance.py
+      - .github/workflows/btc15-v11-acceptance.yml
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      RAILWAY_DEPLOYMENT_ID: OFFLINE
+      PYTHONPATH: .:research/main_closeout_incremental_20261015
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m unittest -v research.main_closeout_incremental_20261015.test_v11_consolidated_acceptance
