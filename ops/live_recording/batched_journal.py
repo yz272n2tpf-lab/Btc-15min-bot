@@ -37,7 +37,10 @@ class BatchedCompressedJournal(CompressedJournal):
         with self.lock:
             if self.failed:
                 raise OSError('Recorder journal requires process restart')
-            if self._pending and self.pending_raw_bytes + len(line) > self.BATCH_RAW_BYTES:
+            # Use a smaller raw batch if a reviewed fixture sets a smaller
+            # segment cap. Production's 8 MiB segments use 256 KiB batches.
+            batch_limit = min(self.BATCH_RAW_BYTES, max(1024, self.segment_bytes // 2)) if self.segment_bytes is not None else self.BATCH_RAW_BYTES
+            if self._pending and self.pending_raw_bytes + len(line) > batch_limit:
                 self._flush_locked()
             self._pending.append(line)
             self.pending_raw_bytes += len(line)
@@ -46,7 +49,7 @@ class BatchedCompressedJournal(CompressedJournal):
             # counts lines fsynced to the volume.
             self.records += 1
             self.raw_bytes += len(line)
-            if self.pending_raw_bytes >= self.BATCH_RAW_BYTES or time.monotonic() - self._last_flush >= self.MAX_LINGER_SECONDS:
+            if self.pending_raw_bytes >= batch_limit or time.monotonic() - self._last_flush >= self.MAX_LINGER_SECONDS:
                 self._flush_locked()
 
     def flush_due(self):
