@@ -14,8 +14,9 @@ jobs:
     timeout-minutes: 8
     env:
       RAILWAY_DEPLOYMENT_ID: OFFLINE
-      KALSHI_KEY_ID: ""
-      KALSHI_PRIVATE_KEY: ""
+      KALSHI_KEY_ID: ''
+      KALSHI_PRIVATE_KEY: ''
+      PYTHONPATH: .:research/main_closeout_incremental_20261015
     steps:
       - uses: actions/checkout@v4
         with:
