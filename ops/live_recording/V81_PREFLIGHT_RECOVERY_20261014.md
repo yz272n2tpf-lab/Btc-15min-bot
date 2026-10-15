@@ -38,6 +38,46 @@ Branch: research/btc15-v81-incomplete-drain-recovery-20261014 (based on deployed
 
 The fixture contains synthetic repeated text, so its compression ratio is **not** a verified projection of live V81 disk usage, and neither CPU nor cloud filesystem behavior is guaranteed by local CI.
 
+
+## Additional finding: recorder loss-counter polling was not reliable
+
+The inherited quote-proof writer uses an itertools.count() per loss class. Its
+reader also invokes next() on the iterator. Repeated status polling therefore
+advances the same counter, even without a gap() call, and exposes a delta rather
+than a monotone cumulative loss. That behavior is unsafe for a recorder health
+gate that calls status() repeatedly. It can produce phantom losses and make
+persisted counters different from true lifetime event drops. Accordingly the
+prior reported 1,470 QUEUE_BYTES figure is a **diagnostic reading**, not an
+independently reconciled lifetime drop count. The near-full 32 MiB queue and
+INCOMPLETE receipt are genuine failure evidence.
+
+The candidate now uses RecorderOffPathProofWriter only for the off-path evidence
+recorder. Its cumulative loss snapshot subtracts polling increments while
+preserving actual gap() increments. The authoritative/native quote-proof writer
+class and queue stay untouched. Offline tests verify repeated zero-loss polls
+remain zero, and an actual oversize drop remains visible even after 75 status
+reads and produces an EVIDENCE_GAP in the archive.
+
+## Latest tests and capacity screening
+
+- CI: https://github.com/yz272n2tpf-lab/Btc-15min-bot/actions/runs/38664161191
+- 19 / 19 offline tests passed; no Railway or live data was used.
+- A 6,000-event high-entropy synthetic quote workload with 4 ms artificial
+  fsync latency finished in about 12.53 seconds, with zero admission losses,
+  20,050,023 compressed bytes, and 1,561,920 peak queued bytes.
+- A separate 9,000-event compressible fixture finished in about 15 seconds with
+  zero observed losses. Their very different compression ratios demonstrate
+  why the synthetic compression result cannot be substituted for genuine data.
+- The new read-only v81_capacity_review.py rejects malformed or incomplete
+  measurements; a saved failure-window receipt remains NO_GO_UNQUALIFIED for
+  both current profile capacities. This tool cannot grant any campaign approval.
+
+Neither synthetic workload proves real Railway disk throughput, true quote
+payload distribution, post-rollover state, 20-minute continuous sealed capture,
+or 24-hour suitability. Both profile records and decoded-byte caps still need
+explicit review with measured real-source data; batching alone cannot resolve
+those hard ceilings.
+
 ## Mandatory gates before any new live preflight or 24-hour test
 
 1. Preserve all raw previous segments and failure receipts, marking missing events as unfilled gaps.
