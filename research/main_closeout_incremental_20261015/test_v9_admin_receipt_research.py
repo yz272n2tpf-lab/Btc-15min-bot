@@ -11,6 +11,7 @@ class ExtendedWorkerTests(BaseTests):
             def __init__(self):self.calls=[]
             def pipeline(self,record,seq,now):self.calls.append((record['contract'],seq))
             def offer(self,receipt):pass
+            def health(self):return dict(status='RESEARCH_ONLY')
         old=ADMINS.get('main')
         admin=Admin()
         try:
