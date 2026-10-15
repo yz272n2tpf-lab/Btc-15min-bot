@@ -1,0 +1,127 @@
+{
+  "schema": "BTC15_OBSOLETE_FAILED_CONFIG_SNAPSHOT_V1",
+  "parts": [
+    {
+      "name": "recovered-v11-identity-pr49",
+      "id": "0631afcb-482c-46ec-86b2-c1de2ebe9d84",
+      "oldStatus": "CRASHED",
+      "deployId": "005ea38f-8d7e-4fd4-9323-91f86bd87837",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "audit/identity-bound-info-20260928",
+        "checkSuites": false
+      },
+      "deploy": {
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [],
+        "customDomains": []
+      },
+      "volumeCount": 0,
+      "variableNames": [],
+      "stagedChanges": []
+    },
+    {
+      "name": "csv-diagnostic-scan",
+      "id": "21ec159d-fd25-482c-ad72-d53a98a39aa9",
+      "oldStatus": "CRASHED",
+      "deployId": "dd21b6a7-0847-44ac-847f-7745c0fe5ed1",
+      "source": {
+        "image": "ghcr.io/railwayapp/function-bun:1.4.0"
+      },
+      "deploy": {
+        "startCommand": "./run.sh CmltcG9ydCBjc3YKZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCmZyb20gY29sbGVjdGlvbnMgaW1wb3J0IGRlZmF1bHRkaWN0Cgpjc3ZfZmlsZSA9ICIvZGF0YS9rYWxzaGlfZWFybHlfY29uZl9zaGFkb3dfdjFfMi5jc3YiCnRhcmdldF9jb250cmFjdCA9ICJLWEJUQzE1TS0yNlNFUDI2MTAxNS0xNSIKCiMgR2V0IGZpbGUgYnl0ZSBzaXplCmZpbGVfc2l6ZSA9IFBhdGgoY3N2X2ZpbGUpLnN0YXQoKS5zdF9zaXplCgojIEluaXRpYWxpemUgY29sbGVjdG9ycwptYXRjaGluZ19yb3dzID0gW10Kcm93X2NvdW50ID0gMAp0aW1lc3RhbXBzID0gW10KcHJvdmlzaW9uYWxfdHJ1ZV9jb3VudCA9IDAKcGVyc2lzdGVuY2VfdmFsdWVzID0gW10Kc2Vjb25kc19sZWZ0X3ZhbHVlcyA9IFtdCgojIFNjYW4gd2l0aCBEaWN0UmVhZGVyCndpdGggb3Blbihjc3ZfZmlsZSwgJ3InKSBhcyBmOgogICAgcmVhZGVyID0gY3N2LkRpY3RSZWFkZXIoZikKICAgIGZvciByb3cgaW4gcmVhZGVyOgogICAgICAgIGlmIHJvdy5nZXQoJ2NvbnRyYWN0JykgPT0gdGFyZ2V0X2NvbnRyYWN0OgogICAgICAgICAgICBtYXRjaGluZ19yb3dzLmFwcGVuZChyb3cpCiAgICAgICAgICAgIHJvd19jb3VudCArPSAxCiAgICAgICAgICAgIAogICAgICAgICAgICAjIENvbGxlY3QgdGltZXN0YW1wcwogICAgICAgICAgICBpZiAndGltZXN0YW1wX3V0YycgaW4gcm93OgogICAgICAgICAgICAgICAgdGltZXN0YW1wcy5hcHBlbmQocm93Wyd0aW1lc3RhbXBfdXRjJ10pCiAgICAgICAgICAgIAogICAgICAgICAgICAjIENvdW50IHByb3Zpc2lvbmFsX2NhbmRpZGF0ZSBUcnVlIChsb3dlcmNhc2Ugc3RyaW5nICJ0cnVlIiBvciAiMSIpCiAgICAgICAgICAgIHByb3ZfdmFsID0gcm93LmdldCgncHJvdmlzaW9uYWxfY2FuZGlkYXRlJywgJycpLnN0cmlwKCkubG93ZXIoKQogICAgICAgICAgICBpZiBwcm92X3ZhbCBpbiAoJ3RydWUnLCAnMScpOgogICAgICAgICAgICAgICAgcHJvdmlzaW9uYWxfdHJ1ZV9jb3VudCArPSAxCiAgICAgICAgICAgIAogICAgICAgICAgICAjIENvbGxlY3QgY2FuZGlkYXRlX3BlcnNpc3RlbmNlXzMwcyAobnVtZXJpYykKICAgICAgICAgICAgaWYgJ2NhbmRpZGF0ZV9wZXJzaXN0ZW5jZV8zMHMnIGluIHJvdyBhbmQgcm93WydjYW5kaWRhdGVfcGVyc2lzdGVuY2VfMzBzJ10uc3RyaXAoKToKICAgICAgICAgICAgICAgIHRyeToKICAgICAgICAgICAgICAgICAgICBwZXJzaXN0ZW5jZV92YWx1ZXMuYXBwZW5kKGZsb2F0KHJvd1snY2FuZGlkYXRlX3BlcnNpc3RlbmNlXzMwcyddKSkKICAgICAgICAgICAgICAgIGV4Y2VwdCBWYWx1ZUVycm9yOgogICAgICAgICAgICAgICAgICAgIHBhc3MKICAgICAgICAgICAgCiAgICAgICAgICAgICMgQ29sbGVjdCBzZWNvbmRzX2xlZnQKICAgICAgICAgICAgaWYgJ3NlY29uZHNfbGVmdCcgaW4gcm93IGFuZCByb3dbJ3NlY29uZHNfbGVmdCddLnN0cmlwKCk6CiAgICAgICAgICAgICAgICB0cnk6CiAgICAgICAgICAgICAgICAgICAgc2Vjb25kc19sZWZ0X3ZhbHVlcy5hcHBlbmQoZmxvYXQocm93WydzZWNvbmRzX2xlZnQnXSkpCiAgICAgICAgICAgICAgICBleGNlcHQgVmFsdWVFcnJvcjoKICAgICAgICAgICAgICAgICAgICBwYXNzCgojIENvbXB1dGUgcmVzdWx0cwpmaXJzdF90cyA9IHRpbWVzdGFtcHNbMF0gaWYgdGltZXN0YW1wcyBlbHNlIE5vbmUKbGFzdF90cyA9IHRpbWVzdGFtcHNbLTFdIGlmIHRpbWVzdGFtcHMgZWxzZSBOb25lCm1heF9wZXJzaXN0ZW5jZSA9IG1heChwZXJzaXN0ZW5jZV92YWx1ZXMpIGlmIHBlcnNpc3RlbmNlX3ZhbHVlcyBlbHNlIE5vbmUKbWluX3NlY29uZHMgPSBtaW4oc2Vjb25kc19sZWZ0X3ZhbHVlcykgaWYgc2Vjb25kc19sZWZ0X3ZhbHVlcyBlbHNlIE5vbmUKbWF4X3NlY29uZHMgPSBtYXgoc2Vjb25kc19sZWZ0X3ZhbHVlcykgaWYgc2Vjb25kc19sZWZ0X3ZhbHVlcyBlbHNlIE5vbmUKCiMgUHJpbnQgcmVzdWx0cwpwcmludChmIkZJTEVfQllURV9TSVpFOiB7ZmlsZV9zaXplfSIpCnByaW50KGYiTUFUQ0hJTkdfUk9XX0NPVU5UOiB7cm93X2NvdW50fSIpCmlmIHJvd19jb3VudCA9PSAwOgogICAgcHJpbnQoIlJFU1VMVDogemVybyIpCmVsc2U6CiAgICBwcmludChmIkZJUlNUX1RJTUVTVEFNUF9VVEM6IHtmaXJzdF90c30iKQogICAgcHJpbnQoZiJMQVNUX1RJTUVTVEFNUF9VVEM6IHtsYXN0X3RzfSIpCiAgICBwcmludChmIlBST1ZJU0lPTkFMX0NBTkRJREFURV9UUlVFX0NPVU5UOiB7cHJvdmlzaW9uYWxfdHJ1ZV9jb3VudH0iKQogICAgcHJpbnQoZiJNQVhfQ0FORElEQVRFX1BFUlNJU1RFTkNFXzMwUzoge21heF9wZXJzaXN0ZW5jZX0iKQogICAgcHJpbnQoZiJNSU5fU0VDT05EU19MRUZUOiB7bWluX3NlY29uZHN9IikKICAgIHByaW50KGYiTUFYX1NFQ09ORFNfTEVGVDoge21heF9zZWNvbmRzfSIpCg==",
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [],
+        "customDomains": []
+      },
+      "volumeCount": 0,
+      "variableNames": [],
+      "stagedChanges": []
+    },
+    {
+      "name": "recovered-v11-identity-pr48",
+      "id": "dc393dd9-ed9a-4dbb-a824-a9625ecbfd2f",
+      "oldStatus": "FAILED",
+      "deployId": "6dcb4a8f-dbb8-4431-88f6-abf3a0542a1c",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "audit/identity-bound-info-20260928",
+        "checkSuites": false
+      },
+      "deploy": {
+        "startCommand": "python3 qualify_recovered_v11_candidate.py && exec python3 -u btc15_recovered_v11_live_host_v1.py",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 60,
+        "restartPolicyType": "NEVER",
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [],
+        "customDomains": []
+      },
+      "volumeCount": 0,
+      "variableNames": [],
+      "stagedChanges": []
+    },
+    {
+      "name": "recovered-native-identity-qualification-v1",
+      "id": "ad996e53-cf97-4e64-b4f0-94eb1577c53b",
+      "oldStatus": "CRASHED",
+      "deployId": "4cada7c0-62b7-4b26-898f-8a764ed3b642",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "integration/recovered-native-identity-20260928",
+        "checkSuites": false
+      },
+      "deploy": {
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [
+          {
+            "id": "6a5c5dc2-2aec-481d-93b3-812259eec4a5",
+            "domain": "recovered-native-identity-qualification-v1-production.up.railway.app",
+            "targetPort": 8080
+          }
+        ],
+        "customDomains": []
+      },
+      "volumeCount": 0,
+      "variableNames": [],
+      "stagedChanges": []
+    }
+  ],
+  "redacted": true
+}
