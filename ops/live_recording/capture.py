@@ -118,7 +118,7 @@ class Capture:
   except Exception:self.gate.gap('CAPTURE_ERROR')
   finally:self.gate.overhead(started,kind)
  def status(self):
-  return dict(run_id=self.config['run_id'],role=self.role,session=self.archive.session,admission=self.gate.active,stopped=self.stopped,failure=self.failure or self.gate.reason,writer=self.writer.status(),hooks=dict(self.gate.metrics),raw_bytes=self.archive.journal.raw_bytes,compressed_bytes=self.archive.journal.stored_bytes,records=self.archive.journal.records,elapsed=time.monotonic()-self.begin,peak_rates={k:dict(v) for k,v in self.peaks.items()},original_proof_queues=[dict(writer_id=id(p.proof_writer),queue_id=id(p.proof_writer.queue),unfinished=p.proof_writer.queue.unfinished_tasks,dropped=p.proof_writer.dropped,rejected=p.proof_writer.rejected,published=p.proof_writer.published) for p in self.providers])
+  return dict(run_id=self.config['run_id'],role=self.role,session=self.archive.session,admission=self.gate.active,stopped=self.stopped,failure=self.failure or self.gate.reason,drain_timeout_observed=getattr(self,'drain_timeout_observed',False),writer=self.writer.status(),hooks=dict(self.gate.metrics),raw_bytes=self.archive.journal.raw_bytes,compressed_bytes=self.archive.journal.stored_bytes,records=self.archive.journal.records,elapsed=time.monotonic()-self.begin,peak_rates={k:dict(v) for k,v in self.peaks.items()},original_proof_queues=[dict(writer_id=id(p.proof_writer),queue_id=id(p.proof_writer.queue),unfinished=p.proof_writer.queue.unfinished_tasks,dropped=p.proof_writer.dropped,rejected=p.proof_writer.rejected,published=p.proof_writer.published) for p in self.providers])
  def watch(self):
   while not self.stop_event.wait(.5):
    try:
@@ -140,31 +140,49 @@ class Capture:
  def stop(self,reason='OPERATOR_FINISH',timeout=5):
   with self.stop_lock:
    if self.stopped:return self.status()
-   admitted=self.gate.disable();self.stop_event.set()
-   if not admitted:
-    self.failure='ADMISSION_STOP_TIMEOUT';atomic(self.root/'terminal-status.json',self.status())
-    if not getattr(self,'admission_recovery',None):
-     def retry_admission():
-      if self.gate.lock.acquire(timeout=30):self.gate.lock.release();self.stop('LATE_ADMISSION_STOP',timeout=5)
-     self.admission_recovery=threading.Thread(target=retry_admission,daemon=True,name='recorder-bounded-admission-recovery');self.admission_recovery.start()
-    return self.status()
-   # Gate closed before writer close. Native wrappers, queues and caches stay installed.
-   self.writer.submit_observation('RECORDING_BOUNDARY',reason=reason,observed_at=time.time(),native_owners_continue=True)
-   # All producer admission has ended. Atomic CPython flag avoids an unbounded
-   # acquisition of the original writer's accounting lock during live stop.
-   self.writer._closing=True;self.writer._thread.join(timeout);done=not self.writer._thread.is_alive()
-   if not done:
-    self.failure='DRAIN_TIMEOUT';atomic(self.root/'terminal-status.json',self.status())
+   # Disable source admission only once. Recovery must never insert a second
+   # boundary or reopen a writer that is already draining its first shutdown.
+   if not getattr(self,'_admission_closed',False):
+    admitted=self.gate.disable();self.stop_event.set()
+    if not admitted:
+     self.failure=self.failure or 'ADMISSION_STOP_TIMEOUT'
+     s=self.status();s['status']='INCOMPLETE';s['reason']=reason
+     atomic(self.root/'terminal-status.json',s)
+     if not getattr(self,'admission_recovery',None):
+      def retry_admission():
+       if self.gate.lock.acquire(timeout=30):
+        self.gate.lock.release();self.stop('LATE_ADMISSION_STOP',timeout=5)
+      self.admission_recovery=threading.Thread(target=retry_admission,daemon=True,name='recorder-bounded-admission-recovery')
+      self.admission_recovery.start()
+     return s
+    self._admission_closed=True;self._stop_reason=reason
+    self.writer.submit_observation('RECORDING_BOUNDARY',reason=reason,observed_at=time.time(),native_owners_continue=True)
+    self.writer._closing=True
+   reason=self._stop_reason
+   self.writer._thread.join(timeout)
+   if self.writer._thread.is_alive():
+    # Persist an explicit incomplete receipt. Do not forge a seal while the
+    # worker still owns an open gzip member or has uncommitted queued records.
+    self.drain_timeout_observed=True
+    self.failure=self.failure or 'DRAIN_TIMEOUT'
+    s=self.status();s['status']='INCOMPLETE';s['reason']=reason
+    atomic(self.root/'terminal-status.json',s)
     if not getattr(self,'late_sealer',None):
-     def recover():
-      self.writer._thread.join(30)
-      if not self.writer._thread.is_alive():self.stop('LATE_INCOMPLETE_SEAL',timeout=.1)
-     self.late_sealer=threading.Thread(target=recover,daemon=True,name='recorder-bounded-late-seal');self.late_sealer.start()
-    return self.status()
+     def await_drain():
+      # An arbitrary second 30-second deadline previously abandoned sealing
+      # permanently even if the evidence writer exited just afterward.
+      # This daemon never blocks the native owner and never deletes raw data.
+      while self.writer._thread.is_alive():
+       self.writer._thread.join(30)
+      self.stop(reason,timeout=0)
+     self.late_sealer=threading.Thread(target=await_drain,daemon=True,name='recorder-incomplete-drain-recovery')
+     self.late_sealer.start()
+    return s
    self.stopped=True
    if self.control is not threading.current_thread():self.control.join(1)
    s=self.status();s['status']='INCOMPLETE' if s['failure'] or s['writer']['archive_failed'] or s['writer']['losses'] else 'SEALED'
-   s['reason']=reason;s['journals']=self.gate.journals;s['stopped_at']=time.time();atomic(self.root/'terminal-status.json',s)
+   s['reason']=reason;s['journals']=self.gate.journals;s['stopped_at']=time.time()
+   atomic(self.root/'terminal-status.json',s)
    files=[]
    for p in sorted(self.root.rglob('*')):
     if p.is_file() and (p.name.endswith('.jsonl.gz') or p.name in ('identity.json','terminal-status.json')):
