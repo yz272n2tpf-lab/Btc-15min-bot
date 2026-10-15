@@ -69,5 +69,21 @@ class ActualWorkerContract(unittest.TestCase):
                 "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name LIKE 'closeout_receipts%'"
             ).fetchone()[0], 0)
 
+
+    def test_direct_v2_journal_commit_diagnostic(self):
+        # Separate file so this test exposes the actual SQLite exception.
+        from btc15_v2_product.journal import ProcessorEnvelope
+        from time import time
+        path = self.root / 'diagnostic.sqlite3'
+        journal = RevisionJournal(path, 'main')
+        try:
+            processor = Processor()
+            processor.restore({})
+            record, state, view = ProcessorEnvelope(processor, 'main').process((self.closeout(), None), time())
+            seq = journal.commit(record, state)
+            self.assertGreater(seq, 0)
+        finally:
+            journal.close()
+
 if __name__ == '__main__':
     unittest.main()
