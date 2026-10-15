@@ -1,0 +1,27 @@
+name: EARLY minimal evidence access spike (GET only)
+on:
+  push:
+    branches:
+      - research/early-native-journal-feasibility-20261014
+    paths:
+      - .github/workflows/btc15-early-native-journal-feasibility.yml
+      - candidates/early_feasibility_20261014/**
+      - test_btc15_early_native_feasibility.py
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  one-shot-no-production-changes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check source and failure-label unit tests
+        run: |
+          python -m py_compile candidates/early_feasibility_20261014/public_probe.py
+          python -m unittest -v test_btc15_early_native_feasibility
+      - name: Exactly two public GETs, no polling or writes
+        run: python -m candidates.early_feasibility_20261014.public_probe
