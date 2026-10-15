@@ -14,6 +14,15 @@ class ReceiptConflict(RuntimeError):
     pass
 
 class ReceiptJournal(RevisionJournal):
+    def __init__(self,path,lane):
+        # Research-only: initialize receipt schema in the owning journal thread,
+        # before any queue item can be processed. Never use a second writer.
+        super().__init__(path,lane)
+        with self.db:
+            self.db.execute("""CREATE TABLE IF NOT EXISTS closeout_receipts_v9
+                (contract TEXT PRIMARY KEY, payload_digest TEXT NOT NULL,
+                 seq INTEGER NOT NULL UNIQUE, payload BLOB NOT NULL)""")
+
     def commit(self, record, state):
         if record.get('kind') != 'BRTI_CLOSEOUT':
             return super().commit(record,state)
