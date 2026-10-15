@@ -139,7 +139,7 @@ class Capture:
     self.failure='CONTROL_FAILURE:'+type(e).__name__;self.stop(self.failure);return
  def stop(self,reason='OPERATOR_FINISH',timeout=5):
   with self.stop_lock:
-   if self.stopped:return self.status()
+   if self.stopped:return json.loads((self.root/'terminal-status.json').read_bytes())
    # Disable source admission only once. Recovery must never insert a second
    # boundary or reopen a writer that is already draining its first shutdown.
    if not getattr(self,'_admission_closed',False):
