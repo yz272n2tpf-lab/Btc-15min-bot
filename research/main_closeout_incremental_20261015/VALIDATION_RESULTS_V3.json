@@ -1,0 +1,40 @@
+{
+  "baseline_commit": "dd46b7bc2fcc49865c49dc59eb7ad7d7316f6d72",
+  "benchmark": {
+    "fixture_cohort_rows": 70000,
+    "fixture_parity_rows": 70000,
+    "legacy_cpu_seconds": 3.6705,
+    "legacy_modelled_bytes_read": 187105740,
+    "native_cohort_unchanged": true,
+    "polls": 12,
+    "v3_explicit_cutover_cpu_seconds": 0.2363,
+    "v3_new_bytes_processed": 228,
+    "v3_new_closeout_rows": 2,
+    "v3_steady_cpu_seconds": 0.0077
+  },
+  "branch": "research/main-closeout-incremental-20261015",
+  "date": "2026-10-15",
+  "decision": "GO offline isolated research; NO-GO production integration",
+  "limitations": [
+    "journal V3 is an offline double, not real V2 Worker",
+    "historical migration not performed",
+    "native cohort consumers not migrated",
+    "no MAIN per-process profiling",
+    "no live Kalshi/source publication parity",
+    "no real Railway dollar savings measured"
+  ],
+  "scope": "offline research; no production deployment",
+  "source_sha256": {
+    "RESEARCH_HANDOFF_V3.md": "945390ff368728607ca5dc00b14efbef09029063c30b6ac1f90b17c9ab0ffcfa",
+    "benchmark_btc15_closeout_outbox_research_v3.py": "a34eb57f1e250507a40cb3371a28274d8905f52c826e5bd5f5f68f25f60b439c",
+    "btc15_closeout_outbox_research_v3.py": "6a913fe2c183fbf8ff048bd2e2ded8a7b2bbddb3dbc036751ef9f5ee82b28e53",
+    "test_btc15_closeout_outbox_research_v3.py": "753609fd8527ac96ba9a4a3cdaa212129ccc39699277bbbef0fc889d9b38ef29"
+  },
+  "tests": {
+    "failures": 0,
+    "total": 68,
+    "v1": 15,
+    "v2": 19,
+    "v3": 34
+  }
+}
