@@ -1,0 +1,405 @@
+{
+  "schema": "BTC15_DATA_BEARING_RESEARCH_RETIREMENT_SNAPSHOT_V1",
+  "secretsExcluded": true,
+  "manualRestorationMayNeedCredentials": true,
+  "coreNotIncluded": true,
+  "entries": [
+    {
+      "name": "old scalp finalprod",
+      "id": "b369287c-d8a1-4427-84de-25e39fe9fdf7",
+      "service": {
+        "id": "b369287c-d8a1-4427-84de-25e39fe9fdf7",
+        "name": "scalp-finalprod-clean-v1",
+        "state": "live"
+      },
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-finalprod-clean-v1-20260920",
+        "checkSuites": false
+      },
+      "deploy": {
+        "startCommand": "python -m unittest -q test_scalp_move_finalprod_clean_static.py test_brti_consumer_contract_v2.py test_btc15_clean_run.py test_btc15_common_observer.py test_btc15_clean_frame_freshness.py && exec python -u btc15_clean_run_v1.py",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 120,
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [
+          {
+            "id": "35707b83-fb43-4e43-bc0d-1c7df2722e7d",
+            "domain": "scalp-finalprod-clean-v1-production.up.railway.app",
+            "targetPort": 8080
+          }
+        ],
+        "customDomains": []
+      },
+      "volumes": [
+        {
+          "id": "93e974dc-b8bb-4658-bed5-dc4815308396",
+          "name": "scalp-finalprod-clean-v1-volume",
+          "mountPath": "/data",
+          "sizeMB": 50000,
+          "region": "iad",
+          "state": "live"
+        }
+      ],
+      "variableNames": [
+        "BTC15_BRTI_GATEWAY_URL",
+        "BTC15_BRTI_SHARED_URL",
+        "BTC15_BRTI_TRANSPORT",
+        "BTC15_CLEAN_RUN_ID",
+        "BTC15_DATA_DIR",
+        "BTC15_FINAL_PROD_STATE_URL",
+        "BTC15_KALSHI_QUOTE_PROVENANCE_CANARY",
+        "BTC15_USE_SHARED_BRTI",
+        "KALSHI_KEY_ID",
+        "KALSHI_PRIVATE_KEY_B64",
+        "PATH_EXPORT_ENABLE",
+        "PORT",
+        "PYTHONUNBUFFERED",
+        "SCALP_EVENT_CSV",
+        "SCALP_STATE_JSON"
+      ],
+      "stagedChanges": [],
+      "latestDeployment": {
+        "id": "df8385ff-46a2-4dfb-af0a-07c25e5382aa",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-23T20:44:50.327Z",
+        "url": null
+      }
+    },
+    {
+      "name": "old scalp move shadow",
+      "id": "8b40a28c-1beb-4020-bdc2-e7e236fe3501",
+      "service": {
+        "id": "8b40a28c-1beb-4020-bdc2-e7e236fe3501",
+        "name": "scalp-move-shadow-v1",
+        "state": "live"
+      },
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "scalp-move-shadow-v1-20260912",
+        "checkSuites": false
+      },
+      "deploy": {
+        "startCommand": "/bin/sh -c 'if [ -z \"$KALSHI_KEY_ID\" ] || [ -z \"$KALSHI_PRIVATE_KEY_B64\" ]; then echo \"SCALP MOVE WAITING FOR VARIABLES | NO ORDERS\"; sleep 31536000; else python btc15_preserve_evidence_v1.py --root /data --label pre-source-v2-20260923 && python -m unittest -q test_scalp_live_event_cache_v1.py test_btc15_combined_state_bridge_v4.py test_btc15_combined_state_bridge_v3.py test_btc15_main_protected_state_adapter_v1.py test_btc15_cross_service_payload_v4.py test_scalp_integration_state_bridge_v4.py test_scalp_integration_state_bridge_v3.py test_btc15_protected_module_adapter_v1.py test_BTC15_SCALP_SERIAL_STATE_BRIDGE_SHADOW_V1.py test_scalp_integration_state_bridge_v5.py test_btc15_combined_state_bridge_v5.py && exec python -u btc15_combined_state_bridge_v5.py; fi'",
+        "healthcheckPath": "/state",
+        "healthcheckTimeout": 120,
+        "restartPolicyType": "NEVER",
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [
+          {
+            "id": "aa870fe8-12f4-4d23-9316-554a58a309e8",
+            "domain": "scalp-move-shadow-v1-production.up.railway.app",
+            "targetPort": 8080
+          }
+        ],
+        "customDomains": []
+      },
+      "volumes": [
+        {
+          "id": "656da4af-6a3f-4907-95da-2c0c0000cf29",
+          "name": "scalp-move-shadow-v1-volume",
+          "mountPath": "/data",
+          "sizeMB": 5000,
+          "region": "iad",
+          "state": "live"
+        }
+      ],
+      "variableNames": [
+        "ADAPTER_TEST_TRIGGER",
+        "BTC15_BRTI_SHARED_URL",
+        "BTC15_BRTI_TRANSPORT",
+        "BTC15_USE_SHARED_BRTI",
+        "COLLECTOR_RESTORE_TRIGGER",
+        "COMBINED_SCALP_UI_SELFTEST_TRIGGER",
+        "COMBINED_STATE_BRIDGE_DEPLOY_TRIGGER",
+        "DASHBOARD_DOM_PROBE_TRIGGER",
+        "EARLY_PIPELINE_RUN_TRIGGER",
+        "EARLY_PIPELINE_V3_TRIGGER",
+        "INTEGRATION_BRIDGE_TEST_TRIGGER",
+        "INTEGRATION_FIXTURE_TRIGGER",
+        "INTEGRATION_LATCH_TRIGGER",
+        "INTEGRATION_RESEARCH_SUITE_TRIGGER",
+        "INTEGRATION_V3_TRIGGER",
+        "KALSHI_KEY_ID",
+        "KALSHI_PRIVATE_KEY_B64",
+        "MAIN_SCHEMA_PROBE_TRIGGER",
+        "NESTED_MAIN_ADAPTER_DEPLOY_TRIGGER",
+        "PATH_EXPORT_ENABLE",
+        "PATH_EXPORT_TOKEN",
+        "PROTECTION_TIMING_AUDIT_TRIGGER",
+        "PYTHONUNBUFFERED",
+        "SCALP_COLLECTOR_SCRIPT",
+        "SCALP_EVENT_CSV",
+        "SCALP_V4_DEPLOY_TRIGGER",
+        "SCORE_RUN_TRIGGER",
+        "STABILITY_RUN_TRIGGER",
+        "STATE_BRIDGE_V2_TRIGGER",
+        "TRANSITION_MONITOR_TRIGGER"
+      ],
+      "stagedChanges": [],
+      "latestDeployment": {
+        "id": "009fce2f-af6d-4b3a-a4df-fff79e092c8b",
+        "status": "SUCCESS",
+        "createdAt": "2026-09-23T03:44:45.779Z",
+        "url": null
+      }
+    },
+    {
+      "name": "old MAIN qualification",
+      "id": "e6101c69-18df-4522-99d8-94e363ad8b92",
+      "service": {
+        "id": "e6101c69-18df-4522-99d8-94e363ad8b92",
+        "name": "btc15-v2-main-qualification",
+        "state": "live"
+      },
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "fix/btc15-live-cockpit-source-visibility-20261008",
+        "commitSha": "57f468063f31ec005f413e5032d147603c2e70c8"
+      },
+      "deploy": {
+        "startCommand": "python -u ops/btc15_retired_collector_service.py",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 120,
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [
+          {
+            "id": "383dc98f-75dc-4a35-9549-fc2b41dd929b",
+            "domain": "btc15-v2-main-qualification-production.up.railway.app",
+            "targetPort": 8080
+          }
+        ],
+        "customDomains": []
+      },
+      "volumes": [
+        {
+          "id": "b6304c46-7027-4bfd-932d-94bb9c67da8e",
+          "name": "btc15-v2-main-journal",
+          "mountPath": "/data",
+          "sizeMB": 2048,
+          "region": "iad",
+          "state": "live"
+        }
+      ],
+      "variableNames": [
+        "BTC15_BRTI_GATEWAY_URL",
+        "BTC15_BRTI_SHARED_URL",
+        "BTC15_BRTI_TRANSPORT",
+        "BTC15_DASH_V13_Z1",
+        "BTC15_DASH_V13_Z2",
+        "BTC15_DASH_V13_Z3",
+        "BTC15_DASH_V13_Z4",
+        "BTC15_DASH_V13_Z5",
+        "BTC15_ENABLE_INFORMATION_EXPORT",
+        "BTC15_INLINE_SCALP_V1",
+        "BTC15_KALSHI_QUOTE_PROVENANCE_CANARY",
+        "BTC15_LADDER_DATA_ROOT",
+        "BTC15_USE_SHARED_BRTI",
+        "BTC15_V81_LADDERS_URL",
+        "KALSHI_KEY_ID",
+        "KALSHI_PRIVATE_KEY_B64",
+        "PORT",
+        "PYTHONUNBUFFERED"
+      ],
+      "stagedChanges": [],
+      "latestDeployment": {
+        "id": "5e144106-3663-4a26-9715-90875fa4db93",
+        "status": "SUCCESS",
+        "createdAt": "2026-10-08T23:40:02.406Z",
+        "url": null
+      }
+    },
+    {
+      "name": "old V81 qualification",
+      "id": "725e8200-656a-4576-a62a-0b84fedf9ffd",
+      "service": {
+        "id": "725e8200-656a-4576-a62a-0b84fedf9ffd",
+        "name": "btc15-v2-v81-qualification",
+        "state": "live"
+      },
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "release/v81-ladder-completion-20261003",
+        "commitSha": "60e6ebdd03e81a4c84385e1b5122302f3cf0b9f1"
+      },
+      "deploy": {
+        "startCommand": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && python btc15_verify_ladder_freeze_v2.py --lane v81 && exec python -u v81_30_45_live_feed.py'",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 30,
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [
+          {
+            "id": "7b4d91cf-f1c4-41f1-973f-5e5f0f7193ed",
+            "domain": "btc15-v2-v81-qualification-production.up.railway.app",
+            "targetPort": 8080
+          }
+        ],
+        "customDomains": []
+      },
+      "volumes": [
+        {
+          "id": "97cc9dcd-ef90-495e-a1be-ffda31eac1b3",
+          "name": "btc15-v2-v81-journal",
+          "mountPath": "/data",
+          "sizeMB": 2048,
+          "region": "iad",
+          "state": "live"
+        }
+      ],
+      "variableNames": [
+        "BTC15_BRTI_SHARED_URL",
+        "BTC15_BRTI_TRANSPORT",
+        "BTC15_LADDER_DATA_ROOT",
+        "BTC15_USE_SHARED_BRTI",
+        "KALSHI_KEY_ID",
+        "KALSHI_PRIVATE_KEY_B64",
+        "PORT",
+        "PYTHONUNBUFFERED",
+        "V81_DIAG_LIVE"
+      ],
+      "stagedChanges": [],
+      "latestDeployment": {
+        "id": "39c95226-fff1-4f5f-8ce4-606c5e446a70",
+        "status": "SUCCESS",
+        "createdAt": "2026-10-04T02:29:13.728Z",
+        "url": null
+      }
+    },
+    {
+      "name": "BRTI shadow",
+      "id": "e1f0ffbc-f169-4687-96d0-7cbf12982067",
+      "service": {
+        "id": "e1f0ffbc-f169-4687-96d0-7cbf12982067",
+        "name": "brti-shared-feed-shadow-1s-20261005",
+        "state": "live"
+      },
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "brti-shared-feed-v1-20260913",
+        "commitSha": "37735e737690096edea31beb2faff6842770ac4f"
+      },
+      "deploy": {
+        "startCommand": "python -u brti_shared_feed_guarded_launcher_v1.py",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 120,
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [
+          {
+            "id": "cfddbd12-892b-476a-bc34-331654ef8c07",
+            "domain": "brti-shared-feed-shadow-1s-20261005-production.up.railway.app",
+            "targetPort": 8080
+          }
+        ],
+        "customDomains": []
+      },
+      "volumes": [],
+      "variableNames": [
+        "BRTI_SHARED_ENABLE",
+        "BRTI_SHARED_MAX_429_BACKOFF_S",
+        "BRTI_SHARED_MAX_QUAL_AGE_S",
+        "BRTI_SHARED_POLL_INTERVAL_S",
+        "KALSHI_KEY_ID",
+        "KALSHI_PRIVATE_KEY_B64",
+        "PYTHONUNBUFFERED"
+      ],
+      "stagedChanges": [],
+      "latestDeployment": {
+        "id": "f1f41a8e-12b0-4ff5-bf90-8d8a5da32c06",
+        "status": "SUCCESS",
+        "createdAt": "2026-10-05T19:34:34.128Z",
+        "url": null
+      }
+    },
+    {
+      "name": "cockpit preview",
+      "id": "53f2b821-8960-4221-aabc-c4beefb86c44",
+      "service": {
+        "id": "53f2b821-8960-4221-aabc-c4beefb86c44",
+        "name": "operator-cockpit-ipad-preview-20261006",
+        "state": "live"
+      },
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "candidate/operator-cockpit-functional-20261006",
+        "commitSha": "d386ed6bf387ab37a3c4a910ea19b676b14d6842"
+      },
+      "deploy": {
+        "startCommand": "python -u btc15_operator_cockpit_launch.py --preview",
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [
+          {
+            "id": "af76532c-f5ed-4292-bcc7-1e9ecf3068b8",
+            "domain": "operator-cockpit-ipad-preview-20261006-production.up.railway.app",
+            "targetPort": 8080
+          }
+        ],
+        "customDomains": []
+      },
+      "volumes": [],
+      "variableNames": [
+        "BTC15_PREVIEW_UPSTREAM"
+      ],
+      "stagedChanges": [],
+      "latestDeployment": {
+        "id": "1042ce64-dabf-486b-8d37-7dc2295782ac",
+        "status": "SUCCESS",
+        "createdAt": "2026-10-07T12:07:29.376Z",
+        "url": null
+      }
+    }
+  ]
+}
