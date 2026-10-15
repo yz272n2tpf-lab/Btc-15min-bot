@@ -25,6 +25,21 @@ class V81Batching(unittest.TestCase):
         self.assertIsInstance(archive.journal, BatchedCompressedJournal)
         return archive
 
+    def test_main_and_information_keep_original_journal_and_proof_owner(self):
+        from btc15_information_journal_v1 import CompressedJournal
+        from btc15_quote_proof_offpath_v1 import OffPathProofWriter as NativeProofWriter
+        from ops.live_recording.recorder_queue import RecorderOffPathProofWriter
+        self.assertIsNot(NativeProofWriter, RecorderOffPathProofWriter)
+        with tempfile.TemporaryDirectory() as directory:
+            for role in ('main','information'):
+                archive=RoleArchive(
+                    Path(directory) / role, role=role,
+                    evidence_class='FIXTURE', source_binding='isolation-'+role,
+                    budget=dict(BUDGET,max_total_bytes=64*MIB))
+                self.assertIs(type(archive.journal), CompressedJournal)
+            v81=self.archive(directory)
+            self.assertIs(type(v81.journal), BatchedCompressedJournal)
+
     def test_batches_preserve_exact_hash_chain_and_reduce_fsync(self):
         with tempfile.TemporaryDirectory() as directory:
             archive = self.archive(directory)
