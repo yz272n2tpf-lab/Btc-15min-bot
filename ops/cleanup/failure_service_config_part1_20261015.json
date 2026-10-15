@@ -1,0 +1,262 @@
+{
+  "schema": "BTC15_OBSOLETE_FAILED_CONFIG_SNAPSHOT_V1",
+  "parts": [
+    {
+      "name": "final-v4-review-tooling-v1",
+      "id": "56b8496c-8dea-409b-a236-9e139a9c2e96",
+      "oldStatus": "FAILED",
+      "deployId": "566fe5d0-edf0-4076-84a8-8b07c77b037e",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot"
+      },
+      "deploy": {
+        "startCommand": "python -m unittest -q test_BTC15_FINAL_V4_FROZEN_REVIEW_REPORT_V1.py test_BTC15_FINAL_V4_REVIEW_LIVE_V1.py test_BTC15_EARLY_V1_FROZEN_REVIEW_REPORT_V1.py test_BTC15_REVIEW_HUB_LIVE_V1.py test_BTC15_HANDOFF_V1_FROZEN_REVIEW_REPORT_V1.py test_BTC15_EARLY_EXCURSION_V1_FROZEN_REVIEW_REPORT_V1.py test_BTC15_REVIEW_HUB_LIVE_V2.py test_BTC15_FLIP_RISK_V2_FROZEN_REVIEW_REPORT_V1.py && exec python -u BTC15_REVIEW_HUB_LIVE_V2.py",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 30,
+        "restartPolicyMaxRetries": 3,
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [],
+        "customDomains": []
+      },
+      "volumeCount": 0,
+      "variableNames": [
+        "EARLY_V1_REVIEW_QA",
+        "FINAL_V4_REVIEW_LIVE_QA",
+        "FINAL_V4_REVIEW_QA",
+        "FLIP_V2_REVIEW_QA",
+        "HANDOFF_V1_REVIEW_QA",
+        "REVIEW_HUB_V1_QA",
+        "REVIEW_HUB_V2_QA"
+      ],
+      "stagedChanges": []
+    },
+    {
+      "name": "scalp-unarmed-live-tape-v1",
+      "id": "cc7ca702-ddbc-4f61-8205-873e34b7d740",
+      "oldStatus": "FAILED",
+      "deployId": "83ffec5d-fb79-48cc-89e1-440aa8f57200",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "unarmed-health-startup-fix-20260918"
+      },
+      "deploy": {
+        "startCommand": "python -m unittest -q test_btc15_scalp_unarmed_live_tape_validator_v1.py test_BTC15_SCALP_TRIGGER_TIGHTENING_RESEARCH_V1.py test_BTC15_SCALP_FAILED_PREARM_RESET_TOURNAMENT_V1.py test_BTC15_SCALP_BLUEPRINT_REVIEW_GATE_V1.py test_BTC15_SCALP_PROTECTION_AUDIT_V1.py test_BTC15_SCALP_BLUEPRINT_COVERAGE_AUDIT_V1.py test_scalp_unarmed_memory_opt_behavior_v1.py && python -u test_scalp_unarmed_memory_opt_static_v1.py && python -u test_scalp_unarmed_supervisor_static_v1.py && exec python -u btc15_scalp_unarmed_supervisor_v1.py",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 360,
+        "restartPolicyType": "NEVER",
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [],
+        "customDomains": []
+      },
+      "volumeCount": 0,
+      "variableNames": [
+        "FALSE_START_STUDY_TRIGGER",
+        "PYTHONUNBUFFERED",
+        "SCALP_BLUEPRINT_CUTOFF_UTC",
+        "SCALP_PATH_EXPORT_TOKEN",
+        "SCALP_PATH_EXPORT_URL",
+        "SCALP_UNARMED_LIVE_POLL_SEC"
+      ],
+      "stagedChanges": []
+    },
+    {
+      "name": "combined-dashboard-shadow-v14",
+      "id": "c1db8b80-f656-4295-ade8-812c129f6c72",
+      "oldStatus": "FAILED",
+      "deployId": "0befa526-b112-4607-b03d-dc1ee66c7238",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot"
+      },
+      "deploy": {
+        "startCommand": "python -m unittest -q test_BTC15_DASHBOARD_COMBINED_SCALP_UI_V13.py test_BTC15_DASHBOARD_COMBINED_SCALP_UI_V14.py test_BTC15_DASHBOARD_PRESENTATION_AUDIT_V14.py test_BTC15_DASHBOARD_V14_EXACT_DIFF.py test_btc15_combined_dashboard_shadow_v7.py test_btc15_combined_dashboard_shadow_v10.py && python BTC15_DASHBOARD_COMBINED_SCALP_UI_V14.py --self-test && exec python -u btc15_combined_dashboard_shadow_v10.py",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 30,
+        "restartPolicyMaxRetries": 2,
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [
+          {
+            "id": "0f4a949a-7486-4861-add8-85452e751ee6",
+            "domain": "combined-dashboard-shadow-v14-production.up.railway.app",
+            "targetPort": 8080
+          }
+        ],
+        "customDomains": []
+      },
+      "volumeCount": 0,
+      "variableNames": [
+        "V14_CANDIDATE",
+        "V14_DOM_AUDIT_BOOTSTRAP",
+        "V14_STABILITY_SOURCE_AUDIT"
+      ],
+      "stagedChanges": []
+    },
+    {
+      "name": "scalp-display-bridge-v6",
+      "id": "90046a79-3f57-493f-b473-18d0031e8f0d",
+      "oldStatus": "FAILED",
+      "deployId": "168341d7-ea4d-496f-aa8d-038bf8f58095",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot"
+      },
+      "deploy": {
+        "startCommand": "python -m unittest -q test_btc15_combined_state_bridge_v6_display.py && exec python -u btc15_combined_state_bridge_v6_display.py",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 30,
+        "restartPolicyType": "NEVER",
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [
+          {
+            "id": "a740218c-03e8-467c-ae83-e0fd2626c310",
+            "domain": "scalp-display-bridge-v6-production.up.railway.app",
+            "targetPort": 8080
+          }
+        ],
+        "customDomains": []
+      },
+      "volumeCount": 0,
+      "variableNames": [],
+      "stagedChanges": []
+    },
+    {
+      "name": "combined-dashboard-shadow-v11",
+      "id": "87801206-d705-43d6-8aa2-bfb1b11c1ff6",
+      "oldStatus": "FAILED",
+      "deployId": "19e0ce33-3e0f-4859-8333-3d733672a962",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot"
+      },
+      "deploy": {
+        "startCommand": "python -m unittest -q test_btc15_combined_dashboard_shadow_v1.py test_btc15_combined_dashboard_shadow_v7.py && python -u BTC15_DASHBOARD_COMBINED_SCALP_UI_V12.py --self-test && exec python -u btc15_combined_dashboard_shadow_v8.py",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 30,
+        "restartPolicyType": "NEVER",
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [
+          {
+            "id": "fdf0adc3-cb45-4c45-af5f-a83947e88409",
+            "domain": "combined-dashboard-shadow-v11-production.up.railway.app",
+            "targetPort": 8080
+          }
+        ],
+        "customDomains": []
+      },
+      "volumeCount": 0,
+      "variableNames": [],
+      "stagedChanges": []
+    },
+    {
+      "name": "combined-dashboard-shadow-v1",
+      "id": "142e0fe5-13ce-4cb7-a08b-d4a65539fb47",
+      "oldStatus": "FAILED",
+      "deployId": "4fb952d9-dc59-4688-becc-b57db709d332",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot"
+      },
+      "deploy": {
+        "startCommand": "python -m unittest -q test_btc15_combined_dashboard_shadow_v1.py && python -u BTC15_DASHBOARD_COMBINED_SCALP_UI_V10.py --self-test && exec python -u btc15_combined_dashboard_shadow_v6.py",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 30,
+        "restartPolicyType": "NEVER",
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [
+          {
+            "id": "6d61bb40-dac5-47d7-a38e-a59dc3492eae",
+            "domain": "combined-dashboard-shadow-v1-production.up.railway.app",
+            "targetPort": 8080
+          }
+        ],
+        "customDomains": []
+      },
+      "volumeCount": 0,
+      "variableNames": [],
+      "stagedChanges": []
+    },
+    {
+      "name": "recovered-v11-identity-pr48",
+      "id": "dc393dd9-ed9a-4dbb-a824-a9625ecbfd2f",
+      "oldStatus": "FAILED",
+      "deployId": "6dcb4a8f-dbb8-4431-88f6-abf3a0542a1c",
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "audit/identity-bound-info-20260928",
+        "checkSuites": false
+      },
+      "deploy": {
+        "startCommand": "python3 qualify_recovered_v11_candidate.py && exec python3 -u btc15_recovered_v11_live_host_v1.py",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 60,
+        "restartPolicyType": "NEVER",
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "domains": {
+        "serviceDomains": [],
+        "customDomains": []
+      },
+      "volumeCount": 0,
+      "variableNames": [],
+      "stagedChanges": []
+    }
+  ],
+  "redacted": true
+}
