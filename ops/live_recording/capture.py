@@ -6,7 +6,7 @@ Stopping never restores an older function over a later cadence wrapper.
 import atexit,base64,json,os,shutil,threading,time
 from collections import Counter
 from pathlib import Path
-from btc15_quote_proof_offpath_v1 import OffPathProofWriter
+from .recorder_queue import RecorderOffPathProofWriter
 from candidates.early_recording_20261012.archive import Archive,BUDGET
 from .batched_journal import BatchedCompressedJournal
 from candidates.early_recording_20261012.seams import Observer
@@ -109,7 +109,7 @@ class Capture:
   self.archive.profile=self.profile;share=2 if role=='main' else 4
   self.archive.decoded_cap=self.profile['decoded']//share;self.archive.record_cap=self.profile['records']//share
   self.archive.reserve=512*MiB # independent of configured volume size
-  self.writer=OffPathProofWriter(self.root/'unused',lambda p,w:w.identity,2*MiB,queue_size=16384,queue_bytes=32*MiB,admission_limits=dict(queue_size=16384,queue_bytes=32*MiB),archive=self.archive)
+  self.writer=RecorderOffPathProofWriter(self.root/'unused',lambda p,w:w.identity,2*MiB,queue_size=16384,queue_bytes=32*MiB,admission_limits=dict(queue_size=16384,queue_bytes=32*MiB),archive=self.archive)
   self.gate=Gate(self.writer)
   self.observer=Observer(self.gate,btc_feed='Coinbase:existing:'+role,btc_epoch=self.archive.session,brti_feed='BRTI:existing-owner:'+role)
   self.observer.capture_requests=True
