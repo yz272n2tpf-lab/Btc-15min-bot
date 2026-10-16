@@ -44,8 +44,10 @@ class SourceContractWindowHandoff:
         self.max_http_items=max_http_items
         self.max_acceptances=max_acceptances
         self.sources={}
+        self.source_tuple_index={}
         self.original_observations={}
         self.official={}
+        self.official_count=0
         self.http_bytes=OrderedDict()
         self.http_raw_bytes=0
         self.original_responses=OrderedDict()
@@ -124,8 +126,11 @@ class SourceContractWindowHandoff:
             raise ValueError('SOURCE_HANDOFF_AMBIGUOUS_ORIGINAL_SOURCE_TUPLE')
         if len(self.sources)>=self.max_sources:
             raise ValueError('SOURCE_HANDOFF_VERIFIED_SOURCE_CAP')
-        self.sources[key]=dict(available_at=v['available_at'],sequence=sequence,
-                                publication_id=v['publication_id'])
+        detail=dict(available_at=v['available_at'],sequence=sequence,
+                    publication_id=v['publication_id'])
+        self.sources[key]=detail
+        prefix=key[:6]
+        self.source_tuple_index.setdefault(prefix,[]).append((v['epoch'],detail))
         self.max_source_entries=max(self.max_source_entries,len(self.sources))
 
     def _source_repeat(self,role,session,v,sequence):
@@ -176,25 +181,20 @@ class SourceContractWindowHandoff:
             raise ValueError('SOURCE_HANDOFF_MARKET_INTERVAL')
         key=(role,session,ticker,opened,closed,target)
         existing=self.official.setdefault(key,[])
-        if sum(len(x) for x in self.official.values())>=self.max_metadata:
+        if self.official_count>=self.max_metadata:
             raise ValueError('SOURCE_HANDOFF_OFFICIAL_COUNT_LIMIT')
         existing.append(dict(received_at=v['received_at'],sequence=sequence,
                              original_http_sha256=digest))
-        self.max_official_entries=max(self.max_official_entries,
-                                      sum(len(x) for x in self.official.values()))
+        self.official_count+=1
+        self.max_official_entries=max(self.max_official_entries,self.official_count)
         self.counts['OFFICIAL_MARKET_IDENTITY']+=1
 
     def _match_source(self,role,session,asset,source,received,value,epoch,cut):
         if not all(_number(x) for x in (source,received,value,cut)) or not source<=received<=cut:
             raise ValueError('SOURCE_HANDOFF_DECISION_SOURCE_CUTOFF')
-        matching=[]
-        for key,detail in self.sources.items():
-            r,s,a,ts,rt,val,ep=key
-            if ((r,s,a,ts,rt,val)==(role,session,asset,source,received,value)
-                and (epoch is None or ep==epoch)
-                and detail['available_at']<=cut):
-                matching.append(detail)
-                if len(matching)>1:break
+        prefix=(role,session,asset,source,received,value)
+        matching=[detail for ep,detail in self.source_tuple_index.get(prefix,())
+                  if (epoch is None or ep==epoch) and detail['available_at']<=cut]
         if len(matching)!=1:
             raise ValueError('SOURCE_HANDOFF_MISSING_OR_AMBIGUOUS_SOURCE:'+asset)
         return matching[0]
