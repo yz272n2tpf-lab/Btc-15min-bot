@@ -5,6 +5,8 @@ on:
     paths:
       - 'ops/live_recording/burst_journal_research.py'
       - 'ops/live_recording/capture.py'
+      - 'ops/recording_workflow/evidence.py'
+      - 'research/main_closeout_incremental_20261015/test_existing_reader_window_inventory.py'
       - 'research/main_closeout_incremental_20261015/test_recorder_burst_batch_research.py'
       - '.github/workflows/btc15-recorder-burst-research.yml'
 permissions:
@@ -26,3 +28,5 @@ jobs:
           python-version: '3.12'
       - name: Run targeted recorder queue, seal, hash chain regressions
         run: python -m unittest -v research.main_closeout_incremental_20261015.test_recorder_burst_batch_research
+      - name: Verify existing reader's bounded source inventory
+        run: python -m unittest -v research.main_closeout_incremental_20261015.test_existing_reader_window_inventory
