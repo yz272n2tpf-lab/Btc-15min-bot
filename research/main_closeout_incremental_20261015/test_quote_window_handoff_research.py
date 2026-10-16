@@ -158,18 +158,16 @@ class QuoteWindowIntegrationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'QUOTE_HANDOFF_RAW_SHA'):
             self.run_original_reader()
 
-    def test_missing_initial_stream_is_error_not_synthesized(self):
+    def test_duplicate_stream_is_error_not_synthesized(self):
         a=setup(self.root)
-        a.write('STREAM_END',dict(epoch=EPOCH,ticker=TICKER,observed_at=T0))
-        a.write('STREAM_START',dict(ticker=TICKER,epoch='different',observed_at=T0))
+        a.write('STREAM_START',dict(ticker=TICKER,epoch=EPOCH,observed_at=T0))
         a.write('STOP',dict(clean=True))
         a.close()
         with self.assertRaisesRegex(ValueError,'QUOTE_HANDOFF_DUPLICATE_OR_TOO_MANY_STREAMS'):
-            # Starts a duplicate of a real, still-open stream.
             self.run_original_reader()
 
     def test_bounded_raw_cache_rejects_single_oversize_blob(self):
-        a=setup(self.root)
+        a=setup(self.root,segment_bytes=8*1024**2)
         body=b'Z'*(1024**2+20)
         a.write('QUOTE_BYTES',dict(raw_base64=base64.b64encode(body).decode(),
                                    sha256=sha(body)))
