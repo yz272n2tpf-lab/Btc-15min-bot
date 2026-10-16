@@ -103,10 +103,9 @@ class QuoteWindowIntegrationTests(unittest.TestCase):
         reference=Book(TICKER)
         reference.apply(s);reference.apply(d)
         want=sha(canonical(QuoteWindowHandoff._state(reference)))
-        self.assertTrue(any(
-            book['book_state_sha256']==want for x in windows
-            for book in x['quote_state_handoff']['open_books']
-        ))
+        actual=[book for x in windows for book in x['quote_state_handoff']['open_books']]
+        self.assertIn(want,[book['book_state_sha256'] for book in actual],
+                      'REFERENCE_EXPECTED='+want+'; ACTUAL='+repr(actual))
         self.assertFalse((self.base/'bounded/index.sqlite3').exists())
 
     def test_missing_exact_original_receive_fails_closed(self):
