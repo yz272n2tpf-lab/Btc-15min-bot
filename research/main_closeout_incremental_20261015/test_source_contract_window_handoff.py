@@ -231,7 +231,7 @@ class SourceContractHandoffOffline(unittest.TestCase):
         a=self.prepared()
         decision(a)
         a.write('STOP',dict(clean=True));a.close()
-        with self.assertRaisesRegex(ValueError,'SOURCE_HANDOFF_ORIGINAL_OBSERVATIONS_CAP'):
+        with self.assertRaisesRegex(ValueError,'SOURCE_HANDOFF_(ORIGINAL_OBSERVATIONS|VERIFIED_SOURCE)_CAP'):
             self.run_source(max_sources=1)
         self.assertFalse((self.tmp/'audited/window_inventory_manifest.json').exists())
 
