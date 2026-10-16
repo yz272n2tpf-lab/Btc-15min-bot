@@ -6,13 +6,13 @@ Stopping never restores an older function over a later cadence wrapper.
 import atexit,base64,json,os,shutil,threading,time
 from collections import Counter
 from pathlib import Path
-from btc15_quote_proof_offpath_v1 import OffPathProofWriter
-from candidates.early_recording_20261012.archive import Archive,BUDGET
+from .burst_journal_research import BufferedCaptureArchive,BufferedProofWriter
+from candidates.early_recording_20261012.archive import BUDGET
 from candidates.early_recording_20261012.seams import Observer
 from .policy import canonical,sha,file_sha,atomic,need,validate,runtime_identity,PROFILES,MiB
 
 RAW_KINDS={'ORIGINAL_RESPONSE','CANDLE_ACCEPTANCE','V81_INPUT','BRTI_READ','OUTCOME_ACCEPTANCE','CLOSEOUT_ACCEPTANCE','NATIVE_FRAME'}
-class RoleArchive(Archive):
+class RoleArchive(BufferedCaptureArchive):
  def observe(self,kind,fields):
   if kind=='ORIGINAL_RESPONSE':
    raw=fields['raw'];self.write(kind,dict({k:v for k,v in fields.items() if k!='raw'},raw_base64=base64.b64encode(raw).decode(),sha256=sha(raw)));return
@@ -98,7 +98,7 @@ class Capture:
   self.archive.profile=self.profile;share=2 if role=='main' else 4
   self.archive.decoded_cap=self.profile['decoded']//share;self.archive.record_cap=self.profile['records']//share
   self.archive.reserve=512*MiB # independent of configured volume size
-  self.writer=OffPathProofWriter(self.root/'unused',lambda p,w:w.identity,2*MiB,queue_size=16384,queue_bytes=32*MiB,admission_limits=dict(queue_size=16384,queue_bytes=32*MiB),archive=self.archive)
+  self.writer=BufferedProofWriter(self.root/'unused',lambda p,w:w.identity,2*MiB,queue_size=16384,queue_bytes=32*MiB,admission_limits=dict(queue_size=16384,queue_bytes=32*MiB),archive=self.archive)
   self.gate=Gate(self.writer)
   self.observer=Observer(self.gate,btc_feed='Coinbase:existing:'+role,btc_epoch=self.archive.session,brti_feed='BRTI:existing-owner:'+role)
   self.observer.capture_requests=True
