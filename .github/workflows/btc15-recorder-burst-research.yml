@@ -6,6 +6,8 @@ on:
       - 'ops/live_recording/burst_journal_research.py'
       - 'ops/live_recording/capture.py'
       - 'ops/recording_workflow/evidence.py'
+      - 'ops/live_recording/quote_window_handoff_research.py'
+      - 'research/main_closeout_incremental_20261015/test_quote_window_handoff_research.py'
       - 'research/main_closeout_incremental_20261015/test_existing_reader_window_inventory.py'
       - 'research/main_closeout_incremental_20261015/test_recorder_burst_batch_research.py'
       - '.github/workflows/btc15-recorder-burst-research.yml'
@@ -30,3 +32,5 @@ jobs:
         run: python -m unittest -v research.main_closeout_incremental_20261015.test_recorder_burst_batch_research
       - name: Verify existing reader's bounded source inventory
         run: python -m unittest -v research.main_closeout_incremental_20261015.test_existing_reader_window_inventory
+      - name: Verify bounded quote state across original windows
+        run: python -m unittest -v research.main_closeout_incremental_20261015.test_quote_window_handoff_research
