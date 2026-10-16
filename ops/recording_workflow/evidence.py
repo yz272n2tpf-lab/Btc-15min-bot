@@ -189,7 +189,7 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
                                max_window_records=20000, max_total_records=300000000,
                                max_total_decoded_bytes=256*1024**3,
                                max_files=4096, max_manifest_bytes=256*1024**2, quote_handoff=None,
-                               native_handoff=None):
+                               native_handoff=None, source_handoff=None):
     """Bounded *structural* inventory in the existing evidence reader.
 
     Consumes every original gzip JSONL envelope; preserves per-session SHA chain
@@ -268,6 +268,8 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
             item['quote_state_handoff']=quote_handoff.checkpoint(item['role'],item['session'],item['last_sequence'])
         if native_handoff is not None:
             item['native_journal_handoff']=native_handoff.checkpoint(item['role'],item['session'],item['last_sequence'])
+        if source_handoff is not None:
+            item['source_contract_handoff']=source_handoff.checkpoint(item['role'],item['session'],item['last_sequence'])
         raw=canonical(item)+b'\n'
         total_bytes+=len(raw)
         if total_bytes>max_manifest_bytes:raise ValueError('WINDOWED_MANIFEST_CAPACITY')
@@ -355,6 +357,7 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
                 # after the previous window's audit checkpoint is frozen.
                 if quote_handoff is not None:quote_handoff.accept(role,r)
                 if native_handoff is not None:native_handoff.accept(role,r)
+                if source_handoff is not None:source_handoff.accept(role,r)
                 if current['first_sequence'] is None:
                     current['first_sequence']=seq
                     current['first_predecessor_sha256']=r['previous_sha256']
@@ -390,6 +393,8 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
         summary['quote_state_handoff']=quote_handoff.finish()
     if native_handoff is not None:
         summary['native_journal_handoff']=native_handoff.finish()
+    if source_handoff is not None:
+        summary['source_contract_handoff']=source_handoff.finish()
     summary['windows_manifest_sha256']=file_sha(out/'windows.jsonl')
     summary['windows_manifest_bytes']=(out/'windows.jsonl').stat().st_size
     summary['structural_integrity']='PASS'
