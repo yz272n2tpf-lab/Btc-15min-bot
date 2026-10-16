@@ -9,6 +9,8 @@ on:
       - 'ops/live_recording/quote_window_handoff_research.py'
       - 'ops/live_recording/native_window_handoff_research.py'
       - 'research/main_closeout_incremental_20261015/test_native_journal_window_handoff.py'
+      - 'ops/live_recording/source_contract_window_handoff_research.py'
+      - 'research/main_closeout_incremental_20261015/test_source_contract_window_handoff.py'
       - 'research/main_closeout_incremental_20261015/test_quote_window_handoff_research.py'
       - 'research/main_closeout_incremental_20261015/test_existing_reader_window_inventory.py'
       - 'research/main_closeout_incremental_20261015/test_recorder_burst_batch_research.py'
@@ -38,3 +40,5 @@ jobs:
         run: python -m unittest -v research.main_closeout_incremental_20261015.test_quote_window_handoff_research
       - name: Verify bounded original native journal lifecycles
         run: python -m unittest -v research.main_closeout_incremental_20261015.test_native_journal_window_handoff
+      - name: Verify exact original source, official contract and settlement handoffs
+        run: python -m unittest -v research.main_closeout_incremental_20261015.test_source_contract_window_handoff
