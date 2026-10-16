@@ -83,7 +83,8 @@ def scan_host():
     key_line = scans[0]
     # Pin on first contact, reject subsequent changes without automatically
     # overwriting the trusted value.
-    if KNOWN.exists():
+    existed = KNOWN.exists()
+    if existed:
         if KNOWN.is_symlink() or KNOWN.read_text().strip() != key_line:
             stop("PINNED_RAILWAY_SERVER_KEY_CHANGED")
     else:
@@ -98,7 +99,7 @@ def scan_host():
     print("BTC15_SSH_SERVER_FIRST_CONTACT " + json.dumps({
         "policy": "USER_AUTHORIZED_TRUST_ON_FIRST_USE",
         "host": GATEWAY, "host_key_type": "ssh-ed25519",
-        "pin_reused": KNOWN.exists(),
+        "pin_reused": existed,
         "fingerprint": fingerprint.stdout.strip(),
         "key_material_disclosed": False}, sort_keys=True), flush=True)
 
@@ -116,7 +117,7 @@ def main():
         "-oGlobalKnownHostsFile=/dev/null", "-oCheckHostIP=no",
         "-oConnectTimeout=10", "-oConnectionAttempts=1",
         "-oServerAliveInterval=5", "-oServerAliveCountMax=2",
-        "-i", str(KEY), DESTINATION, "python", "-B", "-c", remote
+        "-i", str(KEY), DESTINATION, "python -B -c " + shlex.quote(remote)
     ]
     try:
         result = run(cmd, 35)
