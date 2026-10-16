@@ -24,7 +24,7 @@ for path in sorted(root.glob('*.jsonl.gz')):
     with gzip.open(path,'rb') as src:
         for raw in src:
             total+=len(raw);raw_count+=1
-            if total>30*1024*1024 or raw_count>15000: raise ValueError('LIMIT_EXCEEDED')
+            if total>256*1024*1024 or raw_count>30000: raise ValueError('LIMIT_EXCEEDED')
             try:
                 rec=json.loads(raw);kind=rec.get('kind','UNKNOWN')
                 h=rec.pop('sha256',None)
