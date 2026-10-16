@@ -190,7 +190,7 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
                                max_total_decoded_bytes=256*1024**3,
                                max_files=4096, max_manifest_bytes=256*1024**2, quote_handoff=None,
                                native_handoff=None, source_handoff=None,
-                               v81_handoff=None):
+                               v81_handoff=None, campaign_handoff=None):
     """Bounded *structural* inventory in the existing evidence reader.
 
     Consumes every original gzip JSONL envelope; preserves per-session SHA chain
@@ -198,6 +198,9 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
     evidence. This cannot substitute for CampaignVerifier's Kalshi, quote-book,
     native decision, settlement and EARLY lifecycle association checks.
 
+    campaign_handoff optionally integrates the existing full CampaignVerifier
+    and commits this same iterator's cursor/windows with its association state.
+    Legacy partial handoffs cannot be mixed with recoverable campaign mode.
     Source times only label observed time slices, NEVER official contract windows.
     Untimed events remain ordered and explicitly counted as untimed. A broken
     chain, incomplete session, mixed class or changed source is fatal. An
@@ -213,7 +216,12 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
     if not isinstance(max_window_records,int) or not 1<=max_window_records<=100000:
         raise ValueError('WINDOW_RECORD_BUDGET')
     root=local_root(root);out=local_root(out)
-    if not root.is_dir() or root.is_symlink() or out.exists():
+    if campaign_handoff is not None:
+        if any(x is not None for x in (quote_handoff,native_handoff,source_handoff,v81_handoff)):
+            raise ValueError('RECOVERY_PARTIAL_HANDOFF_MIX')
+        if campaign_handoff.root!=root or campaign_handoff.out!=out:
+            raise ValueError('RECOVERY_PATH_BINDING')
+    if not root.is_dir() or root.is_symlink() or (out.exists() and campaign_handoff is None):
         raise ValueError('WINDOWED_SOURCE_OR_OUTPUT')
     # The first validated line identifies which session and original sequence
     # this segment starts at; random filename suffixes are NOT event order.
@@ -241,7 +249,7 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
                               first_sequence=r['sequence'],size=size,sha256=digest))
     if not files:raise ValueError('WINDOWED_EMPTY_SOURCE')
 
-    files.sort(key=lambda x:(x['role'],x['session'],x['first_sequence']))
+    files.sort(key=lambda x:((0 if x['role']=='source' else 1) if campaign_handoff is not None else x['role'],x['session'],x['first_sequence']))
     seen_start=set()
     summary=dict(schema='BTC15_STREAMING_15M_ARCHIVE_INVENTORY_V1',
                  window_seconds=window_seconds,max_window_records=max_window_records,
@@ -256,10 +264,31 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
                  source_time_basis='RECEIPT_OR_ACCEPTANCE_WHEN_PRESENT; NO_SYNTHETIC_CLOCKS; UNTIMED_EVENTS_SEQUENCE_ONLY',
                  native_lifecycle_and_quote_associations='NOT_EVALUATED',
                  signal_only=True,orders=False)
-    out.mkdir(parents=True,mode=0o700)
+    if campaign_handoff is None:out.mkdir(parents=True,mode=0o700)
     if v81_handoff is not None:
         v81_handoff.attach_audit(out/'v81_native_original_associations.jsonl')
-    active=None;current=None;total_bytes=0;losses=Counter();kinds=Counter()
+    active=None;current=None;total_bytes=0;losses=Counter();kinds=Counter();cursor=None
+    if campaign_handoff is not None:
+        restored=campaign_handoff.bind(files,dict(window_seconds=window_seconds,max_window_bytes=max_window_bytes,
+            max_window_records=max_window_records,max_total_records=max_total_records,
+            max_total_decoded_bytes=max_total_decoded_bytes,max_files=max_files,max_manifest_bytes=max_manifest_bytes))
+        if restored:
+            summary=restored['summary'];active=restored['active'];seen_start=restored['seen_start']
+            total_bytes=restored['total_bytes'];losses=restored['losses'];kinds=restored['kinds'];cursor=restored['cursor']
+            if restored.get('finished'):
+                campaign_handoff.export()
+                from ops.live_recording.policy import atomic
+                summary['windows_manifest_sha256']=file_sha(out/'windows.jsonl')
+                summary['windows_manifest_bytes']=(out/'windows.jsonl').stat().st_size
+                atomic(out/'window_inventory_manifest.json',summary)
+                return summary
+
+    def snapshot(finished=False):
+        return dict(summary=summary,active=active,seen_start=seen_start,total_bytes=total_bytes,
+                    losses=losses,kinds=kinds,cursor=cursor,finished=finished)
+
+    if campaign_handoff is not None and not campaign_handoff.resume:
+        campaign_handoff.commit_snapshot(snapshot())
 
     def flush(fh):
         nonlocal current,total_bytes
@@ -275,6 +304,8 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
             item['source_contract_handoff']=source_handoff.checkpoint(item['role'],item['session'],item['last_sequence'])
         if v81_handoff is not None:
             item['v81_causal_handoff']=v81_handoff.checkpoint(item['role'],item['session'],item['last_sequence'])
+        if campaign_handoff is not None:
+            item['campaign_handoff']=campaign_handoff.checkpoint(item['role'],item['session'],item['last_sequence'])
         raw=canonical(item)+b'\n'
         total_bytes+=len(raw)
         if total_bytes>max_manifest_bytes:raise ValueError('WINDOWED_MANIFEST_CAPACITY')
@@ -283,6 +314,7 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
         summary['max_window_observed_records']=max(summary['max_window_observed_records'],item['records'])
         summary['max_window_observed_bytes']=max(summary['max_window_observed_bytes'],item['decoded_bytes'])
         current=None
+        if campaign_handoff is not None:campaign_handoff.commit_snapshot(snapshot())
 
     def open_window(role,session,bucket):
         return dict(role=role,session=session,observed_utc_15m_bucket=bucket,
@@ -308,9 +340,11 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
                     records=0,evidence_class=None,last_bucket=None)
 
     from contextlib import ExitStack
-    with ExitStack() as cleanup, (out/'windows.jsonl').open('xb') as fh:
+    sink=campaign_handoff.window_ledger if campaign_handoff is not None else (out/'windows.jsonl').open('xb')
+    with ExitStack() as cleanup, sink as fh:
         if v81_handoff is not None:cleanup.callback(v81_handoff.close_audit)
-        for entry in files:
+        for file_index,entry in enumerate(files):
+            if cursor is not None and file_index<cursor[0]:continue
             role=entry['role'];session=entry['session']
             if active is None or (active['role'],active['session'])!=(role,session):
                 flush(fh)
@@ -320,6 +354,7 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
             if file_sha(path)!=entry['sha256'] or path.stat().st_size!=entry['size']:
                 raise ValueError('WINDOWED_SOURCE_CHANGED_BEFORE_READ')
             for ordinal,r,raw in lines(path):
+                if cursor is not None and file_index==cursor[0] and ordinal<=cursor[1]:continue
                 if r['session']!=session:
                     raise ValueError('WINDOWED_MIXED_SESSION_SEGMENT')
                 if active['ended']:
@@ -336,22 +371,16 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
                 active['evidence_class']=r['evidence_class']
                 k=r['kind'];p=r['payload']
                 if k=='START' and seq!=1:raise ValueError('WINDOWED_DUPLICATE_START')
-                if k=='STOP':
-                    if p.get('clean') is not True:raise ValueError('WINDOWED_UNCLEAN_STOP')
-                    active['ended']=True
+                if k=='STOP' and p.get('clean') is not True:raise ValueError('WINDOWED_UNCLEAN_STOP')
                 size=len(raw)
                 if size>max_window_bytes:raise ValueError('WINDOWED_SINGLE_RECORD_TOO_LARGE')
-                summary['record_count']+=1;summary['decoded_bytes']+=size
-                if summary['record_count']>max_total_records or summary['decoded_bytes']>max_total_decoded_bytes:
+                if summary['record_count']+1>max_total_records or summary['decoded_bytes']+size>max_total_decoded_bytes:
                     raise ValueError('WINDOWED_TOTAL_INPUT_BUDGET')
                 at=clocks(p)
                 stamped=type(at) in (int,float) and math.isfinite(at)
                 bucket=int(math.floor(at/window_seconds)) if stamped else active['last_bucket']
                 if stamped and active['last_bucket'] is not None and bucket<active['last_bucket']:
-                    summary['clock_regressions']+=1
                     bucket=active['last_bucket'] # physical sequence is always authoritative
-                if stamped:active['last_bucket']=bucket
-                else:summary['unclocked_records']+=1
                 if current is not None and (
                     current['role']!=role or current['session']!=session
                     or current['observed_utc_15m_bucket']!=bucket
@@ -359,6 +388,14 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
                     or current['records']>=max_window_records):
                     flush(fh)
                 if current is None:current=open_window(role,session,bucket)
+                # Only now mutate committed-prefix counters. A boundary flush
+                # must never checkpoint any part of the following envelope.
+                summary['record_count']+=1;summary['decoded_bytes']+=size
+                if stamped:
+                    if active['last_bucket'] is not None and int(math.floor(at/window_seconds))<active['last_bucket']:
+                        summary['clock_regressions']+=1
+                    active['last_bucket']=bucket
+                else:summary['unclocked_records']+=1
                 # The original envelope SHA/sequence has already passed the
                 # structural check. Replay its original quote state only now,
                 # after the previous window's audit checkpoint is frozen.
@@ -366,6 +403,7 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
                 if native_handoff is not None:native_handoff.accept(role,r)
                 if source_handoff is not None:source_handoff.accept(role,r)
                 if v81_handoff is not None:v81_handoff.accept(role,r)
+                if campaign_handoff is not None:campaign_handoff.accept(role,r,summary['windows']+1)
                 if current['first_sequence'] is None:
                     current['first_sequence']=seq
                     current['first_predecessor_sha256']=r['previous_sha256']
@@ -385,6 +423,8 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
                 else:
                     ranges.append(dict(file=entry['path'],first_line=ordinal,last_line=ordinal))
                 active['seq']=seq;active['last_hash']=r['sha256'];active['records']+=1
+                active['ended']=k=='STOP'
+                cursor=(file_index,ordinal)
             if file_sha(path)!=entry['sha256'] or path.stat().st_size!=entry['size']:
                 raise ValueError('WINDOWED_SOURCE_CHANGED_DURING_READ')
         flush(fh)
@@ -394,7 +434,8 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
                                              records=active['records'],last_record_sha256=active['last_hash'],
                                              last_sequence=active['seq'],class_=active['evidence_class'],
                                              clean_stop=True))
-        fh.flush();os.fsync(fh.fileno())
+        fh.flush()
+        if campaign_handoff is None:os.fsync(fh.fileno())
 
     summary['per_kind']=dict(kinds);summary['loss_indicators']=dict(losses)
     if quote_handoff is not None:
@@ -405,6 +446,18 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
         summary['source_contract_handoff']=source_handoff.finish()
     if v81_handoff is not None:
         summary['v81_causal_handoff']=v81_handoff.finish()
+    if campaign_handoff is not None:
+        # Bind even already-consumed files after a resumed scan. No final
+        # certificate may point to a source changed while later files ran.
+        for entry in files:
+            path=root/entry['path']
+            if path.stat().st_size!=entry['size'] or file_sha(path)!=entry['sha256']:
+                raise ValueError('WINDOWED_SOURCE_CHANGED_BEFORE_FINAL_COMMIT')
+        summary['campaign_verification']=campaign_handoff.finish()
+        summary['native_lifecycle_and_quote_associations']='EVALUATED_BY_EXISTING_CAMPAIGN_VERIFIER'
+        summary['structural_integrity']='PASS';summary['loss_free']=not bool(losses)
+        campaign_handoff.commit_snapshot(snapshot(finished=True))
+        campaign_handoff.export()
     summary['windows_manifest_sha256']=file_sha(out/'windows.jsonl')
     summary['windows_manifest_bytes']=(out/'windows.jsonl').stat().st_size
     summary['structural_integrity']='PASS'
