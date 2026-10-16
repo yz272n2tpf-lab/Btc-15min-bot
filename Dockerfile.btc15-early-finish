@@ -1,0 +1,14 @@
+# Isolated Railway packaging for the EXISTING BTC15 24h evidence finisher.
+# Research branch only. No data capture, credentials, or production changes.
+FROM python:3.12-slim-bookworm
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends openssh-client ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+COPY requirements.txt /app/requirements.txt
+RUN python -m pip install --no-cache-dir -r requirements.txt \
+    && python -m pip install --no-cache-dir reportlab==4.4.10
+COPY . /app
+# Actual start command is supplied by the isolated Railway service.
+# Default only displays help; it never connects to production.
+CMD ["python", "-m", "ops.live_recording.finish", "--help"]
