@@ -85,7 +85,9 @@ class QuoteWindowIntegrationTests(unittest.TestCase):
                                   reason='OWNER_DISCONNECT',observed_at=T0+.2))
         a.write('STOP',dict(clean=True))
         a.close()
-        result=self.run_original_reader(limit=2)
+        # Force a boundary after every original envelope so the exact
+        # accepted delta state is auditable before STREAM_END closes it.
+        result=self.run_original_reader(limit=1)
         status=result['quote_state_handoff']
         self.assertEqual(status['original_message_counts']['quote_receives'],2)
         self.assertEqual(status['original_message_counts']['quote_accepts'],2)
