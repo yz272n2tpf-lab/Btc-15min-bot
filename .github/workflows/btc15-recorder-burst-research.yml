@@ -11,6 +11,8 @@ on:
       - 'research/main_closeout_incremental_20261015/test_native_journal_window_handoff.py'
       - 'ops/live_recording/source_contract_window_handoff_research.py'
       - 'research/main_closeout_incremental_20261015/test_source_contract_window_handoff.py'
+      - 'ops/live_recording/v81_window_associations_research.py'
+      - 'research/main_closeout_incremental_20261015/test_v81_exact_native_window_causality.py'
       - 'research/main_closeout_incremental_20261015/test_quote_window_handoff_research.py'
       - 'research/main_closeout_incremental_20261015/test_existing_reader_window_inventory.py'
       - 'research/main_closeout_incremental_20261015/test_recorder_burst_batch_research.py'
@@ -42,3 +44,5 @@ jobs:
         run: python -m unittest -v research.main_closeout_incremental_20261015.test_native_journal_window_handoff
       - name: Verify exact original source, official contract and settlement handoffs
         run: python -m unittest -v research.main_closeout_incremental_20261015.test_source_contract_window_handoff
+      - name: Verify original V81 native INPUT and exact BTC BRTI book causality
+        run: python -m unittest -v research.main_closeout_incremental_20261015.test_v81_exact_native_window_causality
