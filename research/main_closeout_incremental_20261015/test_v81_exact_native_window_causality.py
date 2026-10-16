@@ -192,6 +192,12 @@ class ExistingV81CausalReaderTests(unittest.TestCase):
         self.assertEqual(result['original_evidence_counts']['ORIGINAL_INPUT_ACCEPTED_FULLY_CAUSAL'],1)
         self.assertEqual(result['original_evidence_counts']['ORIGINAL_SCALP_FULL_CAUSAL_INPUT_AND_QUOTE'],1)
         self.assertEqual(len(result['verified_native_receipts']),1)
+        self.assertEqual(result['complete_native_association_count'],1)
+        self.assertTrue(result['verified_native_receipts_are_examples'])
+        audit=self.tmp/'out/v81_native_original_associations.jsonl'
+        self.assertEqual(len(audit.read_bytes().splitlines()),1)
+        self.assertEqual(result['durable_audit_file_bytes'],audit.stat().st_size)
+        self.assertEqual(result['durable_audit_file_sha256'],sha(audit.read_bytes()))
         self.assertEqual(result['original_source_or_capture_gaps'],0)
         self.assertFalse(result['full_campaign_verified'])
         self.assertFalse(result['original_lifecycle_and_settlement_verified'])
@@ -252,6 +258,8 @@ class ExistingV81CausalReaderTests(unittest.TestCase):
         self.assertEqual(summary['original_evidence_counts'].get(
             'ORIGINAL_SCALP_FULL_CAUSAL_INPUT_AND_QUOTE',0),0)
         self.assertEqual(summary['original_evidence_counts']['NATIVE_OR_INPUT_DISQUALIFIED_AFTER_GAP'],1)
+        self.assertEqual(summary['complete_native_association_count'],0)
+        self.assertEqual((self.tmp/'out/v81_native_original_associations.jsonl').stat().st_size,0)
         self.assertFalse(out['loss_free'])
 
     def test_bounded_original_input_cache_does_not_silently_retain_old(self):
