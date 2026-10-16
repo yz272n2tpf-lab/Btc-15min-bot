@@ -5,6 +5,7 @@ hash-chain exactness, fsync reduction, bounded drain and fail-closed gaps.
 """
 import json
 import tempfile
+import time
 import unittest
 from pathlib import Path
 
@@ -71,6 +72,9 @@ class RecorderBurstTests(unittest.TestCase):
                             received_at=1000+i/2000,raw=raw)
                 self.assertTrue(writer.submit_observation('QUOTE_RECEIVE',**fields))
                 self.assertTrue(writer.submit_observation('QUOTE_ACCEPT',**fields,accepted_at=1000+i/2000+.001))
+                # About 2,300 observation admissions/sec over the window; the
+                # original Oct-13 native rate was about 1,765 stored envelopes/s.
+                if i and i%16==0:time.sleep(.021)
             self.assertTrue(writer.close(timeout=35),'writer must drain')
             state=writer.status()
             self.assertFalse(state['archive_failed'])
