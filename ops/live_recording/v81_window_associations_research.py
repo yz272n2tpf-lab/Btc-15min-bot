@@ -15,6 +15,8 @@ from collections import Counter,OrderedDict
 from datetime import datetime,timezone
 import json
 import math
+import os
+from pathlib import Path
 
 from btc15_v81_qualified_inputs_v1 import require_qualified,epoch
 from ops.live_recording.policy import canonical,sha
@@ -39,6 +41,12 @@ class V81WindowAssociations:
         self.http=OrderedDict()
         self.counts=Counter()
         self.verified=[]
+        self.total_original_native_matches=0
+        self.audit_file=None
+        self.audit_path=None
+        self.audit_bytes=0
+        self.audit_max_bytes=64*1024**2
+        self.audit_sha256=None
         self.max_retained_inputs=0
         self.max_retained_brti=0
         self.max_retained_http=0
@@ -48,6 +56,36 @@ class V81WindowAssociations:
         self.quarantined=False
         self.gaps=0
         self.checkpoints=0
+
+    def attach_audit(self,path,*,max_bytes=64*1024**2):
+        """Append-only bounded exact-match ledger in the isolated reader output.
+
+        A partial ledger left by a failed read is NOT a campaign verdict. The
+        inventory's final manifest is still mandatory to claim even a complete
+        source scan; producer SEALED and full CampaignVerifier remain separate.
+        """
+        if self.audit_file is not None:
+            raise ValueError('V81_LINKS_AUDIT_ALREADY_OPEN')
+        if type(max_bytes) is not int or not 1024<=max_bytes<=256*1024**2:
+            raise ValueError('V81_LINKS_AUDIT_BUDGET')
+        target=Path(path)
+        if target.is_symlink() or not target.parent.is_dir():
+            raise ValueError('V81_LINKS_AUDIT_INVALID_DESTINATION')
+        self.audit_max_bytes=max_bytes
+        self.audit_path=target
+        self.audit_file=target.open('xb')
+
+    def _audit_native_receipt(self,receipt):
+        line=canonical(receipt)+b'\n'
+        if self.audit_bytes+len(line)>self.audit_max_bytes:
+            raise ValueError('V81_LINKS_AUDIT_OUTPUT_BUDGET')
+        if self.audit_file is None:
+            raise ValueError('V81_LINKS_DURABLE_AUDIT_REQUIRED')
+        self.audit_file.write(line)
+        self.audit_bytes+=len(line)
+        self.total_original_native_matches+=1
+        if len(self.verified)<1024:
+            self.verified.append(receipt)
 
     @staticmethod
     def _body(v):
@@ -201,17 +239,19 @@ class V81WindowAssociations:
         # a second later/rebased book with the same approximate price is forbidden.
         quote=self.quote.match_native_v81_quote(session,p['quote'],row['ts'],
                         p['open_ts'],p['close_ts'])
+        receipt=dict(ticker=n['contract'],published_ts=at,
+                     original_sequence=seq,
+                     original_input_sequence=raw_input['original_sequence'],
+                     quote_identity_sha256=quote['identity_sha256'],
+                     original_quote_count=quote['original_accept_count'],
+                     original_input_sha256=raw_input['original_envelope_sha256'],
+                     original_native_sha256=v['sha256'],
+                     literal_event=n.get('event'),
+                     literal_guidance=n.get('guidance'))
+        # Durable append is required before crediting a successful native
+        # association; the original native entry and quote are never omitted.
+        self._audit_native_receipt(receipt)
         self.counts['ORIGINAL_SCALP_FULL_CAUSAL_INPUT_AND_QUOTE']+=1
-        if len(self.verified)<1024:
-            self.verified.append(dict(ticker=n['contract'],published_ts=at,
-                         original_sequence=seq,
-                         original_input_sequence=raw_input['original_sequence'],
-                         quote_identity_sha256=quote['identity_sha256'],
-                         original_quote_count=quote['original_accept_count'],
-                         original_input_sha256=raw_input['original_envelope_sha256'],
-                         original_native_sha256=v['sha256'],
-                         literal_event=n.get('event'),
-                         literal_guidance=n.get('guidance')))
         # The original strategy proposal, entry/exit conditions, fee applicability,
         # native BUY origin and actual final settlement still require full verifier.
         self.counts['STRATEGY_OR_SETTLEMENT_NOT_YET_VALIDATED']+=1
@@ -235,6 +275,9 @@ class V81WindowAssociations:
         elif k=='NATIVE_RECORD':self._scalp(session,p,record['sequence'])
 
     def checkpoint(self,role,session,original_sequence):
+        if self.audit_file is not None:
+            self.audit_file.flush()
+            os.fsync(self.audit_file.fileno())
         self.checkpoints+=1
         result=dict(schema='BTC15_V81_CAUSAL_WINDOW_AUDIT_STAGE5_V1',
                     role=role,session=session,
@@ -253,6 +296,12 @@ class V81WindowAssociations:
         return result
 
     def finish(self):
+        if self.audit_file is not None:
+            self.audit_file.flush();os.fsync(self.audit_file.fileno())
+            self.audit_file.close();self.audit_file=None
+        if self.audit_path is not None:
+            from ops.recording_workflow.evidence import file_sha
+            self.audit_sha256=file_sha(self.audit_path)
         return dict(schema='BTC15_EXISTING_READER_V81_CAUSAL_STAGE5_V1',
                     original_evidence_counts=dict(self.counts),
                     original_source_or_capture_gaps=self.gaps,
@@ -264,6 +313,11 @@ class V81WindowAssociations:
                     evicted_brti_read_rows=self.evicted_brti,
                     evicted_http_response_rows=self.evicted_http,
                     verified_native_receipts=self.verified,
+                    verified_native_receipts_are_examples=True,
+                    complete_native_association_count=self.total_original_native_matches,
+                    durable_audit_file_bytes=self.audit_bytes,
+                    durable_audit_file_sha256=self.audit_sha256,
+                    durable_audit_complete_only_with_reader_manifest=True,
                     decision_inputs_qualified_but_strategy_not_independently_recomputed=
                         self.counts['ORIGINAL_SCALP_FULL_CAUSAL_INPUT_AND_QUOTE'],
                     original_lifecycle_and_settlement_verified=False,
