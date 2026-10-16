@@ -246,6 +246,11 @@ class SourceContractWindowHandoff:
             or endpoint.startswith('https://api.exchange.coinbase.com/')):
             raise ValueError('SOURCE_HANDOFF_UNTRUSTED_HTTP_ORIGIN')
         self._save_wire(self.original_responses,digest,raw,'original_response_bytes')
+        first,observed=self.original_responses[digest]
+        times=list(observed or ())
+        if len(times)>=64:raise ValueError('SOURCE_HANDOFF_DUPLICATE_HTTP_RECEIPT_CAP')
+        times.append(v['received_at'])
+        self.original_responses[digest]=(first,times)
         self.counts['ORIGINAL_RESPONSE']+=1
 
     def _outcome_accept(self,role,session,record,v):
@@ -297,7 +302,11 @@ class SourceContractWindowHandoff:
                 response=self.original_responses.get(e['response_sha256'])
                 if response is None:
                     raise ValueError('SOURCE_HANDOFF_ORIGINAL_OUTCOME_RESPONSE_MISSING')
-                raw=response[0]
+                raw,times=response
+                if not any(at<=out['received_ts'] for at in times):
+                    raise ValueError('SOURCE_HANDOFF_OUTCOME_RESPONSE_FROM_FUTURE')
+                if not out['received_ts']<=e['at']<=published:
+                    raise ValueError('SOURCE_HANDOFF_OUTCOME_RECEIPT_ACCEPT_PUBLICATION')
                 if sha(raw)!=e['response_sha256']:
                     raise ValueError('SOURCE_HANDOFF_OUTCOME_RESPONSE_SHA_DRIFT')
                 payload=json.loads(raw)
@@ -329,6 +338,11 @@ class SourceContractWindowHandoff:
             self.gaps+=1
             self.quarantined=True
             self.counts['EVIDENCE_GAP']+=1
+        elif kind=='INFORMATION_FAILURE' or (kind=='SOURCE_GAP' and
+                record['payload'].get('reason')!='SOURCE_START_OR_EPOCH_CHANGE'):
+            self.gaps+=1
+            self.quarantined=True
+            self.counts['ORIGINAL_SOURCE_OR_INFORMATION_GAP']+=1
         if self.quarantined:
             if kind in ('SOURCE','SOURCE_REPEAT','HTTP_RESPONSE',
                         'NATIVE_RECORD','OUTCOME_ACCEPTANCE','CLOSEOUT_ACCEPTANCE'):
