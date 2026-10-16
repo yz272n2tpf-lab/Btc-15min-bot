@@ -257,6 +257,8 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
                  native_lifecycle_and_quote_associations='NOT_EVALUATED',
                  signal_only=True,orders=False)
     out.mkdir(parents=True,mode=0o700)
+    if v81_handoff is not None:
+        v81_handoff.attach_audit(out/'v81_native_original_associations.jsonl')
     active=None;current=None;total_bytes=0;losses=Counter();kinds=Counter()
 
     def flush(fh):
