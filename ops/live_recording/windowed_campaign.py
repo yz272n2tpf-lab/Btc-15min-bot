@@ -239,7 +239,7 @@ class WindowedCampaignVerifier(CampaignVerifier):
             identity=sha(canonical([v['epoch'],v['ticker'],v['raw_sha256'],v['received_at']]))
             require(not self.db.execute('SELECT 1 FROM deps WHERE s=? AND t="accepted_receive" AND id=?',
                     (s,identity)).fetchone(),'QUOTE_HANDOFF_ACCEPT_WITHOUT_EXACT_RECEIPT')
-        if k=='HTTP_RESPONSE':
+        if k=='HTTP_RESPONSE' and v.get('official_fields'):
             require(isinstance(v.get('endpoint'),str) and v['endpoint'].startswith('/trade-api/v2/markets'),
                     'SOURCE_HANDOFF_UNTRUSTED_METADATA_ENDPOINT')
         if k=='ORIGINAL_RESPONSE':
@@ -253,7 +253,17 @@ class WindowedCampaignVerifier(CampaignVerifier):
                 self.db.execute('UPDATE journal_ranges SET last=?,n=n+1,h=? WHERE id=?',(v['sequence'],v['sha256'],v['original_journal']))
             else:self.db.execute('INSERT INTO journal_ranges VALUES (?,?,?,?,?)',(v['original_journal'],v['sequence'],v['sequence'],1,v['sha256']))
         # All original schema, depth replay, vector, source and proof checks.
-        super().record(r)
+        try:super().record(r)
+        except (ValueError,KeyError,TypeError) as exc:
+            # Match the existing reconstruct() diagnostic path, with stricter
+            # permanent quarantine. Invalid evidence is never repaired or
+            # credited, but its immutable archive can still be scanned/resumed.
+            # Capacity/SQLite/I/O failures remain fatal and roll back the window.
+            if isinstance(exc,Exhausted):raise
+            self.issue('RECORD_VERIFICATION',session=s,sequence=q,partition=partition,
+                       kind=k,detail=str(exc)[:180])
+            self.quarantined=True
+            return
         require(len(self.current_vectors)<=128 and len(self.contracts)<=512,'RECOVERY_COMPACT_STATE_CAP')
         # All original V81 source-age and causal checks; disk-backed retention.
         self.v81.accept(role,r)

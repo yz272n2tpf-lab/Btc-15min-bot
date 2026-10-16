@@ -239,6 +239,32 @@ run(sys.argv[1],sys.argv[2],window_records=3,fault=fault)
         with self.assertRaisesRegex(ValueError,'CHECKPOINT_SQL_SCHEMA_DRIFT'):
             run(self.root,self.tmp/'out',resume=True,window_records=3)
 
+    def test_nonmarket_http_response_keeps_original_handoff_semantics(self):
+        from ops.live_recording.policy import canonical
+        a=v81.make_archive(self.root)
+        a.observe('HTTP_RESPONSE',dict(raw=canonical(dict(series=dict(ticker='KXBTC15M'))),
+                  endpoint='/trade-api/v2/series/KXBTC15M',received_at=v81.NOW-6))
+        v81.original_market(a);q=v81.quote_book(a);btc=v81.btc_http(a);b,h,at=v81.brti_read(a)
+        p=v81.v81_row(a,q,b,btc,(b,h,at));v81.scalp_native(a,p)
+        a.write('STOP',dict(clean=True));a.close()
+        result=run(self.root,self.tmp/'out',window_records=3)
+        self.assertEqual(result['campaign_verification']['v81_causal_matches'],1)
+
+    def test_invalid_candle_is_durable_quarantine_not_qualification(self):
+        from ops.live_recording.policy import canonical,sha
+        a=v81.make_archive(self.root)
+        raw=canonical([[100,100,1,1,1,1,1]])
+        a.write('CANDLE_ACCEPTANCE',dict(raw=raw.decode(),sha256=sha(raw),accepted_at=v81.NOW))
+        for i in range(8):a.write('RECORDING_HEALTH',dict(observed_at=v81.NOW+i))
+        a.write('STOP',dict(clean=True));a.close()
+        result=run(self.root,self.tmp/'baseline',window_records=3)
+        self.assertEqual(result['campaign_verification']['issue_counts']['RECORD_VERIFICATION'],1)
+        self.assertIn('COMPLETED_CANDLE_END_CLOCK',(self.tmp/'baseline'/'issues.jsonl').read_text())
+        self.kill(self.tmp/'resume','after_commit',3)
+        again=run(self.root,self.tmp/'resume',resume=True,window_records=3)
+        self.assertFalse(again['campaign_verification']['complete_supplied_scope'])
+        self.assert_outputs_equal(self.tmp/'baseline',self.tmp/'resume')
+
 
 from ops.recording_workflow.whole_run import Exhausted
 if __name__=='__main__':unittest.main()
