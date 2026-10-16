@@ -105,7 +105,10 @@ class BufferedProofWriter(OffPathProofWriter):
         # The original off-path thread calls this on idle and before each
         # dequeued event. Only flush on idle, shutdown or a full batch:
         # never wait for fsync on the native market/source thread.
-        if self.archive is not None and (self._closing or self.queue.empty()):
+        # Closing admission is not an idle queue. Flushing on every remaining
+        # dequeue restores the original per-event fsync bottleneck precisely
+        # when a saturated writer must drain. STOP flushes the final batch.
+        if self.archive is not None and self.queue.empty():
             self.archive.journal.flush()
 
     def submit_observation(self,kind,**fields):

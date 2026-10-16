@@ -307,7 +307,9 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
         active=dict(role=role,session=session,seq=0,last_hash=None,ended=False,
                     records=0,evidence_class=None,last_bucket=None)
 
-    with (out/'windows.jsonl').open('xb') as fh:
+    from contextlib import ExitStack
+    with ExitStack() as cleanup, (out/'windows.jsonl').open('xb') as fh:
+        if v81_handoff is not None:cleanup.callback(v81_handoff.close_audit)
         for entry in files:
             role=entry['role'];session=entry['session']
             if active is None or (active['role'],active['session'])!=(role,session):
@@ -407,5 +409,6 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
     summary['windows_manifest_bytes']=(out/'windows.jsonl').stat().st_size
     summary['structural_integrity']='PASS'
     summary['loss_free']=not bool(losses)
-    (out/'window_inventory_manifest.json').write_bytes(canonical(summary))
+    from ops.live_recording.policy import atomic
+    atomic(out/'window_inventory_manifest.json',summary)
     return summary

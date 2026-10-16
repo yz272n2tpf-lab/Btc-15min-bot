@@ -140,6 +140,7 @@ class Capture:
  def stop(self,reason='OPERATOR_FINISH',timeout=5):
   with self.stop_lock:
    if self.stopped:return self.status()
+   if not hasattr(self,'stop_reason'):self.stop_reason=reason
    admitted=self.gate.disable();self.stop_event.set()
    if not admitted:
     self.failure='ADMISSION_STOP_TIMEOUT';atomic(self.root/'terminal-status.json',self.status())
@@ -149,12 +150,16 @@ class Capture:
      self.admission_recovery=threading.Thread(target=retry_admission,daemon=True,name='recorder-bounded-admission-recovery');self.admission_recovery.start()
     return self.status()
    # Gate closed before writer close. Native wrappers, queues and caches stay installed.
-   self.writer.submit_observation('RECORDING_BOUNDARY',reason=reason,observed_at=time.time(),native_owners_continue=True)
+   if not self.writer._closing:
+    self.writer.submit_observation('RECORDING_BOUNDARY',reason=self.stop_reason,observed_at=time.time(),native_owners_continue=True)
    # All producer admission has ended. Atomic CPython flag avoids an unbounded
    # acquisition of the original writer's accounting lock during live stop.
    self.writer._closing=True;self.writer._thread.join(timeout);done=not self.writer._thread.is_alive()
    if not done:
-    self.failure='DRAIN_TIMEOUT';atomic(self.root/'terminal-status.json',self.status())
+    # Preserve the initiating failure (e.g. OVERSIZE/queue loss); a timeout
+    # is additional evidence, never a replacement diagnosis or a clean seal.
+    self.failure=self.failure or 'DRAIN_TIMEOUT';self.drain_timed_out=True
+    atomic(self.root/'terminal-status.json',dict(self.status(),reason=self.stop_reason,drain_timed_out=True))
     if not getattr(self,'late_sealer',None):
      def recover():
       self.writer._thread.join(30)
@@ -164,7 +169,7 @@ class Capture:
    self.stopped=True
    if self.control is not threading.current_thread():self.control.join(1)
    s=self.status();s['status']='INCOMPLETE' if s['failure'] or s['writer']['archive_failed'] or s['writer']['losses'] else 'SEALED'
-   s['reason']=reason;s['journals']=self.gate.journals;s['stopped_at']=time.time();atomic(self.root/'terminal-status.json',s)
+   s['reason']=self.stop_reason;s['drain_timed_out']=getattr(self,'drain_timed_out',False);s['journals']=self.gate.journals;s['stopped_at']=time.time();atomic(self.root/'terminal-status.json',s)
    files=[]
    for p in sorted(self.root.rglob('*')):
     if p.is_file() and (p.name.endswith('.jsonl.gz') or p.name in ('identity.json','terminal-status.json')):

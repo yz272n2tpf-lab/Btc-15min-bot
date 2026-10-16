@@ -295,10 +295,16 @@ class V81WindowAssociations:
         result['audit_sha256']=sha(canonical(result))
         return result
 
-    def finish(self):
+    def close_audit(self):
         if self.audit_file is not None:
-            self.audit_file.flush();os.fsync(self.audit_file.fileno())
-            self.audit_file.close();self.audit_file=None
+            handle=self.audit_file
+            try:
+                handle.flush();os.fsync(handle.fileno())
+            finally:
+                handle.close();self.audit_file=None
+
+    def finish(self):
+        self.close_audit()
         if self.audit_path is not None:
             from ops.recording_workflow.evidence import file_sha
             self.audit_sha256=file_sha(self.audit_path)
