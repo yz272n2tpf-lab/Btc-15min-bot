@@ -24,11 +24,18 @@ MiB=1024**2
 
 class QuoteWindowHandoff:
     def __init__(self, *, max_books=16, max_raw_bytes=16*MiB,
-                 max_pending=4096, max_requests=512):
+                 max_pending=4096, max_requests=512,
+                 max_accepted_states=32768):
         if not 1<=max_books<=64 or not 1*MiB<=max_raw_bytes<=64*MiB:
             raise ValueError('QUOTE_HANDOFF_BOOK_OR_RAW_BUDGET')
         if not 1<=max_pending<=16384 or not 1<=max_requests<=4096:
             raise ValueError('QUOTE_HANDOFF_PENDING_BUDGET')
+        if type(max_accepted_states) is not int or not 128<=max_accepted_states<=65536:
+            raise ValueError('QUOTE_HANDOFF_ACCEPTED_STATE_BUDGET')
+        self.max_accepted_states=max_accepted_states
+        self.accepted_states=OrderedDict()
+        self.accepted_state_evictions=0
+        self.max_accepted_states_used=0
         self.max_books=max_books
         self.max_raw_bytes=max_raw_bytes
         self.max_pending=max_pending
@@ -203,11 +210,76 @@ class QuoteWindowHandoff:
             except Exception as exc:
                 raise ValueError('QUOTE_HANDOFF_CONTIGUOUS_BOOK_REPLAY') from exc
             self.counts['quote_accepts']+=1
+            # Retain a bounded, immutable exact accepted quote identity for
+            # later native V81_INPUT/SCALP causality. The original book parser
+            # remains authoritative; no price is interpolated or synthesized.
+            if (book.ts_ms is not None and book.market_id is not None and
+                book.levels['yes'] and book.levels['no']):
+                yes=max(book.levels['yes']);no=max(book.levels['no'])
+                prices=[float(yes),float(1-no),float(no),float(1-yes)]
+                identity=(source_session,value['epoch'],value['ticker'],
+                          book.market_id,book.sid,book.seq,book.ts_ms)
+                item=dict(prices=prices,accepted_at=value['accepted_at'],
+                          received_at=value['received_at'],
+                          original_sequence=record['sequence'],
+                          original_envelope_sha256=record['sha256'])
+                entries=self.accepted_states.get(identity,[])
+                if entries and entries[-1]['prices']!=prices:
+                    raise ValueError('QUOTE_HANDOFF_SAME_EXCHANGE_IDENTITY_CONFLICT')
+                entries.append(item)
+                self.accepted_states[identity]=entries
+                self.accepted_states.move_to_end(identity)
+                if len(self.accepted_states)>self.max_accepted_states:
+                    self.accepted_states.popitem(last=False)
+                    self.accepted_state_evictions+=1
+                self.max_accepted_states_used=max(self.max_accepted_states_used,
+                                                  len(self.accepted_states))
             if kind=='orderbook_delta':
                 self.counts['verified_deltas']+=1
             elif kind=='orderbook_snapshot':
                 self.counts['verified_snapshots']+=1
             self.proven_valid_prefix+=1
+
+    def match_native_v81_quote(self,session,q,cut,opened,closed):
+        """Exact original accepted depth at/before V81's validated quote clock.
+
+        This mirrors CampaignVerifier.scalp's exact book tuple/price match,
+        with the existing quote freshness contract checked on original clocks.
+        No nearest seq, tolerance, or later-accepted exchange data is allowed.
+        """
+        from btc15_kalshi_quote_provenance_v1 import MAX_AGE
+        import math
+        if self.quarantined:
+            raise ValueError('QUOTE_HANDOFF_ORIGINAL_CAPTURE_LOST')
+        if not isinstance(q,dict) or q.get('transport')!='timestamped_contiguous_ws':
+            raise ValueError('QUOTE_HANDOFF_V81_ORIGINAL_TRANSPORT')
+        keys=('sid','sequence','source_ts_ms','validated_at_ms')
+        if any(type(q.get(k)) is not int for k in keys):
+            raise ValueError('QUOTE_HANDOFF_V81_EXACT_NUMERIC_IDENTITY')
+        if not all(type(x) in (int,float) and math.isfinite(x) for x in (cut,opened,closed)):
+            raise ValueError('QUOTE_HANDOFF_NATIVE_CUTOFF_CLOCK')
+        if closed-opened!=900 or not opened<=q['source_ts_ms']/1000<=q['validated_at_ms']/1000<=cut<closed:
+            raise ValueError('QUOTE_HANDOFF_V81_15M_CUTOFF')
+        if not 0<=cut-q['source_ts_ms']/1000<=MAX_AGE:
+            raise ValueError('QUOTE_HANDOFF_V81_EXCHANGE_FRESHNESS')
+        key=(session,q.get('epoch'),q.get('ticker'),q.get('market_id'),
+             q['sid'],q['sequence'],q['source_ts_ms'])
+        candidates=[x for x in self.accepted_states.get(key,())
+                    if x['received_at']<=x['accepted_at']<=q['validated_at_ms']/1000]
+        wanted=[q.get(n) for n in ('up_bid','up_ask','down_bid','down_ask')]
+        if not candidates:
+            raise ValueError('QUOTE_HANDOFF_EXACT_ACCEPTED_DEPTH_MISSING')
+        if any(c['prices']!=wanted for c in candidates):
+            raise ValueError('QUOTE_HANDOFF_EXACT_ACCEPTED_DEPTH_PRICE_MISMATCH')
+        # Multiple byte-identical accepted records of one exchange state are
+        # an evidence equivalence set, never independent new source prices.
+        self.counts['native_exact_accepted_quote_matches']+=1
+        return dict(identity_sha256=sha(canonical(list(key))),
+                    original_accept_count=len(candidates),
+                    original_sequences=[x['original_sequence'] for x in candidates[:8]],
+                    first_accepted_at=min(x['accepted_at'] for x in candidates),
+                    reconstructed_prices=list(wanted),
+                    source='EXACT_ORIGINAL_ACCEPTED_KALSHI_DEPTH')
 
     def checkpoint(self, role, session, last_record_sequence):
         # Do not serialize the entire quote/raw byte stream. The original
@@ -227,6 +299,7 @@ class QuoteWindowHandoff:
                      role=role,session=session,last_original_sequence=last_record_sequence,
                      open_books=states,queued_exact_receives=sum(k[0]==session for k in self.receives),
                      carried_raw_lru_bytes=self.raw_size,
+                     carried_accepted_exchange_states=len(self.accepted_states),
                      original_quote_receives=self.counts['quote_receives'],
                      original_quote_accepts=self.counts['quote_accepts'],
                      contiguous_book_events=self.proven_valid_prefix,
@@ -247,6 +320,8 @@ class QuoteWindowHandoff:
                     max_open_books=self.max_books_used,
                     max_exact_unaccepted_receives=self.max_pending_used,
                     max_original_raw_cache_bytes=self.max_raw_used,
+                    max_accepted_exchange_states=self.max_accepted_states_used,
+                    accepted_state_evictions=self.accepted_state_evictions,
                     audit_checkpoints=self.checkpoints,
                     open_streams_at_recording_stop=self.streams_open_at_end,
                     quarantined_on_evidence_loss=self.quarantined,
