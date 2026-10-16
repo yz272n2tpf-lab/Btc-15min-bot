@@ -183,19 +183,19 @@ class NativeJournalWindowHandoff:
 
     def checkpoint(self,role,session,last_sequence):
         self.checkpoints+=1
-        entries=sorted(
+        entries=sorted((
             dict(journal_id=jid,first_original_sequence=z['first'],
                  last_original_sequence=z['last'],original_commits=z['records'],
                  last_original_raw_sha256=z['last_hash'])
             for (r,s,jid),z in self.journals.items() if r==role and s==session
-        )
-        contracts=sorted(
+        ),key=lambda x:x['journal_id'])
+        contracts=sorted((
             dict(ticker=ticker,original_commits=z['records'],
                  last_journal_sequence=z['last_original_sequence'],
                  last_origin_id=z['last_origin_id'],
                  last_original_raw_sha256=z['last_original_record_sha256'])
             for (r,ticker),z in self.contracts.items() if r==role
-        )
+        ),key=lambda x:x['ticker'])
         result=dict(schema='BTC15_NATIVE_WINDOW_HANDOFF_AUDIT_V1',
                     role=role,session=session,
                     last_original_recording_sequence=last_sequence,
