@@ -184,3 +184,201 @@ def independent_history(records,cut):
         try:h.ingest(o,t);joined.append(o)
         except ValueError:h.invalidate('EXPORTED_SOURCE_NOT_CAUSALLY_READY')
     return h,joined
+
+def streaming_window_inventory(root, out, *, window_seconds=900, max_window_bytes=8*1024**2,
+                               max_window_records=20000, max_total_records=300000000,
+                               max_total_decoded_bytes=256*1024**3,
+                               max_files=4096, max_manifest_bytes=256*1024**2):
+    """Bounded *structural* inventory in the existing evidence reader.
+
+    Consumes every original gzip JSONL envelope; preserves per-session SHA chain
+    across byte/time slices, without making a per-record SQLite index or copying
+    evidence. This cannot substitute for CampaignVerifier's Kalshi, quote-book,
+    native decision, settlement and EARLY lifecycle association checks.
+
+    Source times only label observed time slices, NEVER official contract windows.
+    Untimed events remain ordered and explicitly counted as untimed. A broken
+    chain, incomplete session, mixed class or changed source is fatal. An
+    EVIDENCE_GAP stays in the result and prevents any loss-free claim.
+    """
+    import math
+    from collections import Counter
+
+    if not isinstance(window_seconds,int) or not 1<=window_seconds<=3600:
+        raise ValueError('WINDOW_SECONDS')
+    if not isinstance(max_window_bytes,int) or not MAX_LINE<=max_window_bytes<=64*1024**2:
+        raise ValueError('WINDOW_BYTE_BUDGET')
+    if not isinstance(max_window_records,int) or not 1<=max_window_records<=100000:
+        raise ValueError('WINDOW_RECORD_BUDGET')
+    root=local_root(root);out=local_root(out)
+    if not root.is_dir() or root.is_symlink() or out.exists():
+        raise ValueError('WINDOWED_SOURCE_OR_OUTPUT')
+    # The first validated line identifies which session and original sequence
+    # this segment starts at; random filename suffixes are NOT event order.
+    files=[]
+    for role in ('source','information'):
+        folder=root/(role+'.segments')
+        if folder.is_symlink():raise ValueError('WINDOWED_SYMLINK')
+        for path in folder.glob('*.jsonl.gz') if folder.exists() else ():
+            if path.is_symlink() or not path.is_file() or not path.resolve().is_relative_to(root.resolve()):
+                raise ValueError('WINDOWED_INVALID_SOURCE_PATH')
+            if len(files)>=max_files:raise ValueError('WINDOWED_FILE_LIMIT')
+            rel=str(path.relative_to(root))
+            digest=file_sha(path)
+            size=path.stat().st_size
+            try:
+                with gzip.open(path,'rb') as handle: first=handle.readline(MAX_LINE+1)
+                if not first or len(first)>MAX_LINE or not first.endswith(b'\n'):
+                    raise ValueError('WINDOWED_INVALID_SEGMENT_FIRST_RECORD')
+                r=validate_record(json.loads(first))
+                if type(r.get('sequence')) is not int or r['sequence']<=0 or not r.get('session'):
+                    raise ValueError('WINDOWED_FIRST_RECORD_IDENTITY')
+            except (OSError,EOFError,UnicodeError,ValueError) as exc:
+                raise ValueError('WINDOWED_SEGMENT_FIRST_RECORD') from exc
+            files.append(dict(path=rel,role=role,session=r['session'],
+                              first_sequence=r['sequence'],size=size,sha256=digest))
+    if not files:raise ValueError('WINDOWED_EMPTY_SOURCE')
+
+    files.sort(key=lambda x:(x['role'],x['session'],x['first_sequence']))
+    seen_start=set()
+    summary=dict(schema='BTC15_STREAMING_15M_ARCHIVE_INVENTORY_V1',
+                 window_seconds=window_seconds,max_window_records=max_window_records,
+                 max_window_bytes=max_window_bytes,source_file_count=len(files),
+                 source_files=files,record_count=0,decoded_bytes=0,windows=0,
+                 max_window_observed_records=0,max_window_observed_bytes=0,
+                 unclocked_records=0,clock_regressions=0,loss_indicators={},
+                 per_kind={},sessions=[],
+                 structural_integrity='UNVERIFIED',
+                 complete_market_evidence=False,early_strategy_qualified=False,
+                 actual_contract_alignment_verified=False,
+                 source_time_basis='RECEIPT_OR_ACCEPTANCE_WHEN_PRESENT; NO_SYNTHETIC_CLOCKS; UNTIMED_EVENTS_SEQUENCE_ONLY',
+                 native_lifecycle_and_quote_associations='NOT_EVALUATED',
+                 signal_only=True,orders=False)
+    out.mkdir(parents=True,mode=0o700)
+    active=None;current=None;total_bytes=0;losses=Counter();kinds=Counter()
+
+    def flush(fh):
+        nonlocal current,total_bytes
+        if current is None:return
+        item=dict(current)
+        item['kinds']=dict(item['kinds'])
+        item['loss_indicators']=dict(item['loss_indicators'])
+        raw=canonical(item)+b'\n'
+        total_bytes+=len(raw)
+        if total_bytes>max_manifest_bytes:raise ValueError('WINDOWED_MANIFEST_CAPACITY')
+        fh.write(raw)
+        summary['windows']+=1
+        summary['max_window_observed_records']=max(summary['max_window_observed_records'],item['records'])
+        summary['max_window_observed_bytes']=max(summary['max_window_observed_bytes'],item['decoded_bytes'])
+        current=None
+
+    def open_window(role,session,bucket):
+        return dict(role=role,session=session,observed_utc_15m_bucket=bucket,
+                    bucket_is_actual_contract=False,records=0,decoded_bytes=0,
+                    timed_records=0,untimed_records=0,first_sequence=None,
+                    last_sequence=None,first_predecessor_sha256=None,
+                    last_record_sha256=None,ranges=[],kinds=Counter(),
+                    loss_indicators=Counter())
+
+    def switch_session(role,session):
+        nonlocal active
+        if active is not None:
+            if not active['ended']:
+                raise ValueError('WINDOWED_SESSION_NOT_CLOSED')
+            summary['sessions'].append(dict(role=active['role'],session=active['session'],
+                                             records=active['records'],last_record_sha256=active['last_hash'],
+                                             last_sequence=active['seq'],class_=active['evidence_class'],
+                                             clean_stop=True))
+        if (role,session) in seen_start:
+            raise ValueError('WINDOWED_SESSION_REAPPEARED')
+        seen_start.add((role,session))
+        active=dict(role=role,session=session,seq=0,last_hash=None,ended=False,
+                    records=0,evidence_class=None,last_bucket=None)
+
+    with (out/'windows.jsonl').open('xb') as fh:
+        for entry in files:
+            role=entry['role'];session=entry['session']
+            if active is None or (active['role'],active['session'])!=(role,session):
+                flush(fh)
+                switch_session(role,session)
+            path=root/entry['path']
+            # Validate the original file identity before *and* after reading.
+            if file_sha(path)!=entry['sha256'] or path.stat().st_size!=entry['size']:
+                raise ValueError('WINDOWED_SOURCE_CHANGED_BEFORE_READ')
+            for ordinal,r,raw in lines(path):
+                if r['session']!=session:
+                    raise ValueError('WINDOWED_MIXED_SESSION_SEGMENT')
+                if active['ended']:
+                    raise ValueError('WINDOWED_RECORD_AFTER_STOP')
+                seq=r.get('sequence')
+                if type(seq) is not int or seq!=active['seq']+1:
+                    raise ValueError('WINDOWED_MISSING_DUPLICATE_OR_OUT_OF_ORDER_RECORD')
+                if r.get('previous_sha256')!=active['last_hash']:
+                    raise ValueError('WINDOWED_PREDECESSOR_CHAIN')
+                if seq==1 and r.get('kind')!='START':
+                    raise ValueError('WINDOWED_MISSING_START')
+                if active['evidence_class'] is not None and r['evidence_class']!=active['evidence_class']:
+                    raise ValueError('WINDOWED_CLASS_CHANGED')
+                active['evidence_class']=r['evidence_class']
+                k=r['kind'];p=r['payload']
+                if k=='START' and seq!=1:raise ValueError('WINDOWED_DUPLICATE_START')
+                if k=='STOP':
+                    if p.get('clean') is not True:raise ValueError('WINDOWED_UNCLEAN_STOP')
+                    active['ended']=True
+                size=len(raw)
+                if size>max_window_bytes:raise ValueError('WINDOWED_SINGLE_RECORD_TOO_LARGE')
+                summary['record_count']+=1;summary['decoded_bytes']+=size
+                if summary['record_count']>max_total_records or summary['decoded_bytes']>max_total_decoded_bytes:
+                    raise ValueError('WINDOWED_TOTAL_INPUT_BUDGET')
+                at=clocks(p)
+                stamped=type(at) in (int,float) and math.isfinite(at)
+                bucket=int(math.floor(at/window_seconds)) if stamped else active['last_bucket']
+                if stamped and active['last_bucket'] is not None and bucket<active['last_bucket']:
+                    summary['clock_regressions']+=1
+                    bucket=active['last_bucket'] # physical sequence is always authoritative
+                if stamped:active['last_bucket']=bucket
+                else:summary['unclocked_records']+=1
+                if current is not None and (
+                    current['role']!=role or current['session']!=session
+                    or current['observed_utc_15m_bucket']!=bucket
+                    or current['decoded_bytes']+size>max_window_bytes
+                    or current['records']>=max_window_records):
+                    flush(fh)
+                if current is None:current=open_window(role,session,bucket)
+                if current['first_sequence'] is None:
+                    current['first_sequence']=seq
+                    current['first_predecessor_sha256']=r['previous_sha256']
+                current['last_sequence']=seq
+                current['last_record_sha256']=r['sha256']
+                current['records']+=1;current['decoded_bytes']+=size
+                current['timed_records']+=int(stamped)
+                current['untimed_records']+=int(not stamped)
+                current['kinds'][k]+=1;kinds[k]+=1
+                if k in ('EVIDENCE_GAP','INFORMATION_FAILURE') or (
+                    k=='SOURCE_GAP' and p.get('reason')!='SOURCE_START_OR_EPOCH_CHANGE'):
+                    current['loss_indicators'][k]+=1
+                    losses[k]+=1
+                ranges=current['ranges']
+                if ranges and ranges[-1]['file']==entry['path'] and ranges[-1]['last_line']==ordinal-1:
+                    ranges[-1]['last_line']=ordinal
+                else:
+                    ranges.append(dict(file=entry['path'],first_line=ordinal,last_line=ordinal))
+                active['seq']=seq;active['last_hash']=r['sha256'];active['records']+=1
+            if file_sha(path)!=entry['sha256'] or path.stat().st_size!=entry['size']:
+                raise ValueError('WINDOWED_SOURCE_CHANGED_DURING_READ')
+        flush(fh)
+        if active is not None:
+            if not active['ended']:raise ValueError('WINDOWED_SESSION_UNCLOSED')
+            summary['sessions'].append(dict(role=active['role'],session=active['session'],
+                                             records=active['records'],last_record_sha256=active['last_hash'],
+                                             last_sequence=active['seq'],class_=active['evidence_class'],
+                                             clean_stop=True))
+        fh.flush();os.fsync(fh.fileno())
+
+    summary['per_kind']=dict(kinds);summary['loss_indicators']=dict(losses)
+    summary['windows_manifest_sha256']=file_sha(out/'windows.jsonl')
+    summary['windows_manifest_bytes']=(out/'windows.jsonl').stat().st_size
+    summary['structural_integrity']='PASS'
+    summary['loss_free']=not bool(losses)
+    (out/'window_inventory_manifest.json').write_bytes(canonical(summary))
+    return summary
