@@ -1,0 +1,28 @@
+name: BTC15 recorder burst correction research
+on:
+  push:
+    branches: [research/main-closeout-incremental-20261015]
+    paths:
+      - 'ops/live_recording/burst_journal_research.py'
+      - 'ops/live_recording/capture.py'
+      - 'research/main_closeout_incremental_20261015/test_recorder_burst_batch_research.py'
+      - '.github/workflows/btc15-recorder-burst-research.yml'
+permissions:
+  contents: read
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      RAILWAY_DEPLOYMENT_ID: OFFLINE
+      KALSHI_KEY_ID: ''
+      KALSHI_PRIVATE_KEY_B64: ''
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run targeted recorder queue, seal, hash chain regressions
+        run: python -m unittest -v research.main_closeout_incremental_20261015.test_recorder_burst_batch_research
