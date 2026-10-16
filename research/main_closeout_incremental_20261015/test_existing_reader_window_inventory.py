@@ -67,16 +67,23 @@ class BoundedExistingReaderInventory(unittest.TestCase):
 
     def test_corrupt_sha_fails_closed_and_no_final_manifest(self):
         self.mk(n=8)
-        f=next((self.root/'source.segments').glob('*.jsonl.gz'))
-        with gzip.open(f,'rb') as g: lines=g.readlines()
-        lines[1]=lines[1].replace(b'SOURCE_START_OR_EPOCH_CHANGE',b'SOURCE_START_OR_EPOCH_MUTATION')
-        f.write_bytes(gzip.compress(b''.join(lines),mtime=0))
+        changed=False
+        for f in (self.root/'source.segments').glob('*.jsonl.gz'):
+            with gzip.open(f,'rb') as g: lines=g.readlines()
+            for i,raw in enumerate(lines):
+                if b'SOURCE_START_OR_EPOCH_CHANGE' in raw:
+                    lines[i]=raw.replace(b'SOURCE_START_OR_EPOCH_CHANGE',b'SOURCE_START_OR_EPOCH_MUTATION')
+                    f.write_bytes(gzip.compress(b''.join(lines),mtime=0))
+                    changed=True
+                    break
+            if changed:break
+        self.assertTrue(changed,'corruption must modify an original envelope')
         with self.assertRaises(ValueError):
             self.run_inventory()
         self.assertFalse((Path(self.temp.name)/'windowed/window_inventory_manifest.json').exists())
 
     def test_missing_original_sequence_cannot_pass(self):
-        self.mk(n=14)
+        self.mk(n=14,segment_bytes=4096)
         files=list((self.root/'source.segments').glob('*.jsonl.gz'))
         chosen=None
         for f in files:
