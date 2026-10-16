@@ -133,6 +133,11 @@ class QuoteWindowHandoff:
             if key not in self.books:
                 raise ValueError('QUOTE_HANDOFF_END_WITHOUT_START')
             self.books.pop(key)
+            # Bounded native quote replay cannot retain old epoch requests
+            # indefinitely across 96+ contract turnovers.
+            for request in list(self.requests):
+                if request[:2]==(source_session,value['epoch']):
+                    self.requests.pop(request)
             for k in list(self.receives):
                 if k[:3]==key:
                     self.receives.pop(k)
@@ -224,6 +229,10 @@ class QuoteWindowHandoff:
                           original_sequence=record['sequence'],
                           original_envelope_sha256=record['sha256'])
                 entries=self.accepted_states.get(identity,[])
+                # Repeated copies of an identical exchange sequence may occur;
+                # cap repeats independently of the distinct-key LRU budget.
+                if len(entries)>=16:
+                    raise ValueError('QUOTE_HANDOFF_DUPLICATE_ACCEPTED_STATE_LIMIT')
                 if entries and entries[-1]['prices']!=prices:
                     raise ValueError('QUOTE_HANDOFF_SAME_EXCHANGE_IDENTITY_CONFLICT')
                 entries.append(item)
