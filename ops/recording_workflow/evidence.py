@@ -188,7 +188,7 @@ def independent_history(records,cut):
 def streaming_window_inventory(root, out, *, window_seconds=900, max_window_bytes=8*1024**2,
                                max_window_records=20000, max_total_records=300000000,
                                max_total_decoded_bytes=256*1024**3,
-                               max_files=4096, max_manifest_bytes=256*1024**2):
+                               max_files=4096, max_manifest_bytes=256*1024**2, quote_handoff=None):
     """Bounded *structural* inventory in the existing evidence reader.
 
     Consumes every original gzip JSONL envelope; preserves per-session SHA chain
@@ -263,6 +263,8 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
         item=dict(current)
         item['kinds']=dict(item['kinds'])
         item['loss_indicators']=dict(item['loss_indicators'])
+        if quote_handoff is not None:
+            item['quote_state_handoff']=quote_handoff.checkpoint(item['role'],item['session'],item['last_sequence'])
         raw=canonical(item)+b'\n'
         total_bytes+=len(raw)
         if total_bytes>max_manifest_bytes:raise ValueError('WINDOWED_MANIFEST_CAPACITY')
@@ -345,6 +347,10 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
                     or current['records']>=max_window_records):
                     flush(fh)
                 if current is None:current=open_window(role,session,bucket)
+                # The original envelope SHA/sequence has already passed the
+                # structural check. Replay its original quote state only now,
+                # after the previous window's audit checkpoint is frozen.
+                if quote_handoff is not None:quote_handoff.accept(role,r)
                 if current['first_sequence'] is None:
                     current['first_sequence']=seq
                     current['first_predecessor_sha256']=r['previous_sha256']
@@ -376,6 +382,8 @@ def streaming_window_inventory(root, out, *, window_seconds=900, max_window_byte
         fh.flush();os.fsync(fh.fileno())
 
     summary['per_kind']=dict(kinds);summary['loss_indicators']=dict(losses)
+    if quote_handoff is not None:
+        summary['quote_state_handoff']=quote_handoff.finish()
     summary['windows_manifest_sha256']=file_sha(out/'windows.jsonl')
     summary['windows_manifest_bytes']=(out/'windows.jsonl').stat().st_size
     summary['structural_integrity']='PASS'
