@@ -28,16 +28,18 @@ class Adapters:
   except Exception:self.c.gate.gap('CAPTURE_ERROR')
   finally:self.c.gate.overhead(beg,'HTTP_RESPONSE')
   return result
- def completed(self,frame):
+ def completed(self,frame,original):
   if not self.c.gate.active:return
   # Startup-only accepted native cache. No later receipt is backdated to candle end.
   at=time.time()
   try:
-   need(len(frame)<=60000,'COMPLETED_CANDLE_ROW_LIMIT');batch=[]
-   for end,row in frame.iterrows():
-    batch.append([end.timestamp(),row['source_utc'].timestamp(),*[float(row[k]) for k in ('Open','High','Low','Close','Volume')]])
-    if len(batch)==256:self.c.emit('CANDLE_ACCEPTANCE',raw=canonical(batch),accepted_at=at,basis='NATIVE_COMPLETED_CACHE_ACCEPTANCE');batch=[]
-   if batch:self.c.emit('CANDLE_ACCEPTANCE',raw=canonical(batch),accepted_at=at,basis='NATIVE_COMPLETED_CACHE_ACCEPTANCE')
+   from .candle_schema import acceptance_rows,SCHEMA,PRODUCER_SHA256
+   batch=[];meta=dict(accepted_at=at,basis='NATIVE_COMPLETED_CACHE_ACCEPTANCE',clock_schema=SCHEMA,producer_sha256=PRODUCER_SHA256)
+   for row in acceptance_rows(frame,original):
+    if not self.c.gate.active:return
+    batch.append(row)
+    if len(batch)==256:self.c.emit('CANDLE_ACCEPTANCE',raw=canonical(batch),**meta);batch=[]
+   if batch:self.c.emit('CANDLE_ACCEPTANCE',raw=canonical(batch),**meta)
   except Exception:self.c.gate.gap('CAPTURE_ERROR')
  def brti(self,original,*args,**kwargs):
   try:point=original(*args,**kwargs)
@@ -96,7 +98,9 @@ class Adapters:
     return node
    def visit_Assign(self,node):
     self.generic_visit(node)
-    if any(isinstance(t,ast.Name) and t.id=='_fair_btc' for t in node.targets):return [node,*ast.parse('_recording_adapter.completed(_fair_btc)').body]
+    if any(isinstance(t,ast.Name) and t.id=='_fair_btc' for t in node.targets):
+     need(isinstance(node.value,ast.Call) and ast.unparse(node.value.func)=='_fair_completed_candles','EXACT_COMPLETED_CANDLE_SEAM')
+     return [node,*ast.parse('_recording_adapter.completed(_fair_btc, _fair_raw_btc)').body]
     return node
   tree=Insert().visit(tree)
   # Entry is a reference only; the capture was created in the correct process.
@@ -155,10 +159,9 @@ def _install(c):
  adapter=Adapters(c)
  if c.role=='information':
   import btc15_information_service_v1 as service
-  from .capture import AsyncInformationArchive
   original=service.DurablePublisher
-  def publisher(*a,**k):k['evidence_archive']=AsyncInformationArchive(c.gate);return original(*a,**k)
-  service.DurablePublisher=publisher
+  from .telemetry import publisher_class
+  service.DurablePublisher=publisher_class(original,c.gate)
  else:
   import btc15_v2_product.runtime as runtime
   bind_journal(c);bind_outcomes(c,adapter)
