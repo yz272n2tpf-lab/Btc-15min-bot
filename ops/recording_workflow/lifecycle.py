@@ -65,10 +65,10 @@ def verify_proof(v,loc,z):
         # falsely requiring source whitespace/member order to match proof JSON.
         candidates=v.db.execute('SELECT s,q,p,at,received FROM accepted WHERE epoch=? AND ticker=? AND market=? AND sid=? AND seq=? AND proof_event=? AND at<=?',
           (p['epoch'],p['ticker'],book.market_id,book.sid,book.seq,sha(canonical(event)),p['consumed_ms']/1000))
-        candidates=list(candidates)
-        require(bool(candidates),'MISSING_EXACT_PROOF_RECEIPT')
-        require(len({x[0] for x in candidates})==1,'PROOF_RECEIPT_CROSSES_SESSIONS')
-        a=candidates[0] # identical replay-event identity; all queried receipts precede cut
+        a=next(candidates,None)
+        require(a is not None,'MISSING_EXACT_PROOF_RECEIPT')
+        for candidate in candidates:
+            require(candidate[0]==a[0],'PROOF_RECEIPT_CROSSES_SESSIONS')
         require(a[4]<=a[3]<=p['consumed_ms']/1000,'PROOF_AVAILABILITY')
         if a[2]!=part:v.metrics['cross_partition_associations']+=1
         if event is p['events'][0]:source_session=a[0]
@@ -86,7 +86,7 @@ def verify_proof(v,loc,z):
     v.metrics['proof_receipts_verified']+=1
 
 def quote(v,frame,part):
-    q=frame['quote'];matches=[]
+    q=frame['quote'];first=None;count=0
     fields=('ticker','source_time','epoch','consumed_ms','market_id','sid','seq','exchange_ts_ms','close_ms')
     require(q['ticker']==frame['contract'] and q['close_ms']==int(frame['official_close']*1000),'CROSS_CONTRACT_QUOTE')
     require(timestamp(q['source_time'])==frame['feature_cutoff'],'QUOTE_SOURCE_CUTOFF_IDENTITY')
@@ -95,11 +95,12 @@ def quote(v,frame,part):
         z=json.loads(data)
         if all(z['witness'].get(x)==q.get(x) for x in fields):
             require(z['quotes']==list(q['quotes']),'QUOTE_DISPLAYED_PRICES')
-            matches.append((s,n,p))
-    require(bool(matches),'MISSING_EXACT_NATIVE_PROOF')
-    a=matches[0]
+            if first is None:first=(s,n,p)
+            count+=1
+    require(first is not None,'MISSING_EXACT_NATIVE_PROOF')
+    a=first
     if a[2]!=part:v.metrics['cross_partition_associations']+=1
-    return dict(ref(a),equivalent_proofs=len(matches),basis='EXACT_WITNESS_EQUIVALENCE')
+    return dict(ref(a),equivalent_proofs=count,basis='EXACT_WITNESS_EQUIVALENCE')
 
 def verify_journals(v,scope):
     if scope is None:v.issue('DETACHED_JOURNAL_EXPECTATIONS_MISSING');return

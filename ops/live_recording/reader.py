@@ -5,6 +5,7 @@ Retain only current expanded vectors and compact verified proofs, avoiding
 quadratic full-proof histories; original vector deltas stay in immutable raw.
 """
 import base64,json,sqlite3,time
+from itertools import islice
 from decimal import Decimal
 from pathlib import Path
 from ops.recording_workflow.whole_run import Verifier,LIMITS,require,timestamp,number
@@ -38,6 +39,9 @@ class CampaignVerifier(Verifier):
   else:self.issue('QUOTE_RECEIVED_WITHOUT_OWNER_ACCEPTANCE',session=s,sequence=q)
  def record(self,r):
   k=r['kind'];v=r['payload'];s,q,p=r['session'],r['sequence'],r['_part']
+  if k in ('INFORMATION_INPUT','INFORMATION_FAILURE') and 'publication_outcome' in v:
+   from .telemetry import check_outcome
+   check_outcome(v['publication_outcome'],v['input_sha256'],v['published'],v.get('frame_id'))
   if k in ('RECORDING_BOUNDARY','RECORDING_HEALTH'):
    self.fact(k,s,r,v);return
   if k=='INFORMATION_FAILURE' and v.get('reason') in ('INPUT_NOT_PUBLISHED','PUBLISHER_EXCEPTION'):
@@ -74,10 +78,22 @@ class CampaignVerifier(Verifier):
    elif k=='CANDLE_ACCEPTANCE':
     require(number(v['accepted_at']) and isinstance(z,list) and len(z)<=256,'CANDLE_ACCEPTANCE_SCHEMA')
     for row in z:
-     require(len(row)==7 and row[0]==row[1]+60,'COMPLETED_CANDLE_END_CLOCK')
-     candidates=self.db.execute('SELECT s,q,p FROM candle_raw WHERE h=? AND at<=?',(sha(canonical(row[1:])),v['accepted_at'])).fetchall()
+     pending=False;receipt_floor=None
+     if 'clock_schema' in v:
+      from .candle_schema import SCHEMA,PRODUCER_SHA256,decode
+      require(v['clock_schema']==SCHEMA and v.get('producer_sha256')==PRODUCER_SHA256,'COMPLETED_CLOCK_SCHEMA_BINDING')
+      row,upstream=decode(row)
+      # Pinned completed_candles renames clocks; it does NOT filter the current
+      # bucket. The native decision cutoff performs that filtering later.
+      require(upstream[0]<=v['accepted_at'],'CANDLE_BUCKET_START_AFTER_ACCEPTANCE')
+      pending=row[0]>v['accepted_at'];receipt_floor=row[0]
+     else:
+      # Legacy bytes keep their old strict contract; never silently reinterpret.
+      require(len(row)==7 and row[0]==row[1]+60,'COMPLETED_CANDLE_END_CLOCK')
+      upstream=row[1:]
+     candidates=self.db.execute('SELECT s,q,p FROM candle_raw WHERE h=? AND at<=? AND (? IS NULL OR at>=?) LIMIT 1',(sha(canonical(upstream)),v['accepted_at'],receipt_floor,receipt_floor)).fetchall()
      self.db.execute('INSERT INTO candles VALUES (?,?,?,?,?,?,?)',(sha(canonical(row)),v['accepted_at'],s,q,p,canonical(row),int(bool(candidates))))
-     self.metrics['original_completed_candles' if candidates else 'completed_cache_rows_upstream_receipt_unknown']+=1
+     self.metrics['cache_candles_not_completed_at_acceptance' if pending else 'original_completed_candles' if candidates else 'completed_cache_rows_upstream_receipt_unknown']+=1
    elif k=='BRTI_READ':
     require(number(v['received_at']) and z.get('owner_epoch') and type(z.get('sequence')) is int,'BRTI_ORIGINAL_IDENTITY')
     key={x:z.get(x) for x in ('value','source_ts_ms','owner_epoch','sequence','status','clean_for_qualification')}
@@ -118,6 +134,7 @@ class CampaignVerifier(Verifier):
   f=z['value'];a=f['anchor'];cut=f['cut'];b=f['brti'];proof=f['proof']
   require(f['anchor_id']==sha(canonical(a)),'ANCHOR_HASH');require(a['opened']<=a['decision']<=a['captured']<=cut<a['closed'],'INFORMATION_CUTOFF')
   for row in a['completed']:
+   require(len(row)==7 and number(row[0]) and number(row[1]) and max(row[:2])<=a['decision'],'CANDLE_NOT_COMPLETED_AT_DECISION')
    require(self.db.execute('SELECT 1 FROM candles WHERE h=? AND at<=? AND original_http=1 LIMIT 1',(sha(canonical(row)),a['decision'])).fetchone(),'CANDLE_NOT_AVAILABLE_WITH_ORIGINAL_HTTP_AT_DECISION')
   require(0<len(a['ticks'])<=4096,'TICK_HISTORY_BOUND')
   for st,rt,val in a['ticks']:source(self,'BTC',st,rt,val,None,a['decision'],loc[2])
@@ -183,29 +200,48 @@ class CampaignVerifier(Verifier):
   if not self.metrics['native_associations']:self.issue('MAIN_APPLICABLE_DECISION_LINKS_MISSING')
   if not self.metrics['scalp_associations']:self.issue('V81_APPLICABLE_DECISION_LINKS_MISSING')
   if not self.metrics['information_associations']:self.issue('INFORMATION_LINKS_MISSING')
+  if self.metrics['origins_outside_recorded_journal_interval'] or self.metrics['terminals_outside_recorded_interval']:
+   self.issue('MAIN_LIFECYCLE_OUTSIDE_RECORDED_INTERVAL')
  def native_lifecycle(self,loc,z,links):
   n=z['native'];f=n['evidence'];o=n.get('origin');oid=n.get('origin_id');terminal=n.get('terminal');final=n.get('final');management=n.get('management')
   from btc15_ladder_journal_v1 import digest
+  require([f[k] for k in ('up_bid','up_ask','down_bid','down_ask')]==list(f['quote']['quotes']),'MAIN_FRAME_QUOTE_PRICES')
   if o:
    require(n.get('event')=='BUY','ORIGIN_WITHOUT_NATIVE_BUY')
    require(o['origin_id']==digest([n['candidate'],o['contract'],[o['native_epoch'],o['native_sequence']],o['side']]),'MAIN_ORIGIN_HASH')
+   require(o['origin_id']==oid and o['contract']==n['contract']==f['contract'] and o['side'] in ('UP','DOWN'),'MAIN_ORIGIN_IDENTITY')
+   require((o['native_epoch'],o['native_sequence'])==(f['native_epoch'],f['native_sequence']),'MAIN_ORIGIN_NATIVE_CLOCK')
    require(o['entry_provenance']==f,'ORIGIN_SOURCE_FRAME')
+   require(number(o.get('original_ask')) and o['original_ask']==f[o['side'].lower()+'_ask'],'MAIN_ORIGIN_SIGNAL_ASK')
+  origin=None
   self.contracts[f['contract']]=dict(opened=f['official_open'],closed=f['official_close'],target=f['target'])
   if oid:
-   origins=list(self.db.execute('SELECT s,q,p,v FROM facts WHERE t="decision" AND json_extract(v,"$.native.origin.origin_id")=?',(oid,)))
+   origins=list(self.db.execute('SELECT s,q,p,v FROM facts WHERE t="decision" AND json_extract(v,"$.native.origin.origin_id")=? AND json_extract(v,"$.original_journal")=? AND json_extract(v,"$.native.candidate")=? AND json_extract(v,"$.sequence")<=? LIMIT 2',(oid,z['original_journal'],n['candidate'],z['sequence'])))
    if origins:
-    require(len(origins)==1,'AMBIGUOUS_NATIVE_ORIGIN');origin=json.loads(origins[0][3])['native']['origin'];require(origin['entry_provenance']['captured_ts']<=f['captured_ts'] and origin['contract']==f['contract'],'ORIGIN_CHRONOLOGY_OR_CONTRACT');links['origin']=ref(origins[0])
+    require(len(origins)==1,'AMBIGUOUS_NATIVE_ORIGIN');oz=json.loads(origins[0][3]);origin=oz['native']['origin'];require(origin['entry_provenance']['captured_ts']<=f['captured_ts'] and oz['committed_at']<=z['committed_at'] and origin['contract']==f['contract'],'ORIGIN_CHRONOLOGY_OR_CONTRACT');links['origin']=ref(origins[0])
    else:
     # Native may carry a prior deployed origin into the initial recording slot.
     links['origin']=dict(origin_id=oid,status='ORIGINAL_ENTRY_NOT_IN_RECORDED_INTERVAL');self.metrics['origins_outside_recorded_journal_interval']+=1
    require(final and final.get('early_origin_id')==oid,'FINAL_ORIGIN_IDENTITY')
   if final:require(final['publication_id']==digest([n['candidate'],'FINAL',[f['native_epoch'],f['native_sequence']]]),'FINAL_IDENTITY')
+  if management:
+   require(oid and management.get('state') in ('ENTER','WATCH','HOLD','PROTECT','EXIT'),'MAIN_MANAGEMENT_IDENTITY')
+   if management.get('state')=='EXIT':require(terminal is not None,'MAIN_EXIT_WITHOUT_TERMINAL')
+   if origin and management.get('economics'):
+    economics=management['economics'];side=origin['side'].lower()
+    require(economics.get('original_signal_ask')==origin['original_ask'] and economics.get('current_bid')==f[side+'_bid'],'MAIN_MANAGEMENT_PRICE_BINDING')
   if terminal:
    require(terminal['origin_id']==oid and terminal['contract']==f['contract'] and terminal['decision_ts']<=f['captured_ts'],'TERMINAL_IDENTITY')
    require(management and management.get('terminal')==terminal,'TERMINAL_MANAGEMENT')
-   owners=list(self.db.execute('SELECT s,q,p,v FROM facts WHERE t="decision" AND json_extract(v,"$.native.evidence.captured_ts")=? AND json_extract(v,"$.native.origin_id")=?',(terminal['decision_ts'],oid)))
-   owners=[x for x in owners if json.loads(x[3])['native']['evidence']['quote']==terminal['quote']]
-   if owners:require(len(owners)==1,'AMBIGUOUS_TERMINAL_DECISION');links['terminal_decision']=ref(owners[0]);self.metrics['terminal_associations']+=1
+   require(terminal.get('state')=='EXIT' and management.get('state')=='EXIT','MAIN_TERMINAL_STATE')
+   if origin:require(terminal.get('side')==origin['side'] and terminal.get('original_ask')==origin['original_ask'],'MAIN_TERMINAL_ORIGIN_PRICE')
+   owners=self.db.execute('SELECT s,q,p,v FROM facts WHERE t="decision" AND json_extract(v,"$.native.evidence.captured_ts")=? AND json_extract(v,"$.native.origin_id")=? AND json_extract(v,"$.original_journal")=? AND json_extract(v,"$.native.candidate")=? AND json_extract(v,"$.sequence")<=?',(terminal['decision_ts'],oid,z['original_journal'],n['candidate'],z['sequence']))
+   owners=list(islice((x for x in owners if json.loads(x[3])['native']['evidence']['quote']==terminal['quote']),2))
+   if owners:
+    require(len(owners)==1,'AMBIGUOUS_TERMINAL_DECISION');owner=json.loads(owners[0][3]);tf=owner['native']['evidence']
+    require(owner['committed_at']<=z['committed_at'],'MAIN_TERMINAL_COMMIT_ORDER')
+    require(number(terminal.get('executable_exit_bid')) and terminal['executable_exit_bid']>0 and terminal['executable_exit_bid']==tf[terminal['side'].lower()+'_bid'],'MAIN_TERMINAL_EXECUTABLE_BID')
+    links['terminal_decision']=ref(owners[0]);self.metrics['terminal_associations']+=1
    else:links['terminal_decision']=dict(status='ORIGINAL_EXIT_DECISION_NOT_IN_RECORDED_INTERVAL');self.metrics['terminals_outside_recorded_interval']+=1
   if o:
    previous=self.db.execute('SELECT s,q,p,v FROM facts WHERE t="decision" AND json_extract(v,"$.original_journal")=? AND json_extract(v,"$.sequence")<? AND json_extract(v,"$.native.contract")=? AND json_extract(v,"$.native.origin_id") IS NOT NULL ORDER BY CAST(json_extract(v,"$.sequence") AS INTEGER) DESC LIMIT 1',(z['original_journal'],z['sequence'],f['contract'])).fetchone()
@@ -232,25 +268,30 @@ class CampaignVerifier(Verifier):
  def scalp(self,loc,z):
   n=z['native']
   if n.get('unavailable_reason'):self.metrics['legitimate_unavailable']+=1;return
-  p=n['provenance'];key=sha(canonical(p));candidates=list(self.db.execute('SELECT s,q,p,v,at FROM live_inputs WHERE h=? AND attempt=? AND at<=?',(key,n['product']['attempt_id'],n['published_ts'])))
+  p=n['provenance'];key=sha(canonical(p));candidates=list(self.db.execute('SELECT s,q,p,v,at FROM live_inputs WHERE h=? AND attempt=? AND at<=? LIMIT 2',(key,n['product']['attempt_id'],n['published_ts'])))
   self.contracts[p['ticker']]=dict(opened=p['open_ts'],closed=p['close_ts'],target=p['target'])
   require(len(candidates)==1,'V81_EXACT_ATTEMPT_ACCEPTANCE_MISSING_OR_AMBIGUOUS')
   # Identical qualified provenance may recur; verify every distinct row/cut explicitly.
   saved=json.loads(candidates[0][3]);row=saved['row'];receipts=saved['receipts'];cut=row['ts'];require(cut<=candidates[0][4]<=n['published_ts']<=z['committed_at'],'SCALP_CUTOFF')
   require(row['ticker']==p['ticker']==n['contract'] and row['target']==p['target'] and row['brti']==p['brti']['value'] and p['close_ts']-p['open_ts']==900 and p['open_ts']<=cut<p['close_ts'],'SCALP_NATIVE_INPUT_IDENTITY')
   require(all(row[k]==p['quote'][k] for k in ('up_bid','up_ask','down_bid','down_ask')),'SCALP_NATIVE_PRICES')
-  q=p['quote'];matches=list(self.db.execute('SELECT s,q,p,quotes,at FROM book_quotes WHERE epoch=? AND ticker=? AND market=? AND sid=? AND seq=? AND ts=? AND at<=?',(q['epoch'],q['ticker'],q['market_id'],q['sid'],q['sequence'],q['source_ts_ms'],q['validated_at_ms']/1000)))
-  require(matches and all(json.loads(x[3])==[q[k] for k in ('up_bid','up_ask','down_bid','down_ask')] for x in matches),'SCALP_EXACT_ACCEPTED_DEPTH')
+  q=p['quote'];matches=self.db.execute('SELECT s,q,p,quotes,at FROM book_quotes WHERE epoch=? AND ticker=? AND market=? AND sid=? AND seq=? AND ts=? AND at<=?',(q['epoch'],q['ticker'],q['market_id'],q['sid'],q['sequence'],q['source_ts_ms'],q['validated_at_ms']/1000))
+  first=next(matches,None);require(first is not None,'SCALP_EXACT_ACCEPTED_DEPTH')
+  wanted=[q[k] for k in ('up_bid','up_ask','down_bid','down_ask')]
+  require(json.loads(first[3])==wanted,'SCALP_EXACT_ACCEPTED_DEPTH')
+  for match in matches:require(json.loads(match[3])==wanted,'SCALP_EXACT_ACCEPTED_DEPTH')
   require(q['validated_at_ms']/1000<=cut,'SCALP_QUOTE_CUTOFF')
   require(receipts['btc_received_at']<=cut and receipts['brti_received_at']<=cut,'V81_ORIGINAL_RECEIPT_CUTOFF')
   require(timestamp(p['btc_source_utc'])<=receipts['btc_received_at'] and p['brti']['source_ts_ms']/1000<=receipts['brti_received_at'],'V81_SOURCE_RECEIPT_CHRONOLOGY')
-  b=list(self.db.execute('SELECT s,q,p FROM brti_reads WHERE original_sha=? AND at=? AND s=? AND h=?',(receipts['brti_observation_sha256'],receipts['brti_received_at'],candidates[0][0],sha(canonical(p['brti'])))));require(len(b)==1,'SCALP_ORIGINAL_BRTI')
+  b=list(self.db.execute('SELECT s,q,p FROM brti_reads WHERE original_sha=? AND at=? AND s=? AND h=? LIMIT 2',(receipts['brti_observation_sha256'],receipts['brti_received_at'],candidates[0][0],sha(canonical(p['brti'])))));require(len(b)==1,'SCALP_ORIGINAL_BRTI')
   btc=[]
   for s,rq,rp,raw,at in self.db.execute('SELECT s,q,p,v,at FROM response WHERE h=? AND at=? AND s=? AND endpoint LIKE ?',(receipts['btc_response_sha256'],receipts['btc_received_at'],candidates[0][0],'%/products/BTC-USD/ticker')):
    v=json.loads(raw)
-   if v.get('time')==p['btc_source_utc'] and float(v.get('price','nan'))==row['btc']:btc.append((s,rq,rp))
+   if v.get('time')==p['btc_source_utc'] and float(v.get('price','nan'))==row['btc']:
+    btc.append((s,rq,rp))
+    if len(btc)>1:break
   require(len(btc)==1,'SCALP_ORIGINAL_BTC')
-  links=dict(accepted_input=ref(candidates[0]),quote=ref(matches[0]),BRTI=ref(b[0]),BTC=ref(btc[0]),metadata=metadata(self,p['ticker'],p['open_ts'],p['close_ts'],p['target'],cut,loc[2]))
+  links=dict(accepted_input=ref(candidates[0]),quote=ref(first),BRTI=ref(b[0]),BTC=ref(btc[0]),metadata=metadata(self,p['ticker'],p['open_ts'],p['close_ts'],p['target'],cut,loc[2]))
   o=n.get('origin');terminal=n.get('terminal')
   if o:
    from btc15_ladder_journal_v1 import digest
@@ -264,19 +305,24 @@ class CampaignVerifier(Verifier):
   self.emit(self.fassoc,dict(record=ref(loc),status='VERIFIED_SCALP_LINKS',links=links,event=n.get('event'),guidance=n.get('guidance'),terminal=(terminal or {}).get('state')));self.metrics['scalp_associations']+=1
  def outcome(self,loc,z):
   n=z['native'];kind=n['kind'];out=n['settlement' if kind=='SETTLEMENT' else 'brti_closeout'];contract=n['contract']
+  require(number(n.get('published_ts')) and number(z.get('committed_at')) and n['published_ts']<=z['committed_at'],'OUTCOME_PUBLICATION_COMMIT_ORDER')
   self.lifecycle[kind]=self.lifecycle.get(kind,0)+1
   if kind=='SETTLEMENT':
-   self.outcome_status[contract]=out['status']
    if out['status']=='UNAVAILABLE':self.pending[contract]=out['status'];return
-   match=[(a,b) for a,b in rows(self,'OUTCOME_ACCEPTANCE') if b['value']==out and b['accepted_at']<=n['published_ts']]
-   require(match,'ORIGINAL_OUTCOME_ACCEPTANCE_MISSING');a,b=match[0]
-   response=self.db.execute('SELECT v,at FROM response WHERE h=? AND at<=?',(b['response_sha256'],out['received_ts'])).fetchone();require(response,'ORIGINAL_OUTCOME_RESPONSE_MISSING')
+   match=next(((a,b) for a,b in rows(self,'OUTCOME_ACCEPTANCE') if a[0]==loc[0] and a[1]<loc[1] and b['value']==out and out['received_ts']<=b['accepted_at']<=n['published_ts']),None)
+   require(match,'ORIGINAL_OUTCOME_ACCEPTANCE_MISSING');a,b=match
+   response=self.db.execute('SELECT v,at FROM response WHERE h=? AND at<=? AND s=? AND q<? AND endpoint=?',(b['response_sha256'],out['received_ts'],a[0],a[1],out['endpoint'])).fetchone();require(response,'ORIGINAL_OUTCOME_RESPONSE_MISSING')
    from btc15_ladder_settlement_v2 import receipt
    require(receipt(contract,out['open_ts'],json.loads(response[0]),out['received_ts'])==out,'OUTCOME_RESPONSE_ACCEPTANCE_MISMATCH')
+   if contract in self.contracts:
+    identity=self.contracts[contract]
+    require((out['open_ts'],out['close_ts'],out['target'])==(identity['opened'],identity['closed'],identity['target']),'OUTCOME_NATIVE_CONTRACT_IDENTITY')
+   self.outcome_status[contract]=out['status']
    if out['status']!='AUTHORITATIVE':self.pending[contract]=out['status']
+   else:self.pending.pop(contract,None)
   else:
-   match=[(a,b) for a,b in rows(self,'CLOSEOUT_ACCEPTANCE') if b['value']['cohort']['brti']==out and b['accepted_at']<=n['published_ts']]
-   require(match,'ORIGINAL_CLOSEOUT_ACCEPTANCE_MISSING');a,b=match[0]
+   match=next(((a,b) for a,b in rows(self,'CLOSEOUT_ACCEPTANCE') if b['value']['cohort']['brti']==out and b['accepted_at']<=n['published_ts']),None)
+   require(match,'ORIGINAL_CLOSEOUT_ACCEPTANCE_MISSING');a,b=match
    require(out.get('final60_count')==60 and out.get('final60_complete') is True,'BRTI_CLOSEOUT_SCHEMA')
   self.emit(self.fassoc,dict(record=ref(loc),status='VERIFIED_ORIGINAL_OUTCOME',original_acceptance=ref(a),kind=kind));self.metrics['outcome_associations']+=1
  def complete(self,finished,scope):return bool(finished and scope and not self.errors)
