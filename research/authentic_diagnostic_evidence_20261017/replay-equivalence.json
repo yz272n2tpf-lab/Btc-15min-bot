@@ -1,0 +1,31 @@
+{
+  "readers": "EXISTING_FINISH_READ_ONLY_EARLY_DIAGNOSTIC",
+  "fresh_sequential_executions": 2,
+  "ledgers": {
+    "summary.json": {
+      "bytes": 1629,
+      "sha256": "f6137a448ee72b950d966371edaaccf21722a31f2e69a58686873fd9d7a93dc8",
+      "byte_identical": true
+    },
+    "windows.jsonl": {
+      "bytes": 71042,
+      "sha256": "922534058527b0c134bc45384506ed006d0ba596997d10307dd276f5049f4737",
+      "byte_identical": true
+    },
+    "issues.jsonl": {
+      "bytes": 1408,
+      "sha256": "ad3f0da0a528ca208a72b7b309cd60b552a4fd9beaa42785b358b7390ff3b072",
+      "byte_identical": true
+    },
+    "associations.jsonl": {
+      "bytes": 45297,
+      "sha256": "10fc765a9ca7ed22e9548b294d5817bcac2006f2c2c93ea3611f53119eb83055",
+      "byte_identical": true
+    },
+    "v81_native_original_associations.jsonl": {
+      "bytes": 12811,
+      "sha256": "8173257258d47f971f3d54ab7167906583d34d117076f60196fae6ad79addaa7",
+      "byte_identical": true
+    }
+  }
+}

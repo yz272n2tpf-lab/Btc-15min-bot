@@ -1,0 +1,12 @@
+{
+  "filename": "BTC15_Authentic_Diagnostic_Raw_20261017.zip",
+  "bytes": 10911261,
+  "sha256": "61a8499f637c85579f51a6c0d206442cd45267c8a6e4fc8b02f38bdd1e09f5ec",
+  "original_objects": 12,
+  "original_raw_segments": 3,
+  "original_raw_segment_bytes": 10890786,
+  "all_original_hashes_match": true,
+  "original_bytes_changed": false,
+  "preserved_downloadable_copy": true,
+  "historical_source": "/research-evidence/DIAG_20261017_e2294683_f7c32d04-reader/raw/"
+}

@@ -1,0 +1,8 @@
+{
+  "returncode": 0,
+  "elapsed_seconds": 27.086469687001227,
+  "max_rss_kib": 36220,
+  "profile": "early_diagnostic",
+  "source_commit": "f1a234e670890f64a5a0eff11704dfbfde9bcd16",
+  "network": "DENIED_BY_EXISTING_READ_ONLY_ENTRYPOINT"
+}

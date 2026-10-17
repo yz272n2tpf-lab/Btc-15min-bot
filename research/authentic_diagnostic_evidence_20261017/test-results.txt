@@ -1,0 +1,62 @@
+test_308_exact_partial_http_row_never_gets_completed_credit (research.authentic_diagnostic_evidence_20261017.test_authentic.AuthenticTests.test_308_exact_partial_http_row_never_gets_completed_credit) ... ok
+test_all_seven_inputs_intact_progressing_and_rejections_unresolved (research.authentic_diagnostic_evidence_20261017.test_authentic.AuthenticTests.test_all_seven_inputs_intact_progressing_and_rejections_unresolved) ... ok
+test_deterministic_replay_retains_quarantine_and_incomplete_seals (research.authentic_diagnostic_evidence_20261017.test_authentic.AuthenticTests.test_deterministic_replay_retains_quarantine_and_incomplete_seals) ... ok
+test_exact_original_charge_deficits_without_evidence_reclassification (research.authentic_diagnostic_evidence_20261017.test_authentic.AuthenticTests.test_exact_original_charge_deficits_without_evidence_reclassification) ... ok
+test_first_information_source_is_outside_main_capture (research.authentic_diagnostic_evidence_20261017.test_authentic.AuthenticTests.test_first_information_source_is_outside_main_capture) ... ok
+test_native_decision_cutoffs_preserved (research.authentic_diagnostic_evidence_20261017.test_authentic.AuthenticTests.test_native_decision_cutoffs_preserved) ... ok
+test_original_bytes_seals_and_runtime_bindings (research.authentic_diagnostic_evidence_20261017.test_authentic.AuthenticTests.test_original_bytes_seals_and_runtime_bindings) ... ok
+test_authentic_receipts_do_not_claim_raw_loss_recovery (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_authentic_receipts_do_not_claim_raw_loss_recovery) ... ok
+test_current_bucket_preserved_without_completed_credit_and_replay_identical (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_current_bucket_preserved_without_completed_credit_and_replay_identical) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpz9nhayhg/src/source.segments/20261017-5f996aa2a5d44a51a3c79503c3b3199a-4decbac0.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":415,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_drain_fsync_failure_never_claims_durable_or_clean_terminal (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_drain_fsync_failure_never_claims_durable_or_clean_terminal) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp1ueqjw07/fsync-failure.segments/20261017-e2e63ab385c1408b9ae300843f9d9b5b-4e9df144.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":414,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15 EVIDENCE GAP | WRITER_FAILURE | session incomplete
+ok
+test_exact_charge_multibatch_string_bytes_and_dedup (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_exact_charge_multibatch_string_bytes_and_dedup) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpd5v9b61d/new.segments/20261017-a6328c3a9d314c3a9d9950b1e2692a08-805c98a7.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":415,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpd5v9b61d/new.segments/20261017-a6328c3a9d314c3a9d9950b1e2692a08-805c98a7.jsonl.gz","records":2000,"raw_bytes":3206192,"stored_bytes":140990,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_existing_proof_job_charge_is_accounted_after_last_envelope (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_existing_proof_job_charge_is_accounted_after_last_envelope) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp416hvh90/proof.segments/20261017-f407aaaf28f04980bb9896ab214eaa86-3221499e.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":416,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_failed_observation_has_no_processed_credit (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_failed_observation_has_no_processed_credit) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpmh7li23y/broken.segments/20261017-a802f5e93e894928942775579e566941-bb08b253.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":413,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15 EVIDENCE GAP | WRITER_FAILURE | session incomplete
+ok
+test_final_receipt_accepted_but_future_bucket_rejected (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_final_receipt_accepted_but_future_bucket_rejected) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpq76yq6fq/src/source.segments/20261017-f42228653cb24e9584f1a1e979686588-501d079c.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":415,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpq76yq6fq/src2/source.segments/20261017-ff6356d553e846a8abd79589a81b5e58-671883db.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":415,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_future_candle_cannot_enter_decision_association (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_future_candle_cannot_enter_decision_association) ... ok
+test_no_partial_or_failed_fsync_durable_credit (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_no_partial_or_failed_fsync_durable_credit) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp887pr6en/pending.segments/20261017-aab790374ec948138211b571878aba2e-0faeffb5.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":414,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_normal_quote_capture_drain_and_seal_have_exact_counters (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_normal_quote_capture_drain_and_seal_have_exact_counters) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpl7v5pf2v/capture/main/source.segments/20261017-cdc6562a04dc40219c3c4ca776155ed4-b8108a93.jsonl.gz","records":1,"raw_bytes":570,"stored_bytes":411,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_old_put_nowait_blocks_new_admission_rejects_mutex_contention (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_old_put_nowait_blocks_new_admission_rejects_mutex_contention) ... ok
+test_original_charge_mutation_reproduced_for_quote_and_http (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_original_charge_mutation_reproduced_for_quote_and_http) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpa219wdbc/old.segments/20261017-8b3511f0026245cca7b9f23ed058f0e3-69d4ccb1.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":415,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_original_information_failures_remain_failures (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_original_information_failures_remain_failures) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpsr0lle8z/src/source.segments/20261017-a9cc1bb9045b4b85b70c41e5146abeb2-fffdc86b.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":417,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_queue_bounds_order_and_loss_counters_preserved (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_queue_bounds_order_and_loss_counters_preserved) ... ok
+test_receipt_before_bucket_end_is_not_completed_provenance (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_receipt_before_bucket_end_is_not_completed_provenance) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpyas_ehcq/src/source.segments/20261017-77543165eb37451790e4d4e812e57405-be5aaa25.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":414,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_signed_overcredit_is_not_hidden (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_signed_overcredit_is_not_hidden) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp75lngp0z/overcredit.segments/20261017-91e45bac2aae47c3a8e6befc4031bbce-951df366.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":414,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_terminal_counter_mismatch_cannot_seal (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_terminal_counter_mismatch_cannot_seal) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp96uxm0__/capture/main/source.segments/20261017-2d71f9079af04a0bad4011030dd1c576-4a15188b.jsonl.gz","records":1,"raw_bytes":570,"stored_bytes":412,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_wall_guard_still_stops_on_off_cpu_delay (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_wall_guard_still_stops_on_off_cpu_delay) ... ok
+test_pinned_original_clock_and_frames_unchanged (research.early_10_12h_20261017.test_preflight.PreflightTests.test_pinned_original_clock_and_frames_unchanged) ... ok
+test_v2_native_row_matches_original_http_without_clock_relabel (research.early_10_12h_20261017.test_preflight.PreflightTests.test_v2_native_row_matches_original_http_without_clock_relabel) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp168hyvs8/source/source.segments/20261017-d918818478bc405ca6e89f0822297954-0eb5b428.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":413,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_v2_wrong_clock_and_changed_value_are_rejected (research.early_10_12h_20261017.test_preflight.PreflightTests.test_v2_wrong_clock_and_changed_value_are_rejected) ... ok
+test_v2_missing_original_http_is_not_credited (research.early_10_12h_20261017.test_preflight.PreflightTests.test_v2_missing_original_http_is_not_credited) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpd68utm7t/source/source.segments/20261017-0e1450a77cc9464ba44b579d8cf7afcc-9bb8e650.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":416,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_unknown_v2_schema_remains_quarantined (research.early_10_12h_20261017.test_preflight.PreflightTests.test_unknown_v2_schema_remains_quarantined) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpdq03kwmy/source/source.segments/20261017-c3240de750c2427eb5ff0e961625c0ef-e9713ae1.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":413,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_candle_seam_only_observes_original_native_assignment (research.early_10_12h_20261017.test_preflight.PreflightTests.test_candle_seam_only_observes_original_native_assignment) ... ok
+BurstBatchTests (unittest.loader._FailedTest.BurstBatchTests) ... ERROR
+
+======================================================================
+ERROR: BurstBatchTests (unittest.loader._FailedTest.BurstBatchTests)
+----------------------------------------------------------------------
+AttributeError: module 'research.main_closeout_incremental_20261015.test_recorder_burst_batch_research' has no attribute 'BurstBatchTests'
+
+----------------------------------------------------------------------
+Ran 32 tests in 0.894s
+
+FAILED (errors=1)

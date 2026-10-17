@@ -1,0 +1,47 @@
+{
+  "service": {
+    "id": "1fff593b-8b09-4cc4-8c51-f9603082657f",
+    "name": "existing-reader-capacity-probe"
+  },
+  "environment": {
+    "id": "12d241b7-23b4-4421-aafd-142e943555ee",
+    "name": "test"
+  },
+  "config": {
+    "source": {
+      "repo": "yz272n2tpf-lab/Btc-15min-bot",
+      "branch": "research/native-operational-gates-20261017",
+      "commitSha": "950e4b5e401d501bb26b5a66473e06500e8c08ac"
+    },
+    "build": {
+      "builder": "DOCKERFILE",
+      "buildEnvironment": "V3",
+      "dockerfilePath": "Dockerfile.btc15-early-finish"
+    },
+    "deploy": {
+      "startCommand": "timeout --signal=TERM --kill-after=10s 180s python -B -u -c 'import hashlib,json,pathlib,subprocess,sys\nr=subprocess.run([sys.executable,\"-B\",\"-u\",\"-m\",\"research.native_operational_20261017.probe\",\"--authorized-research-only\"],capture_output=True,text=True)\nprint(r.stdout,end=\"\",flush=True)\nif r.stderr:\n print(\"BTC15_PROBE_STDERR_BYTES \"+str(len(r.stderr.encode())),flush=True)\nfor line in r.stdout.splitlines():\n try: summary=json.loads(line)\n except json.JSONDecodeError: continue\n if not isinstance(summary,dict) or \"receipt\" not in summary: continue\n p=pathlib.Path(summary[\"receipt\"])\n if p.parent!=pathlib.Path(\"/research-evidence\") or not p.name.startswith(\"native-operational-\") or p.suffix!=\".json\" or p.is_symlink() or p.stat().st_size>131072: raise SystemExit(\"RECEIPT_PATH_OR_BOUND\")\n blob=p.read_bytes()\n if hashlib.sha256(blob).hexdigest()!=summary[\"sha256\"]: raise SystemExit(\"RECEIPT_HASH_MISMATCH\")\n print(\"BTC15_OPERATIONAL_RECEIPT \"+json.dumps(json.loads(blob),sort_keys=True,separators=(\",\",\":\")),flush=True)\nsys.exit(r.returncode)\n'",
+      "limitOverride": {
+        "containers": {
+          "cpu": 4,
+          "memoryBytes": 8000000000
+        }
+      },
+      "restartPolicyType": "NEVER",
+      "useLegacyStacker": false,
+      "ipv6EgressEnabled": false,
+      "runtime": "V2",
+      "multiRegionConfig": {
+        "iad": {
+          "numReplicas": 1
+        }
+      }
+    },
+    "volumeMounts": {
+      "2dba2ef6-b84d-4abf-9d04-58a1e77082c5": {
+        "mountPath": "/research-evidence"
+      }
+    }
+  },
+  "variableNames": [],
+  "staged": null
+}

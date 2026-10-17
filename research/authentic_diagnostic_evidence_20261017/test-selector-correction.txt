@@ -1,0 +1,9 @@
+test_original_jsonl_hash_chain_unchanged_by_batches (research.main_closeout_incremental_20261015.test_recorder_burst_batch_research.RecorderBurstTests.test_original_jsonl_hash_chain_unchanged_by_batches) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpcz9uummp/baseline.segments/20261017-2d31184595f94eba9772e5f6bc7f29c1-83ce08f8.jsonl.gz","records":1,"raw_bytes":573,"stored_bytes":409,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpcz9uummp/optimized.segments/20261017-0fff953e87104278a8c04a4bdd1e6eee-e577ac11.jsonl.gz","records":1,"raw_bytes":573,"stored_bytes":409,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpcz9uummp/baseline.segments/20261017-2d31184595f94eba9772e5f6bc7f29c1-83ce08f8.jsonl.gz","records":1000,"raw_bytes":465892,"stored_bytes":358323,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.579s
+
+OK

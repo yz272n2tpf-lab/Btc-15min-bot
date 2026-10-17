@@ -1,0 +1,80 @@
+timeout --signal=TERM --kill-after=5s 180s python -B -u -c '"""One bounded, read-only export from the EXISTING isolated research mount.
+
+No subprocess, socket, SSH, producer access, evidence write or capture import.
+The caller embeds the pinned allowlist in the exact reviewed start command.
+"""
+import base64
+import hashlib
+import json
+import os
+from pathlib import Path
+import signal
+import stat
+import time
+
+EXPECTED={
+    '"'"'RAILWAY_PROJECT_ID'"'"':'"'"'87ad03d5-e1d6-47d6-b1ea-159cd7594686'"'"',
+    '"'"'RAILWAY_ENVIRONMENT_ID'"'"':'"'"'12d241b7-23b4-4421-aafd-142e943555ee'"'"',
+    '"'"'RAILWAY_SERVICE_ID'"'"':'"'"'1fff593b-8b09-4cc4-8c51-f9603082657f'"'"',
+    '"'"'RAILWAY_VOLUME_ID'"'"':'"'"'2dba2ef6-b84d-4abf-9d04-58a1e77082c5'"'"',
+    '"'"'RAILWAY_VOLUME_MOUNT_PATH'"'"':'"'"'/research-evidence'"'"',
+    '"'"'RAILWAY_GIT_COMMIT_SHA'"'"':'"'"'950e4b5e401d501bb26b5a66473e06500e8c08ac'"'"',
+}
+ROOT=Path('"'"'/research-evidence/DIAG_20261017_e2294683_f7c32d04-reader/raw'"'"')
+CHUNK=3072
+
+def read_verified(root,item):
+    path=root/item['"'"'path'"'"']
+    if path.is_absolute() and not path.is_relative_to(root):
+        raise ValueError('"'"'OUTSIDE_EXPORT_ROOT'"'"')
+    if '"'"'..'"'"' in Path(item['"'"'path'"'"']).parts or any(p.is_symlink() for p in (path,*path.parents)):
+        raise ValueError('"'"'EXPORT_SYMLINK_OR_PARENT'"'"')
+    fd=os.open(path,os.O_RDONLY|os.O_NOFOLLOW|os.O_NOATIME)
+    with os.fdopen(fd,'"'"'rb'"'"') as stream:
+        before=os.fstat(stream.fileno())
+        if not stat.S_ISREG(before.st_mode) or before.st_size!=item['"'"'size'"'"']:
+            raise ValueError('"'"'EXPORT_SIZE_OR_TYPE:'"'"'+item['"'"'path'"'"'])
+        raw=stream.read(item['"'"'size'"'"']+1)
+        after=os.fstat(stream.fileno())
+    if len(raw)!=item['"'"'size'"'"'] or hashlib.sha256(raw).hexdigest()!=item['"'"'sha256'"'"']:
+        raise ValueError('"'"'EXPORT_HASH:'"'"'+item['"'"'path'"'"'])
+    if (before.st_ino,before.st_size,before.st_mtime_ns)!=(after.st_ino,after.st_size,after.st_mtime_ns):
+        raise ValueError('"'"'EXPORT_SOURCE_CHANGED'"'"')
+    return raw
+
+def export(plan):
+    signal.alarm(175)
+    started=time.monotonic()
+    if any(os.environ.get(k)!=v for k,v in EXPECTED.items()):
+        raise ValueError('"'"'ISOLATED_RESEARCH_IDENTITY'"'"')
+    if not Path('"'"'/research-evidence'"'"').is_mount() or Path('"'"'/research-evidence'"'"').is_symlink():
+        raise ValueError('"'"'RESEARCH_MOUNT_REQUIRED'"'"')
+    if len(plan)!=12 or sum(x['"'"'size'"'"'] for x in plan)>11*1024**2:
+        raise ValueError('"'"'EXPORT_TOTAL_BOUND'"'"')
+    if len({x['"'"'path'"'"'] for x in plan})!=12:
+        raise ValueError('"'"'DUPLICATE_EXPORT_OBJECT'"'"')
+    blobs=[]
+    for item in plan:
+        parts=Path(item['"'"'path'"'"']).parts
+        if parts[0] not in ('"'"'main'"'"','"'"'v81'"'"','"'"'information'"'"') or not (
+            len(parts)==2 and parts[1] in ('"'"'identity.json'"'"','"'"'terminal-status.json'"'"','"'"'seal.json'"'"') or
+            len(parts)==3 and parts[1] in ('"'"'source.segments'"'"','"'"'information.segments'"'"') and parts[2].endswith('"'"'.jsonl.gz'"'"')):
+            raise ValueError('"'"'EXPORT_ALLOWLIST'"'"')
+        blobs.append(read_verified(ROOT,item))
+    print('"'"'BTC15_RAW_EXPORT_BEGIN '"'"'+json.dumps(dict(objects=plan,bytes=sum(map(len,blobs)),
+          identity=EXPECTED,deadline_seconds=180,production_access=False,capture=False,orders=False)),flush=True)
+    index=0
+    for item,raw in zip(plan,blobs):
+        for offset in range(0,len(raw),CHUNK):
+            data=raw[offset:offset+CHUNK]
+            row=dict(index=index,path=item['"'"'path'"'"'],offset=offset,size=len(data),
+                     sha256=hashlib.sha256(data).hexdigest(),data=base64.b64encode(data).decode())
+            print('"'"'BTC15_RAW_EXPORT g%02d '"'"'%(index//200)+json.dumps(row,separators=('"'"','"'"','"'"':'"'"')),flush=True)
+            index+=1
+            time.sleep(.015)  # bounded log transport; no producer timing involved
+    print('"'"'BTC15_RAW_EXPORT_END '"'"'+json.dumps(dict(objects=len(plan),chunks=index,
+          bytes=sum(map(len,blobs)),elapsed_seconds=time.monotonic()-started,source_writes=0)),flush=True)
+
+
+export([{'"'"'path'"'"': '"'"'main/identity.json'"'"', '"'"'sha256'"'"': '"'"'faeb281e1c8e9c72488f762d026a53cc09f9055aa914591672fc897f41c6e3d1'"'"', '"'"'size'"'"': 1330}, {'"'"'path'"'"': '"'"'main/source.segments/20261017-a04257833f454c39aeac18b2316a6d83-f947dfca.jsonl.gz'"'"', '"'"'sha256'"'"': '"'"'f8b106347fa7020375b7656dc90106ab7feada4c0698371c1c9fa85808c0267b'"'"', '"'"'size'"'"': 2475953}, {'"'"'path'"'"': '"'"'main/terminal-status.json'"'"', '"'"'sha256'"'"': '"'"'b2a21a6247a1f0df3db35f4e2213a0248705ad1824ac10a7d348bf2baece6ca4'"'"', '"'"'size'"'"': 3157}, {'"'"'path'"'"': '"'"'main/seal.json'"'"', '"'"'size'"'"': 2312, '"'"'sha256'"'"': '"'"'3fa068b200a9a6d156535a82f312739a91d47b834f84eb78afe0a823e4916c53'"'"'}, {'"'"'path'"'"': '"'"'v81/identity.json'"'"', '"'"'sha256'"'"': '"'"'013e9337812f482d66e2db317cce81c71efb41053c89b8def9b0420d27a18a70'"'"', '"'"'size'"'"': 1336}, {'"'"'path'"'"': '"'"'v81/source.segments/20261017-06ac374debbf4e4ab11f2346ddf4498b-58722f85.jsonl.gz'"'"', '"'"'sha256'"'"': '"'"'2d30908bb04dcd8cc415d28934908958182e2cb2461939a5722fc5af79f55dd4'"'"', '"'"'size'"'"': 8105094}, {'"'"'path'"'"': '"'"'v81/terminal-status.json'"'"', '"'"'sha256'"'"': '"'"'343c4da63bf1245023e103f291b67aab4979a964ce06f0364c82b950dd086c9c'"'"', '"'"'size'"'"': 3121}, {'"'"'path'"'"': '"'"'v81/seal.json'"'"', '"'"'size'"'"': 2322, '"'"'sha256'"'"': '"'"'04241db43ec9efee1c9d2e4c466b1d60b493d69a640a412294af88cc417ded96'"'"'}, {'"'"'path'"'"': '"'"'information/identity.json'"'"', '"'"'sha256'"'"': '"'"'c1401fefc2f8e2d80ddee69021f89478d4994f7545f767eeb7c83bede88a311b'"'"', '"'"'size'"'"': 1336}, {'"'"'path'"'"': '"'"'information/information.segments/20261017-6298839aa7bd475db3675721e190ddf2-93e0f8cc.jsonl.gz'"'"', '"'"'sha256'"'"': '"'"'02c6a32b8435e2a7a48e2b7b0287b02ab6288a8f2e75c4769f6c3e5ebea3e83d'"'"', '"'"'size'"'"': 309739}, {'"'"'path'"'"': '"'"'information/terminal-status.json'"'"', '"'"'sha256'"'"': '"'"'4515421c3825a3f6d8130f1cb74abe3c70f0e19355d691c1bcadba802d588ba7'"'"', '"'"'size'"'"': 1605}, {'"'"'path'"'"': '"'"'information/seal.json'"'"', '"'"'size'"'"': 2046, '"'"'sha256'"'"': '"'"'d0892237646c0edccf1899efe50c768304967166a5984f6253bc5d2b4ea1ff80'"'"'}])
+'

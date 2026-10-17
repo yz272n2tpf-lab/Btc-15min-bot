@@ -1,0 +1,12 @@
+{"detail":"MISSING_OR_AMBIGUOUS_EXACT_ORIGINAL_SOURCE:BRTI","reason":"INFORMATION_ASSOCIATION","record":{"partition":55,"sequence":38,"session":"fa9847b012c249da8107f9e0767c84f2"}}
+{"details":{"reason":"INPUT_NOT_PUBLISHED"},"reason":"INFORMATION_FAILURE","sequence":141,"session":"fa9847b012c249da8107f9e0767c84f2"}
+{"details":{"reason":"INPUT_NOT_PUBLISHED"},"reason":"INFORMATION_FAILURE","sequence":158,"session":"fa9847b012c249da8107f9e0767c84f2"}
+{"details":{"reason":"INPUT_NOT_PUBLISHED"},"reason":"INFORMATION_FAILURE","sequence":185,"session":"fa9847b012c249da8107f9e0767c84f2"}
+{"details":{"reason":"INPUT_NOT_PUBLISHED"},"reason":"INFORMATION_FAILURE","sequence":189,"session":"fa9847b012c249da8107f9e0767c84f2"}
+{"details":{"reason":"INPUT_NOT_PUBLISHED"},"reason":"INFORMATION_FAILURE","sequence":209,"session":"fa9847b012c249da8107f9e0767c84f2"}
+{"details":{"reason":"INPUT_NOT_PUBLISHED"},"reason":"INFORMATION_FAILURE","sequence":215,"session":"fa9847b012c249da8107f9e0767c84f2"}
+{"details":{"reason":"INPUT_NOT_PUBLISHED"},"reason":"INFORMATION_FAILURE","sequence":227,"session":"fa9847b012c249da8107f9e0767c84f2"}
+{"reason":"QUOTE_RECEIVED_WITHOUT_OWNER_ACCEPTANCE","sequence":45830,"session":"c4e25345d2be4c5392daa172c01a4a35"}
+{"detail":"ROLE_RUN_OR_INCOMPLETE","reason":"CAMPAIGN_EXPECTATIONS"}
+{"reason":"MAIN_APPLICABLE_DECISION_LINKS_MISSING"}
+{"reason":"INFORMATION_LINKS_MISSING"}

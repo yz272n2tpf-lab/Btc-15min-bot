@@ -1,0 +1,26 @@
+{
+  "scope": "deployment",
+  "deploymentId": "904b2d25-16e9-4069-8b53-bddbde44ab07",
+  "serviceId": "1fff593b-8b09-4cc4-8c51-f9603082657f",
+  "environmentId": "12d241b7-23b4-4421-aafd-142e943555ee",
+  "status": "SUCCESS",
+  "deploy": [
+    {
+      "timestamp": "2026-10-17T13:32:06.344554011Z",
+      "severity": "info",
+      "message": {
+        "objects": 12,
+        "chunks": 3557,
+        "bytes": 10909351,
+        "elapsed_seconds": 54.203265972435474,
+        "source_writes": 0
+      },
+      "attributes": [
+        {
+          "key": "level",
+          "value": "\"info\""
+        }
+      ]
+    }
+  ]
+}
