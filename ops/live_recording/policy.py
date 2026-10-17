@@ -14,6 +14,19 @@ PROFILES={
  'preflight':dict(seconds=1200,compressed={'main':64*MiB,'v81':64*MiB,'information':32*MiB},decoded=768*MiB,records=300000,db=4*GiB,index=256*MiB,reader_seconds=240),
  'day':dict(seconds=86940,compressed={'main':GiB,'v81':512*MiB,'information':512*MiB},decoded=12*GiB,records=6000000,db=48*GiB,index=3*GiB,reader_seconds=3600)}
 
+# Prepared finite profiles only. Existing profiles/defaults are unchanged;
+# explicit capture opt-in, exact identity and separate authorization still apply.
+PROFILES.update({
+ 'early_diagnostic':dict(seconds=60,compressed={'main':16*MiB,'v81':32*MiB,'information':16*MiB},
+   decoded=512*MiB,records=270000,db=GiB,index=128*MiB,reader_seconds=240,
+   decoded_by_role={'main':128*MiB,'v81':256*MiB,'information':128*MiB},
+   records_by_role={'main':20000,'v81':200000,'information':50000},producer_reserve=2*GiB),
+ 'early_preflight':dict(seconds=1200,compressed={'main':96*MiB,'v81':320*MiB,'information':64*MiB},
+   decoded=4*GiB,records=3460000,db=4*GiB,index=256*MiB,reader_seconds=1800,
+   decoded_by_role={'main':512*MiB,'v81':3*GiB,'information':256*MiB},
+   records_by_role={'main':160000,'v81':3200000,'information':100000},producer_reserve=2*GiB)
+})
+
 def canonical(v):return json.dumps(v,sort_keys=True,separators=(',',':'),allow_nan=False).encode()
 def sha(raw):return hashlib.sha256(raw).hexdigest()
 def file_sha(p):
