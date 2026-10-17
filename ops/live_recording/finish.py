@@ -73,7 +73,9 @@ def report_quality(summary,seals):
  return dict(fixture_only=summary.get('evidence_classes')==['FIXTURE'],fixture_complete=summary.get('fixture_complete',False),complete_supplied_scope=summary.get('complete_supplied_scope',False),complete_evidence=summary.get('complete_supplied_scope',False) and not unresolved_origins,cost_verified=False,recording_readiness=summary.get('status','INCOMPLETE'),economic_evidence_readiness='NOT_EVALUATED; no fills or fee applicability assumed',production_approval='SEPARATE_AUTHORIZATION_REQUIRED',coverage=summary.get('coverage',{}),counts=counts,matrix=matrix,gaps=[dict(reason=k,count=v) for k,v in summary.get('issue_counts',{}).items()],lifecycle_emitted=summary.get('lifecycle_emitted',{}),pending_outcomes=summary.get('pending_outcomes',{}),absent_lifecycle_basis=summary.get('absent_lifecycle_basis','UNKNOWN'),contract_boundaries=summary.get('contract_boundaries',{}),unresolved_origin_or_terminal_links=unresolved_origins,upstream_candle_receipts_not_captured=summary.get('metrics',{}).get('completed_cache_rows_upstream_receipt_unknown',0))
 
 def finish(c,output,transport=None):
- started=time.monotonic();profile=PROFILES[c['profile']];deadline=started+(300 if c['profile']=='preflight' else 5400)
+ started=time.monotonic();profile=PROFILES[c['profile']]
+ short=c['profile'] in ('early_diagnostic','early_preflight')
+ deadline=started+(profile['reader_seconds']+180 if short else (300 if c['profile']=='preflight' else 5400))
  output=safe_path(output);need(not output.is_relative_to('/data') and not output.is_relative_to('/app'),'CODESPACE_PRIVATE_DESTINATION')
  os.umask(0o077);output.mkdir(parents=True,exist_ok=True,mode=0o700);need(output.stat().st_mode&0o077==0,'PRIVATE_OUTPUT_PERMISSIONS')
  identity=sha(canonical(c));marker=output/'campaign-config.json'
@@ -107,7 +109,10 @@ def finish(c,output,transport=None):
   receipt['transfer_seconds']=time.monotonic()-started;receipt['live_retrieval']=isinstance(transport,SSH)
   from .capacity import project
   health={r:json.loads((rawroot/r/'terminal-status.json').read_bytes()) for r in seals}
-  atomic(output/'24h-projection.json',project(health))
+  if short:
+   atomic(output/'native-preflight-measurements.json',dict(roles=health,qualified_10h=False,qualified_12h=False,
+          basis='HEALTHY_NATIVE_RATE_AND_DATABASE_MEASUREMENTS_REQUIRED_BEFORE_DURATION_APPROVAL'))
+  else:atomic(output/'24h-projection.json',project(health))
   work=output/('reader-'+str(attempt));work.mkdir();merged=work/'run';merged.mkdir()
   for role,item in seals.items():
    for e in item['seal']['files']:
@@ -149,9 +154,17 @@ def read_only(work,profile):
  import socket
  def deny(*a,**k):raise RuntimeError('INDEPENDENT_READER_NETWORK_FORBIDDEN')
  socket.socket.connect=deny;socket.create_connection=deny
- from ops.recording_workflow.evidence import index_run
- from .reader import run
- root=Path(work);index_run(root/'run',root/'index',profile=profile);run(root/'run',root/'index',root/'verification',profile)
+ root=Path(work)
+ if profile in ('early_diagnostic','early_preflight'):
+  from .windowed_campaign import run
+  limits=PROFILES[profile]
+  result=run(root/'run',root/'verification',window_records=1000,
+             work_db_bytes=limits['db'],seconds=limits['reader_seconds'])
+  atomic(root/'verification'/'summary.json',result['campaign_verification'])
+ else:
+  from ops.recording_workflow.evidence import index_run
+  from .reader import run
+  index_run(root/'run',root/'index',profile=profile);run(root/'run',root/'index',root/'verification',profile)
 def main():
  p=argparse.ArgumentParser();p.add_argument('--config');p.add_argument('--output');p.add_argument('--read-only');p.add_argument('--profile',choices=list(PROFILES));a=p.parse_args()
  if a.read_only:read_only(a.read_only,a.profile)
