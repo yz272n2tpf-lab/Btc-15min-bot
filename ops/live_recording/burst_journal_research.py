@@ -139,14 +139,41 @@ class BufferedProofWriter(OffPathProofWriter):
         if archive is not None:
             observe=archive.observe
             def observed(kind,fields):
+                # Archive.observe consumes/mutates quote and HTTP fields. Charge
+                # the immutable admission fields BEFORE that transformation.
+                charge=observation_charge(fields)
                 result=observe(kind,fields)
-                archive.journal.observation_processed(observation_charge(fields))
+                archive.journal.observation_processed(charge)
                 return result
             archive.observe=observed
         super().__init__(*args,**kwargs)
 
     def _enqueue(self,capture,charge):
-        ok=super()._enqueue(capture,charge)
+        # Queue.put_nowait still waits for Queue.mutex. The recorder must never
+        # wait behind a suspended consumer on a native quote thread. Preserve
+        # the existing queue, limits, ordering and explicit loss accounting.
+        ok=False
+        if self._closing:self.gap('CLOSED')
+        elif not self._admission.acquire(False):self.gap('ADMISSION_BUSY')
+        else:
+            try:
+                if self._closing:self.gap('CLOSED')
+                elif self.queued_bytes+charge>self.queue_bytes:
+                    self.dropped+=1;self.gap('QUEUE_BYTES')
+                elif not self.queue.mutex.acquire(False):self.gap('ADMISSION_BUSY')
+                else:
+                    try:
+                        if self.queue._qsize()>=self.queue.maxsize:
+                            self.dropped+=1;self.gap('QUEUE_OVERFLOW')
+                        else:
+                            self.queue._put((capture,charge))
+                            self.queue.unfinished_tasks+=1
+                            self.queued_bytes+=charge
+                            self.peak_queued_bytes=max(self.peak_queued_bytes,self.queued_bytes)
+                            self.queue.not_empty.notify()
+                            ok=True
+                    finally:self.queue.mutex.release()
+            finally:self._admission.release()
         kind=getattr(capture,'kind','PROOF_JOB')
         if kind not in self.admission_kinds and len(self.admission_kinds)>=32:kind='OTHER'
         stats=self.admission_kinds.setdefault(kind,Counter())
@@ -156,6 +183,12 @@ class BufferedProofWriter(OffPathProofWriter):
             self.admitted['observations']+=1;self.admitted['charge_bytes']+=charge
         else:stats['rejected']+=1
         return ok
+
+    def _materialize(self,capture):
+        published=self.published
+        super()._materialize(capture)
+        if self.archive is not None and self.published>published:
+            self.archive.journal.observation_processed(self.max_bytes)
 
     def _flush_gaps(self):
         super()._flush_gaps()
@@ -198,7 +231,18 @@ class BufferedProofWriter(OffPathProofWriter):
         z['unfinished_observations']=self.queue.unfinished_tasks
         if self.archive is not None:
             z['durable_batch']=self.archive.journal.evidence_batch_status()
-            z['not_yet_durable_charge_bytes']=max(0,self.admitted['charge_bytes']-z['durable_batch']['durable_charge_bytes'])
+            # Signed differences expose over-credit as well as under-credit.
+            z['not_yet_durable_charge_bytes']=self.admitted['charge_bytes']-z['durable_batch']['durable_charge_bytes']
+            z['not_yet_durable_observations']=z['admitted_observations']-z['durable_batch']['durable_observations']
             z['flow_snapshot_consistent']=(z['durable_batch']['durable_observations']<=z['admitted_observations']
                 and z['durable_batch']['durable_charge_bytes']<=z['admitted_charge_bytes'])
+            b=z['durable_batch']
+            z['terminal_accounting_complete']=(self._closing and not self._thread.is_alive()
+                and not z['archive_failed'] and not z['losses']
+                and z['queue_items']==z['queued_bytes']==z['unfinished_observations']==0
+                and b['buffered_records']==b['buffered_raw_bytes']==0
+                and z['admitted_observations']==b['processed_observations']==b['durable_observations']
+                and z['admitted_charge_bytes']==b['processed_charge_bytes']==b['durable_charge_bytes']
+                and sum(v['admitted'] for v in self.admission_kinds.values())==z['admitted_observations']
+                and sum(v['admitted_charge_bytes'] for v in self.admission_kinds.values())==z['admitted_charge_bytes'])
         return z

@@ -75,18 +75,22 @@ class CampaignVerifier(Verifier):
    elif k=='CANDLE_ACCEPTANCE':
     require(number(v['accepted_at']) and isinstance(z,list) and len(z)<=256,'CANDLE_ACCEPTANCE_SCHEMA')
     for row in z:
+     pending=False;receipt_floor=None
      if 'clock_schema' in v:
       from .candle_schema import SCHEMA,PRODUCER_SHA256,decode
       require(v['clock_schema']==SCHEMA and v.get('producer_sha256')==PRODUCER_SHA256,'COMPLETED_CLOCK_SCHEMA_BINDING')
       row,upstream=decode(row)
-      require(row[0]<=v['accepted_at'],'COMPLETED_CANDLE_BEFORE_ACCEPTANCE')
+      # Pinned completed_candles renames clocks; it does NOT filter the current
+      # bucket. The native decision cutoff performs that filtering later.
+      require(upstream[0]<=v['accepted_at'],'CANDLE_BUCKET_START_AFTER_ACCEPTANCE')
+      pending=row[0]>v['accepted_at'];receipt_floor=row[0]
      else:
       # Legacy bytes keep their old strict contract; never silently reinterpret.
       require(len(row)==7 and row[0]==row[1]+60,'COMPLETED_CANDLE_END_CLOCK')
       upstream=row[1:]
-     candidates=self.db.execute('SELECT s,q,p FROM candle_raw WHERE h=? AND at<=? LIMIT 1',(sha(canonical(upstream)),v['accepted_at'])).fetchall()
+     candidates=self.db.execute('SELECT s,q,p FROM candle_raw WHERE h=? AND at<=? AND (? IS NULL OR at>=?) LIMIT 1',(sha(canonical(upstream)),v['accepted_at'],receipt_floor,receipt_floor)).fetchall()
      self.db.execute('INSERT INTO candles VALUES (?,?,?,?,?,?,?)',(sha(canonical(row)),v['accepted_at'],s,q,p,canonical(row),int(bool(candidates))))
-     self.metrics['original_completed_candles' if candidates else 'completed_cache_rows_upstream_receipt_unknown']+=1
+     self.metrics['cache_candles_not_completed_at_acceptance' if pending else 'original_completed_candles' if candidates else 'completed_cache_rows_upstream_receipt_unknown']+=1
    elif k=='BRTI_READ':
     require(number(v['received_at']) and z.get('owner_epoch') and type(z.get('sequence')) is int,'BRTI_ORIGINAL_IDENTITY')
     key={x:z.get(x) for x in ('value','source_ts_ms','owner_epoch','sequence','status','clean_for_qualification')}
@@ -127,6 +131,7 @@ class CampaignVerifier(Verifier):
   f=z['value'];a=f['anchor'];cut=f['cut'];b=f['brti'];proof=f['proof']
   require(f['anchor_id']==sha(canonical(a)),'ANCHOR_HASH');require(a['opened']<=a['decision']<=a['captured']<=cut<a['closed'],'INFORMATION_CUTOFF')
   for row in a['completed']:
+   require(len(row)==7 and number(row[0]) and number(row[1]) and max(row[:2])<=a['decision'],'CANDLE_NOT_COMPLETED_AT_DECISION')
    require(self.db.execute('SELECT 1 FROM candles WHERE h=? AND at<=? AND original_http=1 LIMIT 1',(sha(canonical(row)),a['decision'])).fetchone(),'CANDLE_NOT_AVAILABLE_WITH_ORIGINAL_HTTP_AT_DECISION')
   require(0<len(a['ticks'])<=4096,'TICK_HISTORY_BOUND')
   for st,rt,val in a['ticks']:source(self,'BTC',st,rt,val,None,a['decision'],loc[2])

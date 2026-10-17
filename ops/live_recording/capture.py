@@ -63,11 +63,15 @@ class Gate:
  def gap(self,reason):
   if self.active:
    self.writer.gap(reason);self.active=False;self.reason='RECORDER_EVIDENCE_GAP:'+str(reason)[:64]
- def overhead(self,started,label):
+ def overhead(self,started,label,thread_started=None):
   elapsed=time.perf_counter_ns()-started;self.metrics['calls']+=1;self.metrics['total_ns']+=elapsed;self.metrics['max_ns']=max(self.metrics['max_ns'],elapsed)
   self.metrics['under_1ms' if elapsed<=1000000 else 'over_1ms']+=1
   self.metrics[label+':calls']+=1
   if elapsed>1000000:self.metrics[label+':over_1ms']+=1
+  if thread_started is not None and elapsed>1000000:
+   cpu=time.thread_time_ns()-thread_started
+   self.metrics[label+':slow_max_thread_cpu_ns']=max(self.metrics[label+':slow_max_thread_cpu_ns'],cpu)
+   self.metrics[label+':slow_max_off_cpu_ns']=max(self.metrics[label+':slow_max_off_cpu_ns'],max(0,elapsed-cpu))
   if elapsed>5000000:self.active=False;self.reason='HOOK_OVER_5MS:'+label
  def disable(self):
   if not self.lock.acquire(timeout=.25):self.active=False;self.reason='ADMISSION_STOP_TIMEOUT';return False
@@ -115,9 +119,9 @@ class Capture:
   emit=self.observer.emit
   def measured(kind,**fields):
    if not self.gate.active:return False
-   begun=time.perf_counter_ns()
+   begun=time.perf_counter_ns();thread_begun=time.thread_time_ns()
    try:return emit(kind,**fields)
-   finally:self.gate.overhead(begun,kind)
+   finally:self.gate.overhead(begun,kind,thread_begun)
   self.observer.emit=measured
   self.control=threading.Thread(target=self.watch,name='recorder-control-'+role,daemon=True);self.control.start()
  def emit(self,kind,**fields):return self.gate.submit_observation(kind,**fields)
@@ -188,6 +192,8 @@ class Capture:
     return self.status()
    self.stopped=True
    if self.control is not threading.current_thread():self.control.join(1)
+   if not self.writer.status()['terminal_accounting_complete']:
+    self.failure=self.failure or 'DURABILITY_ACCOUNTING_INCOMPLETE'
    s=self.status();s['status']='INCOMPLETE' if s['failure'] or s['writer']['archive_failed'] or s['writer']['losses'] else 'SEALED'
    s['reason']=self.stop_reason;s['drain_timed_out']=getattr(self,'drain_timed_out',False);s['journals']=self.gate.journals;s['stopped_at']=time.time();atomic(self.root/'terminal-status.json',s)
    files=[]
