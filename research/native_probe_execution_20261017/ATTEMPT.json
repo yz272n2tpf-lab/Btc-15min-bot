@@ -1,0 +1,389 @@
+{
+  "schema": "BTC15_AUTHORIZED_RESEARCH_PROBE_ATTEMPT_V1",
+  "at_utc": "2026-10-17T02:12:17.760Z",
+  "approved_source_commit": "950e4b5e401d501bb26b5a66473e06500e8c08ac",
+  "user_authorized_research_probe": true,
+  "production_activation_authorized": false,
+  "result": "BLOCKED_AT_DEPLOYMENT_TOOL_APPROVAL",
+  "probe_execution_count": 0,
+  "deployment_tool_attempts": 1,
+  "retries": 0,
+  "probe_compute_started": false,
+  "deadline_seconds": 180,
+  "incremental_compute_planning_allowance_usd": 0.03,
+  "research_before": {
+    "service": {
+      "id": "1fff593b-8b09-4cc4-8c51-f9603082657f",
+      "name": "existing-reader-capacity-probe",
+      "state": "live"
+    },
+    "environment": {
+      "id": "12d241b7-23b4-4421-aafd-142e943555ee",
+      "name": "test"
+    },
+    "staged": null,
+    "config": {
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "research/bounded-reader-recovery-20261016",
+        "commitSha": "d50d83eda2e433cedc2aeafab8e280c05284afe4"
+      },
+      "build": {
+        "builder": "DOCKERFILE",
+        "buildEnvironment": "V3",
+        "dockerfilePath": "Dockerfile.btc15-early-finish"
+      },
+      "deploy": {
+        "startCommand": "python -B -u -m research.bounded_reader_recovery_20261016.run_isolated --prior-retention /research-evidence/bounded_reader_recovery_20261016_7ca3c75b-ea3b-420e-953b-6611eace4de1/RESULTS.json",
+        "limitOverride": {
+          "containers": {
+            "cpu": 4,
+            "memoryBytes": 8000000000
+          }
+        },
+        "restartPolicyType": "NEVER",
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "volumeMounts": {
+        "2dba2ef6-b84d-4abf-9d04-58a1e77082c5": {
+          "mountPath": "/research-evidence"
+        }
+      }
+    },
+    "stagedChanges": [],
+    "variableNames": [],
+    "volumes": [
+      {
+        "id": "2dba2ef6-b84d-4abf-9d04-58a1e77082c5",
+        "name": "early-probe-scratch",
+        "mountPath": "/research-evidence",
+        "sizeMB": 100000,
+        "region": "iad",
+        "state": "live"
+      }
+    ],
+    "domains": {
+      "serviceDomains": [],
+      "customDomains": []
+    },
+    "tcpProxies": [],
+    "latestDeployment": {
+      "id": "aa686ea8-3b0a-4888-8d74-5a38fcfd69a4",
+      "status": "SUCCESS",
+      "createdAt": "2026-10-16T23:55:11.931Z",
+      "url": null
+    },
+    "tracing": {
+      "tracingEnabled": false,
+      "autoInstrumentationEnabled": false,
+      "autoInstrumentationActive": false
+    }
+  },
+  "research_staged_patch": {
+    "project": {
+      "id": "87ad03d5-e1d6-47d6-b1ea-159cd7594686",
+      "name": "btc15-early-capacity-test"
+    },
+    "environment": {
+      "id": "12d241b7-23b4-4421-aafd-142e943555ee",
+      "name": "test"
+    },
+    "staged": {
+      "patchId": "1141d1be-9100-4c77-9dd8-a84bfc82b2a6",
+      "status": "STAGED",
+      "changeCount": 5,
+      "message": null,
+      "createdAt": "2026-10-17T02:10:30.971Z",
+      "updatedAt": "2026-10-17T02:10:38.177Z"
+    },
+    "destructive": false,
+    "resources": [
+      {
+        "kind": "service",
+        "id": "1fff593b-8b09-4cc4-8c51-f9603082657f",
+        "name": "existing-reader-capacity-probe",
+        "action": "update",
+        "changes": [
+          {
+            "path": "services.1fff593b-8b09-4cc4-8c51-f9603082657f.source.branch",
+            "displayName": "Branch",
+            "type": "updated",
+            "from": "research/bounded-reader-recovery-20261016",
+            "to": "research/native-operational-gates-20261017",
+            "destructive": false
+          },
+          {
+            "path": "services.1fff593b-8b09-4cc4-8c51-f9603082657f.source.commitSha",
+            "displayName": "Commit Sha",
+            "type": "updated",
+            "from": "d50d83eda2e433cedc2aeafab8e280c05284afe4",
+            "to": "950e4b5e401d501bb26b5a66473e06500e8c08ac",
+            "destructive": false
+          },
+          {
+            "path": "services.1fff593b-8b09-4cc4-8c51-f9603082657f.source.image",
+            "displayName": "Image",
+            "type": "removed",
+            "from": "",
+            "to": "",
+            "destructive": false
+          },
+          {
+            "path": "services.1fff593b-8b09-4cc4-8c51-f9603082657f.source.repo",
+            "displayName": "Repo",
+            "type": "updated",
+            "from": "yz272n2tpf-lab/Btc-15min-bot",
+            "to": "yz272n2tpf-lab/Btc-15min-bot",
+            "destructive": false
+          },
+          {
+            "path": "services.1fff593b-8b09-4cc4-8c51-f9603082657f.deploy.startCommand",
+            "displayName": "Start Command",
+            "type": "updated",
+            "from": "python -B -u -m research.bounded_reader_recovery_20261016.run_isolated --prior-retention /research-evidence/bounded_reader_recovery_20261016_7ca3c75b-ea3b-420e-953b-6611eace4de1/RESULTS.json",
+            "to": "timeout --signal=TERM --kill-after=10s 180s python -B -u -c 'import hashlib,json,pathlib,subprocess,sys\nr=subprocess.run([sys.executable,\"-B\",\"-u\",\"-m\",\"research.native_operational_20261017.probe\",\"--authorized-research-only\"],capture_output=True,text=True)\nprint(r.stdout,end=\"\",flush=True)\nif r.stderr:\n print(\"BTC15_PROBE_STDERR_BYTES \"+str(len(r.stderr.encode())),flush=True)\nfor line in r.stdout.splitlines():\n try: summary=json.loads(line)\n except json.JSONDecodeError: continue\n if not isinstance(summary,dict) or \"receipt\" not in summary: continue\n p=pathlib.Path(summary[\"receipt\"])\n if p.parent!=pathlib.Path(\"/research-evidence\") or not p.name.startswith(\"native-operational-\") or p.suffix!=\".json\" or p.is_symlink() or p.stat().st_size>131072: raise SystemExit(\"RECEIPT_PATH_OR_BOUND\")\n blob=p.read_bytes()\n if hashlib.sha256(blob).hexdigest()!=summary[\"sha256\"]: raise SystemExit(\"RECEIPT_HASH_MISMATCH\")\n print(\"BTC15_OPERATIONAL_RECEIPT \"+json.dumps(json.loads(blob),sort_keys=True,separators=(\",\",\":\")),flush=True)\nsys.exit(r.returncode)\n'",
+            "destructive": false
+          }
+        ]
+      }
+    ],
+    "sharedVariables": [],
+    "privateNetworkDisabled": null
+  },
+  "deployment_action_response": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Cancelled — the user did not approve this action. No changes were made."
+      }
+    ],
+    "structuredContent": {
+      "error_code": "INVALID_ARGUMENT"
+    },
+    "isError": true
+  },
+  "research_after": {
+    "environment": {
+      "id": "12d241b7-23b4-4421-aafd-142e943555ee",
+      "name": "test"
+    },
+    "services": [
+      {
+        "serviceId": "1fff593b-8b09-4cc4-8c51-f9603082657f",
+        "serviceName": "existing-reader-capacity-probe",
+        "state": "online",
+        "statusText": "Online",
+        "activeDeployments": [
+          {
+            "id": "aa686ea8-3b0a-4888-8d74-5a38fcfd69a4",
+            "status": "SUCCESS",
+            "createdAt": "2026-10-16T23:55:11.931Z",
+            "statusUpdatedAt": "2026-10-16T23:55:38.385Z"
+          }
+        ],
+        "replicaStatus": {
+          "running": 0,
+          "crashed": 0,
+          "total": 1
+        },
+        "cronJob": null,
+        "issues": {
+          "warningCount": 0,
+          "criticalCount": 0
+        },
+        "recentFailures": 0,
+        "recentFailedDeployments": [],
+        "hasIssues": false,
+        "isCronJob": false,
+        "hasVolume": true
+      }
+    ],
+    "pendingWork": [
+      {
+        "id": "patch:1141d1be-9100-4c77-9dd8-a84bfc82b2a6",
+        "kind": "EnvironmentPatch",
+        "status": "staged",
+        "changes": [
+          {
+            "kind": "resource.update",
+            "address": "service.1fff593b-8b09-4cc4-8c51-f9603082657f",
+            "serviceId": "1fff593b-8b09-4cc4-8c51-f9603082657f"
+          }
+        ],
+        "startedAt": "2026-10-17T02:10:30.971Z",
+        "workflowId": "commitChanges/12d241b7-23b4-4421-aafd-142e943555ee/1141d1be-9100-4c77-9dd8-a84bfc82b2a6"
+      }
+    ],
+    "summary": {
+      "totalServices": 1,
+      "servicesWithIssues": 0,
+      "totalFailures": 0
+    }
+  },
+  "production_preservation": {
+    "seven_volumes_unchanged": true,
+    "service_config_inventory_unchanged": true,
+    "four_staged_changes_unchanged": true,
+    "volumes": [
+      {
+        "id": "93e974dc-b8bb-4658-bed5-dc4815308396",
+        "name": "scalp-finalprod-clean-v1-volume",
+        "state": "live",
+        "region": "iad",
+        "sizeMB": 50000,
+        "mountedOn": null,
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "656da4af-6a3f-4907-95da-2c0c0000cf29",
+        "name": "scalp-move-shadow-v1-volume",
+        "state": "live",
+        "region": "iad",
+        "sizeMB": 5000,
+        "mountedOn": null,
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "97cc9dcd-ef90-495e-a1be-ffda31eac1b3",
+        "name": "btc15-v2-v81-journal",
+        "state": "live",
+        "region": "iad",
+        "sizeMB": 2048,
+        "mountedOn": null,
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "b6304c46-7027-4bfd-932d-94bb9c67da8e",
+        "name": "btc15-v2-main-journal",
+        "state": "live",
+        "region": "iad",
+        "sizeMB": 2048,
+        "mountedOn": null,
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "3ed8bbca-31aa-43c0-b672-60a7a75b062b",
+        "name": "btc15-main-shadow-1s-brti-volume",
+        "state": "live",
+        "region": "iad",
+        "sizeMB": 1024,
+        "mountedOn": null,
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "6ced6b1a-3755-4518-a240-c895e936d443",
+        "name": "btc-15min-bot-volume",
+        "state": "live",
+        "region": "iad",
+        "sizeMB": 20000,
+        "mountedOn": {
+          "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+          "serviceName": "Btc-15min-bot",
+          "mountPath": "/data"
+        },
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "d5eeafca-e0fc-42f0-b7d1-4705907720c6",
+        "name": "btc15-v81-ladder-journal-v2",
+        "state": "live",
+        "region": "iad",
+        "sizeMB": 5000,
+        "mountedOn": {
+          "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+          "serviceName": "v81-live-diagnostics",
+          "mountPath": "/data"
+        },
+        "stagedChangeCount": 0
+      }
+    ],
+    "staged_patch": {
+      "project": {
+        "id": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+        "name": "noble-warmth"
+      },
+      "environment": {
+        "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "name": "production"
+      },
+      "staged": {
+        "patchId": "ead9997e-b5b7-4668-a612-e8417e197838",
+        "status": "STAGED",
+        "changeCount": 4,
+        "message": null,
+        "createdAt": "2026-10-08T22:15:42.934Z",
+        "updatedAt": "2026-10-08T22:32:38.147Z"
+      },
+      "destructive": false,
+      "resources": [
+        {
+          "kind": "service",
+          "id": "84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1",
+          "name": "btc15-main-shadow-1s-brti-20261005",
+          "action": "update",
+          "changes": [
+            {
+              "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.branch",
+              "displayName": "Branch",
+              "type": "updated",
+              "from": "candidate/btc15-main-live-shadow-20261008",
+              "to": "candidate/btc15-main-live-shadow-20261008",
+              "destructive": false
+            },
+            {
+              "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.commitSha",
+              "displayName": "Commit Sha",
+              "type": "updated",
+              "from": "6c4df3aeb82637ca906a22372ca32915d32d3047",
+              "to": "6c4df3aeb82637ca906a22372ca32915d32d3047",
+              "destructive": false
+            },
+            {
+              "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.image",
+              "displayName": "Image",
+              "type": "removed",
+              "from": "",
+              "to": "",
+              "destructive": false
+            },
+            {
+              "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.repo",
+              "displayName": "Repo",
+              "type": "updated",
+              "from": "yz272n2tpf-lab/Btc-15min-bot",
+              "to": "yz272n2tpf-lab/Btc-15min-bot",
+              "destructive": false
+            }
+          ]
+        }
+      ],
+      "sharedVariables": [],
+      "privateNetworkDisabled": null
+    }
+  },
+  "measurements": {
+    "main_actual_available_bytes": null,
+    "v81_actual_available_bytes": null,
+    "v81_actual_shortfall_bytes": null,
+    "mounted_lease": "NOT_RUN",
+    "native_dependencies": "NOT_READ",
+    "billing": "UNAVAILABLE_IN_CONNECTED_TOOLSET_NO_AUTHENTICATED_LOCAL_CLI",
+    "selective_production_route": "Prepared supplied-patch contract verified in source; not executed"
+  },
+  "next_action": {
+    "scope": "Approve and deploy ONLY research patch 1141d1be-9100-4c77-9dd8-a84bfc82b2a6 in test environment 12d241b7-23b4-4421-aafd-142e943555ee. It contains only the existing research service's pinned source and 180-second probe launcher. Do not apply production patch ead9997e-b5b7-4668-a612-e8417e197838.",
+    "cost": "No probe compute started. If approved, retain approximately $0.03 incremental compute planning allowance; account billing is unverified.",
+    "approval_requirement": "Tool approval or owner dashboard execution is required; user instruction already authorized one research probe, but the deployment tool canceled the action.",
+    "no_automatic_retry": true
+  },
+  "production_mutations": 0,
+  "capture": false,
+  "trading_orders": false
+}
