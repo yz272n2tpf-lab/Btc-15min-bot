@@ -28,6 +28,7 @@ STATE_FIELDS = ('errors', 'counts', 'metrics', 'classes', 'partition_errors',
 V81_FIELDS = ('counts', 'total_original_native_matches', 'audit_bytes',
               'max_retained_inputs', 'max_retained_brti', 'max_retained_http')
 CODE_FILES = ('ops/live_recording/windowed_campaign.py',
+              'ops/live_recording/telemetry.py',
               'ops/live_recording/candle_schema.py',
               'ops/live_recording/recovery_state.py', 'ops/live_recording/reader.py',
               'ops/live_recording/v81_window_associations_research.py',

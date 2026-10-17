@@ -1,0 +1,17 @@
+{
+  "main": {
+    "package_id": "BTC15_TARGETED_NATIVE_MAIN_20261017",
+    "sha256": "d45fc04602c5228261a474b8e90ce61bc85bc98f8f6fee518feceab33c450150",
+    "bytes": 24573741
+  },
+  "v81": {
+    "package_id": "BTC15_TARGETED_NATIVE_V81_20261017",
+    "sha256": "b7065dcd7b75163c9d2f19f3a18bfa01104f2e6e0642b29a65e6f8d8f011b451",
+    "bytes": 24557477
+  },
+  "information": {
+    "package_id": "BTC15_TARGETED_NATIVE_INFORMATION_20261017",
+    "sha256": "d45fc04602c5228261a474b8e90ce61bc85bc98f8f6fee518feceab33c450150",
+    "bytes": 24573741
+  }
+}

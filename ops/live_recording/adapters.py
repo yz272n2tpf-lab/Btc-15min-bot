@@ -159,10 +159,9 @@ def _install(c):
  adapter=Adapters(c)
  if c.role=='information':
   import btc15_information_service_v1 as service
-  from .capture import AsyncInformationArchive
   original=service.DurablePublisher
-  def publisher(*a,**k):k['evidence_archive']=AsyncInformationArchive(c.gate);return original(*a,**k)
-  service.DurablePublisher=publisher
+  from .telemetry import publisher_class
+  service.DurablePublisher=publisher_class(original,c.gate)
  else:
   import btc15_v2_product.runtime as runtime
   bind_journal(c);bind_outcomes(c,adapter)

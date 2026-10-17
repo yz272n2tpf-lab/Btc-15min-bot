@@ -1,0 +1,12 @@
+test_every_archive_member_exact_and_no_duplicate_or_extra_path (research.native_diagnostic_20261017.test_packages.PackageTests.test_every_archive_member_exact_and_no_duplicate_or_extra_path) ... ok
+test_deployed_diff_strictly_recorder_evidence_and_manifests (research.native_diagnostic_20261017.test_packages.PackageTests.test_deployed_diff_strictly_recorder_evidence_and_manifests) ... ok
+test_release_integrity_in_each_actual_package (research.native_diagnostic_20261017.test_packages.PackageTests.test_release_integrity_in_each_actual_package) ... ok
+test_all_installed_python_compiles_without_executing (research.native_diagnostic_20261017.test_packages.PackageTests.test_all_installed_python_compiles_without_executing) ... ok
+test_existing_entrypoints_bootstrap_once_and_keep_native_calls (research.native_diagnostic_20261017.test_packages.PackageTests.test_existing_entrypoints_bootstrap_once_and_keep_native_calls) ... ok
+test_information_is_existing_main_installation (research.native_diagnostic_20261017.test_packages.PackageTests.test_information_is_existing_main_installation) ... ok
+test_rollback_copies_exactly_restore_deployed_source (research.native_diagnostic_20261017.test_packages.PackageTests.test_rollback_copies_exactly_restore_deployed_source) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 2.483s
+
+OK

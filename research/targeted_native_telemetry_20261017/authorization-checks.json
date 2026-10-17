@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "configuration_sha256": "e5cfbed6bfe35dc43ab45bc2db2530bd00f1c69dd582f7dea8cd5904f6514ccb",
+  "rollback_actions_byte_equivalent": true,
+  "activation_service_specific": true,
+  "staged_patch_commit_prohibited": true,
+  "signal_only": true,
+  "orders": false,
+  "compilation": true,
+  "distinct_focused_tests": 38,
+  "scope": "OFFLINE AUTHORIZATION ARTIFACT CHECK ONLY; NO API OR SSH CALLS"
+}

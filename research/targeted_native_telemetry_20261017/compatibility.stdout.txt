@@ -1,0 +1,1 @@
+PASS: all three roles, exact candidate Git trees, no threads/network/capture

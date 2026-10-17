@@ -1,0 +1,13 @@
+fatal: not a tree object
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/scratch/59180e3e34ee/Btc-15min-bot/research/targeted_native_telemetry_20261017/check_compatibility.py", line 21, in <module>
+    raw=subprocess.check_output(['git','ls-tree','-rz',commit],cwd=ROOT,env=dict(os.environ,GIT_NO_LAZY_FETCH='1'))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'ls-tree', '-rz', '8847c61b0a98c436618d7aef8b07a1626bc00e13']' returned non-zero exit status 128.

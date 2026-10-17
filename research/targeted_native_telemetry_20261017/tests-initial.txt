@@ -1,0 +1,48 @@
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator DecisionTreeClassifier from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator RandomForestClassifier from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator LogisticRegression from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+test_actual_rejection_reasons_and_stages (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_actual_rejection_reasons_and_stages) ... ok
+test_bounds_close_capture_without_changing_native_return (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_bounds_close_capture_without_changing_native_return) ... ok
+test_exceptions_are_original_and_journal_failure_retains_native_frame (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_exceptions_are_original_and_journal_failure_retains_native_frame) ... ok
+test_no_progress_preserves_false_and_prior_publication_identity (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_no_progress_preserves_false_and_prior_publication_identity) ... ok
+test_outcome_charge_batch_drain_and_seal_are_exact (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_outcome_charge_batch_drain_and_seal_are_exact) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpl13fywgb/capture/information/information.segments/20261017-f7b35aa0fb574e4c9e4d16a429652509-bc5a7d8e.jsonl.gz","records":1,"raw_bytes":577,"stored_bytes":416,"historical_files_untouched":true,"signal_only":true,"orders":false}
+FAIL
+test_overrun_storage_bound_and_incomplete_hook_drain (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_overrun_storage_bound_and_incomplete_hook_drain) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp6au5kjsz/capture/main/source.segments/20261017-0375365affde47db95a51db4222240a2-1518b046.jsonl.gz","records":1,"raw_bytes":570,"stored_bytes":409,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_queue_mutex_rejection_remains_loss_and_exact_admission_outcome (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_queue_mutex_rejection_remains_loss_and_exact_admission_outcome) ... ERROR
+test_quote_event_id_survives_archive_and_overrun_is_durable (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_quote_event_id_survives_archive_and_overrun_is_durable) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpm3nhty8f/quote.segments/20261017-91038b4baf394f758bf57466300bfce7-58eccecc.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":412,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpt3712vdq/capture/main/source.segments/20261017-a65cd131bd4b494da283eed11d4eedbe-e0c8c14a.jsonl.gz","records":1,"raw_bytes":570,"stored_bytes":412,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_quote_overrun_identity_cpu_wall_and_guard (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_quote_overrun_identity_cpu_wall_and_guard) ... ok
+test_reader_refuses_wrong_input_and_frame_telemetry_links (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_reader_refuses_wrong_input_and_frame_telemetry_links) ... ok
+test_snapshot_does_not_alias_health_mutation (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_snapshot_does_not_alias_health_mutation) ... ok
+test_success_exact_original_bytes_and_call_order (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_success_exact_original_bytes_and_call_order) ... ok
+
+======================================================================
+ERROR: test_queue_mutex_rejection_remains_loss_and_exact_admission_outcome (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_queue_mutex_rejection_remains_loss_and_exact_admission_outcome)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/59180e3e34ee/Btc-15min-bot/research/targeted_native_telemetry_20261017/test_telemetry.py", line 158, in test_queue_mutex_rejection_remains_loss_and_exact_admission_outcome
+    self.assertEqual(w.losses['ADMISSION_BUSY'],1);w.close(timeout=3)
+                     ^^^^^^^^
+AttributeError: 'BufferedProofWriter' object has no attribute 'losses'
+
+======================================================================
+FAIL: test_outcome_charge_batch_drain_and_seal_are_exact (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_outcome_charge_batch_drain_and_seal_are_exact)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/59180e3e34ee/Btc-15min-bot/research/targeted_native_telemetry_20261017/test_telemetry.py", line 139, in test_outcome_charge_batch_drain_and_seal_are_exact
+    s=cap.stop();self.assertTrue(s['writer']['terminal_accounting_complete'])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 12 tests in 2.762s
+
+FAILED (failures=1, errors=1)

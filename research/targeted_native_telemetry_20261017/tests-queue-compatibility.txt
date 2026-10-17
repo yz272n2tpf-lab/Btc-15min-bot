@@ -1,0 +1,19 @@
+test_old_put_nowait_blocks_new_admission_rejects_mutex_contention (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_old_put_nowait_blocks_new_admission_rejects_mutex_contention) ... ok
+test_queue_bounds_order_and_loss_counters_preserved (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_queue_bounds_order_and_loss_counters_preserved) ... ok
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator DecisionTreeClassifier from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator RandomForestClassifier from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator LogisticRegression from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+test_quote_overrun_identity_cpu_wall_and_guard (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_quote_overrun_identity_cpu_wall_and_guard) ... ok
+test_overrun_storage_bound_and_incomplete_hook_drain (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_overrun_storage_bound_and_incomplete_hook_drain) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmphrr_oz0x/capture/main/source.segments/20261017-7e5af488f55142a4825167bf56b671a4-0fd45d6e.jsonl.gz","records":1,"raw_bytes":570,"stored_bytes":411,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 2.620s
+
+OK

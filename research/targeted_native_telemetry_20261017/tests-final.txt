@@ -1,0 +1,31 @@
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator DecisionTreeClassifier from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator RandomForestClassifier from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator LogisticRegression from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+test_actual_rejection_reasons_and_stages (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_actual_rejection_reasons_and_stages) ... ok
+test_bounds_close_capture_without_changing_native_return (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_bounds_close_capture_without_changing_native_return) ... ok
+test_exceptions_are_original_and_journal_failure_retains_native_frame (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_exceptions_are_original_and_journal_failure_retains_native_frame) ... ok
+test_no_progress_preserves_false_and_prior_publication_identity (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_no_progress_preserves_false_and_prior_publication_identity) ... ok
+test_outcome_charge_batch_drain_and_seal_are_exact (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_outcome_charge_batch_drain_and_seal_are_exact) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpt03dxgp4/capture/information/information.segments/20261017-c0e502be572341189850daea75257bc4-e725537e.jsonl.gz","records":1,"raw_bytes":577,"stored_bytes":415,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_overrun_storage_bound_and_incomplete_hook_drain (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_overrun_storage_bound_and_incomplete_hook_drain) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp4ky_aek7/capture/main/source.segments/20261017-2e1f3b5c8638401fbeef5d153ee18bdc-76e21207.jsonl.gz","records":1,"raw_bytes":570,"stored_bytes":411,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_queue_mutex_rejection_remains_loss_and_exact_admission_outcome (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_queue_mutex_rejection_remains_loss_and_exact_admission_outcome) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpy20o6e6l/quote.segments/20261017-f1a34215cdb94e979046979e07080251-8d5ae000.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":415,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_quote_event_id_survives_archive_and_overrun_is_durable (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_quote_event_id_survives_archive_and_overrun_is_durable) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpq0cmqdu1/capture/main/source.segments/20261017-23efc8a73237451b92e325fe7994672a-c59e18cc.jsonl.gz","records":1,"raw_bytes":570,"stored_bytes":410,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_quote_overrun_identity_cpu_wall_and_guard (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_quote_overrun_identity_cpu_wall_and_guard) ... ok
+test_reader_refuses_wrong_input_and_frame_telemetry_links (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_reader_refuses_wrong_input_and_frame_telemetry_links) ... ok
+test_snapshot_does_not_alias_health_mutation (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_snapshot_does_not_alias_health_mutation) ... ok
+test_success_exact_original_bytes_and_call_order (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_success_exact_original_bytes_and_call_order) ... ok
+test_trace_stays_with_input_under_native_worker_serialization (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_trace_stays_with_input_under_native_worker_serialization) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 2.878s
+
+OK

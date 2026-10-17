@@ -1,0 +1,17 @@
+warning: This repository uses promisor remotes. Some objects may not be loaded.
+warning: This repository uses promisor remotes. Some objects may not be loaded.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/scratch/59180e3e34ee/Btc-15min-bot/research/targeted_native_telemetry_20261017/build_candidate.py", line 21, in <module>
+    r=build(args.out);print(json.dumps({k:{f:v[f] for f in ('package_id','sha256','bytes')} for k,v in r['packages'].items()},indent=2))
+      ^^^^^^^^^^^^^^^
+  File "/workspace/scratch/59180e3e34ee/Btc-15min-bot/research/targeted_native_telemetry_20261017/build_candidate.py", line 12, in build
+    result=packages.build(out);root=Path(out)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/59180e3e34ee/Btc-15min-bot/research/native_diagnostic_20261017/packages.py", line 131, in build
+    need(deterministic_bundle(target, repeat) == archive_info, 'NONDETERMINISTIC_PACKAGE')
+  File "/workspace/scratch/59180e3e34ee/Btc-15min-bot/ops/live_recording/policy.py", line 38, in need
+    if not ok:raise ValueError(reason)
+              ^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: NONDETERMINISTIC_PACKAGE

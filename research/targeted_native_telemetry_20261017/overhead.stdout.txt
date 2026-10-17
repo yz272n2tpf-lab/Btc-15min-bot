@@ -1,0 +1,38 @@
+BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpjwga_3f4/capture/main/source.segments/20261017-445436b08b4841439d6e7ed5107eb93e-17f00c0c.jsonl.gz","records":1,"raw_bytes":570,"stored_bytes":411,"historical_files_untouched":true,"signal_only":true,"orders":false}
+{
+  "workload": "128 SYNTHETIC INPUTS; STUB EVALUATOR/JOURNAL; NO NATIVE PERFORMANCE CLAIM",
+  "publication": {
+    "original": {
+      "calls": 128,
+      "median_ns": 254542.0,
+      "p99_ns": 479140,
+      "max_ns": 502385,
+      "native_calls": {
+        "health": 256,
+        "clock": 256,
+        "evaluate": 128,
+        "journal": 128
+      }
+    },
+    "observed": {
+      "calls": 128,
+      "median_ns": 351718.0,
+      "p99_ns": 610798,
+      "max_ns": 1078500,
+      "native_calls": {
+        "health": 256,
+        "clock": 256,
+        "evaluate": 128,
+        "journal": 128
+      },
+      "max_outcome_bytes": 1432
+    }
+  },
+  "quote_wrapper_without_queue_io": {
+    "calls": 128,
+    "median_ns": 2994.0,
+    "p99_ns": 14813,
+    "max_ns": 50286,
+    "guard_failure": null
+  }
+}

@@ -1,0 +1,89 @@
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator DecisionTreeClassifier from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator RandomForestClassifier from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/sklearn/base.py:463: InconsistentVersionWarning: Trying to unpickle estimator LogisticRegression from version 1.9.0 when using version 1.8.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+test_actual_rejection_reasons_and_stages (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_actual_rejection_reasons_and_stages) ... ok
+test_bounds_close_capture_without_changing_native_return (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_bounds_close_capture_without_changing_native_return) ... ok
+test_exceptions_are_original_and_journal_failure_retains_native_frame (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_exceptions_are_original_and_journal_failure_retains_native_frame) ... ok
+test_no_progress_preserves_false_and_prior_publication_identity (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_no_progress_preserves_false_and_prior_publication_identity) ... ok
+test_outcome_charge_batch_drain_and_seal_are_exact (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_outcome_charge_batch_drain_and_seal_are_exact) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpih5i2ee0/capture/information/information.segments/20261017-be67adc38318401ea2b474fe410ce9a9-c10e7e5f.jsonl.gz","records":1,"raw_bytes":577,"stored_bytes":415,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_overrun_storage_bound_and_incomplete_hook_drain (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_overrun_storage_bound_and_incomplete_hook_drain) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpvp2pt9b5/capture/main/source.segments/20261017-20f7f41b8e3c49ed8165b7e72a3272bc-18413a43.jsonl.gz","records":1,"raw_bytes":570,"stored_bytes":407,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_queue_mutex_rejection_remains_loss_and_exact_admission_outcome (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_queue_mutex_rejection_remains_loss_and_exact_admission_outcome) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp62nknhxz/quote.segments/20261017-afb3dcd4dd7942f384db5a28faa7c21b-6b4ed54c.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":414,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_quote_event_id_survives_archive_and_overrun_is_durable (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_quote_event_id_survives_archive_and_overrun_is_durable) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmptlw3rbl6/capture/main/source.segments/20261017-82f0afe631774541ae11a7710b1131b5-355bb19a.jsonl.gz","records":1,"raw_bytes":570,"stored_bytes":411,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_quote_overrun_identity_cpu_wall_and_guard (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_quote_overrun_identity_cpu_wall_and_guard) ... ok
+test_reader_refuses_wrong_input_and_frame_telemetry_links (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_reader_refuses_wrong_input_and_frame_telemetry_links) ... ok
+test_snapshot_does_not_alias_health_mutation (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_snapshot_does_not_alias_health_mutation) ... ok
+test_success_exact_original_bytes_and_call_order (research.targeted_native_telemetry_20261017.test_telemetry.TelemetryTests.test_success_exact_original_bytes_and_call_order) ... ok
+test_authentic_receipts_do_not_claim_raw_loss_recovery (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_authentic_receipts_do_not_claim_raw_loss_recovery) ... ok
+test_current_bucket_preserved_without_completed_credit_and_replay_identical (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_current_bucket_preserved_without_completed_credit_and_replay_identical) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpydmhp8fo/src/source.segments/20261017-92a7c230729744eaa276e14f220cb85c-398a1197.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":414,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_drain_fsync_failure_never_claims_durable_or_clean_terminal (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_drain_fsync_failure_never_claims_durable_or_clean_terminal) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp85anludk/fsync-failure.segments/20261017-bb2d6763532c44c3a501b3cbac7c16e5-339bffce.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":415,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15 EVIDENCE GAP | WRITER_FAILURE | session incomplete
+ok
+test_exact_charge_multibatch_string_bytes_and_dedup (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_exact_charge_multibatch_string_bytes_and_dedup) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpo_4fz9sa/new.segments/20261017-52389951ed114a6b845696aac986b4b0-2ccc2740.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":417,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpo_4fz9sa/new.segments/20261017-52389951ed114a6b845696aac986b4b0-2ccc2740.jsonl.gz","records":2000,"raw_bytes":3206192,"stored_bytes":141135,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_existing_proof_job_charge_is_accounted_after_last_envelope (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_existing_proof_job_charge_is_accounted_after_last_envelope) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpe7rsfglh/proof.segments/20261017-6644a472e39e4f07994f9b80d1defdfa-556a1800.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":413,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_failed_observation_has_no_processed_credit (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_failed_observation_has_no_processed_credit) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp7rv3jf6g/broken.segments/20261017-4cc1590e8da24503ae876dd93edf71c9-fb50ec82.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":415,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15 EVIDENCE GAP | WRITER_FAILURE | session incomplete
+ok
+test_final_receipt_accepted_but_future_bucket_rejected (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_final_receipt_accepted_but_future_bucket_rejected) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpjmjkxuqc/src/source.segments/20261017-a0d2f3a5914f4ab69dfa66978813908e-01b1c3a7.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":415,"historical_files_untouched":true,"signal_only":true,"orders":false}
+BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpjmjkxuqc/src2/source.segments/20261017-920aebc609144d57b28ea10d3b2d3040-c43823dc.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":414,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_future_candle_cannot_enter_decision_association (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_future_candle_cannot_enter_decision_association) ... ok
+test_no_partial_or_failed_fsync_durable_credit (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_no_partial_or_failed_fsync_durable_credit) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpf2um7gf3/pending.segments/20261017-3daac68fa8734e9abccf89911f66d81b-abee4dfa.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":414,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_normal_quote_capture_drain_and_seal_have_exact_counters (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_normal_quote_capture_drain_and_seal_have_exact_counters) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp57qq425o/capture/main/source.segments/20261017-1e7a539487104f2a8bdfe244cc7b2b94-76533123.jsonl.gz","records":1,"raw_bytes":570,"stored_bytes":410,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_old_put_nowait_blocks_new_admission_rejects_mutex_contention (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_old_put_nowait_blocks_new_admission_rejects_mutex_contention) ... ERROR
+test_original_charge_mutation_reproduced_for_quote_and_http (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_original_charge_mutation_reproduced_for_quote_and_http) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpb95ybmzx/old.segments/20261017-a6cd8a4e0fb645858275d96bb109a619-a05efe8f.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":414,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_original_information_failures_remain_failures (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_original_information_failures_remain_failures) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpt0p5b5h3/src/source.segments/20261017-2d6034e7e6bb4977b706bae55c9b5162-895c60a5.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":415,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_queue_bounds_order_and_loss_counters_preserved (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_queue_bounds_order_and_loss_counters_preserved) ... ERROR
+test_receipt_before_bucket_end_is_not_completed_provenance (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_receipt_before_bucket_end_is_not_completed_provenance) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpltxqroft/src/source.segments/20261017-4019725db81043b191aa89069c070a86-9ff3cb56.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":415,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_signed_overcredit_is_not_hidden (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_signed_overcredit_is_not_hidden) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmpr29milr6/overcredit.segments/20261017-9d6b114ff8884433a320f77ad0a0299d-eae69343.jsonl.gz","records":1,"raw_bytes":576,"stored_bytes":415,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_terminal_counter_mismatch_cannot_seal (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_terminal_counter_mismatch_cannot_seal) ... BTC15 INFORMATION STORAGE | {"path":"/tmp/tmp0_v0us5o/capture/main/source.segments/20261017-227b910820aa48c185b11f9b89efa296-65ccbe7c.jsonl.gz","records":1,"raw_bytes":570,"stored_bytes":408,"historical_files_untouched":true,"signal_only":true,"orders":false}
+ok
+test_wall_guard_still_stops_on_off_cpu_delay (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_wall_guard_still_stops_on_off_cpu_delay) ... ok
+
+======================================================================
+ERROR: test_old_put_nowait_blocks_new_admission_rejects_mutex_contention (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_old_put_nowait_blocks_new_admission_rejects_mutex_contention)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/59180e3e34ee/Btc-15min-bot/research/native_diagnostic_fixes_20261017/test_fixes.py", line 159, in test_old_put_nowait_blocks_new_admission_rejects_mutex_contention
+    try:self.assertFalse(w._enqueue(f,540))
+                         ^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/59180e3e34ee/Btc-15min-bot/ops/live_recording/burst_journal_research.py", line 177, in _enqueue
+    self.admission_local.outcome=outcome
+    ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'BufferedProofWriter' object has no attribute 'admission_local'. Did you mean: 'admission_kinds'?
+
+======================================================================
+ERROR: test_queue_bounds_order_and_loss_counters_preserved (research.native_diagnostic_fixes_20261017.test_fixes.FixTests.test_queue_bounds_order_and_loss_counters_preserved)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/59180e3e34ee/Btc-15min-bot/research/native_diagnostic_fixes_20261017/test_fixes.py", line 166, in test_queue_bounds_order_and_loss_counters_preserved
+    for i in range(2):self.assertTrue(w._enqueue(Observation('SOURCE_GAP',(),i+1),i+1))
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/59180e3e34ee/Btc-15min-bot/ops/live_recording/burst_journal_research.py", line 177, in _enqueue
+    self.admission_local.outcome=outcome
+    ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'BufferedProofWriter' object has no attribute 'admission_local'. Did you mean: 'admission_kinds'?
+
+----------------------------------------------------------------------
+Ran 30 tests in 3.617s
+
+FAILED (errors=2)

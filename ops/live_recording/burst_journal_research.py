@@ -9,7 +9,7 @@ Only install through the research-only RoleArchive candidate.
 from candidates.early_recording_20261012.archive import Archive
 from btc15_quote_proof_offpath_v1 import OffPathProofWriter
 from collections import Counter
-import time
+import time,threading
 
 MiB=1024*1024
 
@@ -134,7 +134,7 @@ class BufferedCaptureArchive(Archive):
 
 class BufferedProofWriter(OffPathProofWriter):
     def __init__(self,*args,**kwargs):
-        self.admitted=Counter();self.admission_kinds={};self.oversize_shape={}
+        self.admitted=Counter();self.admission_kinds={};self.oversize_shape={};self.admission_local=threading.local()
         archive=kwargs.get('archive')
         if archive is not None:
             observe=archive.observe
@@ -152,28 +152,32 @@ class BufferedProofWriter(OffPathProofWriter):
         # Queue.put_nowait still waits for Queue.mutex. The recorder must never
         # wait behind a suspended consumer on a native quote thread. Preserve
         # the existing queue, limits, ordering and explicit loss accounting.
-        ok=False
-        if self._closing:self.gap('CLOSED')
+        ok=False;outcome='ADMISSION_BUSY'
+        if self._closing:outcome='CLOSED';self.gap('CLOSED')
         elif not self._admission.acquire(False):self.gap('ADMISSION_BUSY')
         else:
             try:
-                if self._closing:self.gap('CLOSED')
+                if self._closing:outcome='CLOSED';self.gap('CLOSED')
                 elif self.queued_bytes+charge>self.queue_bytes:
-                    self.dropped+=1;self.gap('QUEUE_BYTES')
-                elif not self.queue.mutex.acquire(False):self.gap('ADMISSION_BUSY')
+                    outcome='QUEUE_BYTES';self.dropped+=1;self.gap('QUEUE_BYTES')
+                elif not self.queue.mutex.acquire(False):outcome='QUEUE_MUTEX_BUSY';self.gap('ADMISSION_BUSY')
                 else:
                     try:
                         if self.queue._qsize()>=self.queue.maxsize:
-                            self.dropped+=1;self.gap('QUEUE_OVERFLOW')
+                            outcome='QUEUE_OVERFLOW';self.dropped+=1;self.gap('QUEUE_OVERFLOW')
                         else:
                             self.queue._put((capture,charge))
                             self.queue.unfinished_tasks+=1
                             self.queued_bytes+=charge
                             self.peak_queued_bytes=max(self.peak_queued_bytes,self.queued_bytes)
                             self.queue.not_empty.notify()
-                            ok=True
+                            ok=True;outcome='ADMITTED'
                     finally:self.queue.mutex.release()
             finally:self._admission.release()
+        # Old isolated queue fixtures deliberately bypass __init__; real
+        # recorder instances always have the thread-local outcome channel.
+        local=getattr(self,'admission_local',None)
+        if local is not None:local.outcome=outcome
         kind=getattr(capture,'kind','PROOF_JOB')
         if kind not in self.admission_kinds and len(self.admission_kinds)>=32:kind='OTHER'
         stats=self.admission_kinds.setdefault(kind,Counter())
@@ -202,6 +206,7 @@ class BufferedProofWriter(OffPathProofWriter):
             self.archive.journal.flush()
 
     def submit_observation(self,kind,**fields):
+        self.admission_local.outcome='PRE_ENQUEUE_REJECTION'
         ok=super().submit_observation(kind,**fields)
         if not ok and isinstance(kind,str):
             # Diagnose only the rare oversized non-actionable event.

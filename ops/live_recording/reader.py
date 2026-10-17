@@ -39,6 +39,9 @@ class CampaignVerifier(Verifier):
   else:self.issue('QUOTE_RECEIVED_WITHOUT_OWNER_ACCEPTANCE',session=s,sequence=q)
  def record(self,r):
   k=r['kind'];v=r['payload'];s,q,p=r['session'],r['sequence'],r['_part']
+  if k in ('INFORMATION_INPUT','INFORMATION_FAILURE') and 'publication_outcome' in v:
+   from .telemetry import check_outcome
+   check_outcome(v['publication_outcome'],v['input_sha256'],v['published'],v.get('frame_id'))
   if k in ('RECORDING_BOUNDARY','RECORDING_HEALTH'):
    self.fact(k,s,r,v);return
   if k=='INFORMATION_FAILURE' and v.get('reason') in ('INPUT_NOT_PUBLISHED','PUBLISHER_EXCEPTION'):

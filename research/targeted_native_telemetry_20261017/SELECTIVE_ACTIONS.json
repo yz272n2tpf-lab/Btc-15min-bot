@@ -1,0 +1,174 @@
+{
+  "activation": [
+    {
+      "arguments": {
+        "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "projectId": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+        "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "skipDeploys": true,
+        "staged": false,
+        "variables": {
+          "BTC15_RECORDING_CONFIG": "/data/btc15_recordings-control/CORRECTED_DIAG_20261017_8847c61b_510da93a/campaign.json",
+          "BTC15_RECORDING_CONFIG_SHA256": "e5cfbed6bfe35dc43ab45bc2db2530bd00f1c69dd582f7dea8cd5904f6514ccb",
+          "BTC15_RECORDING_ENABLED": "1"
+        }
+      },
+      "role": "main",
+      "tool": "mcp__codex_apps__railway_set_variables"
+    },
+    {
+      "arguments": {
+        "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "projectId": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+        "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "staged": false,
+        "startCommand": "/bin/sh -c 'set -eu; test \"$RAILWAY_VOLUME_MOUNT_PATH\" = /data; test \"$RAILWAY_VOLUME_ID\" = 6ced6b1a-3755-4518-a240-c895e936d443; test \"$BTC15_ENABLE_INFORMATION_EXPORT\" = 1; test -n \"$KALSHI_KEY_ID\"; test -n \"$KALSHI_PRIVATE_KEY_B64\"; unset BTC15_LADDER_DATA_ROOT BTC15_COHORT_EVIDENCE_PATH BTC15_ARCHIVE_LEGACY_ONCE BTC15_V2_RELEASE_RECEIPT BTC15_V2_RELEASE_RECEIPT_SHA256; export BTC15_V2_APPROVED_BUILD=8847c61b0a98c436618d7aef8b07a1626bc00e13 BTC15_V2_APPROVED_MANIFEST_SHA256=913d77886a903214757dc1e15a9a4780f35969809fbeb03cc4485d00ddc5d634; cd /app; exec python -B -u btc15_v2_launch.py --lane main --run-reviewed-production'"
+      },
+      "role": "main",
+      "tool": "mcp__codex_apps__railway_update_service"
+    },
+    {
+      "arguments": {
+        "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "projectId": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+        "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "skipDeploys": true,
+        "staged": false,
+        "variables": {
+          "BTC15_RECORDING_CONFIG": "/data/btc15_recordings-control/CORRECTED_DIAG_20261017_8847c61b_510da93a/campaign.json",
+          "BTC15_RECORDING_CONFIG_SHA256": "e5cfbed6bfe35dc43ab45bc2db2530bd00f1c69dd582f7dea8cd5904f6514ccb",
+          "BTC15_RECORDING_ENABLED": "1"
+        }
+      },
+      "role": "v81",
+      "tool": "mcp__codex_apps__railway_set_variables"
+    },
+    {
+      "arguments": {
+        "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "projectId": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+        "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "staged": false,
+        "startCommand": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && unset BTC15_LADDER_DATA_ROOT && export BTC15_V2_APPROVED_BUILD=510da93a925a66f2040cc10dd08c2532caccece2 BTC15_V2_APPROVED_MANIFEST_SHA256=ddce706f5df7811c5c099da2ae92beb5c942b695956441c419a03220cc2e565b && exec python -u btc15_v2_launch.py --lane v81 --run-reviewed-production'"
+      },
+      "role": "v81",
+      "tool": "mcp__codex_apps__railway_update_service"
+    },
+    {
+      "arguments": {
+        "branch": "research/corrected-native-main-20261017",
+        "commitSha": "8847c61b0a98c436618d7aef8b07a1626bc00e13",
+        "projectId": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "staged": false
+      },
+      "role": "main",
+      "tool": "mcp__codex_apps__railway_connect_service_source"
+    },
+    {
+      "arguments": {
+        "branch": "research/corrected-native-v81-20261017",
+        "commitSha": "510da93a925a66f2040cc10dd08c2532caccece2",
+        "projectId": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "staged": false
+      },
+      "role": "v81",
+      "tool": "mcp__codex_apps__railway_connect_service_source"
+    }
+  ],
+  "authorized": false,
+  "executed": false,
+  "preserve_staged_count": 4,
+  "preserve_staged_patch": "ead9997e-b5b7-4668-a612-e8417e197838",
+  "prohibited_tools": [
+    "accept_deploy",
+    "EnvironmentPatchCommitStaged"
+  ],
+  "requires_single_environment": "61775c5d-c583-4dfc-af41-f25578856fd9",
+  "rollback": [
+    {
+      "arguments": {
+        "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "projectId": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+        "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "skipDeploys": true,
+        "staged": false,
+        "variables": {
+          "BTC15_RECORDING_ENABLED": "0"
+        }
+      },
+      "role": "main",
+      "tool": "mcp__codex_apps__railway_set_variables"
+    },
+    {
+      "arguments": {
+        "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "projectId": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+        "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "staged": false,
+        "startCommand": "/bin/sh -c 'set -eu; test \"$RAILWAY_VOLUME_MOUNT_PATH\" = /data; test \"$RAILWAY_VOLUME_ID\" = 6ced6b1a-3755-4518-a240-c895e936d443; test \"$BTC15_ENABLE_INFORMATION_EXPORT\" = 1; test -n \"$KALSHI_KEY_ID\"; test -n \"$KALSHI_PRIVATE_KEY_B64\"; unset BTC15_LADDER_DATA_ROOT BTC15_COHORT_EVIDENCE_PATH BTC15_ARCHIVE_LEGACY_ONCE BTC15_V2_RELEASE_RECEIPT BTC15_V2_RELEASE_RECEIPT_SHA256; export BTC15_V2_APPROVED_BUILD=dd46b7bc2fcc49865c49dc59eb7ad7d7316f6d72 BTC15_V2_APPROVED_MANIFEST_SHA256=9290281a9a9c5a8c2e51124f97343e8fee6f0bb4e729c0138945638439c3748b; cd /app; exec python -B -u btc15_v2_launch.py --lane main --run-reviewed-production'"
+      },
+      "role": "main",
+      "tool": "mcp__codex_apps__railway_update_service"
+    },
+    {
+      "arguments": {
+        "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "projectId": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+        "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "skipDeploys": true,
+        "staged": false,
+        "variables": {
+          "BTC15_RECORDING_ENABLED": "0"
+        }
+      },
+      "role": "v81",
+      "tool": "mcp__codex_apps__railway_set_variables"
+    },
+    {
+      "arguments": {
+        "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "projectId": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+        "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "staged": false,
+        "startCommand": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && unset BTC15_LADDER_DATA_ROOT && export BTC15_V2_APPROVED_BUILD=c14b3f9b04caea13e62bcdd6fb0e5990049aa17b BTC15_V2_APPROVED_MANIFEST_SHA256=4bb232d5cb241b59a20c6d98c69fb68f8d634836c9c974bd11d2d4cf7ad29c38 && exec python -u btc15_v2_launch.py --lane v81 --run-reviewed-production'"
+      },
+      "role": "v81",
+      "tool": "mcp__codex_apps__railway_update_service"
+    },
+    {
+      "arguments": {
+        "branch": "release/btc15-recorder-main-20261013",
+        "commitSha": "dd46b7bc2fcc49865c49dc59eb7ad7d7316f6d72",
+        "projectId": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "staged": false
+      },
+      "role": "main",
+      "tool": "mcp__codex_apps__railway_connect_service_source"
+    },
+    {
+      "arguments": {
+        "branch": "release/btc15-recorder-v81-20261013",
+        "commitSha": "c14b3f9b04caea13e62bcdd6fb0e5990049aa17b",
+        "projectId": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "staged": false
+      },
+      "role": "v81",
+      "tool": "mcp__codex_apps__railway_connect_service_source"
+    }
+  ],
+  "schema": "BTC15_DIAGNOSTIC_SERVICE_CALLS_V1",
+  "action_list_sha256": {
+    "activation": "8635c63636ae43ad9bec81bc3e10469fb556e7f9a8fc8241d2aa471e14fb0e5f",
+    "rollback": "aca431a092d62b462e349a3c66dcd213135bf2f27b264915c9cdac93a2595bfd"
+  },
+  "run_id": "CORRECTED_DIAG_20261017_8847c61b_510da93a",
+  "configuration_sha256": "e5cfbed6bfe35dc43ab45bc2db2530bd00f1c69dd582f7dea8cd5904f6514ccb"
+}

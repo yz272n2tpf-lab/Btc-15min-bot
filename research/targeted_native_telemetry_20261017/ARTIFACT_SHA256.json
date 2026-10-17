@@ -1,0 +1,162 @@
+{
+  "ops/live_recording/telemetry.py": {
+    "bytes": 10932,
+    "sha256": "3e964b053b97235025a485f03170453488f521a40f54ccc30a0457cfc7becee1"
+  },
+  "ops/live_recording/adapters.py": {
+    "bytes": 10840,
+    "sha256": "558586ffaa1acd61fcbf2c52eb07a77a637f445760ce289bb3504e40e09bdf16"
+  },
+  "ops/live_recording/capture.py": {
+    "bytes": 17389,
+    "sha256": "121b5420d86fac2f125225c5f2065dfca1650d98064cd76af9e1c09186075e98"
+  },
+  "ops/live_recording/burst_journal_research.py": {
+    "bytes": 12355,
+    "sha256": "03778bdd02e2b1fa49e3261a0facad333077e457763b9182b8936227d937c1c9"
+  },
+  "ops/live_recording/reader.py": {
+    "bytes": 30517,
+    "sha256": "830d6298e2d2a3392fb7fa67d7c0901c209c61dcca3c79e262a72d68b693bdd3"
+  },
+  "ops/live_recording/windowed_campaign.py": {
+    "bytes": 22697,
+    "sha256": "6e661c2368bb8804bfa4a399a9c82610b5d524bd9a61109c4c6da08e48e43edd"
+  },
+  "research/targeted_native_telemetry_20261017/NATIVE_READ_PLAN.json": {
+    "bytes": 6690,
+    "sha256": "505401678d105d1115b475c1088e4b7cbf11cb6b7794a268efa16ec16b892ad1"
+  },
+  "research/targeted_native_telemetry_20261017/PACKAGES.json": {
+    "bytes": 17850,
+    "sha256": "57841783e096a678ae28ac3e31a0d8d03ae34ec83ee200669c55c695e51e95ea"
+  },
+  "research/targeted_native_telemetry_20261017/README.md": {
+    "bytes": 15061,
+    "sha256": "503280f852b3781bf4d3a88d83561cebcae5115994e3eb839ee5e5a6350e15d2"
+  },
+  "research/targeted_native_telemetry_20261017/SELECTIVE_ACTIONS.json": {
+    "bytes": 8212,
+    "sha256": "6f2a63050a4f9a8ae774d09f454b79b59dd3ccdabc400813bd16ade8b5c66522"
+  },
+  "research/targeted_native_telemetry_20261017/authentic-replay.json": {
+    "bytes": 2551,
+    "sha256": "8f00bd72c60f11c990956576fdf90d956f069ee348b766465c076a28ed921c07"
+  },
+  "research/targeted_native_telemetry_20261017/authorization-checks.json": {
+    "bytes": 416,
+    "sha256": "0b21ee6c08fedfce20c1100a0f7f45644779260d1f77ea954b9242d6d1f30da9"
+  },
+  "research/targeted_native_telemetry_20261017/authorization-identities.json": {
+    "bytes": 1325,
+    "sha256": "d15357a376f6fde13db7bd6f2ee0200cfb56215def5bcc9d72e3d5c2dd893f9a"
+  },
+  "research/targeted_native_telemetry_20261017/build-stable.stderr.txt": {
+    "bytes": 320,
+    "sha256": "dac270ea8e9d98a8bfb9013ba8e7576c8f49ac1245e4d9e1ef01b2443096f739"
+  },
+  "research/targeted_native_telemetry_20261017/build-stable.stdout.txt": {
+    "bytes": 549,
+    "sha256": "03f7884052d66f27c379ff7fb95756a5f00af2b02e7750c5ba86d9729a581b99"
+  },
+  "research/targeted_native_telemetry_20261017/build.stderr.txt": {
+    "bytes": 1244,
+    "sha256": "8edcf32db3c421c30d55119dae0d9d38c1b33db488f980b8f7eff57cad066509"
+  },
+  "research/targeted_native_telemetry_20261017/build.stdout.txt": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "research/targeted_native_telemetry_20261017/build_candidate.py": {
+    "bytes": 1434,
+    "sha256": "5d2b2a00598b10294bab6a6fa847c2357de39c5162d25011d38829698bba823e"
+  },
+  "research/targeted_native_telemetry_20261017/campaign.approval-draft.json": {
+    "bytes": 1653,
+    "sha256": "e5cfbed6bfe35dc43ab45bc2db2530bd00f1c69dd582f7dea8cd5904f6514ccb"
+  },
+  "research/targeted_native_telemetry_20261017/check_compatibility.py": {
+    "bytes": 2829,
+    "sha256": "dd5d00c2d35e6e037abe20ae7d770a342ae5f3ec996b54e2bad826bdc80675fc"
+  },
+  "research/targeted_native_telemetry_20261017/compatibility-initial.stderr.txt": {
+    "bytes": 1122,
+    "sha256": "fe689b79ab66e74dec5ad5089fb3476632838409bd4bb57fa88a7bf7b5bf4a83"
+  },
+  "research/targeted_native_telemetry_20261017/compatibility-initial.stdout.txt": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "research/targeted_native_telemetry_20261017/compatibility.json": {
+    "bytes": 3139,
+    "sha256": "e1fe72630a8a0028ff925c7f3eb45184af467b601b1ade5d3df282b8c2d85d26"
+  },
+  "research/targeted_native_telemetry_20261017/compatibility.stderr.txt": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "research/targeted_native_telemetry_20261017/compatibility.stdout.txt": {
+    "bytes": 77,
+    "sha256": "c50638312e7caeaf2a8bc746eb978bd2f226fa1446c8e5fa7956b34b9afddca1"
+  },
+  "research/targeted_native_telemetry_20261017/measure_overhead.py": {
+    "bytes": 2561,
+    "sha256": "c3ddd936138f211c18fcfe0a069eca2c7866e20a2f7aa9e09b1935cdee5692ea"
+  },
+  "research/targeted_native_telemetry_20261017/overhead.json": {
+    "bytes": 545,
+    "sha256": "167c3fc51da54dd0b4349225adfcf17fd6b322714e94c6d24d455632c2572c8a"
+  },
+  "research/targeted_native_telemetry_20261017/overhead.stderr.txt": {
+    "bytes": 1352,
+    "sha256": "82afa908b2c344358e318b187bdcfdc2f58353b96cc1f3177259f68c684e851e"
+  },
+  "research/targeted_native_telemetry_20261017/overhead.stdout.txt": {
+    "bytes": 1059,
+    "sha256": "a0b36a1cca9ef6eac372b9738d0b471d59f5f28d5c201858c6dfdb6bf1b48de4"
+  },
+  "research/targeted_native_telemetry_20261017/package-tests.txt": {
+    "bytes": 1372,
+    "sha256": "47eb78d6e0dc8a68d2e18d89c768a3cfccc1dc150fc4f153516b6966064c5b9b"
+  },
+  "research/targeted_native_telemetry_20261017/prepare_authorization.py": {
+    "bytes": 3782,
+    "sha256": "8dd77591ea8abc7dfd872c3d46cdcf8b684f92aed0cbc3ab9febc0febed982d0"
+  },
+  "research/targeted_native_telemetry_20261017/provision_once.py": {
+    "bytes": 5365,
+    "sha256": "36fd6da8ca1fecea2de2b9ac6d4b95d6b481a089d914884efa15ca5de1aced79"
+  },
+  "research/targeted_native_telemetry_20261017/replay.stderr.txt": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "research/targeted_native_telemetry_20261017/replay.stdout.txt": {
+    "bytes": 3185,
+    "sha256": "4d12407c11266666b838c94887fb69c6779f6623c30dbde59a3650118379e207"
+  },
+  "research/targeted_native_telemetry_20261017/replay_authentic.py": {
+    "bytes": 2306,
+    "sha256": "5ff46ed37a5822305df331dcc23fffd62127320a5331fa0bc4931afd4c96b359"
+  },
+  "research/targeted_native_telemetry_20261017/test-results.txt": {
+    "bytes": 13934,
+    "sha256": "1fcb36b7c7350e4d8bbb187cfbcf87dc4b08039d3650e895fd4da15f8a45f9d3"
+  },
+  "research/targeted_native_telemetry_20261017/test_telemetry.py": {
+    "bytes": 12948,
+    "sha256": "120cd5921db4b4d3f4375718f109380f1b930e046d01ff9d177bb51465fa0230"
+  },
+  "research/targeted_native_telemetry_20261017/tests-final.txt": {
+    "bytes": 5018,
+    "sha256": "d9fc6680612d1e8faa6ee337d05c1548dcf9541feb0033686eab3209591ca262"
+  },
+  "research/targeted_native_telemetry_20261017/tests-initial.txt": {
+    "bytes": 6344,
+    "sha256": "9150dde49ed625b435bd7dd2af33f068b1258f129da94bf3229c618ac44c43b1"
+  },
+  "research/targeted_native_telemetry_20261017/tests-queue-compatibility.txt": {
+    "bytes": 2454,
+    "sha256": "e59f83811157e77f87c19aef75cf00cdcbcdd65736d2ccf38a90c5eb43b782b2"
+  }
+}
