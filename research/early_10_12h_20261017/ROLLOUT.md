@@ -67,6 +67,11 @@ not fabricated or considered infrastructure failure by itself. An unavailable
 settlement remains pending. Use the existing private transfer/finish path;
 these new profiles now invoke the bounded reader without rebuilding the old
 whole-run index. Verify exact interrupted/resumed ledgers on the same data.
+The offline reader has a 30-minute ceiling, separate from the 20-minute capture.
+The prior synthetic quote rate (~2,291 envelopes/s) implies over 15 minutes for
+the conditional unguarded V81 count alone; a 10-minute reader ceiling would
+prematurely fail that scenario. This is a finite allowance, not a native
+throughput guarantee. It does not extend producer capture.
 
 Measure healthy warmup separately from at least 900 s of steady operation.
 Require sustainable drain > arrival and 1.5x burst-deficit margin within the

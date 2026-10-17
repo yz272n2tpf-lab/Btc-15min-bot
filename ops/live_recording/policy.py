@@ -22,7 +22,7 @@ PROFILES.update({
    decoded_by_role={'main':128*MiB,'v81':256*MiB,'information':128*MiB},
    records_by_role={'main':20000,'v81':200000,'information':50000},producer_reserve=2*GiB),
  'early_preflight':dict(seconds=1200,compressed={'main':96*MiB,'v81':320*MiB,'information':64*MiB},
-   decoded=4*GiB,records=3460000,db=4*GiB,index=256*MiB,reader_seconds=600,
+   decoded=4*GiB,records=3460000,db=4*GiB,index=256*MiB,reader_seconds=1800,
    decoded_by_role={'main':512*MiB,'v81':3*GiB,'information':256*MiB},
    records_by_role={'main':160000,'v81':3200000,'information':100000},producer_reserve=2*GiB)
 })
