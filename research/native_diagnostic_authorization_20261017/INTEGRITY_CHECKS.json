@@ -1,0 +1,20 @@
+{
+  "capacity_test_rerun": false,
+  "main": {
+    "changed_paths_exact_allowlist": 17,
+    "protected_paths_equal": 38,
+    "rollback": "dd46b7bc2fcc49865c49dc59eb7ad7d7316f6d72",
+    "source": "e2294683d2ec268d921df0277f5a9cb518f2e67d"
+  },
+  "native_hooks_executed": false,
+  "operational_probe_rerun": false,
+  "production_mutations": 0,
+  "result": "PASS",
+  "scope": "package protected source, exact change allowlist, immutable receipt and plan integrity",
+  "v81": {
+    "changed_paths_exact_allowlist": 17,
+    "protected_paths_equal": 14,
+    "rollback": "c14b3f9b04caea13e62bcdd6fb0e5990049aa17b",
+    "source": "f7c32d04556335632c862515a9ee1b742ad88ad3"
+  }
+}

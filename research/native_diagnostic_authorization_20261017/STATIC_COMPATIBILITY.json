@@ -1,0 +1,91 @@
+{
+  "checks": {
+    "information": {
+      "adapter_install_and_seam_compile_only": "PASS",
+      "archive_rehashed_this_check": true,
+      "attestation": {
+        "dependencies": {
+          "cryptography": "50.0.0",
+          "joblib": "1.5.3",
+          "numpy": "2.5.2",
+          "pandas": "3.0.5",
+          "requests": "2.32.5",
+          "scikit-learn": "1.9.0",
+          "scipy": "1.18.1",
+          "websockets": "15.0.1"
+        },
+        "install_sha256": "5394c70b27fe286d8e6998055fe356d00ae5a9fc80c38348c32ab4f7b9c908ab",
+        "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+      },
+      "callbacks_executed": false,
+      "capture": false,
+      "complete_package_inventory_sha256": "9fd8e4076c981a199004ae6e0be060c0cdd5053afad571549f800851b55f5d15",
+      "native_execution": false,
+      "network": false,
+      "orders": false,
+      "package_attestation_with_observed_versions": "PASS",
+      "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+      "role": "information",
+      "threads_started": 0
+    },
+    "main": {
+      "adapter_install_and_seam_compile_only": "PASS",
+      "archive_rehashed_this_check": true,
+      "attestation": {
+        "dependencies": {
+          "cryptography": "50.0.0",
+          "joblib": "1.5.3",
+          "numpy": "2.5.2",
+          "pandas": "3.0.5",
+          "requests": "2.32.5",
+          "scikit-learn": "1.9.0",
+          "scipy": "1.18.1",
+          "websockets": "15.0.1"
+        },
+        "install_sha256": "5394c70b27fe286d8e6998055fe356d00ae5a9fc80c38348c32ab4f7b9c908ab",
+        "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+      },
+      "callbacks_executed": false,
+      "capture": false,
+      "complete_package_inventory_sha256": "9fd8e4076c981a199004ae6e0be060c0cdd5053afad571549f800851b55f5d15",
+      "native_execution": false,
+      "network": false,
+      "orders": false,
+      "package_attestation_with_observed_versions": "PASS",
+      "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+      "role": "main",
+      "threads_started": 0
+    },
+    "v81": {
+      "adapter_install_and_seam_compile_only": "PASS",
+      "archive_rehashed_this_check": false,
+      "attestation": {
+        "dependencies": {
+          "cryptography": "50.0.0",
+          "joblib": "1.5.3",
+          "numpy": "2.5.2",
+          "pandas": "3.0.5",
+          "requests": "2.32.5",
+          "scikit-learn": "1.9.0",
+          "scipy": "1.18.1",
+          "websockets": "15.0.1"
+        },
+        "install_sha256": "9bdb8dd3f79373740d1758918f54d23f82fb8782f55cc701387c4fa8e04c2de4",
+        "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+      },
+      "callbacks_executed": false,
+      "capture": false,
+      "complete_package_inventory_sha256": "2707f2572398a9ce118952e792b08934c9697cd2720467b96b5781b308e6efa3",
+      "native_execution": false,
+      "network": false,
+      "orders": false,
+      "package_attestation_with_observed_versions": "PASS",
+      "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+      "role": "v81",
+      "threads_started": 0
+    }
+  },
+  "native_hook_timing_and_live_behavior": "UNPROVEN_DIAGNOSTIC_OBJECTIVE",
+  "result": "PASS",
+  "scope": "OFFLINE_EXACT_PACKAGE_STATIC_INSTALL; AUTHENTIC_NATIVE_VERSION_METADATA_REPLAY"
+}

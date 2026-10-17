@@ -1,0 +1,322 @@
+{
+  "schema": "BTC15_FINAL_DIAGNOSTIC_CONTROL_PLANE_READS_V1",
+  "date": "2026-10-17",
+  "production_mutations": 0,
+  "probe_rerun": false,
+  "services": {
+    "main": {
+      "service": {
+        "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "name": "Btc-15min-bot",
+        "state": "live"
+      },
+      "environment": {
+        "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "name": "production"
+      },
+      "config": {
+        "source": {
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "release/btc15-recorder-main-20261013",
+          "commitSha": "dd46b7bc2fcc49865c49dc59eb7ad7d7316f6d72"
+        },
+        "networking": {
+          "serviceDomains": {
+            "btc-15min-bot-production.up.railway.app": {
+              "port": 8080
+            }
+          },
+          "privateNetworkEndpoint": "btc-15min-bot"
+        },
+        "build": {
+          "builder": "RAILPACK",
+          "buildEnvironment": "V3"
+        },
+        "deploy": {
+          "startCommand": "/bin/sh -c 'set -eu; test \"$RAILWAY_VOLUME_MOUNT_PATH\" = /data; test \"$RAILWAY_VOLUME_ID\" = 6ced6b1a-3755-4518-a240-c895e936d443; test \"$BTC15_ENABLE_INFORMATION_EXPORT\" = 1; test -n \"$KALSHI_KEY_ID\"; test -n \"$KALSHI_PRIVATE_KEY_B64\"; unset BTC15_LADDER_DATA_ROOT BTC15_COHORT_EVIDENCE_PATH BTC15_ARCHIVE_LEGACY_ONCE BTC15_V2_RELEASE_RECEIPT BTC15_V2_RELEASE_RECEIPT_SHA256; export BTC15_V2_APPROVED_BUILD=dd46b7bc2fcc49865c49dc59eb7ad7d7316f6d72 BTC15_V2_APPROVED_MANIFEST_SHA256=9290281a9a9c5a8c2e51124f97343e8fee6f0bb4e729c0138945638439c3748b; cd /app; exec python -B -u btc15_v2_launch.py --lane main --run-reviewed-production'",
+          "healthcheckPath": "/health",
+          "healthcheckTimeout": 120,
+          "useLegacyStacker": false,
+          "ipv6EgressEnabled": false,
+          "runtime": "V2",
+          "multiRegionConfig": {
+            "iad": {
+              "numReplicas": 1
+            }
+          }
+        },
+        "volumeMounts": {
+          "6ced6b1a-3755-4518-a240-c895e936d443": {
+            "mountPath": "/data"
+          }
+        }
+      },
+      "stagedChanges": [],
+      "volumes": [
+        {
+          "id": "6ced6b1a-3755-4518-a240-c895e936d443",
+          "name": "btc-15min-bot-volume",
+          "mountPath": "/data",
+          "sizeMB": 20000,
+          "region": "iad",
+          "state": "live"
+        }
+      ],
+      "latestDeployment": {
+        "id": "c0993600-34b7-4501-92cd-b8d4a934b68a",
+        "status": "SUCCESS",
+        "createdAt": "2026-10-14T21:14:25.271Z",
+        "url": null
+      }
+    },
+    "v81": {
+      "service": {
+        "id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "name": "v81-live-diagnostics",
+        "state": "live"
+      },
+      "environment": {
+        "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "name": "production"
+      },
+      "config": {
+        "source": {
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "release/btc15-recorder-v81-20261013",
+          "commitSha": "c14b3f9b04caea13e62bcdd6fb0e5990049aa17b"
+        },
+        "networking": {
+          "serviceDomains": {
+            "v81-live-diagnostics-production.up.railway.app": {
+              "port": 8080
+            }
+          }
+        },
+        "build": {
+          "builder": "RAILPACK",
+          "buildEnvironment": "V3"
+        },
+        "deploy": {
+          "startCommand": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && unset BTC15_LADDER_DATA_ROOT && export BTC15_V2_APPROVED_BUILD=c14b3f9b04caea13e62bcdd6fb0e5990049aa17b BTC15_V2_APPROVED_MANIFEST_SHA256=4bb232d5cb241b59a20c6d98c69fb68f8d634836c9c974bd11d2d4cf7ad29c38 && exec python -u btc15_v2_launch.py --lane v81 --run-reviewed-production'",
+          "healthcheckPath": "/health",
+          "healthcheckTimeout": 30,
+          "useLegacyStacker": false,
+          "ipv6EgressEnabled": false,
+          "runtime": "V2",
+          "multiRegionConfig": {
+            "iad": {
+              "numReplicas": 1
+            }
+          }
+        },
+        "volumeMounts": {
+          "d5eeafca-e0fc-42f0-b7d1-4705907720c6": {
+            "mountPath": "/data"
+          }
+        }
+      },
+      "stagedChanges": [],
+      "volumes": [
+        {
+          "id": "d5eeafca-e0fc-42f0-b7d1-4705907720c6",
+          "name": "btc15-v81-ladder-journal-v2",
+          "mountPath": "/data",
+          "sizeMB": 5000,
+          "region": "iad",
+          "state": "live"
+        }
+      ],
+      "latestDeployment": {
+        "id": "21bf7fd3-c294-46d9-8a0a-f551cce7a303",
+        "status": "SUCCESS",
+        "createdAt": "2026-10-14T21:14:27.783Z",
+        "url": null
+      }
+    }
+  },
+  "staged": {
+    "project": {
+      "id": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+      "name": "noble-warmth"
+    },
+    "environment": {
+      "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+      "name": "production"
+    },
+    "staged": {
+      "patchId": "ead9997e-b5b7-4668-a612-e8417e197838",
+      "status": "STAGED",
+      "changeCount": 4,
+      "message": null,
+      "createdAt": "2026-10-08T22:15:42.934Z",
+      "updatedAt": "2026-10-08T22:32:38.147Z"
+    },
+    "destructive": false,
+    "resources": [
+      {
+        "kind": "service",
+        "id": "84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1",
+        "name": "btc15-main-shadow-1s-brti-20261005",
+        "action": "update",
+        "changes": [
+          {
+            "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.branch",
+            "displayName": "Branch",
+            "type": "updated",
+            "from": "candidate/btc15-main-live-shadow-20261008",
+            "to": "candidate/btc15-main-live-shadow-20261008",
+            "destructive": false
+          },
+          {
+            "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.commitSha",
+            "displayName": "Commit Sha",
+            "type": "updated",
+            "from": "6c4df3aeb82637ca906a22372ca32915d32d3047",
+            "to": "6c4df3aeb82637ca906a22372ca32915d32d3047",
+            "destructive": false
+          },
+          {
+            "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.image",
+            "displayName": "Image",
+            "type": "removed",
+            "from": "",
+            "to": "",
+            "destructive": false
+          },
+          {
+            "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.repo",
+            "displayName": "Repo",
+            "type": "updated",
+            "from": "yz272n2tpf-lab/Btc-15min-bot",
+            "to": "yz272n2tpf-lab/Btc-15min-bot",
+            "destructive": false
+          }
+        ]
+      }
+    ],
+    "sharedVariables": [],
+    "privateNetworkDisabled": null
+  },
+  "volumes": [
+    {
+      "id": "93e974dc-b8bb-4658-bed5-dc4815308396",
+      "name": "scalp-finalprod-clean-v1-volume",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 50000,
+      "mountedOn": null,
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "656da4af-6a3f-4907-95da-2c0c0000cf29",
+      "name": "scalp-move-shadow-v1-volume",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 5000,
+      "mountedOn": null,
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "97cc9dcd-ef90-495e-a1be-ffda31eac1b3",
+      "name": "btc15-v2-v81-journal",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 2048,
+      "mountedOn": null,
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "b6304c46-7027-4bfd-932d-94bb9c67da8e",
+      "name": "btc15-v2-main-journal",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 2048,
+      "mountedOn": null,
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "3ed8bbca-31aa-43c0-b672-60a7a75b062b",
+      "name": "btc15-main-shadow-1s-brti-volume",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 1024,
+      "mountedOn": null,
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "6ced6b1a-3755-4518-a240-c895e936d443",
+      "name": "btc-15min-bot-volume",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 20000,
+      "mountedOn": {
+        "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "serviceName": "Btc-15min-bot",
+        "mountPath": "/data"
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "d5eeafca-e0fc-42f0-b7d1-4705907720c6",
+      "name": "btc15-v81-ladder-journal-v2",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 5000,
+      "mountedOn": {
+        "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "serviceName": "v81-live-diagnostics",
+        "mountPath": "/data"
+      },
+      "stagedChangeCount": 0
+    }
+  ],
+  "environments": [
+    {
+      "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+      "name": "production"
+    }
+  ],
+  "research": {
+    "environment": {
+      "id": "12d241b7-23b4-4421-aafd-142e943555ee",
+      "name": "test"
+    },
+    "services": [
+      {
+        "serviceId": "1fff593b-8b09-4cc4-8c51-f9603082657f",
+        "serviceName": "existing-reader-capacity-probe",
+        "state": "online",
+        "statusText": "Online",
+        "activeDeployments": [
+          {
+            "id": "b6c57782-2b39-46de-b57d-e29ae2192528",
+            "status": "SUCCESS",
+            "createdAt": "2026-10-17T12:06:10.972Z",
+            "statusUpdatedAt": "2026-10-17T12:06:44.768Z"
+          }
+        ],
+        "replicaStatus": {
+          "running": 0,
+          "crashed": 0,
+          "total": 1
+        },
+        "cronJob": null,
+        "issues": {
+          "warningCount": 0,
+          "criticalCount": 0
+        },
+        "recentFailures": 0,
+        "recentFailedDeployments": [],
+        "hasIssues": false,
+        "isCronJob": false,
+        "hasVolume": true
+      }
+    ],
+    "pendingWork": [],
+    "summary": {
+      "totalServices": 1,
+      "servicesWithIssues": 0,
+      "totalFailures": 0
+    }
+  }
+}

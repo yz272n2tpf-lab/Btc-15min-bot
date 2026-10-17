@@ -1,0 +1,103 @@
+{
+  "date": "2026-10-17",
+  "probe_deployment": "b6c57782-2b39-46de-b57d-e29ae2192528",
+  "probe_receipt_sha256": "26a94f28ed48f26a9dd8cd31b7918b86327a0b731beba8370e5cdca666bfd480",
+  "branches": [
+    {
+      "ref": "refs/heads/research/native-diagnostic-main-20261017",
+      "node_id": "REF_kwDOT2pnqNoAM3JlZnMvaGVhZHMvcmVzZWFyY2gvbmF0aXZlLWRpYWdub3N0aWMtbWFpbi0yMDI2MTAxNw",
+      "url": "https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/refs/heads/research/native-diagnostic-main-20261017",
+      "object": {
+        "sha": "e2294683d2ec268d921df0277f5a9cb518f2e67d",
+        "type": "commit",
+        "url": "https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/commits/e2294683d2ec268d921df0277f5a9cb518f2e67d"
+      }
+    },
+    {
+      "ref": "refs/heads/research/native-diagnostic-v81-20261017",
+      "node_id": "REF_kwDOT2pnqNoAMnJlZnMvaGVhZHMvcmVzZWFyY2gvbmF0aXZlLWRpYWdub3N0aWMtdjgxLTIwMjYxMDE3",
+      "url": "https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/refs/heads/research/native-diagnostic-v81-20261017",
+      "object": {
+        "sha": "f7c32d04556335632c862515a9ee1b742ad88ad3",
+        "type": "commit",
+        "url": "https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/commits/f7c32d04556335632c862515a9ee1b742ad88ad3"
+      }
+    }
+  ],
+  "tool_contracts": [
+    {
+      "name": "mcp__codex_apps__railway_set_variables",
+      "description": "Build and deploy apps\n\nSet one or more environment variables on a service (or environment-wide shared variables when serviceId is omitted). Existing variables with the same name are overwritten; others are left unchanged. Reference syntax like ${{Postgres.DATABASE_URL}} is supported. Affected services are redeployed unless skipDeploys is true. Pass staged: true to stage the variables in the environment's pending changes instead of setting them live — nothing is written or redeployed until the staged changes are committed with accept-deploy. This tool is part of plugin `Railway`.\n\nexec tool declaration:\n```ts\ndeclare const tools: { mcp__codex_apps__railway_set_variables(args: {\n  // Environment ID. Defaults to `production` if present, otherwise the project's oldest environment. That default applies to staged: true as well — unlike the other staging tools this one never refuses an omitted environmentId, so pass one explicitly unless you mean to stage onto production.\n  environmentId?: string;\n  // The project ID\n  projectId: string;\n  // The service to set variables on. Omit to set environment-level shared variables.\n  serviceId?: string;\n  // Skip redeploying the affected services. Implied by staged: true, which deploys nothing until the patch is committed.\n  skipDeploys?: boolean;\n  // Stage the change in the environment's pending changes instead of applying it live. It takes effect only when the staged changes are committed with accept-deploy (or the user applies them in the dashboard).\n  staged?: boolean;\n  // Object mapping variable names to string values. Example: {\"NODE_ENV\":\"production\",\"PORT\":\"3000\"}.\n  variables: { [key: string]: string; };\n}): Promise<CallToolResult<{\n  environment: { id: string; name: string; };\n  // Service the variables were set on, or null for shared\n  serviceId: string | null;\n  skippedDeploys: boolean;\n  // Present when the change was staged instead of applied. It takes effect only when the staged changes are committed with accept-deploy.\n  staged: {\n  // Total changes now staged in the environment\n  changeCount: number;\n  // The environment patch holding the change\n  patchId: string;\n} | null;\n  variableNames: Array<string>;\n}>>; };\n```"
+    },
+    {
+      "name": "mcp__codex_apps__railway_update_service",
+      "description": "Build and deploy apps\n\nUpdate a service's configuration: build/start/pre-deploy commands and pre-deploy timeout, builder, healthcheck, sleep mode, root directory, cron schedule, Dockerfile path, restart policy, config file path, watch patterns, replicas per region, resource limits, deployment overlap/draining, outbound IPv6, the private network endpoint name, tracing (edge tracing and eBPF auto-instrumentation) and cdn (edge caching of the service's public domains). Only the fields you pass are changed. Config changes apply on the service's next deployment (use redeploy to apply immediately); regions and limits scale the running deployment right away; privateNetworkEndpoint, tracing and cdn are committed to the environment like a config change from the dashboard or railway.json: the endpoint rename and a change to tracing.enabled redeploy the service, tracing.autoInstrumentation and cdn take effect without a redeploy. Pass staged: true to stage the update in one environment's pending changes instead of writing it to the service — it then applies when the staged changes are committed with accept-deploy. Source changes are not handled by this tool (use connect-service-source), and private registry credentials are set by the user in the Railway dashboard. This tool is part of plugin `Railway`.\n\nexec tool declaration:\n```ts\ndeclare const tools: { mcp__codex_apps__railway_update_service(args: { buildCommand?: string; builder?: \"RAILPACK\" | \"NIXPACKS\"; cdn?: { defaultTtlSeconds?: number | null; enabled?: boolean | null; htmlCaching?: \"auto\" | \"force\" | \"never\" | null; purgeOnDeploy?: \"off\" | \"html\" | \"all\" | null; staleWhileRevalidate?: boolean | null; }; cronSchedule?: string | null; dockerfilePath?: string; drainingSeconds?: number | null; environmentId?: string; healthcheckPath?: string; healthcheckTimeout?: number | null; ipv6EgressEnabled?: boolean; limits?: { memoryGB?: number; vCPUs?: number; }; overlapSeconds?: number | null; preDeployCommand?: Array<string>; preDeployTimeoutSeconds?: number | null; privateNetworkEndpoint?: string; projectId: string; railwayConfigFile?: string; regions?: { [key: string]: { numReplicas: number; }; }; restartPolicyMaxRetries?: number; restartPolicyType?: \"ALWAYS\" | \"NEVER\" | \"ON_FAILURE\"; rootDirectory?: string; serviceId: string; sleepApplication?: boolean; staged?: boolean; startCommand?: string; tracing?: { autoInstrumentation?: boolean | null; enabled?: boolean | null; }; watchPatterns?: Array<string>; }): Promise<CallToolResult<{\n  // Environment updated, or null when all environments were\n  environmentId: string | null;\n  service: { id: string; name: string; };\n  // Present when the change was staged instead of applied. It takes effect only when the staged changes are committed with accept-deploy.\n  staged: {\n  // Total changes now staged in the environment\n  changeCount: number;\n  // The environment patch holding the change\n  patchId: string;\n} | null;\n  updatedFields: Array<string>;\n}>>; };\n```"
+    },
+    {
+      "name": "mcp__codex_apps__railway_connect_service_source",
+      "description": "Build and deploy apps\n\nAttach a source to an existing service: a GitHub repository (deploys on push, builds immediately) or a Docker image. This is how a service that has never deployed gets its first deployment, and how an existing service's source is switched. Provide exactly one of repo or image. Pass commitSha with repo to pin the service to one commit instead of following the branch. Images must be public: credentials for a private registry are not accepted here — the user sets them on the service in the Railway dashboard. By default it applies to the service in all environments; pass staged: true with an environmentId to stage the source in that one environment's pending changes instead, in which case nothing builds until the staged changes are committed with accept-deploy. This tool is part of plugin `Railway`.\n\nexec tool declaration:\n```ts\ndeclare const tools: { mcp__codex_apps__railway_connect_service_source(args: {\n  // Branch to deploy from. Only valid with repo; defaults to the repository's default branch.\n  branch?: string;\n  // Commit SHA to pin the service to. Only valid with repo. The service deploys exactly this commit and pushes to the branch no longer deploy it, until the source is connected again without commitSha.\n  commitSha?: string;\n  // Environment to scope a staged source change to. Only valid with staged: true, and required by it — a live connect always applies to every environment.\n  environmentId?: string;\n  // Docker image to deploy, e.g. ghcr.io/org/app:latest\n  image?: string;\n  // The project ID\n  projectId: string;\n  // GitHub repository as owner/repo, e.g. railwayapp/starters. The user's GitHub account must have access to it.\n  repo?: string;\n  // The service ID to attach the source to\n  serviceId: string;\n  // Stage the change in the environment's pending changes instead of applying it live. It takes effect only when the staged changes are committed with accept-deploy (or the user applies them in the dashboard).\n  staged?: boolean;\n}): Promise<CallToolResult<{\n  service: { id: string; name: string; };\n  source: {\n  branch: string | null;\n  // The commit the service is pinned to, if any\n  commitSha: string | null;\n  image: string | null;\n  repo: string | null;\n};\n  // Present when the change was staged instead of applied. It takes effect only when the staged changes are committed with accept-deploy.\n  staged: {\n  // Total changes now staged in the environment\n  changeCount: number;\n  // The environment patch holding the change\n  patchId: string;\n} | null;\n}>>; };\n```"
+    }
+  ],
+  "rollback_availability": {
+    "main": {
+      "deployments": [
+        {
+          "id": "c0993600-34b7-4501-92cd-b8d4a934b68a",
+          "status": "SUCCESS",
+          "createdAt": "2026-10-14T21:14:25.271Z",
+          "updatedAt": "2026-10-14T21:16:55.901Z",
+          "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+          "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+          "url": null,
+          "snapshotId": "520a10bc-dad7-41a5-b7fc-458aa68194ee",
+          "creator": {
+            "id": "04879637-3643-4ff4-a340-44cd2d25aa47",
+            "name": null,
+            "email": "yz272n2tpf@privaterelay.appleid.com"
+          },
+          "canRollback": true,
+          "canRedeploy": true,
+          "regions": [
+            "iad"
+          ],
+          "meta": {
+            "reason": "redeploy",
+            "commitMessage": "Prepare exact main recorder installation from 4f9ffe51ff9af6adf3f1eb0bd4a77f91dc2caa7c; default off",
+            "commitHash": "dd46b7bc2fcc49865c49dc59eb7ad7d7316f6d72",
+            "branch": "release/btc15-recorder-main-20261013"
+          }
+        }
+      ]
+    },
+    "v81": {
+      "deployments": [
+        {
+          "id": "21bf7fd3-c294-46d9-8a0a-f551cce7a303",
+          "status": "SUCCESS",
+          "createdAt": "2026-10-14T21:14:27.783Z",
+          "updatedAt": "2026-10-14T21:16:39.276Z",
+          "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+          "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+          "url": null,
+          "snapshotId": "b3d91810-bc5e-43db-841e-5dc383e2ffec",
+          "creator": {
+            "id": "04879637-3643-4ff4-a340-44cd2d25aa47",
+            "name": null,
+            "email": "yz272n2tpf@privaterelay.appleid.com"
+          },
+          "canRollback": true,
+          "canRedeploy": true,
+          "regions": [
+            "iad"
+          ],
+          "meta": {
+            "reason": "redeploy",
+            "commitMessage": "Prepare exact v81 recorder installation from 6e04aced0f718b29f8ed805abcc0f76b01ed5096; default off",
+            "commitHash": "c14b3f9b04caea13e62bcdd6fb0e5990049aa17b",
+            "branch": "release/btc15-recorder-v81-20261013"
+          }
+        }
+      ]
+    }
+  }
+}
