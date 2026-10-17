@@ -1,0 +1,51 @@
+{
+  "producers": {
+    "main": {
+      "allocated_MB": 20000,
+      "disk_metric_GB": 11.701542912,
+      "nominal_unused_bytes": 8298457088,
+      "nominal_unused_GiB": 7.728540420532227,
+      "required_initial_free_bytes": 2181038080,
+      "required_initial_free_GiB": 2.03125,
+      "nominal_margin_bytes": 6117419008,
+      "filesystem_free_verified": false,
+      "basis": "Service DISK_USAGE_GB metric subtracted from decimal allocation; not a statvfs reading or proof of usable volume space."
+    },
+    "v81": {
+      "allocated_MB": 5000,
+      "disk_metric_GB": 3.214336,
+      "nominal_unused_bytes": 1785664000,
+      "nominal_unused_GiB": 1.6630291938781738,
+      "required_initial_free_bytes": 2181038080,
+      "required_initial_free_GiB": 2.03125,
+      "nominal_margin_bytes": -395374080,
+      "filesystem_free_verified": false,
+      "basis": "Service DISK_USAGE_GB metric subtracted from decimal allocation; not a statvfs reading or proof of usable volume space."
+    }
+  },
+  "information": "Shares MAIN; combined MAIN/information cap already included.",
+  "research": {
+    "db_ceiling_bytes": 1073741824,
+    "existing_finish_entry_free_bytes": 3556769792,
+    "planning_free_minimum_bytes": 5368709120,
+    "basis": "5 GiB rounds up DB + full-DB rollback contingency + 512 MiB ledger export + 3x compressed + 128 MiB scratch + 2 GiB reserve; no resize.",
+    "filesystem_free_verified": false
+  },
+  "incremental_capture_cost": {
+    "compressed_total_bytes": 67108864,
+    "volume_USD_per_GB_month": 0.15,
+    "retaining_caps_one_month_USD": 0.0100663296,
+    "one_copy_egress_USD": 0.0033554432000000006,
+    "reader_1GB_SQL_one_month_USD": 0.1610612736,
+    "example_reader_1GB_RAM_1vCPU_7min_USD": 0.0048579999999999995,
+    "not_total_bill": true,
+    "account_headroom_verified": false,
+    "pricing_source": "https://docs.railway.com/pricing/plans"
+  },
+  "constraints": {
+    "resize": false,
+    "deletion": false,
+    "new_services": false,
+    "monthly_budget_verified": false
+  }
+}

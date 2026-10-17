@@ -1,0 +1,626 @@
+{
+  "requested_date": "2026-10-17",
+  "read_scope": "Railway connected-service read-only snapshot; no filesystem or billing balance access",
+  "deployments": [
+    {
+      "id": "21bf7fd3-c294-46d9-8a0a-f551cce7a303",
+      "status": "SUCCESS",
+      "createdAt": "2026-10-14T21:14:27.783Z",
+      "updatedAt": "2026-10-14T21:16:39.276Z",
+      "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+      "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+      "url": null,
+      "snapshotId": "b3d91810-bc5e-43db-841e-5dc383e2ffec",
+      "canRollback": true,
+      "canRedeploy": true,
+      "regions": [
+        "iad"
+      ],
+      "meta": {
+        "reason": "redeploy",
+        "commitMessage": "Prepare exact v81 recorder installation from 6e04aced0f718b29f8ed805abcc0f76b01ed5096; default off",
+        "commitHash": "c14b3f9b04caea13e62bcdd6fb0e5990049aa17b",
+        "branch": "release/btc15-recorder-v81-20261013"
+      }
+    },
+    {
+      "id": "c0993600-34b7-4501-92cd-b8d4a934b68a",
+      "status": "SUCCESS",
+      "createdAt": "2026-10-14T21:14:25.271Z",
+      "updatedAt": "2026-10-14T21:16:55.901Z",
+      "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+      "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+      "url": null,
+      "snapshotId": "520a10bc-dad7-41a5-b7fc-458aa68194ee",
+      "canRollback": true,
+      "canRedeploy": true,
+      "regions": [
+        "iad"
+      ],
+      "meta": {
+        "reason": "redeploy",
+        "commitMessage": "Prepare exact main recorder installation from 4f9ffe51ff9af6adf3f1eb0bd4a77f91dc2caa7c; default off",
+        "commitHash": "dd46b7bc2fcc49865c49dc59eb7ad7d7316f6d72",
+        "branch": "release/btc15-recorder-main-20261013"
+      }
+    }
+  ],
+  "production": {
+    "project": {
+      "id": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+      "name": "noble-warmth",
+      "workspaceName": "yz272n2tpf-lab's Projects"
+    },
+    "environment": {
+      "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+      "name": "production",
+      "isEphemeral": false
+    },
+    "staged": {
+      "patchId": "ead9997e-b5b7-4668-a612-e8417e197838",
+      "status": "STAGED",
+      "changeCount": 4,
+      "message": null,
+      "createdAt": "2026-10-08T22:15:42.934Z",
+      "updatedAt": "2026-10-08T22:32:38.147Z"
+    },
+    "region": null,
+    "services": [
+      {
+        "id": "cc7ca702-ddbc-4f61-8205-873e34b7d740",
+        "name": "scalp-unarmed-live-tape-v1",
+        "state": "live",
+        "source": {
+          "image": null,
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "unarmed-health-startup-fix-20260918"
+        },
+        "regions": [
+          "iad"
+        ],
+        "numReplicas": 1,
+        "cronSchedule": null,
+        "volumeMounts": [],
+        "latestDeployment": {
+          "id": "83ffec5d-fb79-48cc-89e1-440aa8f57200",
+          "status": "FAILED",
+          "createdAt": "2026-09-19T16:01:30.962Z",
+          "url": null
+        },
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "87801206-d705-43d6-8aa2-bfb1b11c1ff6",
+        "name": "combined-dashboard-shadow-v11",
+        "state": "live",
+        "source": {
+          "image": null,
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": null
+        },
+        "regions": [
+          "iad"
+        ],
+        "numReplicas": 1,
+        "cronSchedule": null,
+        "volumeMounts": [],
+        "latestDeployment": {
+          "id": "19e0ce33-3e0f-4859-8333-3d733672a962",
+          "status": "FAILED",
+          "createdAt": "2026-09-15T13:41:55.888Z",
+          "url": null
+        },
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "174bd89d-264b-4882-8d5a-b8dbacf97181",
+        "name": "early-final-handoff-v1",
+        "state": "live",
+        "source": {
+          "image": null,
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "scalp-move-shadow-v1-20260912"
+        },
+        "regions": [
+          "iad"
+        ],
+        "numReplicas": 1,
+        "cronSchedule": null,
+        "volumeMounts": [],
+        "latestDeployment": {
+          "id": "43e32eee-afea-4986-a944-803a53945852",
+          "status": "SUCCESS",
+          "createdAt": "2026-09-15T20:39:32.809Z",
+          "url": null
+        },
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "0fe5d048-873e-4c1c-a3d4-8e7216e44f3e",
+        "name": "brti-shared-feed-v1",
+        "state": "live",
+        "source": {
+          "image": null,
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "brti-shared-feed-v1-20260913"
+        },
+        "regions": [
+          "iad"
+        ],
+        "numReplicas": 1,
+        "cronSchedule": null,
+        "volumeMounts": [],
+        "latestDeployment": {
+          "id": "b0ddbbbb-7d7a-43ba-888f-9d7e8c6b3fd8",
+          "status": "SUCCESS",
+          "createdAt": "2026-09-23T12:26:16.000Z",
+          "url": null
+        },
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "c1db8b80-f656-4295-ade8-812c129f6c72",
+        "name": "combined-dashboard-shadow-v14",
+        "state": "live",
+        "source": {
+          "image": null,
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": null
+        },
+        "regions": [
+          "iad"
+        ],
+        "numReplicas": 1,
+        "cronSchedule": null,
+        "volumeMounts": [],
+        "latestDeployment": {
+          "id": "0befa526-b112-4607-b03d-dc1ee66c7238",
+          "status": "FAILED",
+          "createdAt": "2026-09-16T00:10:31.822Z",
+          "url": null
+        },
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "6b847381-fc63-4421-b7bd-e8111c844e2f",
+        "name": "early-excursion-forward-v1",
+        "state": "live",
+        "source": {
+          "image": null,
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "scalp-move-shadow-v1-20260912"
+        },
+        "regions": [
+          "iad"
+        ],
+        "numReplicas": 1,
+        "cronSchedule": null,
+        "volumeMounts": [],
+        "latestDeployment": {
+          "id": "b6c7e09a-e6bd-4c36-a98c-48a50e72d0cf",
+          "status": "SUCCESS",
+          "createdAt": "2026-09-15T22:33:47.303Z",
+          "url": null
+        },
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "b584a1cf-a951-4b54-9127-4826cedc3ccb",
+        "name": "btc15-operator-cockpit-readonly",
+        "state": "live",
+        "source": {
+          "image": null,
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "fix/btc15-handoff-preserve-checkpoint-history-20261010"
+        },
+        "regions": [
+          "iad"
+        ],
+        "numReplicas": 1,
+        "cronSchedule": null,
+        "volumeMounts": [],
+        "latestDeployment": {
+          "id": "5b326cf3-8998-4fba-854f-8aaad7c60c61",
+          "status": "SUCCESS",
+          "createdAt": "2026-10-11T14:16:02.469Z",
+          "url": null
+        },
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "ad996e53-cf97-4e64-b4f0-94eb1577c53b",
+        "name": "recovered-native-identity-qualification-v1",
+        "state": "live",
+        "source": {
+          "image": null,
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "integration/recovered-native-identity-20260928"
+        },
+        "regions": [
+          "iad"
+        ],
+        "numReplicas": 1,
+        "cronSchedule": null,
+        "volumeMounts": [],
+        "latestDeployment": {
+          "id": "4cada7c0-62b7-4b26-898f-8a764ed3b642",
+          "status": "CRASHED",
+          "createdAt": "2026-09-28T18:07:51.162Z",
+          "url": null
+        },
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "21ec159d-fd25-482c-ad72-d53a98a39aa9",
+        "name": "csv-diagnostic-scan",
+        "state": "live",
+        "source": {
+          "image": "ghcr.io/railwayapp/function-bun:1.4.0",
+          "repo": null,
+          "branch": null
+        },
+        "regions": [
+          "iad"
+        ],
+        "numReplicas": 1,
+        "cronSchedule": null,
+        "volumeMounts": [],
+        "latestDeployment": {
+          "id": "dd21b6a7-0847-44ac-847f-7745c0fe5ed1",
+          "status": "CRASHED",
+          "createdAt": "2026-09-26T15:13:38.141Z",
+          "url": null
+        },
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "name": "Btc-15min-bot",
+        "state": "live",
+        "source": {
+          "image": null,
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "release/btc15-recorder-main-20261013"
+        },
+        "regions": [
+          "iad"
+        ],
+        "numReplicas": 1,
+        "cronSchedule": null,
+        "volumeMounts": [
+          {
+            "volumeId": "6ced6b1a-3755-4518-a240-c895e936d443",
+            "volumeName": "btc-15min-bot-volume",
+            "mountPath": "/data"
+          }
+        ],
+        "latestDeployment": {
+          "id": "c0993600-34b7-4501-92cd-b8d4a934b68a",
+          "status": "SUCCESS",
+          "createdAt": "2026-10-14T21:14:25.271Z",
+          "url": null
+        },
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "name": "v81-live-diagnostics",
+        "state": "live",
+        "source": {
+          "image": null,
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "release/btc15-recorder-v81-20261013"
+        },
+        "regions": [
+          "iad"
+        ],
+        "numReplicas": 1,
+        "cronSchedule": null,
+        "volumeMounts": [
+          {
+            "volumeId": "d5eeafca-e0fc-42f0-b7d1-4705907720c6",
+            "volumeName": "btc15-v81-ladder-journal-v2",
+            "mountPath": "/data"
+          }
+        ],
+        "latestDeployment": {
+          "id": "21bf7fd3-c294-46d9-8a0a-f551cce7a303",
+          "status": "SUCCESS",
+          "createdAt": "2026-10-14T21:14:27.783Z",
+          "url": null
+        },
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "90046a79-3f57-493f-b473-18d0031e8f0d",
+        "name": "scalp-display-bridge-v6",
+        "state": "live",
+        "source": {
+          "image": null,
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": null
+        },
+        "regions": [
+          "iad"
+        ],
+        "numReplicas": 1,
+        "cronSchedule": null,
+        "volumeMounts": [],
+        "latestDeployment": {
+          "id": "168341d7-ea4d-496f-aa8d-038bf8f58095",
+          "status": "FAILED",
+          "createdAt": "2026-09-15T13:37:07.585Z",
+          "url": null
+        },
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "fbe79688-25ed-4329-b0d6-c9b669559b17",
+        "name": "final-forward-scorecard-v1",
+        "state": "live",
+        "source": {
+          "image": null,
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "scalp-move-shadow-v1-20260912"
+        },
+        "regions": [
+          "iad"
+        ],
+        "numReplicas": 1,
+        "cronSchedule": null,
+        "volumeMounts": [],
+        "latestDeployment": {
+          "id": "48b86488-3688-40d3-82b4-ad5fe028a61f",
+          "status": "SUCCESS",
+          "createdAt": "2026-09-15T19:55:38.110Z",
+          "url": null
+        },
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "c600567f-42e9-432a-839c-140131124fe0",
+        "name": "recovered-v11-preview-pr47",
+        "state": "live",
+        "source": {
+          "image": null,
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "railway/code-change-6aufFQ"
+        },
+        "regions": [
+          "iad"
+        ],
+        "numReplicas": 1,
+        "cronSchedule": null,
+        "volumeMounts": [],
+        "latestDeployment": {
+          "id": "4d3f54c5-0508-4912-874c-db017dec72c1",
+          "status": "SUCCESS",
+          "createdAt": "2026-09-28T18:18:20.081Z",
+          "url": null
+        },
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1",
+        "name": "btc15-main-shadow-1s-brti-20261005",
+        "state": "live-with-staged-changes",
+        "source": {
+          "image": null,
+          "repo": "yz272n2tpf-lab/Btc-15min-bot",
+          "branch": "candidate/btc15-main-live-shadow-20261008"
+        },
+        "regions": [
+          "iad"
+        ],
+        "numReplicas": 1,
+        "cronSchedule": null,
+        "volumeMounts": [],
+        "latestDeployment": {
+          "id": "671ac06c-6e99-462e-870c-fbe6a546e820",
+          "status": "SUCCESS",
+          "createdAt": "2026-10-08T20:43:14.889Z",
+          "url": null
+        },
+        "stagedChangeCount": 4
+      }
+    ],
+    "volumes": [
+      {
+        "id": "93e974dc-b8bb-4658-bed5-dc4815308396",
+        "name": "scalp-finalprod-clean-v1-volume",
+        "state": "live",
+        "region": "iad",
+        "sizeMB": 50000,
+        "mountedOn": null,
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "656da4af-6a3f-4907-95da-2c0c0000cf29",
+        "name": "scalp-move-shadow-v1-volume",
+        "state": "live",
+        "region": "iad",
+        "sizeMB": 5000,
+        "mountedOn": null,
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "97cc9dcd-ef90-495e-a1be-ffda31eac1b3",
+        "name": "btc15-v2-v81-journal",
+        "state": "live",
+        "region": "iad",
+        "sizeMB": 2048,
+        "mountedOn": null,
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "b6304c46-7027-4bfd-932d-94bb9c67da8e",
+        "name": "btc15-v2-main-journal",
+        "state": "live",
+        "region": "iad",
+        "sizeMB": 2048,
+        "mountedOn": null,
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "3ed8bbca-31aa-43c0-b672-60a7a75b062b",
+        "name": "btc15-main-shadow-1s-brti-volume",
+        "state": "live",
+        "region": "iad",
+        "sizeMB": 1024,
+        "mountedOn": null,
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "6ced6b1a-3755-4518-a240-c895e936d443",
+        "name": "btc-15min-bot-volume",
+        "state": "live",
+        "region": "iad",
+        "sizeMB": 20000,
+        "mountedOn": {
+          "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+          "serviceName": "Btc-15min-bot",
+          "mountPath": "/data"
+        },
+        "stagedChangeCount": 0
+      },
+      {
+        "id": "d5eeafca-e0fc-42f0-b7d1-4705907720c6",
+        "name": "btc15-v81-ladder-journal-v2",
+        "state": "live",
+        "region": "iad",
+        "sizeMB": 5000,
+        "mountedOn": {
+          "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+          "serviceName": "v81-live-diagnostics",
+          "mountPath": "/data"
+        },
+        "stagedChangeCount": 0
+      }
+    ],
+    "buckets": [],
+    "sharedVariableNames": []
+  },
+  "research_runtime": {
+    "environment": {
+      "id": "12d241b7-23b4-4421-aafd-142e943555ee",
+      "name": "test"
+    },
+    "services": [
+      {
+        "serviceId": "1fff593b-8b09-4cc4-8c51-f9603082657f",
+        "serviceName": "existing-reader-capacity-probe",
+        "state": "online",
+        "statusText": "Online",
+        "activeDeployments": [
+          {
+            "id": "aa686ea8-3b0a-4888-8d74-5a38fcfd69a4",
+            "status": "SUCCESS",
+            "createdAt": "2026-10-16T23:55:11.931Z",
+            "statusUpdatedAt": "2026-10-16T23:55:38.385Z"
+          }
+        ],
+        "replicaStatus": {
+          "running": 0,
+          "crashed": 0,
+          "total": 1
+        },
+        "cronJob": null,
+        "issues": {
+          "warningCount": 0,
+          "criticalCount": 0
+        },
+        "recentFailures": 0,
+        "recentFailedDeployments": [],
+        "hasIssues": false,
+        "isCronJob": false,
+        "hasVolume": true
+      }
+    ],
+    "pendingWork": [],
+    "summary": {
+      "totalServices": 1,
+      "servicesWithIssues": 0,
+      "totalFailures": 0
+    }
+  },
+  "main_metrics": {
+    "service": {
+      "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+      "name": "Btc-15min-bot"
+    },
+    "environment": {
+      "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+      "name": "production"
+    },
+    "metrics": [
+      {
+        "measurement": "DISK_USAGE_GB",
+        "current": 11.701542912,
+        "average": 11.673964409704919,
+        "min": 11.650048,
+        "max": 11.701542912,
+        "sampleCount": 61
+      },
+      {
+        "measurement": "MEMORY_USAGE_GB",
+        "current": 3.230887936,
+        "average": 3.207907294426229,
+        "min": 3.195441152,
+        "max": 3.230887936,
+        "sampleCount": 61
+      },
+      {
+        "measurement": "CPU_USAGE",
+        "current": 2.4147673666666667,
+        "average": 2.51788994453552,
+        "min": 1.0421739166666666,
+        "max": 4.142110616666667,
+        "sampleCount": 61
+      }
+    ]
+  },
+  "v81_metrics": {
+    "service": {
+      "id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+      "name": "v81-live-diagnostics"
+    },
+    "environment": {
+      "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+      "name": "production"
+    },
+    "metrics": [
+      {
+        "measurement": "DISK_USAGE_GB",
+        "current": 3.214336,
+        "average": 3.155718681180328,
+        "min": 0,
+        "max": 3.214336,
+        "sampleCount": 61
+      },
+      {
+        "measurement": "MEMORY_USAGE_GB",
+        "current": 0.467505152,
+        "average": 0.45464062321311494,
+        "min": 0,
+        "max": 0.467505152,
+        "sampleCount": 61
+      },
+      {
+        "measurement": "CPU_USAGE",
+        "current": 0.10720655,
+        "average": 0.14144062322404374,
+        "min": 0,
+        "max": 0.23804496666666666,
+        "sampleCount": 61
+      }
+    ]
+  },
+  "billing": {
+    "verified": false,
+    "reason": "Connected Railway tools do not expose account usage/credits/billing. No authenticated local CLI or API path available."
+  },
+  "mounted_lease": {
+    "tested": false,
+    "reason": "Existing research deployment has zero running replicas; no exec/SSH tool or local Railway CLI. No start/restart/deploy authorized."
+  }
+}

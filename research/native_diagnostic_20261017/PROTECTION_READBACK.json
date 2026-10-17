@@ -1,0 +1,17 @@
+{
+  "readback": "Connected Railway describe_environment, after package publication",
+  "all_seven_volumes_unchanged": true,
+  "all_deployment_ids_unchanged": true,
+  "staged_patch_unchanged": {
+    "patchId": "ead9997e-b5b7-4668-a612-e8417e197838",
+    "status": "STAGED",
+    "changeCount": 4,
+    "message": null,
+    "createdAt": "2026-10-08T22:15:42.934Z",
+    "updatedAt": "2026-10-08T22:32:38.147Z"
+  },
+  "production_mutations": 0,
+  "new_services": 0,
+  "capture_activated": false,
+  "orders": false
+}
