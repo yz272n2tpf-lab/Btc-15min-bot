@@ -1,0 +1,62 @@
+{
+  "producer_results": {
+    "main": {
+      "at": 1792241295.5617824,
+      "available_bytes": 9112469504,
+      "evidence": {
+        "information": {
+          "seal_sha256": "d0892237646c0edccf1899efe50c768304967166a5984f6253bc5d2b4ea1ff80",
+          "verified_bytes": 312680,
+          "verified_objects": 3
+        },
+        "main": {
+          "seal_sha256": "3fa068b200a9a6d156535a82f312739a91d47b834f84eb78afe0a823e4916c53",
+          "verified_bytes": 2480440,
+          "verified_objects": 3
+        }
+      },
+      "identity": {
+        "RAILWAY_DEPLOYMENT_ID": "3d4b26ce-d11c-4b3c-ac8c-1ed5a403f3c9",
+        "RAILWAY_ENVIRONMENT_ID": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "RAILWAY_GIT_COMMIT_SHA": "dd46b7bc2fcc49865c49dc59eb7ad7d7316f6d72",
+        "RAILWAY_PROJECT_ID": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+        "RAILWAY_SERVICE_ID": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "RAILWAY_VOLUME_ID": "6ced6b1a-3755-4518-a240-c895e936d443",
+        "RAILWAY_VOLUME_MOUNT_PATH": "/data"
+      },
+      "orders": false,
+      "production_writes": false,
+      "reader_invocations": 0,
+      "recording_enabled": false,
+      "source_hashes_verified": 36
+    },
+    "v81": {
+      "at": 1792241296.1582668,
+      "available_bytes": 2583113728,
+      "evidence": {
+        "v81": {
+          "seal_sha256": "04241db43ec9efee1c9d2e4c466b1d60b493d69a640a412294af88cc417ded96",
+          "verified_bytes": 8109551,
+          "verified_objects": 3
+        }
+      },
+      "identity": {
+        "RAILWAY_DEPLOYMENT_ID": "c04d806f-d279-4a0b-8b3b-5f6316c985a6",
+        "RAILWAY_ENVIRONMENT_ID": "61775c5d-c583-4dfc-af41-f25578856fd9",
+        "RAILWAY_GIT_COMMIT_SHA": "c14b3f9b04caea13e62bcdd6fb0e5990049aa17b",
+        "RAILWAY_PROJECT_ID": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+        "RAILWAY_SERVICE_ID": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "RAILWAY_VOLUME_ID": "d5eeafca-e0fc-42f0-b7d1-4705907720c6",
+        "RAILWAY_VOLUME_MOUNT_PATH": "/data"
+      },
+      "orders": false,
+      "production_writes": false,
+      "reader_invocations": 0,
+      "recording_enabled": false,
+      "source_hashes_verified": 17
+    }
+  },
+  "reader_invocations": 0,
+  "run_id": "DIAG_20261017_e2294683_f7c32d04",
+  "status": "ROLLBACK_AND_EVIDENCE_VERIFIED"
+}

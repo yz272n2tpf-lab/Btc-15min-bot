@@ -1,0 +1,1178 @@
+{
+  "main": {
+    "service": {
+      "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+      "name": "Btc-15min-bot",
+      "state": "live"
+    },
+    "environment": {
+      "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+      "name": "production"
+    },
+    "staged": {
+      "patchId": "ead9997e-b5b7-4668-a612-e8417e197838",
+      "status": "STAGED",
+      "changeCount": 4,
+      "message": null,
+      "createdAt": "2026-10-08T22:15:42.934Z",
+      "updatedAt": "2026-10-08T22:32:38.147Z"
+    },
+    "config": {
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "release/btc15-recorder-main-20261013",
+        "commitSha": "dd46b7bc2fcc49865c49dc59eb7ad7d7316f6d72"
+      },
+      "networking": {
+        "serviceDomains": {
+          "btc-15min-bot-production.up.railway.app": {
+            "port": 8080
+          }
+        },
+        "privateNetworkEndpoint": "btc-15min-bot"
+      },
+      "build": {
+        "builder": "RAILPACK",
+        "buildEnvironment": "V3"
+      },
+      "deploy": {
+        "startCommand": "/bin/sh -c 'set -eu; test \"$RAILWAY_VOLUME_MOUNT_PATH\" = /data; test \"$RAILWAY_VOLUME_ID\" = 6ced6b1a-3755-4518-a240-c895e936d443; test \"$BTC15_ENABLE_INFORMATION_EXPORT\" = 1; test -n \"$KALSHI_KEY_ID\"; test -n \"$KALSHI_PRIVATE_KEY_B64\"; unset BTC15_LADDER_DATA_ROOT BTC15_COHORT_EVIDENCE_PATH BTC15_ARCHIVE_LEGACY_ONCE BTC15_V2_RELEASE_RECEIPT BTC15_V2_RELEASE_RECEIPT_SHA256; export BTC15_V2_APPROVED_BUILD=dd46b7bc2fcc49865c49dc59eb7ad7d7316f6d72 BTC15_V2_APPROVED_MANIFEST_SHA256=9290281a9a9c5a8c2e51124f97343e8fee6f0bb4e729c0138945638439c3748b; cd /app; exec python -B -u btc15_v2_launch.py --lane main --run-reviewed-production'",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 120,
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "volumeMounts": {
+        "6ced6b1a-3755-4518-a240-c895e936d443": {
+          "mountPath": "/data"
+        }
+      }
+    },
+    "stagedChanges": [],
+    "variableNames": [
+      "BTC15_BRTI_GATEWAY_URL",
+      "BTC15_BRTI_SHARED_URL",
+      "BTC15_BRTI_TRANSPORT",
+      "BTC15_DASH_V13_Z1",
+      "BTC15_DASH_V13_Z2",
+      "BTC15_DASH_V13_Z3",
+      "BTC15_DASH_V13_Z4",
+      "BTC15_DASH_V13_Z5",
+      "BTC15_ENABLE_INFORMATION_EXPORT",
+      "BTC15_INLINE_SCALP_V1",
+      "BTC15_KALSHI_QUOTE_PROVENANCE_CANARY",
+      "BTC15_LADDER_DATA_ROOT",
+      "BTC15_RECORDING_CONFIG",
+      "BTC15_RECORDING_CONFIG_SHA256",
+      "BTC15_RECORDING_ENABLED",
+      "BTC15_USE_SHARED_BRTI",
+      "BTC15_V81_LADDERS_URL",
+      "BTC15_VOLUME_DIAG",
+      "KALSHI_KEY_ID",
+      "KALSHI_PRIVATE_KEY_B64",
+      "PORT",
+      "PYTHONUNBUFFERED"
+    ],
+    "volumes": [
+      {
+        "id": "6ced6b1a-3755-4518-a240-c895e936d443",
+        "name": "btc-15min-bot-volume",
+        "mountPath": "/data",
+        "sizeMB": 20000,
+        "region": "iad",
+        "state": "live"
+      }
+    ],
+    "domains": {
+      "serviceDomains": [
+        {
+          "id": "2d02fd70-b865-4a79-87a9-948bae11e101",
+          "domain": "btc-15min-bot-production.up.railway.app",
+          "targetPort": 8080
+        }
+      ],
+      "customDomains": []
+    },
+    "tcpProxies": [],
+    "latestDeployment": {
+      "id": "3d4b26ce-d11c-4b3c-ac8c-1ed5a403f3c9",
+      "status": "SUCCESS",
+      "createdAt": "2026-10-17T12:46:02.043Z",
+      "url": null
+    },
+    "tracing": {
+      "tracingEnabled": false,
+      "autoInstrumentationEnabled": false,
+      "autoInstrumentationActive": false
+    }
+  },
+  "v81": {
+    "service": {
+      "id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+      "name": "v81-live-diagnostics",
+      "state": "live"
+    },
+    "environment": {
+      "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+      "name": "production"
+    },
+    "staged": {
+      "patchId": "ead9997e-b5b7-4668-a612-e8417e197838",
+      "status": "STAGED",
+      "changeCount": 4,
+      "message": null,
+      "createdAt": "2026-10-08T22:15:42.934Z",
+      "updatedAt": "2026-10-08T22:32:38.147Z"
+    },
+    "config": {
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "release/btc15-recorder-v81-20261013",
+        "commitSha": "c14b3f9b04caea13e62bcdd6fb0e5990049aa17b"
+      },
+      "networking": {
+        "serviceDomains": {
+          "v81-live-diagnostics-production.up.railway.app": {
+            "port": 8080
+          }
+        }
+      },
+      "build": {
+        "builder": "RAILPACK",
+        "buildEnvironment": "V3"
+      },
+      "deploy": {
+        "startCommand": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && unset BTC15_LADDER_DATA_ROOT && export BTC15_V2_APPROVED_BUILD=c14b3f9b04caea13e62bcdd6fb0e5990049aa17b BTC15_V2_APPROVED_MANIFEST_SHA256=4bb232d5cb241b59a20c6d98c69fb68f8d634836c9c974bd11d2d4cf7ad29c38 && exec python -u btc15_v2_launch.py --lane v81 --run-reviewed-production'",
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 30,
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "volumeMounts": {
+        "d5eeafca-e0fc-42f0-b7d1-4705907720c6": {
+          "mountPath": "/data"
+        }
+      }
+    },
+    "stagedChanges": [],
+    "variableNames": [
+      "BTC15_BRTI_SHARED_URL",
+      "BTC15_BRTI_TRANSPORT",
+      "BTC15_LADDER_DATA_ROOT",
+      "BTC15_RECORDING_CONFIG",
+      "BTC15_RECORDING_CONFIG_SHA256",
+      "BTC15_RECORDING_ENABLED",
+      "BTC15_USE_SHARED_BRTI",
+      "KALSHI_KEY_ID",
+      "KALSHI_PRIVATE_KEY_B64",
+      "PORT",
+      "PYTHONUNBUFFERED",
+      "V81_DIAG_LIVE"
+    ],
+    "volumes": [
+      {
+        "id": "d5eeafca-e0fc-42f0-b7d1-4705907720c6",
+        "name": "btc15-v81-ladder-journal-v2",
+        "mountPath": "/data",
+        "sizeMB": 5000,
+        "region": "iad",
+        "state": "live"
+      }
+    ],
+    "domains": {
+      "serviceDomains": [
+        {
+          "id": "123de58c-63f7-4f5f-928c-54a86ee4c7fb",
+          "domain": "v81-live-diagnostics-production.up.railway.app",
+          "targetPort": 8080
+        }
+      ],
+      "customDomains": []
+    },
+    "tcpProxies": [],
+    "latestDeployment": {
+      "id": "c04d806f-d279-4a0b-8b3b-5f6316c985a6",
+      "status": "SUCCESS",
+      "createdAt": "2026-10-17T12:46:05.189Z",
+      "url": null
+    },
+    "tracing": {
+      "tracingEnabled": false,
+      "autoInstrumentationEnabled": false,
+      "autoInstrumentationActive": false
+    }
+  },
+  "volumes": [
+    {
+      "id": "93e974dc-b8bb-4658-bed5-dc4815308396",
+      "name": "scalp-finalprod-clean-v1-volume",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 50000,
+      "mountedOn": null,
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "656da4af-6a3f-4907-95da-2c0c0000cf29",
+      "name": "scalp-move-shadow-v1-volume",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 5000,
+      "mountedOn": null,
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "97cc9dcd-ef90-495e-a1be-ffda31eac1b3",
+      "name": "btc15-v2-v81-journal",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 2048,
+      "mountedOn": null,
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "b6304c46-7027-4bfd-932d-94bb9c67da8e",
+      "name": "btc15-v2-main-journal",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 2048,
+      "mountedOn": null,
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "3ed8bbca-31aa-43c0-b672-60a7a75b062b",
+      "name": "btc15-main-shadow-1s-brti-volume",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 1024,
+      "mountedOn": null,
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "6ced6b1a-3755-4518-a240-c895e936d443",
+      "name": "btc-15min-bot-volume",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 20000,
+      "mountedOn": {
+        "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "serviceName": "Btc-15min-bot",
+        "mountPath": "/data"
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "d5eeafca-e0fc-42f0-b7d1-4705907720c6",
+      "name": "btc15-v81-ladder-journal-v2",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 5000,
+      "mountedOn": {
+        "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "serviceName": "v81-live-diagnostics",
+        "mountPath": "/data"
+      },
+      "stagedChangeCount": 0
+    }
+  ],
+  "staged": {
+    "project": {
+      "id": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+      "name": "noble-warmth"
+    },
+    "environment": {
+      "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+      "name": "production"
+    },
+    "staged": {
+      "patchId": "ead9997e-b5b7-4668-a612-e8417e197838",
+      "status": "STAGED",
+      "changeCount": 4,
+      "message": null,
+      "createdAt": "2026-10-08T22:15:42.934Z",
+      "updatedAt": "2026-10-08T22:32:38.147Z"
+    },
+    "destructive": false,
+    "resources": [
+      {
+        "kind": "service",
+        "id": "84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1",
+        "name": "btc15-main-shadow-1s-brti-20261005",
+        "action": "update",
+        "changes": [
+          {
+            "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.branch",
+            "displayName": "Branch",
+            "type": "updated",
+            "from": "candidate/btc15-main-live-shadow-20261008",
+            "to": "candidate/btc15-main-live-shadow-20261008",
+            "destructive": false
+          },
+          {
+            "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.commitSha",
+            "displayName": "Commit Sha",
+            "type": "updated",
+            "from": "6c4df3aeb82637ca906a22372ca32915d32d3047",
+            "to": "6c4df3aeb82637ca906a22372ca32915d32d3047",
+            "destructive": false
+          },
+          {
+            "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.image",
+            "displayName": "Image",
+            "type": "removed",
+            "from": "",
+            "to": "",
+            "destructive": false
+          },
+          {
+            "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.repo",
+            "displayName": "Repo",
+            "type": "updated",
+            "from": "yz272n2tpf-lab/Btc-15min-bot",
+            "to": "yz272n2tpf-lab/Btc-15min-bot",
+            "destructive": false
+          }
+        ]
+      }
+    ],
+    "sharedVariables": [],
+    "privateNetworkDisabled": null
+  },
+  "health": {
+    "environment": {
+      "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+      "name": "production"
+    },
+    "services": [
+      {
+        "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "serviceName": "v81-live-diagnostics",
+        "state": "online",
+        "statusText": "Online",
+        "activeDeployments": [
+          {
+            "id": "c04d806f-d279-4a0b-8b3b-5f6316c985a6",
+            "status": "SUCCESS",
+            "createdAt": "2026-10-17T12:46:05.189Z",
+            "statusUpdatedAt": "2026-10-17T12:46:59.075Z"
+          }
+        ],
+        "replicaStatus": {
+          "running": 1,
+          "crashed": 0,
+          "total": 1
+        },
+        "cronJob": null,
+        "issues": {
+          "warningCount": 0,
+          "criticalCount": 0
+        },
+        "recentFailures": 0,
+        "recentFailedDeployments": [],
+        "hasIssues": false,
+        "isCronJob": false,
+        "hasVolume": true
+      },
+      {
+        "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "serviceName": "Btc-15min-bot",
+        "state": "online",
+        "statusText": "Online",
+        "activeDeployments": [
+          {
+            "id": "3d4b26ce-d11c-4b3c-ac8c-1ed5a403f3c9",
+            "status": "SUCCESS",
+            "createdAt": "2026-10-17T12:46:02.043Z",
+            "statusUpdatedAt": "2026-10-17T12:46:44.500Z"
+          }
+        ],
+        "replicaStatus": {
+          "running": 1,
+          "crashed": 0,
+          "total": 1
+        },
+        "cronJob": null,
+        "issues": {
+          "warningCount": 0,
+          "criticalCount": 0
+        },
+        "recentFailures": 0,
+        "recentFailedDeployments": [],
+        "hasIssues": false,
+        "isCronJob": false,
+        "hasVolume": true
+      }
+    ],
+    "pendingWork": [
+      {
+        "id": "patch:ead9997e-b5b7-4668-a612-e8417e197838",
+        "kind": "EnvironmentPatch",
+        "status": "staged",
+        "changes": [
+          {
+            "kind": "resource.update",
+            "address": "service.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1",
+            "serviceId": "84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1"
+          }
+        ],
+        "startedAt": "2026-10-08T22:15:42.934Z",
+        "workflowId": "commitChanges/61775c5d-c583-4dfc-af41-f25578856fd9/ead9997e-b5b7-4668-a612-e8417e197838"
+      }
+    ],
+    "summary": {
+      "totalServices": 2,
+      "servicesWithIssues": 0,
+      "totalFailures": 0
+    }
+  },
+  "research": {
+    "service": {
+      "id": "1fff593b-8b09-4cc4-8c51-f9603082657f",
+      "name": "existing-reader-capacity-probe",
+      "state": "live"
+    },
+    "environment": {
+      "id": "12d241b7-23b4-4421-aafd-142e943555ee",
+      "name": "test"
+    },
+    "staged": null,
+    "config": {
+      "source": {
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "research/native-operational-gates-20261017",
+        "commitSha": "950e4b5e401d501bb26b5a66473e06500e8c08ac"
+      },
+      "build": {
+        "builder": "DOCKERFILE",
+        "buildEnvironment": "V3",
+        "dockerfilePath": "Dockerfile.btc15-early-finish"
+      },
+      "deploy": {
+        "startCommand": "timeout --signal=TERM --kill-after=10s 180s python -B -u -c 'import hashlib,json,pathlib,subprocess,sys\nr=subprocess.run([sys.executable,\"-B\",\"-u\",\"-m\",\"research.native_operational_20261017.probe\",\"--authorized-research-only\"],capture_output=True,text=True)\nprint(r.stdout,end=\"\",flush=True)\nif r.stderr:\n print(\"BTC15_PROBE_STDERR_BYTES \"+str(len(r.stderr.encode())),flush=True)\nfor line in r.stdout.splitlines():\n try: summary=json.loads(line)\n except json.JSONDecodeError: continue\n if not isinstance(summary,dict) or \"receipt\" not in summary: continue\n p=pathlib.Path(summary[\"receipt\"])\n if p.parent!=pathlib.Path(\"/research-evidence\") or not p.name.startswith(\"native-operational-\") or p.suffix!=\".json\" or p.is_symlink() or p.stat().st_size>131072: raise SystemExit(\"RECEIPT_PATH_OR_BOUND\")\n blob=p.read_bytes()\n if hashlib.sha256(blob).hexdigest()!=summary[\"sha256\"]: raise SystemExit(\"RECEIPT_HASH_MISMATCH\")\n print(\"BTC15_OPERATIONAL_RECEIPT \"+json.dumps(json.loads(blob),sort_keys=True,separators=(\",\",\":\")),flush=True)\nsys.exit(r.returncode)\n'",
+        "limitOverride": {
+          "containers": {
+            "cpu": 4,
+            "memoryBytes": 8000000000
+          }
+        },
+        "restartPolicyType": "NEVER",
+        "useLegacyStacker": false,
+        "ipv6EgressEnabled": false,
+        "runtime": "V2",
+        "multiRegionConfig": {
+          "iad": {
+            "numReplicas": 1
+          }
+        }
+      },
+      "volumeMounts": {
+        "2dba2ef6-b84d-4abf-9d04-58a1e77082c5": {
+          "mountPath": "/research-evidence"
+        }
+      }
+    },
+    "stagedChanges": [],
+    "variableNames": [],
+    "volumes": [
+      {
+        "id": "2dba2ef6-b84d-4abf-9d04-58a1e77082c5",
+        "name": "early-probe-scratch",
+        "mountPath": "/research-evidence",
+        "sizeMB": 100000,
+        "region": "iad",
+        "state": "live"
+      }
+    ],
+    "domains": {
+      "serviceDomains": [],
+      "customDomains": []
+    },
+    "tcpProxies": [],
+    "latestDeployment": {
+      "id": "857eb927-5090-42c9-973f-eba0c62998ac",
+      "status": "SUCCESS",
+      "createdAt": "2026-10-17T12:47:57.511Z",
+      "url": null
+    },
+    "tracing": {
+      "tracingEnabled": false,
+      "autoInstrumentationEnabled": false,
+      "autoInstrumentationActive": false
+    }
+  },
+  "research_status": {
+    "environment": {
+      "id": "12d241b7-23b4-4421-aafd-142e943555ee",
+      "name": "test"
+    },
+    "services": [
+      {
+        "serviceId": "1fff593b-8b09-4cc4-8c51-f9603082657f",
+        "serviceName": "existing-reader-capacity-probe",
+        "state": "online",
+        "statusText": "Online",
+        "activeDeployments": [
+          {
+            "id": "857eb927-5090-42c9-973f-eba0c62998ac",
+            "status": "SUCCESS",
+            "createdAt": "2026-10-17T12:47:57.511Z",
+            "statusUpdatedAt": "2026-10-17T12:48:17.235Z"
+          }
+        ],
+        "replicaStatus": {
+          "running": 0,
+          "crashed": 0,
+          "total": 1
+        },
+        "cronJob": null,
+        "issues": {
+          "warningCount": 0,
+          "criticalCount": 0
+        },
+        "recentFailures": 0,
+        "recentFailedDeployments": [],
+        "hasIssues": false,
+        "isCronJob": false,
+        "hasVolume": true
+      }
+    ],
+    "pendingWork": [],
+    "summary": {
+      "totalServices": 1,
+      "servicesWithIssues": 0,
+      "totalFailures": 0
+    }
+  },
+  "rollback_calls": [
+    {
+      "index": 0,
+      "tool": "mcp__codex_apps__railway_set_variables",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Set 1 variable(s) on service **Btc-15min-bot** in **production**: BTC15_RECORDING_ENABLED\nDeploys were skipped — changes apply on the next deployment."
+          }
+        ],
+        "structuredContent": {
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+          "variableNames": [
+            "BTC15_RECORDING_ENABLED"
+          ],
+          "skippedDeploys": true,
+          "staged": null
+        },
+        "isError": false
+      }
+    },
+    {
+      "index": 0,
+      "staged_read": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Staged changes in **production** (61775c5d-c583-4dfc-af41-f25578856fd9)\nStaged: 4 pending changes (patch ead9997e-b5b7-4668-a612-e8417e197838). Review with get-staged-changes, commit with accept-deploy.\n\n~ service **btc15-main-shadow-1s-brti-20261005** (84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1) — update\n    ~ Branch: candidate/btc15-main-live-shadow-20261008 → candidate/btc15-main-live-shadow-20261008\n    ~ Commit Sha: 6c4df3aeb82637ca906a22372ca32915d32d3047 → 6c4df3aeb82637ca906a22372ca32915d32d3047\n    - Image: \n    ~ Repo: yz272n2tpf-lab/Btc-15min-bot → yz272n2tpf-lab/Btc-15min-bot"
+          }
+        ],
+        "structuredContent": {
+          "project": {
+            "id": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+            "name": "noble-warmth"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "staged": {
+            "patchId": "ead9997e-b5b7-4668-a612-e8417e197838",
+            "status": "STAGED",
+            "changeCount": 4,
+            "message": null,
+            "createdAt": "2026-10-08T22:15:42.934Z",
+            "updatedAt": "2026-10-08T22:32:38.147Z"
+          },
+          "destructive": false,
+          "resources": [
+            {
+              "kind": "service",
+              "id": "84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1",
+              "name": "btc15-main-shadow-1s-brti-20261005",
+              "action": "update",
+              "changes": [
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.branch",
+                  "displayName": "Branch",
+                  "type": "updated",
+                  "from": "candidate/btc15-main-live-shadow-20261008",
+                  "to": "candidate/btc15-main-live-shadow-20261008",
+                  "destructive": false
+                },
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.commitSha",
+                  "displayName": "Commit Sha",
+                  "type": "updated",
+                  "from": "6c4df3aeb82637ca906a22372ca32915d32d3047",
+                  "to": "6c4df3aeb82637ca906a22372ca32915d32d3047",
+                  "destructive": false
+                },
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.image",
+                  "displayName": "Image",
+                  "type": "removed",
+                  "from": "",
+                  "to": "",
+                  "destructive": false
+                },
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.repo",
+                  "displayName": "Repo",
+                  "type": "updated",
+                  "from": "yz272n2tpf-lab/Btc-15min-bot",
+                  "to": "yz272n2tpf-lab/Btc-15min-bot",
+                  "destructive": false
+                }
+              ]
+            }
+          ],
+          "sharedVariables": [],
+          "privateNetworkDisabled": null
+        },
+        "isError": false
+      }
+    },
+    {
+      "index": 1,
+      "tool": "mcp__codex_apps__railway_update_service",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Updated **Btc-15min-bot** in environment **production**.\nFields: startCommand\nConfig changes take effect on the next deployment — use redeploy to apply now."
+          }
+        ],
+        "structuredContent": {
+          "service": {
+            "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+            "name": "Btc-15min-bot"
+          },
+          "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+          "updatedFields": [
+            "startCommand"
+          ],
+          "staged": null
+        },
+        "isError": false
+      }
+    },
+    {
+      "index": 1,
+      "staged_read": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Staged changes in **production** (61775c5d-c583-4dfc-af41-f25578856fd9)\nStaged: 4 pending changes (patch ead9997e-b5b7-4668-a612-e8417e197838). Review with get-staged-changes, commit with accept-deploy.\n\n~ service **btc15-main-shadow-1s-brti-20261005** (84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1) — update\n    ~ Branch: candidate/btc15-main-live-shadow-20261008 → candidate/btc15-main-live-shadow-20261008\n    ~ Commit Sha: 6c4df3aeb82637ca906a22372ca32915d32d3047 → 6c4df3aeb82637ca906a22372ca32915d32d3047\n    - Image: \n    ~ Repo: yz272n2tpf-lab/Btc-15min-bot → yz272n2tpf-lab/Btc-15min-bot"
+          }
+        ],
+        "structuredContent": {
+          "project": {
+            "id": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+            "name": "noble-warmth"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "staged": {
+            "patchId": "ead9997e-b5b7-4668-a612-e8417e197838",
+            "status": "STAGED",
+            "changeCount": 4,
+            "message": null,
+            "createdAt": "2026-10-08T22:15:42.934Z",
+            "updatedAt": "2026-10-08T22:32:38.147Z"
+          },
+          "destructive": false,
+          "resources": [
+            {
+              "kind": "service",
+              "id": "84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1",
+              "name": "btc15-main-shadow-1s-brti-20261005",
+              "action": "update",
+              "changes": [
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.branch",
+                  "displayName": "Branch",
+                  "type": "updated",
+                  "from": "candidate/btc15-main-live-shadow-20261008",
+                  "to": "candidate/btc15-main-live-shadow-20261008",
+                  "destructive": false
+                },
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.commitSha",
+                  "displayName": "Commit Sha",
+                  "type": "updated",
+                  "from": "6c4df3aeb82637ca906a22372ca32915d32d3047",
+                  "to": "6c4df3aeb82637ca906a22372ca32915d32d3047",
+                  "destructive": false
+                },
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.image",
+                  "displayName": "Image",
+                  "type": "removed",
+                  "from": "",
+                  "to": "",
+                  "destructive": false
+                },
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.repo",
+                  "displayName": "Repo",
+                  "type": "updated",
+                  "from": "yz272n2tpf-lab/Btc-15min-bot",
+                  "to": "yz272n2tpf-lab/Btc-15min-bot",
+                  "destructive": false
+                }
+              ]
+            }
+          ],
+          "sharedVariables": [],
+          "privateNetworkDisabled": null
+        },
+        "isError": false
+      }
+    },
+    {
+      "index": 2,
+      "tool": "mcp__codex_apps__railway_set_variables",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Set 1 variable(s) on service **v81-live-diagnostics** in **production**: BTC15_RECORDING_ENABLED\nDeploys were skipped — changes apply on the next deployment."
+          }
+        ],
+        "structuredContent": {
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+          "variableNames": [
+            "BTC15_RECORDING_ENABLED"
+          ],
+          "skippedDeploys": true,
+          "staged": null
+        },
+        "isError": false
+      }
+    },
+    {
+      "index": 2,
+      "staged_read": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Staged changes in **production** (61775c5d-c583-4dfc-af41-f25578856fd9)\nStaged: 4 pending changes (patch ead9997e-b5b7-4668-a612-e8417e197838). Review with get-staged-changes, commit with accept-deploy.\n\n~ service **btc15-main-shadow-1s-brti-20261005** (84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1) — update\n    ~ Branch: candidate/btc15-main-live-shadow-20261008 → candidate/btc15-main-live-shadow-20261008\n    ~ Commit Sha: 6c4df3aeb82637ca906a22372ca32915d32d3047 → 6c4df3aeb82637ca906a22372ca32915d32d3047\n    - Image: \n    ~ Repo: yz272n2tpf-lab/Btc-15min-bot → yz272n2tpf-lab/Btc-15min-bot"
+          }
+        ],
+        "structuredContent": {
+          "project": {
+            "id": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+            "name": "noble-warmth"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "staged": {
+            "patchId": "ead9997e-b5b7-4668-a612-e8417e197838",
+            "status": "STAGED",
+            "changeCount": 4,
+            "message": null,
+            "createdAt": "2026-10-08T22:15:42.934Z",
+            "updatedAt": "2026-10-08T22:32:38.147Z"
+          },
+          "destructive": false,
+          "resources": [
+            {
+              "kind": "service",
+              "id": "84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1",
+              "name": "btc15-main-shadow-1s-brti-20261005",
+              "action": "update",
+              "changes": [
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.branch",
+                  "displayName": "Branch",
+                  "type": "updated",
+                  "from": "candidate/btc15-main-live-shadow-20261008",
+                  "to": "candidate/btc15-main-live-shadow-20261008",
+                  "destructive": false
+                },
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.commitSha",
+                  "displayName": "Commit Sha",
+                  "type": "updated",
+                  "from": "6c4df3aeb82637ca906a22372ca32915d32d3047",
+                  "to": "6c4df3aeb82637ca906a22372ca32915d32d3047",
+                  "destructive": false
+                },
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.image",
+                  "displayName": "Image",
+                  "type": "removed",
+                  "from": "",
+                  "to": "",
+                  "destructive": false
+                },
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.repo",
+                  "displayName": "Repo",
+                  "type": "updated",
+                  "from": "yz272n2tpf-lab/Btc-15min-bot",
+                  "to": "yz272n2tpf-lab/Btc-15min-bot",
+                  "destructive": false
+                }
+              ]
+            }
+          ],
+          "sharedVariables": [],
+          "privateNetworkDisabled": null
+        },
+        "isError": false
+      }
+    },
+    {
+      "index": 3,
+      "tool": "mcp__codex_apps__railway_update_service",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Updated **v81-live-diagnostics** in environment **production**.\nFields: startCommand\nConfig changes take effect on the next deployment — use redeploy to apply now."
+          }
+        ],
+        "structuredContent": {
+          "service": {
+            "id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+            "name": "v81-live-diagnostics"
+          },
+          "environmentId": "61775c5d-c583-4dfc-af41-f25578856fd9",
+          "updatedFields": [
+            "startCommand"
+          ],
+          "staged": null
+        },
+        "isError": false
+      }
+    },
+    {
+      "index": 3,
+      "staged_read": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Staged changes in **production** (61775c5d-c583-4dfc-af41-f25578856fd9)\nStaged: 4 pending changes (patch ead9997e-b5b7-4668-a612-e8417e197838). Review with get-staged-changes, commit with accept-deploy.\n\n~ service **btc15-main-shadow-1s-brti-20261005** (84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1) — update\n    ~ Branch: candidate/btc15-main-live-shadow-20261008 → candidate/btc15-main-live-shadow-20261008\n    ~ Commit Sha: 6c4df3aeb82637ca906a22372ca32915d32d3047 → 6c4df3aeb82637ca906a22372ca32915d32d3047\n    - Image: \n    ~ Repo: yz272n2tpf-lab/Btc-15min-bot → yz272n2tpf-lab/Btc-15min-bot"
+          }
+        ],
+        "structuredContent": {
+          "project": {
+            "id": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+            "name": "noble-warmth"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "staged": {
+            "patchId": "ead9997e-b5b7-4668-a612-e8417e197838",
+            "status": "STAGED",
+            "changeCount": 4,
+            "message": null,
+            "createdAt": "2026-10-08T22:15:42.934Z",
+            "updatedAt": "2026-10-08T22:32:38.147Z"
+          },
+          "destructive": false,
+          "resources": [
+            {
+              "kind": "service",
+              "id": "84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1",
+              "name": "btc15-main-shadow-1s-brti-20261005",
+              "action": "update",
+              "changes": [
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.branch",
+                  "displayName": "Branch",
+                  "type": "updated",
+                  "from": "candidate/btc15-main-live-shadow-20261008",
+                  "to": "candidate/btc15-main-live-shadow-20261008",
+                  "destructive": false
+                },
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.commitSha",
+                  "displayName": "Commit Sha",
+                  "type": "updated",
+                  "from": "6c4df3aeb82637ca906a22372ca32915d32d3047",
+                  "to": "6c4df3aeb82637ca906a22372ca32915d32d3047",
+                  "destructive": false
+                },
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.image",
+                  "displayName": "Image",
+                  "type": "removed",
+                  "from": "",
+                  "to": "",
+                  "destructive": false
+                },
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.repo",
+                  "displayName": "Repo",
+                  "type": "updated",
+                  "from": "yz272n2tpf-lab/Btc-15min-bot",
+                  "to": "yz272n2tpf-lab/Btc-15min-bot",
+                  "destructive": false
+                }
+              ]
+            }
+          ],
+          "sharedVariables": [],
+          "privateNetworkDisabled": null
+        },
+        "isError": false
+      }
+    },
+    {
+      "index": 4,
+      "tool": "mcp__codex_apps__railway_connect_service_source",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Connected **Btc-15min-bot** to yz272n2tpf-lab/Btc-15min-bot@release/btc15-recorder-main-20261013 (dd46b7bc2fcc49865c49dc59eb7ad7d7316f6d72).\nA deployment of that commit is starting. The service is pinned to it, so pushes to release/btc15-recorder-main-20261013 do not deploy until the source is connected again without commitSha. Watch it with list-deployments / get-logs."
+          }
+        ],
+        "structuredContent": {
+          "service": {
+            "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+            "name": "Btc-15min-bot"
+          },
+          "source": {
+            "repo": "yz272n2tpf-lab/Btc-15min-bot",
+            "branch": "release/btc15-recorder-main-20261013",
+            "commitSha": "dd46b7bc2fcc49865c49dc59eb7ad7d7316f6d72",
+            "image": null
+          },
+          "staged": null
+        },
+        "isError": false
+      }
+    },
+    {
+      "index": 4,
+      "staged_read": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Staged changes in **production** (61775c5d-c583-4dfc-af41-f25578856fd9)\nStaged: 4 pending changes (patch ead9997e-b5b7-4668-a612-e8417e197838). Review with get-staged-changes, commit with accept-deploy.\n\n~ service **btc15-main-shadow-1s-brti-20261005** (84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1) — update\n    ~ Branch: candidate/btc15-main-live-shadow-20261008 → candidate/btc15-main-live-shadow-20261008\n    ~ Commit Sha: 6c4df3aeb82637ca906a22372ca32915d32d3047 → 6c4df3aeb82637ca906a22372ca32915d32d3047\n    - Image: \n    ~ Repo: yz272n2tpf-lab/Btc-15min-bot → yz272n2tpf-lab/Btc-15min-bot"
+          }
+        ],
+        "structuredContent": {
+          "project": {
+            "id": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+            "name": "noble-warmth"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "staged": {
+            "patchId": "ead9997e-b5b7-4668-a612-e8417e197838",
+            "status": "STAGED",
+            "changeCount": 4,
+            "message": null,
+            "createdAt": "2026-10-08T22:15:42.934Z",
+            "updatedAt": "2026-10-08T22:32:38.147Z"
+          },
+          "destructive": false,
+          "resources": [
+            {
+              "kind": "service",
+              "id": "84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1",
+              "name": "btc15-main-shadow-1s-brti-20261005",
+              "action": "update",
+              "changes": [
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.branch",
+                  "displayName": "Branch",
+                  "type": "updated",
+                  "from": "candidate/btc15-main-live-shadow-20261008",
+                  "to": "candidate/btc15-main-live-shadow-20261008",
+                  "destructive": false
+                },
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.commitSha",
+                  "displayName": "Commit Sha",
+                  "type": "updated",
+                  "from": "6c4df3aeb82637ca906a22372ca32915d32d3047",
+                  "to": "6c4df3aeb82637ca906a22372ca32915d32d3047",
+                  "destructive": false
+                },
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.image",
+                  "displayName": "Image",
+                  "type": "removed",
+                  "from": "",
+                  "to": "",
+                  "destructive": false
+                },
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.repo",
+                  "displayName": "Repo",
+                  "type": "updated",
+                  "from": "yz272n2tpf-lab/Btc-15min-bot",
+                  "to": "yz272n2tpf-lab/Btc-15min-bot",
+                  "destructive": false
+                }
+              ]
+            }
+          ],
+          "sharedVariables": [],
+          "privateNetworkDisabled": null
+        },
+        "isError": false
+      }
+    },
+    {
+      "index": 5,
+      "tool": "mcp__codex_apps__railway_connect_service_source",
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Connected **v81-live-diagnostics** to yz272n2tpf-lab/Btc-15min-bot@release/btc15-recorder-v81-20261013 (c14b3f9b04caea13e62bcdd6fb0e5990049aa17b).\nA deployment of that commit is starting. The service is pinned to it, so pushes to release/btc15-recorder-v81-20261013 do not deploy until the source is connected again without commitSha. Watch it with list-deployments / get-logs."
+          }
+        ],
+        "structuredContent": {
+          "service": {
+            "id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+            "name": "v81-live-diagnostics"
+          },
+          "source": {
+            "repo": "yz272n2tpf-lab/Btc-15min-bot",
+            "branch": "release/btc15-recorder-v81-20261013",
+            "commitSha": "c14b3f9b04caea13e62bcdd6fb0e5990049aa17b",
+            "image": null
+          },
+          "staged": null
+        },
+        "isError": false
+      }
+    },
+    {
+      "index": 5,
+      "staged_read": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Staged changes in **production** (61775c5d-c583-4dfc-af41-f25578856fd9)\nStaged: 4 pending changes (patch ead9997e-b5b7-4668-a612-e8417e197838). Review with get-staged-changes, commit with accept-deploy.\n\n~ service **btc15-main-shadow-1s-brti-20261005** (84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1) — update\n    ~ Branch: candidate/btc15-main-live-shadow-20261008 → candidate/btc15-main-live-shadow-20261008\n    ~ Commit Sha: 6c4df3aeb82637ca906a22372ca32915d32d3047 → 6c4df3aeb82637ca906a22372ca32915d32d3047\n    - Image: \n    ~ Repo: yz272n2tpf-lab/Btc-15min-bot → yz272n2tpf-lab/Btc-15min-bot"
+          }
+        ],
+        "structuredContent": {
+          "project": {
+            "id": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+            "name": "noble-warmth"
+          },
+          "environment": {
+            "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "name": "production"
+          },
+          "staged": {
+            "patchId": "ead9997e-b5b7-4668-a612-e8417e197838",
+            "status": "STAGED",
+            "changeCount": 4,
+            "message": null,
+            "createdAt": "2026-10-08T22:15:42.934Z",
+            "updatedAt": "2026-10-08T22:32:38.147Z"
+          },
+          "destructive": false,
+          "resources": [
+            {
+              "kind": "service",
+              "id": "84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1",
+              "name": "btc15-main-shadow-1s-brti-20261005",
+              "action": "update",
+              "changes": [
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.branch",
+                  "displayName": "Branch",
+                  "type": "updated",
+                  "from": "candidate/btc15-main-live-shadow-20261008",
+                  "to": "candidate/btc15-main-live-shadow-20261008",
+                  "destructive": false
+                },
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.commitSha",
+                  "displayName": "Commit Sha",
+                  "type": "updated",
+                  "from": "6c4df3aeb82637ca906a22372ca32915d32d3047",
+                  "to": "6c4df3aeb82637ca906a22372ca32915d32d3047",
+                  "destructive": false
+                },
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.image",
+                  "displayName": "Image",
+                  "type": "removed",
+                  "from": "",
+                  "to": "",
+                  "destructive": false
+                },
+                {
+                  "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.repo",
+                  "displayName": "Repo",
+                  "type": "updated",
+                  "from": "yz272n2tpf-lab/Btc-15min-bot",
+                  "to": "yz272n2tpf-lab/Btc-15min-bot",
+                  "destructive": false
+                }
+              ]
+            }
+          ],
+          "sharedVariables": [],
+          "privateNetworkDisabled": null
+        },
+        "isError": false
+      }
+    }
+  ],
+  "finisher": {
+    "attempt": 1,
+    "bytes": 10902671,
+    "configuration_sha256": "12b17ac651578d3325fadbc39fd340e9e6dc700d769c9ff5d6678e004d191949",
+    "elapsed_seconds": 15.661395439878106,
+    "live_blockers": [],
+    "live_retrieval": true,
+    "orders": false,
+    "package_sha256": "24b6b898951aa48a775632b1d09e8d5d523b1e7c772f0c66c669c6e02ad92a6c",
+    "run_id": "DIAG_20261017_e2294683_f7c32d04",
+    "schema": "BTC15_FINISH_RECEIPT_V1",
+    "scope": "CAMPAIGN",
+    "signal_only": true,
+    "source_inventory_sha256": "24b6b898951aa48a775632b1d09e8d5d523b1e7c772f0c66c669c6e02ad92a6c",
+    "status": "INCOMPLETE",
+    "transfer_seconds": 7.088703501969576,
+    "verified_objects": 9
+  }
+}

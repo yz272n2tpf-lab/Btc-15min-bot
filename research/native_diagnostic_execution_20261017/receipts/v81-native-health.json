@@ -1,0 +1,460 @@
+{
+  "at": 1792241087.6858997,
+  "available_bytes": 2592460800,
+  "identity": {
+    "RAILWAY_DEPLOYMENT_ID": "1b5183a4-fca3-411f-9846-0a6ab860d283",
+    "RAILWAY_ENVIRONMENT_ID": "61775c5d-c583-4dfc-af41-f25578856fd9",
+    "RAILWAY_GIT_COMMIT_SHA": "f7c32d04556335632c862515a9ee1b742ad88ad3",
+    "RAILWAY_PROJECT_ID": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+    "RAILWAY_SERVICE_ID": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+    "RAILWAY_VOLUME_ID": "d5eeafca-e0fc-42f0-b7d1-4705907720c6",
+    "RAILWAY_VOLUME_MOUNT_PATH": "/data"
+  },
+  "recording_enabled": "1",
+  "roles": {
+    "v81": {
+      "health.json": {
+        "sha256": "6d98b1507fbe847c828aa400a502443897abb7e486a9cb8d6d133776ca0a0651",
+        "value": {
+          "admission": false,
+          "compressed_bytes": 8057622,
+          "elapsed": 28.40687462501228,
+          "failure": "HOOK_OVER_5MS:QUOTE_RECEIVE",
+          "hooks": {
+            "BRTI_READ:calls": 27,
+            "HTTP_RESPONSE:calls": 63,
+            "NATIVE_COMMIT:calls": 28,
+            "NATIVE_COMMIT:over_1ms": 1,
+            "QUOTE_ACCEPT:calls": 15169,
+            "QUOTE_ACCEPT:over_1ms": 2,
+            "QUOTE_RECEIVE:calls": 15171,
+            "QUOTE_RECEIVE:over_1ms": 2,
+            "QUOTE_REQUEST:calls": 9,
+            "STREAM_START:calls": 1,
+            "V81_INPUT:calls": 27,
+            "calls": 30495,
+            "max_ns": 21521287,
+            "over_1ms": 5,
+            "total_ns": 454239447,
+            "under_1ms": 30490
+          },
+          "original_proof_queues": [
+            {
+              "dropped": 0,
+              "published": 0,
+              "queue_id": 139986487822432,
+              "rejected": 0,
+              "unfinished": 0,
+              "writer_id": 139986487822384
+            }
+          ],
+          "peak_rates": {
+            "steady": {},
+            "warmup": {
+              "compressed": 815327.4681951123,
+              "decoded": 6030454.415318675,
+              "envelopes": 6988.786867803104
+            }
+          },
+          "raw_bytes": 40461620,
+          "records": 45291,
+          "role": "v81",
+          "run_id": "DIAG_20261017_e2294683_f7c32d04",
+          "session": "c4e25345d2be4c5392daa172c01a4a35",
+          "stopped": false,
+          "writer": {
+            "admission_by_kind": {
+              "BRTI_READ": {
+                "admitted": 27,
+                "admitted_charge_bytes": 27392,
+                "attempted": 27,
+                "max_charge_bytes": 1015
+              },
+              "HTTP_RESPONSE": {
+                "admitted": 36,
+                "admitted_charge_bytes": 831400,
+                "attempted": 36,
+                "max_charge_bytes": 123338
+              },
+              "NATIVE_RECORD": {
+                "admitted": 112,
+                "admitted_charge_bytes": 193107,
+                "attempted": 112,
+                "max_charge_bytes": 2401
+              },
+              "ORIGINAL_RESPONSE": {
+                "admitted": 63,
+                "admitted_charge_bytes": 870719,
+                "attempted": 63,
+                "max_charge_bytes": 123510
+              },
+              "QUOTE_ACCEPT": {
+                "admitted": 15169,
+                "admitted_charge_bytes": 31794396,
+                "attempted": 15169,
+                "max_charge_bytes": 22480
+              },
+              "QUOTE_RECEIVE": {
+                "admitted": 15171,
+                "admitted_charge_bytes": 33861084,
+                "attempted": 15171,
+                "max_charge_bytes": 22616
+              },
+              "QUOTE_REQUEST": {
+                "admitted": 9,
+                "admitted_charge_bytes": 12508,
+                "attempted": 9,
+                "max_charge_bytes": 1408
+              },
+              "RECORDING_HEALTH": {
+                "admitted": 28,
+                "admitted_charge_bytes": 75612,
+                "attempted": 28,
+                "max_charge_bytes": 2775
+              },
+              "STREAM_START": {
+                "admitted": 1,
+                "admitted_charge_bytes": 780,
+                "attempted": 1,
+                "max_charge_bytes": 780
+              },
+              "V81_INPUT": {
+                "admitted": 27,
+                "admitted_charge_bytes": 63401,
+                "attempted": 27,
+                "max_charge_bytes": 2352
+              }
+            },
+            "admitted_charge_bytes": 67730399,
+            "admitted_observations": 30643,
+            "archive_failed": false,
+            "durable_batch": {
+              "buffered_raw_bytes": 5170,
+              "buffered_records": 6,
+              "committed_batches": 4306,
+              "committed_envelopes": 45285,
+              "durable_charge_bytes": 45312859,
+              "durable_observations": 30279,
+              "fsync_calls": 4306,
+              "fsync_max_ns": 128322027,
+              "fsync_total_ns": 11237399167,
+              "processed_charge_bytes": 45318731,
+              "processed_observations": 30283
+            },
+            "flow_snapshot_consistent": true,
+            "losses": {},
+            "not_yet_durable_charge_bytes": 22417540,
+            "oversize_by_kind": {},
+            "peak_queued_bytes": 778256,
+            "queue_byte_budget": 33554432,
+            "queue_capacity": 16384,
+            "queue_items": 359,
+            "queued_bytes": 778256,
+            "unfinished_observations": 360
+          }
+        }
+      },
+      "identity.json": {
+        "sha256": "013e9337812f482d66e2db317cce81c71efb41053c89b8def9b0420d27a18a70",
+        "value": {
+          "attestation": {
+            "dependencies": {
+              "cryptography": "50.0.0",
+              "joblib": "1.5.3",
+              "numpy": "2.5.2",
+              "pandas": "3.0.5",
+              "requests": "2.32.5",
+              "scikit-learn": "1.9.0",
+              "scipy": "1.18.1",
+              "websockets": "15.0.1"
+            },
+            "install_sha256": "9bdb8dd3f79373740d1758918f54d23f82fb8782f55cc701387c4fa8e04c2de4",
+            "python": "3.12.14 (main, Sep 29 2026, 15:01:18) [Clang 22.1.3 ]"
+          },
+          "configuration_sha256": "12b17ac651578d3325fadbc39fd340e9e6dc700d769c9ff5d6678e004d191949",
+          "identity": {
+            "base_release": "6e04aced0f718b29f8ed805abcc0f76b01ed5096",
+            "build": "f7c32d04556335632c862515a9ee1b742ad88ad3",
+            "deployment": "ATTEST_AT_START",
+            "manifest_sha256": "02aedccf31ceec8507900a93f1635d90ccbd9064fea9203599ab0d2c1e4eee8c",
+            "service": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+            "ssh_target": "v81-live-diagnostics-production.up.railway.app@ssh.railway.com",
+            "volume": "d5eeafca-e0fc-42f0-b7d1-4705907720c6"
+          },
+          "mode": "NATIVE_CAPTURE",
+          "orders": false,
+          "role": "v81",
+          "run_id": "DIAG_20261017_e2294683_f7c32d04",
+          "runtime": {
+            "build": "f7c32d04556335632c862515a9ee1b742ad88ad3",
+            "deployment": "1b5183a4-fca3-411f-9846-0a6ab860d283",
+            "environment": "61775c5d-c583-4dfc-af41-f25578856fd9",
+            "project": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+            "service": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+            "volume": "d5eeafca-e0fc-42f0-b7d1-4705907720c6"
+          },
+          "schema": "BTC15_CAPTURE_IDENTITY_V1",
+          "signal_only": true,
+          "started": 1792240995.5285983
+        }
+      },
+      "seal.json": {
+        "sha256": "04241db43ec9efee1c9d2e4c466b1d60b493d69a640a412294af88cc417ded96",
+        "value": {
+          "files": [
+            {
+              "path": "identity.json",
+              "sha256": "013e9337812f482d66e2db317cce81c71efb41053c89b8def9b0420d27a18a70",
+              "size": 1336
+            },
+            {
+              "path": "source.segments/20261017-06ac374debbf4e4ab11f2346ddf4498b-58722f85.jsonl.gz",
+              "sha256": "2d30908bb04dcd8cc415d28934908958182e2cb2461939a5722fc5af79f55dd4",
+              "size": 8105094
+            },
+            {
+              "path": "terminal-status.json",
+              "sha256": "343c4da63bf1245023e103f291b67aab4979a964ce06f0364c82b950dd086c9c",
+              "size": 3121
+            }
+          ],
+          "identity": {
+            "attestation": {
+              "dependencies": {
+                "cryptography": "50.0.0",
+                "joblib": "1.5.3",
+                "numpy": "2.5.2",
+                "pandas": "3.0.5",
+                "requests": "2.32.5",
+                "scikit-learn": "1.9.0",
+                "scipy": "1.18.1",
+                "websockets": "15.0.1"
+              },
+              "install_sha256": "9bdb8dd3f79373740d1758918f54d23f82fb8782f55cc701387c4fa8e04c2de4",
+              "python": "3.12.14 (main, Sep 29 2026, 15:01:18) [Clang 22.1.3 ]"
+            },
+            "configuration_sha256": "12b17ac651578d3325fadbc39fd340e9e6dc700d769c9ff5d6678e004d191949",
+            "identity": {
+              "base_release": "6e04aced0f718b29f8ed805abcc0f76b01ed5096",
+              "build": "f7c32d04556335632c862515a9ee1b742ad88ad3",
+              "deployment": "ATTEST_AT_START",
+              "manifest_sha256": "02aedccf31ceec8507900a93f1635d90ccbd9064fea9203599ab0d2c1e4eee8c",
+              "service": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+              "ssh_target": "v81-live-diagnostics-production.up.railway.app@ssh.railway.com",
+              "volume": "d5eeafca-e0fc-42f0-b7d1-4705907720c6"
+            },
+            "mode": "NATIVE_CAPTURE",
+            "orders": false,
+            "role": "v81",
+            "run_id": "DIAG_20261017_e2294683_f7c32d04",
+            "runtime": {
+              "build": "f7c32d04556335632c862515a9ee1b742ad88ad3",
+              "deployment": "1b5183a4-fca3-411f-9846-0a6ab860d283",
+              "environment": "61775c5d-c583-4dfc-af41-f25578856fd9",
+              "project": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+              "service": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+              "volume": "d5eeafca-e0fc-42f0-b7d1-4705907720c6"
+            },
+            "schema": "BTC15_CAPTURE_IDENTITY_V1",
+            "signal_only": true,
+            "started": 1792240995.5285983
+          },
+          "journals": {
+            "5ad22c49-cc5a-4aec-ae21-d03efda26ea5": {
+              "accepted": 84,
+              "attempted": 84,
+              "basis": "POST_ADMIN_COMMIT_APPLICATION_CLOCK",
+              "first": 1,
+              "lane": "v81",
+              "last": 84
+            },
+            "cf9ff137-0751-4c0b-a14a-991bd4315469": {
+              "accepted": 28,
+              "attempted": 28,
+              "basis": "POST_ORIGINAL_COMMIT",
+              "first": 1,
+              "lane": "v81",
+              "last": 28
+            }
+          },
+          "last_sequence": 45832,
+          "last_sha256": "f8834685df290fbbe4f9a9a9f91ec5805119a725bf441a974d64da1924df0ed4",
+          "role": "v81",
+          "run_id": "DIAG_20261017_e2294683_f7c32d04",
+          "schema": "BTC15_ROLE_SEAL_V1",
+          "session": "c4e25345d2be4c5392daa172c01a4a35",
+          "status": "INCOMPLETE"
+        }
+      },
+      "terminal-status.json": {
+        "sha256": "343c4da63bf1245023e103f291b67aab4979a964ce06f0364c82b950dd086c9c",
+        "value": {
+          "admission": false,
+          "compressed_bytes": 8105094,
+          "drain_timed_out": false,
+          "elapsed": 28.48948210850358,
+          "failure": "HOOK_OVER_5MS:QUOTE_RECEIVE",
+          "hooks": {
+            "BRTI_READ:calls": 27,
+            "HTTP_RESPONSE:calls": 63,
+            "NATIVE_COMMIT:calls": 28,
+            "NATIVE_COMMIT:over_1ms": 1,
+            "QUOTE_ACCEPT:calls": 15169,
+            "QUOTE_ACCEPT:over_1ms": 2,
+            "QUOTE_RECEIVE:calls": 15171,
+            "QUOTE_RECEIVE:over_1ms": 2,
+            "QUOTE_REQUEST:calls": 9,
+            "STREAM_START:calls": 1,
+            "V81_INPUT:calls": 27,
+            "calls": 30495,
+            "max_ns": 21521287,
+            "over_1ms": 5,
+            "total_ns": 454239447,
+            "under_1ms": 30490
+          },
+          "journals": {
+            "5ad22c49-cc5a-4aec-ae21-d03efda26ea5": {
+              "accepted": 84,
+              "attempted": 84,
+              "basis": "POST_ADMIN_COMMIT_APPLICATION_CLOCK",
+              "first": 1,
+              "lane": "v81",
+              "last": 84
+            },
+            "cf9ff137-0751-4c0b-a14a-991bd4315469": {
+              "accepted": 28,
+              "attempted": 28,
+              "basis": "POST_ORIGINAL_COMMIT",
+              "first": 1,
+              "lane": "v81",
+              "last": 28
+            }
+          },
+          "original_proof_queues": [
+            {
+              "dropped": 0,
+              "published": 0,
+              "queue_id": 139986487822432,
+              "rejected": 0,
+              "unfinished": 0,
+              "writer_id": 139986487822384
+            }
+          ],
+          "peak_rates": {
+            "steady": {},
+            "warmup": {
+              "compressed": 815327.4681951123,
+              "decoded": 6030454.415318675,
+              "envelopes": 6988.786867803104
+            }
+          },
+          "raw_bytes": 40930554,
+          "reason": "HOOK_OVER_5MS:QUOTE_RECEIVE",
+          "records": 45832,
+          "role": "v81",
+          "run_id": "DIAG_20261017_e2294683_f7c32d04",
+          "session": "c4e25345d2be4c5392daa172c01a4a35",
+          "status": "INCOMPLETE",
+          "stopped": true,
+          "stopped_at": 1792241024.0180953,
+          "writer": {
+            "admission_by_kind": {
+              "BRTI_READ": {
+                "admitted": 27,
+                "admitted_charge_bytes": 27392,
+                "attempted": 27,
+                "max_charge_bytes": 1015
+              },
+              "HTTP_RESPONSE": {
+                "admitted": 36,
+                "admitted_charge_bytes": 831400,
+                "attempted": 36,
+                "max_charge_bytes": 123338
+              },
+              "NATIVE_RECORD": {
+                "admitted": 112,
+                "admitted_charge_bytes": 193107,
+                "attempted": 112,
+                "max_charge_bytes": 2401
+              },
+              "ORIGINAL_RESPONSE": {
+                "admitted": 63,
+                "admitted_charge_bytes": 870719,
+                "attempted": 63,
+                "max_charge_bytes": 123510
+              },
+              "QUOTE_ACCEPT": {
+                "admitted": 15169,
+                "admitted_charge_bytes": 31794396,
+                "attempted": 15169,
+                "max_charge_bytes": 22480
+              },
+              "QUOTE_RECEIVE": {
+                "admitted": 15171,
+                "admitted_charge_bytes": 33861084,
+                "attempted": 15171,
+                "max_charge_bytes": 22616
+              },
+              "QUOTE_REQUEST": {
+                "admitted": 9,
+                "admitted_charge_bytes": 12508,
+                "attempted": 9,
+                "max_charge_bytes": 1408
+              },
+              "RECORDING_BOUNDARY": {
+                "admitted": 1,
+                "admitted_charge_bytes": 684,
+                "attempted": 1,
+                "max_charge_bytes": 684
+              },
+              "RECORDING_HEALTH": {
+                "admitted": 28,
+                "admitted_charge_bytes": 75612,
+                "attempted": 28,
+                "max_charge_bytes": 2775
+              },
+              "STREAM_START": {
+                "admitted": 1,
+                "admitted_charge_bytes": 780,
+                "attempted": 1,
+                "max_charge_bytes": 780
+              },
+              "V81_INPUT": {
+                "admitted": 27,
+                "admitted_charge_bytes": 63401,
+                "attempted": 27,
+                "max_charge_bytes": 2352
+              }
+            },
+            "admitted_charge_bytes": 67731083,
+            "admitted_observations": 30644,
+            "archive_failed": false,
+            "durable_batch": {
+              "buffered_raw_bytes": 0,
+              "buffered_records": 0,
+              "committed_batches": 4312,
+              "committed_envelopes": 45832,
+              "durable_charge_bytes": 45850179,
+              "durable_observations": 30644,
+              "fsync_calls": 4312,
+              "fsync_max_ns": 325824835,
+              "fsync_total_ns": 11577076443,
+              "processed_charge_bytes": 45850179,
+              "processed_observations": 30644
+            },
+            "flow_snapshot_consistent": true,
+            "losses": {},
+            "not_yet_durable_charge_bytes": 21880904,
+            "oversize_by_kind": {},
+            "peak_queued_bytes": 778256,
+            "queue_byte_budget": 33554432,
+            "queue_capacity": 16384,
+            "queue_items": 0,
+            "queued_bytes": 0,
+            "unfinished_observations": 0
+          }
+        }
+      }
+    }
+  }
+}

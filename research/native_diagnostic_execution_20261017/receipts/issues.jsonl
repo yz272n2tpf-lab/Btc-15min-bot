@@ -1,0 +1,12 @@
+{"detail":"COMPLETED_CANDLE_BEFORE_ACCEPTANCE","kind":"CANDLE_ACCEPTANCE","partition":2,"reason":"RECORD_VERIFICATION","sequence":308,"session":"6e5064b7967a49cc95acfe1964bd4ae1"}
+{"details":{"reason":"INPUT_NOT_PUBLISHED"},"reason":"INFORMATION_FAILURE","sequence":141,"session":"fa9847b012c249da8107f9e0767c84f2"}
+{"details":{"reason":"INPUT_NOT_PUBLISHED"},"reason":"INFORMATION_FAILURE","sequence":158,"session":"fa9847b012c249da8107f9e0767c84f2"}
+{"details":{"reason":"INPUT_NOT_PUBLISHED"},"reason":"INFORMATION_FAILURE","sequence":185,"session":"fa9847b012c249da8107f9e0767c84f2"}
+{"details":{"reason":"INPUT_NOT_PUBLISHED"},"reason":"INFORMATION_FAILURE","sequence":189,"session":"fa9847b012c249da8107f9e0767c84f2"}
+{"details":{"reason":"INPUT_NOT_PUBLISHED"},"reason":"INFORMATION_FAILURE","sequence":209,"session":"fa9847b012c249da8107f9e0767c84f2"}
+{"details":{"reason":"INPUT_NOT_PUBLISHED"},"reason":"INFORMATION_FAILURE","sequence":215,"session":"fa9847b012c249da8107f9e0767c84f2"}
+{"details":{"reason":"INPUT_NOT_PUBLISHED"},"reason":"INFORMATION_FAILURE","sequence":227,"session":"fa9847b012c249da8107f9e0767c84f2"}
+{"detail":"ROLE_RUN_OR_INCOMPLETE","reason":"CAMPAIGN_EXPECTATIONS"}
+{"reason":"MAIN_APPLICABLE_DECISION_LINKS_MISSING"}
+{"reason":"V81_APPLICABLE_DECISION_LINKS_MISSING"}
+{"reason":"INFORMATION_LINKS_MISSING"}

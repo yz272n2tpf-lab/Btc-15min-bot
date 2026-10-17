@@ -1,0 +1,59 @@
+timeout --signal=TERM --kill-after=10s 90s python -B -u -c '"""Read-only native rollback and preserved-seal verification; no reader rerun."""
+import base64,hashlib,json,os,subprocess,time
+from pathlib import Path
+from research.native_operational_20261017 import probe
+
+RUN='"'"'DIAG_20261017_e2294683_f7c32d04'"'"'
+DEPLOYMENTS={'"'"'main'"'"':'"'"'3d4b26ce-d11c-4b3c-ac8c-1ed5a403f3c9'"'"','"'"'v81'"'"':'"'"'c04d806f-d279-4a0b-8b3b-5f6316c985a6'"'"'}
+ROOT=Path('"'"'/research-evidence'"'"')/('"'"'native-diagnostic-execution-'"'"'+RUN)
+REMOTE=r'"'"''"'"''"'"'
+import hashlib,json,os,pathlib,sys,time
+p=json.load(sys.stdin);plan=p['"'"'plan'"'"'];assert all(os.environ.get(k)==v for k,v in plan['"'"'identity'"'"'].items()),'"'"'ROLLBACK_IDENTITY'"'"'
+assert os.environ.get('"'"'BTC15_RECORDING_ENABLED'"'"')=='"'"'0'"'"','"'"'RECORDER_NOT_DISABLED'"'"'
+assert pathlib.Path('"'"'/data'"'"').is_mount() and not pathlib.Path('"'"'/data'"'"').is_symlink(),'"'"'DATA_MOUNT'"'"'
+for name,h in plan['"'"'files'"'"'].items():
+ f=pathlib.Path('"'"'/app'"'"')/name;assert not f.is_symlink() and hashlib.sha256(f.read_bytes()).hexdigest()==h,'"'"'ROLLBACK_SOURCE:'"'"'+name
+proof={}
+for role,expected in p['"'"'seals'"'"'].items():
+ root=pathlib.Path(p['"'"'root'"'"'])/role;assert not root.is_symlink(),'"'"'EVIDENCE_SYMLINK'"'"'
+ seal=root/'"'"'seal.json'"'"';assert not seal.is_symlink() and seal.stat().st_size<=1048576,'"'"'SEAL_BOUND'"'"'
+ raw=seal.read_bytes();assert hashlib.sha256(raw).hexdigest()==expected,'"'"'SEAL_CHANGED'"'"'
+ files=json.loads(raw)['"'"'files'"'"'];n=0;size=0
+ for item in files:
+  f=root/item['"'"'path'"'"'];assert not f.is_symlink() and f.resolve().is_relative_to(root) and item['"'"'size'"'"']<=8*1024**2,'"'"'SEALED_FILE_PATH'"'"'
+  assert f.stat().st_size==item['"'"'size'"'"'] and hashlib.sha256(f.read_bytes()).hexdigest()==item['"'"'sha256'"'"'],'"'"'EVIDENCE_CHANGED'"'"'
+  n+=1;size+=item['"'"'size'"'"']
+ proof[role]={'"'"'seal_sha256'"'"':expected,'"'"'verified_objects'"'"':n,'"'"'verified_bytes'"'"':size}
+v=os.statvfs('"'"'/data'"'"')
+print('"'"'BTC15_ROLLBACK_VERIFIED '"'"'+json.dumps(dict(at=time.time(),identity=plan['"'"'identity'"'"'],source_hashes_verified=len(plan['"'"'files'"'"']),recording_enabled=False,available_bytes=v.f_bavail*v.f_frsize,evidence=proof,production_writes=False,reader_invocations=0,orders=False),sort_keys=True))
+'"'"''"'"''"'"'
+
+def emit(path):
+ if not path.is_file() or path.is_symlink():return
+ b=path.read_bytes();assert len(b)<=524288,'"'"'REPORT_BOUND'"'"'
+ parts=[b[i:i+3072] for i in range(0,len(b),3072)] or [b'"'"''"'"']
+ for i,part in enumerate(parts):print('"'"'BTC15_DIAG_ARTIFACT '"'"'+json.dumps(dict(path=str(path),sha256=hashlib.sha256(b).hexdigest(),part=i,parts=len(parts),data=base64.b64encode(part).decode()),sort_keys=True),flush=True)
+
+probe.check_local();assert os.environ.get('"'"'RAILWAY_GIT_COMMIT_SHA'"'"')=='"'"'950e4b5e401d501bb26b5a66473e06500e8c08ac'"'"'
+plan=json.loads(Path('"'"'/app/research/native_operational_20261017/NATIVE_READ_PLAN.json'"'"').read_bytes());probe.REMOTE=REMOTE
+receipt={'"'"'run_id'"'"':RUN,'"'"'status'"'"':'"'"'INCOMPLETE'"'"','"'"'producer_results'"'"':{},'"'"'reader_invocations'"'"':0}
+try:
+ for lane in ('"'"'main'"'"','"'"'v81'"'"'):
+  plan[lane]['"'"'identity'"'"']['"'"'RAILWAY_DEPLOYMENT_ID'"'"']=DEPLOYMENTS[lane]
+  health=json.loads((ROOT/(lane+'"'"'-native-health.json'"'"')).read_bytes())
+  seals={role:files['"'"'seal.json'"'"']['"'"'sha256'"'"'] for role,files in health['"'"'roles'"'"'].items()}
+  payload=dict(plan=plan[lane],root='"'"'/data/btc15_recordings/'"'"'+RUN,seals=seals)
+  r=subprocess.run(probe.command(plan[lane]['"'"'domain'"'"']),input=json.dumps(payload),text=True,capture_output=True,timeout=30)
+  if r.returncode:raise RuntimeError(lane+'"'"':ROLLBACK_VERIFY_FAILED:'"'"'+r.stderr[-1500:])
+  assert len(r.stdout.encode())<=131072
+  lines=[x.split('"'"' '"'"',1)[1] for x in r.stdout.splitlines() if x.startswith('"'"'BTC15_ROLLBACK_VERIFIED '"'"')];assert len(lines)==1
+  receipt['"'"'producer_results'"'"'][lane]=json.loads(lines[0])
+ receipt['"'"'status'"'"']='"'"'ROLLBACK_AND_EVIDENCE_VERIFIED'"'"'
+finally:
+ os.umask(0o077)
+ with (ROOT/'"'"'rollback-verification.json'"'"').open('"'"'x'"'"') as f:json.dump(receipt,f,indent=2,sort_keys=True);f.write('"'"'\n'"'"');f.flush();os.fsync(f.fileno())
+ emit(ROOT/'"'"'rollback-verification.json'"'"')
+ out=Path('"'"'/research-evidence'"'"')/(RUN+'"'"'-reader'"'"')
+ for name in ('"'"'reader-1/verification/issues.jsonl'"'"','"'"'reader-1/verification/associations.jsonl'"'"','"'"'reader-1/verification/v81_native_original_associations.jsonl'"'"','"'"'reader-1/reader-stdout.txt'"'"','"'"'reader-1/reader-stderr.txt'"'"'):
+  emit(out/name)
+'
