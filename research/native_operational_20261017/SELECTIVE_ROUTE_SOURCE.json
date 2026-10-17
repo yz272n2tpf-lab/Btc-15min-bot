@@ -1,0 +1,190 @@
+{
+  "repo": "railwayapp/cli",
+  "commit": "05ed159796ef6bf15de0dab388b1054c1af6f395",
+  "files": [
+    {
+      "url": "https://github.com/railwayapp/cli/blob/05ed159796ef6bf15de0dab388b1054c1af6f395/src/gql/mutations/strings/EnvironmentPatchCommit.graphql",
+      "git_blob": "9c0883295e9f663e958f20a6bc3dbdce49c79ea8"
+    },
+    {
+      "url": "https://github.com/railwayapp/cli/blob/05ed159796ef6bf15de0dab388b1054c1af6f395/src/gql/mutations/strings/EnvironmentPatchCommitStaged.graphql",
+      "git_blob": "def9da834320527f81d4f5798cf549ffa6150fc6"
+    },
+    {
+      "url": "https://github.com/railwayapp/cli/blob/05ed159796ef6bf15de0dab388b1054c1af6f395/src/controllers/config/environment.rs",
+      "git_blob": "6a4f77f02ae59e5e89dea9b107e38c17cab993a9"
+    },
+    {
+      "url": "https://github.com/railwayapp/cli/blob/05ed159796ef6bf15de0dab388b1054c1af6f395/src/commands/environment/edit.rs",
+      "git_blob": "b28e03899481054ab841a6505fa11f2cf884c4e5"
+    }
+  ],
+  "schema_git_blob": "3f3c4ca20d99c07417db70882caedf47196308f9",
+  "mutation_descriptions": [
+    {
+      "name": "environmentPatchCommit",
+      "description": "Commit the provided patch to the environment.",
+      "args": [
+        {
+          "name": "commitMessage",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "String",
+            "ofType": null
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "environmentId",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "patch",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "EnvironmentConfig",
+            "ofType": null
+          },
+          "defaultValue": null
+        }
+      ],
+      "type": {
+        "kind": "NON_NULL",
+        "name": null,
+        "ofType": {
+          "kind": "SCALAR",
+          "name": "String",
+          "ofType": null
+        }
+      },
+      "isDeprecated": false,
+      "deprecationReason": null
+    },
+    {
+      "name": "environmentPatchCommitStaged",
+      "description": "Commits the staged changes for a single environment.",
+      "args": [
+        {
+          "name": "commitMessage",
+          "description": null,
+          "type": {
+            "kind": "SCALAR",
+            "name": "String",
+            "ofType": null
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "environmentId",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "skipDeploys",
+          "description": "Skip deploys for services affected by this patch.",
+          "type": {
+            "kind": "SCALAR",
+            "name": "Boolean",
+            "ofType": null
+          },
+          "defaultValue": null
+        }
+      ],
+      "type": {
+        "kind": "NON_NULL",
+        "name": null,
+        "ofType": {
+          "kind": "SCALAR",
+          "name": "String",
+          "ofType": null
+        }
+      },
+      "isDeprecated": false,
+      "deprecationReason": null
+    },
+    {
+      "name": "environmentStageChanges",
+      "description": "Sets the staged patch for a single environment.",
+      "args": [
+        {
+          "name": "environmentId",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            }
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "input",
+          "description": null,
+          "type": {
+            "kind": "NON_NULL",
+            "name": null,
+            "ofType": {
+              "kind": "SCALAR",
+              "name": "EnvironmentConfig",
+              "ofType": null
+            }
+          },
+          "defaultValue": null
+        },
+        {
+          "name": "merge",
+          "description": "Merge the input patch into the existing staged patch.",
+          "type": {
+            "kind": "SCALAR",
+            "name": "Boolean",
+            "ofType": null
+          },
+          "defaultValue": null
+        }
+      ],
+      "type": {
+        "kind": "NON_NULL",
+        "name": null,
+        "ofType": {
+          "kind": "OBJECT",
+          "name": "EnvironmentPatch",
+          "ofType": null
+        }
+      },
+      "isDeprecated": false,
+      "deprecationReason": null
+    }
+  ],
+  "client_code_observation": "edit without --stage submits only stdin EnvironmentConfig through EnvironmentPatchCommit. It does not stage, fetch or commit the existing staged patch. No backend mutation was executed; preserving existing staging is supported by API contract, not an account-level test.",
+  "docs": [
+    "https://docs.railway.com/cli/environment",
+    "https://docs.railway.com/cli/usage",
+    "https://docs.railway.com/deployments/staged-changes",
+    "https://docs.railway.com/volumes/reference",
+    "https://docs.railway.com/pricing/plans"
+  ]
+}

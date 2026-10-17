@@ -1,0 +1,229 @@
+{
+  "at_utc": "2026-10-17T01:14:54.170Z",
+  "production_environment_id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+  "seven_volume_inventory_unchanged": true,
+  "staged_patch_exact_readback_unchanged": true,
+  "staged_patch": {
+    "project": {
+      "id": "baea4e22-d004-4434-b2c5-81a7fbc05086",
+      "name": "noble-warmth"
+    },
+    "environment": {
+      "id": "61775c5d-c583-4dfc-af41-f25578856fd9",
+      "name": "production"
+    },
+    "staged": {
+      "patchId": "ead9997e-b5b7-4668-a612-e8417e197838",
+      "status": "STAGED",
+      "changeCount": 4,
+      "message": null,
+      "createdAt": "2026-10-08T22:15:42.934Z",
+      "updatedAt": "2026-10-08T22:32:38.147Z"
+    },
+    "destructive": false,
+    "resources": [
+      {
+        "kind": "service",
+        "id": "84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1",
+        "name": "btc15-main-shadow-1s-brti-20261005",
+        "action": "update",
+        "changes": [
+          {
+            "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.branch",
+            "displayName": "Branch",
+            "type": "updated",
+            "from": "candidate/btc15-main-live-shadow-20261008",
+            "to": "candidate/btc15-main-live-shadow-20261008",
+            "destructive": false
+          },
+          {
+            "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.commitSha",
+            "displayName": "Commit Sha",
+            "type": "updated",
+            "from": "6c4df3aeb82637ca906a22372ca32915d32d3047",
+            "to": "6c4df3aeb82637ca906a22372ca32915d32d3047",
+            "destructive": false
+          },
+          {
+            "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.image",
+            "displayName": "Image",
+            "type": "removed",
+            "from": "",
+            "to": "",
+            "destructive": false
+          },
+          {
+            "path": "services.84bbacb1-56a4-4370-aa1c-0f8ae8ae42c1.source.repo",
+            "displayName": "Repo",
+            "type": "updated",
+            "from": "yz272n2tpf-lab/Btc-15min-bot",
+            "to": "yz272n2tpf-lab/Btc-15min-bot",
+            "destructive": false
+          }
+        ]
+      }
+    ],
+    "sharedVariables": [],
+    "privateNetworkDisabled": null
+  },
+  "volumes": [
+    {
+      "id": "93e974dc-b8bb-4658-bed5-dc4815308396",
+      "name": "scalp-finalprod-clean-v1-volume",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 50000,
+      "mountedOn": null,
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "656da4af-6a3f-4907-95da-2c0c0000cf29",
+      "name": "scalp-move-shadow-v1-volume",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 5000,
+      "mountedOn": null,
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "97cc9dcd-ef90-495e-a1be-ffda31eac1b3",
+      "name": "btc15-v2-v81-journal",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 2048,
+      "mountedOn": null,
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "b6304c46-7027-4bfd-932d-94bb9c67da8e",
+      "name": "btc15-v2-main-journal",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 2048,
+      "mountedOn": null,
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "3ed8bbca-31aa-43c0-b672-60a7a75b062b",
+      "name": "btc15-main-shadow-1s-brti-volume",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 1024,
+      "mountedOn": null,
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "6ced6b1a-3755-4518-a240-c895e936d443",
+      "name": "btc-15min-bot-volume",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 20000,
+      "mountedOn": {
+        "serviceId": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+        "serviceName": "Btc-15min-bot",
+        "mountPath": "/data"
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "d5eeafca-e0fc-42f0-b7d1-4705907720c6",
+      "name": "btc15-v81-ladder-journal-v2",
+      "state": "live",
+      "region": "iad",
+      "sizeMB": 5000,
+      "mountedOn": {
+        "serviceId": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+        "serviceName": "v81-live-diagnostics",
+        "mountPath": "/data"
+      },
+      "stagedChangeCount": 0
+    }
+  ],
+  "services": [
+    {
+      "id": "6025e83e-a41c-4e0a-8c16-f71120bd501b",
+      "name": "v81-live-diagnostics",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "release/btc15-recorder-v81-20261013"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [
+        {
+          "volumeId": "d5eeafca-e0fc-42f0-b7d1-4705907720c6",
+          "volumeName": "btc15-v81-ladder-journal-v2",
+          "mountPath": "/data"
+        }
+      ],
+      "latestDeployment": {
+        "id": "21bf7fd3-c294-46d9-8a0a-f551cce7a303",
+        "status": "SUCCESS",
+        "createdAt": "2026-10-14T21:14:27.783Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    },
+    {
+      "id": "ab28dca6-7bea-4956-bdb9-dbb7b4c74635",
+      "name": "Btc-15min-bot",
+      "state": "live",
+      "source": {
+        "image": null,
+        "repo": "yz272n2tpf-lab/Btc-15min-bot",
+        "branch": "release/btc15-recorder-main-20261013"
+      },
+      "regions": [
+        "iad"
+      ],
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "volumeMounts": [
+        {
+          "volumeId": "6ced6b1a-3755-4518-a240-c895e936d443",
+          "volumeName": "btc-15min-bot-volume",
+          "mountPath": "/data"
+        }
+      ],
+      "latestDeployment": {
+        "id": "c0993600-34b7-4501-92cd-b8d4a934b68a",
+        "status": "SUCCESS",
+        "createdAt": "2026-10-14T21:14:25.271Z",
+        "url": null
+      },
+      "stagedChangeCount": 0
+    }
+  ],
+  "candidate_branch_refs": [
+    {
+      "ref": "refs/heads/research/native-diagnostic-main-20261017",
+      "node_id": "REF_kwDOT2pnqNoAM3JlZnMvaGVhZHMvcmVzZWFyY2gvbmF0aXZlLWRpYWdub3N0aWMtbWFpbi0yMDI2MTAxNw",
+      "url": "https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/refs/heads/research/native-diagnostic-main-20261017",
+      "object": {
+        "sha": "e2294683d2ec268d921df0277f5a9cb518f2e67d",
+        "type": "commit",
+        "url": "https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/commits/e2294683d2ec268d921df0277f5a9cb518f2e67d"
+      }
+    },
+    {
+      "ref": "refs/heads/research/native-diagnostic-v81-20261017",
+      "node_id": "REF_kwDOT2pnqNoAMnJlZnMvaGVhZHMvcmVzZWFyY2gvbmF0aXZlLWRpYWdub3N0aWMtdjgxLTIwMjYxMDE3",
+      "url": "https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/refs/heads/research/native-diagnostic-v81-20261017",
+      "object": {
+        "sha": "f7c32d04556335632c862515a9ee1b742ad88ad3",
+        "type": "commit",
+        "url": "https://api.github.com/repos/yz272n2tpf-lab/Btc-15min-bot/git/commits/f7c32d04556335632c862515a9ee1b742ad88ad3"
+      }
+    }
+  ],
+  "production_mutations": 0,
+  "ssh_attempts": 0,
+  "native_capture": false,
+  "trading_orders": false,
+  "historical_evidence_writes": 0
+}

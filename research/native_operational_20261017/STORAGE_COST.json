@@ -1,0 +1,76 @@
+{
+  "billing": {
+    "credits": null,
+    "current_usage": null,
+    "estimated_bill": null,
+    "hard_limit": null,
+    "reason": "Connector has no billing query; no local authenticated Railway CLI/token. Browser fallback not authorized in this run.",
+    "remaining_below_preferred_20_usd": null,
+    "soft_limit": null,
+    "subscription_plan": null,
+    "workspace_id": "b5c2a37f-467f-4f7a-ad26-4c2268769b3e"
+  },
+  "conditional_ram_only_run_rate": {
+    "excludes_cpu_all_volumes_egress_credits_plan_and_research": true,
+    "not_a_bill_or_forecast": true,
+    "one_hour_average_main_gb": 3.2193260695081967,
+    "one_hour_average_v81_gb": 0.46492024026229517,
+    "usd_per_full_month_if_sustained": 36.84246309770492
+  },
+  "conditional_v81_5000_to_6000_mb": {
+    "added_bytes": 1000000000,
+    "incremental_metadata_allowance_bytes": 30000000,
+    "is_safe_verified": false,
+    "metadata_only_increment_usd_per_month_range": [
+      0.003,
+      0.0045
+    ],
+    "metric_derived_extra_slack_after_capture_reserve_and_metadata_bytes": 569604224,
+    "used_storage_max_increment_usd_per_month": 0.15
+  },
+  "diagnostic_raw_retention_both_producers": {
+    "bytes": 67108864,
+    "usd_per_full_month_at_cap": 0.0100663296
+  },
+  "measurements_are_filesystem_free_bytes": false,
+  "pricing": {
+    "cpu_vcpu_minute_usd": 0.000463,
+    "public_egress_gb_usd": 0.05,
+    "ram_gb_minute_usd": 0.000231,
+    "source": "https://docs.railway.com/pricing/plans",
+    "used_not_allocated_source": "https://docs.railway.com/volumes/reference",
+    "used_volume_gb_month_usd": 0.15
+  },
+  "producers": {
+    "main": {
+      "actual_statvfs_available_bytes": null,
+      "allocated_mb": 20000,
+      "measured_native_growth_allowance_bytes": null,
+      "metric_nominal_deficit_bytes": 0,
+      "metric_nominal_unused_bytes": 8299370496,
+      "metric_used_decimal_gb": "11.700629504",
+      "required_capture_plus_reserve_bytes": 2181038080
+    },
+    "v81": {
+      "actual_statvfs_available_bytes": null,
+      "allocated_mb": 5000,
+      "measured_native_growth_allowance_bytes": null,
+      "metric_nominal_deficit_bytes": 400395776,
+      "metric_nominal_unused_bytes": 1780642304,
+      "metric_used_decimal_gb": "3.219357696",
+      "required_capture_plus_reserve_bytes": 2181038080
+    }
+  },
+  "research_only_probe_compute_scenario": {
+    "excludes_existing_storage_subscription_and_all_other_usage": true,
+    "five_minute_planning_usd": 0.0185,
+    "max_memory_decimal_gb": 8,
+    "max_vcpu": 4,
+    "not_a_platform_spend_cap": true,
+    "process_seconds_limit": 180,
+    "requested_incremental_ceiling_usd": 0.03
+  },
+  "schema": "BTC15_OPERATIONAL_STORAGE_COST_V1",
+  "sizing_rule": "Choose smallest supported delta with actual_available + 0.97*delta >= 2181038080 + approved_native_growth_allowance; 3% incremental filesystem metadata is planning only; verify statvfs after separately approved growth. No quota or resize performed.",
+  "v81_smallest_safe_adjustment": "UNDETERMINED pending actual statvfs, native growth allowance and supported allocation increment"
+}

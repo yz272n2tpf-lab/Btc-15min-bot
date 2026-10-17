@@ -1,0 +1,16 @@
+{
+  "env_names_present": {
+    "RAILWAY_API_TOKEN": false,
+    "RAILWAY_SSH_KEY": false,
+    "RAILWAY_TOKEN": false
+  },
+  "pinned_known_hosts_present": false,
+  "platform_mutations": 0,
+  "private_key_present": false,
+  "railway_binary": null,
+  "railway_local_config_present": false,
+  "reason": "Stopped isolated research service holds existing identity; no local authenticated alternative.",
+  "research_mount_present": false,
+  "ssh_attempts": 0,
+  "ssh_binary": "/usr/bin/ssh"
+}

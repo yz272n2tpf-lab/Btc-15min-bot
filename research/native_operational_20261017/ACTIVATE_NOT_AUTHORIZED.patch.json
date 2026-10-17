@@ -1,0 +1,46 @@
+{
+  "services": {
+    "6025e83e-a41c-4e0a-8c16-f71120bd501b": {
+      "deploy": {
+        "startCommand": "/bin/sh -c 'test \"$RAILWAY_VOLUME_MOUNT_PATH\" = \"/data\" && test -n \"$RAILWAY_VOLUME_ID\" && unset BTC15_LADDER_DATA_ROOT && export BTC15_V2_APPROVED_BUILD=f7c32d04556335632c862515a9ee1b742ad88ad3 BTC15_V2_APPROVED_MANIFEST_SHA256=02aedccf31ceec8507900a93f1635d90ccbd9064fea9203599ab0d2c1e4eee8c && exec python -u btc15_v2_launch.py --lane v81 --run-reviewed-production'"
+      },
+      "source": {
+        "branch": "research/native-diagnostic-v81-20261017",
+        "commitSha": "f7c32d04556335632c862515a9ee1b742ad88ad3",
+        "repo": "yz272n2tpf-lab/Btc-15min-bot"
+      },
+      "variables": {
+        "BTC15_RECORDING_CONFIG": {
+          "value": "/data/btc15_recordings-control/DIAG_20261017_e2294683_f7c32d04/campaign.json"
+        },
+        "BTC15_RECORDING_CONFIG_SHA256": {
+          "value": "12b17ac651578d3325fadbc39fd340e9e6dc700d769c9ff5d6678e004d191949"
+        },
+        "BTC15_RECORDING_ENABLED": {
+          "value": "1"
+        }
+      }
+    },
+    "ab28dca6-7bea-4956-bdb9-dbb7b4c74635": {
+      "deploy": {
+        "startCommand": "/bin/sh -c 'set -eu; test \"$RAILWAY_VOLUME_MOUNT_PATH\" = /data; test \"$RAILWAY_VOLUME_ID\" = 6ced6b1a-3755-4518-a240-c895e936d443; test \"$BTC15_ENABLE_INFORMATION_EXPORT\" = 1; test -n \"$KALSHI_KEY_ID\"; test -n \"$KALSHI_PRIVATE_KEY_B64\"; unset BTC15_LADDER_DATA_ROOT BTC15_COHORT_EVIDENCE_PATH BTC15_ARCHIVE_LEGACY_ONCE BTC15_V2_RELEASE_RECEIPT BTC15_V2_RELEASE_RECEIPT_SHA256; export BTC15_V2_APPROVED_BUILD=e2294683d2ec268d921df0277f5a9cb518f2e67d BTC15_V2_APPROVED_MANIFEST_SHA256=a31e1bd814771aaf678538e4d0f552f71ba8bc60a23dfad47fa78ae37121174d; cd /app; exec python -B -u btc15_v2_launch.py --lane main --run-reviewed-production'"
+      },
+      "source": {
+        "branch": "research/native-diagnostic-main-20261017",
+        "commitSha": "e2294683d2ec268d921df0277f5a9cb518f2e67d",
+        "repo": "yz272n2tpf-lab/Btc-15min-bot"
+      },
+      "variables": {
+        "BTC15_RECORDING_CONFIG": {
+          "value": "/data/btc15_recordings-control/DIAG_20261017_e2294683_f7c32d04/campaign.json"
+        },
+        "BTC15_RECORDING_CONFIG_SHA256": {
+          "value": "12b17ac651578d3325fadbc39fd340e9e6dc700d769c9ff5d6678e004d191949"
+        },
+        "BTC15_RECORDING_ENABLED": {
+          "value": "1"
+        }
+      }
+    }
+  }
+}
