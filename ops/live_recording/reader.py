@@ -75,8 +75,16 @@ class CampaignVerifier(Verifier):
    elif k=='CANDLE_ACCEPTANCE':
     require(number(v['accepted_at']) and isinstance(z,list) and len(z)<=256,'CANDLE_ACCEPTANCE_SCHEMA')
     for row in z:
-     require(len(row)==7 and row[0]==row[1]+60,'COMPLETED_CANDLE_END_CLOCK')
-     candidates=self.db.execute('SELECT s,q,p FROM candle_raw WHERE h=? AND at<=? LIMIT 1',(sha(canonical(row[1:])),v['accepted_at'])).fetchall()
+     if 'clock_schema' in v:
+      from .candle_schema import SCHEMA,PRODUCER_SHA256,decode
+      require(v['clock_schema']==SCHEMA and v.get('producer_sha256')==PRODUCER_SHA256,'COMPLETED_CLOCK_SCHEMA_BINDING')
+      row,upstream=decode(row)
+      require(row[0]<=v['accepted_at'],'COMPLETED_CANDLE_BEFORE_ACCEPTANCE')
+     else:
+      # Legacy bytes keep their old strict contract; never silently reinterpret.
+      require(len(row)==7 and row[0]==row[1]+60,'COMPLETED_CANDLE_END_CLOCK')
+      upstream=row[1:]
+     candidates=self.db.execute('SELECT s,q,p FROM candle_raw WHERE h=? AND at<=? LIMIT 1',(sha(canonical(upstream)),v['accepted_at'])).fetchall()
      self.db.execute('INSERT INTO candles VALUES (?,?,?,?,?,?,?)',(sha(canonical(row)),v['accepted_at'],s,q,p,canonical(row),int(bool(candidates))))
      self.metrics['original_completed_candles' if candidates else 'completed_cache_rows_upstream_receipt_unknown']+=1
    elif k=='BRTI_READ':

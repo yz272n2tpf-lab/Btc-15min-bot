@@ -9,8 +9,14 @@ Only install through the research-only RoleArchive candidate.
 from candidates.early_recording_20261012.archive import Archive
 from btc15_quote_proof_offpath_v1 import OffPathProofWriter
 from collections import Counter
+import time
 
 MiB=1024*1024
+
+def observation_charge(fields):
+    # Same conservative immutable-field charge as the original admission owner.
+    return 512 + sum(len(v)*(4 if isinstance(v,str) else 1)
+                     if isinstance(v,(str,bytes)) else 32 for v in fields.values())
 
 class BatchedEvidenceJournal:
     """Bounded single-owner buffer; each committed gzip member is complete JSONL."""
@@ -23,6 +29,9 @@ class BatchedEvidenceJournal:
         self.pending_bytes=0
         self.committed_batches=0
         self.committed_envelopes=0
+        self.processed_observations=0;self.processed_charge=0
+        self.durable_observations=0;self.durable_charge=0
+        self.fsync_calls=0;self.fsync_total_ns=0;self.fsync_max_ns=0
 
     def __getattr__(self,name):
         return getattr(self.original,name)
@@ -49,7 +58,7 @@ class BatchedEvidenceJournal:
             raise ValueError('EVIDENCE_RECORD_BUDGET')
         if len(raw)>self.BATCH_BYTES:
             self.flush()
-            self.original.append(raw)
+            self._append_durable(raw)
             self.committed_batches+=1
             self.committed_envelopes+=1
             return
@@ -69,7 +78,7 @@ class BatchedEvidenceJournal:
         # Every constituent JSONL record retains its original hash and
         # predecessor, and gzip.open().readline() reconstructs exact lines.
         # The underlying append performs its usual one-member atomic fsync.
-        self.original.append(raw)
+        self._append_durable(raw)
         # Underlying member-based journal counts 1 for a gzip append; our
         # capture contract counts ORIGINAL JSONL envelopes instead.
         self.original.records += count-1
@@ -77,12 +86,36 @@ class BatchedEvidenceJournal:
         self.committed_envelopes+=count
         self.pending=[]
         self.pending_bytes=0
+        self._acknowledge()
+
+    def _append_durable(self,raw):
+        begun=time.perf_counter_ns()
+        self.original.append(raw)
+        elapsed=time.perf_counter_ns()-begun
+        self.fsync_calls+=1;self.fsync_total_ns+=elapsed
+        self.fsync_max_ns=max(self.fsync_max_ns,elapsed)
+
+    def _acknowledge(self):
+        self.durable_observations=self.processed_observations
+        self.durable_charge=self.processed_charge
+
+    def observation_processed(self,charge):
+        # A processed event may have emitted multiple envelopes. It is durable
+        # only after its last envelope was fsync'd; a partial batch is not credit.
+        self.processed_observations+=1;self.processed_charge+=charge
+        if not self.pending:self._acknowledge()
 
     def evidence_batch_status(self):
         return dict(committed_batches=self.committed_batches,
                     committed_envelopes=self.committed_envelopes,
                     buffered_records=len(self.pending),
-                    buffered_raw_bytes=self.pending_bytes)
+                    buffered_raw_bytes=self.pending_bytes,
+                    processed_observations=self.processed_observations,
+                    processed_charge_bytes=self.processed_charge,
+                    durable_observations=self.durable_observations,
+                    durable_charge_bytes=self.durable_charge,
+                    fsync_calls=self.fsync_calls,fsync_total_ns=self.fsync_total_ns,
+                    fsync_max_ns=self.fsync_max_ns)
 
 
 class BufferedCaptureArchive(Archive):
@@ -100,6 +133,30 @@ class BufferedCaptureArchive(Archive):
 
 
 class BufferedProofWriter(OffPathProofWriter):
+    def __init__(self,*args,**kwargs):
+        self.admitted=Counter();self.admission_kinds={};self.oversize_shape={}
+        archive=kwargs.get('archive')
+        if archive is not None:
+            observe=archive.observe
+            def observed(kind,fields):
+                result=observe(kind,fields)
+                archive.journal.observation_processed(observation_charge(fields))
+                return result
+            archive.observe=observed
+        super().__init__(*args,**kwargs)
+
+    def _enqueue(self,capture,charge):
+        ok=super()._enqueue(capture,charge)
+        kind=getattr(capture,'kind','PROOF_JOB')
+        if kind not in self.admission_kinds and len(self.admission_kinds)>=32:kind='OTHER'
+        stats=self.admission_kinds.setdefault(kind,Counter())
+        stats['attempted']+=1;stats['max_charge_bytes']=max(stats['max_charge_bytes'],charge)
+        if ok:
+            stats['admitted']+=1;stats['admitted_charge_bytes']+=charge
+            self.admitted['observations']+=1;self.admitted['charge_bytes']+=charge
+        else:stats['rejected']+=1
+        return ok
+
     def _flush_gaps(self):
         super()._flush_gaps()
         # The original off-path thread calls this on idle and before each
@@ -117,23 +174,31 @@ class BufferedProofWriter(OffPathProofWriter):
             # Diagnose only the rare oversized non-actionable event.
             # No source bytes, private fields or payload content is retained.
             try:
-                charge=512
-                for k,value in fields.items():
-                    charge+=(len(value)*(4 if isinstance(value,str) else 1)
-                             if isinstance(value,(str,bytes)) else 32)
+                charge=observation_charge(fields)
                 if charge>4*MiB:
-                    if not hasattr(self,'oversize_shape'):
-                        self.oversize_shape={}
+                    if kind not in self.oversize_shape and len(self.oversize_shape)>=32:kind='OTHER'
                     stats=self.oversize_shape.setdefault(kind,dict(count=0,max_charge=0))
                     stats['count']+=1
                     stats['max_charge']=max(stats['max_charge'],charge)
+                    raw=fields.get('raw')
+                    stats['max_raw_length']=max(stats.get('max_raw_length',0),len(raw) if isinstance(raw,(str,bytes)) else 0)
+                    stats['raw_type']=type(raw).__name__
+                    stats['field_count']=len(fields)
             except Exception:
                 pass
         return ok
 
     def status(self):
         z=super().status()
-        z['oversize_by_kind']=dict(getattr(self,'oversize_shape',{}))
+        z['oversize_by_kind']={k:dict(v) for k,v in list(self.oversize_shape.items())}
+        z['admitted_observations']=self.admitted['observations']
+        z['admitted_charge_bytes']=self.admitted['charge_bytes']
+        z['admission_by_kind']={k:dict(v) for k,v in list(self.admission_kinds.items())}
+        z['queue_items']=self.queue.qsize()
+        z['unfinished_observations']=self.queue.unfinished_tasks
         if self.archive is not None:
             z['durable_batch']=self.archive.journal.evidence_batch_status()
+            z['not_yet_durable_charge_bytes']=max(0,self.admitted['charge_bytes']-z['durable_batch']['durable_charge_bytes'])
+            z['flow_snapshot_consistent']=(z['durable_batch']['durable_observations']<=z['admitted_observations']
+                and z['durable_batch']['durable_charge_bytes']<=z['admitted_charge_bytes'])
         return z

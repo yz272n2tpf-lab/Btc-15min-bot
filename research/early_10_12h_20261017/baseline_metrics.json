@@ -1,0 +1,42 @@
+{
+  "schema": "BTC15_10_12H_PLANNING_BASELINE_V1",
+  "baseline_commit": "d50d83eda2e433cedc2aeafab8e280c05284afe4",
+  "receipt_sha256": "90fcc31eb71d511f2d816467cb41bc858c759856bd71be040cab9ec1d0558c3d",
+  "native_sustained_rates_measured": false,
+  "roles": {
+    "main": {
+      "records": 2942,
+      "compressed": 2043489,
+      "decoded": 8576026,
+      "burst_envelopes_per_second": 72.6,
+      "direct_repack_envelopes_per_second": 5349.46,
+      "benchmark_sha256": "988523f06f87db20db14a4daff421b8775761cc1a7a2474767400233206a3155"
+    },
+    "v81": {
+      "records": 26484,
+      "compressed": 2453132,
+      "decoded": 24097297,
+      "burst_envelopes_per_second": 1749.9,
+      "direct_repack_envelopes_per_second": 18525.69,
+      "benchmark_sha256": "a935f543e9fe267f7399cd9c2b740677e7c162b4cfc263d05071a3aebd7a6343"
+    }
+  },
+  "reader_stress": {
+    "source": {
+      "envelopes": 70004,
+      "db_bytes": 144474112,
+      "max_rss_kib": 99624,
+      "reader_records_per_second": 1125.713196253513
+    },
+    "quote": {
+      "envelopes": 99015,
+      "db_bytes": 113446912,
+      "max_rss_kib": 99624,
+      "reader_records_per_second": 2291.211683504874
+    }
+  },
+  "free_bytes_old": {
+    "main": 9417289728,
+    "v81": 2677362688
+  }
+}

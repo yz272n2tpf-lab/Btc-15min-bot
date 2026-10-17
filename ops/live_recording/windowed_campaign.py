@@ -16,7 +16,7 @@ import time
 
 from .reader import CampaignVerifier, budgets
 from .policy import canonical, sha, file_sha, atomic, safe_path
-from .recovery_state import Integrity, SqlMap, pack, unpack
+from .recovery_state import Integrity, SqlMap, pack, unpack, ReaderLease
 from .v81_window_associations_research import V81WindowAssociations
 from ops.recording_workflow.lifecycle import frame_links, ref
 from ops.recording_workflow.whole_run import require, Exhausted
@@ -28,6 +28,7 @@ STATE_FIELDS = ('errors', 'counts', 'metrics', 'classes', 'partition_errors',
 V81_FIELDS = ('counts', 'total_original_native_matches', 'audit_bytes',
               'max_retained_inputs', 'max_retained_brti', 'max_retained_http')
 CODE_FILES = ('ops/live_recording/windowed_campaign.py',
+              'ops/live_recording/candle_schema.py',
               'ops/live_recording/recovery_state.py', 'ops/live_recording/reader.py',
               'ops/live_recording/v81_window_associations_research.py',
               'ops/recording_workflow/evidence.py', 'ops/recording_workflow/whole_run.py',
@@ -109,6 +110,15 @@ class DurableV81(V81WindowAssociations):
 class WindowedCampaignVerifier(CampaignVerifier):
     def __init__(self, root, output, *, resume=False, work_db_bytes=4*1024**3,
                  ledger_bytes=512*1024**2, seconds=3600, fault=None):
+        self.lock=None;self.db=None;self.lease=None
+        try:
+            self.lease=ReaderLease()
+            self._initialize(root,output,resume=resume,work_db_bytes=work_db_bytes,
+                             ledger_bytes=ledger_bytes,seconds=seconds,fault=fault)
+        except BaseException:
+            self.close();raise
+
+    def _initialize(self, root, output, *, resume, work_db_bytes, ledger_bytes, seconds, fault):
         self.root=safe_path(root);self.out=safe_path(output)
         require(not self.out.is_relative_to(self.root) and not self.root.is_relative_to(self.out),
                 'RECOVERY_SOURCE_OUTPUT_SEPARATION')
@@ -341,6 +351,7 @@ class WindowedCampaignVerifier(CampaignVerifier):
     def close(self):
         if self.db is not None:self.db.close();self.db=None
         if self.lock is not None:self.lock.close();self.lock=None
+        if self.lease is not None:self.lease.close();self.lease=None
 
 
 def run(root, output, *, resume=False, window_records=20000,

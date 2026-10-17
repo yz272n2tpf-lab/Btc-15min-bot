@@ -24,6 +24,8 @@ class RoleArchive(BufferedCaptureArchive):
     self.write('SOURCE_GAP',dict(reason='ORIGINAL_HTTP_NOT_JSON',endpoint=fields['endpoint'],observed_at=fields['received_at'],raw_sha256=h));return
   if kind in RAW_KINDS:
    raw=fields['raw'];self.write(kind,dict(fields,raw=raw.decode(),sha256=sha(raw)));return
+  if kind=='RECORDING_HEALTH' and 'raw' in fields:
+   self.write(kind,json.loads(fields['raw']));return
   if kind in {'RECORDING_BOUNDARY','RECORDING_HEALTH'}:self.write(kind,fields);return
   return super().observe(kind,fields)
  def write(self,kind,payload):
@@ -41,19 +43,26 @@ class Gate:
   self.writer=writer;self.active=True;self.lock=threading.Lock();self.metrics=Counter();self.journals={};self.reason=None
  def submit_observation(self,kind,**fields):
   if not self.active:return False
-  if not self.lock.acquire(False):self.writer.gap('ADMISSION_BUSY');return False
+  if not self.lock.acquire(False):
+   self.writer.gap('ADMISSION_BUSY');self.active=False;self.reason='RECORDER_ADMISSION_BUSY';return False
   try:
    if not self.active:return False
    if kind=='NATIVE_RECORD':
     key=fields['original_journal'];seq=fields['sequence'];z=self.journals.setdefault(key,dict(first=seq,last=seq-1,attempted=0,accepted=0,lane=fields.get('lane'),basis=fields['record_basis']))
-    if seq!=z['last']+1:self.writer.gap('CAPTURE_ERROR')
+    if seq!=z['last']+1:self.gap('CAPTURE_ERROR');return False
     z['last']=seq;z['attempted']+=1
    ok=self.writer.submit_observation(kind,**fields)
    if kind=='NATIVE_RECORD' and ok:z['accepted']+=1
+   if not ok:
+    # Stop capture admission immediately after the first loss. Native owners
+    # continue unchanged; the control thread drains accepted work and seals
+    # INCOMPLETE. Never keep collecting a deceptively usable suffix.
+    self.active=False;self.reason='RECORDER_ADMISSION_REJECTED:'+str(kind)[:64]
    return ok
   finally:self.lock.release()
  def gap(self,reason):
-  if self.active:self.writer.gap(reason)
+  if self.active:
+   self.writer.gap(reason);self.active=False;self.reason='RECORDER_EVIDENCE_GAP:'+str(reason)[:64]
  def overhead(self,started,label):
   elapsed=time.perf_counter_ns()-started;self.metrics['calls']+=1;self.metrics['total_ns']+=elapsed;self.metrics['max_ns']=max(self.metrics['max_ns'],elapsed)
   self.metrics['under_1ms' if elapsed<=1000000 else 'over_1ms']+=1
@@ -81,11 +90,11 @@ class Capture:
   self.root.parent.mkdir(parents=True,exist_ok=True,mode=0o700)
   if not offline:
    roles=('main','information') if role!='v81' else ('v81',)
-   need(shutil.disk_usage(self.root.parent).free>=sum(self.profile['compressed'][r] for r in roles)+1024*MiB,'INITIAL_VOLUME_RESERVE_AND_NATIVE_GROWTH')
+   need(shutil.disk_usage(self.root.parent).free>=sum(self.profile['compressed'][r] for r in roles)+self.profile.get('producer_reserve',1024*MiB),'INITIAL_VOLUME_RESERVE_AND_NATIVE_GROWTH')
   self.root.mkdir(mode=0o700) # No restart append into an earlier campaign role.
   os.chmod(self.root.parent,0o700)
   self.started=time.time();self.begin=time.monotonic();self.failure=None;self.stopped=False;self.stop_event=threading.Event();self.stop_lock=threading.Lock();self.bound=[];self.enabled=True
-  self.peaks={'warmup':Counter(),'steady':Counter()};self.last_rate=(self.begin,0,0,0);self.providers=[]
+  self.peaks={'warmup':Counter(),'steady':Counter()};self.last_rate=(self.begin,0,0,0);self.providers=[];self.next_health=self.begin
   identity=dict(schema='BTC15_CAPTURE_IDENTITY_V1',run_id=c['run_id'],role=role,configuration_sha256=sha(canonical(c)),identity=c['roles'][role],started=self.started,mode='OFFLINE_FIXTURE' if offline else 'NATIVE_CAPTURE',attestation=attestation,signal_only=True,orders=False)
   identity['runtime']=None if offline else runtime_identity(c,role)
   atomic(self.root/'identity.json',identity)
@@ -96,8 +105,9 @@ class Capture:
   else:kw.update(live_config=c,role=role)
   self.archive=RoleArchive(self.root/('information' if role=='information' else 'source'),evidence_class='FIXTURE' if offline else 'NATIVE_CAPTURE',source_binding=c['run_id']+':'+role,budget=dict(BUDGET,max_total_bytes=cap),**kw)
   self.archive.profile=self.profile;share=2 if role=='main' else 4
-  self.archive.decoded_cap=self.profile['decoded']//share;self.archive.record_cap=self.profile['records']//share
-  self.archive.reserve=512*MiB # independent of configured volume size
+  self.archive.decoded_cap=self.profile.get('decoded_by_role',{}).get(role,self.profile['decoded']//share)
+  self.archive.record_cap=self.profile.get('records_by_role',{}).get(role,self.profile['records']//share)
+  self.archive.reserve=self.profile.get('producer_reserve',512*MiB) # independent of configured volume size
   self.writer=BufferedProofWriter(self.root/'unused',lambda p,w:w.identity,2*MiB,queue_size=16384,queue_bytes=32*MiB,admission_limits=dict(queue_size=16384,queue_bytes=32*MiB),archive=self.archive)
   self.gate=Gate(self.writer)
   self.observer=Observer(self.gate,btc_feed='Coinbase:existing:'+role,btc_epoch=self.archive.session,brti_feed='BRTI:existing-owner:'+role)
@@ -135,6 +145,16 @@ class Capture:
     for key,n in list(self.gate.metrics.items()):
      if key.endswith(':calls') and n>=100 and self.gate.metrics[key[:-6]+':over_1ms']/n>.01:reason='HOOK_P99_OVER_1MS';self.failure=reason
     if reason:self.stop(reason);return
+    if now>=self.next_health:
+     # Control-thread serialization only; bounded 1 Hz cumulative counters in
+     # the existing archive permit measured arrival/drain deficit analysis.
+     self.next_health=now+1
+     telemetry=dict(schema='BTC15_CAPTURE_FLOW_V1',elapsed=now-self.begin,
+                    observed_at=time.time(),phase='warmup' if now-self.begin<120 else 'steady',
+                    writer=s['writer'],hooks=s['hooks'],records=s['records'],
+                    raw_bytes=s['raw_bytes'],compressed_bytes=s['compressed_bytes'])
+     raw=canonical(telemetry);need(len(raw)<=65536,'HEALTH_TELEMETRY_BOUND')
+     self.emit('RECORDING_HEALTH',raw=raw)
    except Exception as e:
     self.failure='CONTROL_FAILURE:'+type(e).__name__;self.stop(self.failure);return
  def stop(self,reason='OPERATOR_FINISH',timeout=5):

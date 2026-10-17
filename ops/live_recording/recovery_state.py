@@ -10,8 +10,40 @@ from collections import Counter
 import hashlib
 import json
 import sqlite3
+import fcntl
+import os
+from pathlib import Path
 
 from .policy import canonical, sha
+
+
+class ReaderLease:
+    """One bounded reader per host UID and, on Railway, per mounted volume.
+
+    Acquired BEFORE opening any database. Kernel locks release on process death.
+    Lock files are never unlinked: inode replacement would defeat exclusion.
+    This contains the unresolved concurrent-job failure; it is not its diagnosis.
+    """
+    def __init__(self):
+        self.handles = []
+        paths = [Path('/tmp') / ('btc15-bounded-reader-' + str(os.getuid()) + '.lock')]
+        mount = os.environ.get('RAILWAY_VOLUME_MOUNT_PATH')
+        if os.environ.get('RAILWAY_SERVICE_ID'):
+            if mount != '/research-evidence' or not Path(mount).is_dir():
+                raise ValueError('RECOVERY_RESEARCH_VOLUME_LEASE_REQUIRED')
+            paths.append(Path(mount) / '.btc15-bounded-reader.lock')
+        try:
+            for path in paths:
+                fd = os.open(path, os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW | os.O_CLOEXEC, 0o600)
+                handle = os.fdopen(fd, 'a+b'); self.handles.append(handle)
+                try: fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                except BlockingIOError: raise ValueError('RECOVERY_CONCURRENT_WRITER:SERIAL_READER_REQUIRED')
+        except BaseException:
+            self.close(); raise
+
+    def close(self):
+        for handle in reversed(self.handles): handle.close()
+        self.handles.clear()
 
 
 def pack(value):
