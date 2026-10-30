@@ -47,3 +47,12 @@ Five older snapshots in the saved `BTC15_Next_Launch_Packet_20261028.zip` were m
 - [ ] Stage 2 and Stage 3 tests passed
 
 **Rule:** HOLD. No repeat live launch, no Railway restart, no default-branch merge, no order placement, and no 24/7 production activation until the corresponding acceptance gate passes.
+
+## Offline candidate prepared (not installed)
+
+The separate review-only patch `diagnostics/brti_health_observe_offline_candidate.patch` adds a **single bounded local HTTPS /state diagnostic on failed startup**. It logs only allowlisted health status, age, and attempt/error counters; never credential contents, price, raw JSON, or external requests. Original `BRTI_STARTUP_FRESHNESS_TIMEOUT`, 10-second qualification deadline, no-orders protections, and freshness threshold remain unchanged.
+
+- Baseline source regression suite: **11/11 passed offline**.
+- Candidate no-network regression tests (HTTP 429 class, stale-but-upstream-OK status, no secret strings, non-root refusal, timeout preservation, no upstream/orders): **6/6 passed offline**.
+- Preserved five age fixtures replayed through the original poller: **0/5 qualify at 1.35s; 5/5 qualify at 5.0s** despite synthetic upstream success. This does not establish live Kalshi latency.
+- Exact original health source SHA256 begins `7c994fb5daacca0d`; the proposed changed source SHA256 begins `9846b32695528086`. **Do not install it by overwriting the release file:** a fresh manifest, host checks, review and explicit separate authorization are required.
