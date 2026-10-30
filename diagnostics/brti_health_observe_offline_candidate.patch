@@ -1,77 +1,77 @@
 --- a/kit/tools/brti_health.py
 +++ b/kit/tools/brti_health.py
-@@ -37,6 +37,64 @@
+@@ -37,6 +37,65 @@
    if previous is None:os.environ.pop('BTC15_DATA_DIR',None)
    else:os.environ['BTC15_DATA_DIR']=previous
  
-+def _bounded_startup_failure_status(last):
-+ """Best-effort local mTLS /state after failed startup, never upstream.
 +
-+ A bounded loopback GET cannot initiate a BRTI upstream poll (per feed handler).
-+ No prices, timestamps, credentials, endpoints, messages or raw JSON are logged.
-+ The existing 10-second qualification gate is not relaxed.
-+ """
-+ status={'last_check_class':type(last).__name__ if last else 'UNKNOWN',
-+         'probe':'NOT_ATTEMPTED'}
++def _startup_failure_status(last):
++ """One bounded local mTLS snapshot. Never poll an upstream or log secrets."""
++ import re
++ status={'last_check_class':type(last).__name__ if last else 'UNKNOWN','probe':'NOT_ATTEMPTED'}
++ # Only fixed validation codes; exception messages/URLs/credential values are omitted.
++ known={'BRTI_HTTP_NOT_200','BRTI_INTEGRITY_SCHEMA','BRTI_OWNER_SOURCE_MISMATCH',
++        'BRTI_OWNER_INTEGRITY_HALTED','BRTI_CONFLICT_METADATA','BRTI_RETIRED_OWNER_EPOCH',
++        'BRTI_CONFLICT_REVISION_ROLLBACK','BRTI_CONFLICT_REVISION_MISMATCH',
++        'BRTI_STRICT_FRESHNESS','BRTI_RECEIPT_IDENTITY','BRTI_SOURCE_RECEIPT_MISMATCH',
++        'BRTI_SAMPLE_FIELDS','BRTI_SOURCE_UNQUALIFIED','BRTI_RECEIPT_CLOCK_ROLLBACK',
++        'BRTI_SEQUENCE_OR_SOURCE_ROLLBACK','BRTI_SEQUENCE_IDENTITY_CONFLICT',
++        'BRTI_RECEIPT_CONFLICT','BRTI_HISTORY_OWNER_MISMATCH','BRTI_HISTORY_MISSING_OR_OVERSIZE',
++        'BRTI_HISTORY_SOURCE','BRTI_TLS_CA_MISMATCH','BRTI_TLS_CREDENTIALS_REQUIRED',
++        'BRTI_TLS_KEY_PERMISSIONS','BRTI_COHORT_INTEGRITY_STOP','ROOT_HEALTH_REQUIRED',
++        'BRTI_RECEIPT_HASH','BRTI_RELEASE_RECEIPT_REQUIRED','BRTI_NO_ORDERS'}
++ if type(last) is ValueError and str(last) in known:status['last_check_code']=str(last)
 + try:
 +  if os.geteuid()!=0 or os.environ.get('CREDENTIALS_DIRECTORY')!='/etc/btc15-pilot/health':
-+   status['probe']='MISSING_ROOT_HEALTH_CONTEXT'
-+   return status
++   status['probe']='MISSING_ROOT_HEALTH_CONTEXT';return status
 +  from btc15_v2_product.brti_profile import current
 +  from btc15_v2_product.local_tls import request_options
 +  import requests
 +  b=current()
 +  if b.get('endpoint')!='https://127.0.0.1:8443':
-+   status['probe']='ENDPOINT_NOT_FIXED_LOOPBACK'
-+   return status
-+  with requests.Session() as session:
-+   session.trust_env=False
-+   response=session.get('https://127.0.0.1:8443/state',
-+                        timeout=0.65,allow_redirects=False,**request_options(b))
-+  if response.status_code!=200:
-+   status['probe']='LOCAL_HTTP_NON_200'
-+   status['local_http_status']=int(response.status_code)
-+   return status
-+  # Reject oversized /state payloads. Never log the original response.
-+  if len(response.content)>16384:
-+   status['probe']='LOCAL_STATE_OVERSIZE'
-+   return status
-+  snap=response.json()
++   status['probe']='ENDPOINT_NOT_FIXED_LOOPBACK';return status
++  until=time.monotonic()+1.0
++  with requests.Session() as client:
++   client.trust_env=False
++   with client.get('https://127.0.0.1:8443/state',timeout=(.3,.3),
++                   allow_redirects=False,stream=True,**request_options(b)) as response:
++    if response.status_code!=200:
++     status['probe']='LOCAL_HTTP_NON_200';status['local_http_status']=int(response.status_code);return status
++    raw=bytearray()
++    for chunk in response.iter_content(chunk_size=1024):
++     if time.monotonic()>until:
++      status['probe']='LOCAL_READ_DEADLINE';return status
++     raw.extend(chunk)
++     if len(raw)>16384:
++      status['probe']='LOCAL_STATE_OVERSIZE';return status
++    snap=json.loads(raw)
 +  if not isinstance(snap,dict):
-+   status['probe']='LOCAL_STATE_MALFORMED'
-+   return status
++   status['probe']='LOCAL_STATE_MALFORMED';return status
 +  status['probe']='LOCAL_STATE_RECEIVED'
-+  if snap.get('status') in ('PRIMARY_OK','PRIMARY_ERROR','BOOTING'):
-+   status['feed_status']=snap['status']
-+  if type(snap.get('clean_for_qualification')) is bool:
-+   status['qualified']=snap['clean_for_qualification']
++  if snap.get('status') in ('PRIMARY_OK','PRIMARY_ERROR','BOOTING'):status['feed_status']=snap['status']
++  if type(snap.get('clean_for_qualification')) is bool:status['qualified']=snap['clean_for_qualification']
 +  if snap.get('last_error_type') in ('http','http_429','timeout','connection','other'):
 +   status['last_error_type']=snap['last_error_type']
-+  for key in ('upstream_attempts','upstream_ok','upstream_errors',
-+              'http_429','timeout_errors','http_errors','connection_errors',
-+              'other_errors','sequence'):
++  for key in ('upstream_attempts','upstream_ok','upstream_errors','http_429',
++              'timeout_errors','http_errors','connection_errors','other_errors','sequence'):
 +   value=snap.get(key)
-+   if type(value) is int and 0<=value<=100000000:
-+    status[key]=value
++   if type(value) is int and 0<=value<=100000000:status[key]=value
 +  for key in ('age_ms','max_qualification_age_ms'):
 +   value=snap.get(key)
-+   if type(value) in (float,int) and 0<=value<=10000000:
-+    status[key]=round(value,1)
++   if type(value) in (float,int) and 0<=value<=10000000:status[key]=round(value,1)
 + except Exception as exc:
-+  # Only the Python exception class is emitted, no message (may contain URLs).
 +  status['probe']='LOCAL_PROBE_'+type(exc).__name__
 + return status
 +
  def wait_ready(deadline):
   last=None
   while time.time()<deadline:
-@@ -45,6 +103,10 @@
+@@ -45,6 +104,9 @@
     last=exc
     if (HEALTH_ROOT/'brti-integrity-quarantine.json').exists():raise
     time.sleep(.25)
 + try:
-+  print('BRTI_STARTUP_FAILURE_STATUS '+json.dumps(
-+       _bounded_startup_failure_status(last),sort_keys=True),file=sys.stderr,flush=True)
++  print('BRTI_STARTUP_FAILURE_STATUS '+json.dumps(_startup_failure_status(last),sort_keys=True),file=sys.stderr,flush=True)
 + except Exception:pass
   raise ValueError('BRTI_STARTUP_FRESHNESS_TIMEOUT') from last
  
