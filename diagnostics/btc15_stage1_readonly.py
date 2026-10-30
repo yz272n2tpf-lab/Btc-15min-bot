@@ -27,7 +27,9 @@ def call(*args,timeout=15):
     except (OSError,subprocess.TimeoutExpired):
         return 125,""
 
+RESULTS={}
 def out(key,val):
+    RESULTS[key]=str(val)
     print(f"{key}: {val}",flush=True)
 
 def mode(path):
@@ -125,6 +127,16 @@ def main():
     rc,text=call("timedatectl","show","--property=NTPSynchronized","--value")
     out("NTP",text.strip() if rc==0 else "UNKNOWN")
     services();access();certs();source();logs()
+    print("=== STAGE1_ONE_SCREEN_SUMMARY ===",flush=True)
+    summary=("NTP","UNIT_BRTI","UNIT_BRTI_TLS","UNIT_MAIN","UNIT_V81",
+             "OWNER_STARTED_MARKER","OWNER_RUNTIME_POLICY",
+             "CERT_tls_server.crt","CERT_health_brti-client.crt",
+             "SOURCE_brti_health.py","SOURCE_brti_owner.py",
+             "BRTI_FEED_STARTED","FEED_HEARTBEATS","OWNER_REFUSED",
+             "TLS_REFUSED","HTTP_429_REPORTED","MAIN_V81_STARTED")
+    for key in summary:
+        print(key+"="+RESULTS.get(key,"UNKNOWN"),flush=True)
+    print("=== END_SUMMARY ===",flush=True)
     out("COMPLETE","READ_ONLY_NO_KALSHI_REQUESTS_NO_ORDERS")
     out("LIMIT","LIVE_BRTI_FRESHNESS_STILL_NOT_PROVEN")
     return 0
