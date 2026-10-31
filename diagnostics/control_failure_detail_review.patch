@@ -1,0 +1,34 @@
+--- a/kit/tools/control.py
++++ b/kit/tools/control.py
+@@ -81,6 +81,30 @@
+  if a.command=='gate':gate()
+  elif a.command=='start':start(a.separately_authorized)
+  else:stop(a.reason)
++def failure_details(exc):
++ """Return bounded failure codes only; never exception messages or credentials."""
++ known={'BRTI_STARTUP_FRESHNESS_TIMEOUT','BRTI_HTTP_NOT_200','BRTI_STRICT_FRESHNESS',
++        'BRTI_SOURCE_UNQUALIFIED','BRTI_SAMPLE_FIELDS','BRTI_OWNER_SOURCE_MISMATCH',
++        'BRTI_INTEGRITY_SCHEMA','BRTI_OWNER_INTEGRITY_HALTED','BRTI_CONFLICT_METADATA',
++        'BRTI_HISTORY_OWNER_MISMATCH','BRTI_HISTORY_MISSING_OR_OVERSIZE','BRTI_HISTORY_SOURCE',
++        'BRTI_TLS_CA_MISMATCH','BRTI_TLS_CREDENTIALS_REQUIRED','BRTI_TLS_KEY_PERMISSIONS',
++        'BRTI_COHORT_INTEGRITY_STOP','BRTI_RECEIPT_HASH','BRTI_RELEASE_RECEIPT_REQUIRED',
++        'BRTI_CALL_ENDPOINT_MISMATCH','BRTI_LOCAL_ENDPOINT_REQUIRED','ROOT_HEALTH_REQUIRED'}
++ classes={'ValueError','AssertionError','PermissionError','FileNotFoundError','KeyError',
++          'ConnectionError','ConnectTimeout','ReadTimeout','Timeout','SSLError',
++          'SSLCertVerificationError','HTTPError','CalledProcessError','RuntimeError'}
++ result=[];seen=set()
++ while exc is not None and id(exc) not in seen and len(result)<6:
++  seen.add(id(exc));name=type(exc).__name__
++  item={'class':name if name in classes else 'OTHER_EXCEPTION'}
++  if type(exc) is ValueError and len(exc.args)==1 and type(exc.args[0]) is str and exc.args[0] in known:
++   item['code']=exc.args[0]
++  result.append(item)
++  exc=exc.__cause__ if exc.__cause__ is not None else (None if exc.__suppress_context__ else exc.__context__)
++ return result
++
+ if __name__=='__main__':
+  try:main()
+- except Exception as exc:print('PILOT_CONTROL_REFUSED: '+str(exc),file=sys.stderr);sys.exit(78)
++ except Exception as exc:
++  print('PILOT_FAILURE_DETAIL '+json.dumps(failure_details(exc)),file=sys.stderr,flush=True)
++  print('PILOT_CONTROL_REFUSED: '+str(exc),file=sys.stderr);sys.exit(78)
