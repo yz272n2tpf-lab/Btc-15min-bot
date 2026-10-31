@@ -1,0 +1,68 @@
+--- a/kit/tools/brti_health.py
++++ b/kit/tools/brti_health.py
+@@ -37,12 +37,64 @@
+   if previous is None:os.environ.pop('BTC15_DATA_DIR',None)
+   else:os.environ['BTC15_DATA_DIR']=previous
+ 
++def _failure_details(exc):
++ """Bounded diagnostic metadata only; no messages, locals, values or requests."""
++ codes={'BRTI_HTTP_NOT_200','BRTI_STRICT_FRESHNESS','BRTI_SOURCE_UNQUALIFIED',
++        'BRTI_SAMPLE_FIELDS','BRTI_OWNER_SOURCE_MISMATCH','BRTI_INTEGRITY_SCHEMA',
++        'BRTI_OWNER_INTEGRITY_HALTED','BRTI_CONFLICT_METADATA','BRTI_HISTORY_OWNER_MISMATCH',
++        'BRTI_HISTORY_MISSING_OR_OVERSIZE','BRTI_HISTORY_SOURCE','BRTI_TLS_CA_MISMATCH',
++        'BRTI_TLS_CREDENTIALS_REQUIRED','BRTI_TLS_KEY_PERMISSIONS','BRTI_COHORT_INTEGRITY_STOP',
++        'BRTI_RECEIPT_HASH','BRTI_RELEASE_RECEIPT_REQUIRED','BRTI_CALL_ENDPOINT_MISMATCH',
++        'BRTI_LOCAL_ENDPOINT_REQUIRED','BRTI_CONFIG_BINDING','BRTI_RECEIPT_IDENTITY',
++        'BRTI_SOURCE_RECEIPT_MISMATCH','BRTI_SEQUENCE_OR_SOURCE_ROLLBACK',
++        'BRTI_SEQUENCE_IDENTITY_CONFLICT','BRTI_CONFLICT_REVISION_ROLLBACK',
++        'BRTI_CONFLICT_REVISION_MISMATCH','BRTI_RECEIPT_CLOCK_ROLLBACK',
++        'ROOT_HEALTH_REQUIRED','INDEPENDENT_PACKAGE','LINUX_SOURCE_HASH',
++        'LINUX_UNLISTED_SOURCE','LINUX_CANDIDATE_IDENTITY','LINUX_PYTHON_VERSION',
++        'LINUX_DEPENDENCY_VERSION','INSTALL_OPERATION_HASH','INSTALL_CONFIG_HASH',
++        'INSTALL_UNIT_HASH','INSTALL_TIMER_HASH','INSTALL_BINARY_HASH',
++        'INSTALL_CA_HASH','INSTALL_OWNER_LOCK_PERMISSIONS','INSTALL_HOST_ID'}
++ classes={'ValueError','AssertionError','PermissionError','FileNotFoundError','KeyError',
++          'ConnectionError','ConnectTimeout','ReadTimeout','Timeout','SSLError',
++          'SSLCertVerificationError','HTTPError','CalledProcessError','RuntimeError',
++          'OSError','ImportError','ModuleNotFoundError'}
++ files={str(P.parent/'kit/tools'/name):name for name in ('control.py','brti_health.py')}
++ files[str(P/'candidate/main/btc15_brti_shared_consumer_v1.py')]='btc15_brti_shared_consumer_v1.py'
++ for name in ('linux_identity.py','linux_installation.py','brti_profile.py','local_tls.py'):
++  files[str(P/'candidate/main/btc15_v2_product'/name)]=name
++ chain=[];seen=set()
++ while exc is not None and id(exc) not in seen and len(chain)<4:
++  seen.add(id(exc));name=type(exc).__name__
++  item={'type':name if name in classes else 'OTHER_EXCEPTION'}
++  if type(exc) is ValueError and len(exc.args)==1 and type(exc.args[0]) is str:
++   code=exc.args[0].split(':',1)[0]
++   if code in codes:item['code']=code
++  locations=[];tb=exc.__traceback__;steps=0
++  while tb is not None and steps<64:
++   steps+=1;filename=tb.tb_frame.f_code.co_filename
++   if filename in files:
++    location={'file':files[filename],'line':tb.tb_lineno}
++    if location not in locations:locations.append(location)
++   tb=tb.tb_next
++  if locations:item['locations']=locations[-4:]
++  chain.append(item)
++  exc=exc.__cause__ if exc.__cause__ is not None else (None if exc.__suppress_context__ else exc.__context__)
++ return chain
++
+ def wait_ready(deadline):
+- last=None
++ last=None;reported=set();attempt=0
+  while time.time()<deadline:
++  attempt+=1
+   try:return check_once()
+   except Exception as exc:
+    last=exc
++   # Observe the real failure before shutdown, without additional I/O except stderr.
++   try:
++    detail=_failure_details(exc);key=json.dumps(detail,sort_keys=True)
++    if key not in reported and len(reported)<8:
++     reported.add(key)
++     print('BRTI_STARTUP_CHECK_FAILURE '+json.dumps({'attempt':attempt,'chain':detail},sort_keys=True),file=sys.stderr,flush=True)
++   except Exception:pass
+    if (HEALTH_ROOT/'brti-integrity-quarantine.json').exists():raise
+    time.sleep(.25)
+  raise ValueError('BRTI_STARTUP_FRESHNESS_TIMEOUT') from last
